@@ -789,3 +789,39 @@ body.has-app-header:not(.hub-body) {
         font-size: 20px;
     }
 }
+
+/* ========================================
+   REFONTE DU SCROLL MOBILE (Téléphones)
+   ======================================== */
+@media (max-width: 768px) {
+    /* 1. On débloque la hauteur globale de la page */
+    body, 
+    body:not(.hub-body),
+    body.has-app-header:not(.hub-body) {
+        height: auto !important;
+        min-height: 100vh;
+        overflow-y: auto !important; 
+        display: block !important; 
+    }
+
+    /* 2. On supprime les "blocs" contraints pour un affichage naturel */
+    .sidebar,
+    .main-content,
+    .tab-content {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important; 
+        flex: none !important; 
+    }
+
+    /* 3. Espacement et ajustements des blocs pour aérer le design */
+    .sidebar {
+        width: 100% !important;
+        margin-bottom: 20px !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+        padding-bottom: 40px; /* Marge en bas pour ne pas coller à l'écran */
+    }
+}
