@@ -25,7 +25,7 @@ const i18nHub = {
         soonDesc: "New tools are coming soon. Stay tuned!",
         open: "Open →",
         comingSoon: "Coming soon...",
-        madeWith: "Made with"
+        MadeBy: "Made by"
     }
 };
 
