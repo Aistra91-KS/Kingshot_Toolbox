@@ -265,7 +265,6 @@ h2, h3, h4 { margin-top: 0; color: var(--text-light); margin-bottom: 10px; }
     background: var(--control-bg);
     padding: 15px;
     border-radius: 6px;
-    border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     gap: 10px;
