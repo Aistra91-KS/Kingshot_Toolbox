@@ -1,0 +1,23 @@
+[
+  {
+    "Tree": "Growth",
+    "Name": "Tooling Up I",
+    "Fr Name": "Obtentions d'Outils I",
+    "Level": 1,
+    "Time (d)": 0,
+    "Time (h)": 0,
+    "Time (m)": 0,
+    "Time (s)": 2,
+    "Global Time": "0d 0h 0m 2s",
+    "Bread": 2700,
+    "Wood": 2700,
+    "Stone": 540,
+    "iron": 130,
+    "Gold": 160,
+    "Prérequis": 0,
+    "Etage": 0.0,
+    "reqs": [],
+    "Researched": false
+  },
+  ...
+]
