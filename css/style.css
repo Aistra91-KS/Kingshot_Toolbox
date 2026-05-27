@@ -632,3 +632,160 @@ tbody tr:hover {
     .stat-card.global { grid-column: span 1; }
     .hub-header h1 { font-size: 2em; }
 }
+
+/* ========================================
+   HEADER APPLICATION (partagé)
+   ======================================== */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 8px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+/* Logo Hub-Kingshot */
+.app-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: bold;
+    font-size: 18px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.app-header-logo:hover {
+    background: var(--control-bg);
+    transform: translateX(-2px);
+}
+
+.app-header-logo .logo-icon {
+    font-size: 24px;
+}
+
+.app-header-logo .logo-text {
+    background: linear-gradient(135deg, var(--accent), var(--success));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Navigation centrale */
+.app-header-nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.nav-link:hover {
+    background: var(--control-bg);
+    color: var(--text-light);
+}
+
+.nav-link.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(187, 134, 252, 0.3);
+}
+
+.nav-link .nav-icon {
+    font-size: 16px;
+}
+
+/* Bouton thème dans le header */
+.app-header-theme {
+    background: var(--control-bg);
+    color: var(--text-light);
+    border: 1px solid var(--border);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.app-header-theme:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: rotate(20deg);
+}
+
+/* Décalage du contenu quand le header est présent */
+body.has-app-header {
+    padding-top: 80px !important;
+}
+
+/* Pour le hub qui est centré, ajuster */
+body.has-app-header.hub-body {
+    padding-top: 100px !important;
+    min-height: calc(100vh - 60px);
+}
+
+/* Pour les calculateurs qui ont hauteur 100vh */
+body.has-app-header:not(.hub-body) {
+    height: calc(100vh - 60px);
+    padding-top: 80px !important;
+}
+
+/* Masquer l'ancien bouton de thème (devient inutile) */
+.theme-toggle {
+    display: none !important;
+}
+
+/* ========================================
+   RESPONSIVE (mobile)
+   ======================================== */
+@media (max-width: 600px) {
+    .app-header {
+        padding: 0 10px;
+    }
+    
+    .app-header-logo .logo-text {
+        display: none;
+    }
+    
+    .nav-link .nav-label {
+        display: none;
+    }
+    
+    .nav-link {
+        padding: 8px 12px;
+    }
+    
+    .nav-link .nav-icon {
+        font-size: 20px;
+    }
+}
