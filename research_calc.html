@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Calculator V9.02</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
+
+    <div class="sidebar">
+        <h2 data-i18n="controlPanel">Control Panel</h2>
+        
+        <div class="control-group">
+            <h3 data-i18n="settings">Settings</h3>
+            <div class="control-row">
+                <label data-i18n="language">Language</label>
+                <select id="language-select">
+                    <option value="EN">EN</option>
+                    <option value="FR">FR</option>
+                </select>
+            </div>
+            <div class="control-row">
+                <label data-i18n="baseBonus">Base Research Bonus</label>
+                <input type="number" id="base-bonus" value="0.753" step="0.01">
+            </div>
+            <div class="control-row">
+                <label data-i18n="chiefMinister">Chief Minister (+10%)</label>
+                <input type="checkbox" id="chief-minister">
+            </div>
+            <div class="control-row">
+                <label data-i18n="kvkBonus">KVK Bonus (+5%)</label>
+                <input type="checkbox" id="kvk-bonus" checked>
+            </div>
+            <div class="control-row">
+                <label data-i18n="kingdomBonus">Kingdom Bonus (+10%)</label>
+                <input type="checkbox" id="kingdom-bonus" checked>
+            </div>
+            <div class="control-row">
+                <label style="color: var(--accent); font-weight: bold;" data-i18n="totalBonus">Total Bonus</label>
+                <span id="total-bonus-display" style="color: var(--accent); font-weight: bold;">0%</span>
+            </div>
+        </div>
+
+        <div class="control-group" id="display-options-group" style="display: none;">
+            <h3 data-i18n="displayOptions">Display Options</h3>
+            <div class="control-row">
+                <label data-i18n="hideCompleted">Hide completed</label>
+                <input type="checkbox" id="hide-completed">
+            </div>
+        </div>
+
+        <div id="optimal-options-group">
+            <div class="control-group" style="margin-bottom:20px;">
+                <h3 data-i18n="modeKvkBlock">KVK Mode</h3>
+                <div class="control-row">
+                    <label data-i18n="modeKvkLabel">Active</label>
+                    <input type="checkbox" id="mode-kvk">
+                </div>
+            </div>
+
+            <div class="control-group" style="margin-bottom:20px;">
+                <h3 data-i18n="accelerators">Accelerators</h3>
+                <div class="control-row">
+                    <label data-i18n="days">Days (d)</label>
+                    <input type="number" id="acc-days" value="1" min="0">
+                </div>
+                <div class="control-row">
+                    <label data-i18n="hours">Hours (h)</label>
+                    <input type="number" id="acc-hours" value="16" min="0">
+                </div>
+                <div class="control-row">
+                    <label data-i18n="minutes">Minutes (m)</label>
+                    <input type="number" id="acc-minutes" value="3" min="0">
+                </div>
+                <div class="control-row">
+                    <label data-i18n="totalAvailable">Total Available</label>
+                    <span id="total-acc-display">0s</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3 data-i18n="targetTree">Target Tree</h3>
+                <div class="control-row">
+                    <label data-i18n="treeGrowthLabel">🧭 Growth</label>
+                    <input type="checkbox" id="tree-growth" checked>
+                </div>
+                <div class="control-row">
+                    <label data-i18n="treeEconomyLabel">🌾 Economy</label>
+                    <input type="checkbox" id="tree-economy" checked>
+                </div>
+                <div class="control-row">
+                    <label data-i18n="treeBattleLabel">⚔️ Battle</label>
+                    <input type="checkbox" id="tree-battle" checked>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h3 data-i18n="dataManagement">Data Management</h3>
+            <button class="btn-reset" id="reset-button" data-i18n="resetBtn">Reset to Defaults</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="tabs">
+            <div class="tab active" data-target="tab-optimal" data-i18n="tabOptimal">Optimal Search Order</div>
+            <div class="tab" data-target="tab-growth" data-i18n="tabGrowth">Growth Tree</div>
+            <div class="tab" data-target="tab-economy" data-i18n="tabEconomy">Economy Tree</div>
+            <div class="tab" data-target="tab-battle" data-i18n="tabBattle">Battle Tree</div>
+        </div>
+        
+        <div id="tab-optimal" class="tab-content active">
+            <h2 data-i18n="suggTitle">Suggestion for the next researches</h2>
+            <table id="optimal-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th data-i18n="colSuggName">Research Name</th>
+                        <th data-i18n="colSuggStep">Step</th>
+                        <th data-i18n="colSuggTime">Time</th>
+                        <th data-i18n="colSuggTree">Tree</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <h2 style="margin-top:30px;" data-i18n="recapTitle">Global Recap</h2>
+            <div class="dashboard-grid" id="dashboard-container"></div>
+        </div>
+
+        <div id="tab-growth" class="tab-content">
+            <div class="layout-toggle">
+                <button class="toggle-btn tree-btn active" data-target="growth" data-i18n="btnTree">Visual Tree</button>
+                <button class="toggle-btn table-btn" data-target="growth" data-i18n="btnTable">List View</button>
+            </div>
+            <div class="tree-layout tree-view active" id="growth-visual"></div>
+            <table class="table-view" id="growth-table">
+                <thead>
+                    <tr>
+                        <th data-i18n="colDone">Done</th>
+                        <th data-i18n="colName">Name</th>
+                        <th data-i18n="colSuggStep">Step</th>
+                        <th data-i18n="colBaseTime">Base Time</th>
+                        <th data-i18n="colDiscountTime">Discounted Time</th>
+                        <th data-i18n="colCost">Cost</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="tab-economy" class="tab-content">
+            <div class="layout-toggle">
+                <button class="toggle-btn tree-btn active" data-target="economy" data-i18n="btnTree">Visual Tree</button>
+                <button class="toggle-btn table-btn" data-target="economy" data-i18n="btnTable">List View</button>
+            </div>
+            <div class="tree-layout tree-view active" id="economy-visual"></div>
+            <table class="table-view" id="economy-table">
+                <thead>
+                    <tr>
+                        <th data-i18n="colDone">Done</th>
+                        <th data-i18n="colName">Name</th>
+                        <th data-i18n="colSuggStep">Step</th>
+                        <th data-i18n="colBaseTime">Base Time</th>
+                        <th data-i18n="colDiscountTime">Discounted Time</th>
+                        <th data-i18n="colCost">Cost</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="tab-battle" class="tab-content">
+            <div class="layout-toggle">
+                <button class="toggle-btn tree-btn active" data-target="battle" data-i18n="btnTree">Visual Tree</button>
+                <button class="toggle-btn table-btn" data-target="battle" data-i18n="btnTable">List View</button>
+            </div>
+            <div class="tree-layout tree-view active" id="battle-visual"></div>
+            <table class="table-view" id="battle-table">
+                <thead>
+                    <tr>
+                        <th data-i18n="colDone">Done</th>
+                        <th data-i18n="colName">Name</th>
+                        <th data-i18n="colSuggStep">Step</th>
+                        <th data-i18n="colBaseTime">Base Time</th>
+                        <th data-i18n="colDiscountTime">Discounted Time</th>
+                        <th data-i18n="colCost">Cost</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/research_script.js"></script>
+</body>
+</html>
