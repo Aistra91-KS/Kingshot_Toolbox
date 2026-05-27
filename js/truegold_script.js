@@ -149,7 +149,7 @@ function updateThemeButton(theme) {
 // ============ DATA LOADING ============
 async function loadDatabase() {
     try {
-        const response = await fetch('data/truegold_db.json');
+        const response = await fetch('data /truegold_db.json');
         if (!response.ok) throw new Error('Failed to load JSON');
         const data = await response.json();
         
