@@ -105,11 +105,22 @@ function updateThemeButton(theme) {
 async function loadInitialDb() {
     try {
         const response = await fetch('data/research_db.json');
-        if (!response.ok) throw new Error('Failed to load JSON');
-        initialDb = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+        }
+        const text = await response.text();
+        try {
+            initialDb = JSON.parse(text);
+        } catch (parseError) {
+            throw new Error(`JSON invalide : ${parseError.message}`);
+        }
+        console.log(`✅ Base de données chargée : ${initialDb.length} recherches`);
     } catch (e) {
-        console.error('Erreur de chargement du JSON :', e);
-        alert('Impossible de charger la base de données. Vérifiez que data/research_db.json existe.');
+        console.error('❌ Erreur de chargement du JSON :', e);
+        // Affiche l'alerte UNIQUEMENT si la BDD est vraiment vide
+        if (!initialDb || initialDb.length === 0) {
+            alert(`Impossible de charger la base de données.\n\nDétails : ${e.message}\n\nVérifiez que data/research_db.json existe et est valide.`);
+        }
     }
 }
 
