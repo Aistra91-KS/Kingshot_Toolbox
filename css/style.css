@@ -154,8 +154,8 @@ body.has-app-header {
     right: 0;
     height: var(--header-height);
     background: var(--bg-panel);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 2px 8px var(--shadow);
+    border-bottom: 1px solid var(--accent);  /* ⬅️ Liseré doré */
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(245, 184, 64, 0.2);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -188,12 +188,13 @@ body.has-app-header {
 }
 
 .app-header-logo .logo-text {
-    background: linear-gradient(135deg, var(--accent) 0%, #ffd76b 50%, var(--accent-hover) 100%);
+    background: linear-gradient(135deg, #d49820 0%, #f5b840 30%, #ffd76b 50%, #f5b840 70%, #d49820 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 20px rgba(245, 184, 64, 0.15);
 }
 
 /* Navigation centrale */
@@ -223,11 +224,13 @@ body.has-app-header {
 }
 
 .nav-link.active {
-    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-    color: #0f1729;
+    background: linear-gradient(135deg, var(--accent-hover), var(--accent), #ffd76b);
+    color: #0a0a0a;                 /* Texte noir sur or = très luxe */
     border-color: var(--accent);
     font-weight: bold;
-    box-shadow: 0 2px 12px rgba(245, 184, 64, 0.4);
+    box-shadow: 
+        0 2px 12px rgba(245, 184, 64, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .nav-link .nav-icon {
@@ -347,12 +350,13 @@ body.has-app-header.hub-body {
 .hub-header h1 {
     font-size: 3em;
     margin: 0 0 10px 0;
-    background: linear-gradient(135deg, var(--accent) 0%, #ffd76b 50%, var(--success) 100%);
+    background: linear-gradient(135deg, #d49820 0%, #f5b840 35%, #ffd76b 50%, #f5b840 65%, #d49820 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 0 30px rgba(245, 184, 64, 0.2);
+    text-shadow: 0 0 40px rgba(245, 184, 64, 0.25);
     letter-spacing: 1px;
+    font-weight: 700;
 }
 
 .hub-subtitle {
@@ -401,11 +405,13 @@ body.has-app-header.hub-body {
     padding: 30px;
     text-decoration: none;
     color: var(--text-light);
-    box-shadow: 0 4px 6px var(--shadow);
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    box-shadow: 0 4px 20px var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
     display: flex;
     flex-direction: column;
-    border-top: 4px solid var(--accent);
+    border-top: 3px solid var(--accent);
+    position: relative;
+    overflow: hidden;
 }
 
 .hub-card:hover:not(.hub-card-soon) {
