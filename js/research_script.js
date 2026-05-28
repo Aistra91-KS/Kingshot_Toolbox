@@ -159,6 +159,16 @@ function initData() {
             });
         } catch(e) {}
     }
+    
+    // 🌐 PRIORITÉ à la langue globale (override les préférences locales)
+    if (window.GlobalLang) {
+        inputs.language.value = GlobalLang.get();
+        // Écoute les changements de langue depuis le select
+        inputs.language.addEventListener('change', () => {
+            GlobalLang.set(inputs.language.value);
+        });
+    }
+    
     initTheme();
 }
 
