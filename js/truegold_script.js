@@ -197,7 +197,7 @@ async function loadDatabase() {
         }
         
         // Vérifier que les clés attendues existent
-        const requiredKeys = ['rangeDataTTG', 'dbDataRaw', 'levelsByBuilding', 'bldgMap', 'defaultBuildings'];
+        const requiredKeys = ['rangeDataTTG', 'dbDataRaw', 'levelsReference', 'buildingsConfig', 'bldgMap', 'defaultBuildings'];
         const missingKeys = requiredKeys.filter(key => !data[key]);
         
         if (missingKeys.length > 0) {
