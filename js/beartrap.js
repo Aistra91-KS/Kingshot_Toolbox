@@ -1,12 +1,21 @@
-// ========================================\n// BEAR TRAP OPTIMIZER - Logique de calcul\n// ========================================\n
+// ========================================
+// BEAR TRAP OPTIMIZER - Logique de calcul
+// ========================================
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Écouteur sur le bouton de calcul
+    // 1. On charge les données sauvegardées avant de faire quoi que ce soit
+    loadBearTrapData();
+
+    // 2. Écouteur sur le bouton de calcul
     const btnCalculate = document.getElementById('btn-calculate');
     if (btnCalculate) {
-        btnCalculate.addEventListener('click', calculateBearTrap);
+        btnCalculate.addEventListener('click', () => {
+            saveBearTrapData(); // On sauvegarde au clic
+            calculateBearTrap(); // On lance le calcul
+        });
     }
 
-    // Gérer l'affichage des options selon le mode choisi (Seuils vs Formule)
+    // 3. Gérer l'affichage des options selon le mode choisi (Seuils vs Formule)
     const optimMode = document.getElementById('optim-mode');
     const thresholdInputs = document.getElementById('threshold-inputs');
     
@@ -19,7 +28,74 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 4. Sauvegarder automatiquement dès qu'un champ est modifié (en plus du bouton)
+    const allInputs = document.querySelectorAll('.sidebar input, .sidebar select');
+    allInputs.forEach(input => {
+        input.addEventListener('change', saveBearTrapData);
+    });
+
+    // 5. Si on a récupéré des troupes de la sauvegarde, on lance un calcul automatique
+    const savedInf = parseInt(document.getElementById('troop-inf').value) || 0;
+    const savedArc = parseInt(document.getElementById('troop-arc').value) || 0;
+    const savedCav = parseInt(document.getElementById('troop-cav').value) || 0;
+    
+    if (savedInf > 0 || savedArc > 0 || savedCav > 0) {
+        calculateBearTrap();
+    }
 });
+
+// ========================================
+// FONCTIONS DE SAUVEGARDE (LocalStorage)
+// ========================================
+
+function saveBearTrapData() {
+    // Liste de tous les IDs des champs à sauvegarder
+    const fieldsToSave = [
+        'troop-inf', 'troop-arc', 'troop-cav',
+        'cap-base', 'cap-expert', 'cap-animal', 'marches-count',
+        'player-role', 'alliance-limit', 'optim-mode',
+        'min-inf-percent', 'min-cav-percent'
+    ];
+
+    const data = {};
+    fieldsToSave.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            data[id] = element.value;
+        }
+    });
+
+    // On convertit l'objet en texte (JSON) et on le stocke
+    localStorage.setItem('beartrap_saved_data', JSON.stringify(data));
+}
+
+function loadBearTrapData() {
+    const savedDataString = localStorage.getItem('beartrap_saved_data');
+    
+    if (savedDataString) {
+        const data = JSON.parse(savedDataString);
+        
+        // On parcourt les données sauvegardées pour remplir les champs
+        for (const [id, value] of Object.entries(data)) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.value = value;
+            }
+        }
+
+        // On met à jour l'affichage du bloc "Seuils" en fonction du mode sauvegardé
+        const optimMode = document.getElementById('optim-mode');
+        const thresholdInputs = document.getElementById('threshold-inputs');
+        if (optimMode && thresholdInputs) {
+            thresholdInputs.style.display = optimMode.value === 'threshold' ? 'block' : 'none';
+        }
+    }
+}
+
+// ========================================
+// MOTEUR DE CALCUL
+// ========================================
 
 function calculateBearTrap() {
     // 1. Récupération des effectifs
@@ -50,17 +126,14 @@ function calculateBearTrap() {
         return;
     }
 
-    // Si l'utilisateur a choisi la formule (En attente de vos futures explications)
     if (mode === 'formula') {
         alert("Le mode Formule mathématique sera bientôt disponible ! Passage en mode Seuils pour le moment.");
-        // On continue en mode threshold par défaut
     }
 
     // 4. L'ALGORITHME DE RÉPARTITION
     let marches = [];
     
     for (let i = 0; i < marchesCount; i++) {
-        // S'il ne reste plus aucune troupe, on arrête
         if (availableInf + availableArc + availableCav === 0) break;
 
         let allocatedInf = 0;
@@ -68,11 +141,9 @@ function calculateBearTrap() {
         let allocatedCav = 0;
         let remainingSpace = marchCapacity;
 
-        // Étape A : Assurer les minimums vitaux (Infanterie et Cavalerie)
         let targetInf = Math.floor(marchCapacity * (minInfPercent / 100));
         let targetCav = Math.floor(marchCapacity * (minCavPercent / 100));
 
-        // On alloue le minimum requis (ou tout ce qu'il nous reste si on en a moins que le minimum)
         allocatedInf = Math.min(targetInf, availableInf);
         allocatedCav = Math.min(targetCav, availableCav);
         
@@ -80,12 +151,10 @@ function calculateBearTrap() {
         availableInf -= allocatedInf;
         availableCav -= allocatedCav;
 
-        // Étape B : Remplir l'espace restant avec la force de frappe principale (Archers)
         allocatedArc = Math.min(remainingSpace, availableArc);
         remainingSpace -= allocatedArc;
         availableArc -= allocatedArc;
 
-        // Étape C : S'il reste de la place (plus d'archers), on comble d'abord avec la cavalerie puis l'infanterie
         if (remainingSpace > 0) {
             let extraCav = Math.min(remainingSpace, availableCav);
             allocatedCav += extraCav;
@@ -100,7 +169,6 @@ function calculateBearTrap() {
             availableInf -= extraInf;
         }
 
-        // Sauvegarde de la marche
         let totalMarch = allocatedInf + allocatedArc + allocatedCav;
         marches.push({
             id: i + 1,
@@ -111,7 +179,7 @@ function calculateBearTrap() {
         });
     }
 
-    // 5. AFFICHAGE DES RÉSULTATS (Génération du HTML)
+    // 5. AFFICHAGE DES RÉSULTATS
     displayResults(marches, marchCapacity);
 }
 
@@ -139,18 +207,15 @@ function displayResults(marches, maxCapacity) {
     `;
 
     marches.forEach(march => {
-        // Calcul des pourcentages arrondis à l'unité
         let pInf = Math.round((march.inf / march.total) * 100) || 0;
         let pArc = Math.round((march.arc / march.total) * 100) || 0;
         let pCav = Math.round((march.cav / march.total) * 100) || 0;
 
-        // Mise en forme des nombres avec séparateurs de milliers (ex: 120 000)
         let fTotal = march.total.toLocaleString('fr-FR');
         let fInf = march.inf.toLocaleString('fr-FR');
         let fArc = march.arc.toLocaleString('fr-FR');
         let fCav = march.cav.toLocaleString('fr-FR');
 
-        // Style si la marche n'est pas pleine
         let rowStyle = march.total < maxCapacity ? 'color: var(--text-muted);' : '';
 
         html += `
