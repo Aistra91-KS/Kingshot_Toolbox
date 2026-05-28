@@ -147,25 +147,73 @@ function updateThemeButton(theme) {
 }
 
 // ============ DATA LOADING ============
+// ============ DATA LOADING ============
 async function loadDatabase() {
+    const jsonPath = 'data/truegold_db.json';
+    
     try {
-        const response = await fetch('data/truegold_db.json');
-        if (!response.ok) throw new Error('Failed to load JSON');
-        const data = await response.json();
+        console.log(`📂 Tentative de chargement : ${jsonPath}`);
         
-        rangeDataTTG = data.rangeDataTTG;
-        dbDataRaw = data.dbDataRaw;
+        const response = await fetch(jsonPath);
+        
+        // Vérifier le statut HTTP
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status} (${response.statusText}) — Le fichier n'a pas été trouvé à l'URL : ${response.url}`);
+        }
+        
+        // Récupérer le texte brut avant de parser
+        const text = await response.text();
+        
+        if (!text || text.trim().length === 0) {
+            throw new Error('Le fichier JSON est vide.');
+        }
+        
+        // Tenter de parser le JSON
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (parseError) {
+            throw new Error(`JSON invalide : ${parseError.message}`);
+        }
+        
+        // Vérifier que les clés attendues existent
+        const requiredKeys = ['rangeDataTTG', 'dbDataRaw', 'levelsByBuilding', 'bldgMap', 'defaultBuildings'];
+        const missingKeys = requiredKeys.filter(key => !data[key]);
+        
+        if (missingKeys.length > 0) {
+            throw new Error(`Clés manquantes dans le JSON : ${missingKeys.join(', ')}`);
+        }
+        
+        // Tout est OK, on assigne les données
+        rangeDataTTG     = data.rangeDataTTG;
+        dbDataRaw        = data.dbDataRaw;
         levelsByBuilding = data.levelsByBuilding;
-        bldgMap = data.bldgMap;
+        bldgMap          = data.bldgMap;
         
         // Si pas de buildings sauvegardés, on prend les defaults du JSON
         const saved = localStorage.getItem('tg_calc_data_v1');
         if (!saved) {
             buildingsState = JSON.parse(JSON.stringify(data.defaultBuildings));
         }
+        
+        console.log(`✅ Base de données chargée : ${dbDataRaw.length} entrées de bâtiments`);
+        return true;
+        
     } catch (e) {
-        console.error('Erreur de chargement du JSON :', e);
-        alert('Impossible de charger la base de données. Vérifiez que data/truegold_db.json existe et qu\'il est accessible via un serveur web (pas en local file://).');
+        console.error('❌ Erreur de chargement du JSON :', e);
+        
+        // Message d'erreur détaillé pour l'utilisateur
+        const errorMessage = 
+            `❌ Impossible de charger la base de données TrueGold.\n\n` +
+            `📋 Détails techniques :\n${e.message}\n\n` +
+            `🔍 Vérifications à faire :\n` +
+            `1. Le fichier "data/truegold_db.json" existe-t-il ?\n` +
+            `2. Êtes-vous sur GitHub Pages (pas en local file://) ?\n` +
+            `3. Le JSON est-il valide (testez sur jsonlint.com) ?\n\n` +
+            `💡 Ouvrez la console (F12) pour plus de détails.`;
+        
+        alert(errorMessage);
+        return false;
     }
 }
 
