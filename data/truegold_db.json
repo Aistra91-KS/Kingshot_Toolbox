@@ -437,10 +437,10 @@
   "Town Center":    { "min": 1, "max": 50 },
   "Embassy":        { "min": 1, "max": 50 },
   "Barracks":       { "min": 1, "max": 50 },
-  "Stable":         { "min": 1, "max": 40 },
-  "Range":          { "min": 1, "max": 40 },
-  "Command Center": { "min": 1, "max": 40 },
-  "War Academy":    { "min": 5, "max": 40 },
+  "Stable":         { "min": 1, "max": 50 },
+  "Range":          { "min": 1, "max": 50 },
+  "Command Center": { "min": 1, "max": 50 },
+  "War Academy":    { "min": 5, "max": 50 },
   "Infirmary":      { "min": 1, "max": 50 }
   } 
 }
