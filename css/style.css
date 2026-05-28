@@ -1,6 +1,30 @@
-/* ========================================
-   VARIABLES DE THÈME (communes à tout)
-   ======================================== */
+/* ============================================================================
+   HUB-KINGSHOT - FEUILLE DE STYLE PRINCIPALE
+   ============================================================================
+   
+   Structure :
+   1.  Variables (thèmes dark/light)
+   2.  Reset & Base
+   3.  App Header (partagé)
+   4.  Layout Calculateurs (sidebar + main)
+   5.  Hub (page d'accueil)
+   6.  Contrôles (inputs, checkbox, control-group)
+   7.  Panels & Result Box
+   8.  Tables
+   9.  Tabs (Research)
+   10. Dashboard Cards (Research)
+   11. Tree Layout (Research)
+   12. Layout Toggle (Research)
+   13. Boutons
+   14. Legacy / Compatibilité
+   15. Responsive (Mobile)
+   ============================================================================ */
+
+
+/* ============================================================================
+   1. VARIABLES DE THÈME
+   ============================================================================ */
+
 :root {
     --bg-dark: #121212;
     --bg-panel: #1e1e1e;
@@ -22,7 +46,11 @@
     --step-hover: #2a2a2a;
     --control-bg: #252525;
     --input-bg: #333;
-    --shadow: rgba(0,0,0,0.3);
+    --shadow: rgba(0, 0, 0, 0.3);
+    
+    /* Constantes de layout */
+    --header-height: 60px;
+    --header-offset: 80px; /* header-height + padding */
 }
 
 [data-theme="light"] {
@@ -46,43 +74,168 @@
     --step-hover: #ececec;
     --control-bg: #f9f9f9;
     --input-bg: #ffffff;
-    --shadow: rgba(0,0,0,0.1);
+    --shadow: rgba(0, 0, 0, 0.1);
 }
 
-/* ========================================
-   BASE COMMUNE
-   ======================================== */
-/* ========================================
-   BASE COMMUNE - CORRECTION HAUTEUR
-   ======================================== */
+
+/* ============================================================================
+   2. RESET & BASE
+   ============================================================================ */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-light);
-    margin: 0;
     padding: 20px;
     transition: background-color 0.3s, color 0.3s;
     box-sizing: border-box;
 }
 
-/* Layout des calculateurs (sidebar + main) */
+/* Quand le header partagé est présent, on décale le contenu */
+body.has-app-header {
+    padding-top: var(--header-offset) !important;
+}
+
+
+/* ============================================================================
+   3. APP HEADER (partagé sur toutes les pages)
+   ============================================================================ */
+
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 8px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+/* Logo Hub-Kingshot */
+.app-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: bold;
+    font-size: 18px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.app-header-logo:hover {
+    background: var(--control-bg);
+    transform: translateX(-2px);
+}
+
+.app-header-logo .logo-icon {
+    font-size: 24px;
+}
+
+.app-header-logo .logo-text {
+    background: linear-gradient(135deg, var(--accent), var(--success));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Navigation centrale */
+.app-header-nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.nav-link:hover {
+    background: var(--control-bg);
+    color: var(--text-light);
+}
+
+.nav-link.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(187, 134, 252, 0.3);
+}
+
+.nav-link .nav-icon {
+    font-size: 16px;
+}
+
+/* Bouton thème dans le header */
+.app-header-theme {
+    background: var(--control-bg);
+    color: var(--text-light);
+    border: 1px solid var(--border);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.app-header-theme:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: rotate(20deg);
+}
+
+
+/* ============================================================================
+   4. LAYOUT CALCULATEURS (sidebar + main-content)
+   ============================================================================
+   
+   Logique : Le body utilise le scroll naturel du navigateur.
+   La sidebar est "sticky" pour rester visible pendant le scroll.
+   Le main-content peut grandir librement.
+   ============================================================================ */
+
+/* Body en mode "calculateur" : flex horizontal */
 body:not(.hub-body) {
     display: flex;
     gap: 20px;
-    height: 100vh;
-    overflow: hidden;
+    min-height: calc(100vh - 40px);
 }
 
-/* Quand le header est présent, ajuster la hauteur */
 body.has-app-header:not(.hub-body) {
-    height: 100vh;
-    padding: 80px 20px 20px 20px !important;
-    margin: 0;
-    box-sizing: border-box;
-    overflow: hidden;
+    min-height: calc(100vh - var(--header-offset));
 }
 
-/* La sidebar et le main-content doivent prendre toute la hauteur disponible */
+/* SIDEBAR — sticky avec scroll interne uniquement si nécessaire */
 .sidebar {
     width: 340px;
     background-color: var(--bg-panel);
@@ -92,11 +245,17 @@ body.has-app-header:not(.hub-body) {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    overflow-y: auto;
-    height: 100%;
     box-sizing: border-box;
+    
+    /* Comportement sticky : reste visible pendant le scroll */
+    position: sticky;
+    top: var(--header-offset);
+    max-height: calc(100vh - var(--header-offset) - 20px);
+    overflow-y: auto;
+    align-self: flex-start;
 }
 
+/* MAIN CONTENT — scroll naturel via le body */
 .main-content {
     flex: 1;
     background-color: var(--bg-panel);
@@ -104,51 +263,33 @@ body.has-app-header:not(.hub-body) {
     box-shadow: 0 4px 6px var(--shadow);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     position: relative;
-    height: 100%;
     box-sizing: border-box;
+    min-height: calc(100vh - var(--header-offset) - 20px);
 }
 
-/* Variante pour TrueGold (panneaux empilés) */
+/* Variante TrueGold : panneaux empilés sans fond ni bordure sur le conteneur */
 .main-content.flow {
     background: transparent;
     box-shadow: none;
     gap: 20px;
-    overflow-y: auto;
-    height: 100%;
 }
 
-/* ========================================
-   THEME TOGGLE (commun)
-   ======================================== */
-.theme-toggle {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: var(--bg-panel);
-    color: var(--text-light);
-    border: 1px solid var(--border);
-    padding: 8px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    box-shadow: 0 2px 4px var(--shadow);
-    transition: all 0.2s;
-    z-index: 100;
-}
-.theme-toggle:hover { background: var(--table-header); }
 
-/* ========================================
-   STYLES DU HUB
-   ======================================== */
+/* ============================================================================
+   5. HUB (page d'accueil)
+   ============================================================================ */
+
 .hub-body {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 40px 20px;
+}
+
+body.has-app-header.hub-body {
+    min-height: calc(100vh - var(--header-height));
 }
 
 .hub-container {
@@ -271,43 +412,11 @@ body.has-app-header:not(.hub-body) {
     font-size: 0.9em;
 }
 
-/* ========================================
-   SIDEBAR (calculateurs)
-   ======================================== */
-.sidebar {
-    width: 340px;
-    background-color: var(--bg-panel);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px var(--shadow);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    overflow-y: auto;
-}
 
-.main-content {
-    flex: 1;
-    background-color: var(--bg-panel);
-    border-radius: 8px;
-    box-shadow: 0 4px 6px var(--shadow);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-}
+/* ============================================================================
+   6. CONTRÔLES (inputs, checkboxes, control-groups)
+   ============================================================================ */
 
-/* Variante pour TrueGold (main content sans fond) */
-.main-content.flow {
-    background: transparent;
-    box-shadow: none;
-    gap: 20px;
-    overflow-y: auto;
-}
-
-/* ========================================
-   CONTROL GROUPS
-   ======================================== */
 .control-group {
     background: var(--control-bg);
     padding: 15px;
@@ -321,10 +430,10 @@ body.has-app-header:not(.hub-body) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0;
 }
 
-input[type="number"], select {
+input[type="number"],
+select {
     background: var(--input-bg);
     border: 1px solid var(--border);
     color: var(--text-light);
@@ -351,9 +460,11 @@ input[type="checkbox"] {
     color: var(--accent);
 }
 
-/* ========================================
-   PANEL (TrueGold)
-   ======================================== */
+
+/* ============================================================================
+   7. PANELS & RESULT BOX (TrueGold)
+   ============================================================================ */
+
 .panel {
     background-color: var(--bg-panel);
     padding: 20px;
@@ -373,9 +484,11 @@ input[type="checkbox"] {
     word-wrap: break-word;
 }
 
-/* ========================================
-   TABLES (communes)
-   ======================================== */
+
+/* ============================================================================
+   8. TABLES (communes)
+   ============================================================================ */
+
 .table-container {
     overflow-x: auto;
     border: 1px solid var(--border);
@@ -389,7 +502,8 @@ table {
     margin-bottom: 20px;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     text-align: left;
 }
@@ -424,7 +538,9 @@ tbody tr:hover {
     text-align: center;
 }
 
-.table-select:focus { border-color: var(--accent); }
+.table-select:focus {
+    border-color: var(--accent);
+}
 
 .bldg-name {
     font-weight: bold;
@@ -434,11 +550,15 @@ tbody tr:hover {
     gap: 8px;
 }
 
-.bldg-icon { font-size: 18px; }
+.bldg-icon {
+    font-size: 18px;
+}
 
-/* ========================================
-   TABS (Research)
-   ======================================== */
+
+/* ============================================================================
+   9. TABS (Research)
+   ============================================================================ */
+
 .tabs {
     display: flex;
     background: var(--table-header);
@@ -467,17 +587,19 @@ tbody tr:hover {
 }
 
 .tab-content {
-    flex: 1;
-    overflow-y: auto;
     padding: 20px;
     display: none;
 }
 
-.tab-content.active { display: block; }
+.tab-content.active {
+    display: block;
+}
 
-/* ========================================
-   DASHBOARD CARDS (Research)
-   ======================================== */
+
+/* ============================================================================
+   10. DASHBOARD CARDS (Research)
+   ============================================================================ */
+
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -495,12 +617,18 @@ tbody tr:hover {
     flex-direction: column;
 }
 
-.stat-card.global { border-top-color: var(--success); grid-column: span 3; }
+.stat-card.global {
+    border-top-color: var(--success);
+    grid-column: span 3;
+}
+
 .stat-card.growth { border-top-color: var(--growth-color); }
-.stat-card.eco { border-top-color: var(--eco-color); }
+.stat-card.eco    { border-top-color: var(--eco-color); }
 .stat-card.battle { border-top-color: var(--battle-color); }
 
-.progress-wrapper { margin: 10px 0 15px 0; }
+.progress-wrapper {
+    margin: 10px 0 15px 0;
+}
 
 .progress-text {
     display: flex;
@@ -518,15 +646,35 @@ tbody tr:hover {
     border: 1px solid var(--border);
 }
 
-.progress-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
+.progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.4s ease;
+}
+
 .stat-card.growth .progress-fill { background: var(--growth-color); }
-.stat-card.eco .progress-fill { background: var(--eco-color); }
+.stat-card.eco    .progress-fill { background: var(--eco-color); }
 .stat-card.battle .progress-fill { background: var(--battle-color); }
 .stat-card.global .progress-fill { background: var(--success); }
 
-.stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-.stat-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-.resource-icon { font-size: 16px; width: 20px; text-align: center; }
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.resource-icon {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
 
 .next-sugg {
     margin-top: auto;
@@ -545,29 +693,16 @@ tbody tr:hover {
     text-transform: uppercase;
 }
 
-.next-sugg .sugg-val { color: var(--accent); font-weight: bold; }
-
-/* ========================================
-   BUTTONS
-   ======================================== */
-.btn-reset {
-    background: #d32f2f;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
+.next-sugg .sugg-val {
+    color: var(--accent);
     font-weight: bold;
-    font-size: 12px;
-    margin-top: 10px;
-    transition: background 0.2s;
 }
 
-.btn-reset:hover { background: #9a0007; }
 
-/* ========================================
-   TREE LAYOUT (Research)
-   ======================================== */
+/* ============================================================================
+   11. TREE LAYOUT (Research - Vue arbre visuel)
+   ============================================================================ */
+
 .tree-layout {
     display: flex;
     flex-direction: column;
@@ -626,17 +761,35 @@ tbody tr:hover {
     cursor: pointer;
 }
 
-.step-row:hover { background: var(--step-hover); }
-.step-row.locked { opacity: 0.5; }
-.step-left { display: flex; align-items: center; gap: 8px; }
-.step-right { color: var(--accent); font-weight: bold; font-size: 11px; }
+.step-row:hover {
+    background: var(--step-hover);
+}
+
+.step-row.locked {
+    opacity: 0.5;
+}
+
+.step-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.step-right {
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 11px;
+}
+
 .research-box.growth .step-right { color: var(--growth-color); }
-.research-box.eco .step-right { color: var(--eco-color); }
+.research-box.eco    .step-right { color: var(--eco-color); }
 .research-box.battle .step-right { color: var(--battle-color); }
 
-/* ========================================
-   LAYOUT TOGGLE (Research)
-   ======================================== */
+
+/* ============================================================================
+   12. LAYOUT TOGGLE (Research - Switch arbre / liste)
+   ============================================================================ */
+
 .layout-toggle {
     display: flex;
     justify-content: flex-end;
@@ -666,156 +819,88 @@ tbody tr:hover {
 .tree-view { display: none; }
 .tree-view.active { display: flex; }
 
-/* ========================================
-   RESPONSIVE
-   ======================================== */
-@media (max-width: 768px) {
-    body:not(.hub-body) {
-        flex-direction: column;
-        height: auto;
-    }
-    .sidebar { width: 100%; }
-    .dashboard-grid { grid-template-columns: 1fr; }
-    .stat-card.global { grid-column: span 1; }
-    .hub-header h1 { font-size: 2em; }
-}
 
-/* ========================================
-   HEADER APPLICATION (partagé)
-   ======================================== */
-.app-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background: var(--bg-panel);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 2px 8px var(--shadow);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-}
+/* ============================================================================
+   13. BOUTONS
+   ============================================================================ */
 
-/* Logo Hub-Kingshot */
-.app-header-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: var(--text-light);
-    font-weight: bold;
-    font-size: 18px;
+.btn-reset {
+    background: #d32f2f;
+    color: white;
+    border: none;
     padding: 8px 12px;
-    border-radius: 8px;
-    transition: all 0.2s;
-}
-
-.app-header-logo:hover {
-    background: var(--control-bg);
-    transform: translateX(-2px);
-}
-
-.app-header-logo .logo-icon {
-    font-size: 24px;
-}
-
-.app-header-logo .logo-text {
-    background: linear-gradient(135deg, var(--accent), var(--success));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* Navigation centrale */
-.app-header-nav {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.nav-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    color: var(--text-muted);
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s;
-    border: 1px solid transparent;
-}
-
-.nav-link:hover {
-    background: var(--control-bg);
-    color: var(--text-light);
-}
-
-.nav-link.active {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-    font-weight: bold;
-    box-shadow: 0 2px 6px rgba(187, 134, 252, 0.3);
-}
-
-.nav-link .nav-icon {
-    font-size: 16px;
-}
-
-/* Bouton thème dans le header */
-.app-header-theme {
-    background: var(--control-bg);
-    color: var(--text-light);
-    border: 1px solid var(--border);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 10px;
+    transition: background 0.2s;
 }
 
-.app-header-theme:hover {
-    background: var(--accent);
-    color: #fff;
-    transform: rotate(20deg);
+.btn-reset:hover {
+    background: #9a0007;
 }
 
-/* Décalage du contenu quand le header est présent */
-body.has-app-header {
-    padding-top: 80px !important;
-}
 
-/* Pour le hub qui est centré, ajuster */
-body.has-app-header.hub-body {
-    padding-top: 100px !important;
-    min-height: calc(100vh - 60px);
-}
+/* ============================================================================
+   14. LEGACY / COMPATIBILITÉ
+   ============================================================================
+   
+   L'ancien bouton de thème (présent dans certains HTML) est désormais
+   masqué car remplacé par le bouton intégré au header partagé.
+   ============================================================================ */
 
-/* Pour les calculateurs qui ont hauteur 100vh */
-body.has-app-header:not(.hub-body) {
-    height: calc(100vh - 60px);
-    padding-top: 80px !important;
-}
-
-/* Masquer l'ancien bouton de thème (devient inutile) */
 .theme-toggle {
     display: none !important;
 }
 
-/* ========================================
-   RESPONSIVE (mobile)
-   ======================================== */
+
+/* ============================================================================
+   15. RESPONSIVE (Mobile)
+   ============================================================================
+   
+   Sur mobile : on supprime la sidebar sticky et on empile tout verticalement.
+   Le scroll redevient totalement naturel.
+   ============================================================================ */
+
+@media (max-width: 768px) {
+    /* HUB */
+    .hub-header h1 {
+        font-size: 2em;
+    }
+    
+    /* CALCULATEURS : passage en mode empilé */
+    body:not(.hub-body) {
+        flex-direction: column;
+        min-height: auto;
+    }
+    
+    .sidebar {
+        width: 100%;
+        position: static;       /* on désactive le sticky */
+        max-height: none;       /* hauteur libre */
+        overflow-y: visible;
+        margin-bottom: 20px;
+    }
+    
+    .main-content {
+        width: 100%;
+        min-height: auto;
+        padding-bottom: 40px;
+    }
+    
+    /* DASHBOARD : 1 colonne au lieu de 3 */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card.global {
+        grid-column: span 1;
+    }
+}
+
 @media (max-width: 600px) {
+    /* HEADER compact sur très petits écrans */
     .app-header {
         padding: 0 10px;
     }
@@ -834,41 +919,5 @@ body.has-app-header:not(.hub-body) {
     
     .nav-link .nav-icon {
         font-size: 20px;
-    }
-}
-
-/* ========================================
-   REFONTE DU SCROLL MOBILE (Téléphones)
-   ======================================== */
-@media (max-width: 768px) {
-    /* 1. On débloque la hauteur globale de la page */
-    body, 
-    body:not(.hub-body),
-    body.has-app-header:not(.hub-body) {
-        height: auto !important;
-        min-height: 100vh;
-        overflow-y: auto !important; 
-        display: block !important; 
-    }
-
-    /* 2. On supprime les "blocs" contraints pour un affichage naturel */
-    .sidebar,
-    .main-content,
-    .tab-content {
-        height: auto !important;
-        max-height: none !important;
-        overflow: visible !important; 
-        flex: none !important; 
-    }
-
-    /* 3. Espacement et ajustements des blocs pour aérer le design */
-    .sidebar {
-        width: 100% !important;
-        margin-bottom: 20px !important;
-    }
-
-    .main-content {
-        width: 100% !important;
-        padding-bottom: 40px; /* Marge en bas pour ne pas coller à l'écran */
     }
 }
