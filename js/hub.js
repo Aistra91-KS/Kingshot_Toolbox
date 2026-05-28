@@ -60,21 +60,16 @@ function applyHubTranslations(lang) {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
     });
-    localStorage.setItem('hub_lang', lang);
 }
 
 function initLang() {
-    const savedLang = localStorage.getItem('hub_lang') || 'FR';
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-lang') === savedLang);
-        btn.addEventListener('click', (e) => {
-            const newLang = e.target.getAttribute('data-lang');
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            applyHubTranslations(newLang);
-        });
+    // Utilise le gestionnaire global
+    GlobalLang.applyToButtons('lang-btn', (newLang) => {
+        applyHubTranslations(newLang);
     });
-    applyHubTranslations(savedLang);
+    
+    // Applique la langue actuelle au démarrage
+    applyHubTranslations(GlobalLang.get());
 }
 
 // ============ STARTUP ============
