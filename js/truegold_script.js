@@ -503,30 +503,386 @@ function runCalculator() {
 
 // ============ STRATEGIC OPTIMIZER ============
 function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, accelJours, accelHeures, accelMinutes, modeKVK, tx, rangeTableur, rangeDatabase, rangeDataTTG, lang) {
-    // ⚠️ Fonction temporairement désactivée (à déboguer)
-    return `<div style="text-align:center; margin-top:20px; color:var(--text-muted);">Résultats désactivés temporairement pour corriger les bugs.</div>`;
 
-    /* 
-    ============================================================
-    LOGIQUE COMPLÈTE DE L'OPTIMISEUR — À RÉACTIVER UNE FOIS DÉBUGGUÉE
-    ============================================================
-    
-    Voici les étapes principales que cette fonction réalise :
-    
-    1. Parse les labels TG (ex: "TG5-3" → {major:5, minor:3})
-    2. Calcule le stock total d'accélérateurs en minutes
-    3. Construit une map de la base de données (db[batiment][niveau] = {tg, ttg, label, tempsBase})
-    4. Pour chaque nombre de transformations possibles (0 à 100):
-       - Simule les transformations TG→TTG
-       - Cherche les améliorations possibles selon les prérequis TG
-       - Trie selon le mode (KVK = max points, sinon = min coût)
-       - Limite à 2 files d'attente
-    5. Compare tous les scénarios et garde le meilleur
-    6. Génère un rapport HTML détaillé
-    
-    Pour réactiver la logique, supprimez la ligne "return" ci-dessus
-    et décommentez tout le bloc qui suivait dans votre code original.
-    */
+    const isEN = (lang === 'EN');
+
+    // ============ BOUCLIER DE SÉCURITÉ ============
+    if (!rangeTableur || !Array.isArray(rangeTableur) || rangeTableur.length === 0) {
+        return isEN ? "❌ Error: Building data missing." : "❌ Erreur : Données des bâtiments manquantes.";
+    }
+    if (!rangeDatabase || !Array.isArray(rangeDatabase) || rangeDatabase.length === 0) {
+        return isEN ? "❌ Error: Database missing." : "❌ Erreur : Base de données manquante.";
+    }
+    if (!rangeDataTTG || !Array.isArray(rangeDataTTG) || rangeDataTTG.length === 0) {
+        return isEN ? "❌ Error: TTG data missing." : "❌ Erreur : Données TTG manquantes.";
+    }
+
+    // ============ FONCTIONS UTILITAIRES ============
+    function parseTG(label) {
+        if (!label) return { major: 0, minor: 0, isTG: false };
+        const match = label.match(/TG(\d+)-(\d+)/);
+        if (match) {
+            return { major: parseInt(match[1]), minor: parseInt(match[2]), isTG: true };
+        }
+        return { major: 0, minor: 0, isTG: false };
+    }
+
+    function fmt(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+
+    function formatMinutes(minutes) {
+        const j = Math.floor(minutes / 1440);
+        const h = Math.floor((minutes % 1440) / 60);
+        const m = minutes % 60;
+        const res = [];
+        const dayChar = isEN ? "d" : "j";
+        if (j > 0) res.push(j + dayChar);
+        if (h > 0) res.push(h + "h");
+        if (m > 0 || res.length === 0) res.push(m + "m");
+        return res.join(" ");
+    }
+
+    // ============ PRÉPARATION DES DONNÉES ============
+    const stockAccelMinutesTotal = (Number(accelJours) * 1440) + (Number(accelHeures) * 60) + Number(accelMinutes);
+
+    // Construction de la base de données indexée
+    const db = {};
+    for (let i = 0; i < rangeDatabase.length; i++) {
+        const nomBatiment = rangeDatabase[i][0];
+        const niveau = Number(rangeDatabase[i][1]);
+        const labelNiveau = rangeDatabase[i][2];
+        const coutTG = Number(rangeDatabase[i][4]);
+        const coutTTG = Number(rangeDatabase[i][5]);
+        const tempsBaseMinutes = Number(rangeDatabase[i][11]);
+
+        if (nomBatiment && !isNaN(niveau)) {
+            if (!db[nomBatiment]) db[nomBatiment] = {};
+            db[nomBatiment][niveau] = {
+                tg: coutTG,
+                ttg: coutTTG,
+                label: labelNiveau,
+                tempsBase: isNaN(tempsBaseMinutes) ? 0 : tempsBaseMinutes
+            };
+        }
+    }
+
+    // État initial des bâtiments
+    const batimentsInitiaux = [];
+    for (let i = 0; i < rangeTableur.length; i++) {
+        const nom = rangeTableur[i][0];
+        const niveauActuel = Number(rangeTableur[i][4]);
+
+        if (nom && !isNaN(niveauActuel) && db[nom]) {
+            batimentsInitiaux.push({ nom: nom, lvl: niveauActuel, enCours: false });
+        }
+    }
+
+    // ============ SIMULATION : TROUVER LE MEILLEUR SCÉNARIO ============
+    let meilleurScenario = null;
+
+    for (let transfosTest = 0; transfosTest <= 100; transfosTest++) {
+        let tgActuel = stockTG;
+        let ttgActuel = stockTTG;
+        let stepActuel = transfoUtilisees;
+
+        let totalTGDepenseTransfo = 0;
+        let totalTTGGagneTransfo = 0;
+        let possible = true;
+
+        // --- Simulation des transformations TG → TTG ---
+        for (let c = 0; c < transfosTest; c++) {
+            const stepVise = stepActuel + 1;
+            let coutTransfo = 0;
+            let gainTransfo = 0;
+            let etapeTrouvee = false;
+
+            for (let j = 0; j < rangeDataTTG.length; j++) {
+                if (Number(rangeDataTTG[j][0]) === stepVise) {
+                    coutTransfo = Number(rangeDataTTG[j][1]);
+                    gainTransfo = Number(rangeDataTTG[j][2]);
+                    etapeTrouvee = true;
+                    break;
+                }
+            }
+
+            if (!etapeTrouvee || tgActuel < coutTransfo) {
+                possible = false;
+                break;
+            }
+
+            tgActuel -= coutTransfo;
+            totalTGDepenseTransfo += coutTransfo;
+            ttgActuel += gainTransfo;
+            totalTTGGagneTransfo += gainTransfo;
+            stepActuel++;
+        }
+
+        if (!possible) continue;
+
+        tgActuel = Math.floor(tgActuel);
+        ttgActuel = Math.floor(ttgActuel);
+
+        // --- Simulation des améliorations de bâtiments ---
+        const etatBatiments = JSON.parse(JSON.stringify(batimentsInitiaux));
+        const ameliorationsFaites = [];
+        let tgDepenseAmelio = 0;
+        let ttgDepenseAmelio = 0;
+        let accelMinutesUtilisees = 0;
+        let stockAccelSimule = stockAccelMinutesTotal;
+        let filesAttenteDisponibles = 2;
+
+        while (true) {
+            if (filesAttenteDisponibles === 0) break;
+
+            const ameliorationsDisponibles = [];
+
+            // Récupération des niveaux effectifs du Town Center et de l'Embassy
+            const tcState = etatBatiments.find(b => b.nom.replace(/\s/g, '').toLowerCase() === "towncenter");
+            const embState = etatBatiments.find(b => b.nom.replace(/\s/g, '').toLowerCase() === "embassy");
+
+            const tcEffectiveLvl = tcState ? (tcState.enCours ? tcState.lvl - 1 : tcState.lvl) : null;
+            const embEffectiveLvl = embState ? (embState.enCours ? embState.lvl - 1 : embState.lvl) : null;
+
+            const tcLabel = (tcEffectiveLvl && tcState && db[tcState.nom] && db[tcState.nom][tcEffectiveLvl]) ? db[tcState.nom][tcEffectiveLvl].label : "";
+            const embLabel = (embEffectiveLvl && embState && db[embState.nom] && db[embState.nom][embEffectiveLvl]) ? db[embState.nom][embEffectiveLvl].label : "";
+
+            const tcTG = parseTG(tcLabel);
+            const embTG = parseTG(embLabel);
+
+            // --- Recherche des améliorations possibles ---
+            for (let b = 0; b < etatBatiments.length; b++) {
+                const bState = etatBatiments[b];
+                if (bState.enCours) continue;
+
+                const nomClean = bState.nom.replace(/\s/g, '').toLowerCase();
+                const niveauCible = bState.lvl + 1;
+
+                if (db[bState.nom] && db[bState.nom][niveauCible]) {
+                    const couts = db[bState.nom][niveauCible];
+                    const targetTG = parseTG(couts.label);
+                    let estValide = true;
+
+                    // Vérification des prérequis TG
+                    if (targetTG.isTG) {
+                        if (nomClean !== "towncenter") {
+                            if (targetTG.major > tcTG.major || (targetTG.major === tcTG.major && targetTG.minor > 0)) {
+                                estValide = false;
+                            }
+                        }
+                        if (nomClean === "commandcenter") {
+                            if (targetTG.major > embTG.major || (targetTG.major === embTG.major && targetTG.minor > embTG.minor)) {
+                                estValide = false;
+                            }
+                        }
+                        if (nomClean === "towncenter" && targetTG.minor === 0) {
+                            if (embTG.major < targetTG.major - 1) {
+                                estValide = false;
+                            }
+                        }
+                    }
+
+                    if (estValide && tgActuel >= couts.tg && ttgActuel >= couts.ttg) {
+                        const tempsReelMinutes = Math.ceil(couts.tempsBase / (1 + Number(vitesseAmelio)));
+                        const gainKVKRessources = (couts.tg * 2000) + (couts.ttg * 30000);
+                        const minutesAAccelerer = Math.min(tempsReelMinutes, stockAccelSimule);
+                        const gainKVKAccel = minutesAAccelerer * 30;
+
+                        ameliorationsDisponibles.push({
+                            index: b,
+                            nom: bState.nom,
+                            niveauCible: niveauCible,
+                            labelCible: couts.label,
+                            tg: couts.tg,
+                            ttg: couts.ttg,
+                            tempsReel: tempsReelMinutes,
+                            minutesAccelerables: minutesAAccelerer,
+                            poidsKVK: gainKVKRessources + gainKVKAccel,
+                            poidsCout: couts.tg + (couts.ttg * 15)
+                        });
+                    }
+                }
+            }
+
+            if (ameliorationsDisponibles.length === 0) break;
+
+            // --- Tri selon le mode (KVK ou Quantité) ---
+            if (modeKVK) {
+                ameliorationsDisponibles.sort((a, b) => {
+                    const aFini = (a.minutesAccelerables >= a.tempsReel) ? 1 : 0;
+                    const bFini = (b.minutesAccelerables >= b.tempsReel) ? 1 : 0;
+                    if (aFini !== bFini) return bFini - aFini;
+                    return b.poidsKVK - a.poidsKVK;
+                });
+            } else {
+                ameliorationsDisponibles.sort((a, b) => {
+                    const aFini = (a.minutesAccelerables >= a.tempsReel) ? 1 : 0;
+                    const bFini = (b.minutesAccelerables >= b.tempsReel) ? 1 : 0;
+                    if (aFini !== bFini) return bFini - aFini;
+                    return a.poidsCout - b.poidsCout;
+                });
+            }
+
+            const meilleurChoix = ameliorationsDisponibles[0];
+
+            tgActuel -= meilleurChoix.tg;
+            ttgActuel -= meilleurChoix.ttg;
+            tgDepenseAmelio += meilleurChoix.tg;
+            ttgDepenseAmelio += meilleurChoix.ttg;
+
+            stockAccelSimule -= meilleurChoix.minutesAccelerables;
+            accelMinutesUtilisees += meilleurChoix.minutesAccelerables;
+
+            const estFini = (meilleurChoix.minutesAccelerables >= meilleurChoix.tempsReel);
+            meilleurChoix.estEnCours = !estFini;
+
+            if (!estFini) {
+                etatBatiments[meilleurChoix.index].enCours = true;
+                filesAttenteDisponibles--;
+            }
+
+            etatBatiments[meilleurChoix.index].lvl = meilleurChoix.niveauCible;
+            ameliorationsFaites.push(meilleurChoix);
+        }
+
+        // --- Calcul des points KVK pour ce scénario ---
+        const ptsRessources = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000);
+        const ptsAccel = accelMinutesUtilisees * 30;
+        const pointsKVKTotal = ptsRessources + ptsAccel;
+
+        // --- Comparaison avec le meilleur scénario actuel ---
+        let enregistrerScenario = false;
+        if (!meilleurScenario) {
+            enregistrerScenario = true;
+        } else if (modeKVK) {
+            if (pointsKVKTotal > meilleurScenario.pointsKVK) enregistrerScenario = true;
+        } else {
+            if (ameliorationsFaites.length > meilleurScenario.ameliorations.length) {
+                enregistrerScenario = true;
+            } else if (ameliorationsFaites.length === meilleurScenario.ameliorations.length && pointsKVKTotal > meilleurScenario.pointsKVK) {
+                enregistrerScenario = true;
+            }
+        }
+
+        if (enregistrerScenario) {
+            meilleurScenario = {
+                nbTransfos: transfosTest,
+                tgInvestiTransfo: totalTGDepenseTransfo,
+                ttgObtenu: Math.floor(totalTTGGagneTransfo),
+                nouveauStockTG: Math.floor(stockTG - totalTGDepenseTransfo),
+                nouveauStockTTG: Math.floor(stockTTG + totalTTGGagneTransfo),
+                ameliorations: ameliorationsFaites,
+                tgUtilisesAmelio: tgDepenseAmelio,
+                ttgUtiliseesAmelio: ttgDepenseAmelio,
+                accelUtilisees: accelMinutesUtilisees,
+                pointsTG: tgDepenseAmelio * 2000,
+                pointsTTG: ttgDepenseAmelio * 30000,
+                pointsAccel: ptsAccel,
+                pointsKVK: pointsKVKTotal
+            };
+        }
+    }
+
+    // ============ AUCUN SCÉNARIO POSSIBLE ============
+    if (!meilleurScenario || meilleurScenario.ameliorations.length === 0) {
+        return `<div style="text-align:center; padding:20px; color:var(--warning);">${tx.err}</div>`;
+    }
+
+    // ============ GROUPEMENT DES AMÉLIORATIONS PAR BÂTIMENT ============
+    const batimentsGroupes = {};
+    for (let i = 0; i < meilleurScenario.ameliorations.length; i++) {
+        const amelio = meilleurScenario.ameliorations[i];
+        if (!batimentsGroupes[amelio.nom]) {
+            batimentsGroupes[amelio.nom] = { labelFinal: "", totalTG: 0, totalTTG: 0, totalTempsReel: 0, estEnCours: false };
+        }
+        batimentsGroupes[amelio.nom].labelFinal = amelio.labelCible;
+        batimentsGroupes[amelio.nom].totalTG += amelio.tg;
+        batimentsGroupes[amelio.nom].totalTTG += amelio.ttg;
+        batimentsGroupes[amelio.nom].totalTempsReel += amelio.tempsReel;
+        batimentsGroupes[amelio.nom].estEnCours = amelio.estEnCours;
+    }
+
+    // Tri : terminés en premier, en cours en dernier
+    const listeAffichage = [];
+    for (const [nomBatiment, data] of Object.entries(batimentsGroupes)) {
+        listeAffichage.push({ nom: nomBatiment, data: data });
+    }
+    listeAffichage.sort((a, b) => {
+        if (a.data.estEnCours === b.data.estEnCours) return 0;
+        return a.data.estEnCours ? 1 : -1;
+    });
+
+    // ============ GÉNÉRATION DU HTML FINAL ============
+    const titreMode = modeKVK ? tx.optKVK : tx.optQty;
+    const c_or = '#f5b840';
+    const c_turquoise = '#4ecdc4';
+    const c_rubis = '#e74c5c';
+
+    let html = `<div style="line-height:1.7;">`;
+
+    // Titre
+    html += `<div style="text-align:center; margin-bottom:20px; padding:12px; background:rgba(245,184,64,0.08); border-radius:6px; border:1px solid ${c_or};">`;
+    html += `<strong style="font-size:16px; color:${c_or};">${titreMode}</strong>`;
+    html += `</div>`;
+
+    // Stratégie du creuset
+    html += `<div style="margin-bottom:15px;">`;
+    html += `<div style="font-size:15px; font-weight:bold; margin-bottom:6px;">🔮 ${tx.crucible}</div>`;
+    html += `<div style="padding-left:24px;">`;
+    html += `${tx.transform}<strong style="color:${c_or};">${fmt(meilleurScenario.tgInvestiTransfo)}</strong>`;
+    html += `${tx.tgExpecting}<strong style="color:${c_or};">${fmt(meilleurScenario.ttgObtenu)}</strong>`;
+    html += `${tx.ttgOr}<strong style="color:${c_turquoise};">${meilleurScenario.nbTransfos}</strong>`;
+    html += `${tx.transfos}`;
+    html += `</div></div>`;
+
+    // Nouveaux stocks
+    html += `<div style="margin-bottom:15px;">`;
+    html += `<div style="font-size:15px; font-weight:bold; margin-bottom:6px;">${tx.newStocks}</div>`;
+    html += `<div style="padding-left:24px;">${tx.tgRemaining}<strong style="color:${c_or};">${fmt(meilleurScenario.nouveauStockTG)}</strong></div>`;
+    html += `<div style="padding-left:24px;">${tx.ttgRemaining}<strong style="color:${c_or};">${fmt(meilleurScenario.nouveauStockTTG)}</strong></div>`;
+    html += `</div>`;
+
+    // Plan d'amélioration
+    html += `<div style="margin-bottom:15px;">`;
+    html += `<div style="font-size:15px; font-weight:bold; margin-bottom:6px;">${tx.plan}</div>`;
+    for (let i = 0; i < listeAffichage.length; i++) {
+        const nom = listeAffichage[i].nom;
+        const data = listeAffichage[i].data;
+        const statutColor = data.estEnCours ? c_rubis : c_turquoise;
+        const statut = data.estEnCours ? tx.inProgress : tx.completed;
+        const nomLoc = (typeof getLocName === 'function') ? getLocName(nom) : nom;
+        html += `<div style="padding-left:24px; margin-bottom:4px;">`;
+        html += `• <strong>${nomLoc}</strong>${tx.step}<strong style="color:${c_or};">${data.labelFinal}</strong> `;
+        html += `<span style="color:${statutColor}; font-weight:bold;">${statut}</span> `;
+        html += `<span style="color:var(--text-muted); font-size:13px;">${tx.costCum}<strong>${fmt(data.totalTG)}</strong>${tx.tgAnd}<strong>${fmt(data.totalTTG)}</strong>${tx.ttgClose}</span>`;
+        html += `</div>`;
+    }
+    html += `</div>`;
+
+    // Gestion du temps
+    html += `<div style="margin-bottom:15px;">`;
+    html += `<div style="font-size:15px; font-weight:bold; margin-bottom:6px;">${tx.timeMgt}</div>`;
+    html += `<div style="padding-left:24px;">${tx.timeCons}<strong style="color:${c_rubis};">${formatMinutes(meilleurScenario.accelUtilisees)}</strong>.</div>`;
+    html += `</div>`;
+
+    // Bilan KVK
+    html += `<div style="margin-bottom:15px;">`;
+    html += `<div style="font-size:15px; font-weight:bold; margin-bottom:6px;">${tx.bilan}</div>`;
+    html += `<div style="padding-left:24px;">🔶 <strong style="color:${c_or};">${fmt(meilleurScenario.tgUtilisesAmelio)}</strong>${tx.tgUsed}<strong style="color:${c_or};"> + ${fmt(meilleurScenario.pointsTG)}</strong>${tx.pts}</div>`;
+    html += `<div style="padding-left:24px;">🔷 <strong style="color:${c_or};">${fmt(meilleurScenario.ttgUtiliseesAmelio)}</strong>${tx.ttgUsed}<strong style="color:${c_or};"> + ${fmt(meilleurScenario.pointsTTG)}</strong>${tx.pts}</div>`;
+    html += `<div style="padding-left:24px;">⏱️ <strong style="color:${c_rubis};">${formatMinutes(meilleurScenario.accelUtilisees)}</strong>${tx.accelUsed}<strong style="color:${c_or};"> + ${fmt(meilleurScenario.pointsAccel)}</strong>${tx.pts}</div>`;
+    html += `</div>`;
+
+    // Total maximal
+    html += `<div style="margin-top:20px; padding:15px; background:linear-gradient(135deg, rgba(245,184,64,0.15), rgba(78,205,196,0.1)); border-radius:8px; border:1px solid ${c_or}; text-align:center;">`;
+    html += `<strong style="font-size:16px;">${tx.totalMax}</strong>`;
+    html += `<span style="color:${c_or}; font-weight:bold; font-size:22px;"> ${fmt(meilleurScenario.pointsKVK)}</span>`;
+    html += `<strong style="font-size:16px;"> ${tx.ptsEnd}</strong>`;
+    html += `</div>`;
+
+    html += `</div>`;
+
+    return html;
 }
 
 // ============ STARTUP ============
