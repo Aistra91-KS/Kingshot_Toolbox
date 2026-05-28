@@ -9,99 +9,108 @@
 <body>
     <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</button>
 
-    <div class="sidebar">
-        <h2 data-i18n="controlPanel">Control Panel</h2>
-        
-        <div class="control-group">
-            <h3 data-i18n="settings">Settings</h3>
-            <div class="control-row">
-                <label data-i18n="language">Language</label>
-                <select id="language-select">
-                    <option value="EN">EN</option>
-                    <option value="FR">FR</option>
-                </select>
-            </div>
-            <div class="control-row">
-                <label data-i18n="baseBonus">Base Research Bonus</label>
-                <input type="number" id="base-bonus" value="0.753" step="0.01">
-            </div>
-            <div class="control-row">
-                <label data-i18n="chiefMinister">Chief Minister (+10%)</label>
-                <input type="checkbox" id="chief-minister">
-            </div>
-            <div class="control-row">
-                <label data-i18n="kvkBonus">KVK Bonus (+5%)</label>
-                <input type="checkbox" id="kvk-bonus" checked>
-            </div>
-            <div class="control-row">
-                <label data-i18n="kingdomBonus">Kingdom Bonus (+10%)</label>
-                <input type="checkbox" id="kingdom-bonus" checked>
-            </div>
-            <div class="control-row">
-                <label style="color: var(--accent); font-weight: bold;" data-i18n="totalBonus">Total Bonus</label>
-                <span id="total-bonus-display" style="color: var(--accent); font-weight: bold;">0%</span>
-            </div>
+<div class="sidebar">
+    <h2 data-i18n="controlPanel">Control Panel</h2>
+    
+    <!-- ===== Bloc TOUJOURS visible : Settings ===== -->
+    <div class="control-group">
+        <h3 data-i18n="settings">Settings</h3>
+        <div class="control-row">
+            <label data-i18n="language">Language</label>
+            <select id="language-select">
+                <option value="EN">EN</option>
+                <option value="FR">FR</option>
+            </select>
         </div>
-
-        <div class="control-group" id="display-options-group" style="display: none;">
-            <h3 data-i18n="displayOptions">Display Options</h3>
-            <div class="control-row">
-                <label data-i18n="hideCompleted">Hide completed</label>
-                <input type="checkbox" id="hide-completed">
-            </div>
+        <div class="control-row">
+            <label data-i18n="baseBonus">Base Research Bonus</label>
+            <input type="number" id="base-bonus" value="0.753" step="0.01">
         </div>
-
-        <div class="control-group" id="optimal-options-group">
-                <h3 data-i18n="targetTree">Target Tree</h3>
-                <div class="control-row">
-                    <label data-i18n="treeGrowthLabel">🧭 Growth</label>
-                    <input type="checkbox" id="tree-growth" checked>
-                </div>
-                <div class="control-row">
-                    <label data-i18n="treeEconomyLabel">🌾 Economy</label>
-                    <input type="checkbox" id="tree-economy" checked>
-                </div>
-                <div class="control-row">
-                    <label data-i18n="treeBattleLabel">⚔️ Battle</label>
-                    <input type="checkbox" id="tree-battle" checked>
-                </div>
-            </div>
-
-        <div id="optimal-options-group">
-            <div class="control-group" style="margin-bottom:20px;">
-                <h3 data-i18n="modeKvkBlock">KVK Mode</h3>
-                <div class="control-row">
-                    <label data-i18n="modeKvkLabel">Active</label>
-                    <input type="checkbox" id="mode-kvk">
-                </div>
-            </div>
-
-            <div class="control-group" style="margin-bottom:20px;">
-                <h3 data-i18n="accelerators">Accelerators</h3>
-                <div class="control-row">
-                    <label data-i18n="days">Days (d)</label>
-                    <input type="number" id="acc-days" value="1" min="0">
-                </div>
-                <div class="control-row">
-                    <label data-i18n="hours">Hours (h)</label>
-                    <input type="number" id="acc-hours" value="16" min="0">
-                </div>
-                <div class="control-row">
-                    <label data-i18n="minutes">Minutes (m)</label>
-                    <input type="number" id="acc-minutes" value="3" min="0">
-                </div>
-                <div class="control-row">
-                    <label data-i18n="totalAvailable">Total Available</label>
-                    <span id="total-acc-display">0s</span>
-                </div>
-            </div>
+        <div class="control-row">
+            <label data-i18n="chiefMinister">Chief Minister (+10%)</label>
+            <input type="checkbox" id="chief-minister">
         </div>
-
-        <div class="control-group">
-            <h3 data-i18n="dataManagement">Data Management</h3>
-            <button class="btn-reset" id="reset-button" data-i18n="resetBtn">Reset to Defaults</button>
+        <div class="control-row">
+            <label data-i18n="kvkBonus">KVK Bonus (+5%)</label>
+            <input type="checkbox" id="kvk-bonus" checked>
+        </div>
+        <div class="control-row">
+            <label data-i18n="kingdomBonus">Kingdom Bonus (+10%)</label>
+            <input type="checkbox" id="kingdom-bonus" checked>
+        </div>
+        <div class="control-row">
+            <label style="color: var(--accent); font-weight: bold;" data-i18n="totalBonus">Total Bonus</label>
+            <span id="total-bonus-display" style="color: var(--accent); font-weight: bold;">0%</span>
         </div>
     </div>
+
+    <!-- ===== Bloc UNIQUEMENT sur les arbres : Display Options ===== -->
+    <div class="control-group" id="display-options-group" style="display: none;">
+        <h3 data-i18n="displayOptions">Display Options</h3>
+        <div class="control-row">
+            <label data-i18n="hideCompleted">Hide completed</label>
+            <input type="checkbox" id="hide-completed">
+        </div>
+    </div>
+
+    <!-- ===== Bloc UNIQUEMENT sur "Ordre de recherche" ===== -->
+    <div id="optimal-options-group">
+        
+        <!-- Target Tree -->
+        <div class="control-group" style="margin-bottom:20px;">
+            <h3 data-i18n="targetTree">Target Tree</h3>
+            <div class="control-row">
+                <label data-i18n="treeGrowthLabel">🧭 Growth</label>
+                <input type="checkbox" id="tree-growth" checked>
+            </div>
+            <div class="control-row">
+                <label data-i18n="treeEconomyLabel">🌾 Economy</label>
+                <input type="checkbox" id="tree-economy" checked>
+            </div>
+            <div class="control-row">
+                <label data-i18n="treeBattleLabel">⚔️ Battle</label>
+                <input type="checkbox" id="tree-battle" checked>
+            </div>
+        </div>
+
+        <!-- KVK Mode -->
+        <div class="control-group" style="margin-bottom:20px;">
+            <h3 data-i18n="modeKvkBlock">KVK Mode</h3>
+            <div class="control-row">
+                <label data-i18n="modeKvkLabel">Active</label>
+                <input type="checkbox" id="mode-kvk">
+            </div>
+        </div>
+
+        <!-- Accelerators -->
+        <div class="control-group" style="margin-bottom:20px;">
+            <h3 data-i18n="accelerators">Accelerators</h3>
+            <div class="control-row">
+                <label data-i18n="days">Days (d)</label>
+                <input type="number" id="acc-days" value="1" min="0">
+            </div>
+            <div class="control-row">
+                <label data-i18n="hours">Hours (h)</label>
+                <input type="number" id="acc-hours" value="16" min="0">
+            </div>
+            <div class="control-row">
+                <label data-i18n="minutes">Minutes (m)</label>
+                <input type="number" id="acc-minutes" value="3" min="0">
+            </div>
+            <div class="control-row">
+                <label data-i18n="totalAvailable">Total Available</label>
+                <span id="total-acc-display">0s</span>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- ===== Bloc TOUJOURS visible : Data Management ===== -->
+    <div class="control-group">
+        <h3 data-i18n="dataManagement">Data Management</h3>
+        <button class="btn-reset" id="reset-button" data-i18n="resetBtn">Reset to Defaults</button>
+    </div>
+</div>
 
     <div class="main-content">
         <div class="tabs">
