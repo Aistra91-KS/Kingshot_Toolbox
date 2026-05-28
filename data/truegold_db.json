@@ -525,9 +525,7 @@
       {"num": 43, "label": "TG8-3"}, {"num": 44, "label": "TG8-4"},
       {"num": 45, "label": "TG9-0"}, {"num": 46, "label": "TG9-1"},
       {"num": 47, "label": "TG9-2"}, {"num": 48, "label": "TG9-3"},
-      {"num": 49, "label": "TG9-4"}, {"num": 50, "label": "TG10"}
-      
+      {"num": 49, "label": "TG9-4"}, {"num": 50, "label": "TG10"}  
     ]
-
-  } 
+  }, 
 }
