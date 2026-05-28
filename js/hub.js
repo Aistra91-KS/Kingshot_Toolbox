@@ -13,7 +13,8 @@ const i18nHub = {
         soonDesc: "De nouveaux outils arrivent prochainement. Restez connectés !",
         open: "Ouvrir →",
         comingSoon: "À venir...",
-        madeWith: "Fait avec"
+        madeWith: "Fait avec",,
+        beartrapDesc: "Optimisez vos ralliements pour le Bear Trap. Calculez la répartition parfaite de vos marches."
     },
     EN: {
         subtitle: "Your strategic toolbox",
@@ -25,7 +26,8 @@ const i18nHub = {
         soonDesc: "New tools are coming soon. Stay tuned!",
         open: "Open →",
         comingSoon: "Coming soon...",
-        MadeBy: "Made by"
+        MadeBy: "Made by",
+        beartrapDesc: "Optimize your rallies for the Bear Trap. Calculate the perfect distribution of your steps."
     }
 };
 
