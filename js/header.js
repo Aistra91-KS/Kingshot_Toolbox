@@ -27,6 +27,10 @@
                     <span class="nav-icon">🏆</span>
                     <span class="nav-label">TrueGold</span>
                 </a>
+                <a href="beartrap_calc.html" class="nav-link ${currentPage === 'beartrap_calc.html' ? 'active' : ''}">
+                    <span class="nav-icon">🐻</span>
+                    <span class="nav-label">Bear Trap</span>
+                </a>
             </nav>
             
             <button class="app-header-theme" id="header-theme-toggle" onclick="toggleHeaderTheme()" title="Changer le thème">
