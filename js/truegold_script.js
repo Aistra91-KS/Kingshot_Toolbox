@@ -146,6 +146,26 @@ function updateThemeButton(theme) {
     }
 }
 
+/**
+ * Génère la map levelsByBuilding à partir d'une référence commune
+ * et d'une config min/max par bâtiment.
+ * 
+ * @param {Array}  reference - Liste complète des niveaux [{num, label}, ...]
+ * @param {Object} config    - Config par bâtiment { "Building Name": {min, max} }
+ * @returns {Object}         - Map { "Building Name": [{num, label}, ...] }
+ */
+function buildLevelsByBuilding(reference, config) {
+    const result = {};
+    
+    for (const buildingName in config) {
+        const { min, max } = config[buildingName];
+        result[buildingName] = reference.filter(level => 
+            level.num >= min && level.num <= max
+        );
+    }
+    
+    return result;
+}
 // ============ DATA LOADING ============
 // ============ DATA LOADING ============
 async function loadDatabase() {
@@ -187,7 +207,7 @@ async function loadDatabase() {
         // Tout est OK, on assigne les données
         rangeDataTTG     = data.rangeDataTTG;
         dbDataRaw        = data.dbDataRaw;
-        levelsByBuilding = data.levelsByBuilding;
+        levelsByBuilding = buildLevelsByBuilding(data.levelsReference, data.buildingsConfig); // Générer levelsByBuilding dynamiquement à partir de la référence
         bldgMap          = data.bldgMap;
         
         // Si pas de buildings sauvegardés, on prend les defaults du JSON
