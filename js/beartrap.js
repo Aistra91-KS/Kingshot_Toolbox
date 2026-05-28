@@ -251,4 +251,6 @@ function displayResults(marches, maxCapacity, totalMarches) {
         </div>
     `;
 
-    resultArea.innerHTML =
+    resultArea.innerHTML = html;
+    resultArea.style.display = 'block';
+}
