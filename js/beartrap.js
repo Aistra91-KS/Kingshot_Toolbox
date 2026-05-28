@@ -3,19 +3,16 @@
 // ========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. On charge les données sauvegardées avant de faire quoi que ce soit
     loadBearTrapData();
 
-    // 2. Écouteur sur le bouton de calcul
     const btnCalculate = document.getElementById('btn-calculate');
     if (btnCalculate) {
         btnCalculate.addEventListener('click', () => {
-            saveBearTrapData(); // On sauvegarde au clic
-            calculateBearTrap(); // On lance le calcul
+            saveBearTrapData(); 
+            calculateBearTrap(); 
         });
     }
 
-    // 3. Gérer l'affichage des options selon le mode choisi (Seuils vs Formule)
     const optimMode = document.getElementById('optim-mode');
     const thresholdInputs = document.getElementById('threshold-inputs');
     
@@ -29,13 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. Sauvegarder automatiquement dès qu'un champ est modifié (en plus du bouton)
     const allInputs = document.querySelectorAll('.sidebar input, .sidebar select');
     allInputs.forEach(input => {
         input.addEventListener('change', saveBearTrapData);
     });
 
-    // 5. Si on a récupéré des troupes de la sauvegarde, on lance un calcul automatique
     const savedInf = parseInt(document.getElementById('troop-inf').value) || 0;
     const savedArc = parseInt(document.getElementById('troop-arc').value) || 0;
     const savedCav = parseInt(document.getElementById('troop-cav').value) || 0;
@@ -50,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // ========================================
 
 function saveBearTrapData() {
-    // Liste de tous les IDs des champs à sauvegarder
     const fieldsToSave = [
         'troop-inf', 'troop-arc', 'troop-cav',
         'cap-base', 'cap-expert', 'cap-animal', 'marches-count',
@@ -66,7 +60,6 @@ function saveBearTrapData() {
         }
     });
 
-    // On convertit l'objet en texte (JSON) et on le stocke
     localStorage.setItem('beartrap_saved_data', JSON.stringify(data));
 }
 
@@ -76,7 +69,6 @@ function loadBearTrapData() {
     if (savedDataString) {
         const data = JSON.parse(savedDataString);
         
-        // On parcourt les données sauvegardées pour remplir les champs
         for (const [id, value] of Object.entries(data)) {
             const element = document.getElementById(id);
             if (element) {
@@ -84,7 +76,6 @@ function loadBearTrapData() {
             }
         }
 
-        // On met à jour l'affichage du bloc "Seuils" en fonction du mode sauvegardé
         const optimMode = document.getElementById('optim-mode');
         const thresholdInputs = document.getElementById('threshold-inputs');
         if (optimMode && thresholdInputs) {
@@ -107,7 +98,13 @@ function calculateBearTrap() {
     const capBase = parseInt(document.getElementById('cap-base').value) || 0;
     const capExpert = parseInt(document.getElementById('cap-expert').value) || 0;
     const capAnimal = parseInt(document.getElementById('cap-animal').value) || 0;
-    const marchesCount = parseInt(document.getElementById('marches-count').value) || 1;
+    let marchesCount = parseInt(document.getElementById('marches-count').value) || 1;
+    const playerRole = document.getElementById('player-role').value;
+
+    // --- NOUVEAUTÉ : Ajout de la marche ralliement si Organisateur ---
+    if (playerRole === 'organizer') {
+        marchesCount += 1;
+    }
 
     // 3. Récupération des limites et options
     const allianceLimitInput = document.getElementById('alliance-limit').value;
@@ -117,11 +114,11 @@ function calculateBearTrap() {
     const minInfPercent = parseInt(document.getElementById('min-inf-percent').value) || 0;
     const minCavPercent = parseInt(document.getElementById('min-cav-percent').value) || 0;
 
-    // Calcul de la taille de marche réelle
+    // Calcul de la taille de marche maximale théorique
     let theoreticalCapacity = capBase + capExpert + capAnimal;
-    let marchCapacity = Math.min(theoreticalCapacity, allianceLimit);
+    let maxMarchCapacity = Math.min(theoreticalCapacity, allianceLimit);
 
-    if (marchCapacity <= 0) {
+    if (maxMarchCapacity <= 0) {
         alert("Votre capacité de marche doit être supérieure à 0.");
         return;
     }
@@ -130,20 +127,31 @@ function calculateBearTrap() {
         alert("Le mode Formule mathématique sera bientôt disponible ! Passage en mode Seuils pour le moment.");
     }
 
-    // 4. L'ALGORITHME DE RÉPARTITION
+    // 4. L'ALGORITHME DE RÉPARTITION ÉQUITABLE
     let marches = [];
+    let remainingMarches = marchesCount;
     
     for (let i = 0; i < marchesCount; i++) {
-        if (availableInf + availableArc + availableCav === 0) break;
+        let totalAvailable = availableInf + availableArc + availableCav;
+        
+        // S'il ne reste absolument plus aucune troupe, on arrête la boucle
+        if (totalAvailable === 0) break; 
+
+        // --- NOUVEAUTÉ : Répartition équitable ---
+        // On divise les troupes totales restantes par le nombre de marches restantes.
+        // On limite ce chiffre à la capacité maximale d'une marche.
+        let currentMarchCapacity = Math.min(maxMarchCapacity, Math.ceil(totalAvailable / remainingMarches));
 
         let allocatedInf = 0;
         let allocatedArc = 0;
         let allocatedCav = 0;
-        let remainingSpace = marchCapacity;
+        let remainingSpace = currentMarchCapacity;
 
-        let targetInf = Math.floor(marchCapacity * (minInfPercent / 100));
-        let targetCav = Math.floor(marchCapacity * (minCavPercent / 100));
+        // Calcul des minimums requis par rapport à la taille de CETTE marche
+        let targetInf = Math.floor(currentMarchCapacity * (minInfPercent / 100));
+        let targetCav = Math.floor(currentMarchCapacity * (minCavPercent / 100));
 
+        // Remplissage des minimums
         allocatedInf = Math.min(targetInf, availableInf);
         allocatedCav = Math.min(targetCav, availableCav);
         
@@ -151,10 +159,12 @@ function calculateBearTrap() {
         availableInf -= allocatedInf;
         availableCav -= allocatedCav;
 
+        // Remplissage avec les Archers (priorité dégâts)
         allocatedArc = Math.min(remainingSpace, availableArc);
         remainingSpace -= allocatedArc;
         availableArc -= allocatedArc;
 
+        // S'il reste de la place, on bouche les trous avec Cavalerie puis Infanterie
         if (remainingSpace > 0) {
             let extraCav = Math.min(remainingSpace, availableCav);
             allocatedCav += extraCav;
@@ -177,13 +187,16 @@ function calculateBearTrap() {
             cav: allocatedCav,
             total: totalMarch
         });
+
+        // On décrémente le nombre de marches restantes pour le prochain calcul
+        remainingMarches--;
     }
 
     // 5. AFFICHAGE DES RÉSULTATS
-    displayResults(marches, marchCapacity);
+    displayResults(marches, maxMarchCapacity, marchesCount);
 }
 
-function displayResults(marches, maxCapacity) {
+function displayResults(marches, maxCapacity, totalMarches) {
     const resultArea = document.getElementById('result-area');
     
     if (marches.length === 0) {
@@ -233,10 +246,9 @@ function displayResults(marches, maxCapacity) {
             </tbody>
         </table>
         <div style="margin-top: 15px; font-size: 13px; color: var(--text-muted);">
-            Capacité maximale par marche configurée : <strong>${maxCapacity.toLocaleString('fr-FR')}</strong>.
+            Nombre de marches générées : <strong>${totalMarches}</strong><br>
+            Capacité maximale par marche configurée : <strong>${maxCapacity.toLocaleString('fr-FR')}</strong>
         </div>
     `;
 
-    resultArea.innerHTML = html;
-    resultArea.style.display = 'block';
-}
+    resultArea.innerHTML =
