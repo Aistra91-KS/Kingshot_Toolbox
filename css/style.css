@@ -52,8 +52,9 @@
 /* ========================================
    BASE COMMUNE
    ======================================== */
-* { box-sizing: border-box; }
-
+/* ========================================
+   BASE COMMUNE - CORRECTION HAUTEUR
+   ======================================== */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-dark);
@@ -61,6 +62,7 @@ body {
     margin: 0;
     padding: 20px;
     transition: background-color 0.3s, color 0.3s;
+    box-sizing: border-box;
 }
 
 /* Layout des calculateurs (sidebar + main) */
@@ -68,9 +70,54 @@ body:not(.hub-body) {
     display: flex;
     gap: 20px;
     height: 100vh;
+    overflow: hidden;
 }
 
-h2, h3, h4 { margin-top: 0; color: var(--text-light); margin-bottom: 10px; }
+/* Quand le header est présent, ajuster la hauteur */
+body.has-app-header:not(.hub-body) {
+    height: 100vh;
+    padding-top: 80px !important;
+    padding-bottom: 20px !important;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* La sidebar et le main-content doivent prendre toute la hauteur disponible */
+.sidebar {
+    width: 340px;
+    background-color: var(--bg-panel);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.main-content {
+    flex: 1;
+    background-color: var(--bg-panel);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px var(--shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Variante pour TrueGold (panneaux empilés) */
+.main-content.flow {
+    background: transparent;
+    box-shadow: none;
+    gap: 20px;
+    overflow-y: auto;
+    height: 100%;
+}
 
 /* ========================================
    THEME TOGGLE (commun)
