@@ -22,66 +22,90 @@
 
 
 /* ============================================================================
-   1. VARIABLES DE THÈME
+   1. VARIABLES DE THÈME — ROYAL GOLD "BLACK EDITION"
+   ============================================================================
+   
+   Inspiration : codes du luxe (Rolex, Versace, Lamborghini)
+   - Or éclatant sur noir profond = sophistication maximale
+   - Touches d'émeraude pour la validation
+   - Touches de rubis pour les alertes
    ============================================================================ */
 
 :root {
-    --bg-dark: #121212;
-    --bg-panel: #1a2540;
-    --text-light: #e8eaf0;
-    --text-muted: #8a96b8;
-    --accent: #f5b840;
-    --accent-hover: #d49820;
-    --border: #2d3e6b;
-    --success: #4ecdc4;
-    --warning: #ff8c42;
-    --table-header: #1f2c4d;
-    --table-row-alt: #1d2843;
-    --growth-color: #4ecdc4;
-    --eco-color: #f5b840;
-    --battle-color: #e74c5c;
-    --box-bg: #1f2c4d;
-    --box-header: #2a3a63;
-    --step-bg: #1a2540;
-    --step-hover: #243358;
-    --control-bg: #233155;
-    --input-bg: #2b3a63;
-    --shadow: rgba(0, 0, 0, 0.4);
+    /* Fonds — Noirs profonds */
+    --bg-dark:       #0a0a0a;      /* Noir profond (fond principal) */
+    --bg-panel:      #161616;      /* Noir charbon (panels) */
+    --control-bg:    #1f1f1f;      /* Noir anthracite (contrôles) */
+    --input-bg:      #252525;      /* Gris très foncé (inputs) */
+    
+    /* Textes */
+    --text-light:    #f0e8d5;      /* Ivoire chaud (texte principal) */
+    --text-muted:    #8a8378;      /* Beige grisé (texte secondaire) */
+    
+    /* Accent principal — OR ROYAL */
+    --accent:        #f5b840;      /* Or éclatant */
+    --accent-hover:  #d49820;      /* Or foncé au hover */
+    
+    /* Bordures */
+    --border:        #2a2a2a;      /* Gris foncé subtil */
+    
+    /* Couleurs sémantiques */
+    --success:       #4ecdc4;      /* Turquoise (validation) */
+    --warning:       #ff8c42;      /* Orange ambré (alerte) */
+    
+    /* Tableaux */
+    --table-header:  #1c1c1c;      /* Noir charbon pour entêtes */
+    --table-row-alt: #131313;      /* Alternance ultra subtile */
+    
+    /* Couleurs d'arbres (Research) */
+    --growth-color:  #4ecdc4;      /* Turquoise — Croissance */
+    --eco-color:     #f5b840;      /* Or — Économie */
+    --battle-color:  #e74c5c;      /* Rubis — Combat */
+    
+    /* Composants Tree */
+    --box-bg:        #1c1c1c;      /* Cartes de recherche */
+    --box-header:    #252525;      /* Entêtes de cartes */
+    --step-bg:       #161616;      /* Étapes de recherche */
+    --step-hover:    #202020;      /* Hover sur étapes */
+    
+    /* Ombres — plus marquées pour effet "or qui flotte" */
+    --shadow:        rgba(0, 0, 0, 0.6);
     
     /* Constantes de layout */
     --header-height: 60px;
-    --header-offset: 80px; /* header-height + padding */
+    --header-offset: 80px;
 }
 
 [data-theme="light"] {
-    --bg-dark:       #f5f7fb;      /* Bleu très pâle (fond) */
+    /* Fonds — Crème & blancs */
+    --bg-dark:       #f5f7fb;      /* Crème très pâle (fond) */
     --bg-panel:      #ffffff;      /* Blanc pur (panels) */
-    --control-bg:    #f0f4fa;      /* Bleu très pâle (contrôles) */
+    --control-bg:    #f0f4fa;      /* Crème pâle (contrôles) */
     --input-bg:      #ffffff;      /* Blanc (inputs) */
     
     /* Textes */
-    --text-light:    #1e3a5f;      /* Bleu marine (texte principal) */
-    --text-muted:    #6b7a96;      /* Bleu-gris */
+    --text-light:    #1a1a1a;      /* Noir doux (texte principal) */
+    --text-muted:    #6b7280;      /* Gris moyen */
     
-    /* Accent principal — OR FONCÉ (meilleur contraste sur fond clair) */
+    /* Accent principal — OR ANTIQUE (meilleur contraste sur clair) */
     --accent:        #c89020;      /* Or antique */
     --accent-hover:  #a07418;      /* Or bronze */
     
     /* Bordures */
-    --border:        #d4dce8;      /* Bleu très pâle */
+    --border:        #d4dce8;      /* Gris très pâle */
     
     /* Couleurs sémantiques */
     --success:       #00897b;      /* Turquoise foncé */
     --warning:       #e65100;      /* Orange foncé */
     
     /* Tableaux */
-    --table-header:  #eaf0f8;      /* Bleu très pâle */
-    --table-row-alt: #f5f8fc;      /* Alternance subtile */
+    --table-header:  #eaf0f8;
+    --table-row-alt: #f5f8fc;
     
     /* Couleurs d'arbres (Research) */
-    --growth-color:  #00897b;      /* Turquoise foncé */
-    --eco-color:     #c89020;      /* Or antique */
-    --battle-color:  #c62828;      /* Rouge brique */
+    --growth-color:  #00897b;
+    --eco-color:     #c89020;
+    --battle-color:  #c62828;
     
     /* Composants Tree */
     --box-bg:        #ffffff;
@@ -90,7 +114,7 @@
     --step-hover:    #e8eff7;
     
     /* Ombres */
-    --shadow:        rgba(30, 58, 95, 0.12);
+    --shadow:        rgba(0, 0, 0, 0.08);
 }
 
 
