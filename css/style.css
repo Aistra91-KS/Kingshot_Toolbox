@@ -76,8 +76,8 @@ body:not(.hub-body) {
 /* Quand le header est présent, ajuster la hauteur */
 body.has-app-header:not(.hub-body) {
     height: 100vh;
-    padding-top: 80px !important;
-    padding-bottom: 20px !important;
+    padding: 80px 20px 20px 20px !important;
+    margin: 0;
     box-sizing: border-box;
     overflow: hidden;
 }
