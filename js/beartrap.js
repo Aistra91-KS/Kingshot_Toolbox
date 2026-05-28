@@ -49,7 +49,7 @@ function saveBearTrapData() {
         'troop-inf', 'troop-arc', 'troop-cav',
         'cap-base', 'cap-expert', 'cap-animal', 'marches-count',
         'player-role', 'alliance-limit', 'optim-mode',
-        'min-inf-percent', 'min-cav-percent' // Retour aux ID "min"
+        'min-inf-percent', 'min-cav-percent'
     ];
 
     const data = {};
@@ -110,7 +110,10 @@ function calculateBearTrap() {
     const minInfPercent = parseInt(document.getElementById('min-inf-percent').value) || 0;
     const minCavPercent = parseInt(document.getElementById('min-cav-percent').value) || 0;
 
+    // Capacité Théorique (pour les pourcentages en jeu)
     let theoreticalCapacity = capBase + capExpert + capAnimal;
+    
+    // Capacité Max Réelle (plafonnée par l'alliance pour le calcul des troupes)
     let maxMarchCapacity = Math.min(theoreticalCapacity, allianceLimit);
 
     if (maxMarchCapacity <= 0) {
@@ -120,33 +123,27 @@ function calculateBearTrap() {
 
     let marches = [];
     
-    // Si on a 0 troupes, on arrête tout
     if (availableInf + availableArc + availableCav === 0) {
-        displayResults([], maxMarchCapacity, marchesCount);
+        displayResults([], maxMarchCapacity, marchesCount, theoreticalCapacity);
         return;
     }
 
     // --- CRÉATION DU MODÈLE DE MARCHE PARFAIT ---
-    // On divise les ressources disponibles par le nombre de marches pour avoir la "part" par marche
     let fairInf = Math.floor(availableInf / marchesCount);
     let fairArc = Math.floor(availableArc / marchesCount);
     let fairCav = Math.floor(availableCav / marchesCount);
 
-    // Minimums requis selon la capacité max
     let targetInf = Math.floor(maxMarchCapacity * (minInfPercent / 100));
     let targetCav = Math.floor(maxMarchCapacity * (minCavPercent / 100));
 
-    // 1. On alloue les minimums (ou tout ce qu'on a si on a moins que le minimum)
     let mInf = Math.min(targetInf, fairInf);
     let mCav = Math.min(targetCav, fairCav);
     
     let remainingSpace = maxMarchCapacity - mInf - mCav;
 
-    // 2. On alloue les archers au maximum de l'espace restant
     let mArc = Math.min(remainingSpace, fairArc);
     remainingSpace -= mArc;
 
-    // 3. S'il reste de la place (manque d'archers), on complète avec la Cavalerie
     if (remainingSpace > 0) {
         let extraCavAvailable = fairCav - mCav;
         let addCav = Math.min(remainingSpace, extraCavAvailable);
@@ -154,7 +151,6 @@ function calculateBearTrap() {
         remainingSpace -= addCav;
     }
 
-    // 4. S'il reste encore de la place, on complète avec l'Infanterie
     if (remainingSpace > 0) {
         let extraInfAvailable = fairInf - mInf;
         let addInf = Math.min(remainingSpace, extraInfAvailable);
@@ -164,8 +160,7 @@ function calculateBearTrap() {
 
     let mTotal = mInf + mArc + mCav;
 
-    // --- DUPLICATION DU MODÈLE POUR TOUTES LES MARCHES ---
-    // On crée X marches strictement identiques
+    // --- DUPLICATION DU MODÈLE ---
     for (let i = 0; i < marchesCount; i++) {
         marches.push({
             id: i + 1,
@@ -176,10 +171,11 @@ function calculateBearTrap() {
         });
     }
 
-    displayResults(marches, maxMarchCapacity, marchesCount);
+    // On passe la theoreticalCapacity à la fonction d'affichage pour les bons pourcentages
+    displayResults(marches, maxMarchCapacity, marchesCount, theoreticalCapacity);
 }
 
-function displayResults(marches, maxCapacity, totalMarches) {
+function displayResults(marches, maxCapacity, totalMarches, theoreticalCapacity) {
     const resultArea = document.getElementById('result-area');
     
     if (marches.length === 0 || marches[0].total === 0) {
@@ -193,10 +189,11 @@ function displayResults(marches, maxCapacity, totalMarches) {
             <thead>
                 <tr>
                     <th style="text-align: left; padding: 10px; border-bottom: 2px solid var(--accent);">Marche</th>
-                    <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent); color: var(--text-muted);">Capacité Max</th>
+                    <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent); color: var(--text-muted);">Capacité Config</th>
+                    <!-- ORDRE MODIFIÉ : Infanterie, Cavalerie, Archers -->
                     <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent);">🛡️ Infanterie</th>
-                    <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent);">🏹 Archers</th>
                     <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent);">🐎 Cavalerie</th>
+                    <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent);">🏹 Archers</th>
                     <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent); background: rgba(245, 184, 64, 0.05);">Total</th>
                 </tr>
             </thead>
@@ -204,20 +201,19 @@ function displayResults(marches, maxCapacity, totalMarches) {
     `;
 
     marches.forEach(march => {
-        // Les pourcentages calculés sur la capacité MAX
-        let pInf = Math.round((march.inf / maxCapacity) * 100) || 0;
-        let pArc = Math.round((march.arc / maxCapacity) * 100) || 0;
-        let pCav = Math.round((march.cav / maxCapacity) * 100) || 0;
+        // NOUVEAU : Les pourcentages sont calculés sur la theoreticalCapacity (capacité totale du joueur)
+        let pInf = Math.round((march.inf / theoreticalCapacity) * 100) || 0;
+        let pCav = Math.round((march.cav / theoreticalCapacity) * 100) || 0;
+        let pArc = Math.round((march.arc / theoreticalCapacity) * 100) || 0;
 
         let fMaxCap = maxCapacity.toLocaleString('fr-FR');
         let fTotal = march.total.toLocaleString('fr-FR');
         let fInf = march.inf.toLocaleString('fr-FR');
-        let fArc = march.arc.toLocaleString('fr-FR');
         let fCav = march.cav.toLocaleString('fr-FR');
+        let fArc = march.arc.toLocaleString('fr-FR');
 
         let rowStyle = march.total < maxCapacity ? 'color: var(--text-muted);' : '';
         
-        // Style pour les "badges" de pourcentage (mieux visibles)
         const badgeStyle = "display: inline-block; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-left: 5px;";
         const badgeStyleArc = "display: inline-block; background: rgba(245, 184, 64, 0.15); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-left: 5px;";
 
@@ -225,9 +221,12 @@ function displayResults(marches, maxCapacity, totalMarches) {
             <tr style="${rowStyle}">
                 <td style="padding: 10px; border-bottom: 1px solid var(--control-bg);"><strong>Marche ${march.id}</strong></td>
                 <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); color: var(--text-muted);">${fMaxCap}</td>
+                
+                <!-- ORDRE MODIFIÉ : Infanterie, Cavalerie, Archers -->
                 <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg);">${fInf} <span style="${badgeStyle}">${pInf}%</span></td>
-                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); color: var(--accent);">${fArc} <span style="${badgeStyleArc}">${pArc}%</span></td>
                 <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg);">${fCav} <span style="${badgeStyle}">${pCav}%</span></td>
+                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); color: var(--accent);">${fArc} <span style="${badgeStyleArc}">${pArc}%</span></td>
+                
                 <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); background: rgba(245, 184, 64, 0.05);"><strong>${fTotal}</strong></td>
             </tr>
         `;
@@ -237,7 +236,8 @@ function displayResults(marches, maxCapacity, totalMarches) {
             </tbody>
         </table>
         <div style="margin-top: 15px; font-size: 13px; color: var(--text-muted);">
-            Nombre de marches générées : <strong>${totalMarches}</strong>
+            Nombre de marches générées : <strong>${totalMarches}</strong><br>
+            Capacité théorique de référence (pour vos %) : <strong>${theoreticalCapacity.toLocaleString('fr-FR')}</strong>
         </div>
     `;
 
