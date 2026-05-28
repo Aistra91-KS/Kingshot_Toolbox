@@ -104,7 +104,7 @@ function updateThemeButton(theme) {
 // ============ DATA LOADING (depuis JSON) ============
 async function loadInitialDb() {
     try {
-        const response = await fetch('data /research_db.json');
+        const response = await fetch('data/research_db.json');
         if (!response.ok) {
             throw new Error(`HTTP ${response.status} - ${response.statusText}`);
         }
