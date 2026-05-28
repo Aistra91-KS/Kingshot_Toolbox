@@ -427,6 +427,18 @@ function loadData() {
             console.error("Error loading data", e);
         }
     }
+    
+    // 🌐 PRIORITÉ à la langue globale (override les préférences locales)
+    if (window.GlobalLang) {
+        const langueSelect = document.getElementById('langue');
+        if (langueSelect) {
+            langueSelect.value = GlobalLang.get();
+            // Écoute les changements pour les sauvegarder globalement
+            langueSelect.addEventListener('change', () => {
+                GlobalLang.set(langueSelect.value);
+            });
+        }
+    }
 }
 
 // ============ MAIN UPDATE ============
