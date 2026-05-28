@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bear Trap Optimizer - Hub-Kingshot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <h2 style="color: var(--accent); margin-top: 0;">Paramètres</h2>
+        
+        <div class="control-group">
+            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mes Troupes (T10/T11...)</h3>
+            <div class="control-row">
+                <label>Infanterie 🛡️</label>
+                <input type="number" id="troop-inf" min="0" value="0" placeholder="Ex: 150000">
+            </div>
+            <div class="control-row">
+                <label>Archers 🏹</label>
+                <input type="number" id="troop-arc" min="0" value="0" placeholder="Ex: 400000">
+            </div>
+            <div class="control-row">
+                <label>Cavalerie 🐎</label>
+                <input type="number" id="troop-cav" min="0" value="0" placeholder="Ex: 200000">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Ma Capacité</h3>
+            <div class="control-row">
+                <label>Capacité de base</label>
+                <input type="number" id="cap-base" min="0" value="120000">
+            </div>
+            <div class="control-row">
+                <label>Bonus Expert</label>
+                <input type="number" id="cap-expert" min="0" value="0">
+            </div>
+            <div class="control-row">
+                <label>Bonus Animal</label>
+                <input type="number" id="cap-animal" min="0" value="0">
+            </div>
+            <div class="control-row">
+                <label>Nb de marches max</label>
+                <input type="number" id="marches-count" min="1" max="7" value="5">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Organisation</h3>
+            <div class="control-row">
+                <label>Rôle</label>
+                <select id="player-role" class="table-select" style="width: 120px;">
+                    <option value="participant">Participant</option>
+                    <option value="organizer">Organisateur</option>
+                </select>
+            </div>
+            <div class="control-row">
+                <label title="Limite imposée par l'alliance">Plafond d'envoi</label>
+                <input type="number" id="alliance-limit" min="0" placeholder="Illimité">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mode d'optimisation</h3>
+            <div class="control-row">
+                <label>Mode</label>
+                <select id="optim-mode" class="table-select" style="width: 120px;">
+                    <option value="threshold">Seuils Mini</option>
+                    <option value="formula">Formule (Bientôt)</option>
+                </select>
+            </div>
+            <div id="threshold-inputs">
+                <div class="control-row" style="margin-top: 10px;">
+                    <label>Infanterie min (%)</label>
+                    <input type="number" id="min-inf-percent" min="0" max="100" value="10">
+                </div>
+                <div class="control-row" style="margin-top: 10px;">
+                    <label>Cavalerie min (%)</label>
+                    <input type="number" id="min-cav-percent" min="0" max="100" value="10">
+                </div>
+            </div>
+        </div>
+
+        <button id="btn-calculate" class="btn-reset" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 14px;">
+            Calculer les marches
+        </button>
+    </aside>
+
+    <main class="main-content flow">
+        <div class="panel">
+            <h2 style="color: var(--accent); margin-top: 0;">Plan de déploiement</h2>
+            <p style="color: var(--text-muted); font-size: 14px;">
+                Remplissez vos paramètres à gauche et cliquez sur Calculer pour générer vos formations de marches optimales.
+            </p>
+            
+            <div id="result-area" class="table-container" style="margin-top: 20px; display: none;">
+                </div>
+        </div>
+    </main>
+
+    <script src="lang.js"></script>
+    <script src="header.js"></script>
+    
+    </body>
+</html>
