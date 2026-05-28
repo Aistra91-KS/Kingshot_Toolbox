@@ -27,26 +27,26 @@
 
 :root {
     --bg-dark: #121212;
-    --bg-panel: #1e1e1e;
-    --text-light: #e0e0e0;
-    --text-muted: #aaaaaa;
-    --accent: #bb86fc;
-    --accent-hover: #3700b3;
-    --border: #333;
-    --success: #03dac6;
-    --warning: #ff9800;
-    --table-header: #2c2c2c;
-    --table-row-alt: #232323;
-    --growth-color: #4caf50;
-    --eco-color: #ff9800;
-    --battle-color: #f44336;
-    --box-bg: #2e2e2e;
-    --box-header: #3a3a3a;
-    --step-bg: #252525;
-    --step-hover: #2a2a2a;
-    --control-bg: #252525;
-    --input-bg: #333;
-    --shadow: rgba(0, 0, 0, 0.3);
+    --bg-panel: #1a2540;
+    --text-light: #e8eaf0;
+    --text-muted: #8a96b8;
+    --accent: #f5b840;
+    --accent-hover: #d49820;
+    --border: #2d3e6b;
+    --success: #4ecdc4;
+    --warning: #ff8c42;
+    --table-header: #1f2c4d;
+    --table-row-alt: #1d2843;
+    --growth-color: #4ecdc4;
+    --eco-color: #f5b840;
+    --battle-color: #e74c5c;
+    --box-bg: #1f2c4d;
+    --box-header: #2a3a63;
+    --step-bg: #1a2540;
+    --step-hover: #243358;
+    --control-bg: #233155;
+    --input-bg: #2b3a63;
+    --shadow: rgba(0, 0, 0, 0.4);
     
     /* Constantes de layout */
     --header-height: 60px;
@@ -54,27 +54,43 @@
 }
 
 [data-theme="light"] {
-    --bg-dark: #f0f2f5;
-    --bg-panel: #ffffff;
-    --text-light: #333333;
-    --text-muted: #666666;
-    --accent: #6200ee;
-    --accent-hover: #3700b3;
-    --border: #dddddd;
-    --success: #009688;
-    --warning: #f57c00;
-    --table-header: #f5f5f5;
-    --table-row-alt: #fafafa;
-    --growth-color: #2e7d32;
-    --eco-color: #e65100;
-    --battle-color: #c62828;
-    --box-bg: #ffffff;
-    --box-header: #f0f0f0;
-    --step-bg: #f9f9f9;
-    --step-hover: #ececec;
-    --control-bg: #f9f9f9;
-    --input-bg: #ffffff;
-    --shadow: rgba(0, 0, 0, 0.1);
+    --bg-dark:       #f5f7fb;      /* Bleu très pâle (fond) */
+    --bg-panel:      #ffffff;      /* Blanc pur (panels) */
+    --control-bg:    #f0f4fa;      /* Bleu très pâle (contrôles) */
+    --input-bg:      #ffffff;      /* Blanc (inputs) */
+    
+    /* Textes */
+    --text-light:    #1e3a5f;      /* Bleu marine (texte principal) */
+    --text-muted:    #6b7a96;      /* Bleu-gris */
+    
+    /* Accent principal — OR FONCÉ (meilleur contraste sur fond clair) */
+    --accent:        #c89020;      /* Or antique */
+    --accent-hover:  #a07418;      /* Or bronze */
+    
+    /* Bordures */
+    --border:        #d4dce8;      /* Bleu très pâle */
+    
+    /* Couleurs sémantiques */
+    --success:       #00897b;      /* Turquoise foncé */
+    --warning:       #e65100;      /* Orange foncé */
+    
+    /* Tableaux */
+    --table-header:  #eaf0f8;      /* Bleu très pâle */
+    --table-row-alt: #f5f8fc;      /* Alternance subtile */
+    
+    /* Couleurs d'arbres (Research) */
+    --growth-color:  #00897b;      /* Turquoise foncé */
+    --eco-color:     #c89020;      /* Or antique */
+    --battle-color:  #c62828;      /* Rouge brique */
+    
+    /* Composants Tree */
+    --box-bg:        #ffffff;
+    --box-header:    #eaf0f8;
+    --step-bg:       #f5f8fc;
+    --step-hover:    #e8eff7;
+    
+    /* Ombres */
+    --shadow:        rgba(30, 58, 95, 0.12);
 }
 
 
@@ -148,10 +164,12 @@ body.has-app-header {
 }
 
 .app-header-logo .logo-text {
-    background: linear-gradient(135deg, var(--accent), var(--success));
+    background: linear-gradient(135deg, var(--accent) 0%, #ffd76b 50%, var(--accent-hover) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 /* Navigation centrale */
@@ -181,11 +199,11 @@ body.has-app-header {
 }
 
 .nav-link.active {
-    background: var(--accent);
-    color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color: #0f1729;
     border-color: var(--accent);
     font-weight: bold;
-    box-shadow: 0 2px 6px rgba(187, 134, 252, 0.3);
+    box-shadow: 0 2px 12px rgba(245, 184, 64, 0.4);
 }
 
 .nav-link .nav-icon {
@@ -305,10 +323,12 @@ body.has-app-header.hub-body {
 .hub-header h1 {
     font-size: 3em;
     margin: 0 0 10px 0;
-    background: linear-gradient(135deg, var(--accent), var(--success));
+    background: linear-gradient(135deg, var(--accent) 0%, #ffd76b 50%, var(--success) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-shadow: 0 0 30px rgba(245, 184, 64, 0.2);
+    letter-spacing: 1px;
 }
 
 .hub-subtitle {
@@ -825,7 +845,7 @@ tbody tr:hover {
    ============================================================================ */
 
 .btn-reset {
-    background: #d32f2f;
+    background: linear-gradient(135deg, #e74c5c, #c0392b);
     color: white;
     border: none;
     padding: 8px 12px;
@@ -834,11 +854,14 @@ tbody tr:hover {
     font-weight: bold;
     font-size: 12px;
     margin-top: 10px;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(231, 76, 92, 0.3);
 }
 
 .btn-reset:hover {
-    background: #9a0007;
+    background: linear-gradient(135deg, #c0392b, #962820);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(231, 76, 92, 0.5);
 }
 
 
