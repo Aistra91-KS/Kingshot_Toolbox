@@ -352,7 +352,6 @@ body.has-app-header.hub-body {
     margin: 0 0 10px 0;
     background: linear-gradient(135deg, #d49820 0%, #f5b840 35%, #ffd76b 50%, #f5b840 65%, #d49820 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
     text-shadow: 0 0 40px rgba(245, 184, 64, 0.25);
     letter-spacing: 1px;
