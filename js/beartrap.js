@@ -5,6 +5,7 @@
 const i18nBearTrap = {
     FR: {
         titleParams: "Paramètres",
+        lblLang: "Langue",
         grpTroops: "Mes Troupes (T10/T11...)",
         lblInf: "Infanterie 🛡️",
         lblArc: "Archers 🏹",
@@ -35,11 +36,11 @@ const i18nBearTrap = {
         thCap: "Capacité Config",
         thTotal: "Total",
         txtGen: "Nombre de marches générées :",
-        txtRef: "Capacité théorique de référence (pour vos %) :",
-        titleParams: "Paramètres"
+        txtRef: "Capacité théorique de référence (pour vos %) :"
     },
     EN: {
         titleParams: "Settings",
+        lblLang: "Language",
         grpTroops: "My Troops (T10/T11...)",
         lblInf: "Infantry 🛡️",
         lblArc: "Archers 🏹",
@@ -70,8 +71,7 @@ const i18nBearTrap = {
         thCap: "Config Capacity",
         thTotal: "Total",
         txtGen: "Number of marches generated:",
-        txtRef: "Theoretical reference capacity (for your %):",
-        titleParams: "Settings"
+        txtRef: "Theoretical reference capacity (for your %):"
     }
 };
 
