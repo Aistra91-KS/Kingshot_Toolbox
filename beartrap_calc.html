@@ -185,21 +185,36 @@
                 </label>
             </div>
             
-            <div style="font-size: 12px; color: var(--accent); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border); line-height: 1.5;" id="modal-remaining-troops">
-                Disponibles : 🛡️ 0 | 🐎 0 | 🏹 0
+            <!-- Infos Capacité & Troupes -->
+            <div style="font-size: 12px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border); line-height: 1.6;">
+                <div style="color: var(--text-light); margin-bottom: 4px;">
+                    <span data-i18n="modalCap">Capacité de la marche :</span> <strong id="modal-max-cap" style="color: var(--accent);">0</strong>
+                </div>
+                <div id="modal-remaining-troops" style="color: var(--accent);">
+                    Disponibles : 🛡️ 0 | 🐎 0 | 🏹 0
+                </div>
             </div>
 
             <div class="control-row" style="margin-bottom: 10px;">
                 <label data-i18n="lblInf">Infanterie 🛡️</label>
-                <input type="text" id="cm-inf" class="formatted-number" value="0">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span id="cm-inf-conv" style="color: var(--text-muted); font-size: 13px;"></span>
+                    <input type="text" id="cm-inf" class="formatted-number" value="0">
+                </div>
             </div>
             <div class="control-row" style="margin-bottom: 10px;">
                 <label data-i18n="lblCav">Cavalerie 🐎</label>
-                <input type="text" id="cm-cav" class="formatted-number" value="0">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span id="cm-cav-conv" style="color: var(--text-muted); font-size: 13px;"></span>
+                    <input type="text" id="cm-cav" class="formatted-number" value="0">
+                </div>
             </div>
             <div class="control-row" style="margin-bottom: 20px;">
                 <label data-i18n="lblArc">Archers 🏹</label>
-                <input type="text" id="cm-arc" class="formatted-number" value="0">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span id="cm-arc-conv" style="color: var(--text-muted); font-size: 13px;"></span>
+                    <input type="text" id="cm-arc" class="formatted-number" value="0">
+                </div>
             </div>
             
             <div class="modal-actions">
