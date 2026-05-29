@@ -41,6 +41,7 @@ const i18nBearTrap = {
         btnAddCustom: "+ Créer une marche",
         modalTitle: "Nouvelle Marche",
         modalName: "Nom",
+        modalCap: "Capacité :",
         optNum: "Nombres",
         optPerc: "Pourcentage (%)",
         btnCancel: "Annuler",
@@ -87,6 +88,7 @@ const i18nBearTrap = {
         btnAddCustom: "+ Create a march",
         modalTitle: "New March",
         modalName: "Name",
+        modalCap: "Capacity:",
         optNum: "Numbers",
         optPerc: "Percentage (%)",
         btnCancel: "Cancel",
@@ -254,8 +256,12 @@ function getModalInputValues() {
 // Mise à jour de l'affichage en direct
 function updateModalLiveStats() {
     const { remInf, remCav, remArc } = getRemainingGlobalTroops();
-    const { rawInf, rawCav, rawArc, isExceeding } = getModalInputValues();
+    const { rawInf, rawCav, rawArc, isExceeding, maxCap } = getModalInputValues();
 
+    // 1. Mise à jour de la Capacité Max affichée
+    document.getElementById('modal-max-cap').textContent = maxCap.toLocaleString('fr-FR');
+
+    // 2. Mise à jour des troupes restantes
     const curRemInf = remInf - rawInf;
     const curRemCav = remCav - rawCav;
     const curRemArc = remArc - rawArc;
@@ -273,6 +279,31 @@ function updateModalLiveStats() {
     }
 
     label.innerHTML = html;
+
+    // 3. Mise à jour des conversions dynamiques (Gris clair)
+    const mode = document.querySelector('input[name="cm-input-mode"]:checked').value;
+    
+    const updateConv = (id, val, raw) => {
+        const span = document.getElementById(id + '-conv');
+        const inputVal = document.getElementById(id).value;
+        
+        // Si le champ est vide, on n'affiche rien
+        if (inputVal === '') {
+            span.textContent = '';
+            return;
+        }
+        
+        if (mode === 'number') {
+            let pct = maxCap > 0 ? Math.round((val / maxCap) * 100) : 0;
+            span.textContent = `${pct}%`;
+        } else {
+            span.textContent = `${raw.toLocaleString('fr-FR')}`;
+        }
+    };
+
+    updateConv('cm-inf', getRawNumber('cm-inf'), rawInf);
+    updateConv('cm-cav', getRawNumber('cm-cav'), rawCav);
+    updateConv('cm-arc', getRawNumber('cm-arc'), rawArc);
 }
 
 function getRemainingGlobalTroops() {
