@@ -19,6 +19,7 @@ const i18nBearTrap = {
         optPart: "Participant",
         optOrg: "Organisateur",
         lblLimit: "Plafond d'envoi",
+        plcLimit: "Illimité", // Traduction du Placeholder
         grpOpt: "Mode d'optimisation",
         lblMode: "Mode",
         optMin: "Seuils Mini",
@@ -52,6 +53,7 @@ const i18nBearTrap = {
         optPart: "Participant",
         optOrg: "Organizer",
         lblLimit: "Send Cap",
+        plcLimit: "Unlimited", // Traduction du Placeholder
         grpOpt: "Optimization Mode",
         lblMode: "Mode",
         optMin: "Min Thresholds",
@@ -72,11 +74,19 @@ const i18nBearTrap = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Activation des boutons de langue sur cette page
+    if (window.GlobalLang) {
+        GlobalLang.applyToButtons('lang-btn', (newLang) => {
+            applyTranslations(newLang);
+            calculateBearTrap(); // Recalcule pour traduire le tableau généré
+        });
+    }
+
     // Initialisation Langue
     applyTranslations(GlobalLang.get());
     window.addEventListener('langChanged', (e) => {
         applyTranslations(e.detail.lang);
-        calculateBearTrap(); // Recalculer pour traduire le tableau
+        calculateBearTrap(); 
     });
 
     // Formatage automatique des nombres (Séparateur de milliers)
@@ -115,9 +125,16 @@ document.addEventListener('DOMContentLoaded', () => {
 function applyTranslations(lang) {
     const dict = i18nBearTrap[lang] || i18nBearTrap.EN;
     
+    // Textes standards
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
+    });
+
+    // Placeholders (Les textes gris dans les cases vides)
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key]) el.placeholder = dict[key];
     });
 
     const roleSelect = document.getElementById('player-role');
@@ -140,7 +157,7 @@ function formatInputNumber(e) {
         e.target.value = '';
         return;
     }
-    // Formate avec les espaces (fr-FR gère très bien ça)
+    // Formate avec les espaces
     e.target.value = parseInt(val, 10).toLocaleString('fr-FR');
 }
 
@@ -148,7 +165,6 @@ function formatInputNumber(e) {
 function getRawNumber(id) {
     const el = document.getElementById(id);
     if (!el || !el.value) return 0;
-    // On enlève les espaces normaux et les espaces insécables
     const cleanStr = el.value.toString().replace(/\s/g, '').replace(/ /g, '');
     return parseInt(cleanStr, 10) || 0;
 }
@@ -195,7 +211,6 @@ function loadBearTrapData() {
 // ========================================
 
 function calculateBearTrap() {
-    // Utilisation de notre nouvelle fonction getRawNumber !
     let availableInf = getRawNumber('troop-inf');
     let availableArc = getRawNumber('troop-arc');
     let availableCav = getRawNumber('troop-cav');
