@@ -1,70 +1,68 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bear Trap Optimizer - Hub-Kingshot</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
 <body>
+    <!-- SIDEBAR : Formulaire de saisie -->
     <aside class="sidebar">
-        <h2 style="color: var(--accent); margin-top: 0;">Paramètres</h2>
+        <h2 data-i18n="titleParams" style="color: var(--accent); margin-top: 0;">Paramètres</h2>
         
+        <!-- Bloc 1 : Troupes -->
         <div class="control-group">
-            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mes Troupes (T10/T11...)</h3>
+            <h3 data-i18n="grpTroops" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mes Troupes (T10/T11...)</h3>
             <div class="control-row">
-                <label>Infanterie 🛡️</label>
-                <input type="number" id="troop-inf" min="0" value="0" placeholder="Ex: 150000">
+                <label data-i18n="lblInf">Infanterie 🛡️</label>
+                <!-- type="text" pour enlever les flèches et autoriser les espaces -->
+                <input type="text" id="troop-inf" class="formatted-number" value="0">
             </div>
             <div class="control-row">
-                <label>Archers 🏹</label>
-                <input type="number" id="troop-arc" min="0" value="0" placeholder="Ex: 400000">
+                <label data-i18n="lblArc">Archers 🏹</label>
+                <input type="text" id="troop-arc" class="formatted-number" value="0">
             </div>
             <div class="control-row">
-                <label>Cavalerie 🐎</label>
-                <input type="number" id="troop-cav" min="0" value="0" placeholder="Ex: 200000">
+                <label data-i18n="lblCav">Cavalerie 🐎</label>
+                <input type="text" id="troop-cav" class="formatted-number" value="0">
             </div>
         </div>
 
+        <!-- Bloc 2 : Capacité de marche -->
         <div class="control-group">
-            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Ma Capacité</h3>
+            <h3 data-i18n="grpCap" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Ma Capacité</h3>
             <div class="control-row">
-                <label>Capacité de base</label>
-                <input type="number" id="cap-base" min="0" value="120000">
+                <label data-i18n="lblBase">Capacité de base</label>
+                <input type="text" id="cap-base" class="formatted-number" value="120 000">
             </div>
             <div class="control-row">
-                <label>Bonus Expert</label>
-                <input type="number" id="cap-expert" min="0" value="0">
+                <label data-i18n="lblExp">Bonus Expert</label>
+                <input type="text" id="cap-expert" class="formatted-number" value="0">
             </div>
             <div class="control-row">
-                <label>Bonus Animal</label>
-                <input type="number" id="cap-animal" min="0" value="0">
+                <label data-i18n="lblAni">Bonus Animal</label>
+                <input type="text" id="cap-animal" class="formatted-number" value="0">
             </div>
             <div class="control-row">
-                <label>Nb de marches max</label>
-                <input type="number" id="marches-count" min="1" max="7" value="5">
+                <label data-i18n="lblMaxM">Nb de marches max</label>
+                <input type="text" id="marches-count" class="formatted-number" value="5">
             </div>
         </div>
 
+        <!-- Bloc 3 : Statut et Limites -->
         <div class="control-group">
-            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Organisation</h3>
+            <h3 data-i18n="grpOrg" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Organisation</h3>
             <div class="control-row">
-                <label>Rôle</label>
+                <label data-i18n="lblRole">Rôle</label>
                 <select id="player-role" class="table-select" style="width: 120px;">
                     <option value="participant">Participant</option>
                     <option value="organizer">Organisateur</option>
                 </select>
             </div>
             <div class="control-row">
-                <label title="Limite imposée par l'alliance">Plafond d'envoi</label>
-                <input type="number" id="alliance-limit" min="0" placeholder="Illimité">
+                <label data-i18n="lblLimit" title="Limite imposée par l'alliance">Plafond d'envoi</label>
+                <input type="text" id="alliance-limit" class="formatted-number">
             </div>
         </div>
 
+        <!-- Bloc 4 : Optimisation -->
         <div class="control-group">
-            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mode d'optimisation</h3>
+            <h3 data-i18n="grpOpt" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mode d'optimisation</h3>
             <div class="control-row">
-                <label>Mode</label>
+                <label data-i18n="lblMode">Mode</label>
                 <select id="optim-mode" class="table-select" style="width: 120px;">
                     <option value="threshold">Seuils Mini</option>
                     <option value="formula">Formule (Bientôt)</option>
@@ -72,36 +70,35 @@
             </div>
             <div id="threshold-inputs">
                 <div class="control-row" style="margin-top: 10px;">
-                    <label>Infanterie min (%)</label>
-                    <input type="number" id="min-inf-percent" min="0" max="100" value="10">
+                    <label data-i18n="lblMinInf">Infanterie min (%)</label>
+                    <input type="text" id="min-inf-percent" class="formatted-number" value="10">
                 </div>
                 <div class="control-row" style="margin-top: 10px;">
-                    <label>Cavalerie min (%)</label>
-                    <input type="number" id="min-cav-percent" min="0" max="100" value="10">
+                    <label data-i18n="lblMinCav">Cavalerie min (%)</label>
+                    <input type="text" id="min-cav-percent" class="formatted-number" value="10">
                 </div>
             </div>
         </div>
 
-        <button id="btn-calculate" class="btn-reset" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 14px;">
+        <button id="btn-calculate" class="btn-reset" data-i18n="btnCalc" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 14px;">
             Calculer les marches
         </button>
     </aside>
 
+    <!-- MAIN CONTENT : Affichage des résultats -->
     <main class="main-content flow">
         <div class="panel">
-            <h2 style="color: var(--accent); margin-top: 0;">Plan de déploiement</h2>
-            <p style="color: var(--text-muted); font-size: 14px;">
+            <h2 data-i18n="planTitle" style="color: var(--accent); margin-top: 0;">Plan de déploiement</h2>
+            <p data-i18n="planDesc" style="color: var(--text-muted); font-size: 14px;">
                 Remplissez vos paramètres à gauche et cliquez sur Calculer pour générer vos formations de marches optimales.
             </p>
             
-            <div id="result-area" class="table-container" style="margin-top: 20px; display: none;">
-                </div>
+            <div id="result-area" class="table-container" style="margin-top: 20px; display: none;"></div>
         </div>
     </main>
 
+    <!-- Scripts partagés -->
     <script src="js/lang.js"></script>
     <script src="js/header.js"></script>
     <script src="js/beartrap.js"></script>
-    
-    </body>
-</html>
+</body>
