@@ -151,10 +151,56 @@
             <p data-i18n="planDesc" style="color: var(--text-muted); font-size: 14px;">
                 Remplissez vos paramètres à gauche et cliquez sur Calculer pour générer vos formations de marches optimales.
             </p>
+            <!-- NOUVEAU : Studio de Déploiement -->
+            <div id="deployment-studio" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px;">
+                <div class="studio-header">
+                    <h3 data-i18n="studioTitle" style="margin: 0; font-size: 16px; color: var(--accent);">Marches d'Élite Personnalisées</h3>
+                    <span id="remaining-marches-badge" style="font-size: 12px; color: var(--text-muted); font-weight: bold;">0 / 5 utilisées</span>
+                </div>
+                <div id="custom-marches-list">
+                    <!-- Les cartes apparaîtront ici via Javascript -->
+                </div>
+                <button class="btn-add" id="btn-add-custom" data-i18n="btnAddCustom">+ Créer une marche d'élite</button>
+            </div>
             
             <div id="result-area" class="table-container" style="margin-top: 20px; display: none;"></div>
         </div>
     </main>
+
+    <!-- NOUVEAU : Fenêtre Pop-up Création de Marche -->
+    <div class="modal-overlay" id="custom-march-modal">
+        <div class="modal-content">
+            <h3 data-i18n="modalTitle" style="margin-top: 0; color: var(--accent);">Nouvelle Marche d'Élite</h3>
+            
+            <div class="control-row" style="margin-bottom: 15px;">
+                <label data-i18n="modalName">Nom</label>
+                <input type="text" id="cm-name" style="background: var(--input-bg); border: 1px solid var(--border); color: var(--text-light); padding: 6px; border-radius: 4px; width: 140px; outline: none;" placeholder="Ex: Rally Zeus">
+            </div>
+            
+            <!-- Compteur dynamique des troupes restantes -->
+            <div style="font-size: 12px; color: var(--accent); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border);" id="modal-remaining-troops">
+                Disponibles : 🛡️ 0 | 🐎 0 | 🏹 0
+            </div>
+
+            <div class="control-row" style="margin-bottom: 10px;">
+                <label data-i18n="lblInf">Infanterie 🛡️</label>
+                <input type="text" id="cm-inf" class="formatted-number" value="0">
+            </div>
+            <div class="control-row" style="margin-bottom: 10px;">
+                <label data-i18n="lblCav">Cavalerie 🐎</label>
+                <input type="text" id="cm-cav" class="formatted-number" value="0">
+            </div>
+            <div class="control-row" style="margin-bottom: 20px;">
+                <label data-i18n="lblArc">Archers 🏹</label>
+                <input type="text" id="cm-arc" class="formatted-number" value="0">
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn-reset" id="btn-cancel-cm" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); box-shadow: none;" data-i18n="btnCancel">Annuler</button>
+                <button class="btn-reset" id="btn-save-cm" style="background: var(--accent); color: #000;" data-i18n="btnSave">Enregistrer</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts partagés -->
     <script src="js/lang.js"></script>
