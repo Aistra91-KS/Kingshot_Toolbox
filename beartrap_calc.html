@@ -27,6 +27,22 @@
             color: var(--text-muted);
             opacity: 0.7;
         }
+
+        /* --- NOUVEAU : Styles pour le Studio de Déploiement --- */
+        .studio-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px; }
+        .custom-march-card { background: var(--control-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 10px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .custom-march-stats { display: flex; gap: 15px; font-size: 13px; color: var(--text-muted); }
+        .custom-march-stats span { color: var(--text-light); font-weight: bold; }
+        .btn-delete { background: rgba(231, 76, 92, 0.1); color: #e74c5c; border: 1px solid rgba(231, 76, 92, 0.3); padding: 4px 8px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+        .btn-delete:hover { background: #e74c5c; color: #fff; }
+        .btn-add { background: transparent; border: 1px dashed var(--accent); color: var(--accent); padding: 8px 15px; border-radius: 4px; cursor: pointer; width: 100%; transition: all 0.2s; font-weight: bold; }
+        .btn-add:hover { background: rgba(245, 184, 64, 0.1); }
+        
+        /* Modal (Pop-up) */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(3px); }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: var(--bg-panel); border: 1px solid var(--border); padding: 20px; border-radius: 8px; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
         
     </style>
 </head>
