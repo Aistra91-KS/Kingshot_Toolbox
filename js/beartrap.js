@@ -358,10 +358,29 @@ function renderCustomMarches() {
                     <div>🏹 <span style="color: var(--accent);">${march.arc.toLocaleString('fr-FR')}</span> <span style="color: var(--accent); font-size: 0.85em; font-weight: normal; opacity: 0.8;">(${pArc}%)</span></div>
                 </div>
             </div>
-            <button class="btn-delete" onclick="deleteCustomMarch(${march.id})">🗑️</button>
+            <!-- On enlève le onclick et on ajoute un data-id -->
+            <button type="button" class="btn-delete" data-id="${march.id}">🗑️</button>
         `;
         container.appendChild(div);
     });
+
+    // ÉCOUTEUR D'ÉVÉNEMENT FIABLE : On attache le clic manuellement à chaque bouton généré
+    const deleteButtons = container.querySelectorAll('.btn-delete');
+    deleteButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const marchId = parseInt(this.getAttribute('data-id'), 10);
+            deleteCustomMarch(marchId);
+        });
+    });
+}
+
+// La fonction de suppression redevient une fonction classique
+function deleteCustomMarch(id) {
+    customMarchesList = customMarchesList.filter(m => m.id !== id);
+    saveBearTrapData();
+    renderCustomMarches();
+    updateStudioBadge();
+    calculateBearTrap();
 }
 
 // ========================================
