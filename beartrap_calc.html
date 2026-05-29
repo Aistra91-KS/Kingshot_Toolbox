@@ -28,17 +28,6 @@
             opacity: 0.7;
         }
         
-        /* Style pour le bloc de changement de langue de la sidebar */
-        .local-lang-switch {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            background: var(--bg-panel);
-            padding: 5px;
-            border-radius: 25px;
-            border: 1px solid var(--border);
-            margin-bottom: 15px;
-        }
     </style>
 </head>
 <body>
@@ -47,9 +36,14 @@
         <h2 data-i18n="titleParams" style="color: var(--accent); margin-top: 0;">Paramètres</h2>
         
         <!-- NOUVEAU : Bloc Langue dédié -->
-        <div class="local-lang-switch">
-            <button class="lang-btn active" data-lang="FR">FR</button>
-            <button class="lang-btn" data-lang="EN">EN</button>
+        <div class="control-group">
+            <div class="control-row">
+                <label data-i18n="lblLang">Langue</label>
+                <select id="lang-select" class="table-select" style="width: 80px;">
+                    <option value="FR">FR</option>
+                    <option value="EN">EN</option>
+                </select>
+            </div>
         </div>
         
         <!-- Bloc 1 : Troupes (Ordre modifié : Inf > Cav > Arc) -->
