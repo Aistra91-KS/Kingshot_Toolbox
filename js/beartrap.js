@@ -35,7 +35,8 @@ const i18nBearTrap = {
         thCap: "Capacité Config",
         thTotal: "Total",
         txtGen: "Nombre de marches générées :",
-        txtRef: "Capacité théorique de référence (pour vos %) :"
+        txtRef: "Capacité théorique de référence (pour vos %) :",
+        titleParams: "Paramètres"
     },
     EN: {
         titleParams: "Settings",
@@ -69,17 +70,15 @@ const i18nBearTrap = {
         thCap: "Config Capacity",
         thTotal: "Total",
         txtGen: "Number of marches generated:",
-        txtRef: "Theoretical reference capacity (for your %):"
+        txtRef: "Theoretical reference capacity (for your %):",
+        titleParams: "Settings"
     }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     // Activation des boutons de langue sur cette page
     if (window.GlobalLang) {
-        GlobalLang.applyToButtons('lang-btn', (newLang) => {
-            applyTranslations(newLang);
-            calculateBearTrap(); // Recalcule pour traduire le tableau généré
-        });
+        GlobalLang.applyToSelect('lang-select');
     }
 
     // Initialisation Langue
