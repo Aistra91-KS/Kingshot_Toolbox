@@ -13,7 +13,7 @@ const i18nHub = {
         soonDesc: "De nouveaux outils arrivent prochainement. Restez connectés !",
         open: "Ouvrir →",
         comingSoon: "À venir...",
-        madeWith: "Fait par",,
+        madeWith: "Fait par",
         beartrapDesc: "Optimisez vos ralliements pour le Bear Trap. Calculez la répartition parfaite de vos marches."
     },
     EN: {
