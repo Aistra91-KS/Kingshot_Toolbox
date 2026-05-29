@@ -336,7 +336,16 @@ function renderCustomMarches() {
     const container = document.getElementById('custom-marches-list');
     container.innerHTML = '';
 
+    // On récupère la capacité théorique pour calculer les pourcentages
+    let theoreticalCapacity = getRawNumber('cap-base') + getRawNumber('cap-expert') + getRawNumber('cap-animal');
+    if (theoreticalCapacity === 0) theoreticalCapacity = 1; // Sécurité division par zéro
+
     customMarchesList.forEach(march => {
+        // Calcul des pourcentages
+        let pInf = Math.round((march.inf / theoreticalCapacity) * 100) || 0;
+        let pCav = Math.round((march.cav / theoreticalCapacity) * 100) || 0;
+        let pArc = Math.round((march.arc / theoreticalCapacity) * 100) || 0;
+
         const div = document.createElement('div');
         div.className = 'custom-march-card';
         div.innerHTML = `
@@ -344,9 +353,9 @@ function renderCustomMarches() {
                 <strong style="color: var(--accent); display: block; margin-bottom: 5px;">${march.name}</strong>
                 <div class="custom-march-stats">
                     <div>Total: <span>${march.total.toLocaleString('fr-FR')}</span></div>
-                    <div>🛡️ <span>${march.inf.toLocaleString('fr-FR')}</span></div>
-                    <div>🐎 <span>${march.cav.toLocaleString('fr-FR')}</span></div>
-                    <div>🏹 <span>${march.arc.toLocaleString('fr-FR')}</span></div>
+                    <div>🛡️ <span>${march.inf.toLocaleString('fr-FR')}</span> <span style="color: var(--text-muted); font-size: 0.85em; font-weight: normal;">(${pInf}%)</span></div>
+                    <div>🐎 <span>${march.cav.toLocaleString('fr-FR')}</span> <span style="color: var(--text-muted); font-size: 0.85em; font-weight: normal;">(${pCav}%)</span></div>
+                    <div>🏹 <span style="color: var(--accent);">${march.arc.toLocaleString('fr-FR')}</span> <span style="color: var(--accent); font-size: 0.85em; font-weight: normal; opacity: 0.8;">(${pArc}%)</span></div>
                 </div>
             </div>
             <button class="btn-delete" onclick="deleteCustomMarch(${march.id})">🗑️</button>
@@ -354,14 +363,6 @@ function renderCustomMarches() {
         container.appendChild(div);
     });
 }
-
-window.deleteCustomMarch = function(id) {
-    customMarchesList = customMarchesList.filter(m => m.id !== id);
-    saveBearTrapData();
-    renderCustomMarches();
-    updateStudioBadge();
-    calculateBearTrap();
-};
 
 // ========================================
 // TRADUCTION & FORMATAGE
