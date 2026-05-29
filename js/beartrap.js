@@ -20,23 +20,32 @@ const i18nBearTrap = {
         optPart: "Participant",
         optOrg: "Organisateur",
         lblLimit: "Plafond d'envoi",
-        plcLimit: "Illimité", // Traduction du Placeholder
+        plcLimit: "Illimité", 
         grpOpt: "Mode d'optimisation",
         lblMode: "Mode",
         optMin: "Seuils Mini",
         optForm: "Formule (Bientôt)",
         lblMinInf: "Infanterie min (%)",
         lblMinCav: "Cavalerie min (%)",
-        btnCalc: "Calculer les marches",
+        btnCalc: "Générer le reste des marches",
         planTitle: "Plan de déploiement",
-        planDesc: "Remplissez vos paramètres à gauche et cliquez sur Calculer pour générer vos formations de marches optimales.",
+        planDesc: "Préparez vos marches d'élite puis générez automatiquement le reste de vos troupes.",
         errCap: "Votre capacité de marche doit être supérieure à 0.",
-        noTroops: "Vous n'avez aucune troupe à déployer.",
+        noTroops: "Vous n'avez aucune troupe restante à déployer.",
         thMarch: "Marche",
         thCap: "Capacité Config",
         thTotal: "Total",
-        txtGen: "Nombre de marches générées :",
-        txtRef: "Capacité théorique de référence (pour vos %) :"
+        txtGen: "Nombre de marches générées (hors élite) :",
+        txtRef: "Capacité théorique de référence (pour vos %) :",
+        // Nouveaux textes du Studio
+        studioTitle: "Marches d'Élite Personnalisées",
+        btnAddCustom: "+ Créer une marche d'élite",
+        modalTitle: "Nouvelle Marche d'Élite",
+        modalName: "Nom",
+        btnCancel: "Annuler",
+        btnSave: "Enregistrer",
+        errMaxMarches: "Vous avez atteint votre nombre maximum de marches.",
+        errNoTroopsForElite: "Pas assez de troupes disponibles pour cette configuration !"
     },
     EN: {
         titleParams: "Settings",
@@ -55,67 +64,201 @@ const i18nBearTrap = {
         optPart: "Participant",
         optOrg: "Organizer",
         lblLimit: "Send Cap",
-        plcLimit: "Unlimited", // Traduction du Placeholder
+        plcLimit: "Unlimited", 
         grpOpt: "Optimization Mode",
         lblMode: "Mode",
         optMin: "Min Thresholds",
         optForm: "Formula (Soon)",
         lblMinInf: "Min Infantry (%)",
         lblMinCav: "Min Cavalry (%)",
-        btnCalc: "Calculate Marches",
+        btnCalc: "Generate remaining marches",
         planTitle: "Deployment Plan",
-        planDesc: "Fill in your settings on the left and click Calculate to generate your optimal march formations.",
+        planDesc: "Prepare your elite marches then automatically generate the rest of your troops.",
         errCap: "Your march capacity must be greater than 0.",
-        noTroops: "You have no troops to deploy.",
+        noTroops: "You have no remaining troops to deploy.",
         thMarch: "March",
         thCap: "Config Capacity",
         thTotal: "Total",
-        txtGen: "Number of marches generated:",
-        txtRef: "Theoretical reference capacity (for your %):"
+        txtGen: "Number of marches generated (excluding elite):",
+        txtRef: "Theoretical reference capacity (for your %):",
+        // Nouveaux textes du Studio
+        studioTitle: "Custom Elite Marches",
+        btnAddCustom: "+ Create an elite march",
+        modalTitle: "New Elite March",
+        modalName: "Name",
+        btnCancel: "Cancel",
+        btnSave: "Save",
+        errMaxMarches: "You have reached your maximum number of marches.",
+        errNoTroopsForElite: "Not enough troops available for this configuration!"
     }
 };
 
+// Variable globale pour stocker les marches d'élite
+let customMarchesList = [];
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Activation des boutons de langue sur cette page
     if (window.GlobalLang) {
         GlobalLang.applyToSelect('lang-select');
     }
 
-    // Initialisation Langue
     applyTranslations(GlobalLang.get());
     window.addEventListener('langChanged', (e) => {
         applyTranslations(e.detail.lang);
+        renderCustomMarches();
         calculateBearTrap(); 
     });
 
-    // Formatage automatique des nombres (Séparateur de milliers)
     const numberInputs = document.querySelectorAll('.formatted-number');
     numberInputs.forEach(input => {
         input.addEventListener('input', formatInputNumber);
-        input.addEventListener('change', saveBearTrapData); // Sauvegarde auto
+        if (!input.id.startsWith('cm-')) {
+            input.addEventListener('change', () => {
+                saveBearTrapData();
+                updateStudioBadge();
+            });
+        }
     });
 
-    // Écouteurs divers
     const btnCalculate = document.getElementById('btn-calculate');
     if (btnCalculate) btnCalculate.addEventListener('click', () => { saveBearTrapData(); calculateBearTrap(); });
 
-    const optimMode = document.getElementById('optim-mode');
-    const thresholdInputs = document.getElementById('threshold-inputs');
-    if (optimMode && thresholdInputs) {
-        optimMode.addEventListener('change', (e) => {
-            thresholdInputs.style.display = e.target.value === 'threshold' ? 'block' : 'none';
-        });
-    }
-
-    document.getElementById('player-role').addEventListener('change', saveBearTrapData);
+    document.getElementById('player-role').addEventListener('change', () => { saveBearTrapData(); updateStudioBadge(); });
     document.getElementById('optim-mode').addEventListener('change', saveBearTrapData);
 
-    // Démarrage
+    // Initialisation du Studio (Boutons Pop-up)
+    initStudioModal();
+
     loadBearTrapData();
+    updateStudioBadge();
+    
     if (getRawNumber('troop-inf') > 0 || getRawNumber('troop-arc') > 0 || getRawNumber('troop-cav') > 0) {
         calculateBearTrap();
     }
 });
+
+// ========================================
+// STUDIO DE DÉPLOIEMENT (Marches d'élite)
+// ========================================
+
+function initStudioModal() {
+    const modal = document.getElementById('custom-march-modal');
+    const btnAdd = document.getElementById('btn-add-custom');
+    const btnCancel = document.getElementById('btn-cancel-cm');
+    const btnSave = document.getElementById('btn-save-cm');
+
+    btnAdd.addEventListener('click', () => {
+        const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
+        const maxMarches = getTotalMarchesAllowed();
+        if (customMarchesList.length >= maxMarches) {
+            alert(dict.errMaxMarches);
+            return;
+        }
+
+        // Réinitialiser les champs de la modale
+        document.getElementById('cm-name').value = '';
+        document.getElementById('cm-inf').value = '0';
+        document.getElementById('cm-cav').value = '0';
+        document.getElementById('cm-arc').value = '0';
+        
+        updateModalRemainingTroops();
+        modal.classList.add('active');
+    });
+
+    btnCancel.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+
+    btnSave.addEventListener('click', () => {
+        const name = document.getElementById('cm-name').value || "Elite Rally";
+        const inf = getRawNumber('cm-inf');
+        const cav = getRawNumber('cm-cav');
+        const arc = getRawNumber('cm-arc');
+        const total = inf + cav + arc;
+
+        if (total === 0) return; // Ne pas sauvegarder de marche vide
+
+        const { remInf, remCav, remArc } = getRemainingGlobalTroops();
+        const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
+
+        if (inf > remInf || cav > remCav || arc > remArc) {
+            alert(dict.errNoTroopsForElite);
+            return;
+        }
+
+        customMarchesList.push({ id: Date.now(), name, inf, cav, arc, total });
+        saveBearTrapData();
+        renderCustomMarches();
+        updateStudioBadge();
+        modal.classList.remove('active');
+        calculateBearTrap(); // Recalcule la table finale avec les nouvelles données
+    });
+}
+
+function updateModalRemainingTroops() {
+    const { remInf, remCav, remArc } = getRemainingGlobalTroops();
+    const label = document.getElementById('modal-remaining-troops');
+    label.innerHTML = `Disponibles : 🛡️ ${remInf.toLocaleString('fr-FR')} | 🐎 ${remCav.toLocaleString('fr-FR')} | 🏹 ${remArc.toLocaleString('fr-FR')}`;
+}
+
+// Calculer ce qu'il reste dans l'inventaire en soustrayant les marches d'élite existantes
+function getRemainingGlobalTroops() {
+    let remInf = getRawNumber('troop-inf');
+    let remCav = getRawNumber('troop-cav');
+    let remArc = getRawNumber('troop-arc');
+
+    customMarchesList.forEach(m => {
+        remInf -= m.inf;
+        remCav -= m.cav;
+        remArc -= m.arc;
+    });
+
+    return { remInf, remCav, remArc };
+}
+
+function getTotalMarchesAllowed() {
+    let marchesCount = getRawNumber('marches-count');
+    if (marchesCount === 0) marchesCount = 1;
+    if (document.getElementById('player-role').value === 'organizer') marchesCount += 1;
+    return marchesCount;
+}
+
+function updateStudioBadge() {
+    const badge = document.getElementById('remaining-marches-badge');
+    const maxMarches = getTotalMarchesAllowed();
+    badge.textContent = `${customMarchesList.length} / ${maxMarches} utilisées`;
+}
+
+function renderCustomMarches() {
+    const container = document.getElementById('custom-marches-list');
+    container.innerHTML = '';
+
+    customMarchesList.forEach(march => {
+        const div = document.createElement('div');
+        div.className = 'custom-march-card';
+        div.innerHTML = `
+            <div>
+                <strong style="color: var(--accent); display: block; margin-bottom: 5px;">${march.name}</strong>
+                <div class="custom-march-stats">
+                    <div>Total: <span>${march.total.toLocaleString('fr-FR')}</span></div>
+                    <div>🛡️ <span>${march.inf.toLocaleString('fr-FR')}</span></div>
+                    <div>🐎 <span>${march.cav.toLocaleString('fr-FR')}</span></div>
+                    <div>🏹 <span>${march.arc.toLocaleString('fr-FR')}</span></div>
+                </div>
+            </div>
+            <button class="btn-delete" onclick="deleteCustomMarch(${march.id})">🗑️</button>
+        `;
+        container.appendChild(div);
+    });
+}
+
+// Fonction globale appelée par le bouton poubelle
+window.deleteCustomMarch = function(id) {
+    customMarchesList = customMarchesList.filter(m => m.id !== id);
+    saveBearTrapData();
+    renderCustomMarches();
+    updateStudioBadge();
+    calculateBearTrap();
+};
 
 // ========================================
 // TRADUCTION & FORMATAGE
@@ -124,13 +267,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function applyTranslations(lang) {
     const dict = i18nBearTrap[lang] || i18nBearTrap.EN;
     
-    // Textes standards
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) el.textContent = dict[key];
     });
 
-    // Placeholders (Les textes gris dans les cases vides)
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         const key = el.getAttribute('data-i18n-placeholder');
         if (dict[key]) el.placeholder = dict[key];
@@ -150,17 +291,14 @@ function applyTranslations(lang) {
 }
 
 function formatInputNumber(e) {
-    // Enlève tout ce qui n'est pas un chiffre
     let val = e.target.value.replace(/\D/g, ''); 
     if (val === '') {
         e.target.value = '';
         return;
     }
-    // Formate avec les espaces
     e.target.value = parseInt(val, 10).toLocaleString('fr-FR');
 }
 
-// Transforme "120 000" en vrai chiffre 120000 pour les calculs
 function getRawNumber(id) {
     const el = document.getElementById(id);
     if (!el || !el.value) return 0;
@@ -185,6 +323,9 @@ function saveBearTrapData() {
     data['player-role'] = document.getElementById('player-role').value;
     data['optim-mode'] = document.getElementById('optim-mode').value;
     
+    // Sauvegarde des marches d'élite
+    data['custom-marches'] = customMarchesList;
+
     localStorage.setItem('beartrap_data', JSON.stringify(data));
 }
 
@@ -196,6 +337,11 @@ function loadBearTrapData() {
             const el = document.getElementById(id);
             if (el) el.value = val;
         }
+
+        if (data['custom-marches']) {
+            customMarchesList = data['custom-marches'];
+            renderCustomMarches();
+        }
         
         const optimMode = document.getElementById('optim-mode');
         const thresholdInputs = document.getElementById('threshold-inputs');
@@ -206,22 +352,25 @@ function loadBearTrapData() {
 }
 
 // ========================================
-// MOTEUR DE CALCUL
+// MOTEUR DE CALCUL (Marches automatiques)
 // ========================================
 
 function calculateBearTrap() {
-    let availableInf = getRawNumber('troop-inf');
-    let availableArc = getRawNumber('troop-arc');
-    let availableCav = getRawNumber('troop-cav');
+    const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
+
+    // 1. Récupérer les troupes restantes APRES déduction des marches d'élite
+    let { remInf, remCav, remArc } = getRemainingGlobalTroops();
+    let availableInf = Math.max(0, remInf);
+    let availableCav = Math.max(0, remCav);
+    let availableArc = Math.max(0, remArc);
 
     const capBase = getRawNumber('cap-base');
     const capExpert = getRawNumber('cap-expert');
     const capAnimal = getRawNumber('cap-animal');
-    let marchesCount = getRawNumber('marches-count');
-    if (marchesCount === 0) marchesCount = 1;
     
-    const playerRole = document.getElementById('player-role').value;
-    if (playerRole === 'organizer') marchesCount += 1;
+    // 2. Calculer le nombre de marches qu'il reste à générer automatiquement
+    const totalMarchesAllowed = getTotalMarchesAllowed();
+    let marchesCount = totalMarchesAllowed - customMarchesList.length;
 
     const limitStr = document.getElementById('alliance-limit').value;
     const allianceLimit = limitStr ? getRawNumber('alliance-limit') : Infinity;
@@ -232,8 +381,6 @@ function calculateBearTrap() {
     let theoreticalCapacity = capBase + capExpert + capAnimal;
     let maxMarchCapacity = Math.min(theoreticalCapacity, allianceLimit);
 
-    const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
-
     if (maxMarchCapacity <= 0) {
         alert(dict.errCap);
         return;
@@ -241,11 +388,12 @@ function calculateBearTrap() {
 
     let marches = [];
     
-    if (availableInf + availableArc + availableCav === 0) {
+    if (availableInf + availableArc + availableCav === 0 || marchesCount <= 0) {
         displayResults([], maxMarchCapacity, marchesCount, theoreticalCapacity, dict);
         return;
     }
 
+    // --- ALGORITHME DE RÉPARTITION SUR LES MARCHES RESTANTES ---
     let fairInf = Math.floor(availableInf / marchesCount);
     let fairArc = Math.floor(availableArc / marchesCount);
     let fairCav = Math.floor(availableCav / marchesCount);
@@ -277,18 +425,21 @@ function calculateBearTrap() {
 
     let mTotal = mInf + mArc + mCav;
 
+    // L'ID des marches auto commence après le nombre de marches d'élite créées
+    let startId = customMarchesList.length + 1;
     for (let i = 0; i < marchesCount; i++) {
-        marches.push({ id: i + 1, inf: mInf, arc: mArc, cav: mCav, total: mTotal });
+        marches.push({ id: startId + i, inf: mInf, arc: mArc, cav: mCav, total: mTotal });
     }
 
     displayResults(marches, maxMarchCapacity, marchesCount, theoreticalCapacity, dict);
 }
 
-function displayResults(marches, maxCapacity, totalMarches, theoreticalCapacity, dict) {
+function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalCapacity, dict) {
     const resultArea = document.getElementById('result-area');
     
     if (marches.length === 0 || marches[0].total === 0) {
-        resultArea.innerHTML = `<p style='color: var(--text-muted);'>${dict.noTroops}</p>`;
+        // C'est normal de ne rien générer si l'utilisateur a tout mis dans ses élites
+        resultArea.innerHTML = `<p style='color: var(--text-muted); padding: 15px; border-radius: 6px; border: 1px dashed var(--border);'>${dict.noTroops}</p>`;
         resultArea.style.display = 'block';
         return;
     }
@@ -297,7 +448,7 @@ function displayResults(marches, maxCapacity, totalMarches, theoreticalCapacity,
         <table class="styled-table" style="width: 100%; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th style="text-align: left; padding: 10px; border-bottom: 2px solid var(--accent);">${dict.thMarch}</th>
+                    <th style="text-align: left; padding: 10px; border-bottom: 2px solid var(--accent);">${dict.thMarch} (Auto)</th>
                     <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent); color: var(--text-muted);">${dict.thCap}</th>
                     <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent);">${dict.lblInf}</th>
                     <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent);">${dict.lblCav}</th>
@@ -340,7 +491,7 @@ function displayResults(marches, maxCapacity, totalMarches, theoreticalCapacity,
             </tbody>
         </table>
         <div style="margin-top: 15px; font-size: 13px; color: var(--text-muted);">
-            ${dict.txtGen} <strong>${totalMarches}</strong><br>
+            ${dict.txtGen} <strong>${autoMarchesGenerated}</strong><br>
             ${dict.txtRef} <strong>${theoreticalCapacity.toLocaleString('fr-FR')}</strong>
         </div>
     `;
