@@ -4,20 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bear Trap Optimizer - Hub-Kingshot</title>
-    <!-- Le lien vers le CSS (avec le bon dossier js/) -->
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Correction visuelle : on redonne l'apparence des nombres aux champs texte */
+        input[type="text"].formatted-number {
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 6px;
+            border-radius: 4px;
+            width: 90px;
+            text-align: right;
+            outline: none;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        input[type="text"].formatted-number:focus {
+            border-color: var(--accent);
+        }
+        input[type="text"].formatted-number::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+        
+        /* Style pour le bloc de changement de langue de la sidebar */
+        .local-lang-switch {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            background: var(--bg-panel);
+            padding: 5px;
+            border-radius: 25px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     <!-- SIDEBAR : Formulaire de saisie -->
     <aside class="sidebar">
         <h2 data-i18n="titleParams" style="color: var(--accent); margin-top: 0;">Paramètres</h2>
         
-        <!-- Bloc 1 : Troupes -->
+        <!-- NOUVEAU : Bloc Langue dédié -->
+        <div class="local-lang-switch">
+            <button class="lang-btn active" data-lang="FR">FR</button>
+            <button class="lang-btn" data-lang="EN">EN</button>
+        </div>
+        
+        <!-- Bloc 1 : Troupes (Ordre modifié : Inf > Cav > Arc) -->
         <div class="control-group">
             <h3 data-i18n="grpTroops" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mes Troupes (T10/T11...)</h3>
             <div class="control-row">
                 <label data-i18n="lblInf">Infanterie 🛡️</label>
-                <!-- type="text" pour enlever les flèches et autoriser les espaces -->
                 <input type="text" id="troop-inf" class="formatted-number" value="0">
             </div>
             <div class="control-row">
@@ -62,8 +101,9 @@
                 </select>
             </div>
             <div class="control-row">
+                <!-- NOUVEAU : Ajout du placeholder dynamique -->
                 <label data-i18n="lblLimit" title="Limite imposée par l'alliance">Plafond d'envoi</label>
-                <input type="text" id="alliance-limit" class="formatted-number">
+                <input type="text" id="alliance-limit" class="formatted-number" data-i18n-placeholder="plcLimit" placeholder="Illimité">
             </div>
         </div>
 
