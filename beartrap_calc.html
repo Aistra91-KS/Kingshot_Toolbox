@@ -154,13 +154,12 @@
             <!-- NOUVEAU : Studio de Déploiement -->
             <div id="deployment-studio" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px;">
                 <div class="studio-header">
-                    <h3 data-i18n="studioTitle" style="margin: 0; font-size: 16px; color: var(--accent);">Marches d'Élite Personnalisées</h3>
+                    <h3 data-i18n="studioTitle" style="margin: 0; font-size: 16px; color: var(--accent);">Marches Personnalisées</h3>
                     <span id="remaining-marches-badge" style="font-size: 12px; color: var(--text-muted); font-weight: bold;">0 / 5 utilisées</span>
                 </div>
                 <div id="custom-marches-list">
-                    <!-- Les cartes apparaîtront ici via Javascript -->
-                </div>
-                <button class="btn-add" id="btn-add-custom" data-i18n="btnAddCustom">+ Créer une marche d'élite</button>
+                    </div>
+                <button class="btn-add" id="btn-add-custom" data-i18n="btnAddCustom">+ Créer une marche</button>
             </div>
             
             <div id="result-area" class="table-container" style="margin-top: 20px; display: none;"></div>
@@ -170,15 +169,23 @@
     <!-- NOUVEAU : Fenêtre Pop-up Création de Marche -->
     <div class="modal-overlay" id="custom-march-modal">
         <div class="modal-content">
-            <h3 data-i18n="modalTitle" style="margin-top: 0; color: var(--accent);">Nouvelle Marche d'Élite</h3>
+            <h3 data-i18n="modalTitle" style="margin-top: 0; color: var(--accent);">Nouvelle Marche</h3>
             
             <div class="control-row" style="margin-bottom: 15px;">
                 <label data-i18n="modalName">Nom</label>
                 <input type="text" id="cm-name" style="background: var(--input-bg); border: 1px solid var(--border); color: var(--text-light); padding: 6px; border-radius: 4px; width: 140px; outline: none;" placeholder="Ex: Rally Zeus">
             </div>
+
+            <div class="control-row" style="margin-bottom: 15px; justify-content: flex-start; gap: 15px;">
+                <label style="cursor: pointer; color: var(--text-light);">
+                    <input type="radio" name="cm-input-mode" value="number" checked> <span data-i18n="optNum">Nombres</span>
+                </label>
+                <label style="cursor: pointer; color: var(--text-light);">
+                    <input type="radio" name="cm-input-mode" value="percent"> <span data-i18n="optPerc">Pourcentage (%)</span>
+                </label>
+            </div>
             
-            <!-- Compteur dynamique des troupes restantes -->
-            <div style="font-size: 12px; color: var(--accent); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border);" id="modal-remaining-troops">
+            <div style="font-size: 12px; color: var(--accent); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border); line-height: 1.5;" id="modal-remaining-troops">
                 Disponibles : 🛡️ 0 | 🐎 0 | 🏹 0
             </div>
 
