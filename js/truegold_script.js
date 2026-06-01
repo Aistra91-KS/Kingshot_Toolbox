@@ -211,7 +211,7 @@ async function loadDatabase() {
         bldgMap          = data.bldgMap;
         
         // Si pas de buildings sauvegardés, on prend les defaults du JSON
-        const saved = localStorage.getItem('tg_calc_data_v1');
+        const saved = localStorage.getItem('tg_calc_data_v2');
         if (!saved) {
             buildingsState = JSON.parse(JSON.stringify(data.defaultBuildings));
         }
@@ -420,11 +420,11 @@ function saveData() {
         accelMinutes: document.getElementById('accelMinutes').value,
         buildings: buildingsState
     };
-    localStorage.setItem('tg_calc_data_v1', JSON.stringify(data));
+    localStorage.setItem('tg_calc_data_v2', JSON.stringify(data));
 }
 
 function loadData() {
-    const saved = localStorage.getItem('tg_calc_data_v1');
+    const saved = localStorage.getItem('tg_calc_data_v2');
     if (saved) {
         try {
             const data = JSON.parse(saved);
