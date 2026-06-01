@@ -239,7 +239,7 @@ async function loadDatabase() {
 
 // ============ TRANSLATIONS ============
 function applyTranslations() {
-    const lang = document.getElementById('langue').value;
+    const lang = GlobalLang.get();
     const dict = i18n[lang];
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
@@ -248,7 +248,7 @@ function applyTranslations() {
 }
 
 function getLocName(enName) {
-    const lang = document.getElementById('langue').value;
+    const lang = GlobalLang.get();
     return bldgMap[enName] ? bldgMap[enName][lang] : enName;
 }
 
@@ -316,7 +316,7 @@ function updateBuildingLvl(index, val, type) {
 
 function updateAllRowCosts() {
     let speedBonus = parseFloat(document.getElementById('totalVitesseDisplay').textContent) / 100 || 0;
-    const lang = document.getElementById('langue').value;
+    const lang = GlobalLang.get();
     
     let grandTotalTG = 0;
     let grandTotalTTG = 0;
@@ -484,7 +484,7 @@ function runCalculator() {
     let accelMinutes = Number(document.getElementById('accelMinutes').value);
     let modeKVK = document.getElementById('modeKVK').checked;
     
-    const lang = document.getElementById('langue').value;
+    const lang = GlobalLang.get();
     let tx = i18n[lang];
 
     let formattedTableur = buildingsState.map(b => [b.name, "", "", "", b.current, b.target]);
