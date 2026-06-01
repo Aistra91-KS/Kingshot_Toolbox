@@ -890,4 +890,5 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     loadData();              // 2. Charger les préférences utilisateur
     initTheme();             // 3. Init thème
     triggerUpdate();         // 4. Afficher
+    window.addEventListener('langChanged', triggerUpdate);
 })();
