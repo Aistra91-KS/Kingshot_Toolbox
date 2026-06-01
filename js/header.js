@@ -7,10 +7,12 @@
     
     // On affiche désormais le select sur TOUTES les pages sans exception
     const langHTML = `
-        <select id="global-lang-select" style="background: var(--input-bg); color: var(--text-light); border: 1px solid var(--border); padding: 5px 10px; border-radius: 4px; margin-right: 15px; outline: none; cursor: pointer;">
-            <option value="FR">FR</option>
-            <option value="EN">EN</option>
-        </select>
+        <div class="header-lang-wrapper">
+            <select id="global-lang-select" class="header-lang-select">
+                <option value="FR">FR</option>
+                <option value="EN">EN</option>
+            </select>
+        </div>
     `;
 
     const headerHTML = `
