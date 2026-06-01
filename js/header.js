@@ -3,18 +3,16 @@
 // ========================================
 
 (function() {
-    // Détecter la page active
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     
-    // NOUVEAU : On prépare le menu de langue (uniquement si on n'est pas sur l'accueil)
-    const langHTML = (currentPage !== 'index.html' && currentPage !== '') ? `
+    // On affiche désormais le select sur TOUTES les pages sans exception
+    const langHTML = `
         <select id="global-lang-select" style="background: var(--input-bg); color: var(--text-light); border: 1px solid var(--border); padding: 5px 10px; border-radius: 4px; margin-right: 15px; outline: none; cursor: pointer;">
             <option value="FR">FR</option>
             <option value="EN">EN</option>
         </select>
-    ` : '';
+    `;
 
-    // Construire le HTML du header
     const headerHTML = `
         <header class="app-header">
             <a href="index.html" class="app-header-logo">
@@ -42,7 +40,7 @@
             </nav>
             
             <div style="display: flex; align-items: center;">
-                ${langHTML} <!-- Injection du menu de langue ici -->
+                ${langHTML}
                 <button class="app-header-theme" id="header-theme-toggle" onclick="toggleHeaderTheme()" title="Changer le thème">
                     <span id="header-theme-icon">🌙</span>
                 </button>
@@ -55,11 +53,16 @@
     
     initHeaderTheme();
 
-    // NOUVEAU : Initialiser la langue globale si le menu est présent
-    if (currentPage !== 'index.html' && currentPage !== '' && window.GlobalLang) {
+    if (window.GlobalLang) {
         window.GlobalLang.applyToSelect('global-lang-select');
     }
 })();
+
+// NOUVEAU : Si la langue change via un bouton de l'accueil, on synchronise le select du header
+window.addEventListener('langChanged', (e) => {
+    const select = document.getElementById('global-lang-select');
+    if (select) select.value = e.detail.lang;
+});
 
 // ============ THEME (gestion globale) ============
 function initHeaderTheme() {
