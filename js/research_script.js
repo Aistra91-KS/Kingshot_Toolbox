@@ -65,7 +65,6 @@ const inputs = {
     kvkBonus: document.getElementById('kvk-bonus'),
     kingdomBonus: document.getElementById('kingdom-bonus'),
     modeKvk: document.getElementById('mode-kvk'),
-    language: document.getElementById('language-select'),
     days: document.getElementById('acc-days'),
     hours: document.getElementById('acc-hours'),
     minutes: document.getElementById('acc-minutes'),
@@ -160,15 +159,6 @@ function initData() {
         } catch(e) {}
     }
     
-    // 🌐 PRIORITÉ à la langue globale (override les préférences locales)
-    if (window.GlobalLang) {
-        inputs.language.value = GlobalLang.get();
-        // Écoute les changements de langue depuis le select
-        inputs.language.addEventListener('change', () => {
-            GlobalLang.set(inputs.language.value);
-        });
-    }
-    
     initTheme();
 }
 
@@ -183,7 +173,7 @@ function saveData() {
 
 // ============ UTILS ============
 function applyTranslations() {
-    const lang = inputs.language.value;
+    const lang = GlobalLang.get();
     const dict = i18n[lang];
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
@@ -198,7 +188,7 @@ function formatTime(seconds) {
     const m = Math.floor((seconds % 3600) / 60);
     const s = Math.floor(seconds % 60);
     let res = [];
-    const lang = inputs.language.value;
+    const lang = GlobalLang.get();
     const dayStr = lang === 'FR' ? 'j' : 'd';
     if (d > 0) res.push(d + dayStr);
     if (h > 0) res.push(h + "h");
@@ -297,7 +287,7 @@ function buildCardHtml(title, s, treeKey, lang) {
 }
 
 function buildVisualTree(treeName, containerId) {
-    const lang = inputs.language.value;
+    const lang = GlobalLang.get();
     const container = document.getElementById(containerId);
     container.innerHTML = '';
     let currentMaxLevels = getCurrentMaxLevels(db);
@@ -359,7 +349,7 @@ function renderTrees() {
     growthTbody.innerHTML = '';
     economyTbody.innerHTML = '';
     battleTbody.innerHTML = '';
-    const lang = inputs.language.value;
+    const lang = GlobalLang.get();
     let currentMaxLevels = getCurrentMaxLevels(db);
     let s = {
         Global: { b:0, w:0, s:0, i:0, g:0, t:0, total:0, done:0 },
@@ -420,7 +410,7 @@ function renderTrees() {
 function renderOptimal() {
     const tbody = document.querySelector('#optimal-table tbody');
     tbody.innerHTML = '';
-    const lang = inputs.language.value;
+    const lang = GlobalLang.get();
     const isKvkMode = inputs.modeKvk.checked;
     const allowedTrees = [];
     if (inputs.treeGrowth.checked) allowedTrees.push('Growth');
@@ -526,7 +516,7 @@ Object.values(inputs).forEach(input => {
 });
 
 document.getElementById('reset-button').addEventListener('click', () => {
-    const lang = inputs.language.value;
+    const lang = GlobalLang.get();
     const confirmMsg = lang === 'FR' ? "Êtes-vous sûr de vouloir réinitialiser toutes vos cases cochées et paramètres ?" : "Are you sure you want to reset all checkboxes and settings to defaults?";
     if (confirm(confirmMsg)) {
         localStorage.removeItem('research_calc_db_v9');
@@ -535,6 +525,8 @@ document.getElementById('reset-button').addEventListener('click', () => {
         updateUI();
     }
 });
+
+window.addEventListener('langChanged', updateUI);
 
 // ============ STARTUP ============
 (async function startup() {
