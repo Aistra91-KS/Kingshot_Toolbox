@@ -3,9 +3,17 @@
 // ========================================
 
 (function() {
-    // Détecter la page active pour la mettre en surbrillance
+    // Détecter la page active
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     
+    // NOUVEAU : On prépare le menu de langue (uniquement si on n'est pas sur l'accueil)
+    const langHTML = (currentPage !== 'index.html' && currentPage !== '') ? `
+        <select id="global-lang-select" style="background: var(--input-bg); color: var(--text-light); border: 1px solid var(--border); padding: 5px 10px; border-radius: 4px; margin-right: 15px; outline: none; cursor: pointer;">
+            <option value="FR">FR</option>
+            <option value="EN">EN</option>
+        </select>
+    ` : '';
+
     // Construire le HTML du header
     const headerHTML = `
         <header class="app-header">
@@ -33,20 +41,24 @@
                 </a>
             </nav>
             
-            <button class="app-header-theme" id="header-theme-toggle" onclick="toggleHeaderTheme()" title="Changer le thème">
-                <span id="header-theme-icon">🌙</span>
-            </button>
+            <div style="display: flex; align-items: center;">
+                ${langHTML} <!-- Injection du menu de langue ici -->
+                <button class="app-header-theme" id="header-theme-toggle" onclick="toggleHeaderTheme()" title="Changer le thème">
+                    <span id="header-theme-icon">🌙</span>
+                </button>
+            </div>
         </header>
     `;
     
-    // Injecter le header au tout début du <body>
     document.body.insertAdjacentHTML('afterbegin', headerHTML);
-    
-    // Ajouter une classe au body pour décaler le contenu
     document.body.classList.add('has-app-header');
     
-    // Initialiser le thème
     initHeaderTheme();
+
+    // NOUVEAU : Initialiser la langue globale si le menu est présent
+    if (currentPage !== 'index.html' && currentPage !== '' && window.GlobalLang) {
+        window.GlobalLang.applyToSelect('global-lang-select');
+    }
 })();
 
 // ============ THEME (gestion globale) ============
