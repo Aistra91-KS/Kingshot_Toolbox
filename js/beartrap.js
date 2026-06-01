@@ -102,9 +102,6 @@ const i18nBearTrap = {
 let customMarchesList = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.GlobalLang) {
-        GlobalLang.applyToSelect('lang-select');
-    }
 
     applyTranslations(GlobalLang.get());
     window.addEventListener('langChanged', (e) => {
