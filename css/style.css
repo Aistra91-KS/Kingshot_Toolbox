@@ -282,6 +282,7 @@ body.has-app-header {
     outline: none;
     transition: all 0.2s ease;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    text-align: center; /* Centre le texte des choix */
 }
 
 .header-lang-select:hover,
@@ -308,6 +309,7 @@ body.has-app-header {
     color: var(--text-light);
     font-weight: bold;
     padding: 10px;
+    text-align: center; /* Centre le texte des choix */
 }
 
 /* ============================================================================
