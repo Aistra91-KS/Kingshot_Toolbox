@@ -404,7 +404,6 @@ function getTotalVitesse() {
 // ============ SAVE / LOAD ============
 function saveData() {
     const data = {
-        langue: document.getElementById('langue').value,
         baseVitesse: document.getElementById('baseVitesse').value,
         bonusGround: document.getElementById('bonusGround').checked,
         bonusKvk: document.getElementById('bonusKvk').checked,
