@@ -15,6 +15,7 @@ const i18n = {
         'ctrlPanel': 'Control Panel',
         'config': 'Configuration',
         'lang': 'Language',
+        'currentStocks': "💰 Current Stocks:",
         'baseBonus': 'Bonus Speed (%)',
         'groundWorks': 'Ground Works (+10%)',
         'kvkBonus': 'KVK Bonus (+5%)',
@@ -79,6 +80,7 @@ const i18n = {
         'transfoUsed': 'Transformation utilisées (max 100)',
         'kvkTitle': 'KVK & Accélérateurs',
         'kvkMode': 'Mode KVK',
+        'currentStocks': "💰 Stocks Actuels :",
         'days': 'Jours',
         'hours': 'Heures',
         'minutes': 'Minutes',
@@ -824,19 +826,22 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     html += `<strong style="font-size:16px; color:${c_or};">${titreMode}</strong>`;
     html += `</div>`;
 
-    // Stratégie du creuset
-    html += `<div style="margin-bottom:15px;">`;
-    html += `<div style="font-size:15px; font-weight:bold; margin-bottom:6px;">🔮 ${tx.crucible}</div>`;
-    html += `<div style="padding-left:24px;">`;
-    html += `${tx.transform}<strong style="color:${c_or};">${fmt(meilleurScenario.tgInvestiTransfo)}</strong>`;
-    html += `${tx.tgExpecting}<strong style="color:${c_or};">${fmt(meilleurScenario.ttgObtenu)}</strong>`;
-    html += `${tx.ttgOr}<strong style="color:${c_turquoise};">${meilleurScenario.nbTransfos}</strong>`;
-    html += `${tx.transfos}`;
-    html += `</div></div>`;
+    // Stratégie du creuset (Affiché uniquement s'il y a des transformations)
+    if (meilleurScenario.nbTransfos > 0) {
+        html += `<div style="margin-bottom:15px;">`;
+        html += `<div style="font-size:15px; font-weight:bold; margin-bottom:6px;">🔮 ${tx.crucible}</div>`;
+        html += `<div style="padding-left:24px;">`;
+        html += `${tx.transform}<strong style="color:${c_or};">${fmt(meilleurScenario.tgInvestiTransfo)}</strong>`;
+        html += `${tx.tgExpecting}<strong style="color:${c_or};">${fmt(meilleurScenario.ttgObtenu)}</strong>`;
+        html += `${tx.ttgOr}<strong style="color:${c_turquoise};">${meilleurScenario.nbTransfos}</strong>`;
+        html += `${tx.transfos}`;
+        html += `</div></div>`;
+    }
 
-    // Nouveaux stocks
+    // Stocks (Titre dynamique : Nouveaux si transfo, Actuels sinon)
+    const stockTitle = (meilleurScenario.nbTransfos > 0) ? tx.newStocks : tx.currentStocks;
     html += `<div style="margin-bottom:15px;">`;
-    html += `<div style="font-size:15px; font-weight:bold; margin-bottom:6px;">${tx.newStocks}</div>`;
+    html += `<div style="font-size:15px; font-weight:bold; margin-bottom:6px;">${stockTitle}</div>`;
     html += `<div style="padding-left:24px;">${tx.tgRemaining}<strong style="color:${c_or};">${fmt(meilleurScenario.nouveauStockTG)}</strong></div>`;
     html += `<div style="padding-left:24px;">${tx.ttgRemaining}<strong style="color:${c_or};">${fmt(meilleurScenario.nouveauStockTTG)}</strong></div>`;
     html += `</div>`;
