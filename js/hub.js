@@ -74,6 +74,14 @@ function initLang() {
     applyHubTranslations(GlobalLang.get());
 }
 
+// NOUVEAU : Si la langue change via le header, on synchronise les boutons du milieu de l'accueil
+window.addEventListener('langChanged', (e) => {
+    applyHubTranslations(e.detail.lang);
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === e.detail.lang);
+    });
+});
+
 // ============ STARTUP ============
 initTheme();
 initLang();
