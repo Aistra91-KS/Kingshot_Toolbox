@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Caserne - Hub-Kingshot</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2 style="color: var(--accent); margin-top: 0;">Ma Caserne</h2>
+        <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;">
+            Sélectionnez vos héros pour configurer le niveau de leurs compétences.
+        </p>
+
+        <div class="control-group" style="margin-top: 20px;">
+            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Filtres</h3>
+            <div class="control-row">
+                <label>Génération Max</label>
+                <select id="filter-gen" class="table-select" style="width: 100px;">
+                    <option value="1">Gen 1</option>
+                    <option value="2">Gen 2</option>
+                    <option value="3">Gen 3</option>
+                    <option value="7" selected>Toutes</option>
+                </select>
+            </div>
+            <div class="control-row" style="margin-top: 10px;">
+                <label>Type</label>
+                <select id="filter-type" class="table-select" style="width: 100px;">
+                    <option value="all">Tous</option>
+                    <option value="Infantry">Infanterie 🛡️</option>
+                    <option value="Cavalry">Cavalerie 🐎</option>
+                    <option value="Archer">Archers 🏹</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-content flow" style="padding: 20px;">
+        <!-- La grille où les héros vont s'afficher -->
+        <div id="heroes-grid" class="heroes-grid"></div>
+    </main>
+
+    <!-- Scripts partagés -->
+    <script src="js/header.js"></script>
+    <!-- Script de la caserne -->
+    <script src="js/caserne.js"></script>
+</body>
+</html>
