@@ -1,0 +1,139 @@
+[
+  {
+    "id": "0001",
+    "name": "Forrest",
+    "generation": 1,
+    "maxLevel": 80,
+    "rarity": "Rare",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "goodJoinerDefense": false,
+    "skills": [
+      {
+        "name": "Woodland Inheritor",
+        "effect": "Forrest's expert lumberjack skills increase the Town's Sawmill Output by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Master Woodcutter",
+        "effect": "Forrest utilizes his logging expertise, increasing Wood Gathering Speed in the Wilderness by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ]
+  },
+  {
+    "id": "0002",
+    "name": "Seth",
+    "generation": 1,
+    "maxLevel": 80,
+    "rarity": "Rare",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "goodJoinerDefense": false,
+    "skills": [
+      {
+        "name": "Burnished Iron",
+        "effect": "Seth passes on his passion for iron mining, increasing the Town's Iron Output by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Craftsmanship",
+        "effect": "Seth has a special bond with Iron, increasing Iron Mining Speed in the Wilderness by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ]
+  },
+  {
+    "id": "0003",
+    "name": "Edwin",
+    "generation": 1,
+    "maxLevel": 80,
+    "rarity": "Rare",
+    "troopType": "Cavalry",
+    "goodJoinerBear": false,
+    "goodJoinerDefense": false,
+    "skills": [
+      {
+        "name": "Demolitions Expert",
+        "effect": "Edwin increases the Town's Quarry Output by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Stone Mining",
+        "effect": "Increase Stone Mining Speed in the Wilderness by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ]
+  },
+  {
+    "id": "0004",
+    "name": "Olive",
+    "generation": 1,
+    "maxLevel": 80,
+    "rarity": "Rare",
+    "troopType": "Archer",
+    "goodJoinerBear": false,
+    "goodJoinerDefense": false,
+    "skills": [
+      {
+        "name": "Green Thumb",
+        "effect": "Increases Town's Mill Output by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ]
+  },
+  {
+    "id": "0014",
+    "name": "Helga",
+    "generation": 1,
+    "maxLevel": 80,
+    "rarity": "Legendary",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "goodJoinerDefense": false,
+    "skills": [
+      {
+        "name": "Oath of Guardian",
+        "effect": "Helga has a X% chance of reducing damage taken by 50% for all squads.",
+        "levels": ["8%", "16%", "24%", "32%", "40%"]
+      },
+      {
+        "name": "Echoes of Valhalla",
+        "effect": "Helga blows the horn to motivate the squad, increasing the total Squads' Attack by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Nature's Balance",
+        "effect": "Helga invites everyone to embrace nature, increasing the total Squads' Lethality by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ]
+  },
+  {
+    "id": "0015",
+    "name": "Amadeus",
+    "generation": 1,
+    "maxLevel": 80,
+    "rarity": "Legendary",
+    "troopType": "Infantry",
+    "goodJoinerBear": true,
+    "goodJoinerDefense": false,
+    "skills": [
+      {
+        "name": "Battle Ready",
+        "effect": "Excels in boosting morale, increasing the total Squads' Lethality by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Way of the Blade",
+        "effect": "Imparts the secrets of swordsmanship, increasing the total Squads' Attack by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Unrighteous Strike",
+        "effect": "Unique swordplay has a X% chance of increasing damage dealt by 50% for all squads.",
+        "levels": ["8%", "16%", "24%", "32%", "40%"]
+      }
+    ]
+  }
+]
