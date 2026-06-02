@@ -1114,8 +1114,8 @@ tbody tr:hover {
 }
 
 /* --- Badges Haut de carte --- */
-.hero-type-badge {
-    position: absolute;
+.hero-card .hero-type-badge {
+    position: absolute !important; /* Le !important empêche toute autre règle de le déloger */
     top: 8px;
     left: 8px;
     background: rgba(0, 0, 0, 0.7);
@@ -1127,10 +1127,11 @@ tbody tr:hover {
     align-items: center;
     justify-content: center;
     font-size: 14px;
+    z-index: 5; /* On s'assure qu'ils sont bien au-dessus de l'image */
 }
 
-.hero-gen-badge {
-    position: absolute;
+.hero-card .hero-gen-badge {
+    position: absolute !important;
     top: 8px;
     right: 8px;
     background: rgba(0, 0, 0, 0.7);
@@ -1141,6 +1142,7 @@ tbody tr:hover {
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 1px;
+    z-index: 5;
 }
 
 /* --- Infos Bas de carte --- */
