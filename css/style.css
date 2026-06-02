@@ -1056,21 +1056,21 @@ tbody tr:hover {
 
 .heroes-grid {
     display: grid;
-    /* Création automatique de colonnes de 130px minimum */
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 15px;
+    /* On augmente la taille minimale de 130px à 180px. Cela limitera à ~5-6 cartes par ligne sur grand écran */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
 }
 
 .hero-card {
     position: relative;
     background: var(--control-bg);
     border: 2px solid var(--border);
-    border-radius: 10px;
-    aspect-ratio: 3 / 4; /* Conserve un format "carte à jouer" */
+    border-radius: 12px;
+    aspect-ratio: 3 / 4; 
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Pousse le texte vers le bas */
-    padding: 10px;
+    justify-content: flex-end;
+    padding: 12px;
     cursor: pointer;
     overflow: hidden;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -1081,69 +1081,11 @@ tbody tr:hover {
     box-shadow: 0 8px 15px var(--shadow);
 }
 
-/* --- Codes Couleurs Rareté --- */
-.hero-card.legendary { 
-    border-color: #f5b840; /* Or */
-    background: linear-gradient(to bottom, rgba(245, 184, 64, 0.15), var(--control-bg));
-}
-.hero-card.epic { 
-    border-color: #a855f7; /* Violet */
-    background: linear-gradient(to bottom, rgba(168, 85, 247, 0.15), var(--control-bg));
-}
-.hero-card.rare { 
-    border-color: #3b82f6; /* Bleu */
-    background: linear-gradient(to bottom, rgba(59, 130, 246, 0.15), var(--control-bg));
-}
+/* Codes Couleurs Rareté */
+.hero-card.legendary { border-color: #f5b840; }
+.hero-card.epic { border-color: #a855f7; }
+.hero-card.rare { border-color: #3b82f6; }
 
-/* --- Badges sur la carte --- */
-.hero-type-badge {
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-}
-
-.hero-gen-badge {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    border-radius: 4px;
-    padding: 2px 5px;
-    font-size: 11px;
-    font-weight: bold;
-}
-
-/* --- Infos du bas --- */
-.hero-name {
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    margin-bottom: 5px;
-    text-shadow: 1px 1px 2px #000;
-}
-
-.hero-level-stars {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 11px;
-    color: var(--text-muted);
-}
-.hero-stars {
-    color: #f5b840; /* Étoiles dorées */
-    letter-spacing: 1px;
-}
-
-/* --- Images des Héros --- */
 .hero-image {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -1151,26 +1093,119 @@ tbody tr:hover {
     background-position: center 20%;
     z-index: 0;
     opacity: 0.9;
-    /* Ce filtre magique mélange l'image avec la couleur de rareté de la carte ! */
     mix-blend-mode: luminosity; 
 }
 
-/* Dégradé pour que le texte reste lisible sur l'image */
+.hero-card.locked .hero-image {
+    filter: grayscale(100%);
+    opacity: 0.3;
+}
+
 .hero-gradient {
     position: absolute;
-    bottom: 0; left: 0; right: 0; height: 60%;
-    background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+    bottom: 0; left: 0; right: 0; height: 65%;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, transparent);
     z-index: 0;
 }
 
-/* S'assure que le texte passe au-dessus de l'image */
 .hero-card > *:not(.hero-image):not(.hero-gradient) {
     z-index: 1;
     position: relative;
 }
 
-/* Si l'utilisateur n'a pas enregistré de compétence, la carte est grisée */
-.hero-card.locked .hero-image {
-    filter: grayscale(100%);
-    opacity: 0.4;
+/* --- Badges Haut de carte --- */
+.hero-type-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.hero-gen-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    border-radius: 4px;
+    padding: 3px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* --- Infos Bas de carte --- */
+.hero-name-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 8px;
+}
+
+.hero-name {
+    font-weight: bold;
+    font-size: 16px;
+    text-shadow: 1px 1px 3px #000;
+}
+
+.hero-level {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: rgba(0,0,0,0.5);
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+/* --- Le nouveau système de progression d'étoiles (Fragments) --- */
+.hero-shards-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.4);
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.hero-star-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.star-icon {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-shadow: 0 0 2px #000;
+}
+
+.star-icon.active {
+    color: #f5b840;
+}
+
+/* La jauge divisée en 6 sous chaque étoile */
+.shard-bar {
+    display: flex;
+    gap: 1px;
+    width: 18px;
+}
+
+.shard-pip {
+    height: 3px;
+    flex: 1;
+    background: rgba(255,255,255,0.2);
+    border-radius: 1px;
+}
+
+.shard-pip.active {
+    background: #f5b840;
 }
