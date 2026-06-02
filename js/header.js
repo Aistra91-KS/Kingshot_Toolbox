@@ -39,6 +39,10 @@
                     <span class="nav-icon">🐻</span>
                     <span class="nav-label">Bear Trap</span>
                 </a>
+                <a href="caserne.html" class="nav-link ${currentPage === 'caserne.html' ? 'active' : ''}">
+                    <span class="nav-icon">⛺</span>
+                    <span class="nav-label">Caserne</span>
+                </a>
             </nav>
             
             <div style="display: flex; align-items: center;">
