@@ -7,7 +7,7 @@ const rarityWeight = { "legendary": 3, "epic": 2, "rare": 1 };
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('heroes_db.json'); 
+        const response = await fetch('data/heroes_db.json'); 
         if (!response.ok) throw new Error("Fichier JSON introuvable");
         
         heroesDB = await response.json(); 
