@@ -14,6 +14,8 @@ const i18nHub = {
         open: "Ouvrir →",
         comingSoon: "À venir...",
         MadeBy: "Fait par",
+        caserneTitle: "Ma Caserne",
+        caserneDesc: "Gérez vos héros, définissez leurs générations et enregistrez les niveaux de leurs compétences.",
         beartrapDesc: "Optimisez vos ralliements pour le Bear Trap. Calculez la répartition parfaite de vos marches."
     },
     EN: {
@@ -27,6 +29,8 @@ const i18nHub = {
         open: "Open →",
         comingSoon: "Coming soon...",
         MadeBy: "Made by",
+        caserneTitle: "My Barracks",
+        caserneDesc: "Manage your heroes, set their generations, and record their skill levels.",
         beartrapDesc: "Optimize your rallies for the Bear Trap. Calculate the perfect distribution of your steps."
     }
 };
