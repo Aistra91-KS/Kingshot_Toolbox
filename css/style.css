@@ -1048,3 +1048,97 @@ tbody tr:hover {
         font-size: 20px;
     }
 }
+
+
+/* ============================================================================
+   16. CASERNE (Grille de Héros)
+   ============================================================================ */
+
+.heroes-grid {
+    display: grid;
+    /* Création automatique de colonnes de 130px minimum */
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 15px;
+}
+
+.hero-card {
+    position: relative;
+    background: var(--control-bg);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    aspect-ratio: 3 / 4; /* Conserve un format "carte à jouer" */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Pousse le texte vers le bas */
+    padding: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hero-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px var(--shadow);
+}
+
+/* --- Codes Couleurs Rareté --- */
+.hero-card.legendary { 
+    border-color: #f5b840; /* Or */
+    background: linear-gradient(to bottom, rgba(245, 184, 64, 0.15), var(--control-bg));
+}
+.hero-card.epic { 
+    border-color: #a855f7; /* Violet */
+    background: linear-gradient(to bottom, rgba(168, 85, 247, 0.15), var(--control-bg));
+}
+.hero-card.rare { 
+    border-color: #3b82f6; /* Bleu */
+    background: linear-gradient(to bottom, rgba(59, 130, 246, 0.15), var(--control-bg));
+}
+
+/* --- Badges sur la carte --- */
+.hero-type-badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.hero-gen-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* --- Infos du bas --- */
+.hero-name {
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.hero-level-stars {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+.hero-stars {
+    color: #f5b840; /* Étoiles dorées */
+    letter-spacing: 1px;
+}
