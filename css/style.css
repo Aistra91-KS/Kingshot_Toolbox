@@ -1142,3 +1142,35 @@ tbody tr:hover {
     color: #f5b840; /* Étoiles dorées */
     letter-spacing: 1px;
 }
+
+/* --- Images des Héros --- */
+.hero-image {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center 20%;
+    z-index: 0;
+    opacity: 0.9;
+    /* Ce filtre magique mélange l'image avec la couleur de rareté de la carte ! */
+    mix-blend-mode: luminosity; 
+}
+
+/* Dégradé pour que le texte reste lisible sur l'image */
+.hero-gradient {
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+    z-index: 0;
+}
+
+/* S'assure que le texte passe au-dessus de l'image */
+.hero-card > *:not(.hero-image):not(.hero-gradient) {
+    z-index: 1;
+    position: relative;
+}
+
+/* Si l'utilisateur n'a pas enregistré de compétence, la carte est grisée */
+.hero-card.locked .hero-image {
+    filter: grayscale(100%);
+    opacity: 0.4;
+}
