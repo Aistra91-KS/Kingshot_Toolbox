@@ -10,30 +10,56 @@
     <div class="sidebar">
         <h2 style="color: var(--accent); margin-top: 0;">Ma Caserne</h2>
         <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;">
-            Cliquez sur un héros pour configurer le niveau de sa compétence principale.
+            Cliquez sur un héros pour configurer ses compétences, son niveau et ses étoiles.
         </p>
 
         <div class="control-group" style="margin-top: 20px;">
-            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Filtres</h3>
-            <div class="control-row">
-                <label>Génération Max</label>
-                <select id="filter-gen" class="table-select" style="width: 100px;">
-                    <option value="1">Gen 1</option>
-                    <option value="2">Gen 2</option>
-                    <option value="3">Gen 3</option>
-                    <option value="4">Gen 4</option>
-                    <option value="5">Gen 5</option>
-                    <option value="6">Gen 6</option>
-                    <option value="7" selected>Gen 7</option>
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;">Tri & Filtres</h3>
+            
+            <div class="control-row" style="margin-bottom: 10px;">
+                <label>Trier par</label>
+                <select id="sort-by" class="table-select" style="width: 120px;">
+                    <option value="rarity-desc">Rareté (Décroissant)</option>
+                    <option value="rarity-asc">Rareté (Croissant)</option>
+                    <option value="gen-desc">Génération (Plus récente)</option>
+                    <option value="gen-asc">Génération (Plus ancienne)</option>
+                    <option value="name">Nom (A-Z)</option>
                 </select>
             </div>
-            <div class="control-row" style="margin-top: 10px;">
+
+            <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
+
+            <div class="control-row" style="margin-bottom: 10px;">
+                <label>Génération</label>
+                <select id="filter-gen" class="table-select" style="width: 120px;">
+                    <option value="all" selected>Toutes</option>
+                    <option value="1">Gen 1 uniquement</option>
+                    <option value="2">Gen 2 uniquement</option>
+                    <option value="3">Gen 3 uniquement</option>
+                    <option value="4">Gen 4 uniquement</option>
+                    <option value="5">Gen 5 uniquement</option>
+                    <option value="6">Gen 6 uniquement</option>
+                    <option value="7">Gen 7 uniquement</option>
+                </select>
+            </div>
+            
+            <div class="control-row" style="margin-bottom: 10px;">
                 <label>Type</label>
-                <select id="filter-type" class="table-select" style="width: 100px;">
-                    <option value="all">Tous</option>
+                <select id="filter-type" class="table-select" style="width: 120px;">
+                    <option value="all">Tous les types</option>
                     <option value="Infantry">Infanterie 🛡️</option>
                     <option value="Cavalry">Cavalerie 🐎</option>
                     <option value="Archer">Archers 🏹</option>
+                </select>
+            </div>
+
+            <div class="control-row">
+                <label>Rareté</label>
+                <select id="filter-rarity" class="table-select" style="width: 120px;">
+                    <option value="all">Toutes</option>
+                    <option value="legendary">Légendaire 🟡</option>
+                    <option value="epic">Épique 🟣</option>
+                    <option value="rare">Rare 🔵</option>
                 </select>
             </div>
         </div>
