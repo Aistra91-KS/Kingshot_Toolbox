@@ -65,9 +65,9 @@ function renderHeroes() {
         const card = document.createElement('div');
         card.className = `hero-card ${hero.rarity.toLowerCase()} ${lockedClass}`;
         
-        // C'est ici que l'image est injectée (Ex: img/heroes/0001.png)
+        // C'est ici que l'image est injectée (Ex: img/heroes/Forrest.png)
         card.innerHTML = `
-            <div class="hero-image" style="background-image: url('img/heroes/${hero.id}.png');"></div>
+            <div class="hero-image" style="background-image: url('img/heroes/${hero.name}.png');"></div>
             <div class="hero-gradient"></div>
             
             <div class="hero-type-badge">${getTroopEmoji(hero.troopType)}</div>
