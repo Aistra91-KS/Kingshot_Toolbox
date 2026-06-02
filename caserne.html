@@ -7,11 +7,10 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
     <div class="sidebar">
         <h2 style="color: var(--accent); margin-top: 0;">Ma Caserne</h2>
         <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;">
-            Sélectionnez vos héros pour configurer le niveau de leurs compétences.
+            Cliquez sur un héros pour configurer le niveau de sa compétence principale.
         </p>
 
         <div class="control-group" style="margin-top: 20px;">
@@ -22,7 +21,10 @@
                     <option value="1">Gen 1</option>
                     <option value="2">Gen 2</option>
                     <option value="3">Gen 3</option>
-                    <option value="7" selected>Toutes</option>
+                    <option value="4">Gen 4</option>
+                    <option value="5">Gen 5</option>
+                    <option value="6">Gen 6</option>
+                    <option value="7" selected>Gen 7</option>
                 </select>
             </div>
             <div class="control-row" style="margin-top: 10px;">
@@ -38,13 +40,35 @@
     </div>
 
     <main class="main-content flow" style="padding: 20px;">
-        <!-- La grille où les héros vont s'afficher -->
         <div id="heroes-grid" class="heroes-grid"></div>
     </main>
 
-    <!-- Scripts partagés -->
+    <div id="hero-modal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 350px;">
+            <h3 id="modal-hero-name" style="color: var(--accent); margin-top: 0;">Nom du Héros</h3>
+            <p id="modal-hero-skill" style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; font-style: italic;"></p>
+            
+            <div class="control-row" style="margin-bottom: 20px;">
+                <label>Compétence 1</label>
+                <select id="modal-skill-level" class="table-select">
+                    <option value="0">Non possédé (0)</option>
+                    <option value="1">Niveau 1</option>
+                    <option value="2">Niveau 2</option>
+                    <option value="3">Niveau 3</option>
+                    <option value="4">Niveau 4</option>
+                    <option value="5">Niveau 5</option>
+                </select>
+            </div>
+            
+            <div class="modal-actions" style="text-align: right;">
+                <button id="close-modal" class="btn-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted);">Annuler</button>
+                <button id="save-modal" class="btn-reset" style="background: var(--accent); color: #000;">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/header.js"></script>
-    <!-- Script de la caserne -->
+    <script src="js/heroes_db.js"></script>
     <script src="js/caserne.js"></script>
 </body>
 </html>
