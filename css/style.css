@@ -1269,3 +1269,23 @@ tbody tr:hover {
 .skill-pip.locked { background: #111; border-color: #222; color: #333; cursor: not-allowed; }
 .skill-row.locked { opacity: 0.5; }
 
+/* ============================================================================
+   MAINTIEN DU BLOC HÉROS À L'ÉCRAN (SCROLL)
+   ============================================================================ */
+#hero-modal {
+    position: fixed !important; /* Le détache de la page pour le fixer à l'écran */
+    top: 100px !important; /* Évite qu'il ne passe sous ton menu/header en haut */
+    right: 20px !important; /* Le garde bien sagement à droite */
+    z-index: 9999 !important; /* Le force à rester par-dessus les autres cartes */
+    
+    /* Optionnel : si ton bloc d'avant grisait tout l'écran et que tu ne veux plus, laisse cette ligne. 
+       Sinon tu peux l'enlever */
+    background: none !important; 
+}
+
+/* Sécurité : si un héros a vraiment beaucoup de texte, on s'assure qu'il ne sort pas de l'écran par le bas */
+#hero-modal .modal-content {
+    max-height: 85vh; 
+    overflow-y: auto; 
+}
+
