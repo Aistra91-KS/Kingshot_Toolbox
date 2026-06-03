@@ -23,6 +23,7 @@ const i18nCaserne = {
         rarityLeg: "Légendaire 🟡",
         rarityEpi: "Épique 🟣",
         rarityRar: "Rare 🔵",
+        filterUnlocked: "Uniquement les débloqués",
         lvlPrefix: "Niv.", // Niveau en français
         modalWIP: "(Bientôt) Modale pour configurer"
     },
@@ -31,6 +32,7 @@ const i18nCaserne = {
         pageDesc: "Click on a hero to configure their skills, level, and stars.",
         filterSort: "Sort & Filters",
         sortBy: "Sort by",
+        filterUnlocked: "Unlocked only",
         sortRarityDesc: "Rarity (Descending)",
         sortRarityAsc: "Rarity (Ascending)",
         sortGenDesc: "Generation (Newest first)",
@@ -63,7 +65,8 @@ const DEFAULT_FILTERS = {
     sortBy: 'rarity-desc',
     filterType: 'all',
     filterRarity: 'all',
-    checkedGens: ['1'] 
+    checkedGens: ['1'],
+    filterUnlocked: false
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -129,6 +132,11 @@ function loadFilters() {
     if(document.getElementById('sort-by')) document.getElementById('sort-by').value = saved.sortBy;
     if(document.getElementById('filter-type')) document.getElementById('filter-type').value = saved.filterType;
     if(document.getElementById('filter-rarity')) document.getElementById('filter-rarity').value = saved.filterRarity;
+    
+    // On charge la case "Uniquement débloqués"
+    if(document.getElementById('filter-unlocked-only')) {
+        document.getElementById('filter-unlocked-only').checked = saved.filterUnlocked || false;
+    }
 
     document.querySelectorAll('.gen-checkbox').forEach(cb => {
         cb.checked = saved.checkedGens.includes(cb.value);
@@ -140,8 +148,11 @@ function saveFilters() {
     const filterType = document.getElementById('filter-type').value;
     const filterRarity = document.getElementById('filter-rarity').value;
     const checkedGens = Array.from(document.querySelectorAll('.gen-checkbox:checked')).map(cb => cb.value);
+    
+    // On sauvegarde la case "Uniquement débloqués"
+    const filterUnlocked = document.getElementById('filter-unlocked-only') ? document.getElementById('filter-unlocked-only').checked : false;
 
-    const filters = { sortBy, filterType, filterRarity, checkedGens };
+    const filters = { sortBy, filterType, filterRarity, checkedGens, filterUnlocked };
     localStorage.setItem('caserne_filters', JSON.stringify(filters));
 }
 
@@ -239,8 +250,16 @@ function renderHeroes() {
     const filterType = document.getElementById('filter-type').value;
     const filterRarity = document.getElementById('filter-rarity').value;
     const checkedGens = Array.from(document.querySelectorAll('.gen-checkbox:checked')).map(cb => cb.value);
+    const isUnlockedOnlyChecked = document.getElementById('filter-unlocked-only').checked;
 
     let filteredHeroes = heroesDB.filter(hero => {
+        // 1. Vérification "Uniquement débloqués"
+        if (isUnlockedOnlyChecked) {
+            const hData = userHeroes[hero.id];
+            if (!hData || !hData.unlocked) return false;
+        }
+
+        // 2. Autres filtres
         if (!checkedGens.includes(hero.generation.toString())) return false;
         if (filterType !== 'all' && hero.troopType.toLowerCase() !== filterType.toLowerCase()) return false;
         if (filterRarity !== 'all' && hero.rarity.toLowerCase() !== filterRarity.toLowerCase()) return false;
