@@ -1268,3 +1268,26 @@ tbody tr:hover {
 .skill-pip.active { background: #f5b840; border-color: #f5b840; color: #000; }
 .skill-pip.locked { background: #111; border-color: #222; color: #333; cursor: not-allowed; }
 .skill-row.locked { opacity: 0.5; }
+
+/* ============================================================================
+   CORRECTION POSITION DE LA FENÊTRE (MODALE)
+   ============================================================================ */
+.modal {
+    position: fixed !important; /* La ligne magique : fixe la fenêtre à l'écran */
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.7); /* Fond semi-transparent derrière la fenêtre */
+    display: flex;
+    justify-content: center; /* Centre horizontalement (Mets "flex-end" si tu veux vraiment la coller tout à droite) */
+    align-items: center; /* Centre verticalement */
+    z-index: 9999 !important; /* S'assure de passer par-dessus tout le reste du site */
+}
+
+.modal-content {
+    max-height: 90vh; /* Empêche la fenêtre d'être plus haute que ton écran */
+    overflow-y: auto; /* Ajoute une barre de défilement SI le contenu est trop grand */
+    background: var(--bg-color); /* Conserve la couleur de fond */
+    position: relative;
+}
