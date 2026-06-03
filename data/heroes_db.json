@@ -1,36 +1,36 @@
 [
   {
-  "id": "0001",
-  "name": "Forrest",
-  "generation": 1,
-  "rarity": "Rare",
-  "troopType": "Infantry",
-  "goodJoinerBear": false,
-  "skills": [
-    {
-      "name": { 
-        "EN": "Woodland Inheritor",
-        "FR": "héritier de la Forêt"
+    "id": "0001",
+    "name": "Forrest",
+    "generation": 1,
+    "rarity": "Rare",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": {
+          "EN": "Woodland Inheritor",
+          "FR": "Héritier de la Forêt"
+        },
+        "effect": {
+          "EN": "Forrest's expert lumberjack skills increase the Town's Sawmill Output by X%.",
+          "FR": "Les talents de bûcheron de Forrest augmentent la Production de la Scierie du Village de X%."
+        },
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
-      "effect": { 
-        "EN": "Forrest's expert lumberjack skills increase the Town's Sawmill Output by X%.",
-        "FR": "Les talents de bûcheron de Forrest augmentent la Production de la Scierie du Village de X%."
-      },
-      "levels": ["5%", "10%", "15%", "20%", "25%"]
-    },
-    {
-      "name": { 
-        "EN": "Master Woodcutter",
-        "FR": "Maitre Bûcheron"
-      },
-      "effect": {
-        "EN": "Forrest utilizes his logging expertise, increasing Wood Gathering Speed in the Wilderness by X%.",
-        "FR": "Forrest utilise son expertise en matière d'abattage, ce qui augmente la Vitesse de Collecte du Bois dans la nature de X%."
-      },
-      "levels": ["5%", "10%", "15%", "20%", "25%"]
-    }
-  ]
-},
+      {
+        "name": {
+          "EN": "Master Woodcutter",
+          "FR": "Maître Bûcheron"
+        },
+        "effect": {
+          "EN": "Forrest utilizes his logging expertise, increasing Wood Gathering Speed in the Wilderness by X%.",
+          "FR": "Forrest utilise son expertise en abattage, ce qui augmente la Vitesse de Collecte de Bois dans la nature de X%."
+        },
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ]
+  },
   {
     "id": "0002",
     "name": "Seth",
@@ -40,13 +40,25 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Burnished Iron",
-        "effect": "Seth passes on his passion for iron mining, increasing the Town's Iron Output by X%.",
+        "name": {
+          "EN": "Burnished Iron",
+          "FR": "Fer Bruni"
+        },
+        "effect": {
+          "EN": "Seth passes on his passion for iron mining, increasing the Town's Iron Output by X%.",
+          "FR": "Seth transmet sa passion pour l'extraction de fer, augmentant la Production de Fer du Village de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Craftsmanship",
-        "effect": "Seth has a special bond with Iron, increasing Iron Mining Speed in the Wilderness by X%.",
+        "name": {
+          "EN": "Craftsmanship",
+          "FR": "Artisanat"
+        },
+        "effect": {
+          "EN": "Seth has a special bond with Iron, increasing Iron Mining Speed in the Wilderness by X%.",
+          "FR": "Seth a un lien spécial avec le fer, augmentant la Vitesse de Récolte de Fer dans la nature de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
@@ -60,13 +72,25 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Demolitions Expert",
-        "effect": "Edwin increases the Town's Quarry Output by X%.",
+        "name": {
+          "EN": "Demolitions Expert",
+          "FR": "Expert en Démolition"
+        },
+        "effect": {
+          "EN": "Edwin increases the Town's Quarry Output by X%.",
+          "FR": "Edwin augmente la Production de la Carrière du Village de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Stone Mining",
-        "effect": "Increase Stone Mining Speed in the Wilderness by X%.",
+        "name": {
+          "EN": "Stone Mining",
+          "FR": "Extraction de Pierre"
+        },
+        "effect": {
+          "EN": "Increase Stone Mining Speed in the Wilderness by X%.",
+          "FR": "Augmente la Vitesse de Récolte de Pierre dans la nature de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
@@ -80,13 +104,25 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Green Thumb",
-        "effect": "Increases Town's Mill Output by X%.",
+        "name": {
+          "EN": "Green Thumb",
+          "FR": "Main Verte"
+        },
+        "effect": {
+          "EN": "Increases Town's Mill Output by X%.",
+          "FR": "Augmente la Production du Moulin du Village de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Forager's Luck",
-        "effect": "Increases Resource Gathering Speed in Wilderness by X%.",
+        "name": {
+          "EN": "Forager's Luck",
+          "FR": "Chance du Récolteur"
+        },
+        "effect": {
+          "EN": "Increases Resource Gathering Speed in Wilderness by X%.",
+          "FR": "Augmente la Vitesse de Récolte de Ressources dans la nature de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
@@ -100,13 +136,25 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Sixth Sense",
-        "effect": "Senses for dangers ahead, reducing damage taken by X% for all troops.",
+        "name": {
+          "EN": "Sixth Sense",
+          "FR": "Sixième Sens"
+        },
+        "effect": {
+          "EN": "Senses for dangers ahead, reducing damage taken by X% for all troops.",
+          "FR": "Ressent les dangers à venir, réduisant les dégâts subis par toutes les troupes de X%."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
-        "name": "Precision Shot",
-        "effect": "Quinn grants all soldiers a 50% chance of dealing X% more damage when attacking.",
+        "name": {
+          "EN": "Precision Shot",
+          "FR": "Tir de Précision"
+        },
+        "effect": {
+          "EN": "Quinn grants all soldiers a 50% chance of dealing X% more damage when attacking.",
+          "FR": "Quinn accorde à tous les soldats 50% de chances d'infliger X% de dégâts supplémentaires lors d'une attaque."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
     ]
@@ -120,13 +168,25 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Defenders' Edge",
-        "effect": "Howard guards our troops with his shield, reducing damage taken by X% for all troops.",
+        "name": {
+          "EN": "Defenders' Edge",
+          "FR": "Atout du Défenseur"
+        },
+        "effect": {
+          "EN": "Howard guards our troops with his shield, reducing damage taken by X% for all troops.",
+          "FR": "Howard protège nos troupes avec son bouclier, réduisant les dégâts subis par toutes les troupes de X%."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
-        "name": "Weaken",
-        "effect": "Howard's intimidating presence reduces the total Enemy Squads' Attack by X%.",
+        "name": {
+          "EN": "Weaken",
+          "FR": "Affaiblissement"
+        },
+        "effect": {
+          "EN": "Howard's intimidating presence reduces the total Enemy Squads' Attack by X%.",
+          "FR": "La présence intimidante de Howard réduit l'Attaque totale des escouades ennemies de X%."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       }
     ]
@@ -140,13 +200,25 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Iron Constitution",
-        "effect": "Wilderness ranger techniques reduce Governor Stamina Cost.",
+        "name": {
+          "EN": "Iron Constitution",
+          "FR": "Constitution de Fer"
+        },
+        "effect": {
+          "EN": "Wilderness ranger techniques reduce Governor Stamina Cost by X%.",
+          "FR": "Les techniques de ranger de la nature réduisent le Coût en Endurance du Gouverneur."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
-        "name": "Quick Paced",
-        "effect": "Increases March Speed by X%.",
+        "name": {
+          "EN": "Quick Paced",
+          "FR": "Rythme Rapide"
+        },
+        "effect": {
+          "EN": "Increases March Speed by X%.",
+          "FR": "Augmente la Vitesse de Marche de X%."
+        },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       }
     ]
@@ -160,13 +232,25 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Super Nutrients",
-        "effect": "Gordon's culinary masterpieces invigorate soldiers, increasing total Squads' Health by X%.",
+        "name": {
+          "EN": "Super Nutrients",
+          "FR": "Super Nutriments"
+        },
+        "effect": {
+          "EN": "Gordon's culinary masterpieces invigorate soldiers, increasing total Squads' Health by X%.",
+          "FR": "Les chefs-d'œuvre culinaires de Gordon revigorent les soldats, augmentant la Santé totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Trash Talk",
-        "effect": "Beyond delicious meals, Gordon's trash talk increases total Squads' Attack by X%.",
+        "name": {
+          "EN": "Trash Talk",
+          "FR": "Provocation"
+        },
+        "effect": {
+          "EN": "Beyond delicious meals, Gordon's trash talk increases total Squads' Attack by X%.",
+          "FR": "Au-delà de ses délicieux repas, les provocations de Gordon augmentent l'Attaque totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
@@ -180,13 +264,25 @@
     "goodJoinerBear": true,
     "skills": [
       {
-        "name": "Stand of Arms",
-        "effect": "Chenko implements advanced weaponry for our soldiers, increasing the total Squads' Lethality by X%.",
+        "name": {
+          "EN": "Stand of Arms",
+          "FR": "Équipement Militaire"
+        },
+        "effect": {
+          "EN": "Chenko implements advanced weaponry for our soldiers, increasing the total Squads' Lethality by X%.",
+          "FR": "Chenko fournit un armement avancé à nos soldats, augmentant la Létalité totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Shield Wall",
-        "effect": "Enhances troop armor with a keen engineering eye, reducing damage taken by X% for all troops.",
+        "name": {
+          "EN": "Shield Wall",
+          "FR": "Mur de Boucliers"
+        },
+        "effect": {
+          "EN": "Enhances troop armor with a keen engineering eye, reducing damage taken by X% for all troops.",
+          "FR": "Améliore l'armure des troupes avec un œil d'ingénieur averti, réduisant les dégâts subis de X% pour toutes les troupes."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       }
     ]
@@ -200,13 +296,25 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Desert Eclipse",
-        "effect": "A rising cloud of sand is terrible for visibility, reducing all Enemy Squads' Damage Dealt by X%.",
+        "name": {
+          "EN": "Desert Eclipse",
+          "FR": "Éclipse du Désert"
+        },
+        "effect": {
+          "EN": "A rising cloud of sand is terrible for visibility, reducing all Enemy Squads' Damage Dealt by X%.",
+          "FR": "Un nuage de sable naissant est terrible pour la visibilité, réduisant les Dégâts Infligés par toutes les escouades ennemies de X%."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
-        "name": "Pathfinder",
-        "effect": "Fahd has always been a pathfinder for his warriors, increasing Solo Hunting March Speed by X%.",
+        "name": {
+          "EN": "Pathfinder",
+          "FR": "Éclaireur"
+        },
+        "effect": {
+          "EN": "Fahd has always been a pathfinder for his warriors, increasing Solo Hunting March Speed by X%.",
+          "FR": "Fahd a toujours été un éclaireur pour ses guerriers, augmentant la Vitesse de Marche en Chasse Solo de X%."
+        },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       }
     ]
@@ -220,13 +328,25 @@
     "goodJoinerBear": true,
     "skills": [
       {
-        "name": "On Guard",
-        "effect": "Raises all Squads' total Lethality by X%.",
+        "name": {
+          "EN": "On Guard",
+          "FR": "Sur le Qui-vive"
+        },
+        "effect": {
+          "EN": "Raises all Squads' total Lethality by X%.",
+          "FR": "Augmente la Létalité totale de toutes les escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Well-Traveled",
-        "effect": "Boosts Research Speed by X%.",
+        "name": {
+          "EN": "Well-Traveled",
+          "FR": "Grand Voyageur"
+        },
+        "effect": {
+          "EN": "Boosts Research Speed by X%.",
+          "FR": "Augmente la Vitesse de Recherche de X%."
+        },
         "levels": ["3%", "6%", "9%", "12%", "15%"]
       }
     ]
@@ -240,13 +360,25 @@
     "goodJoinerBear": true,
     "skills": [
       {
-        "name": "Tri-Phalanx",
-        "effect": "Trademark formation increases all Squads' total Attack by X%.",
+        "name": {
+          "EN": "Tri-Phalanx",
+          "FR": "Tri-Phalange"
+        },
+        "effect": {
+          "EN": "Trademark formation increases all Squads' total Attack by X%.",
+          "FR": "Sa formation emblématique augmente l'Attaque totale de toutes les escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Exorcism",
-        "effect": "Skill at warding off evil increases Infirmary Healing Speed by X%.",
+        "name": {
+          "EN": "Exorcism",
+          "FR": "Exorcisme"
+        },
+        "effect": {
+          "EN": "Skill at warding off evil increases Infirmary Healing Speed by X%.",
+          "FR": "Son talent pour repousser le mal augmente la Vitesse de Soin de l'Infirmerie de X%."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
     ]
@@ -260,18 +392,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Taskforce Training",
-        "effect": "Increases the total Squads' Defense by X% and Health by X%.",
+        "name": {
+          "EN": "Taskforce Training",
+          "FR": "Entraînement de la Force d'Intervention"
+        },
+        "effect": {
+          "EN": "Increases the total Squads' Defense by X% and Health by X%.",
+          "FR": "Augmente la Défense de X% et la Santé de X% de toutes les escouades."
+        },
         "levels": ["(2%,3%)", "(4%,6%)", "(6%,9%)", "(8%,12%)", "(10%,15%)"]
       },
       {
-        "name": "Resourceful",
-        "effect": "Increases Construction Speed by X%, and reduces Construction Costs by X%.",
+        "name": {
+          "EN": "Resourceful",
+          "FR": "Débrouillard"
+        },
+        "effect": {
+          "EN": "Increases Construction Speed by X%, and reduces Construction Costs by X%.",
+          "FR": "Augmente la Vitesse de Construction de X% et réduit le Coût de Construction de X%."
+        },
         "levels": ["(3%,3%)", "(6%,6%)", "(9%,9%)", "(12%,12%)", "(15%,15%)"]
       },
       {
-        "name": "Positional Batter",
-        "effect": "Increasing the total Squads' Lethality by X%.",
+        "name": {
+          "EN": "Positional Batter",
+          "FR": "Frappeur Positionnel"
+        },
+        "effect": {
+          "EN": "Increasing the total Squads' Lethality by X%.",
+          "FR": "Augmente la Létalité totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
@@ -285,18 +435,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Oath of Guardian",
-        "effect": "Helga has a X% chance of reducing damage taken by 50% for all squads.",
+        "name": {
+          "EN": "Oath of Guardian",
+          "FR": "Serment du Gardien"
+        },
+        "effect": {
+          "EN": "Helga has a X% chance of reducing damage taken by 50% for all squads.",
+          "FR": "Helga a X% de chances de réduire les dégâts subis de 50% pour toutes les escouades."
+        },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
       {
-        "name": "Echoes of Valhalla",
-        "effect": "Helga blows the horn to motivate the squad, increasing the total Squads' Attack by X%.",
+        "name": {
+          "EN": "Echoes of Valhalla",
+          "FR": "Échos du Valhalla"
+        },
+        "effect": {
+          "EN": "Helga blows the horn to motivate the squad, increasing the total Squads' Attack by X%.",
+          "FR": "Helga souffle dans son cor pour motiver les troupes, augmentant l'Attaque totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Nature's Balance",
-        "effect": "Helga invites everyone to embrace nature, increasing the total Squads' Lethality by X%.",
+        "name": {
+          "EN": "Nature's Balance",
+          "FR": "Équilibre de la Nature"
+        },
+        "effect": {
+          "EN": "Helga invites everyone to embrace nature, increasing the total Squads' Lethality by X%.",
+          "FR": "Helga invite tout le monde à communier avec la nature, augmentant la Létalité totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
@@ -310,18 +478,36 @@
     "goodJoinerBear": true,
     "skills": [
       {
-        "name": "Battle Ready",
-        "effect": "Excels in boosting morale, increasing the total Squads' Lethality by X%.",
+        "name": {
+          "EN": "Battle Ready",
+          "FR": "Prêt au Combat"
+        },
+        "effect": {
+          "EN": "Excels in boosting morale, increasing the total Squads' Lethality by X%.",
+          "FR": "Excelle à remonter le moral, augmentant la Létalité totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Way of the Blade",
-        "effect": "Imparts the secrets of swordsmanship, increasing the total Squads' Attack by X%.",
+        "name": {
+          "EN": "Way of the Blade",
+          "FR": "Voie de la Lame"
+        },
+        "effect": {
+          "EN": "Imparts the secrets of swordsmanship, increasing the total Squads' Attack by X%.",
+          "FR": "Transmet les secrets de l'art de l'épée, augmentant l'Attaque totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Unrighteous Strike",
-        "effect": "Unique swordplay has a X% chance of increasing damage dealt by 50% for all squads.",
+        "name": {
+          "EN": "Unrighteous Strike",
+          "FR": "Frappe Injuste"
+        },
+        "effect": {
+          "EN": "Unique swordplay has a X% chance of increasing damage dealt by 50% for all squads.",
+          "FR": "Ce maniement d'épée unique a X% de chances d'augmenter les dégâts infligés de 50% pour toutes les escouades."
+        },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
     ]
@@ -335,18 +521,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Rally Flag",
-        "effect": "Jabel with her banner-like red armor, has a X% chance of reducing damage taken by 50% for all squads.",
+        "name": {
+          "EN": "Rally Flag",
+          "FR": "Drapeau de Ralliement"
+        },
+        "effect": {
+          "EN": "Jabel with her banner-like red armor, has a X% chance of reducing damage taken by 50% for all squads.",
+          "FR": "Jabel, avec son armure rouge tel un étendard, a X% de chances de réduire les dégâts subis de 50% pour toutes les escouades."
+        },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
       {
-        "name": "Hero's Domain",
-        "effect": "Jabel, a fearless knight, grants all squads a 50% chance of dealing X% more damage when attacking.",
+        "name": {
+          "EN": "Hero's Domain",
+          "FR": "Domaine du Héros"
+        },
+        "effect": {
+          "EN": "Jabel, a fearless knight, grants all squads a 50% chance of dealing X% more damage when attacking.",
+          "FR": "Jabel, un chevalier intrépide, accorde à toutes les escouades 50% de chances d'infliger X% de dégâts supplémentaires lors d'une attaque."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
-        "name": "Youthful Rage",
-        "effect": "Jabel's valiant spirit inspires everyone increasing damage dealt by X% for all squads.",
+        "name": {
+          "EN": "Youthful Rage",
+          "FR": "Rage de Jeunesse"
+        },
+        "effect": {
+          "EN": "Jabel's valiant spirit inspires everyone increasing damage dealt by X% for all squads.",
+          "FR": "L'esprit vaillant de Jabel inspire tout le monde, augmentant les dégâts infligés de X% pour toutes les escouades."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
@@ -360,18 +564,36 @@
     "goodJoinerBear": true,
     "skills": [
       {
-        "name": "Noble Path",
-        "effect": "Increases the total squads' Attack and Defense by X% and X%",
+        "name": {
+          "EN": "Noble Path",
+          "FR": "Voie Noble"
+        },
+        "effect": {
+          "EN": "Increases the total squads' Attack and Defense by X% and X%",
+          "FR": "Augmente l'Attaque et la Défense totales des escouades de X% et X%."
+        },
         "levels": ["(2%,3%)", "(4%,6%)", "(6%,9%)", "(8%,12%)", "(10%,15%)"]
       },
       {
-        "name": "Elixir of Strength",
-        "effect": "Granting all squads' attack a 25% chance of dealing X% damage",
+        "name": {
+          "EN": "Elixir of Strength",
+          "FR": "Élixir de Force"
+        },
+        "effect": {
+          "EN": "Granting all squads' attack a 25% chance of dealing X% damage",
+          "FR": "Accorde aux attaques de toutes les escouades 25% de chances d'infliger X% de dégâts."
+        },
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       },
       {
-        "name": "Trial by Fire",
-        "effect": "X% chance of reducing damage taken by 50% for all squads.",
+        "name": {
+          "EN": "Trial by Fire",
+          "FR": "Épreuve du Feu"
+        },
+        "effect": {
+          "EN": "X% chance of reducing damage taken by 50% for all squads.",
+          "FR": "X% de chances de réduire les dégâts subis de 50% pour toutes les escouades."
+        },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
     ]
@@ -385,18 +607,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Wild Card",
-        "effect": "X% chance of increasing damage dealt by 50% for all squads.",
+        "name": {
+          "EN": "Wild Card",
+          "FR": "Carte Joker"
+        },
+        "effect": {
+          "EN": "X% chance of increasing damage dealt by 50% for all squads.",
+          "FR": "X% de chances d'augmenter les dégâts infligés de 50% pour toutes les escouades."
+        },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
       {
-        "name": "Rumhead",
-        "effect": "Grants all squads a 20% chance of reducing the total Enemy Squads' Lethality by X% for 2 turns when attacking.",
+        "name": {
+          "EN": "Rumhead",
+          "FR": "Tête de Rhum"
+        },
+        "effect": {
+          "EN": "Grants all squads a 20% chance of reducing the total Enemy Squads' Lethality by X% for 2 turns when attacking.",
+          "FR": "Accorde à toutes les escouades 20% de chances de réduire la Létalité totale des escouades ennemies de X% pendant 2 tours lors d'une attaque."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
-        "name": "Dynamo",
-        "effect": "50% chance of increasing damage dealt by X%.",
+        "name": {
+          "EN": "Dynamo",
+          "FR": "Dynamo"
+        },
+        "effect": {
+          "EN": "50% chance of increasing damage dealt by X%.",
+          "FR": "50% de chances d'augmenter les dégâts infligés de X%."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
     ]
@@ -410,18 +650,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Sundering Wound",
-        "effect": "20% chance of inflicting Sunder, dealing X% damage per turn for 3 turns.",
+        "name": {
+          "EN": "Sundering Wound",
+          "FR": "Blessure Déchirante"
+        },
+        "effect": {
+          "EN": "20% chance of inflicting Sunder, dealing X% damage per turn for 3 turns.",
+          "FR": "20% de chances d'infliger Fracas, infligeant X% de dégâts par tour pendant 3 tours."
+        },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
       {
-        "name": "Stoic",
-        "effect": "Increases total Squads' Attack by X%.",
+        "name": {
+          "EN": "Stoic",
+          "FR": "Stoïque"
+        },
+        "effect": {
+          "EN": "Increases total Squads' Attack by X%.",
+          "FR": "Augmente l'Attaque totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Infinite Arsenal",
-        "effect": "50% chance of amplifying enemy squads' damage taken by X%.",
+        "name": {
+          "EN": "Infinite Arsenal",
+          "FR": "Arsenal Infini"
+        },
+        "effect": {
+          "EN": "50% chance of amplifying enemy squads' damage taken by X%.",
+          "FR": "50% de chances d'amplifier les dégâts subis par les escouades ennemies de X%."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
     ]
@@ -435,18 +693,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "The Tempest",
-        "effect": "20% chance of increasing Squad's damage dealt by X% for 3 turns",
+        "name": {
+          "EN": "The Tempest",
+          "FR": "La Tempête"
+        },
+        "effect": {
+          "EN": "20% chance of increasing Squad's damage dealt by X% for 3 turns",
+          "FR": "20% de chances d'augmenter les dégâts infligés de l'escouade de X% pendant 3 tours."
+        },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
       {
-        "name": "The Resistance",
-        "effect": "20% chance of reducing the total Enemy Squad's Lethality by X% for 2 turns.",
+        "name": {
+          "EN": "The Resistance",
+          "FR": "La Résistance"
+        },
+        "effect": {
+          "EN": "20% chance of reducing the total Enemy Squad's Lethality by X% for 2 turns.",
+          "FR": "20% de chances de réduire la Létalité totale des escouades ennemies de X% pendant 2 tours."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
-        "name": "The Celebration",
-        "effect": "Increases the total Squad's Health by X%",
+        "name": {
+          "EN": "The Celebration",
+          "FR": "La Célébration"
+        },
+        "effect": {
+          "EN": "Increases the total Squad's Health by X%",
+          "FR": "Augmente la Santé totale de l'escouade de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
@@ -460,18 +736,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Evil Eye",
-        "effect": "50% curse chance increasing damage taken by X%",
+        "name": {
+          "EN": "Evil Eye",
+          "FR": "Mauvais Œil"
+        },
+        "effect": {
+          "EN": "50% curse chance increasing damage taken by X%",
+          "FR": "50% de chances de maudire, augmentant les dégâts subis de X%."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
-        "name": "The Favor",
-        "effect": "50% chance to increase Squad Attack by X%",
+        "name": {
+          "EN": "The Favor",
+          "FR": "La Faveur"
+        },
+        "effect": {
+          "EN": "50% chance to increase Squad Attack by X%",
+          "FR": "50% de chances d'augmenter l'Attaque de l'escouade de X%."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
-        "name": "The Shield",
-        "effect": "40% chance to reduce damage taken by X%",
+        "name": {
+          "EN": "The Shield",
+          "FR": "Le Bouclier"
+        },
+        "effect": {
+          "EN": "40% chance to reduce damage taken by X%",
+          "FR": "40% de chances de réduire les dégâts subis de X%."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
     ]
@@ -485,18 +779,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Holy Warrior",
-        "effect": "Reducing the total Enemy Squads' Attack by X%",
+        "name": {
+          "EN": "Holy Warrior",
+          "FR": "Guerrier Saint"
+        },
+        "effect": {
+          "EN": "Reducing the total Enemy Squads' Attack by X%",
+          "FR": "Réduit l'Attaque totale des escouades ennemies de X%."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
-        "name": "Conviction",
-        "effect": "Reducing Squads' Damage Taken by X%",
+        "name": {
+          "EN": "Conviction",
+          "FR": "Conviction"
+        },
+        "effect": {
+          "EN": "Reducing Squads' Damage Taken by X%",
+          "FR": "Réduit les dégâts subis des escouades de X%."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
-        "name": "Exhortation",
-        "effect": "Increases the total Squads' Health by X%",
+        "name": {
+          "EN": "Exhortation",
+          "FR": "Exhortation"
+        },
+        "effect": {
+          "EN": "Increases the total Squads' Health by X%",
+          "FR": "Augmente la Santé totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
@@ -510,18 +822,36 @@
     "goodJoinerBear": true,
     "skills": [
       {
-        "name": "Warbringer",
-        "effect": "Increases total Squads' Attack by X%",
+        "name": {
+          "EN": "Warbringer",
+          "FR": "Porte-Guerre"
+        },
+        "effect": {
+          "EN": "Increases total Squads' Attack by X%",
+          "FR": "Augmente l'Attaque totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Subterfuge",
-        "effect": "X% chance to dodge Normal Attacks",
+        "name": {
+          "EN": "Subterfuge",
+          "FR": "Subterfuge"
+        },
+        "effect": {
+          "EN": "X% chance to dodge Normal Attacks",
+          "FR": "X% de chances d'esquiver les Attaques Normales."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
-        "name": "Sleight Hand",
-        "effect": "25% chance for extra attack dealing X% damage",
+        "name": {
+          "EN": "Sleight Hand",
+          "FR": "Tour de Passe-passe"
+        },
+        "effect": {
+          "EN": "25% chance for extra attack dealing X% damage",
+          "FR": "25% de chances d'effectuer une attaque supplémentaire infligeant X% de dégâts."
+        },
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       }
     ]
@@ -535,18 +865,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Rescuing Hands",
-        "effect": "Reduces Infantry and Archer's Damage Taken by X% every 5 turns for 2 turns",
+        "name": {
+          "EN": "Rescuing Hands",
+          "FR": "Mains Salvatrices"
+        },
+        "effect": {
+          "EN": "Reduces Infantry and Archer's Damage Taken by X% every 5 turns for 2 turns",
+          "FR": "Réduit les dégâts subis par l'Infanterie et les Archers de X% tous les 5 tours, pendant 2 tours."
+        },
         "levels": ["14%", "28%", "42%", "56%", "70%"]
       },
       {
-        "name": "Praetorian Will",
-        "effect": "Increases Infantry Damage Dealt by X% and Cavalry and Archer's Damage Dealt by 10%",
+        "name": {
+          "EN": "Praetorian Will",
+          "FR": "Volonté Prétorienne"
+        },
+        "effect": {
+          "EN": "Increases Infantry Damage Dealt by X% and Cavalry and Archer's Damage Dealt by 10%",
+          "FR": "Augmente les dégâts infligés par l'Infanterie de X% et ceux de la Cavalerie et des Archers de 10%."
+        },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       },
       {
-        "name": "Carpe Diem",
-        "effect": "Increasing Infantry Damage Dealt per attack by X% and target Damage Taken by 25% for 1 turn",
+        "name": {
+          "EN": "Carpe Diem",
+          "FR": "Carpe Diem"
+        },
+        "effect": {
+          "EN": "Increasing Infantry Damage Dealt per attack by X% and target Damage Taken by 25% for 1 turn",
+          "FR": "Augmente les dégâts infligés par l'Infanterie par attaque de X% et les dégâts subis par la cible de 25% pendant 1 tour."
+        },
         "levels": ["12%", "24%", "36%", "48%", "60%"]
       }
     ]
@@ -560,18 +908,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Chaos Gambit",
-        "effect": "40% chance of increasing all Squads' Damage Dealt by X%",
+        "name": {
+          "EN": "Chaos Gambit",
+          "FR": "Gambit du Chaos"
+        },
+        "effect": {
+          "EN": "40% chance of increasing all Squads' Damage Dealt by X%",
+          "FR": "40% de chances d'augmenter les dégâts infligés par toutes les escouades de X%."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
-        "name": "Rose of War",
-        "effect": "Reducing damage dealt by X% for all enemy squads",
+        "name": {
+          "EN": "Rose of War",
+          "FR": "Rose de Guerre"
+        },
+        "effect": {
+          "EN": "Reducing damage dealt by X% for all enemy squads",
+          "FR": "Réduit les dégâts infligés de X% par toutes les escouades ennemies."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
-        "name": "Golden Rhythm",
-        "effect": "Increasing Archers' total Attack by X%",
+        "name": {
+          "EN": "Golden Rhythm",
+          "FR": "Rythme Doré"
+        },
+        "effect": {
+          "EN": "Increasing Archers' total Attack by X%",
+          "FR": "Augmente l'Attaque totale des Archers de X%."
+        },
         "levels": ["6%", "12%", "18%", "24%", "30%"]
       }
     ]
@@ -585,18 +951,36 @@
     "goodJoinerBear": true,
     "skills": [
       {
-        "name": "Battle Hunger",
-        "effect": "Thrud's battle fever inspires her Infantry and Archers, reducing their damage taken by X% and increasing their damage dealt by X%.",
+        "name": {
+          "EN": "Battle Hunger",
+          "FR": "Soif de Combat"
+        },
+        "effect": {
+          "EN": "Thrud's battle fever inspires her Infantry and Archers, reducing their damage taken by X% and increasing their damage dealt by X%.",
+          "FR": "La fièvre du combat de Thrud inspire son Infanterie et ses Archers, réduisant leurs dégâts subis de X% et augmentant leurs dégâts infligés de X%."
+        },
         "levels": ["(3%,3%)", "(6%,6%)", "(9%,9%)", "(12%,12%)", "(15%,15%)"]
       },
       {
-        "name": "Reckless Charge",
-        "effect": "No plans. No finesse. Just brutally charging into battle. Thrud's Cavalry has a 20% chance of dealing X% extra damage to all enemies on attack.",
+        "name": {
+          "EN": "Reckless Charge",
+          "FR": "Charge Téméraire"
+        },
+        "effect": {
+          "EN": "No plans. No finesse. Just brutally charging into battle. Thrud's Cavalry has a 20% chance of dealing X% extra damage to all enemies on attack.",
+          "FR": "Pas de plan. Pas de finesse. Juste une charge brutale. La Cavalerie de Thrud a 20% de chances d'infliger X% de dégâts supplémentaires à tous les ennemis lors d'une attaque."
+        },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       },
       {
-        "name": "Ancestral Guidance",
-        "effect": "Ancestral spirits guide the brave to Valhalla. For every 4 attacks made by Cavalry, all squads' damage dealt is increased by X% and damage taken is reduced by X% for 2 turns.",
+        "name": {
+          "EN": "Ancestral Guidance",
+          "FR": "Guide Ancestral"
+        },
+        "effect": {
+          "EN": "Ancestral spirits guide the brave to Valhalla. For every 4 attacks made by Cavalry, all squads' damage dealt is increased by X% and damage taken is reduced by X% for 2 turns.",
+          "FR": "Les esprits ancestraux guident les braves au Valhalla. Toutes les 4 attaques de la Cavalerie, les dégâts infligés par toutes les escouades augmentent de X% et les dégâts subis sont réduits de X% pendant 2 tours."
+        },
         "levels": ["(5%,5%)", "(10%,10%)", "(15%,15%)", "(20%,20%)", "(25%,25%)"]
       }
     ]
@@ -610,18 +994,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Mighty Paragon",
-        "effect": "Long Fei's courage in the teeth of the enemy points the way toward the warrior within, granting a 40% chance of reducing damage taken by all squads by X%.",
+        "name": {
+          "EN": "Mighty Paragon",
+          "FR": "Puissant Parangon"
+        },
+        "effect": {
+          "EN": "Long Fei's courage in the teeth of the enemy points the way toward the warrior within, granting a 40% chance of reducing damage taken by all squads by X%.",
+          "FR": "Le courage de Long Fei face à l'ennemi révèle le guerrier qui sommeille en lui, accordant 40% de chances de réduire les dégâts subis par toutes les escouades de X%."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
-        "name": "Celestial Sustenance",
-        "effect": "The sweet nectar of Long Fei's potions have born fruit in soldiers' vitality, increasing total Squads' Defense by X%.",
+        "name": {
+          "EN": "Celestial Sustenance",
+          "FR": "Subsistance Céleste"
+        },
+        "effect": {
+          "EN": "The sweet nectar of Long Fei's potions have born fruit in soldiers' vitality, increasing total Squads' Defense by X%.",
+          "FR": "Le doux nectar des potions de Long Fei a porté ses fruits sur la vitalité des soldats, augmentant la Défense totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Art of War",
-        "effect": "'All warfare is based on deception'. Long Fei's war wisdom is ingrained in his soldiers, granting all squads' attacks a 25% chance of dealing X% damage.",
+        "name": {
+          "EN": "Art of War",
+          "FR": "Art de la Guerre"
+        },
+        "effect": {
+          "EN": "'All warfare is based on deception'. Long Fei's war wisdom is ingrained in his soldiers, granting all squads' attacks a 25% chance of dealing X% damage.",
+          "FR": "\"Toute guerre est basée sur la tromperie\". La sagesse martiale de Long Fei est ancrée dans ses soldats, accordant aux attaques de toutes les escouades 25% de chances d'infliger X% de dégâts."
+        },
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       }
     ]
@@ -635,18 +1037,36 @@
     "goodJoinerBear": true,
     "skills": [
       {
-        "name": "Crouching Tiger",
-        "effect": "Vivian is a patient commander willing to wait for just the right moment to strike. All squads' attacks increase enemy damage taken by X%.",
+        "name": {
+          "EN": "Crouching Tiger",
+          "FR": "Tigre Accroupi"
+        },
+        "effect": {
+          "EN": "Vivian is a patient commander willing to wait for just the right moment to strike. All squads' attacks increase enemy damage taken by X%.",
+          "FR": "Vivian est un commandant patient, prêt à attendre le bon moment pour frapper. Les attaques de toutes les escouades augmentent les dégâts subis par l'ennemi de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Focus Fire",
-        "effect": "Vivian's sharp focus exposes enemy weaknesses, granting all squads' attack X% extra damage after every four attacks, and causes the target to receive X% extra damage for its next attack received.",
+        "name": {
+          "EN": "Focus Fire",
+          "FR": "Tir Ciblé"
+        },
+        "effect": {
+          "EN": "Vivian's sharp focus exposes enemy weaknesses, granting all squads' attack X% extra damage after every four attacks, and causes the target to receive X% extra damage for its next attack received.",
+          "FR": "La concentration de Vivian expose les faiblesses ennemies, accordant X% de dégâts supplémentaires aux attaques de toutes les escouades toutes les quatre attaques, et forçant la cible à subir X% de dégâts supplémentaires à la prochaine attaque reçue."
+        },
         "levels": ["(20%,5%)", "(40%,7.5%)", "(60%,10%)", "(80%,12.5%)", "(100%,15%)"]
       },
       {
-        "name": "Trap of Greed",
-        "effect": "Vivian equips her Archers with custom coin traps, dealing X% extra damage to all enemies on the next attack of every 4 attacks.",
+        "name": {
+          "EN": "Trap of Greed",
+          "FR": "Piège de l'Avarice"
+        },
+        "effect": {
+          "EN": "Vivian equips her Archers with custom coin traps, dealing X% extra damage to all enemies on the next attack of every 4 attacks.",
+          "FR": "Vivian équipe ses Archers de pièges à pièces personnalisés, infligeant X% de dégâts supplémentaires à tous les ennemis lors de la prochaine attaque, toutes les 4 attaques."
+        },
         "levels": ["12%", "24%", "36%", "48%", "60%"]
       }
     ]
@@ -660,18 +1080,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Arcane Pact",
-        "effect": "The arcane pact grants Sophia the protection of night, and a X% chance of reducing all squad damage received by 50% every turn.",
+        "name": {
+          "EN": "Arcane Pact",
+          "FR": "Pacte des Arcanes"
+        },
+        "effect": {
+          "EN": "The arcane pact grants Sophia the protection of night, and a X% chance of reducing all squad damage received by 50% every turn.",
+          "FR": "Le pacte des arcanes accorde à Sophia la protection de la nuit, et X% de chances de réduire de 50% tous les dégâts subis par l'escouade à chaque tour."
+        },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
       {
-        "name": "Terror - Deathblow",
-        "effect": "Sophia radiates a fearsome aura that has a chance to inflict Terror on enemy targets. Enemy targets suffer the effects of Terror every 2 turns and will receive X% increased Cavalry damage on the following turn. Terror lasts 1 turn.",
+        "name": {
+          "EN": "Terror - Deathblow",
+          "FR": "Terreur - Coup de Grâce"
+        },
+        "effect": {
+          "EN": "Sophia radiates a fearsome aura that has a chance to inflict Terror on enemy targets. Enemy targets suffer the effects of Terror every 2 turns and will receive X% increased Cavalry damage on the following turn. Terror lasts 1 turn.",
+          "FR": "Sophia dégage une aura redoutable pouvant infliger Terreur aux cibles ennemies. Les cibles ennemies subissent les effets de Terreur tous les 2 tours et recevront X% de dégâts de Cavalerie supplémentaires au tour suivant. Terreur dure 1 tour."
+        },
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       },
       {
-        "name": "Terror - Annihilation",
-        "effect": "Terror increases fragility. All Squads deal X% increased damage to Terrified targets.",
+        "name": {
+          "EN": "Terror - Annihilation",
+          "FR": "Terreur - Annihilation"
+        },
+        "effect": {
+          "EN": "Terror increases fragility. All Squads deal X% increased damage to Terrified targets.",
+          "FR": "La terreur augmente la fragilité. Toutes les escouades infligent X% de dégâts supplémentaires aux cibles Terrorisées."
+        },
         "levels": ["15%", "30%", "45%", "60%", "75%"]
       }
     ]
@@ -685,18 +1123,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Command of Power",
-        "effect": "Acceptance of Triton's authority enables the fruits to be shared thereof, increasing total Squads' Defense by X%.",
+        "name": {
+          "EN": "Command of Power",
+          "FR": "Commandement du Pouvoir"
+        },
+        "effect": {
+          "EN": "Acceptance of Triton's authority enables the fruits to be shared thereof, increasing total Squads' Defense by X%.",
+          "FR": "L'acceptation de l'autorité de Triton permet d'en partager les fruits, augmentant la Défense totale des escouades de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Warfare of Power",
-        "effect": "The power of warfare lies in shared fearlessness in the face of battle, increasing total Squads' skill damage dealt by X%.",
+        "name": {
+          "EN": "Warfare of Power",
+          "FR": "Guerre du Pouvoir"
+        },
+        "effect": {
+          "EN": "The power of warfare lies in shared fearlessness in the face of battle, increasing total Squads' skill damage dealt by X%.",
+          "FR": "Le pouvoir de la guerre réside dans l'intrépidité partagée face au combat, augmentant les dégâts de compétence infligés par toutes les escouades de X%."
+        },
         "levels": ["6%", "12%", "18%", "24%", "30%"]
       },
       {
-        "name": "Oath of Power",
-        "effect": "Great power stems from a willingness to keep oaths, increasing Infantry Health by X% as well as Cavalry and Archer Health by X%.",
+        "name": {
+          "EN": "Oath of Power",
+          "FR": "Serment de Pouvoir"
+        },
+        "effect": {
+          "EN": "Great power stems from a willingness to keep oaths, increasing Infantry Health by X% as well as Cavalry and Archer Health by X%.",
+          "FR": "Un grand pouvoir découle de la volonté de tenir ses serments, augmentant la Santé de l'Infanterie de X%, ainsi que la Santé de la Cavalerie et des Archers de X%."
+        },
         "levels": ["(4%,6%)", "(8%,12%)", "(12%,18%)", "(16%,24%)", "(20%,30%)"]
       }
     ]
@@ -710,18 +1166,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Avalanche",
-        "effect": "An avalanche for Yang is just another weapon in his arsenal, resulting in an additional strike against a target by all Squads every 4 turns for X% damage.",
+        "name": {
+          "EN": "Avalanche",
+          "FR": "Avalanche"
+        },
+        "effect": {
+          "EN": "An avalanche for Yang is just another weapon in his arsenal, resulting in an additional strike against a target by all Squads every 4 turns for X% damage.",
+          "FR": "Pour Yang, une avalanche n'est qu'une arme de plus dans son arsenal, entraînant une frappe supplémentaire contre une cible par toutes les escouades tous les 4 tours pour X% de dégâts."
+        },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       },
       {
-        "name": "Ice Zone",
-        "effect": "Years of arctic adversity have taught Yang to seize advantages. Yang's Archers have a 40% chance of dealing X% extra damage with every attack.",
+        "name": {
+          "EN": "Ice Zone",
+          "FR": "Zone de Glace"
+        },
+        "effect": {
+          "EN": "Years of arctic adversity have taught Yang to seize advantages. Yang's Archers have a 40% chance of dealing X% extra damage with every attack.",
+          "FR": "Des années d'adversité arctique ont appris à Yang à saisir les avantages. Les Archers de Yang ont 40% de chances d'infliger X% de dégâts supplémentaires à chaque attaque."
+        },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       },
       {
-        "name": "Ambush",
-        "effect": "Yang is an advanced thinker who can easily grasp the principles of almost any phenomena, giving all Squads a X% chance of dealing increased damage every turn.",
+        "name": {
+          "EN": "Ambush",
+          "FR": "Embuscade"
+        },
+        "effect": {
+          "EN": "Yang is an advanced thinker who can easily grasp the principles of almost any phenomena, giving all Squads a X% chance of dealing increased damage every turn.",
+          "FR": "Yang est un penseur avancé qui saisit facilement les principes de presque tous les phénomènes, donnant à toutes les escouades X% de chances d'infliger des dégâts accrus à chaque tour."
+        },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
     ]
@@ -735,18 +1209,36 @@
     "goodJoinerBear": true,
     "skills": [
       {
-        "name": "Artillerymen",
-        "effect": "The inclusion of the artillerymen has an overall helpful effect of increasing Squad's total Attack by X% and total Lethality by X%.",
+        "name": {
+          "EN": "Artillerymen",
+          "FR": "Artilleurs"
+        },
+        "effect": {
+          "EN": "The inclusion of the artillerymen has an overall helpful effect of increasing Squad's total Attack by X% and total Lethality by X%.",
+          "FR": "L'inclusion d'artilleurs a pour effet global d'augmenter l'Attaque totale de l'escouade de X% et la Létalité totale de X%."
+        },
         "levels": ["(3%,2%)", "(6%,4%)", "(9%,6%)", "(12%,8%)", "(15%,10%)"]
       },
       {
-        "name": "Chain Shelling",
-        "effect": "Wee & Woo's devastating back-to-back rounds tear shreds through the enemy lines, increasing Squad's Damage Dealt to Archer by X% and to Infantry by X%.",
+        "name": {
+          "EN": "Chain Shelling",
+          "FR": "Bombardement en Chaîne"
+        },
+        "effect": {
+          "EN": "Wee & Woo's devastating back-to-back rounds tear shreds through the enemy lines, increasing Squad's Damage Dealt to Archer by X% and to Infantry by X%.",
+          "FR": "Les tirs dévastateurs de Wee & Woo déchiquettent les lignes ennemies, augmentant les dégâts infligés par l'escouade aux Archers de X% et à l'Infanterie de X%."
+        },
         "levels": ["(6%,5%)", "(12%,10%)", "(18%,15%)", "(24%,20%)", "(30%,25%)"]
       },
       {
-        "name": "Boom Boom",
-        "effect": "There's always someone in every cannon duo who can aim well. Wee & Woo's presence gives Squad's Attack a X% chance of dealing 50% extra damage.",
+        "name": {
+          "EN": "Boom Boom",
+          "FR": "Boum Boum"
+        },
+        "effect": {
+          "EN": "There's always someone in every cannon duo who can aim well. Wee & Woo's presence gives Squad's Attack a X% chance of dealing 50% extra damage.",
+          "FR": "Dans chaque duo de canonniers, il y a toujours quelqu'un qui vise bien. La présence de Wee & Woo donne à l'Attaque de l'escouade X% de chances d'infliger 50% de dégâts supplémentaires."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
     ]
@@ -760,18 +1252,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Intimidation",
-        "effect": "The terrifying presence of the massive Angel of Justice on the battlefield reduces enemy Squad's Total Lethality by X%.",
+        "name": {
+          "EN": "Intimidation",
+          "FR": "Intimidation"
+        },
+        "effect": {
+          "EN": "The terrifying presence of the massive Angel of Justice on the battlefield reduces enemy Squad's Total Lethality by X%.",
+          "FR": "La présence terrifiante du massif Ange de la Justice sur le champ de bataille réduit la Létalité totale de l'escouade ennemie de X%."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
-        "name": "Iron Bodies",
-        "effect": "Superior metal armor forging blunts the impact of conventional weapons, reducing Squad's Damage Taken by X%",
+        "name": {
+          "EN": "Iron Bodies",
+          "FR": "Corps de Fer"
+        },
+        "effect": {
+          "EN": "Superior metal armor forging blunts the impact of conventional weapons, reducing Squad's Damage Taken by X%",
+          "FR": "La forge supérieure d'armures en métal atténue l'impact des armes conventionnelles, réduisant les dégâts subis par l'escouade de X%."
+        },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
-        "name": "Great Justice",
-        "effect": "The Angel of Justice comes outfitted with state-of-the-art battlefield medkits, increasing Squad's total Health by X%.",
+        "name": {
+          "EN": "Great Justice",
+          "FR": "Grande Justice"
+        },
+        "effect": {
+          "EN": "The Angel of Justice comes outfitted with state-of-the-art battlefield medkits, increasing Squad's total Health by X%.",
+          "FR": "L'Ange de la Justice est équipé de kits médicaux de pointe, augmentant la Santé totale de l'escouade de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
@@ -785,18 +1295,36 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Dissolution",
-        "effect": "An artist sees what others cannot. Ava's deconstructive gaze sees vulnerabilities, reducing total Enemy Squad's Defense by X%.",
+        "name": {
+          "EN": "Dissolution",
+          "FR": "Dissolution"
+        },
+        "effect": {
+          "EN": "An artist sees what others cannot. Ava's deconstructive gaze sees vulnerabilities, reducing total Enemy Squad's Defense by X%.",
+          "FR": "Un artiste voit ce que les autres ne peuvent voir. Le regard déconstructif d'Ava perçoit les vulnérabilités, réduisant la Défense totale de l'escouade ennemie de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Chiaroscuro",
-        "effect": "Bright light and dark shadow can blind enemies who do not expect it. All enemy soldiers receive X% increased damage for 2 turns every 4 turns.",
+        "name": {
+          "EN": "Chiaroscuro",
+          "FR": "Clair-obscur"
+        },
+        "effect": {
+          "EN": "Bright light and dark shadow can blind enemies who do not expect it. All enemy soldiers receive X% increased damage for 2 turns every 4 turns.",
+          "FR": "La lumière vive et l'ombre sombre peuvent aveugler les ennemis qui ne s'y attendent pas. Tous les soldats ennemis subissent X% de dégâts supplémentaires pendant 2 tours tous les 4 tours."
+        },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
-        "name": "Light and Cold",
-        "effect": "Ava's weapons are like twin beacons for all to follow, increasing soldiers' Lethality by X%.",
+        "name": {
+          "EN": "Light and Cold",
+          "FR": "Lumière et Froid"
+        },
+        "effect": {
+          "EN": "Ava's weapons are like twin beacons for all to follow, increasing soldiers' Lethality by X%.",
+          "FR": "Les armes d'Ava sont comme des balises jumelles que tous suivent, augmentant la Létalité des soldats de X%."
+        },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
