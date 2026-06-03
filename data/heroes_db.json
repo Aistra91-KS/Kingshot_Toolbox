@@ -498,7 +498,7 @@
     "goodJoinerBear": true,
     "skills": [
       {
-        "name": "Holy Warrior",
+        "name": "Warbringer",
         "effect": "Increases total Squads' Attack by X%",
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
