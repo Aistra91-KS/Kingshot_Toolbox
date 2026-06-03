@@ -1269,3 +1269,32 @@ tbody tr:hover {
 .skill-pip.locked { background: #111; border-color: #222; color: #333; cursor: not-allowed; }
 .skill-row.locked { opacity: 0.5; }
 
+/* ============================================================================
+   PANNEAU LATÉRAL DROIT FIXE (CASERNE)
+   ============================================================================ */
+#hero-modal {
+    position: fixed !important; /* Fixe le panneau à l'écran, pas à la page */
+    top: 90px !important; /* Aligne le haut du panneau avec ta sidebar de gauche */
+    right: 20px !important; /* Le colle à droite de l'écran */
+    bottom: 20px !important; /* S'arrête avant le bas de l'écran */
+    width: 420px !important; /* Garde la largeur parfaite de ta carte */
+    z-index: 9999 !important; /* Passe au-dessus du reste */
+    
+    background: transparent !important; /* Enlève tout voile noir sur la page */
+    pointer-events: none !important; /* Astuce magique : permet de cliquer sur les autres héros à côté ! */
+}
+
+#hero-modal .modal-content {
+    pointer-events: auto !important; /* Rend le panneau cliquable */
+    width: 100% !important;
+    height: 100% !important; /* Prend l'espace exact entre 'top' et 'bottom' */
+    max-height: 100% !important; 
+    overflow-y: auto !important; /* S'il y a bcp de texte, la molette fera défiler le panneau, pas la page */
+    margin: 0 !important;
+    
+    /* On force ton design actuel pour qu'il ne bouge pas d'un poil */
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    box-shadow: -10px 15px 40px rgba(0, 0, 0, 0.8) !important;
+    background: #141414 !important; /* Fond sombre de ta carte */
+}
