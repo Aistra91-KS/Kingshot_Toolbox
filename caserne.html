@@ -18,7 +18,7 @@
             
             <div class="control-row" style="margin-bottom: 10px;">
                 <label>Trier par</label>
-                <select id="sort-by" class="table-select" style="width: 120px;">
+                <select id="sort-by" class="table-select" style="width: 100%;">
                     <option value="rarity-desc">Rareté (Décroissant)</option>
                     <option value="rarity-asc">Rareté (Croissant)</option>
                     <option value="gen-desc">Génération (Plus récente)</option>
@@ -29,18 +29,31 @@
 
             <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
 
-            <div class="control-row" style="margin-bottom: 10px;">
-                <label>Génération</label>
-                <select id="filter-gen" class="table-select" style="width: 120px;">
-                    <option value="all" selected>Toutes</option>
-                    <option value="1">Gen 1 uniquement</option>
-                    <option value="2">Gen 2 uniquement</option>
-                    <option value="3">Gen 3 uniquement</option>
-                    <option value="4">Gen 4 uniquement</option>
-                    <option value="5">Gen 5 uniquement</option>
-                    <option value="6">Gen 6 uniquement</option>
-                    <option value="7">Gen 7 uniquement</option>
-                </select>
+            <div class="control-row" style="margin-bottom: 15px; flex-direction: column; align-items: flex-start;">
+                <label style="margin-bottom: 8px;">Générations (Multi-choix)</label>
+                <div id="filter-gen-group" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" value="1" class="gen-checkbox" checked> G1
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" value="2" class="gen-checkbox" checked> G2
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" value="3" class="gen-checkbox" checked> G3
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" value="4" class="gen-checkbox" checked> G4
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" value="5" class="gen-checkbox" checked> G5
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" value="6" class="gen-checkbox" checked> G6
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" value="7" class="gen-checkbox" checked> G7
+                    </label>
+                </div>
             </div>
             
             <div class="control-row" style="margin-bottom: 10px;">
