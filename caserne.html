@@ -83,25 +83,47 @@
     </main>
 
     <div id="hero-modal" class="modal" style="display: none;">
-        <div class="modal-content" style="max-width: 350px;">
-            <h3 id="modal-hero-name" style="color: var(--accent); margin-top: 0;">Nom du Héros</h3>
-            <p id="modal-hero-skill" style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; font-style: italic;"></p>
+        <div class="modal-content" style="max-width: 450px; padding: 0; overflow: hidden;">
             
-            <div class="control-row" style="margin-bottom: 20px;">
-                <label>Compétence 1</label>
-                <select id="modal-skill-level" class="table-select">
-                    <option value="0">Non possédé (0)</option>
-                    <option value="1">Niveau 1</option>
-                    <option value="2">Niveau 2</option>
-                    <option value="3">Niveau 3</option>
-                    <option value="4">Niveau 4</option>
-                    <option value="5">Niveau 5</option>
-                </select>
+            <div class="modal-header" style="padding: 20px; background: rgba(0,0,0,0.5); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                <h2 id="modal-hero-name" style="margin: 0; color: var(--accent);">Nom</h2>
+                
+                <label class="switch-container">
+                    <input type="checkbox" id="modal-unlocked">
+                    <span class="switch-slider"></span>
+                    <span style="font-size: 14px; font-weight: bold;">Débloqué</span>
+                </label>
             </div>
-            
-            <div class="modal-actions" style="text-align: right;">
-                <button id="close-modal" class="btn-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted);">Annuler</button>
-                <button id="save-modal" class="btn-reset" style="background: var(--accent); color: #000;">Enregistrer</button>
+
+            <div id="modal-body" style="padding: 20px;">
+                
+                <div class="progression-section" style="margin-bottom: 25px;">
+                    <div class="control-row" style="justify-content: space-between; margin-bottom: 15px;">
+                        <label style="font-weight: bold;">Niveau du Héros</label>
+                        <input type="number" id="modal-level" min="1" max="80" value="1" class="table-input" style="width: 80px; text-align: center;">
+                    </div>
+                    
+                    <div class="stars-section" style="background: var(--bg-color); padding: 15px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
+                        <div id="modal-stars-display" style="font-size: 28px; letter-spacing: 5px; color: #f5b840; margin-bottom: 10px; text-shadow: 0 0 5px rgba(245, 184, 64, 0.5);">
+                            </div>
+                        <input type="range" id="modal-shards" min="0" max="30" value="0" style="width: 100%; cursor: pointer;">
+                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">
+                            Fragments d'étoiles : <span id="modal-shards-count" style="color: #fff; font-weight: bold;">0</span>/30
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skills-section">
+                    <h4 style="margin: 0 0 15px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;">Compétences</h4>
+                    <div id="modal-skills-list" style="display: flex; flex-direction: column; gap: 15px;">
+                        </div>
+                </div>
+
+            </div>
+
+            <div class="modal-actions" style="padding: 15px; text-align: right; border-top: 1px solid var(--border); background: var(--bg-color);">
+                <button id="close-modal" class="btn-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); margin-right: 10px;">Annuler</button>
+                <button id="save-modal" class="btn-reset" style="background: var(--accent); color: #000; font-weight: bold;">Enregistrer</button>
             </div>
         </div>
     </div>
