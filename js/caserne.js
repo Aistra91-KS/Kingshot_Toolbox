@@ -74,7 +74,8 @@ const DEFAULT_FILTERS = {
 // ==========================================
 
 function initCaserneLanguage() {
-    let savedLang = localStorage.getItem('lang') || localStorage.getItem('language') || 'FR';
+    // On utilise directement ton objet GlobalLang défini dans lang.js
+    let savedLang = window.GlobalLang ? window.GlobalLang.get() : (localStorage.getItem('hub_lang') || 'EN');
     applyCaserneTranslations(savedLang.toUpperCase());
 }
 
@@ -86,8 +87,9 @@ window.addEventListener('langChanged', (e) => {
     }
 });
 
+// Écoute les changements depuis un autre onglet (utilise la clé 'hub_lang')
 window.addEventListener('storage', (e) => {
-    if (e.key === 'lang' || e.key === 'language') {
+    if (e.key === 'hub_lang') {
         applyCaserneTranslations(e.newValue.toUpperCase());
     }
 });
@@ -264,7 +266,7 @@ function renderHeroes() {
     grid.innerHTML = ''; 
 
     // Détermination de la langue pour Niv / Lv
-    let currentLang = localStorage.getItem('lang') || localStorage.getItem('language') || 'FR';
+    let currentLang = window.GlobalLang ? window.GlobalLang.get() : (localStorage.getItem('hub_lang') || 'EN');
     currentLang = currentLang.toUpperCase();
     const dict = i18nCaserne[currentLang] || i18nCaserne['FR'];
 
