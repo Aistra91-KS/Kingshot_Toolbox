@@ -360,7 +360,7 @@
       {
         "name": "Trial by Fire",
         "effect": "X% chance of reducing damage taken by 50% for all squads.",
-        "levels": ["8%", "16%", "24%", "32%", "40%""]
+        "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
     ]
   }
