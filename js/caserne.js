@@ -397,6 +397,9 @@ function renderModalSkills(fullStars) {
     const skillsContainer = document.getElementById('modal-skills-list');
     skillsContainer.innerHTML = '';
 
+    // 1. On récupère la langue actuelle
+    let currentLang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : 'EN';
+
     let maxSkillLevel = 2; 
     if (fullStars >= 1) maxSkillLevel = 3; 
     if (fullStars >= 3) maxSkillLevel = 4; 
@@ -413,27 +416,32 @@ function renderModalSkills(fullStars) {
 
         const currentLvl = modalState.skills[index];
 
-        // Remplacement dynamique du X% dans le texte de l'effet
-        let effectText = skill.effect;
+        // 2. GESTION DE LA TRADUCTION (Avec sécurité si la DB n'est pas encore traduite)
+        // Si 'skill.name' est un objet (le nouveau format bilingue), on prend la bonne langue. Sinon on garde l'ancien format texte.
+        const localizedName = typeof skill.name === 'object' ? (skill.name[currentLang] || skill.name['EN']) : skill.name;
+        let effectText = typeof skill.effect === 'object' ? (skill.effect[currentLang] || skill.effect['EN']) : skill.effect;
+        
+        // 3. NOM DE L'IMAGE : On force TOUJOURS l'anglais pour le fichier PNG
+        const imageName = typeof skill.name === 'object' ? skill.name['EN'] : skill.name;
+        // On remplace les apostrophes par leur code URL (%27) pour ne pas casser le CSS
+        const safeImageName = imageName.replace(/'/g, "%27");
+
+        // Remplacement dynamique des "X%" ou "(X%, Y%)"
         if (currentLvl > 0 && skill.levels && skill.levels[currentLvl - 1]) {
             let valueStr = skill.levels[currentLvl - 1];
 
-            // Si la base de données contient plusieurs valeurs ex: "(2%,3%)"
             if (valueStr.startsWith('(') && valueStr.endsWith(')')) {
-                // 1. On enlève les parenthèses
                 valueStr = valueStr.substring(1, valueStr.length - 1);
-                // 2. On sépare les valeurs (ex: ["2%", "3%"])
                 let values = valueStr.split(',');
-                
-                // 3. On remplace les "X%" ou "X" un par un, dans l'ordre
                 values.forEach(val => {
                     effectText = effectText.replace(/X%|X/, `<span style="color:#f5b840; font-weight:bold;">${val.trim()}</span>`);
                 });
             } else {
-                // S'il n'y a qu'une valeur (ex: "5%"), on remplace TOUS les X% de la phrase d'un coup (g = global)
                 effectText = effectText.replace(/X%|X/g, `<span style="color:#f5b840; font-weight:bold;">${valueStr}</span>`);
             }
         }
+
+        // Génération des pips [1][2][3][4][5]
         let pipsHTML = '';
         for (let i = 1; i <= 5; i++) {
             let stateClass = '';
@@ -445,12 +453,13 @@ function renderModalSkills(fullStars) {
             pipsHTML += `<div class="skill-pip ${stateClass}" ${onClickCode}>${i}</div>`;
         }
 
+        // Création de la ligne HTML
         skillsContainer.innerHTML += `
             <div class="skill-row ${isLocked ? 'locked' : ''}">
                 <div class="skill-header">
-                    <div class="skill-icon" style="background-image: url('img/skills/${skill.name}.png');"></div>
+                    <div class="skill-icon" style="background-image: url('img/skills/${safeImageName}.png');"></div>
                     <div class="skill-info">
-                        <div class="skill-name">${skill.name}</div>
+                        <div class="skill-name">${localizedName}</div>
                         <div class="skill-effect">${effectText}</div>
                     </div>
                 </div>
