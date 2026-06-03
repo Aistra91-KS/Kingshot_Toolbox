@@ -1153,14 +1153,15 @@ tbody tr:hover {
 }
 
 .hero-name {
+    color: #ffffff !important; /* Force le blanc */
     font-weight: bold;
     font-size: 16px;
-    text-shadow: 1px 1px 3px #000;
+    text-shadow: 1px 1px 3px #000, 0 0 5px rgba(0,0,0,0.8); /* Ombre plus forte */
 }
 
 .hero-level {
+    color: #dddddd !important; /* Force un gris très clair */
     font-size: 12px;
-    color: var(--text-muted);
     background: rgba(0,0,0,0.5);
     padding: 2px 5px;
     border-radius: 3px;
