@@ -1093,7 +1093,7 @@ tbody tr:hover {
     background-position: center 20%;
     z-index: 0;
     opacity: 0.9;
-    mix-blend-mode: luminosity; 
+    /* mix-blend-mode: luminosity; 
 }
 
 .hero-card.locked .hero-image {
