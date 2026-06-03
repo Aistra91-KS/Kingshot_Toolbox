@@ -345,7 +345,7 @@
     "generation": 2,
     "rarity": "legendary",
     "troopType": "Cavalry",
-    "goodJoinerBear": True,
+    "goodJoinerBear": true,
     "skills": [
       {
         "name": "Noble Path",
