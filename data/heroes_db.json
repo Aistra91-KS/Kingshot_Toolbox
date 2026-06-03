@@ -488,5 +488,305 @@
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
+  },
+  {
+    "id": "0023",
+    "name": "Margot",
+    "generation": 4,
+    "rarity": "legendary",
+    "troopType": "Cavalry",
+    "goodJoinerBear": true,
+    "skills": [
+      {
+        "name": "Holy Warrior",
+        "effect": "Increases total Squads' Attack by X%",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Subterfuge",
+        "effect": "X% chance to dodge Normal Attacks",
+        "levels": ["4%", "8%", "12%", "16%", "20%"]
+      },
+      {
+        "name": "Sleight Hand",
+        "effect": "25% chance for extra attack dealing X% damage",
+        "levels": ["120%", "140%", "160%", "180%", "200%"]
+      }
+    ]
+  },
+  {
+    "id": "0024",
+    "name": "Alcar",
+    "generation": 4,
+    "rarity": "legendary",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Rescuing Hands",
+        "effect": "Reduces Infantry and Archer's Damage Taken by X% every 5 turns for 2 turns",
+        "levels": ["14%", "28%", "42%", "56%", "70%"]
+      },
+      {
+        "name": "Praetorian Will",
+        "effect": "Increases Infantry Damage Dealt by X% and Cavalry and Archer's Damage Dealt by 10%",
+        "levels": ["20%", "40%", "60%", "80%", "100%"]
+      },
+      {
+        "name": "Carpe Diem",
+        "effect": "Increasing Infantry Damage Dealt per attack by X% and target Damage Taken by 25% for 1 turn",
+        "levels": ["12%", "24%", "36%", "48%", "60%"]
+      }
+    ]
+  },
+  {
+    "id": "0025",
+    "name": "Rosa",
+    "generation": 4,
+    "rarity": "legendary",
+    "troopType": "Archer",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Chaos Gambit",
+        "effect": "40% chance of increasing all Squads' Damage Dealt by X%",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      },
+      {
+        "name": "Rose of War",
+        "effect": "Reducing damage dealt by X% for all enemy squads",
+        "levels": ["4%", "8%", "12%", "16%", "20%"]
+      },
+      {
+        "name": "Golden Rhythm",
+        "effect": "Increasing Archers' total Attack by X%",
+        "levels": ["6%", "12%", "18%", "24%", "30%"]
+      }
+    ]
+  },
+  {
+    "id": "0026",
+    "name": "Thrud",
+    "generation": 5,
+    "rarity": "legendary",
+    "troopType": "Cavalry",
+    "goodJoinerBear": true,
+    "skills": [
+      {
+        "name": "Battle Hunger",
+        "effect": "Thrud's battle fever inspires her Infantry and Archers, reducing their damage taken by X% and increasing their damage dealt by X%.",
+        "levels": ["(3%,3%)", "(6%,6%)", "(9%,9%)", "(12%,12%)", "(15%,15%)"]
+      },
+      {
+        "name": "Reckless Charge",
+        "effect": "No plans. No finesse. Just brutally charging into battle. Thrud's Cavalry has a 20% chance of dealing X% extra damage to all enemies on attack.",
+        "levels": ["20%", "40%", "60%", "80%", "100%"]
+      },
+      {
+        "name": "Ancestral Guidance",
+        "effect": "Ancestral spirits guide the brave to Valhalla. For every 4 attacks made by Cavalry, all squads' damage dealt is increased by X% and damage taken is reduced by X% for 2 turns.",
+        "levels": ["(5%,5%)", "(10%,10%)", "(15%,15%)", "(20%,20%)", "(25%,25%)"]
+      }
+    ]
+  },
+  {
+    "id": "0027",
+    "name": "Long Fei",
+    "generation": 5,
+    "rarity": "legendary",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Mighty Paragon",
+        "effect": "Long Fei's courage in the teeth of the enemy points the way toward the warrior within, granting a 40% chance of reducing damage taken by all squads by X%.",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      },
+      {
+        "name": "Celestial Sustenance",
+        "effect": "The sweet nectar of Long Fei's potions have born fruit in soldiers' vitality, increasing total Squads' Defense by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Art of War",
+        "effect": ""All warfare is based on deception". Long Fei's war wisdom is ingrained in his soldiers, granting all squads' attacks a 25% chance of dealing X% damage.",
+        "levels": ["120%", "140%", "160%", "180%", "200%"]
+      }
+    ]
+  },
+  {
+    "id": "0028",
+    "name": "Vivian",
+    "generation": 5,
+    "rarity": "legendary",
+    "troopType": "Archer",
+    "goodJoinerBear": true,
+    "skills": [
+      {
+        "name": "Crouching Tiger",
+        "effect": "Vivian is a patient commander willing to wait for just the right moment to strike. All squads' attacks increase enemy damage taken by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Focus Fire",
+        "effect": "Vivian's sharp focus exposes enemy weaknesses, granting all squads' attack X% extra damage after every four attacks, and causes the target to receive X% extra damage for its next attack received.",
+        "levels": ["(20%,5%)", "(40%,7.5%)", "(60%,10%)", "(80%,12.5%)", "(100%,15%)"]
+      },
+      {
+        "name": "Trap of Greed",
+        "effect": "Vivian equips her Archers with custom coin traps, dealing X% extra damage to all enemies on the next attack of every 4 attacks.",
+        "levels": ["12%", "24%", "36%", "48%", "60%"]
+      }
+    ]
+  },
+  {
+    "id": "0029",
+    "name": "Sophia",
+    "generation": 6,
+    "rarity": "legendary",
+    "troopType": "Cavalry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Arcane Pact",
+        "effect": "The arcane pact grants Sophia the protection of night, and a X% chance of reducing all squad damage received by 50% every turn.",
+        "levels": ["8%", "16%", "24%", "32%", "40%"]
+      },
+      {
+        "name": "Terror - Deathblow",
+        "effect": "Sophia radiates a fearsome aura that has a chance to inflict Terror on enemy targets. Enemy targets suffer the effects of Terror every 2 turns and will receive X% increased Cavalry damage on the following turn. Terror lasts 1 turn.",
+        "levels": ["120%", "140%", "160%", "180%", "200%"]
+      },
+      {
+        "name": "Terror - Annihilation",
+        "effect": "Terror increases fragility. All Squads deal X% increased damage to Terrified targets.",
+        "levels": ["15%", "30%", "45%", "60%", "75%"]
+      }
+    ]
+  },
+  {
+    "id": "0030",
+    "name": "Triton",
+    "generation": 6,
+    "rarity": "legendary",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Command of Power",
+        "effect": "Acceptance of Triton's authority enables the fruits to be shared thereof, increasing total Squads' Defense by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Warfare of Power",
+        "effect": "The power of warfare lies in shared fearlessness in the face of battle, increasing total Squads' skill damage dealt by X%.",
+        "levels": ["6%", "12%", "18%", "24%", "30%"]
+      },
+      {
+        "name": "Oath of Power",
+        "effect": "Great power stems from a willingness to keep oaths, increasing Infantry Health by X% as well as Cavalry and Archer Health by X%.",
+        "levels": ["(4%,6%)", "(8%,12%)", "(12%,18%)", "(16%,24%)", "(20%,30%)"]
+      }
+    ]
+  },
+  {
+    "id": "0031",
+    "name": "Yang",
+    "generation": 6,
+    "rarity": "legendary",
+    "troopType": "Archer",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Avalanche",
+        "effect": "An avalanche for Yang is just another weapon in his arsenal, resulting in an additional strike against a target by all Squads every 4 turns for X% damage.",
+        "levels": ["20%", "40%", "60%", "80%", "100%"]
+      },
+      {
+        "name": "Ice Zone",
+        "effect": "Years of arctic adversity have taught Yang to seize advantages. Yang's Archers have a 40% chance of dealing X% extra damage with every attack.",
+        "levels": ["20%", "40%", "60%", "80%", "100%"]
+      },
+      {
+        "name": "Ambush",
+        "effect": "Yang is an advanced thinker who can easily grasp the principles of almost any phenomena, giving all Squads a X% chance of dealing increased damage every turn.",
+        "levels": ["8%", "16%", "24%", "32%", "40%"]
+      }
+    ]
+  },
+  {
+    "id": "0032",
+    "name": "Wee & Woo",
+    "generation": 7,
+    "rarity": "legendary",
+    "troopType": "Archer",
+    "goodJoinerBear": true,
+    "skills": [
+      {
+        "name": "Artillerymen",
+        "effect": "The inclusion of the artillerymen has an overall helpful effect of increasing Squad's total Attack by X% and total Lethality by X%.",
+        "levels": ["(3%,2%)", "(6%,4%)", "(9%,6%)", "(12%,8%)", "(15%,10%)"]
+      },
+      {
+        "name": "Chain Shelling",
+        "effect": "Wee & Woo's devastating back-to-back rounds tear shreds through the enemy lines, increasing Squad's Damage Dealt to Archer by X% and to Infantry by X%.",
+        "levels": ["(6%,5%)", "(12%,10%)", "(18%,15%)", "(24%,20%)", "(30%,25%)"]
+      },
+      {
+        "name": "Boom Boom",
+        "effect": "There's always someone in every cannon duo who can aim well. Wee & Woo's presence gives Squad's Attack a X% chance of dealing 50% extra damage.",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      }
+    ]
+  },
+  {
+    "id": "0033",
+    "name": "Charles",
+    "generation": 7,
+    "rarity": "legendary",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Intimidation",
+        "effect": "The terrifying presence of the massive Angel of Justice on the battlefield reduces enemy Squad's Total Lethality by X%.",
+        "levels": ["4%", "8%", "12%", "16%", "20%"]
+      },
+      {
+        "name": "Iron Bodies",
+        "effect": "Superior metal armor forging blunts the impact of conventional weapons, reducing Squad's Damage Taken by X%",
+        "levels": ["4%", "8%", "12%", "16%", "20%"]
+      },
+      {
+        "name": "Great Justice",
+        "effect": "The Angel of Justice comes outfitted with state-of-the-art battlefield medkits, increasing Squad's total Health by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ]
+  },
+  {
+    "id": "0034",
+    "name": "Ava",
+    "generation": 7,
+    "rarity": "legendary",
+    "troopType": "Cavalry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Dissolution",
+        "effect": "An artist sees what others cannot. Ava's deconstructive gaze sees vulnerabilities, reducing total Enemy Squad's Defense by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Chiaroscuro",
+        "effect": "Bright light and dark shadow can blind enemies who do not expect it. All enemy soldiers receive X% increased damage for 2 turns every 4 turns.",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      },
+      {
+        "name": "Light and Cold",
+        "effect": "Ava's weapons are like twin beacons for all to follow, increasing soldiers' Lethality by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ]
   }
 ]
