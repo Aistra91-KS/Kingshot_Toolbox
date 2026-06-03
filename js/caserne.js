@@ -277,16 +277,171 @@ function renderHeroes() {
     });
 }
 
-function openModal(hero, heroData) {
-    const currentLang = window.GlobalLang ? window.GlobalLang.get() : 'EN';
-    const dict = i18nCaserne[currentLang];
+// ==========================================
+// GESTION DE LA MODALE & LOGIQUE DE JEU
+// ==========================================
 
-    currentEditingHero = hero.id;
+let currentEditingHeroObj = null; // L'objet complet du héros en cours
+let modalState = {
+    unlocked: false,
+    level: 1,
+    shards: 0,
+    skills: [0, 0, 0] // Niveaux des 3 compétences
+};
+
+function openModal(hero, heroData) {
+    currentEditingHeroObj = hero;
+    
+    // Charger les données en mémoire ou initier à zéro
+    modalState.unlocked = heroData.level > 1 || heroData.shards > 0 || (heroData.skills && heroData.skills.some(s => s > 0));
+    // Si héros verrouillé de base, on coche la case si l'utilisateur l'avait débloqué sans lui donner d'xp
+    if (heroData.unlocked !== undefined) modalState.unlocked = heroData.unlocked; 
+    
+    modalState.level = heroData.level || 1;
+    modalState.shards = heroData.shards || 0;
+    modalState.skills = heroData.skills || [0, 0, 0];
+
+    // Mettre à jour le HTML de base
     document.getElementById('modal-hero-name').textContent = hero.name;
-    alert(`${dict.modalWIP} ${hero.name}.\nLevel: ${heroData.level}\nFragments: ${heroData.shards}/30`);
+    document.getElementById('modal-unlocked').checked = modalState.unlocked;
+    document.getElementById('modal-level').value = modalState.level;
+    document.getElementById('modal-shards').value = modalState.shards;
+    
+    // Attacher les écouteurs de la modale
+    document.getElementById('modal-unlocked').onchange = (e) => {
+        modalState.unlocked = e.target.checked;
+        if (!modalState.unlocked) {
+            // Réinitialiser si on verrouille le héros
+            modalState.level = 1; modalState.shards = 0; modalState.skills = [0, 0, 0];
+            document.getElementById('modal-level').value = 1;
+            document.getElementById('modal-shards').value = 0;
+        }
+        updateModalUI();
+    };
+    
+    document.getElementById('modal-level').oninput = (e) => { modalState.level = parseInt(e.target.value) || 1; };
+    document.getElementById('modal-shards').oninput = (e) => { 
+        modalState.shards = parseInt(e.target.value) || 0; 
+        updateModalUI(); 
+    };
+
+    document.getElementById('save-modal').onclick = saveHeroSettings;
+
+    // Lancer l'affichage
+    document.getElementById('hero-modal').style.display = 'flex';
+    updateModalUI();
 }
+
+function updateModalUI() {
+    const isUnlocked = modalState.unlocked;
+    const body = document.getElementById('modal-body');
+    
+    // Griser le corps si non débloqué
+    body.style.opacity = isUnlocked ? '1' : '0.3';
+    body.style.pointerEvents = isUnlocked ? 'auto' : 'none';
+
+    // Mettre à jour l'affichage des étoiles et fragments
+    document.getElementById('modal-shards-count').textContent = modalState.shards;
+    const fullStars = Math.floor(modalState.shards / 6);
+    let starsDisplay = '';
+    for (let i = 0; i < 5; i++) {
+        starsDisplay += (i < fullStars) ? '★' : '☆';
+    }
+    document.getElementById('modal-stars-display').textContent = starsDisplay;
+
+    // Mettre à jour les compétences
+    renderModalSkills(fullStars);
+}
+
+function renderModalSkills(fullStars) {
+    const skillsContainer = document.getElementById('modal-skills-list');
+    skillsContainer.innerHTML = '';
+
+    // Déterminer le Cap Maximum des compétences selon tes règles
+    let maxSkillLevel = 2; // 0 étoile
+    if (fullStars >= 1) maxSkillLevel = 3; // 1 ou 2 étoiles
+    if (fullStars >= 3) maxSkillLevel = 4; // 3 étoiles
+    if (fullStars >= 4) maxSkillLevel = 5; // 4 ou 5 étoiles
+
+    const heroSkills = currentEditingHeroObj.skills || [];
+
+    heroSkills.forEach((skill, index) => {
+        // La 3ème compétence est bloquée si moins de 1 étoile
+        const isSkill3 = index === 2;
+        const isLocked = isSkill3 && fullStars < 1;
+
+        // Auto-correction si le niveau actuel dépasse le max autorisé (suite à une baisse de fragments)
+        if (isLocked) modalState.skills[index] = 0;
+        else if (modalState.skills[index] > maxSkillLevel) modalState.skills[index] = maxSkillLevel;
+
+        const currentLvl = modalState.skills[index];
+
+        // Remplacement dynamique du X% dans le texte de l'effet
+        let effectText = skill.effect;
+        if (currentLvl > 0 && skill.levels && skill.levels[currentLvl - 1]) {
+            const value = skill.levels[currentLvl - 1];
+            effectText = effectText.replace('X%', `<span style="color:#f5b840; font-weight:bold;">${value}</span>`);
+        }
+
+        // Génération des petits carrés [1] [2] [3] [4] [5]
+        let pipsHTML = '';
+        for (let i = 1; i <= 5; i++) {
+            let stateClass = '';
+            if (isLocked || i > maxSkillLevel) stateClass = 'locked';
+            else if (i <= currentLvl) stateClass = 'active';
+
+            // Clic : Si on clique sur le niveau déjà actif, on met à 0, sinon on met au niveau cliqué
+            const onClickCode = stateClass === 'locked' ? '' : `onclick="setModalSkillLevel(${index}, ${i === currentLvl ? 0 : i})"`;
+            
+            pipsHTML += `<div class="skill-pip ${stateClass}" ${onClickCode}>${i}</div>`;
+        }
+
+        // Création de la ligne HTML (Intègre ton idée de l'image de compétence)
+        skillsContainer.innerHTML += `
+            <div class="skill-row ${isLocked ? 'locked' : ''}">
+                <div class="skill-header">
+                    <div class="skill-icon" style="background-image: url('img/skills/${skill.name}.png');"></div>
+                    <div class="skill-info">
+                        <div class="skill-name">${skill.name}</div>
+                        <div class="skill-effect">${effectText}</div>
+                    </div>
+                </div>
+                <div class="skill-pips-container">
+                    ${pipsHTML}
+                </div>
+            </div>
+        `;
+    });
+}
+
+// Fonction appelée quand on clique sur un [1][2]...
+window.setModalSkillLevel = function(skillIndex, newLevel) {
+    modalState.skills[skillIndex] = newLevel;
+    updateModalUI();
+};
 
 function closeModal() {
     document.getElementById('hero-modal').style.display = 'none';
-    currentEditingHero = null;
+    currentEditingHeroObj = null;
+}
+
+function saveHeroSettings() {
+    if (!currentEditingHeroObj) return;
+    
+    // Si le héros est "non débloqué", on le supprime de la mémoire pour nettoyer
+    if (!modalState.unlocked) {
+        delete userHeroes[currentEditingHeroObj.id];
+    } else {
+        userHeroes[currentEditingHeroObj.id] = {
+            unlocked: true,
+            level: modalState.level,
+            shards: modalState.shards,
+            skills: modalState.skills
+        };
+    }
+    
+    // Sauvegarde en mémoire et rafraîchissement
+    localStorage.setItem('caserne_user_heroes', JSON.stringify(userHeroes));
+    closeModal();
+    renderHeroes(); 
 }
