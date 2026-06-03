@@ -8,71 +8,71 @@
 </head>
 <body>
     <div class="sidebar">
-        <h2 style="color: var(--accent); margin-top: 0;">Ma Caserne</h2>
-        <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;">
+        <h2 style="color: var(--accent); margin-top: 0;" data-i18n="pageTitle">Ma Caserne</h2>
+        <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;" data-i18n="pageDesc">
             Cliquez sur un héros pour configurer ses compétences, son niveau et ses étoiles.
         </p>
 
         <div class="control-group" style="margin-top: 20px;">
-            <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;">Tri & Filtres</h3>
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;" data-i18n="filterSort">Tri & Filtres</h3>
             
             <div class="control-row" style="margin-bottom: 10px;">
-                <label>Trier par</label>
+                <label data-i18n="sortBy">Trier par</label>
                 <select id="sort-by" class="table-select" style="width: 100%;">
-                    <option value="rarity-desc">Rareté (Décroissant)</option>
-                    <option value="rarity-asc">Rareté (Croissant)</option>
-                    <option value="gen-desc">Génération (Plus récente)</option>
-                    <option value="gen-asc">Génération (Plus ancienne)</option>
-                    <option value="name">Nom (A-Z)</option>
+                    <option value="rarity-desc" data-i18n="sortRarityDesc">Rareté (Décroissant)</option>
+                    <option value="rarity-asc" data-i18n="sortRarityAsc">Rareté (Croissant)</option>
+                    <option value="gen-desc" data-i18n="sortGenDesc">Génération (Plus récente)</option>
+                    <option value="gen-asc" data-i18n="sortGenAsc">Génération (Plus ancienne)</option>
+                    <option value="name" data-i18n="sortName">Nom (A-Z)</option>
                 </select>
             </div>
 
             <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
 
             <div class="control-row" style="margin-bottom: 15px; flex-direction: column; align-items: flex-start;">
-                <label style="margin-bottom: 8px;">Générations (Multi-choix)</label>
+                <label style="margin-bottom: 8px;" data-i18n="filterGen">Générations (Multi-choix)</label>
                 <div id="filter-gen-group" style="display: flex; flex-wrap: wrap; gap: 10px;">
                     <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
-                        <input type="checkbox" value="1" class="gen-checkbox" checked> Génération 1
+                        <input type="checkbox" value="1" class="gen-checkbox" checked> G1
                     </label>
                     <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
-                        <input type="checkbox" value="2" class="gen-checkbox" checked> Génération 2
+                        <input type="checkbox" value="2" class="gen-checkbox" checked> G2
                     </label>
                     <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
-                        <input type="checkbox" value="3" class="gen-checkbox" checked> Génération 3
+                        <input type="checkbox" value="3" class="gen-checkbox" checked> G3
                     </label>
                     <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
-                        <input type="checkbox" value="4" class="gen-checkbox" checked> Génération 4
+                        <input type="checkbox" value="4" class="gen-checkbox" checked> G4
                     </label>
                     <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
-                        <input type="checkbox" value="5" class="gen-checkbox" checked> Génération 5
+                        <input type="checkbox" value="5" class="gen-checkbox" checked> G5
                     </label>
                     <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
-                        <input type="checkbox" value="6" class="gen-checkbox" checked> Génération 6
+                        <input type="checkbox" value="6" class="gen-checkbox" checked> G6
                     </label>
                     <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
-                        <input type="checkbox" value="7" class="gen-checkbox" checked> Génération 7
+                        <input type="checkbox" value="7" class="gen-checkbox" checked> G7
                     </label>
                 </div>
             </div>
-            
+
             <div class="control-row" style="margin-bottom: 10px;">
-                <label>Type</label>
+                <label data-i18n="filterType">Type</label>
                 <select id="filter-type" class="table-select" style="width: 120px;">
-                    <option value="all">Tous les types</option>
-                    <option value="Infantry">Infanterie 🛡️</option>
-                    <option value="Cavalry">Cavalerie 🐎</option>
-                    <option value="Archer">Archers 🏹</option>
+                    <option value="all" data-i18n="typeAll">Tous les types</option>
+                    <option value="Infantry" data-i18n="typeInf">Infanterie 🛡️</option>
+                    <option value="Cavalry" data-i18n="typeCav">Cavalerie 🐎</option>
+                    <option value="Archer" data-i18n="typeArc">Archers 🏹</option>
                 </select>
             </div>
 
             <div class="control-row">
-                <label>Rareté</label>
+                <label data-i18n="filterRarity">Rareté</label>
                 <select id="filter-rarity" class="table-select" style="width: 120px;">
-                    <option value="all">Toutes</option>
-                    <option value="legendary">Légendaire 🟡</option>
-                    <option value="epic">Épique 🟣</option>
-                    <option value="rare">Rare 🔵</option>
+                    <option value="all" data-i18n="rarityAll">Toutes</option>
+                    <option value="legendary" data-i18n="rarityLeg">Légendaire 🟡</option>
+                    <option value="epic" data-i18n="rarityEpi">Épique 🟣</option>
+                    <option value="rare" data-i18n="rarityRar">Rare 🔵</option>
                 </select>
             </div>
         </div>
