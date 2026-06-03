@@ -68,6 +68,35 @@ const DEFAULT_FILTERS = {
     checkedGens: ['1'],
     filterUnlocked: false
 };
+// ==========================================
+// SYSTÈME DE TRADUCTION BÉTON (Lien avec le Header)
+// ==========================================
+
+// 1. Fonction qui lit la mémoire au démarrage
+function initCaserneLanguage() {
+    // On cherche la clé exacte utilisée par ton header ('lang' ou 'language')
+    let savedLang = localStorage.getItem('lang') || localStorage.getItem('language') || 'FR';
+    applyCaserneTranslations(savedLang.toUpperCase());
+}
+
+// 2. On écoute le "signal" envoyé par le header quand l'utilisateur clique
+window.addEventListener('langChanged', (e) => {
+    // Si le header envoie la langue dans le détail de l'événement
+    if (e.detail && e.detail.lang) {
+        applyCaserneTranslations(e.detail.lang.toUpperCase());
+    } else {
+        // Sinon on va relire le localStorage
+        initCaserneLanguage();
+    }
+});
+
+// 3. (Optionnel) Si la langue est changée depuis un autre onglet
+window.addEventListener('storage', (e) => {
+    if (e.key === 'lang' || e.key === 'language') {
+        applyCaserneTranslations(e.newValue.toUpperCase());
+    }
+});
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     
