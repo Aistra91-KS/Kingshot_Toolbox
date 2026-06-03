@@ -609,7 +609,7 @@
       },
       {
         "name": "Art of War",
-        "effect": ""All warfare is based on deception". Long Fei's war wisdom is ingrained in his soldiers, granting all squads' attacks a 25% chance of dealing X% damage.",
+        "effect": "'All warfare is based on deception'. Long Fei's war wisdom is ingrained in his soldiers, granting all squads' attacks a 25% chance of dealing X% damage.",
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       }
     ]
