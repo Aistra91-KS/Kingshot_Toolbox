@@ -231,8 +231,9 @@ function renderHeroes() {
     grid.innerHTML = ''; 
 
     // On récupère la langue actuelle pour savoir s'il faut afficher "Lv." ou "Niv."
-    const currentLang = window.GlobalLang ? window.GlobalLang.get() : 'EN';
-    const dict = i18nCaserne[currentLang];
+    // (Avec une petite sécurité si la langue n'est pas encore chargée)
+    const currentLang = window.GlobalLang ? window.GlobalLang.get() : 'FR';
+    const dict = i18nCaserne[currentLang] || i18nCaserne['FR'];
 
     const sortBy = document.getElementById('sort-by').value;
     const filterType = document.getElementById('filter-type').value;
@@ -249,8 +250,12 @@ function renderHeroes() {
     const sortedHeroes = sortHeroes(filteredHeroes, sortBy);
 
     sortedHeroes.forEach(hero => {
-        const heroData = userHeroes[hero.id] || { level: 1, shards: 0 };
-        const isLocked = heroData.shards === 0 && heroData.level === 1; 
+        // NOUVELLE LOGIQUE : On lit explicitement l'état "unlocked"
+        // Si le héros n'est pas dans la mémoire, il est par défaut non débloqué (false)
+        const heroData = userHeroes[hero.id] || { unlocked: false, level: 1, shards: 0, skills: [0, 0, 0] };
+        
+        // La carte est "locked" (grisée) seulement si heroData.unlocked est false
+        const isLocked = !heroData.unlocked; 
 
         const card = document.createElement('div');
         card.className = `hero-card ${hero.rarity.toLowerCase()} ${isLocked ? 'locked' : ''}`;
@@ -276,7 +281,6 @@ function renderHeroes() {
         grid.appendChild(card);
     });
 }
-
 // ==========================================
 // GESTION DE LA MODALE & LOGIQUE DE JEU
 // ==========================================
