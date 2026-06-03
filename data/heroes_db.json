@@ -363,5 +363,130 @@
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
     ]
+  },
+  {
+    "id": "0018",
+    "name": "Marlin",
+    "generation": 2,
+    "rarity": "legendary",
+    "troopType": "Archer",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Wild Card",
+        "effect": "X% chance of increasing damage dealt by 50% for all squads.",
+        "levels": ["8%", "16%", "24%", "32%", "40%"]
+      },
+      {
+        "name": "Rumhead",
+        "effect": "Grants all squads a 20% chance of reducing the total Enemy Squads' Lethality by X% for 2 turns when attacking.",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      },
+      {
+        "name": "Dynamo",
+        "effect": "50% chance of increasing damage dealt by X%.",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      }
+    ]
+  },
+  {
+    "id": "0019",
+    "name": "Zoe",
+    "generation": 2,
+    "rarity": "legendary",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Sundering Wound",
+        "effect": "20% chance of inflicting Sunder, dealing X% damage per turn for 3 turns.",
+        "levels": ["8%", "16%", "24%", "32%", "40%"]
+      },
+      {
+        "name": "Stoic",
+        "effect": "Increases total Squads' Attack by X%.",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": "Infinite Arsenal",
+        "effect": "50% chance of amplifying enemy squads' damage taken by X%.",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      }
+    ]
+  },
+  {
+    "id": "0020",
+    "name": "Jaeger",
+    "generation": 3,
+    "rarity": "legendary",
+    "troopType": "Archer",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "The Tempest",
+        "effect": "20% chance of increasing Squad's damage dealt by X% for 3 turns",
+        "levels": ["8%", "16%", "24%", "32%", "40%"]
+      },
+      {
+        "name": "The Resistance",
+        "effect": "20% chance of reducing the total Enemy Squad's Lethality by X% for 2 turns.",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      },
+      {
+        "name": "The Celebration",
+        "effect": "Increases the total Squad's Health by X%",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ]
+  },
+  {
+    "id": "0021",
+    "name": "Petra",
+    "generation": 3,
+    "rarity": "legendary",
+    "troopType": "Cavalry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Evil Eye",
+        "effect": "50% curse chance increasing damage taken by X%",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      },
+      {
+        "name": "The Favor",
+        "effect": "50% chance to increase Squad Attack by X%",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      },
+      {
+        "name": "The Shield",
+        "effect": "40% chance to reduce damage taken by X%",
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      }
+    ]
+  },
+  {
+    "id": "0022",
+    "name": "Eric",
+    "generation": 3,
+    "rarity": "legendary",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": "Holy Warrior",
+        "effect": "Reducing the total Enemy Squads' Attack by X%",
+        "levels": ["4%", "8%", "12%", "16%", "20%"]
+      },
+      {
+        "name": "Conviction",
+        "effect": "Reducing Squads' Damage Taken by X%",
+        "levels": ["4%", "8%", "12%", "16%", "20%"]
+      },
+      {
+        "name": "Exhortation",
+        "effect": "Increases the total Squads' Health by X%",
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ]
   }
 ]
