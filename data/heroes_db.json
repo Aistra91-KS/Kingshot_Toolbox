@@ -8,8 +8,12 @@
     "goodJoinerBear": false,
     "skills": [
       {
-        "name": "Woodland Inheritor",
-        "effect": "Forrest's expert lumberjack skills increase the Town's Sawmill Output by X%.",
+        "name": { 
+          "EN" : "Woodland Inheritor",
+          "FR" : "héritier de la Forêt"
+        "effect": { 
+          "EN" : "Forrest's expert lumberjack skills increase the Town's Sawmill Output by X%.",
+          "FR" : "Les talents de bûcheron de Forrest augmentent la Production de la Scierie du Village de X%"
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
