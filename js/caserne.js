@@ -1,3 +1,4 @@
+// Variables globales
 let heroesDB = []; 
 let userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
 let currentEditingHero = null;
@@ -5,7 +6,20 @@ let currentEditingHero = null;
 // Poids des raretés pour le tri
 const rarityWeight = { "legendary": 3, "epic": 2, "rare": 1 };
 
+// NOUVEAU : Réglages par défaut pour un nouvel utilisateur (Seule la Gen 1 est cochée)
+const DEFAULT_FILTERS = {
+    sortBy: 'rarity-desc',
+    filterType: 'all',
+    filterRarity: 'all',
+    checkedGens: ['1'] 
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
+    
+    // 1. Charger les filtres sauvegardés AVANT de charger les héros
+    loadFilters();
+
+    // 2. Chargement du fichier JSON
     try {
         const response = await fetch('data/heroes_db.json'); 
         if (!response.ok) throw new Error("Fichier JSON introuvable");
@@ -16,18 +30,54 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("Erreur de chargement :", error);
     }
 
-    // Écouteurs pour les filtres et le tri
-    document.getElementById('sort-by').addEventListener('change', renderHeroes);
-    document.querySelectorAll('.gen-checkbox').forEach(cb => {
-        cb.addEventListener('change', renderHeroes);
-    });
-    document.getElementById('filter-type').addEventListener('change', renderHeroes);
-    document.getElementById('filter-rarity').addEventListener('change', renderHeroes);
+    // 3. Écouteurs pour les listes déroulantes
+    document.getElementById('sort-by').addEventListener('change', handleFilterChange);
+    document.getElementById('filter-type').addEventListener('change', handleFilterChange);
+    document.getElementById('filter-rarity').addEventListener('change', handleFilterChange);
     
+    // 4. Écouteurs pour les cases à cocher de génération
+    document.querySelectorAll('.gen-checkbox').forEach(cb => {
+        cb.addEventListener('change', handleFilterChange);
+    });
+
     // Fermeture de la modale
     document.getElementById('close-modal').addEventListener('click', closeModal);
-    // (Bouton save désactivé temporairement, la sauvegarde se fera via le clic sur les étoiles)
 });
+
+// ==========================================
+// GESTION DES FILTRES (Sauvegarde en mémoire)
+// ==========================================
+
+function loadFilters() {
+    const saved = JSON.parse(localStorage.getItem('caserne_filters')) || DEFAULT_FILTERS;
+    
+    if(document.getElementById('sort-by')) document.getElementById('sort-by').value = saved.sortBy;
+    if(document.getElementById('filter-type')) document.getElementById('filter-type').value = saved.filterType;
+    if(document.getElementById('filter-rarity')) document.getElementById('filter-rarity').value = saved.filterRarity;
+
+    document.querySelectorAll('.gen-checkbox').forEach(cb => {
+        cb.checked = saved.checkedGens.includes(cb.value);
+    });
+}
+
+function saveFilters() {
+    const sortBy = document.getElementById('sort-by').value;
+    const filterType = document.getElementById('filter-type').value;
+    const filterRarity = document.getElementById('filter-rarity').value;
+    const checkedGens = Array.from(document.querySelectorAll('.gen-checkbox:checked')).map(cb => cb.value);
+
+    const filters = { sortBy, filterType, filterRarity, checkedGens };
+    localStorage.setItem('caserne_filters', JSON.stringify(filters));
+}
+
+function handleFilterChange() {
+    saveFilters(); // On sauvegarde...
+    renderHeroes(); // ...puis on rafraîchit l'affichage
+}
+
+// ==========================================
+// LOGIQUE DE TRI ET D'AFFICHAGE
+// ==========================================
 
 function getTroopEmoji(type) {
     if (type.toLowerCase() === 'infantry') return '🛡️';
@@ -38,34 +88,48 @@ function getTroopEmoji(type) {
 
 function sortHeroes(heroes, sortType) {
     return heroes.sort((a, b) => {
+        // Sous-tris par défaut (Gen la plus récente d'abord, puis Nom A-Z)
+        const genDiff = b.generation - a.generation; 
+        const nameDiff = a.name.localeCompare(b.name); 
+
         if (sortType === 'rarity-desc') {
-            return rarityWeight[b.rarity.toLowerCase()] - rarityWeight[a.rarity.toLowerCase()];
+            const rarityDiff = rarityWeight[b.rarity.toLowerCase()] - rarityWeight[a.rarity.toLowerCase()];
+            if (rarityDiff !== 0) return rarityDiff; // 1. On trie par rareté
+            if (genDiff !== 0) return genDiff;       // 2. Si même rareté, on trie par génération
+            return nameDiff;                         // 3. Si même génération, on trie par nom
         }
         if (sortType === 'rarity-asc') {
-            return rarityWeight[a.rarity.toLowerCase()] - rarityWeight[b.rarity.toLowerCase()];
+            const rarityDiff = rarityWeight[a.rarity.toLowerCase()] - rarityWeight[b.rarity.toLowerCase()];
+            if (rarityDiff !== 0) return rarityDiff;
+            if (genDiff !== 0) return genDiff;
+            return nameDiff;
         }
         if (sortType === 'gen-desc') {
-            return b.generation - a.generation;
+            if (genDiff !== 0) return genDiff;
+            const rarityDiff = rarityWeight[b.rarity.toLowerCase()] - rarityWeight[a.rarity.toLowerCase()];
+            if (rarityDiff !== 0) return rarityDiff;
+            return nameDiff;
         }
         if (sortType === 'gen-asc') {
-            return a.generation - b.generation;
+            const genAscDiff = a.generation - b.generation;
+            if (genAscDiff !== 0) return genAscDiff;
+            const rarityDiff = rarityWeight[b.rarity.toLowerCase()] - rarityWeight[a.rarity.toLowerCase()];
+            if (rarityDiff !== 0) return rarityDiff;
+            return nameDiff;
         }
         if (sortType === 'name') {
-            return a.name.localeCompare(b.name);
+            return nameDiff;
         }
         return 0;
     });
 }
 
-// Génère le HTML pour les 5 étoiles et leurs 6 pips de fragments
-// totalShards = 0 à 30 (5 étoiles * 6)
 function generateStarsHTML(totalShards) {
     let html = '';
     for (let i = 0; i < 5; i++) {
-        const starThreshold = (i + 1) * 6; // Une étoile est "pleine" tous les 6 fragments
+        const starThreshold = (i + 1) * 6; 
         const isStarActive = totalShards >= starThreshold;
         
-        // Calcul des pips (0 à 6) pour cette étoile spécifique
         let pipsActive = 0;
         if (totalShards >= starThreshold) {
             pipsActive = 6;
@@ -92,10 +156,11 @@ function renderHeroes() {
     const grid = document.getElementById('heroes-grid');
     grid.innerHTML = ''; 
 
+    // On utilise désormais les valeurs récupérées directement des filtres
     const sortBy = document.getElementById('sort-by').value;
-    const checkedGens = Array.from(document.querySelectorAll('.gen-checkbox:checked')).map(cb => cb.value); // Récupère toutes les valeurs des cases cochées sous forme de tableau (ex: ["1", "2"])
     const filterType = document.getElementById('filter-type').value;
     const filterRarity = document.getElementById('filter-rarity').value;
+    const checkedGens = Array.from(document.querySelectorAll('.gen-checkbox:checked')).map(cb => cb.value);
 
     let filteredHeroes = heroesDB.filter(hero => {
         if (!checkedGens.includes(hero.generation.toString())) return false;
@@ -107,9 +172,8 @@ function renderHeroes() {
     const sortedHeroes = sortHeroes(filteredHeroes, sortBy);
 
     sortedHeroes.forEach(hero => {
-        // userHeroes stocke { level: 1-80, shards: 0-30 }
         const heroData = userHeroes[hero.id] || { level: 1, shards: 0 };
-        const isLocked = heroData.shards === 0 && heroData.level === 1; // Considéré "grisé" si 0 shard et lvl 1
+        const isLocked = heroData.shards === 0 && heroData.level === 1; 
 
         const card = document.createElement('div');
         card.className = `hero-card ${hero.rarity.toLowerCase()} ${isLocked ? 'locked' : ''}`;
@@ -139,10 +203,6 @@ function renderHeroes() {
 function openModal(hero, heroData) {
     currentEditingHero = hero.id;
     document.getElementById('modal-hero-name').textContent = hero.name;
-    
-    // On garde l'ancienne modale pour l'instant, mais on l'adaptera
-    // pour modifier le niveau (1-80) et les fragments (0-30) dans notre prochaine étape.
-    // L'alerte te montre que la connexion est faite :
     alert(`(Bientôt) Modale pour configurer ${hero.name}.\nNiveau actuel: ${heroData.level}\nFragments: ${heroData.shards}/30`);
 }
 
