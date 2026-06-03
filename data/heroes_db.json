@@ -338,5 +338,30 @@
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
+  },
+  {
+    "id": "0017",
+    "name": "Hilde",
+    "generation": 2,
+    "rarity": "legendary",
+    "troopType": "Cavalry",
+    "goodJoinerBear": True,
+    "skills": [
+      {
+        "name": "Noble Path",
+        "effect": "Increases the total squads' Attack and Defense by X% and X%",
+        "levels": ["(2%,3%)", "(4%,6%)", "(6%,9%)", "(8%,12%)", "(10%,15%)"]
+      },
+      {
+        "name": "Elixir of Strength",
+        "effect": "Granting all squads' attack a 25% chance of dealing X% damage",
+        "levels": ["120%", "140%", "160%", "180%", "200%"]
+      },
+      {
+        "name": "Trial by Fire",
+        "effect": "X% chance of reducing damage taken by 50% for all squads.",
+        "levels": ["8%", "16%", "24%", "32%", "40%""]
+      }
+    ]
   }
 ]
