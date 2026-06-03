@@ -323,7 +323,13 @@ function openModal(hero, heroData) {
         updateModalUI();
     };
     
-    document.getElementById('modal-level').oninput = (e) => { modalState.level = parseInt(e.target.value) || 1; };
+    document.getElementById('modal-level').oninput = (e) => { 
+        let val = parseInt(e.target.value) || 1;
+        if (val > 80) val = 80; // Bloque au maximum à 80
+        if (val < 1) val = 1;   // Bloque au minimum à 1
+        modalState.level = val;
+        e.target.value = val;   // Force l'affichage du bon chiffre dans la case
+    };
     document.getElementById('modal-shards').oninput = (e) => { 
         modalState.shards = parseInt(e.target.value) || 0; 
         updateModalUI(); 
