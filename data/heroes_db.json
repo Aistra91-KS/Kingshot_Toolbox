@@ -17,8 +17,12 @@
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
-        "name": "Master Woodcutter",
-        "effect": "Forrest utilizes his logging expertise, increasing Wood Gathering Speed in the Wilderness by X%.",
+        "name": { 
+          "EN" : "Master Woodcutter",
+          "FR" : "Maitre Bûcheron"
+        "effect": {
+          "EN" : "Forrest utilizes his logging expertise, increasing Wood Gathering Speed in the Wilderness by X%.",
+          "FR" : "Forrest utilise sont expertise en matière d'abattage, ce qui augmente la Vitesse de Collecte du Bois dans la nature de X%"
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ]
