@@ -371,7 +371,9 @@ function openModal(hero, heroData) {
         updateModalUI(); 
     };
 
-    document.getElementById('hero-modal').style.display = 'flex';
+    // Ouvre le tiroir et pousse la grille
+    document.getElementById('hero-modal').classList.add('show');
+    document.body.classList.add('modal-active');
     updateModalUI();
 }
 
@@ -477,7 +479,9 @@ window.setModalSkillLevel = function(skillIndex, newLevel) {
 };
 
 function closeModal() {
-    document.getElementById('hero-modal').style.display = 'none';
+    // Ferme le tiroir et remet la grille à sa place
+    document.getElementById('hero-modal').classList.remove('show');
+    document.body.classList.remove('modal-active');
     currentEditingHeroObj = null;
 }
 
