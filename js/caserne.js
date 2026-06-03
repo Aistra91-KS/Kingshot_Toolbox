@@ -411,12 +411,27 @@ function renderModalSkills(fullStars) {
 
         const currentLvl = modalState.skills[index];
 
+        // Remplacement dynamique du X% dans le texte de l'effet
         let effectText = skill.effect;
         if (currentLvl > 0 && skill.levels && skill.levels[currentLvl - 1]) {
-            const value = skill.levels[currentLvl - 1];
-            effectText = effectText.replace('X%', `<span style="color:#f5b840; font-weight:bold;">${value}</span>`);
-        }
+            let valueStr = skill.levels[currentLvl - 1];
 
+            // Si la base de données contient plusieurs valeurs ex: "(2%,3%)"
+            if (valueStr.startsWith('(') && valueStr.endsWith(')')) {
+                // 1. On enlève les parenthèses
+                valueStr = valueStr.substring(1, valueStr.length - 1);
+                // 2. On sépare les valeurs (ex: ["2%", "3%"])
+                let values = valueStr.split(',');
+                
+                // 3. On remplace les "X%" ou "X" un par un, dans l'ordre
+                values.forEach(val => {
+                    effectText = effectText.replace(/X%|X/, `<span style="color:#f5b840; font-weight:bold;">${val.trim()}</span>`);
+                });
+            } else {
+                // S'il n'y a qu'une valeur (ex: "5%"), on remplace TOUS les X% de la phrase d'un coup (g = global)
+                effectText = effectText.replace(/X%|X/g, `<span style="color:#f5b840; font-weight:bold;">${valueStr}</span>`);
+            }
+        }
         let pipsHTML = '';
         for (let i = 1; i <= 5; i++) {
             let stateClass = '';
