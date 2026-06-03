@@ -1273,21 +1273,28 @@ tbody tr:hover {
    CORRECTION POSITION DE LA FENÊTRE (MODALE)
    ============================================================================ */
 .modal {
-    position: fixed !important; /* La ligne magique : fixe la fenêtre à l'écran */
+    position: fixed !important; /* Fixe la fenêtre à l'écran */
     top: 0 !important;
     left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    background: rgba(0, 0, 0, 0.7); /* Fond semi-transparent derrière la fenêtre */
-    display: flex;
-    justify-content: center; /* Centre horizontalement (Mets "flex-end" si tu veux vraiment la coller tout à droite) */
-    align-items: center; /* Centre verticalement */
-    z-index: 9999 !important; /* S'assure de passer par-dessus tout le reste du site */
+    background: rgba(0, 0, 0, 0.8) !important; /* Fond sombre derrière */
+    display: flex !important;
+    justify-content: center !important; /* Centre horizontalement */
+    align-items: center !important; /* Centre verticalement */
+    z-index: 9999 !important; 
 }
 
 .modal-content {
-    max-height: 90vh; /* Empêche la fenêtre d'être plus haute que ton écran */
-    overflow-y: auto; /* Ajoute une barre de défilement SI le contenu est trop grand */
-    background: var(--bg-color); /* Conserve la couleur de fond */
+    width: 90%; /* Laisse une petite marge sur les côtés (pratique sur mobile) */
+    max-width: 450px; /* Limite la largeur pour garder l'aspect "carte" */
+    max-height: 90vh; /* Ne dépasse pas la hauteur de l'écran */
+    overflow-y: auto; /* Ajoute un scroll interne uniquement si nécessaire */
+    background: var(--bg-color); /* Couleur de fond propre */
+    border: 1px solid var(--border); /* Bordure fine */
+    border-radius: 12px; /* Le retour des angles arrondis ! */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8); /* Belle ombre de profondeur */
     position: relative;
+    padding: 0;
+    margin: 0; /* Enlève les marges parasites de l'ancien design */
 }
