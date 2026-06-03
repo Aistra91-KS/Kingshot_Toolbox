@@ -24,7 +24,13 @@ const i18nCaserne = {
         rarityEpi: "Épique 🟣",
         rarityRar: "Rare 🔵",
         filterUnlocked: "Uniquement les débloqués",
-        lvlPrefix: "Niv.", 
+        lvlPrefix: "Niv.",
+        modalUnlocked: "Débloqué",
+        modalLvl: "Niveau du Héros",
+        modalShards: "Fragments d'étoiles :",
+        modalSkills: "COMPÉTENCES",
+        modalCancel: "Annuler",
+        modalSave: "Enregistrer",
         modalWIP: "(Bientôt) Modale pour configurer"
     },
     EN: {
@@ -50,7 +56,13 @@ const i18nCaserne = {
         rarityRar: "Rare 🔵",
         filterUnlocked: "Unlocked only",
         lvlPrefix: "Lv.", 
-        modalWIP: "(Coming soon) Modal to configure"
+        modalWIP: "(Coming soon) Modal to configure",
+        modalUnlocked: "Unlocked",
+        modalLvl: "Hero Level",
+        modalShards: "Star Shards :",
+        modalSkills: "SKILLS",
+        modalCancel: "Cancel",
+        modalSave: "Save"
     }
 };
 
@@ -103,8 +115,12 @@ function applyCaserneTranslations(lang) {
     });
 
     if (heroesDB.length > 0) renderHeroes();
+    
+    // NOUVEAU : Met à jour les textes de la fenêtre latérale si elle est ouverte !
+    if (currentEditingHeroObj && document.getElementById('hero-modal').classList.contains('show')) {
+        updateModalUI();
+    }
 }
-
 // ==========================================
 // INITIALISATION DE LA PAGE
 // ==========================================
@@ -399,8 +415,8 @@ function renderModalSkills(fullStars) {
     const skillsContainer = document.getElementById('modal-skills-list');
     skillsContainer.innerHTML = '';
 
-    // 1. On récupère la langue actuelle
-    let currentLang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : 'EN';
+    // 1. On récupère la langue actuelle directement de la mémoire (EN par défaut)
+    let currentLang = (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
 
     let maxSkillLevel = 2; 
     if (fullStars >= 1) maxSkillLevel = 3; 
