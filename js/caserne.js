@@ -1,12 +1,64 @@
+// ==========================================
+// DICTIONNAIRE DE TRADUCTION
+// ==========================================
+const i18nCaserne = {
+    FR: {
+        pageTitle: "Ma Caserne",
+        pageDesc: "Cliquez sur un héros pour configurer ses compétences, son niveau et ses étoiles.",
+        filterSort: "Tri & Filtres",
+        sortBy: "Trier par",
+        sortRarityDesc: "Rareté (Décroissant)",
+        sortRarityAsc: "Rareté (Croissant)",
+        sortGenDesc: "Génération (Plus récente)",
+        sortGenAsc: "Génération (Plus ancienne)",
+        sortName: "Nom (A-Z)",
+        filterGen: "Générations (Multi-choix)",
+        filterType: "Type",
+        typeAll: "Tous les types",
+        typeInf: "Infanterie 🛡️",
+        typeCav: "Cavalerie 🐎",
+        typeArc: "Archers 🏹",
+        filterRarity: "Rareté",
+        rarityAll: "Toutes",
+        rarityLeg: "Légendaire 🟡",
+        rarityEpi: "Épique 🟣",
+        rarityRar: "Rare 🔵",
+        lvlPrefix: "Niv.", // Niveau en français
+        modalWIP: "(Bientôt) Modale pour configurer"
+    },
+    EN: {
+        pageTitle: "My Barracks",
+        pageDesc: "Click on a hero to configure their skills, level, and stars.",
+        filterSort: "Sort & Filters",
+        sortBy: "Sort by",
+        sortRarityDesc: "Rarity (Descending)",
+        sortRarityAsc: "Rarity (Ascending)",
+        sortGenDesc: "Generation (Newest first)",
+        sortGenAsc: "Generation (Oldest first)",
+        sortName: "Name (A-Z)",
+        filterGen: "Generations (Multi-choice)",
+        filterType: "Type",
+        typeAll: "All types",
+        typeInf: "Infantry 🛡️",
+        typeCav: "Cavalry 🐎",
+        typeArc: "Archers 🏹",
+        filterRarity: "Rarity",
+        rarityAll: "All",
+        rarityLeg: "Legendary 🟡",
+        rarityEpi: "Epic 🟣",
+        rarityRar: "Rare 🔵",
+        lvlPrefix: "Lv.", // Level en anglais
+        modalWIP: "(Coming soon) Modal to configure"
+    }
+};
+
 // Variables globales
 let heroesDB = []; 
 let userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
 let currentEditingHero = null;
 
-// Poids des raretés pour le tri
 const rarityWeight = { "legendary": 3, "epic": 2, "rare": 1 };
 
-// NOUVEAU : Réglages par défaut pour un nouvel utilisateur (Seule la Gen 1 est cochée)
 const DEFAULT_FILTERS = {
     sortBy: 'rarity-desc',
     filterType: 'all',
@@ -19,7 +71,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1. Charger les filtres sauvegardés AVANT de charger les héros
     loadFilters();
 
-    // 2. Chargement du fichier JSON
+    // 2. Initialisation de la langue
+    if (window.GlobalLang) {
+        applyCaserneTranslations(window.GlobalLang.get());
+    }
+
+    // 3. Chargement du fichier JSON
     try {
         const response = await fetch('data/heroes_db.json'); 
         if (!response.ok) throw new Error("Fichier JSON introuvable");
@@ -30,19 +87,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("Erreur de chargement :", error);
     }
 
-    // 3. Écouteurs pour les listes déroulantes
+    // 4. Écouteurs pour les listes déroulantes
     document.getElementById('sort-by').addEventListener('change', handleFilterChange);
     document.getElementById('filter-type').addEventListener('change', handleFilterChange);
     document.getElementById('filter-rarity').addEventListener('change', handleFilterChange);
     
-    // 4. Écouteurs pour les cases à cocher de génération
+    // 5. Écouteurs pour les cases à cocher de génération
     document.querySelectorAll('.gen-checkbox').forEach(cb => {
         cb.addEventListener('change', handleFilterChange);
     });
 
-    // Fermeture de la modale
     document.getElementById('close-modal').addEventListener('click', closeModal);
 });
+
+// Écouteur global pour changer la langue en direct via le header
+window.addEventListener('langChanged', (e) => {
+    applyCaserneTranslations(e.detail.lang);
+});
+
+// Applique les textes du dictionnaire à la page HTML
+function applyCaserneTranslations(lang) {
+    const dict = i18nCaserne[lang];
+    if (!dict) return;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+    });
+
+    // On relance le rendu des cartes pour mettre à jour les "Niv." / "Lv."
+    if (heroesDB.length > 0) renderHeroes();
+}
 
 // ==========================================
 // GESTION DES FILTRES (Sauvegarde en mémoire)
@@ -71,8 +146,8 @@ function saveFilters() {
 }
 
 function handleFilterChange() {
-    saveFilters(); // On sauvegarde...
-    renderHeroes(); // ...puis on rafraîchit l'affichage
+    saveFilters(); 
+    renderHeroes(); 
 }
 
 // ==========================================
@@ -88,15 +163,14 @@ function getTroopEmoji(type) {
 
 function sortHeroes(heroes, sortType) {
     return heroes.sort((a, b) => {
-        // Sous-tris par défaut (Gen la plus récente d'abord, puis Nom A-Z)
         const genDiff = b.generation - a.generation; 
         const nameDiff = a.name.localeCompare(b.name); 
 
         if (sortType === 'rarity-desc') {
             const rarityDiff = rarityWeight[b.rarity.toLowerCase()] - rarityWeight[a.rarity.toLowerCase()];
-            if (rarityDiff !== 0) return rarityDiff; // 1. On trie par rareté
-            if (genDiff !== 0) return genDiff;       // 2. Si même rareté, on trie par génération
-            return nameDiff;                         // 3. Si même génération, on trie par nom
+            if (rarityDiff !== 0) return rarityDiff;
+            if (genDiff !== 0) return genDiff;      
+            return nameDiff;                        
         }
         if (sortType === 'rarity-asc') {
             const rarityDiff = rarityWeight[a.rarity.toLowerCase()] - rarityWeight[b.rarity.toLowerCase()];
@@ -156,7 +230,10 @@ function renderHeroes() {
     const grid = document.getElementById('heroes-grid');
     grid.innerHTML = ''; 
 
-    // On utilise désormais les valeurs récupérées directement des filtres
+    // On récupère la langue actuelle pour savoir s'il faut afficher "Lv." ou "Niv."
+    const currentLang = window.GlobalLang ? window.GlobalLang.get() : 'EN';
+    const dict = i18nCaserne[currentLang];
+
     const sortBy = document.getElementById('sort-by').value;
     const filterType = document.getElementById('filter-type').value;
     const filterRarity = document.getElementById('filter-rarity').value;
@@ -183,11 +260,11 @@ function renderHeroes() {
             <div class="hero-gradient"></div>
             
             <div class="hero-type-badge">${getTroopEmoji(hero.troopType)}</div>
-            <div class="hero-gen-badge">Gen ${hero.generation}</div>
+            <div class="hero-gen-badge">G${hero.generation}</div>
             
             <div class="hero-name-row">
                 <div class="hero-name">${hero.name}</div>
-                <div class="hero-level">Lv.${heroData.level}</div>
+                <div class="hero-level">${dict.lvlPrefix}${heroData.level}</div>
             </div>
             
             <div class="hero-shards-container">
@@ -201,9 +278,12 @@ function renderHeroes() {
 }
 
 function openModal(hero, heroData) {
+    const currentLang = window.GlobalLang ? window.GlobalLang.get() : 'EN';
+    const dict = i18nCaserne[currentLang];
+
     currentEditingHero = hero.id;
     document.getElementById('modal-hero-name').textContent = hero.name;
-    alert(`(Bientôt) Modale pour configurer ${hero.name}.\nNiveau actuel: ${heroData.level}\nFragments: ${heroData.shards}/30`);
+    alert(`${dict.modalWIP} ${hero.name}.\nLevel: ${heroData.level}\nFragments: ${heroData.shards}/30`);
 }
 
 function closeModal() {
