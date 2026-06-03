@@ -260,7 +260,7 @@ function renderHeroes() {
             <div class="hero-gradient"></div>
             
             <div class="hero-type-badge">${getTroopEmoji(hero.troopType)}</div>
-            <div class="hero-gen-badge">G${hero.generation}</div>
+            <div class="hero-gen-badge">Gen ${hero.generation}</div>
             
             <div class="hero-name-row">
                 <div class="hero-name">${hero.name}</div>
