@@ -1249,9 +1249,19 @@ tbody tr:hover {
 }
 
 .skill-info { flex: 1; }
-.skill-name { font-weight: bold; font-size: 14px; margin-bottom: 2px; }
-.skill-effect { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+.skill-name { 
+    font-weight: bold; 
+    font-size: 14px; 
+    margin-bottom: 4px; 
+    color: var(--text-light); /* Force une couleur bien contrastée */
+}
 
+.skill-effect { 
+    font-size: 13px !important; /* Un poil plus grand pour la lisibilité */
+    color: var(--text-light) !important; /* Remplace le texte "muted" trop effacé */
+    opacity: 0.85; /* Adoucit très légèrement pour le différencier du titre */
+    line-height: 1.5 !important; 
+}
 /* Niveaux de compétence (Pips) */
 .skill-pips-container {
     display: flex; justify-content: flex-end; gap: 5px;
@@ -1316,5 +1326,5 @@ body.modal-active .main-content {
     border: 1px solid var(--border) !important;
     border-radius: 12px !important;
     box-shadow: -15px 0 40px rgba(0, 0, 0, 0.5) !important;
-    background: #141414 !important;
+    background: var(--bg-color) !important;
 }
