@@ -18,7 +18,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Écouteurs pour les filtres et le tri
     document.getElementById('sort-by').addEventListener('change', renderHeroes);
-    document.getElementById('filter-gen').addEventListener('change', renderHeroes);
+    document.querySelectorAll('.gen-checkbox').forEach(cb => {
+        cb.addEventListener('change', renderHeroes);
+    });
     document.getElementById('filter-type').addEventListener('change', renderHeroes);
     document.getElementById('filter-rarity').addEventListener('change', renderHeroes);
     
@@ -91,12 +93,12 @@ function renderHeroes() {
     grid.innerHTML = ''; 
 
     const sortBy = document.getElementById('sort-by').value;
-    const filterGen = document.getElementById('filter-gen').value;
+    const checkedGens = Array.from(document.querySelectorAll('.gen-checkbox:checked')).map(cb => cb.value); // Récupère toutes les valeurs des cases cochées sous forme de tableau (ex: ["1", "2"])
     const filterType = document.getElementById('filter-type').value;
     const filterRarity = document.getElementById('filter-rarity').value;
 
     let filteredHeroes = heroesDB.filter(hero => {
-        if (filterGen !== 'all' && hero.generation.toString() !== filterGen) return false;
+        if (!checkedGens.includes(hero.generation.toString())) return false;
         if (filterType !== 'all' && hero.troopType.toLowerCase() !== filterType.toLowerCase()) return false;
         if (filterRarity !== 'all' && hero.rarity.toLowerCase() !== filterRarity.toLowerCase()) return false;
         return true;
