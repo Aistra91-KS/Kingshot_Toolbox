@@ -1270,31 +1270,51 @@ tbody tr:hover {
 .skill-row.locked { opacity: 0.5; }
 
 /* ============================================================================
-   PANNEAU LATÉRAL DROIT FIXE (CASERNE)
+   PANNEAU LATÉRAL COULISSANT (EFFET TIROIR & DÉCALAGE GRILLE)
    ============================================================================ */
-#hero-modal {
-    position: fixed !important; /* Fixe le panneau à l'écran, pas à la page */
-    top: 90px !important; /* Aligne le haut du panneau avec ta sidebar de gauche */
-    right: 20px !important; /* Le colle à droite de l'écran */
-    bottom: 20px !important; /* S'arrête avant le bas de l'écran */
-    width: 420px !important; /* Garde la largeur parfaite de ta carte */
-    z-index: 9999 !important; /* Passe au-dessus du reste */
-    
-    background: transparent !important; /* Enlève tout voile noir sur la page */
-    pointer-events: none !important; /* Astuce magique : permet de cliquer sur les autres héros à côté ! */
+
+/* 1. Animation fluide de la zone principale (la grille) */
+.main-content {
+    transition: padding-right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
 }
 
+/* Quand le tiroir est ouvert, on "pousse" la grille vers la gauche */
+body.modal-active .main-content {
+    padding-right: 440px !important; /* Fait de la place (400px de menu + 40px de marge) */
+}
+
+/* 2. Le panneau latéral (Hors de l'écran par défaut) */
+#hero-modal {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    width: 400px !important;
+    z-index: 9999 !important;
+    background: transparent !important;
+    pointer-events: none !important; /* Permet de cliquer à travers (sur la grille) */
+    
+    display: flex !important; /* Annule le display:none du HTML */
+    transform: translateX(120%); /* Caché à droite hors de l'écran */
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 3. Classe ajoutée par le JS pour ouvrir le tiroir */
+#hero-modal.show {
+    transform: translateX(0); /* Glisse dans l'écran */
+}
+
+/* Contenu du panneau */
 #hero-modal .modal-content {
-    pointer-events: auto !important; /* Rend le panneau cliquable */
+    pointer-events: auto !important; /* On réactive le clic sur le menu lui-même */
     width: 100% !important;
-    height: 100% !important; /* Prend l'espace exact entre 'top' et 'bottom' */
-    max-height: 100% !important; 
-    overflow-y: auto !important; /* S'il y a bcp de texte, la molette fera défiler le panneau, pas la page */
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow-y: auto !important;
     margin: 0 !important;
     
-    /* On force ton design actuel pour qu'il ne bouge pas d'un poil */
     border: 1px solid var(--border) !important;
     border-radius: 12px !important;
-    box-shadow: -10px 15px 40px rgba(0, 0, 0, 0.8) !important;
-    background: #141414 !important; /* Fond sombre de ta carte */
+    box-shadow: -15px 0 40px rgba(0, 0, 0, 0.5) !important;
+    background: #141414 !important;
 }
