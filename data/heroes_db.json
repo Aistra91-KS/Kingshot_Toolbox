@@ -1082,33 +1082,33 @@
       {
         "name": {
           "EN": "Arcane Pact",
-          "FR": "Pacte des Arcanes"
+          "FR": "Pacte Arcanique"
         },
         "effect": {
           "EN": "The arcane pact grants Sophia the protection of night, and a X% chance of reducing all squad damage received by 50% every turn.",
-          "FR": "Le pacte des arcanes accorde à Sophia la protection de la nuit, et X% de chances de réduire de 50% tous les dégâts subis par l'escouade à chaque tour."
+          "FR": "Le pacte arcanique accorde à Sophia la protection de la nuit, et X% de chances de réduire de 50% tous les dégâts subis par l'escouade à chaque tour."
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
       {
         "name": {
           "EN": "Terror - Deathblow",
-          "FR": "Terreur - Coup de Grâce"
+          "FR": "Terreur - Coup Fatal"
         },
         "effect": {
           "EN": "Sophia radiates a fearsome aura that has a chance to inflict Terror on enemy targets. Enemy targets suffer the effects of Terror every 2 turns and will receive X% increased Cavalry damage on the following turn. Terror lasts 1 turn.",
-          "FR": "Sophia dégage une aura redoutable pouvant infliger Terreur aux cibles ennemies. Les cibles ennemies subissent les effets de Terreur tous les 2 tours et recevront X% de dégâts de Cavalerie supplémentaires au tour suivant. Terreur dure 1 tour."
+          "FR": "Sophia dégage une aura redoutable qui a une chance d'infliger le statut Terreur aux cibles ennemies. Les cibles subissent les effets de la Terreur tous les 2 tours et recevront X% de dégâts en plus de la part de  la Cavalerie au tour suivant. Terreur dure 1 tour."
         },
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       },
       {
         "name": {
           "EN": "Terror - Annihilation",
-          "FR": "Terreur - Annihilation"
+          "FR": "Terreur - Anéantissement"
         },
         "effect": {
           "EN": "Terror increases fragility. All Squads deal X% increased damage to Terrified targets.",
-          "FR": "La terreur augmente la fragilité. Toutes les escouades infligent X% de dégâts supplémentaires aux cibles Terrorisées."
+          "FR": "La terreur rend fragile. Les escouades infligent X% de dégâts en plus aux cibles Terrifiées."
         },
         "levels": ["15%", "30%", "45%", "60%", "75%"]
       }
