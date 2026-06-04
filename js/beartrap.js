@@ -251,7 +251,7 @@ function initStudioModal() {
         modal.classList.remove('active');
         calculateBearTrap(); 
     });
-
+}
 // Récupère et convertit les entrées de la modale en nombres réels
 function getModalInputValues() {
     const mode = document.querySelector('input[name="cm-input-mode"]:checked').value;
