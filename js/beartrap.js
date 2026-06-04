@@ -167,13 +167,31 @@ function initStudioModal() {
         input.addEventListener('input', updateModalLiveStats);
     });
 
-    // Écouteur pour le changement % / Nombres
+    // Écouteur pour le changement % / Nombres avec CONVERSION INTELLIGENTE
     cmRadios.forEach(radio => {
-        radio.addEventListener('change', () => {
-            // Remise à zéro pour éviter les erreurs de conversion
-            document.getElementById('cm-inf').value = '0';
-            document.getElementById('cm-cav').value = '0';
-            document.getElementById('cm-arc').value = '0';
+        radio.addEventListener('change', (e) => {
+            const newMode = e.target.value;
+            const maxCap = getCurrentMaxMarchCapacity();
+            
+            let valInf = getRawNumber('cm-inf');
+            let valCav = getRawNumber('cm-cav');
+            let valArc = getRawNumber('cm-arc');
+
+            if (newMode === 'number') {
+                // On passe de % vers Nombres
+                document.getElementById('cm-inf').value = Math.floor(maxCap * (valInf / 100)).toLocaleString('fr-FR');
+                document.getElementById('cm-cav').value = Math.floor(maxCap * (valCav / 100)).toLocaleString('fr-FR');
+                document.getElementById('cm-arc').value = Math.floor(maxCap * (valArc / 100)).toLocaleString('fr-FR');
+            } else {
+                // On passe de Nombres vers %
+                let pInf = maxCap > 0 ? Math.round((valInf / maxCap) * 100) : 0;
+                let pCav = maxCap > 0 ? Math.round((valCav / maxCap) * 100) : 0;
+                let pArc = maxCap > 0 ? Math.round((valArc / maxCap) * 100) : 0;
+                
+                document.getElementById('cm-inf').value = pInf;
+                document.getElementById('cm-cav').value = pCav;
+                document.getElementById('cm-arc').value = pArc;
+            }
             updateModalLiveStats();
         });
     });
