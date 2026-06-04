@@ -100,6 +100,7 @@ const i18nBearTrap = {
 };
 
 let customMarchesList = [];
+let editingMarchId = null; // Permet de savoir si on modifie ou si on crée
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -183,20 +184,28 @@ function initStudioModal() {
             alert(dict.errMaxMarches);
             return;
         }
+        
+        editingMarchId = null; // On remet à zéro car c'est une NOUVELLE marche
+        
         document.getElementById('cm-name').value = '';
         document.getElementById('cm-inf').value = '0';
         document.getElementById('cm-cav').value = '0';
         document.getElementById('cm-arc').value = '0';
-        document.querySelector('input[name="cm-input-mode"][value="number"]').checked = true;
+        // Mode pourcentage par défaut
+        document.querySelector('input[name="cm-input-mode"][value="percent"]').checked = true; 
         
         updateModalLiveStats();
         modal.classList.add('active');
     });
 
-    btnCancel.addEventListener('click', () => modal.classList.remove('active'));
+    btnCancel.addEventListener('click', () => {
+        modal.classList.remove('active');
+        editingMarchId = null;
+    });
 
     btnSave.addEventListener('click', () => {
         const name = document.getElementById('cm-name').value || "Marche Spéciale";
+        const mode = document.querySelector('input[name="cm-input-mode"]:checked').value; // On capture le mode !
         const { rawInf, rawCav, rawArc, isExceeding } = getModalInputValues();
         const total = rawInf + rawCav + rawArc;
         const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
@@ -209,19 +218,39 @@ function initStudioModal() {
         }
 
         const { remInf, remCav, remArc } = getRemainingGlobalTroops();
-        if (rawInf > remInf || rawCav > remCav || rawArc > remArc) {
+        
+        // Si on est en édition, on "rend" temporairement les troupes de la marche actuelle pour vérifier si on dépasse
+        let currentEditingInf = 0, currentEditingCav = 0, currentEditingArc = 0;
+        if (editingMarchId) {
+            const march = customMarchesList.find(m => m.id === editingMarchId);
+            if (march) {
+                currentEditingInf = march.inf; currentEditingCav = march.cav; currentEditingArc = march.arc;
+            }
+        }
+
+        if (rawInf > (remInf + currentEditingInf) || rawCav > (remCav + currentEditingCav) || rawArc > (remArc + currentEditingArc)) {
             alert(dict.errNoTroopsForCustom);
             return;
         }
 
-        customMarchesList.push({ id: Date.now(), name, inf: rawInf, cav: rawCav, arc: rawArc, total });
+        if (editingMarchId) {
+            // MISE À JOUR de la marche existante
+            const index = customMarchesList.findIndex(m => m.id === editingMarchId);
+            if (index > -1) {
+                customMarchesList[index] = { ...customMarchesList[index], name, mode, inf: rawInf, cav: rawCav, arc: rawArc, total };
+            }
+        } else {
+            // CRÉATION d'une nouvelle marche
+            customMarchesList.push({ id: Date.now(), name, mode, inf: rawInf, cav: rawCav, arc: rawArc, total });
+        }
+
+        editingMarchId = null; // Fin de l'édition
         saveBearTrapData();
         renderCustomMarches();
         updateStudioBadge();
         modal.classList.remove('active');
         calculateBearTrap(); 
     });
-}
 
 // Récupère et convertit les entrées de la modale en nombres réels
 function getModalInputValues() {
@@ -333,12 +362,10 @@ function renderCustomMarches() {
     const container = document.getElementById('custom-marches-list');
     container.innerHTML = '';
 
-    // On récupère la capacité théorique pour calculer les pourcentages
     let theoreticalCapacity = getRawNumber('cap-base') + getRawNumber('cap-expert') + getRawNumber('cap-animal');
-    if (theoreticalCapacity === 0) theoreticalCapacity = 1; // Sécurité division par zéro
+    if (theoreticalCapacity === 0) theoreticalCapacity = 1; 
 
     customMarchesList.forEach(march => {
-        // Calcul des pourcentages
         let pInf = Math.round((march.inf / theoreticalCapacity) * 100) || 0;
         let pCav = Math.round((march.cav / theoreticalCapacity) * 100) || 0;
         let pArc = Math.round((march.arc / theoreticalCapacity) * 100) || 0;
@@ -355,18 +382,24 @@ function renderCustomMarches() {
                     <div>🏹 <span style="color: var(--accent);">${march.arc.toLocaleString('fr-FR')}</span> <span style="color: var(--accent); font-size: 0.85em; font-weight: normal; opacity: 0.8;">(${pArc}%)</span></div>
                 </div>
             </div>
-            <!-- On enlève le onclick et on ajoute un data-id -->
-            <button type="button" class="btn-delete" data-id="${march.id}">🗑️</button>
+            <div class="march-actions">
+                <button type="button" class="btn-edit" data-id="${march.id}">✏️</button>
+                <button type="button" class="btn-delete" data-id="${march.id}">🗑️</button>
+            </div>
         `;
         container.appendChild(div);
     });
 
-    // ÉCOUTEUR D'ÉVÉNEMENT FIABLE : On attache le clic manuellement à chaque bouton généré
-    const deleteButtons = container.querySelectorAll('.btn-delete');
-    deleteButtons.forEach(btn => {
+    // ÉCOUTEURS D'ÉVÉNEMENTS
+    container.querySelectorAll('.btn-delete').forEach(btn => {
         btn.addEventListener('click', function() {
-            const marchId = parseInt(this.getAttribute('data-id'), 10);
-            deleteCustomMarch(marchId);
+            deleteCustomMarch(parseInt(this.getAttribute('data-id'), 10));
+        });
+    });
+
+    container.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', function() {
+            editCustomMarch(parseInt(this.getAttribute('data-id'), 10));
         });
     });
 }
@@ -378,6 +411,40 @@ function deleteCustomMarch(id) {
     renderCustomMarches();
     updateStudioBadge();
     calculateBearTrap();
+}
+
+function editCustomMarch(id) {
+    const march = customMarchesList.find(m => m.id === id);
+    if (!march) return;
+
+    editingMarchId = id; // On indique au système qu'on est en mode Édition
+
+    // 1. Remplir le nom
+    document.getElementById('cm-name').value = march.name;
+
+    // 2. Vérifier si la marche avait été sauvée en % ou en Nombres (fallback sur number)
+    const mode = march.mode || 'number';
+    document.querySelector(`input[name="cm-input-mode"][value="${mode}"]`).checked = true;
+
+    // 3. Remplir les valeurs intelligemment selon le mode
+    let theoreticalCapacity = getRawNumber('cap-base') + getRawNumber('cap-expert') + getRawNumber('cap-animal');
+    if (theoreticalCapacity === 0) theoreticalCapacity = 1;
+
+    if (mode === 'percent') {
+        // Re-calcule le pourcentage approximatif
+        document.getElementById('cm-inf').value = Math.round((march.inf / theoreticalCapacity) * 100) || 0;
+        document.getElementById('cm-cav').value = Math.round((march.cav / theoreticalCapacity) * 100) || 0;
+        document.getElementById('cm-arc').value = Math.round((march.arc / theoreticalCapacity) * 100) || 0;
+    } else {
+        // Injecte les nombres bruts formatés
+        document.getElementById('cm-inf').value = (march.inf || 0).toLocaleString('fr-FR');
+        document.getElementById('cm-cav').value = (march.cav || 0).toLocaleString('fr-FR');
+        document.getElementById('cm-arc').value = (march.arc || 0).toLocaleString('fr-FR');
+    }
+
+    // Affiche la modale et met à jour les stats
+    updateModalLiveStats();
+    document.getElementById('custom-march-modal').classList.add('active');
 }
 
 // ========================================
