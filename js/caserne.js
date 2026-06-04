@@ -418,16 +418,22 @@ function renderModalSkills(fullStars) {
     // 1. On récupère la langue actuelle directement de la mémoire (EN par défaut)
     let currentLang = (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
 
-    let maxSkillLevel = 2; 
-    if (fullStars >= 1) maxSkillLevel = 3; 
-    if (fullStars >= 3) maxSkillLevel = 4; 
-    if (fullStars >= 4) maxSkillLevel = 5; 
+    // ==========================================
+    // LOGIQUE DE PROGRESSION DES COMPÉTENCES
+    // ==========================================
+    let maxSkillLevel = 1; // 0 étoile (0-5 fragments) -> Niv. 1 max
+    if (fullStars >= 1) maxSkillLevel = 2; // 1 étoile (6-11 fragments) -> Niv. 2 max
+    if (fullStars >= 2) maxSkillLevel = 3; // 2 étoiles (12-17 fragments) -> Niv. 3 max
+    if (fullStars >= 3) maxSkillLevel = 4; // 3 étoiles (18-23 fragments) -> Niv. 4 max
+    if (fullStars >= 4) maxSkillLevel = 5; // 4 ou 5 étoiles (24+ fragments) -> Niv. 5 max
 
     const heroSkills = currentEditingHeroObj.skills || [];
 
     heroSkills.forEach((skill, index) => {
         const isSkill3 = index === 2;
-        const isLocked = isSkill3 && fullStars < 1;
+        
+        // La 3ème compétence se débloque uniquement à 2 étoiles pleines (12 fragments)
+        const isLocked = isSkill3 && fullStars < 2;
 
         if (isLocked) modalState.skills[index] = 0;
         else if (modalState.skills[index] > maxSkillLevel) modalState.skills[index] = maxSkillLevel;
