@@ -223,10 +223,15 @@
 
             <div class="control-group" style="margin-top: 15px; border-top: 1px solid var(--border); padding-top: 15px;">
                 <h4 style="margin: 0 0 10px 0; font-size: 13px; color: var(--text-muted); text-transform: uppercase;">Héros de la marche</h4>
-                <div class="control-row" style="gap: 10px;">
+                <div class="control-row" style="gap: 10px; margin-bottom: 15px;">
                     <select id="cm-hero-1" class="table-select" style="flex: 1;"><option value="">Capitaine</option></select>
                     <select id="cm-hero-2" class="table-select" style="width: 28%;"><option value="">Héros 2</option></select>
                     <select id="cm-hero-3" class="table-select" style="width: 28%;"><option value="">Héros 3</option></select>
+                </div>
+                <div class="control-row">
+                    <label style="cursor: pointer; color: var(--accent); font-weight: bold; display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="cm-is-host"> <span data-i18n="modalIsHost">Je suis l'hôte du rally (Organisateur)</span>
+                    </label>
                 </div>
             </div>
             
