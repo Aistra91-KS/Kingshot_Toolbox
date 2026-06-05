@@ -52,6 +52,8 @@ const i18nBearTrap = {
         errExceedCap: "Cette marche dépasse votre capacité maximale !",
         errNoTroopsForCustom: "Vous n'avez pas assez de troupes globales pour créer cette marche.",
         noCaptain: "Aucun capitaine disponible",
+        txtUsed: "utilisées",
+        lblHost: "(Hôte)",
         errDuplicateHero: "Un héros ne peut être sélectionné qu'une seule fois dans la même marche."
     },
     EN: {
@@ -103,6 +105,8 @@ const i18nBearTrap = {
         errExceedCap: "This march exceeds your maximum capacity!",
         errNoTroopsForCustom: "You don't have enough global troops to create this march.",
         noCaptain: "No captain available",
+        txtUsed: "used",
+        lblHost: "(Host)",
         errDuplicateHero: "A hero can only be selected once in the same march."
     }
 };
@@ -751,7 +755,13 @@ function getTotalMarchesAllowed() {
 
 function updateStudioBadge() {
     const badge = document.getElementById('remaining-marches-badge');
-    badge.textContent = `${customMarchesList.length} / ${getTotalMarchesAllowed()} utilisées`;
+    if (!badge) return;
+    
+    let currentLang = window.GlobalLang ? window.GlobalLang.get() : 'EN';
+    const dict = i18nBearTrap[currentLang] || i18nBearTrap.EN;
+    let wordUsed = dict.txtUsed || "utilisées";
+    
+    badge.textContent = `${customMarchesList.length} / ${getTotalMarchesAllowed()} ${wordUsed}`;
 }
 
 function renderCustomMarches() {
@@ -777,7 +787,7 @@ function renderCustomMarches() {
                 if (dbHero) {
                     let roleIcon = (idx === 0) ? "👑 " : "";
                     let emoji = classEmojis[dbHero.troopType.toLowerCase()] || '';
-                    heroInfo += `<span style="background: rgba(255,255,255,0.05); padding: 3px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">${roleIcon}${emoji} ${dbHero.name}</span>`;
+                    heroInfo += `<span style="background: var(--control-bg); border: 1px solid var(--border); color: var(--text-light); padding: 3px 6px; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">${roleIcon}${emoji} ${dbHero.name}</span>`;
                 }
             });
             heroInfo += "</div>";
@@ -1144,32 +1154,31 @@ function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalC
         const badgeStyleArc = "display: inline-block; background: rgba(245, 184, 64, 0.15); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-left: 5px;";
 
         let heroInfo = "";
-        // On affiche la zone des héros s'il y a des héros OU s'il en manque
         if ((march.heroes && march.heroes.length > 0) || march.missingHeroes > 0) {
             heroInfo = "<div style='font-size: 11px; color: var(--text-muted); margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap;'>";
+            
             if (march.heroes && march.heroes.length > 0) {
                 march.heroes.forEach(h => {
                     let roleIcon = h.isCaptain ? "👑 " : ""; 
                     let emoji = classEmojis[h.troopType.toLowerCase()] || '';
-                    heroInfo += `<span style="background: rgba(255,255,255,0.05); padding: 3px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">${roleIcon}${emoji} ${h.name} <span style="opacity:0.6">(L.${h.level})</span></span>`;
+                    heroInfo += `<span style="background: var(--control-bg); border: 1px solid var(--border); color: var(--text-light); padding: 3px 6px; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">${roleIcon}${emoji} ${h.name} <span style="opacity:0.6">(L.${h.level})</span></span>`;
                 });
             }
             
-            // NOUVEAU : On gère l'affichage selon le nombre de héros manquants
             if (march.missingHeroes > 0) {
+                let errorBg = "background: rgba(231, 76, 92, 0.05);";
                 if (march.missingHeroes === 3) {
-                    // S'il manque 3 héros, c'est qu'on n'a pas de capitaine
                     let msg = dict.noCaptain || "Aucun capitaine disponible";
-                    heroInfo += `<span style="color: #e74c5c; border: 1px solid rgba(231, 76, 92, 0.3); padding: 3px 6px; border-radius: 4px;">⚠️ ${msg}</span>`;
+                    heroInfo += `<span style="color: #e74c5c; border: 1px solid rgba(231, 76, 92, 0.3); ${errorBg} padding: 3px 6px; border-radius: 4px;">⚠️ ${msg}</span>`;
                 } else {
-                    // S'il manque 1 ou 2 héros (trous partiels)
-                    heroInfo += `<span style="color: #e74c5c; border: 1px solid rgba(231, 76, 92, 0.3); padding: 3px 6px; border-radius: 4px;">⚠️ -${march.missingHeroes} héros</span>`;
+                    heroInfo += `<span style="color: #e74c5c; border: 1px solid rgba(231, 76, 92, 0.3); ${errorBg} padding: 3px 6px; border-radius: 4px;">⚠️ -${march.missingHeroes} héros</span>`;
                 }
             }
             heroInfo += "</div>";
         }
         
-        let hostIndicator = march.isHostMarch ? " <span style='color:#f5b840; font-size: 0.8em; margin-left: 4px;'>(Hôte)</span>" : "";
+        let hostWord = dict.lblHost || "(Hôte)";
+        let hostIndicator = march.isHostMarch ? ` <span style='color:#f5b840; font-size: 0.8em; margin-left: 4px;'>${hostWord}</span>` : "";
 
         html += `
             <tr style="${rowStyle}">
