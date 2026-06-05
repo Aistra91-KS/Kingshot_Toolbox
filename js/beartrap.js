@@ -51,6 +51,7 @@ const i18nBearTrap = {
         errMaxMarches: "Vous avez atteint le nombre maximum de marches.",
         errExceedCap: "Cette marche dépasse votre capacité maximale !",
         errNoTroopsForCustom: "Vous n'avez pas assez de troupes globales pour créer cette marche.",
+        noCaptain: "Aucun capitaine disponible",
         errDuplicateHero: "Un héros ne peut être sélectionné qu'une seule fois dans la même marche."
     },
     EN: {
@@ -101,6 +102,7 @@ const i18nBearTrap = {
         errMaxMarches: "You have reached the maximum number of marches.",
         errExceedCap: "This march exceeds your maximum capacity!",
         errNoTroopsForCustom: "You don't have enough global troops to create this march.",
+        noCaptain: "No captain available",
         errDuplicateHero: "A hero can only be selected once in the same march."
     }
 };
@@ -1145,13 +1147,24 @@ function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalC
         // On affiche la zone des héros s'il y a des héros OU s'il en manque
         if ((march.heroes && march.heroes.length > 0) || march.missingHeroes > 0) {
             heroInfo = "<div style='font-size: 11px; color: var(--text-muted); margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap;'>";
-            march.heroes.forEach(h => {
-                let roleIcon = h.isCaptain ? "👑 " : ""; 
-                let emoji = classEmojis[h.troopType.toLowerCase()] || '';
-                heroInfo += `<span style="background: rgba(255,255,255,0.05); padding: 3px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">${roleIcon}${emoji} ${h.name} <span style="opacity:0.6">(L.${h.level})</span></span>`;
-            });
+            if (march.heroes && march.heroes.length > 0) {
+                march.heroes.forEach(h => {
+                    let roleIcon = h.isCaptain ? "👑 " : ""; 
+                    let emoji = classEmojis[h.troopType.toLowerCase()] || '';
+                    heroInfo += `<span style="background: rgba(255,255,255,0.05); padding: 3px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">${roleIcon}${emoji} ${h.name} <span style="opacity:0.6">(L.${h.level})</span></span>`;
+                });
+            }
+            
+            // NOUVEAU : On gère l'affichage selon le nombre de héros manquants
             if (march.missingHeroes > 0) {
-                heroInfo += `<span style="color: #e74c5c; border: 1px solid rgba(231, 76, 92, 0.3); padding: 3px 6px; border-radius: 4px;">⚠️ -${march.missingHeroes} héros</span>`;
+                if (march.missingHeroes === 3) {
+                    // S'il manque 3 héros, c'est qu'on n'a pas de capitaine
+                    let msg = dict.noCaptain || "Aucun capitaine disponible";
+                    heroInfo += `<span style="color: #e74c5c; border: 1px solid rgba(231, 76, 92, 0.3); padding: 3px 6px; border-radius: 4px;">⚠️ ${msg}</span>`;
+                } else {
+                    // S'il manque 1 ou 2 héros (trous partiels)
+                    heroInfo += `<span style="color: #e74c5c; border: 1px solid rgba(231, 76, 92, 0.3); padding: 3px 6px; border-radius: 4px;">⚠️ -${march.missingHeroes} héros</span>`;
+                }
             }
             heroInfo += "</div>";
         }
