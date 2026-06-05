@@ -482,9 +482,27 @@ function suggestHeroesForModal() {
             // On ajoute les héros secondaires UNIQUEMENT si on a un capitaine
             ['inf', 'cav', 'arc'].forEach(c => {
                 if (selectedCaptain.cls !== c && classes[c].length > 0) {
-                    // CORRECTION : On force le tri par niveau décroissant pour les poubelles
-                    classes[c].sort((a, b) => b.level - a.level);
-                    team.push(classes[c].shift());
+                    let nonCaptains = classes[c].filter(h => !h.goodJoinerBear).sort((a, b) => b.level - a.level);
+                    let captains = classes[c].filter(h => h.goodJoinerBear).sort((a, b) => b.level - a.level);
+                    
+                    let filler = null;
+                    
+                    if (nonCaptains.length > 0) {
+                        filler = nonCaptains[0];
+                    } else if (captains.length > 0) {
+                        // Combien de marches auto restera-t-il après avoir créé celle-ci ?
+                        let autoMarchesLeft = Math.max(0, getTotalMarchesAllowed() - customMarchesList.length - 1);
+                        let totalRemainingCaptains = ['inf', 'cav', 'arc'].reduce((sum, cls) => sum + classes[cls].filter(h => h.goodJoinerBear).length, 0);
+                        
+                        if (totalRemainingCaptains > autoMarchesLeft) {
+                            filler = captains[0];
+                        }
+                    }
+
+                    if (filler) {
+                        team.push(filler);
+                        classes[c] = classes[c].filter(h => h.id !== filler.id);
+                    }
                 }
             });
         }
