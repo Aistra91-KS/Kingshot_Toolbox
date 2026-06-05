@@ -144,22 +144,44 @@ function getHeroCapacity(level) {
     return heroCapacityByLevel[closestLevel];
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // ... (garde ton code existant) ...
-    applyTranslations(GlobalLang.get());
+// Fonction pour remplir les listes déroulantes de la modale
+function populateHeroDropdowns() {
+    const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
+    let optionsHTML = '<option value="">Aucun</option>';
     
-    // NOUVEAU : On charge la DB des héros pour pouvoir croiser les infos
+    // On ne propose que les héros débloqués
+    heroesDB.forEach(h => {
+        if (userHeroes[h.id] && userHeroes[h.id].unlocked) {
+            optionsHTML += `<option value="${h.id}">${h.name} (L.${userHeroes[h.id].level})</option>`;
+        }
+    });
+
+    ['cm-hero-1', 'cm-hero-2', 'cm-hero-3'].forEach(id => {
+        const sel = document.getElementById(id);
+        if (sel) sel.innerHTML = optionsHTML;
+    });
+}
+
+// DANS TON DOMContentLoaded (Là où tu charges le JSON) :
+document.addEventListener('DOMContentLoaded', async () => {
+
+    
+
     try {
         const response = await fetch('data/heroes_db.json');
-        if (response.ok) heroesDB = await response.json();
-    } catch (e) {
-        console.error("Impossible de charger la DB des héros", e);
-    }
-    window.addEventListener('langChanged', (e) => {
-        applyTranslations(e.detail.lang);
-        renderCustomMarches();
-        calculateBearTrap(); 
-    });
+        if (response.ok) {
+            heroesDB = await response.json();
+            populateHeroDropdowns(); // Remplit les listes !
+        }
+    } catch (e) { console.error("Erreur DB", e); }
+
+    
+    loadBearTrapData(); 
+    renderCustomMarches();
+    updateStudioBadge();
+    calculateBearTrap();
+    
+});
 
     const numberInputs = document.querySelectorAll('.formatted-number');
     numberInputs.forEach(input => {
