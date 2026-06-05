@@ -419,9 +419,17 @@ function suggestHeroesForModal() {
     if (isHost || (role === 'organizer' && !customMarchesList.some(m => m.isHost && m.id !== editingMarchId))) {
         ['inf', 'cav', 'arc'].forEach(cls => {
             classes[cls].sort((a, b) => {
+                // 1. Priorité à la Tier List Organisateur
                 let scoreA = getTierScore(a.name, a.troopType);
                 let scoreB = getTierScore(b.name, b.troopType);
                 if (scoreA !== scoreB) return scoreA - scoreB;
+                
+                // 2. Évaluation de la puissance des 3 compétences (Somme/Moyenne)
+                let sumSkillsA = (a.skills[0] || 0) + (a.skills[1] || 0) + (a.skills[2] || 0);
+                let sumSkillsB = (b.skills[0] || 0) + (b.skills[1] || 0) + (b.skills[2] || 0);
+                if (sumSkillsB !== sumSkillsA) return sumSkillsB - sumSkillsA;
+                
+                // 3. Départage final au niveau d'XP global
                 return b.level - a.level;
             });
             if (classes[cls].length > 0) team.push(classes[cls].shift());
@@ -895,6 +903,11 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                     let scoreA = getTierScore(a.name, a.troopType);
                     let scoreB = getTierScore(b.name, b.troopType);
                     if (scoreA !== scoreB) return scoreA - scoreB;
+                    
+                    let sumSkillsA = (a.skills[0] || 0) + (a.skills[1] || 0) + (a.skills[2] || 0);
+                    let sumSkillsB = (b.skills[0] || 0) + (b.skills[1] || 0) + (b.skills[2] || 0);
+                    if (sumSkillsB !== sumSkillsA) return sumSkillsB - sumSkillsA;
+                    
                     return b.level - a.level; 
                 });
                 if (classes[cls].length > 0) {
