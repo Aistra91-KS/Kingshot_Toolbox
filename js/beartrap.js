@@ -102,7 +102,7 @@ const i18nBearTrap = {
 };
 
 let customMarchesList = [];
-let editingMarchId = null; 
+let editingMarchId = null;
 let heroesDB = [];
 
 // ========================================
@@ -140,6 +140,23 @@ function getHeroCapacity(level) {
     return heroCapacityByLevel[closestLevel];
 }
 
+// LA FONCTION MANQUANTE !
+function getRawNumber(id) {
+    const el = document.getElementById(id);
+    if (!el || !el.value) return 0;
+    const cleanStr = el.value.toString().replace(/\s/g, '').replace(/ /g, '');
+    return parseInt(cleanStr, 10) || 0;
+}
+
+function formatInputNumber(e) {
+    let val = e.target.value.replace(/\D/g, ''); 
+    if (val === '') {
+        e.target.value = '';
+        return;
+    }
+    e.target.value = parseInt(val, 10).toLocaleString('fr-FR');
+}
+
 function populateHeroDropdowns() {
     const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
     let optionsHTML = '<option value="">Aucun</option>';
@@ -162,14 +179,10 @@ function populateHeroDropdowns() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     
-    applyTranslations(GlobalLang.get());
+    // 1. Charge d'abord les sauvegardes (Important !)
+    loadBearTrapData(); 
     
-    window.addEventListener('langChanged', (e) => {
-        applyTranslations(e.detail.lang);
-        renderCustomMarches();
-        calculateBearTrap(); 
-    });
-
+    // 2. Charge les Héros depuis la base de données
     try {
         const response = await fetch('data/heroes_db.json');
         if (response.ok) {
@@ -178,11 +191,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } catch (e) { console.error("Erreur DB", e); }
 
-    loadBearTrapData(); 
+    // 3. Initialise les traductions et l'interface
+    if (window.GlobalLang) {
+        applyTranslations(window.GlobalLang.get());
+        window.addEventListener('langChanged', (e) => {
+            applyTranslations(e.detail.lang);
+            renderCustomMarches();
+            calculateBearTrap(); 
+        });
+    }
+
     initStudioModal();
     renderCustomMarches();
     updateStudioBadge();
     
+    // 4. Attache les événements aux inputs
     const numberInputs = document.querySelectorAll('.formatted-number');
     numberInputs.forEach(input => {
         input.addEventListener('input', formatInputNumber);
@@ -201,10 +224,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('server-generation').addEventListener('change', () => { saveBearTrapData(); calculateBearTrap(); });
     document.getElementById('optim-mode').addEventListener('change', saveBearTrapData);
 
+    // 5. Lance le premier calcul
     if (getRawNumber('troop-inf') > 0 || getRawNumber('troop-arc') > 0 || getRawNumber('troop-cav') > 0) {
         calculateBearTrap();
     }
 });
+
+function applyTranslations(lang) {
+    const dict = i18nBearTrap[lang] || i18nBearTrap.EN;
+    
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key]) el.placeholder = dict[key];
+    });
+
+    const roleSelect = document.getElementById('player-role');
+    if (roleSelect) {
+        roleSelect.options[0].text = dict.optPart;
+        roleSelect.options[1].text = dict.optOrg;
+    }
+
+    const modeSelect = document.getElementById('optim-mode');
+    if (modeSelect) {
+        modeSelect.options[0].text = dict.optMin;
+        modeSelect.options[1].text = dict.optForm;
+    }
+    
+    updateModalLiveStats();
+}
 
 // ========================================
 // CALCUL DE LA CAPACITÉ ACTUELLE
@@ -216,6 +268,53 @@ function getCurrentMaxMarchCapacity() {
     const limitStr = document.getElementById('alliance-limit').value;
     const allianceLimit = limitStr ? getRawNumber('alliance-limit') : Infinity;
     return Math.min(capBase + capExpert + capAnimal, allianceLimit);
+}
+
+// ========================================
+// SAUVEGARDE
+// ========================================
+
+function saveBearTrapData() {
+    const fields = [
+        'troop-inf', 'troop-arc', 'troop-cav', 'cap-base', 'cap-expert', 'cap-animal', 
+        'marches-count', 'alliance-limit', 'min-inf-percent', 'min-cav-percent'
+    ];
+    const data = {};
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) data[id] = el.value;
+    });
+    data['player-role'] = document.getElementById('player-role').value;
+    data['optim-mode'] = document.getElementById('optim-mode').value;
+    data['server-generation'] = document.getElementById('server-generation').value; 
+    data['custom-marches'] = customMarchesList;
+
+    localStorage.setItem('beartrap_data', JSON.stringify(data));
+}
+
+function loadBearTrapData() {
+    const saved = localStorage.getItem('beartrap_data');
+    if (saved) {
+        const data = JSON.parse(saved);
+        for (const [id, val] of Object.entries(data)) {
+            const el = document.getElementById(id);
+            if (el) el.value = val;
+        }
+
+        if (data['custom-marches']) {
+            customMarchesList = data['custom-marches'];
+        }
+        if (data['server-generation']) {
+            const genEl = document.getElementById('server-generation');
+            if (genEl) genEl.value = data['server-generation'];
+        }
+        
+        const optimMode = document.getElementById('optim-mode');
+        const thresholdInputs = document.getElementById('threshold-inputs');
+        if (optimMode && thresholdInputs) {
+            thresholdInputs.style.display = optimMode.value === 'threshold' ? 'block' : 'none';
+        }
+    }
 }
 
 // ========================================
@@ -292,7 +391,9 @@ function initStudioModal() {
 
     btnSave.addEventListener('click', () => {
         const name = document.getElementById('cm-name').value || "Marche Spéciale";
-        const mode = document.querySelector('input[name="cm-input-mode"]:checked').value; 
+        const modeElement = document.querySelector('input[name="cm-input-mode"]:checked');
+        const mode = modeElement ? modeElement.value : 'percent'; 
+        
         const { rawInf, rawCav, rawArc, isExceeding } = getModalInputValues();
         const total = rawInf + rawCav + rawArc;
         const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
@@ -353,7 +454,9 @@ function initStudioModal() {
 }
 
 function getModalInputValues() {
-    const mode = document.querySelector('input[name="cm-input-mode"]:checked').value;
+    const modeElement = document.querySelector('input[name="cm-input-mode"]:checked');
+    const mode = modeElement ? modeElement.value : 'percent';
+    
     const maxCap = getCurrentMaxMarchCapacity();
 
     let valInf = getRawNumber('cm-inf');
@@ -389,7 +492,8 @@ function updateModalLiveStats() {
     const curRemArc = remArc - rawArc;
 
     const label = document.getElementById('modal-remaining-troops');
-    const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
+    let currentLang = window.GlobalLang ? window.GlobalLang.get() : 'EN';
+    const dict = i18nBearTrap[currentLang] || i18nBearTrap.EN;
 
     let html = `Disponibles : 🛡️ ${curRemInf.toLocaleString('fr-FR')} | 🐎 ${curRemCav.toLocaleString('fr-FR')} | 🏹 ${curRemArc.toLocaleString('fr-FR')}`;
 
@@ -402,7 +506,8 @@ function updateModalLiveStats() {
 
     label.innerHTML = html;
 
-    const mode = document.querySelector('input[name="cm-input-mode"]:checked').value;
+    const modeElement = document.querySelector('input[name="cm-input-mode"]:checked');
+    const mode = modeElement ? modeElement.value : 'percent';
     
     const updateConv = (id, val, raw) => {
         const span = document.getElementById(id + '-conv');
@@ -513,7 +618,8 @@ function editCustomMarch(id) {
 
     document.getElementById('cm-name').value = march.name;
     const mode = march.mode || 'number';
-    document.querySelector(`input[name="cm-input-mode"][value="${mode}"]`).checked = true;
+    const modeEl = document.querySelector(`input[name="cm-input-mode"][value="${mode}"]`);
+    if(modeEl) modeEl.checked = true;
 
     document.getElementById('cm-hero-1').value = march.h1 || "";
     document.getElementById('cm-hero-2').value = march.h2 || "";
@@ -535,95 +641,6 @@ function editCustomMarch(id) {
     updateModalLiveStats();
     document.getElementById('custom-march-modal').classList.add('active');
 }
-
-// ========================================
-// TRADUCTION & FORMATAGE
-// ========================================
-
-function applyTranslations(lang) {
-    const dict = i18nBearTrap[lang] || i18nBearTrap.EN;
-    
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-    });
-
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (dict[key]) el.placeholder = dict[key];
-    });
-
-    const roleSelect = document.getElementById('player-role');
-    if (roleSelect) {
-        roleSelect.options[0].text = dict.optPart;
-        roleSelect.options[1].text = dict.optOrg;
-    }
-
-    const modeSelect = document.getElementById('optim-mode');
-    if (modeSelect) {
-        modeSelect.options[0].text = dict.optMin;
-        modeSelect.options[1].text = dict.optForm;
-    }
-    
-    updateModalLiveStats();
-}
-
-function formatInputNumber(e) {
-    let val = e.target.value.replace(/\D/g, ''); 
-    if (val === '') {
-        e.target.value = '';
-        return;
-    }
-    e.target.value = parseInt(val, 10).toLocaleString('fr-FR');
-}
-
-// ========================================
-// SAUVEGARDE
-// ========================================
-
-function saveBearTrapData() {
-    const fields = [
-        'troop-inf', 'troop-arc', 'troop-cav', 'cap-base', 'cap-expert', 'cap-animal', 
-        'marches-count', 'alliance-limit', 'min-inf-percent', 'min-cav-percent'
-    ];
-    const data = {};
-    fields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) data[id] = el.value;
-    });
-    data['player-role'] = document.getElementById('player-role').value;
-    data['optim-mode'] = document.getElementById('optim-mode').value;
-    data['server-generation'] = document.getElementById('server-generation').value; 
-    data['custom-marches'] = customMarchesList;
-
-    localStorage.setItem('beartrap_data', JSON.stringify(data));
-}
-
-function loadBearTrapData() {
-    const saved = localStorage.getItem('beartrap_data');
-    if (saved) {
-        const data = JSON.parse(saved);
-        for (const [id, val] of Object.entries(data)) {
-            const el = document.getElementById(id);
-            if (el) el.value = val;
-        }
-
-        if (data['custom-marches']) {
-            customMarchesList = data['custom-marches'];
-        }
-        if (data['server-generation']) {
-            const genEl = document.getElementById('server-generation');
-            if (genEl) genEl.value = data['server-generation'];
-        }
-        
-        const optimMode = document.getElementById('optim-mode');
-        const thresholdInputs = document.getElementById('threshold-inputs');
-        if (optimMode && thresholdInputs) {
-            thresholdInputs.style.display = optimMode.value === 'threshold' ? 'block' : 'none';
-        }
-    }
-}
-
 
 // ========================================
 // MOTEUR DE SÉLECTION DES HÉROS
@@ -739,7 +756,8 @@ function selectHeroesForMarches(marchesCount, role, generation) {
 // ========================================
 
 function calculateBearTrap() {
-    const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
+    let currentLang = window.GlobalLang ? window.GlobalLang.get() : 'EN';
+    const dict = i18nBearTrap[currentLang] || i18nBearTrap.EN;
 
     let { remInf, remCav, remArc } = getRemainingGlobalTroops();
     let availableInf = Math.max(0, remInf);
@@ -750,7 +768,7 @@ function calculateBearTrap() {
     let maxMarchCapacity = getCurrentMaxMarchCapacity();
 
     if (maxMarchCapacity <= 0) {
-        alert(dict.errCap);
+        // Optionnel : ne pas spammer d'alertes à l'ouverture, on laisse vide.
         return;
     }
 
@@ -764,8 +782,10 @@ function calculateBearTrap() {
 
     const minInfPercent = getRawNumber('min-inf-percent');
     const minCavPercent = getRawNumber('min-cav-percent');
-    const role = document.getElementById('player-role').value;
-    const generation = document.getElementById('server-generation').value;
+    const roleEl = document.getElementById('player-role');
+    const role = roleEl ? roleEl.value : 'participant';
+    const genEl = document.getElementById('server-generation');
+    const generation = genEl ? genEl.value : '6';
 
     let heroAssignments = selectHeroesForMarches(marchesCount, role, generation);
 
@@ -834,6 +854,7 @@ function calculateBearTrap() {
 
 function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalCapacity, dict) {
     const resultArea = document.getElementById('result-area');
+    if (!resultArea) return;
     
     if (marches.length === 0 || marches[0].total === 0) {
         resultArea.innerHTML = `<p style='color: var(--text-muted); padding: 15px; border-radius: 6px; border: 1px dashed var(--border);'>${dict.noTroops}</p>`;
