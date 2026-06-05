@@ -309,12 +309,14 @@ function populateHeroDropdowns() {
     const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
     let optionsHTML = '<option value="" data-class="">Aucun</option>';
     
-    heroesDB.forEach(h => {
-        if (userHeroes[h.id] && userHeroes[h.id].unlocked) {
-            const hClass = h.troopType.toLowerCase();
-            const emoji = classEmojis[hClass] || '';
-            optionsHTML += `<option value="${h.id}" data-class="${hClass}">${emoji} ${h.name}</option>`;
-        }
+    // NOUVEAU : On filtre les héros débloqués et on les trie par ordre alphabétique
+    let availableHeroes = heroesDB.filter(h => userHeroes[h.id] && userHeroes[h.id].unlocked);
+    availableHeroes.sort((a, b) => a.name.localeCompare(b.name));
+
+    availableHeroes.forEach(h => {
+        const hClass = h.troopType.toLowerCase();
+        const emoji = classEmojis[hClass] || '';
+        optionsHTML += `<option value="${h.id}" data-class="${hClass}">${emoji} ${h.name}</option>`;
     });
 
     ['cm-hero-1', 'cm-hero-2', 'cm-hero-3'].forEach(id => {
