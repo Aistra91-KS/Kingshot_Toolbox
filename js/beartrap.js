@@ -130,7 +130,7 @@ const heroCapacityByLevel = {
     31: 5175, 32: 5445, 33: 5715, 34: 6015, 35: 6310, 36: 6600, 37: 6895, 38: 7190, 39: 7480, 40: 7775,
     41: 8070, 42: 8365, 43: 8655, 44: 8950, 45: 9245, 46: 9540, 47: 9830, 48: 10125, 49: 10420, 50: 10685,
     51: 10925, 52: 11140, 53: 11340, 54: 11525, 55: 11700, 56: 11860, 57: 12010, 58: 12140, 59: 12260, 60: 12370,
-    61: 12470, 62: 12560, 63: 12650, 64: 12730, 65: 12800, 66: 12870, 67: 12930, 68: 12980, 69:13030, 80: 13470
+    61: 12470, 62: 12560, 63: 12650, 64: 12730, 65: 12800, 66: 12870, 67: 12930, 68: 12980, 80: 13470
 };
 
 const classEmojis = {
@@ -326,7 +326,6 @@ function populateHeroDropdowns() {
     });
 }
 
-// Empêche la sélection en double d'un héros OU de sa classe dans la modale
 function updateHeroDropdownsState() {
     const selects = [
         document.getElementById('cm-hero-1'),
@@ -334,7 +333,6 @@ function updateHeroDropdownsState() {
         document.getElementById('cm-hero-3')
     ];
     
-    // Récupérer les ID et classes actuellement sélectionnés
     const selections = selects.map(sel => {
         if (!sel.value) return null;
         const opt = sel.querySelector(`option[value="${sel.value}"]`);
@@ -345,7 +343,6 @@ function updateHeroDropdownsState() {
     });
 
     selects.forEach((sel, currentIndex) => {
-        // Classes et IDs pris par les DEUX AUTRES menus déroulants
         const otherSelections = selections.filter((_, idx) => idx !== currentIndex && _ !== null);
         const forbiddenClasses = otherSelections.map(s => s.heroClass);
         const forbiddenIds = otherSelections.map(s => s.id);
@@ -360,10 +357,9 @@ function updateHeroDropdownsState() {
             const optClass = opt.getAttribute('data-class');
             const optId = opt.value;
 
-            // Si le héros est déjà pris, ou si sa CLASSE est déjà prise par un autre menu
             if (forbiddenIds.includes(optId) || forbiddenClasses.includes(optClass)) {
                 opt.disabled = true;
-                opt.hidden = true; // Cache l'option de la liste pour ne garder que les compatibles
+                opt.hidden = true; 
             } else {
                 opt.disabled = false;
                 opt.hidden = false;
@@ -450,7 +446,6 @@ function initStudioModal() {
         const h3 = document.getElementById('cm-hero-3').value;
         const selectedHeroes = [h1, h2, h3].filter(v => v !== "");
         
-        // Anti-Hack / Sécurité ultime : On revérifie les doublons et les classes avant sauvegarde
         if (selectedHeroes.length !== new Set(selectedHeroes).size) {
             alert(dict.errDuplicateHero || "Erreur : Un héros est sélectionné en double.");
             return;
@@ -494,7 +489,6 @@ function initStudioModal() {
             return;
         }
 
-        // Sécurité : Une seule marche peut être "Hôte"
         if (isHost) {
             customMarchesList.forEach(m => {
                 if (m.id !== editingMarchId) m.isHost = false;
@@ -636,7 +630,6 @@ function renderCustomMarches() {
 
         let hostBadge = march.isHost ? `<span style="background: rgba(245, 184, 64, 0.2); color: #f5b840; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 10px; vertical-align: middle;">👑 HOST</span>` : '';
 
-        // NOUVEAU : Affichage des héros sélectionnés avec emojis dans le panneau de gauche !
         let heroInfo = "";
         const hList = [march.h1, march.h2, march.h3].filter(Boolean);
         if (hList.length > 0) {
@@ -743,7 +736,6 @@ function selectHeroesForMarches(marchesCount, role, generation) {
         return assignedMarches;
     }
 
-    // 1. Exclure les héros déjà utilisés manuellement
     let usedHeroIds = new Set();
     customMarchesList.forEach(m => {
         if (m.h1) usedHeroIds.add(m.h1);
@@ -757,9 +749,11 @@ function selectHeroesForMarches(marchesCount, role, generation) {
             let dbHero = heroesDB.find(h => h.id === id);
             if (dbHero) {
                 let lvl = userHeroes[id].level || 1;
+                let skills = userHeroes[id].skills || [0, 0, 0]; 
                 pool.push({
                     ...dbHero,
                     level: lvl,
+                    skills: skills,
                     penalty: 13470 - getHeroCapacity(lvl)
                 });
             }
@@ -815,7 +809,13 @@ function selectHeroesForMarches(marchesCount, role, generation) {
 
             let selectedCaptain = null;
             if (possibleCaptains.length > 0) {
-                possibleCaptains.sort((a, b) => b.hero.level - a.hero.level);
+                // Modifié : Priorité à la 1ère compétence, puis au niveau global
+                possibleCaptains.sort((a, b) => {
+                    let skillA = a.hero.skills[0] || 0;
+                    let skillB = b.hero.skills[0] || 0;
+                    if (skillB !== skillA) return skillB - skillA;
+                    return b.hero.level - a.hero.level;
+                });
                 selectedCaptain = possibleCaptains[0];
                 selectedCaptain.hero.isCaptain = true;
                 team.push(selectedCaptain.hero);
