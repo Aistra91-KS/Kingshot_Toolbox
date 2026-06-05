@@ -462,7 +462,6 @@ function suggestHeroesForModal() {
             validCaps.forEach(h => possibleCaptains.push({ cls: c, hero: h }));
         });
 
-        let selectedCaptain = null;
         if (possibleCaptains.length > 0) {
             possibleCaptains.sort((a, b) => {
                 let skillA = a.hero.skills[0] || 0;
@@ -470,16 +469,18 @@ function suggestHeroesForModal() {
                 if (skillB !== skillA) return skillB - skillA;
                 return b.hero.level - a.hero.level;
             });
-            selectedCaptain = possibleCaptains[0];
+            let selectedCaptain = possibleCaptains[0];
             team.push(selectedCaptain.hero);
             classes[selectedCaptain.cls] = classes[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
-        }
 
-        ['inf', 'cav', 'arc'].forEach(c => {
-            if (!selectedCaptain || selectedCaptain.cls !== c) {
-                if (classes[c].length > 0) team.push(classes[c].shift());
-            }
-        });
+            // On ajoute les héros secondaires UNIQUEMENT si on a un capitaine
+            ['inf', 'cav', 'arc'].forEach(c => {
+                if (selectedCaptain.cls !== c && classes[c].length > 0) {
+                    team.push(classes[c].shift());
+                }
+            });
+        }
+        // Si aucun capitaine n'est trouvé, 'team' reste un tableau vide [].
     }
 
     if (team.length === 0) {
@@ -960,7 +961,6 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                 validCaps.forEach(h => possibleCaptains.push({ cls: c, hero: h }));
             });
 
-            let selectedCaptain = null;
             if (possibleCaptains.length > 0) {
                 possibleCaptains.sort((a, b) => {
                     let skillA = a.hero.skills[0] || 0;
@@ -968,23 +968,23 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                     if (skillB !== skillA) return skillB - skillA;
                     return b.hero.level - a.hero.level;
                 });
-                selectedCaptain = possibleCaptains[0];
+                let selectedCaptain = possibleCaptains[0];
                 selectedCaptain.hero.isCaptain = true;
                 team.push(selectedCaptain.hero);
                 classes[selectedCaptain.cls] = classes[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
-            }
 
-            ['inf', 'cav', 'arc'].forEach(c => {
-                if (!selectedCaptain || selectedCaptain.cls !== c) {
-                    if (classes[c].length > 0) {
+                // On ajoute les héros secondaires UNIQUEMENT si on a un capitaine valide
+                ['inf', 'cav', 'arc'].forEach(c => {
+                    if (selectedCaptain.cls !== c && classes[c].length > 0) {
                         let filler = classes[c].shift(); 
                         filler.isCaptain = false;
                         team.push(filler);
                     }
-                }
-            });
-            
-            team.sort((a, b) => (b.isCaptain ? 1 : 0) - (a.isCaptain ? 1 : 0));
+                });
+                
+                team.sort((a, b) => (b.isCaptain ? 1 : 0) - (a.isCaptain ? 1 : 0));
+            }
+            // Sinon (pas de capitaine), l'équipe reste vide [].
         }
 
         let penalty = 0;
@@ -1142,7 +1142,8 @@ function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalC
         const badgeStyleArc = "display: inline-block; background: rgba(245, 184, 64, 0.15); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-left: 5px;";
 
         let heroInfo = "";
-        if (march.heroes && march.heroes.length > 0) {
+        // On affiche la zone des héros s'il y a des héros OU s'il en manque
+        if ((march.heroes && march.heroes.length > 0) || march.missingHeroes > 0) {
             heroInfo = "<div style='font-size: 11px; color: var(--text-muted); margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap;'>";
             march.heroes.forEach(h => {
                 let roleIcon = h.isCaptain ? "👑 " : ""; 
