@@ -988,13 +988,35 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                 classes[selectedCaptain.cls] = classes[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
 
                 // On ajoute les héros secondaires UNIQUEMENT si on a un capitaine valide
+                // On ajoute les héros secondaires UNIQUEMENT si on a un capitaine valide
                 ['inf', 'cav', 'arc'].forEach(c => {
                     if (selectedCaptain.cls !== c && classes[c].length > 0) {
-                        // CORRECTION : On force le tri par niveau décroissant pour les poubelles
-                        classes[c].sort((a, b) => b.level - a.level);
-                        let filler = classes[c].shift(); 
-                        filler.isCaptain = false;
-                        team.push(filler);
+                        // On sépare les vraies poubelles des potentiels capitaines
+                        let nonCaptains = classes[c].filter(h => !h.goodJoinerBear).sort((a, b) => b.level - a.level);
+                        let captains = classes[c].filter(h => h.goodJoinerBear).sort((a, b) => b.level - a.level);
+                        
+                        let filler = null;
+                        
+                        if (nonCaptains.length > 0) {
+                            // On prend la meilleure vraie poubelle
+                            filler = nonCaptains[0];
+                        } else if (captains.length > 0) {
+                            // Plus de poubelle dispo ! Peut-on sacrifier un capitaine ?
+                            let marchesLeftToProcess = marchesCount - i - 1; // Nombre de marches restantes APRES celle-ci
+                            let totalRemainingCaptains = ['inf', 'cav', 'arc'].reduce((sum, cls) => sum + classes[cls].filter(h => h.goodJoinerBear).length, 0);
+                            
+                            // On ne sacrifie un capitaine QUE si on en a plus que le nombre de marches restantes
+                            if (totalRemainingCaptains > marchesLeftToProcess) {
+                                filler = captains[0];
+                            }
+                        }
+                        
+                        if (filler) {
+                            filler.isCaptain = false;
+                            team.push(filler);
+                            // On le retire de la liste globale pour ne pas le piocher en double
+                            classes[c] = classes[c].filter(h => h.id !== filler.id);
+                        }
                     }
                 });
                 
