@@ -133,6 +133,12 @@ const heroCapacityByLevel = {
     61: 12470, 62: 12560, 63: 12650, 64: 12730, 65: 12800, 66: 12870, 67: 12930, 68: 12980, 80: 13470
 };
 
+const classEmojis = {
+    'infantry': '🛡️',
+    'cavalry': '🐎',
+    'archer': '🏹'
+};
+
 function getHeroCapacity(level) {
     if (level >= 80) return 13470;
     if (heroCapacityByLevel[level]) return heroCapacityByLevel[level];
@@ -301,11 +307,13 @@ function loadBearTrapData() {
 
 function populateHeroDropdowns() {
     const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
-    let optionsHTML = '<option value="">Aucun</option>';
+    let optionsHTML = '<option value="" data-class="">Aucun</option>';
     
     heroesDB.forEach(h => {
         if (userHeroes[h.id] && userHeroes[h.id].unlocked) {
-            optionsHTML += `<option value="${h.id}">${h.name} (L.${userHeroes[h.id].level})</option>`;
+            const hClass = h.troopType.toLowerCase();
+            const emoji = classEmojis[hClass] || '';
+            optionsHTML += `<option value="${h.id}" data-class="${hClass}">${emoji} ${h.name}</option>`;
         }
     });
 
@@ -318,22 +326,47 @@ function populateHeroDropdowns() {
     });
 }
 
-// Empêche la sélection en double d'un héros dans la modale
+// Empêche la sélection en double d'un héros OU de sa classe dans la modale
 function updateHeroDropdownsState() {
     const selects = [
         document.getElementById('cm-hero-1'),
         document.getElementById('cm-hero-2'),
         document.getElementById('cm-hero-3')
     ];
-    const selectedValues = selects.map(s => s.value).filter(v => v !== "");
+    
+    // Récupérer les ID et classes actuellement sélectionnés
+    const selections = selects.map(sel => {
+        if (!sel.value) return null;
+        const opt = sel.querySelector(`option[value="${sel.value}"]`);
+        return {
+            id: sel.value,
+            heroClass: opt ? opt.getAttribute('data-class') : null
+        };
+    });
 
-    selects.forEach(sel => {
+    selects.forEach((sel, currentIndex) => {
+        // Classes et IDs pris par les DEUX AUTRES menus déroulants
+        const otherSelections = selections.filter((_, idx) => idx !== currentIndex && _ !== null);
+        const forbiddenClasses = otherSelections.map(s => s.heroClass);
+        const forbiddenIds = otherSelections.map(s => s.id);
+
         Array.from(sel.options).forEach(opt => {
-            if (opt.value === "") return;
-            if (selectedValues.includes(opt.value) && opt.value !== sel.value) {
+            if (opt.value === "") {
+                opt.disabled = false;
+                opt.hidden = false;
+                return;
+            }
+
+            const optClass = opt.getAttribute('data-class');
+            const optId = opt.value;
+
+            // Si le héros est déjà pris, ou si sa CLASSE est déjà prise par un autre menu
+            if (forbiddenIds.includes(optId) || forbiddenClasses.includes(optClass)) {
                 opt.disabled = true;
+                opt.hidden = true; // Cache l'option de la liste pour ne garder que les compatibles
             } else {
                 opt.disabled = false;
+                opt.hidden = false;
             }
         });
     });
@@ -393,7 +426,9 @@ function initStudioModal() {
         document.getElementById('cm-hero-1').value = "";
         document.getElementById('cm-hero-2').value = "";
         document.getElementById('cm-hero-3').value = "";
-        document.getElementById('cm-is-host').checked = false;
+        
+        const hostCheck = document.getElementById('cm-is-host');
+        if(hostCheck) hostCheck.checked = false;
         
         document.querySelector('input[name="cm-input-mode"][value="percent"]').checked = true; 
         
@@ -414,15 +449,29 @@ function initStudioModal() {
         const h2 = document.getElementById('cm-hero-2').value;
         const h3 = document.getElementById('cm-hero-3').value;
         const selectedHeroes = [h1, h2, h3].filter(v => v !== "");
+        
+        // Anti-Hack / Sécurité ultime : On revérifie les doublons et les classes avant sauvegarde
         if (selectedHeroes.length !== new Set(selectedHeroes).size) {
-            alert(dict.errDuplicateHero);
+            alert(dict.errDuplicateHero || "Erreur : Un héros est sélectionné en double.");
+            return;
+        }
+        
+        const selectedClasses = selectedHeroes.map(id => {
+            const hero = heroesDB.find(h => h.id === id);
+            return hero ? hero.troopType.toLowerCase() : null;
+        }).filter(Boolean);
+
+        if (selectedClasses.length !== new Set(selectedClasses).size) {
+            alert("Erreur : Vous ne pouvez pas sélectionner plusieurs héros de la même classe.");
             return;
         }
 
         const name = document.getElementById('cm-name').value || "Marche Spéciale";
         const modeElement = document.querySelector('input[name="cm-input-mode"]:checked');
         const mode = modeElement ? modeElement.value : 'percent'; 
-        const isHost = document.getElementById('cm-is-host').checked;
+        
+        const hostCheck = document.getElementById('cm-is-host');
+        const isHost = hostCheck ? hostCheck.checked : false;
         
         const { rawInf, rawCav, rawArc, isExceeding } = getModalInputValues();
         const total = rawInf + rawCav + rawArc;
@@ -587,6 +636,22 @@ function renderCustomMarches() {
 
         let hostBadge = march.isHost ? `<span style="background: rgba(245, 184, 64, 0.2); color: #f5b840; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 10px; vertical-align: middle;">👑 HOST</span>` : '';
 
+        // NOUVEAU : Affichage des héros sélectionnés avec emojis dans le panneau de gauche !
+        let heroInfo = "";
+        const hList = [march.h1, march.h2, march.h3].filter(Boolean);
+        if (hList.length > 0) {
+            heroInfo = "<div style='font-size: 11px; color: var(--text-muted); margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap;'>";
+            hList.forEach((hid, idx) => {
+                let dbHero = heroesDB.find(x => x.id === hid);
+                if (dbHero) {
+                    let roleIcon = (idx === 0) ? "👑 " : "";
+                    let emoji = classEmojis[dbHero.troopType.toLowerCase()] || '';
+                    heroInfo += `<span style="background: rgba(255,255,255,0.05); padding: 3px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">${roleIcon}${emoji} ${dbHero.name}</span>`;
+                }
+            });
+            heroInfo += "</div>";
+        }
+
         const div = document.createElement('div');
         div.className = 'custom-march-card';
         div.innerHTML = `
@@ -598,6 +663,7 @@ function renderCustomMarches() {
                     <div>🐎 <span>${march.cav.toLocaleString('fr-FR')}</span> <span style="color: var(--text-muted); font-size: 0.85em; font-weight: normal;">(${pCav}%)</span></div>
                     <div>🏹 <span style="color: var(--accent);">${march.arc.toLocaleString('fr-FR')}</span> <span style="color: var(--accent); font-size: 0.85em; font-weight: normal; opacity: 0.8;">(${pArc}%)</span></div>
                 </div>
+                ${heroInfo}
             </div>
             <div class="march-actions">
                 <button type="button" class="btn-edit" data-id="${march.id}">✏️</button>
@@ -638,7 +704,9 @@ function editCustomMarch(id) {
     document.getElementById('cm-hero-1').value = march.h1 || "";
     document.getElementById('cm-hero-2').value = march.h2 || "";
     document.getElementById('cm-hero-3').value = march.h3 || "";
-    document.getElementById('cm-is-host').checked = march.isHost || false;
+    
+    const hostCheck = document.getElementById('cm-is-host');
+    if(hostCheck) hostCheck.checked = march.isHost || false;
 
     updateHeroDropdownsState();
 
@@ -713,7 +781,6 @@ function selectHeroesForMarches(marchesCount, role, generation) {
         return idx === -1 ? 999 : idx;
     };
 
-    // Est-ce que l'utilisateur a déjà créé sa marche Hôte manuellement ?
     let hostMarchAlreadyExists = customMarchesList.some(m => m.isHost);
     let needsOrganizerMarch = (role === 'organizer') && !hostMarchAlreadyExists;
 
@@ -722,7 +789,6 @@ function selectHeroesForMarches(marchesCount, role, generation) {
         let isThisOrganizerMarch = needsOrganizerMarch && (i === 0);
 
         if (isThisOrganizerMarch) {
-            // ================= LOGIQUE ORGANISATEUR =================
             ['inf', 'cav', 'arc'].forEach(cls => {
                 classes[cls].sort((a, b) => {
                     let scoreA = getTierScore(a.name, a.troopType);
@@ -736,15 +802,12 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                     team.push(hero);
                 }
             });
-            // Le meilleur de la tier list devient capitaine
             if (team.length > 0) {
                 team.sort((a, b) => getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType));
                 team[0].isCaptain = true;
             }
         } else {
-            // ================= LOGIQUE PARTICIPANT (JOINER) =================
             let possibleCaptains = [];
-            // Cherche un capitaine VALIDE (goodJoinerBear = true)
             ['inf', 'cav', 'arc'].forEach(c => {
                 let validCaps = classes[c].filter(h => h.goodJoinerBear === true);
                 validCaps.forEach(h => possibleCaptains.push({ cls: c, hero: h }));
@@ -752,27 +815,23 @@ function selectHeroesForMarches(marchesCount, role, generation) {
 
             let selectedCaptain = null;
             if (possibleCaptains.length > 0) {
-                // Prend le capitaine valide avec le plus haut niveau
                 possibleCaptains.sort((a, b) => b.hero.level - a.hero.level);
                 selectedCaptain = possibleCaptains[0];
                 selectedCaptain.hero.isCaptain = true;
                 team.push(selectedCaptain.hero);
-                // Le retire du pool de sa classe
                 classes[selectedCaptain.cls] = classes[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
             }
 
-            // Remplit le reste avec des poubelles (plus haut niveau) de classes différentes
             ['inf', 'cav', 'arc'].forEach(c => {
                 if (!selectedCaptain || selectedCaptain.cls !== c) {
                     if (classes[c].length > 0) {
-                        let filler = classes[c].shift(); // Déjà trié par niveau DESC plus haut
+                        let filler = classes[c].shift(); 
                         filler.isCaptain = false;
                         team.push(filler);
                     }
                 }
             });
             
-            // Pour l'affichage, met le capitaine (s'il y en a un) en premier
             team.sort((a, b) => (b.isCaptain ? 1 : 0) - (a.isCaptain ? 1 : 0));
         }
 
@@ -935,7 +994,8 @@ function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalC
             heroInfo = "<div style='font-size: 11px; color: var(--text-muted); margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap;'>";
             march.heroes.forEach(h => {
                 let roleIcon = h.isCaptain ? "👑 " : ""; 
-                heroInfo += `<span style="background: rgba(255,255,255,0.05); padding: 3px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">${roleIcon}${h.name} <span style="opacity:0.6">(L.${h.level})</span></span>`;
+                let emoji = classEmojis[h.troopType.toLowerCase()] || '';
+                heroInfo += `<span style="background: rgba(255,255,255,0.05); padding: 3px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">${roleIcon}${emoji} ${h.name} <span style="opacity:0.6">(L.${h.level})</span></span>`;
             });
             if (march.missingHeroes > 0) {
                 heroInfo += `<span style="color: #e74c5c; border: 1px solid rgba(231, 76, 92, 0.3); padding: 3px 6px; border-radius: 4px;">⚠️ -${march.missingHeroes} héros</span>`;
