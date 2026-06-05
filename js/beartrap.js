@@ -419,22 +419,29 @@ function suggestHeroesForModal() {
     if (isHost || (role === 'organizer' && !customMarchesList.some(m => m.isHost && m.id !== editingMarchId))) {
         ['inf', 'cav', 'arc'].forEach(cls => {
             classes[cls].sort((a, b) => {
-                // 1. Priorité à la Tier List Organisateur
-                let scoreA = getTierScore(a.name, a.troopType);
-                let scoreB = getTierScore(b.name, b.troopType);
-                if (scoreA !== scoreB) return scoreA - scoreB;
-                
-                // 2. Évaluation de la puissance des 3 compétences (Somme/Moyenne)
+                // 1. PRIORITÉ ABSOLUE : Somme des compétences
                 let sumSkillsA = (a.skills[0] || 0) + (a.skills[1] || 0) + (a.skills[2] || 0);
                 let sumSkillsB = (b.skills[0] || 0) + (b.skills[1] || 0) + (b.skills[2] || 0);
                 if (sumSkillsB !== sumSkillsA) return sumSkillsB - sumSkillsA;
                 
-                // 3. Départage final au niveau d'XP global
+                // 2. Ensuite la Tier List
+                let scoreA = getTierScore(a.name, a.troopType);
+                let scoreB = getTierScore(b.name, b.troopType);
+                if (scoreA !== scoreB) return scoreA - scoreB;
+                
+                // 3. Enfin le niveau
                 return b.level - a.level;
             });
             if (classes[cls].length > 0) team.push(classes[cls].shift());
         });
-        team.sort((a, b) => getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType));
+        
+        // Tri final pour le capitaine
+        team.sort((a, b) => {
+            let sumSkillsA = (a.skills[0] || 0) + (a.skills[1] || 0) + (a.skills[2] || 0);
+            let sumSkillsB = (b.skills[0] || 0) + (b.skills[1] || 0) + (b.skills[2] || 0);
+            if (sumSkillsB !== sumSkillsA) return sumSkillsB - sumSkillsA;
+            return getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType);
+        });
     } else {
         let possibleCaptains = [];
         ['inf', 'cav', 'arc'].forEach(c => {
@@ -900,14 +907,17 @@ function selectHeroesForMarches(marchesCount, role, generation) {
         if (isThisOrganizerMarch) {
             ['inf', 'cav', 'arc'].forEach(cls => {
                 classes[cls].sort((a, b) => {
-                    let scoreA = getTierScore(a.name, a.troopType);
-                    let scoreB = getTierScore(b.name, b.troopType);
-                    if (scoreA !== scoreB) return scoreA - scoreB;
-                    
+                    // 1. PRIORITÉ ABSOLUE : Somme des 3 compétences (plus grand = meilleur)
                     let sumSkillsA = (a.skills[0] || 0) + (a.skills[1] || 0) + (a.skills[2] || 0);
                     let sumSkillsB = (b.skills[0] || 0) + (b.skills[1] || 0) + (b.skills[2] || 0);
                     if (sumSkillsB !== sumSkillsA) return sumSkillsB - sumSkillsA;
                     
+                    // 2. Si égalité parfaite des compétences : On applique la Tier List Organisateur
+                    let scoreA = getTierScore(a.name, a.troopType);
+                    let scoreB = getTierScore(b.name, b.troopType);
+                    if (scoreA !== scoreB) return scoreA - scoreB;
+                    
+                    // 3. Dernier recours : le niveau d'XP le plus élevé
                     return b.level - a.level; 
                 });
                 if (classes[cls].length > 0) {
@@ -916,8 +926,15 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                     team.push(hero);
                 }
             });
+            
+            // Le choix du Capitaine final de l'équipe (Slot 1) suit la même logique forte
             if (team.length > 0) {
-                team.sort((a, b) => getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType));
+                team.sort((a, b) => {
+                    let sumSkillsA = (a.skills[0] || 0) + (a.skills[1] || 0) + (a.skills[2] || 0);
+                    let sumSkillsB = (b.skills[0] || 0) + (b.skills[1] || 0) + (b.skills[2] || 0);
+                    if (sumSkillsB !== sumSkillsA) return sumSkillsB - sumSkillsA;
+                    return getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType);
+                });
                 team[0].isCaptain = true;
             }
         } else {
