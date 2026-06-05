@@ -368,12 +368,117 @@ function updateHeroDropdownsState() {
     });
 }
 
+// NOUVEAU : Fonction du bouton "Suggérer"
+function suggestHeroesForModal() {
+    const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
+    const role = document.getElementById('player-role').value;
+    const generation = document.getElementById('server-generation').value;
+    const isHost = document.getElementById('cm-is-host').checked;
+
+    let usedHeroIds = new Set();
+    customMarchesList.forEach(m => {
+        if (m.id !== editingMarchId) {
+            if (m.h1) usedHeroIds.add(m.h1);
+            if (m.h2) usedHeroIds.add(m.h2);
+            if (m.h3) usedHeroIds.add(m.h3);
+        }
+    });
+
+    let pool = [];
+    for (let id in userHeroes) {
+        if (userHeroes[id].unlocked && !usedHeroIds.has(id)) {
+            let dbHero = heroesDB.find(h => h.id === id);
+            if (dbHero) {
+                pool.push({
+                    ...dbHero,
+                    level: userHeroes[id].level || 1,
+                    skills: userHeroes[id].skills || [0, 0, 0]
+                });
+            }
+        }
+    }
+
+    let classes = {
+        inf: pool.filter(h => h.troopType.toLowerCase() === 'infantry').sort((a, b) => b.level - a.level),
+        cav: pool.filter(h => h.troopType.toLowerCase() === 'cavalry').sort((a, b) => b.level - a.level),
+        arc: pool.filter(h => h.troopType.toLowerCase() === 'archer').sort((a, b) => b.level - a.level)
+    };
+
+    const getTierScore = (heroName, typeStr) => {
+        let typeShort = typeStr.substring(0, 3).toLowerCase();
+        let list = (organizerTierList[generation] || organizerTierList[6])[typeShort];
+        let idx = list ? list.indexOf(heroName) : -1;
+        return idx === -1 ? 999 : idx;
+    };
+
+    let team = [];
+
+    // Si on a coché "Hôte" OU (qu'on est orga et qu'aucun autre hôte n'existe)
+    if (isHost || (role === 'organizer' && !customMarchesList.some(m => m.isHost && m.id !== editingMarchId))) {
+        ['inf', 'cav', 'arc'].forEach(cls => {
+            classes[cls].sort((a, b) => {
+                let scoreA = getTierScore(a.name, a.troopType);
+                let scoreB = getTierScore(b.name, b.troopType);
+                if (scoreA !== scoreB) return scoreA - scoreB;
+                return b.level - a.level;
+            });
+            if (classes[cls].length > 0) team.push(classes[cls].shift());
+        });
+        team.sort((a, b) => getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType));
+    } else {
+        let possibleCaptains = [];
+        ['inf', 'cav', 'arc'].forEach(c => {
+            let validCaps = classes[c].filter(h => h.goodJoinerBear === true);
+            validCaps.forEach(h => possibleCaptains.push({ cls: c, hero: h }));
+        });
+
+        let selectedCaptain = null;
+        if (possibleCaptains.length > 0) {
+            possibleCaptains.sort((a, b) => {
+                let skillA = a.hero.skills[0] || 0;
+                let skillB = b.hero.skills[0] || 0;
+                if (skillB !== skillA) return skillB - skillA;
+                return b.hero.level - a.hero.level;
+            });
+            selectedCaptain = possibleCaptains[0];
+            team.push(selectedCaptain.hero);
+            classes[selectedCaptain.cls] = classes[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
+        }
+
+        ['inf', 'cav', 'arc'].forEach(c => {
+            if (!selectedCaptain || selectedCaptain.cls !== c) {
+                if (classes[c].length > 0) team.push(classes[c].shift());
+            }
+        });
+    }
+
+    if (team.length === 0) {
+        alert("Aucun héros disponible pour cette suggestion.");
+        return;
+    }
+
+    // Réinitialise les dropdowns pour éviter les conflits
+    const dropdowns = ['cm-hero-1', 'cm-hero-2', 'cm-hero-3'];
+    dropdowns.forEach(id => document.getElementById(id).value = "");
+    updateHeroDropdownsState();
+
+    // Applique les valeurs suggérées
+    team.forEach((hero, idx) => {
+        if (idx < 3) document.getElementById(dropdowns[idx]).value = hero.id;
+    });
+
+    updateHeroDropdownsState();
+}
+
 function initStudioModal() {
     const modal = document.getElementById('custom-march-modal');
     const btnAdd = document.getElementById('btn-add-custom');
     const btnCancel = document.getElementById('btn-cancel-cm');
     const btnSave = document.getElementById('btn-save-cm');
+    const btnSuggest = document.getElementById('btn-suggest-heroes'); // NOUVEAU
     
+    if (btnSuggest) btnSuggest.addEventListener('click', suggestHeroesForModal);
+
     const cmInputs = document.querySelectorAll('#cm-inf, #cm-cav, #cm-arc');
     const cmRadios = document.querySelectorAll('input[name="cm-input-mode"]');
 
@@ -809,7 +914,6 @@ function selectHeroesForMarches(marchesCount, role, generation) {
 
             let selectedCaptain = null;
             if (possibleCaptains.length > 0) {
-                // Modifié : Priorité à la 1ère compétence, puis au niveau global
                 possibleCaptains.sort((a, b) => {
                     let skillA = a.hero.skills[0] || 0;
                     let skillB = b.hero.skills[0] || 0;
