@@ -48,6 +48,7 @@ const i18nBearTrap = {
         btnSave: "Enregistrer",
         errMaxMarches: "Vous avez atteint votre nombre maximum de marches.",
         errNoTroopsForCustom: "Pas assez de troupes disponibles pour cette configuration !",
+        lblGen: "Génération du serveur",
         errExceedCap: "Capacité dépassée (Max 100% ou limite de marche) !"
     },
     EN: {
@@ -95,12 +96,52 @@ const i18nBearTrap = {
         btnSave: "Save",
         errMaxMarches: "You have reached your maximum number of marches.",
         errNoTroopsForCustom: "Not enough troops available for this configuration!",
+        lblGen: "Server Generation",
         errExceedCap: "Capacity exceeded (Max 100% or march limit)!"
     }
 };
 
 let customMarchesList = [];
 let editingMarchId = null; // Permet de savoir si on modifie ou si on crée
+
+// ========================================
+// DONNÉES DES HÉROS (Tier Lists & Capacités)
+// ========================================
+
+// Classement des meilleurs héros Lead par Génération
+const organizerTierList = {
+    1: { inf: ["Amadeus", "Helga", "Howard"], cav: ["Jabel"], arc: ["Quinn"] },
+    2: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Hilde", "Jabel"], arc: ["Marlin", "Quinn"] },
+    3: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Marlin", "Quinn"] },
+    4: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Rosa", "Marlin", "Quinn"] },
+    5: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Rosa", "Marlin", "Quinn"] },
+    6: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Yang", "Rosa", "Marlin"] },
+    7: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Yang", "Rosa", "Marlin"] }
+};
+
+// Capacité de marche apportée par un héros selon son niveau
+const heroCapacityByLevel = {
+    1: 65, 2: 140, 3: 220, 4: 305, 5: 400, 6: 500, 7: 605, 8: 720, 9: 840, 10: 970,
+    11: 1100, 12: 1240, 13: 1390, 14: 1540, 15: 1700, 16: 1870, 17: 2040, 18: 2225, 19: 2410, 20: 2605,
+    21: 2805, 22: 3010, 23: 3225, 24: 3445, 25: 3670, 26: 3905, 27: 4145, 28: 4390, 29: 4645, 30: 4905,
+    31: 5175, 32: 5445, 33: 5715, 34: 6015, 35: 6310, 36: 6600, 37: 6895, 38: 7190, 39: 7480, 40: 7775,
+    41: 8070, 42: 8365, 43: 8655, 44: 8950, 45: 9245, 46: 9540, 47: 9830, 48: 10125, 49: 10420, 50: 10685,
+    51: 10925, 52: 11140, 53: 11340, 54: 11525, 55: 11700, 56: 11860, 57: 12010, 58: 12140, 59: 12260, 60: 12370,
+    61: 12470, 62: 12560, 63: 12650, 64: 12730, 65: 12800, 66: 12870, 67: 12930, 68: 12980, 80: 13470
+};
+
+// Fonction utilitaire pour obtenir la capacité exacte (avec sécurité si un niveau manque)
+function getHeroCapacity(level) {
+    if (level >= 80) return 13470;
+    if (heroCapacityByLevel[level]) return heroCapacityByLevel[level];
+    
+    // Si le niveau (ex: 75) n'est pas dans le dico, on prend le plus proche en dessous (ex: 68)
+    let closestLevel = 1;
+    for (let key in heroCapacityByLevel) {
+        if (key <= level && key > closestLevel) closestLevel = key;
+    }
+    return heroCapacityByLevel[closestLevel];
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -529,7 +570,7 @@ function saveBearTrapData() {
     });
     data['player-role'] = document.getElementById('player-role').value;
     data['optim-mode'] = document.getElementById('optim-mode').value;
-    data['custom-marches'] = customMarchesList;
+    data['server-generation'] = document.getElementById('server-generation').value; 
 
     localStorage.setItem('beartrap_data', JSON.stringify(data));
 }
@@ -546,6 +587,10 @@ function loadBearTrapData() {
         if (data['custom-marches']) {
             customMarchesList = data['custom-marches'];
             renderCustomMarches();
+        }
+        if (data['server-generation']) {
+            const genEl = document.getElementById('server-generation');
+            if (genEl) genEl.value = data['server-generation'];
         }
         
         const optimMode = document.getElementById('optim-mode');
