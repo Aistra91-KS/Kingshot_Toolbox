@@ -209,7 +209,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (btnCalculate) btnCalculate.addEventListener('click', () => { saveBearTrapData(); calculateBearTrap(); });
 
     document.getElementById('player-role').addEventListener('change', () => { saveBearTrapData(); updateStudioBadge(); });
-    document.getElementById('server-generation').addEventListener('change', () => { saveBearTrapData(); calculateBearTrap(); });
+    document.getElementById('server-generation').addEventListener('change', () => { 
+        saveBearTrapData(); 
+        populateHeroDropdowns(); // On met à jour les listes déroulantes immédiatement !
+        calculateBearTrap(); 
+    });
     document.getElementById('optim-mode').addEventListener('change', saveBearTrapData);
 
     if (getRawNumber('troop-inf') > 0 || getRawNumber('troop-arc') > 0 || getRawNumber('troop-cav') > 0) {
@@ -307,10 +311,15 @@ function loadBearTrapData() {
 
 function populateHeroDropdowns() {
     const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
+    
+    // NOUVEAU : On récupère la génération max sélectionnée
+    const genEl = document.getElementById('server-generation');
+    const maxGen = genEl ? parseInt(genEl.value, 10) : 6;
+    
     let optionsHTML = '<option value="" data-class="">Aucun</option>';
     
-    // NOUVEAU : On filtre les héros débloqués et on les trie par ordre alphabétique
-    let availableHeroes = heroesDB.filter(h => userHeroes[h.id] && userHeroes[h.id].unlocked);
+    // NOUVEAU : On ajoute "&& h.generation <= maxGen" pour exclure les héros du futur
+    let availableHeroes = heroesDB.filter(h => userHeroes[h.id] && userHeroes[h.id].unlocked && h.generation <= maxGen);
     availableHeroes.sort((a, b) => a.name.localeCompare(b.name));
 
     availableHeroes.forEach(h => {
@@ -326,6 +335,8 @@ function populateHeroDropdowns() {
             sel.addEventListener('change', updateHeroDropdownsState);
         }
     });
+    
+    updateHeroDropdownsState(); // On rafraîchit l'état visuel
 }
 
 function updateHeroDropdownsState() {
@@ -375,6 +386,7 @@ function suggestHeroesForModal() {
     const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
     const role = document.getElementById('player-role').value;
     const generation = document.getElementById('server-generation').value;
+    const maxGen = parseInt(generation, 10) || 6; // NOUVEAU
     const isHost = document.getElementById('cm-is-host').checked;
 
     let usedHeroIds = new Set();
@@ -390,7 +402,8 @@ function suggestHeroesForModal() {
     for (let id in userHeroes) {
         if (userHeroes[id].unlocked && !usedHeroIds.has(id)) {
             let dbHero = heroesDB.find(h => h.id === id);
-            if (dbHero) {
+            // NOUVEAU : On vérifie la génération du héros
+            if (dbHero && dbHero.generation <= maxGen) {
                 pool.push({
                     ...dbHero,
                     level: userHeroes[id].level || 1,
@@ -866,10 +879,13 @@ function selectHeroesForMarches(marchesCount, role, generation) {
     });
 
     let pool = [];
+    let maxGen = parseInt(generation, 10) || 6; // NOUVEAU
+
     for (let id in userHeroes) {
         if (userHeroes[id].unlocked && !usedHeroIds.has(id)) {
             let dbHero = heroesDB.find(h => h.id === id);
-            if (dbHero) {
+            // NOUVEAU : On vérifie la génération du héros
+            if (dbHero && dbHero.generation <= maxGen) {
                 let lvl = userHeroes[id].level || 1;
                 let skills = userHeroes[id].skills || [0, 0, 0]; 
                 pool.push({
