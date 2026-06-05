@@ -103,6 +103,7 @@ const i18nBearTrap = {
 
 let customMarchesList = [];
 let editingMarchId = null; // Permet de savoir si on modifie ou si on crée
+let heroesDB = [];
 
 // ========================================
 // DONNÉES DES HÉROS (Tier Lists & Capacités)
@@ -143,9 +144,17 @@ function getHeroCapacity(level) {
     return heroCapacityByLevel[closestLevel];
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-
+document.addEventListener('DOMContentLoaded', async () => {
+    // ... (garde ton code existant) ...
     applyTranslations(GlobalLang.get());
+    
+    // NOUVEAU : On charge la DB des héros pour pouvoir croiser les infos
+    try {
+        const response = await fetch('data/heroes_db.json');
+        if (response.ok) heroesDB = await response.json();
+    } catch (e) {
+        console.error("Impossible de charger la DB des héros", e);
+    }
     window.addEventListener('langChanged', (e) => {
         applyTranslations(e.detail.lang);
         renderCustomMarches();
@@ -601,6 +610,115 @@ function loadBearTrapData() {
     }
 }
 
+
+// ========================================
+// MOTEUR DE SÉLECTION DES HÉROS
+// ========================================
+
+function selectHeroesForMarches(marchesCount, role, generation) {
+    const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
+    const hasCaserneData = Object.keys(userHeroes).length > 0;
+    
+    let assignedMarches = [];
+
+    // Si aucune donnée dans la caserne, on renvoie des marches vides sans pénalité
+    if (!hasCaserneData || heroesDB.length === 0) {
+        for (let i = 0; i < marchesCount; i++) {
+            assignedMarches.push({ heroes: [], penalty: 0 });
+        }
+        return assignedMarches;
+    }
+
+    // 1. Préparer la liste des héros disponibles et débloqués
+    let availableHeroes = [];
+    for (let id in userHeroes) {
+        if (userHeroes[id].unlocked) {
+            let dbHero = heroesDB.find(h => h.id === id);
+            if (dbHero) {
+                let lvl = userHeroes[id].level || 1;
+                availableHeroes.push({
+                    ...dbHero,
+                    level: lvl,
+                    penalty: 13470 - getHeroCapacity(lvl) // Calcul du malus
+                });
+            }
+        }
+    }
+
+    // 2. Séparer par classes
+    let infHeroes = availableHeroes.filter(h => h.troopType.toLowerCase() === 'infantry');
+    let cavHeroes = availableHeroes.filter(h => h.troopType.toLowerCase() === 'cavalry');
+    let arcHeroes = availableHeroes.filter(h => h.troopType.toLowerCase() === 'archer');
+
+    // Fonction pour obtenir le score de la Tier List (plus petit = meilleur)
+    const getTierScore = (heroName, typeStr) => {
+        let typeShort = typeStr.substring(0, 3).toLowerCase(); // inf, cav, arc
+        let tierList = organizerTierList[generation] || organizerTierList[6];
+        let list = tierList[typeShort];
+        if (!list) return 999;
+        let idx = list.indexOf(heroName);
+        return idx === -1 ? 999 : idx;
+    };
+
+    // 3. Trier les héros selon le rôle
+    if (role === 'organizer') {
+        const orgSort = (a, b) => {
+            let scoreA = getTierScore(a.name, a.troopType);
+            let scoreB = getTierScore(b.name, b.troopType);
+            if (scoreA !== scoreB) return scoreA - scoreB;
+            return b.level - a.level; // En cas d'égalité, le plus haut niveau gagne
+        };
+        infHeroes.sort(orgSort);
+        cavHeroes.sort(orgSort);
+        arcHeroes.sort(orgSort);
+    } else {
+        const partSort = (a, b) => {
+            if (a.goodJoinerBear && !b.goodJoinerBear) return -1;
+            if (!a.goodJoinerBear && b.goodJoinerBear) return 1;
+            return b.level - a.level; // Priorité au niveau pour limiter le malus
+        };
+        infHeroes.sort(partSort);
+        cavHeroes.sort(partSort);
+        arcHeroes.sort(partSort);
+    }
+
+    // 4. Construire les équipes pour chaque marche
+    for (let i = 0; i < marchesCount; i++) {
+        let team = [];
+        let inf = infHeroes.shift();
+        let cav = cavHeroes.shift();
+        let arc = arcHeroes.shift();
+        
+        if (inf) team.push(inf);
+        if (cav) team.push(cav);
+        if (arc) team.push(arc);
+        
+        // Définir le Capitaine (Position 1)
+        if (role === 'organizer') {
+            team.sort((a, b) => getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType));
+        } else {
+            team.sort((a, b) => {
+                if (a.goodJoinerBear && !b.goodJoinerBear) return -1;
+                if (!a.goodJoinerBear && b.goodJoinerBear) return 1;
+                return b.level - a.level;
+            });
+        }
+
+        // Calcul de la pénalité totale de la marche
+        let penalty = 0;
+        let missingHeroes = 3 - team.length;
+        penalty += missingHeroes * 13470; // Un héros manquant = Perte totale de sa part de capacité
+        team.forEach(h => penalty += h.penalty);
+
+        assignedMarches.push({
+            heroes: team,
+            missingHeroes: missingHeroes,
+            penalty: penalty
+        });
+    }
+    
+    return assignedMarches;
+}
 // ========================================
 // MOTEUR DE CALCUL (Marches automatiques)
 // ========================================
@@ -613,8 +731,8 @@ function calculateBearTrap() {
     let availableCav = Math.max(0, remCav);
     let availableArc = Math.max(0, remArc);
 
-    let maxMarchCapacity = getCurrentMaxMarchCapacity();
     let theoreticalCapacity = getRawNumber('cap-base') + getRawNumber('cap-expert') + getRawNumber('cap-animal');
+    let maxMarchCapacity = getCurrentMaxMarchCapacity();
 
     if (maxMarchCapacity <= 0) {
         alert(dict.errCap);
@@ -631,41 +749,72 @@ function calculateBearTrap() {
 
     const minInfPercent = getRawNumber('min-inf-percent');
     const minCavPercent = getRawNumber('min-cav-percent');
+    const role = document.getElementById('player-role').value;
+    const generation = document.getElementById('server-generation').value;
 
-    let fairInf = Math.floor(availableInf / marchesCount);
-    let fairArc = Math.floor(availableArc / marchesCount);
-    let fairCav = Math.floor(availableCav / marchesCount);
-
-    let targetInf = Math.floor(maxMarchCapacity * (minInfPercent / 100));
-    let targetCav = Math.floor(maxMarchCapacity * (minCavPercent / 100));
-
-    let mInf = Math.min(targetInf, fairInf);
-    let mCav = Math.min(targetCav, fairCav);
-    
-    let remainingSpace = maxMarchCapacity - mInf - mCav;
-
-    let mArc = Math.min(remainingSpace, fairArc);
-    remainingSpace -= mArc;
-
-    if (remainingSpace > 0) {
-        let extraCavAvailable = fairCav - mCav;
-        let addCav = Math.min(remainingSpace, extraCavAvailable);
-        mCav += addCav;
-        remainingSpace -= addCav;
-    }
-
-    if (remainingSpace > 0) {
-        let extraInfAvailable = fairInf - mInf;
-        let addInf = Math.min(remainingSpace, extraInfAvailable);
-        mInf += addInf;
-        remainingSpace -= addInf;
-    }
-
-    let mTotal = mInf + mArc + mCav;
+    // MAGIE ICI : On récupère les escouades de héros et leurs malus !
+    let heroAssignments = selectHeroesForMarches(marchesCount, role, generation);
 
     let startId = customMarchesList.length + 1;
+    
+    // On itère marche par marche
     for (let i = 0; i < marchesCount; i++) {
-        marches.push({ id: startId + i, inf: mInf, arc: mArc, cav: mCav, total: mTotal });
+        let assignment = heroAssignments[i];
+        
+        // Capacité réele de CETTE marche (Capacité Max - Malus des héros)
+        let currentMarchCap = Math.max(0, maxMarchCapacity - assignment.penalty);
+        
+        let marchesLeft = marchesCount - i;
+
+        let fairInf = Math.floor(availableInf / marchesLeft);
+        let fairArc = Math.floor(availableArc / marchesLeft);
+        let fairCav = Math.floor(availableCav / marchesLeft);
+
+        let targetInf = Math.floor(currentMarchCap * (minInfPercent / 100));
+        let targetCav = Math.floor(currentMarchCap * (minCavPercent / 100));
+
+        let mInf = Math.min(targetInf, fairInf, availableInf);
+        let mCav = Math.min(targetCav, fairCav, availableCav);
+        
+        let remainingSpace = currentMarchCap - mInf - mCav;
+
+        let mArc = Math.min(remainingSpace, fairArc, availableArc);
+        remainingSpace -= mArc;
+
+        if (remainingSpace > 0) {
+            let addCav = Math.min(remainingSpace, availableCav - mCav);
+            mCav += addCav;
+            remainingSpace -= addCav;
+        }
+
+        if (remainingSpace > 0) {
+            let addInf = Math.min(remainingSpace, availableInf - mInf);
+            mInf += addInf;
+            remainingSpace -= addInf;
+        }
+
+        if (remainingSpace > 0) {
+            let addArc = Math.min(remainingSpace, availableArc - mArc);
+            mArc += addArc;
+            remainingSpace -= addArc;
+        }
+
+        let mTotal = mInf + mArc + mCav;
+
+        availableInf -= mInf;
+        availableCav -= mCav;
+        availableArc -= mArc;
+
+        marches.push({ 
+            id: startId + i, 
+            inf: mInf, 
+            arc: mArc, 
+            cav: mCav, 
+            total: mTotal,
+            capacity: currentMarchCap,
+            heroes: assignment.heroes,
+            missingHeroes: assignment.missingHeroes
+        });
     }
 
     displayResults(marches, maxMarchCapacity, marchesCount, theoreticalCapacity, dict);
@@ -700,25 +849,42 @@ function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalC
         let pCav = Math.round((march.cav / theoreticalCapacity) * 100) || 0;
         let pArc = Math.round((march.arc / theoreticalCapacity) * 100) || 0;
 
-        let fMaxCap = maxCapacity.toLocaleString('fr-FR');
+        let fMaxCap = march.capacity.toLocaleString('fr-FR'); // <-- Utilise la capacité propre à la marche !
         let fTotal = march.total.toLocaleString('fr-FR');
         let fInf = march.inf.toLocaleString('fr-FR');
         let fCav = march.cav.toLocaleString('fr-FR');
         let fArc = march.arc.toLocaleString('fr-FR');
 
-        let rowStyle = march.total < maxCapacity ? 'color: var(--text-muted);' : '';
+        let rowStyle = march.total < march.capacity ? 'color: var(--text-muted);' : '';
         
         const badgeStyle = "display: inline-block; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-left: 5px;";
         const badgeStyleArc = "display: inline-block; background: rgba(245, 184, 64, 0.15); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-left: 5px;";
 
+        // Création des étiquettes des héros
+        let heroInfo = "";
+        if (march.heroes && march.heroes.length > 0) {
+            heroInfo = "<div style='font-size: 11px; color: var(--text-muted); margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap;'>";
+            march.heroes.forEach((h, idx) => {
+                let roleIcon = idx === 0 ? "👑 " : ""; 
+                heroInfo += `<span style="background: rgba(255,255,255,0.05); padding: 3px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">${roleIcon}${h.name} <span style="opacity:0.6">(L.${h.level})</span></span>`;
+            });
+            if (march.missingHeroes > 0) {
+                heroInfo += `<span style="color: #e74c5c; border: 1px solid rgba(231, 76, 92, 0.3); padding: 3px 6px; border-radius: 4px;">⚠️ -${march.missingHeroes} héros</span>`;
+            }
+            heroInfo += "</div>";
+        }
+
         html += `
             <tr style="${rowStyle}">
-                <td style="padding: 10px; border-bottom: 1px solid var(--control-bg);"><strong>${dict.thMarch} ${march.id}</strong></td>
-                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); color: var(--text-muted);">${fMaxCap}</td>
-                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg);">${fInf} <span style="${badgeStyle}">${pInf}%</span></td>
-                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg);">${fCav} <span style="${badgeStyle}">${pCav}%</span></td>
-                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); color: var(--accent);">${fArc} <span style="${badgeStyleArc}">${pArc}%</span></td>
-                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); background: rgba(245, 184, 64, 0.05);"><strong>${fTotal}</strong></td>
+                <td style="padding: 10px; border-bottom: 1px solid var(--control-bg);">
+                    <strong>${dict.thMarch} ${march.id}</strong>
+                    ${heroInfo}
+                </td>
+                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); color: var(--text-muted); vertical-align: top;">${fMaxCap}</td>
+                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); vertical-align: top;">${fInf} <span style="${badgeStyle}">${pInf}%</span></td>
+                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); vertical-align: top;">${fCav} <span style="${badgeStyle}">${pCav}%</span></td>
+                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); color: var(--accent); vertical-align: top;">${fArc} <span style="${badgeStyleArc}">${pArc}%</span></td>
+                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); background: rgba(245, 184, 64, 0.05); vertical-align: top;"><strong>${fTotal}</strong></td>
             </tr>
         `;
     });
