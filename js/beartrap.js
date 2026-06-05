@@ -19,7 +19,7 @@ const i18nBearTrap = {
         lblRole: "Rôle",
         optPart: "Participant",
         optOrg: "Organisateur",
-        lblGen: "Génération du serveur", // NOUVEAU
+        lblGen: "Génération du serveur", 
         lblLimit: "Plafond d'envoi",
         plcLimit: "Illimité", 
         grpOpt: "Mode d'optimisation",
@@ -34,7 +34,11 @@ const i18nBearTrap = {
         errCap: "Votre capacité de marche doit être supérieure à 0.",
         noTroops: "Vous n'avez aucune troupe restante à déployer.",
         thMarch: "Marche",
+        thCap: "Capacité Config",
+        thTotal: "Total",
         txtGen: "Marches générées automatiquement selon vos troupes restantes et vos héros.",
+        txtRef: "Capacité théorique de référence (pour vos %) :",
+        studioTitle: "Marches Personnalisées",
         btnAddCustom: "+ Nouvelle marche",
         modalTitle: "Marche Personnalisée",
         modalName: "Nom de la marche",
@@ -63,7 +67,7 @@ const i18nBearTrap = {
         lblRole: "Role",
         optPart: "Joiner",
         optOrg: "Rally Leader",
-        lblGen: "Server Generation", // NOUVEAU
+        lblGen: "Server Generation", 
         lblLimit: "Sending Limit",
         plcLimit: "Unlimited",
         grpOpt: "Optimization Mode",
@@ -78,7 +82,11 @@ const i18nBearTrap = {
         errCap: "Your march capacity must be greater than 0.",
         noTroops: "You have no troops left to deploy.",
         thMarch: "March",
+        thCap: "Config Capacity",
+        thTotal: "Total",
         txtGen: "Marches generated automatically based on your remaining troops and heroes.",
+        txtRef: "Theoretical reference capacity (for your %):",
+        studioTitle: "Custom Marches",
         btnAddCustom: "+ New March",
         modalTitle: "Custom March",
         modalName: "March Name",
@@ -94,7 +102,7 @@ const i18nBearTrap = {
 };
 
 let customMarchesList = [];
-let editingMarchId = null;
+let editingMarchId = null; 
 let heroesDB = [];
 
 // ========================================
@@ -132,127 +140,6 @@ function getHeroCapacity(level) {
     return heroCapacityByLevel[closestLevel];
 }
 
-// ========================================
-// INITIALISATION
-// ========================================
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const lang = GlobalLang.get();
-    GlobalLang.applyToSelect('site-lang');
-    applyTranslations(lang);
-    
-    window.addEventListener('langChanged', (e) => {
-        applyTranslations(e.detail.lang);
-        calculateBearTrap(); 
-    });
-
-    // 1. Charge les Héros depuis la base de données
-    try {
-        const response = await fetch('data/heroes_db.json');
-        if (response.ok) {
-            heroesDB = await response.json();
-            populateHeroDropdowns();
-        }
-    } catch (e) {
-        console.error("Impossible de charger la DB des héros", e);
-    }
-
-    // 2. Initialisation des modules BearTrap
-    loadBearTrapData();
-    initEventListeners();
-    initStudioModal();
-    renderCustomMarches();
-    updateStudioBadge();
-    calculateBearTrap();
-});
-
-function applyTranslations(lang) {
-    const dict = i18nBearTrap[lang] || i18nBearTrap.EN;
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-    });
-    
-    const plcLimit = document.getElementById('march-limit');
-    if (plcLimit) plcLimit.placeholder = dict.plcLimit;
-    
-    const plcName = document.getElementById('cm-name');
-    if (plcName) plcName.placeholder = dict.plcName;
-}
-
-// ========================================
-// GESTION DES DONNÉES (Sauvegarde)
-// ========================================
-
-function saveBearTrapData() {
-    const data = {
-        'total-inf': document.getElementById('total-inf').value,
-        'total-arc': document.getElementById('total-arc').value,
-        'total-cav': document.getElementById('total-cav').value,
-        'cap-base': document.getElementById('cap-base').value,
-        'cap-expert': document.getElementById('cap-expert').value,
-        'cap-animal': document.getElementById('cap-animal').value,
-        'max-marches': document.getElementById('max-marches').value,
-        'march-limit': document.getElementById('march-limit').value,
-        'player-role': document.getElementById('player-role').value,
-        'optim-mode': document.getElementById('optim-mode').value,
-        'server-generation': document.getElementById('server-generation').value,
-        'min-inf-percent': document.getElementById('min-inf-percent').value,
-        'min-cav-percent': document.getElementById('min-cav-percent').value,
-        'custom-marches': customMarchesList
-    };
-    localStorage.setItem('beartrap_data', JSON.stringify(data));
-}
-
-function loadBearTrapData() {
-    const saved = localStorage.getItem('beartrap_data');
-    if (saved) {
-        const data = JSON.parse(saved);
-        ['total-inf', 'total-arc', 'total-cav', 'cap-base', 'cap-expert', 'cap-animal', 'max-marches', 'march-limit', 'player-role', 'optim-mode', 'server-generation', 'min-inf-percent', 'min-cav-percent'].forEach(id => {
-            if (data[id] && document.getElementById(id)) document.getElementById(id).value = data[id];
-        });
-        if (data['custom-marches']) {
-            customMarchesList = data['custom-marches'];
-        }
-    }
-}
-
-// ========================================
-// ÉVÉNEMENTS GLOBAUX
-// ========================================
-
-function initEventListeners() {
-    const inputs = document.querySelectorAll('.sidebar input, .sidebar select');
-    inputs.forEach(input => {
-        input.addEventListener('input', () => {
-            saveBearTrapData();
-            calculateBearTrap();
-        });
-    });
-
-    document.getElementById('btn-calculate').addEventListener('click', calculateBearTrap);
-
-    // Formatage des nombres
-    document.querySelectorAll('input.formatted-number').forEach(input => {
-        input.addEventListener('input', function(e) {
-            let val = this.value.replace(/[^0-9]/g, '');
-            if (val !== '') {
-                this.value = parseInt(val, 10).toLocaleString('fr-FR');
-            }
-        });
-    });
-}
-
-function getRawNumber(id) {
-    const el = document.getElementById(id);
-    if (!el || !el.value) return 0;
-    return parseInt(el.value.replace(/[^0-9]/g, ''), 10) || 0;
-}
-
-// ========================================
-// MOTEUR DE SÉLECTION DES HÉROS
-// ========================================
-
 function populateHeroDropdowns() {
     const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
     let optionsHTML = '<option value="">Aucun</option>';
@@ -269,106 +156,67 @@ function populateHeroDropdowns() {
     });
 }
 
-function selectHeroesForMarches(marchesCount, role, generation) {
-    const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
-    const hasCaserneData = Object.keys(userHeroes).length > 0;
-    let assignedMarches = [];
+// ========================================
+// INITIALISATION
+// ========================================
 
-    // Si la caserne est vide, on renvoie des tableaux vides (aucune pénalité de malus appliquée aux marches auto)
-    if (!hasCaserneData || heroesDB.length === 0) {
-        for (let i = 0; i < marchesCount; i++) {
-            assignedMarches.push({ heroes: [], missingHeroes: 0, penalty: 0 });
-        }
-        return assignedMarches;
-    }
-
-    // 1. Exclure les héros déjà utilisés manuellement
-    let usedHeroIds = new Set();
-    customMarchesList.forEach(m => {
-        if (m.h1) usedHeroIds.add(m.h1);
-        if (m.h2) usedHeroIds.add(m.h2);
-        if (m.h3) usedHeroIds.add(m.h3);
+document.addEventListener('DOMContentLoaded', async () => {
+    
+    applyTranslations(GlobalLang.get());
+    
+    window.addEventListener('langChanged', (e) => {
+        applyTranslations(e.detail.lang);
+        renderCustomMarches();
+        calculateBearTrap(); 
     });
 
-    // 2. Créer le pool de héros disponibles et calculer leur malus
-    let pool = [];
-    for (let id in userHeroes) {
-        if (userHeroes[id].unlocked && !usedHeroIds.has(id)) {
-            let dbHero = heroesDB.find(h => h.id === id);
-            if (dbHero) {
-                let lvl = userHeroes[id].level || 1;
-                pool.push({
-                    ...dbHero,
-                    level: lvl,
-                    penalty: 13470 - getHeroCapacity(lvl)
-                });
-            }
+    try {
+        const response = await fetch('data/heroes_db.json');
+        if (response.ok) {
+            heroesDB = await response.json();
+            populateHeroDropdowns();
         }
-    }
+    } catch (e) { console.error("Erreur DB", e); }
 
-    let classes = {
-        inf: pool.filter(h => h.troopType.toLowerCase() === 'infantry').sort((a, b) => b.level - a.level),
-        cav: pool.filter(h => h.troopType.toLowerCase() === 'cavalry').sort((a, b) => b.level - a.level),
-        arc: pool.filter(h => h.troopType.toLowerCase() === 'archer').sort((a, b) => b.level - a.level)
-    };
-
-    const getTierScore = (heroName, typeStr) => {
-        let typeShort = typeStr.substring(0, 3).toLowerCase();
-        let list = (organizerTierList[generation] || organizerTierList[6])[typeShort];
-        let idx = list ? list.indexOf(heroName) : -1;
-        return idx === -1 ? 999 : idx;
-    };
-
-    // 3. Constitution des équipes automatiques
-    for (let i = 0; i < marchesCount; i++) {
-        let team = [];
-
-        if (role === 'organizer') {
-            ['inf', 'cav', 'arc'].forEach(cls => {
-                classes[cls].sort((a, b) => {
-                    let scoreA = getTierScore(a.name, a.troopType);
-                    let scoreB = getTierScore(b.name, b.troopType);
-                    if (scoreA !== scoreB) return scoreA - scoreB;
-                    return b.level - a.level;
-                });
-                if (classes[cls].length > 0) team.push(classes[cls].shift());
-            });
-            team.sort((a, b) => getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType));
-
-        } else { // Joiner
-            let possibleCaptains = [];
-            ['inf', 'cav', 'arc'].forEach(c => {
-                let idx = classes[c].findIndex(h => h.goodJoinerBear);
-                if (idx > -1) possibleCaptains.push({ cls: c, hero: classes[c][idx], index: idx });
-            });
-
-            let capClass = null;
-            if (possibleCaptains.length > 0) {
-                possibleCaptains.sort((a, b) => b.hero.level - a.hero.level);
-                let bestCap = possibleCaptains[0];
-                team.push(bestCap.hero);
-                capClass = bestCap.cls;
-                classes[bestCap.cls].splice(bestCap.index, 1);
-            }
-
-            ['inf', 'cav', 'arc'].forEach(c => {
-                if (c !== capClass && classes[c].length > 0) {
-                    team.push(classes[c].shift());
-                } else if (c === capClass && !capClass && classes[c].length > 0) {
-                    team.push(classes[c].shift());
-                }
+    loadBearTrapData(); 
+    initStudioModal();
+    renderCustomMarches();
+    updateStudioBadge();
+    
+    const numberInputs = document.querySelectorAll('.formatted-number');
+    numberInputs.forEach(input => {
+        input.addEventListener('input', formatInputNumber);
+        if (!input.id.startsWith('cm-')) {
+            input.addEventListener('change', () => {
+                saveBearTrapData();
+                updateStudioBadge();
             });
         }
+    });
 
-        let missingHeroes = 3 - team.length;
-        let penalty = missingHeroes * 13470; 
-        team.forEach(h => penalty += h.penalty);
+    const btnCalculate = document.getElementById('btn-calculate');
+    if (btnCalculate) btnCalculate.addEventListener('click', () => { saveBearTrapData(); calculateBearTrap(); });
 
-        assignedMarches.push({ heroes: team, missingHeroes: missingHeroes, penalty: penalty });
+    document.getElementById('player-role').addEventListener('change', () => { saveBearTrapData(); updateStudioBadge(); });
+    document.getElementById('server-generation').addEventListener('change', () => { saveBearTrapData(); calculateBearTrap(); });
+    document.getElementById('optim-mode').addEventListener('change', saveBearTrapData);
+
+    if (getRawNumber('troop-inf') > 0 || getRawNumber('troop-arc') > 0 || getRawNumber('troop-cav') > 0) {
+        calculateBearTrap();
     }
-    return assignedMarches;
+});
+
+// ========================================
+// CALCUL DE LA CAPACITÉ ACTUELLE
+// ========================================
+function getCurrentMaxMarchCapacity() {
+    const capBase = getRawNumber('cap-base');
+    const capExpert = getRawNumber('cap-expert');
+    const capAnimal = getRawNumber('cap-animal');
+    const limitStr = document.getElementById('alliance-limit').value;
+    const allianceLimit = limitStr ? getRawNumber('alliance-limit') : Infinity;
+    return Math.min(capBase + capExpert + capAnimal, allianceLimit);
 }
-
 
 // ========================================
 // STUDIO DE DÉPLOIEMENT (Marches perso)
@@ -379,15 +227,14 @@ function initStudioModal() {
     const btnAdd = document.getElementById('btn-add-custom');
     const btnCancel = document.getElementById('btn-cancel-cm');
     const btnSave = document.getElementById('btn-save-cm');
+    
     const cmInputs = document.querySelectorAll('#cm-inf, #cm-cav, #cm-arc');
     const cmRadios = document.querySelectorAll('input[name="cm-input-mode"]');
 
-    // Écouteur pour la saisie
     cmInputs.forEach(input => {
         input.addEventListener('input', updateModalLiveStats);
     });
 
-    // Écouteur pour le changement % / Nombres avec conversion
     cmRadios.forEach(radio => {
         radio.addEventListener('change', (e) => {
             const newMode = e.target.value;
@@ -421,7 +268,8 @@ function initStudioModal() {
             return;
         }
         
-        editingMarchId = null;
+        editingMarchId = null; 
+        
         document.getElementById('cm-name').value = '';
         document.getElementById('cm-inf').value = '0';
         document.getElementById('cm-cav').value = '0';
@@ -444,7 +292,7 @@ function initStudioModal() {
 
     btnSave.addEventListener('click', () => {
         const name = document.getElementById('cm-name').value || "Marche Spéciale";
-        const mode = document.querySelector('input[name="cm-input-mode"]:checked').value;
+        const mode = document.querySelector('input[name="cm-input-mode"]:checked').value; 
         const { rawInf, rawCav, rawArc, isExceeding } = getModalInputValues();
         const total = rawInf + rawCav + rawArc;
         const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
@@ -457,6 +305,7 @@ function initStudioModal() {
         }
 
         const { remInf, remCav, remArc } = getRemainingGlobalTroops();
+        
         let currentEditingInf = 0, currentEditingCav = 0, currentEditingArc = 0;
         if (editingMarchId) {
             const march = customMarchesList.find(m => m.id === editingMarchId);
@@ -475,27 +324,26 @@ function initStudioModal() {
         const h3 = document.getElementById('cm-hero-3').value;
 
         const newMarchData = {
+            id: editingMarchId || Date.now(),
             name: name,
             mode: mode,
             inf: rawInf,
             cav: rawCav,
             arc: rawArc,
             total: total,
-            h1: h1, h2: h2, h3: h3
+            h1: h1, h2: h2, h3: h3 
         };
 
         if (editingMarchId) {
             const index = customMarchesList.findIndex(m => m.id === editingMarchId);
             if (index > -1) {
-                newMarchData.id = editingMarchId;
                 customMarchesList[index] = newMarchData;
             }
         } else {
-            newMarchData.id = Date.now();
             customMarchesList.push(newMarchData);
         }
 
-        editingMarchId = null;
+        editingMarchId = null; 
         saveBearTrapData();
         renderCustomMarches();
         updateStudioBadge();
@@ -506,54 +354,102 @@ function initStudioModal() {
 
 function getModalInputValues() {
     const mode = document.querySelector('input[name="cm-input-mode"]:checked').value;
-    const maxCapacity = getCurrentMaxMarchCapacity();
-    
-    let rawInf = getRawNumber('cm-inf');
-    let rawCav = getRawNumber('cm-cav');
-    let rawArc = getRawNumber('cm-arc');
+    const maxCap = getCurrentMaxMarchCapacity();
+
+    let valInf = getRawNumber('cm-inf');
+    let valCav = getRawNumber('cm-cav');
+    let valArc = getRawNumber('cm-arc');
+
+    let rawInf = 0, rawCav = 0, rawArc = 0;
+    let isExceeding = false;
 
     if (mode === 'percent') {
-        rawInf = Math.floor(maxCapacity * (rawInf / 100));
-        rawCav = Math.floor(maxCapacity * (rawCav / 100));
-        rawArc = Math.floor(maxCapacity * (rawArc / 100));
+        if (valInf + valCav + valArc > 100) isExceeding = true;
+        rawInf = Math.floor(maxCap * (valInf / 100));
+        rawCav = Math.floor(maxCap * (valCav / 100));
+        rawArc = Math.floor(maxCap * (valArc / 100));
+    } else {
+        if (valInf + valCav + valArc > maxCap) isExceeding = true;
+        rawInf = valInf;
+        rawCav = valCav;
+        rawArc = valArc;
     }
 
-    const total = rawInf + rawCav + rawArc;
-    return { rawInf, rawCav, rawArc, isExceeding: total > maxCapacity };
+    return { rawInf, rawCav, rawArc, isExceeding, maxCap };
 }
 
 function updateModalLiveStats() {
-    const mode = document.querySelector('input[name="cm-input-mode"]:checked').value;
-    const maxCapacity = getCurrentMaxMarchCapacity();
-    const { rawInf, rawCav, rawArc, isExceeding } = getModalInputValues();
-    
-    const total = rawInf + rawCav + rawArc;
-    
-    document.getElementById('cm-total-live').textContent = total.toLocaleString('fr-FR');
-    document.getElementById('cm-cap-live').textContent = maxCapacity.toLocaleString('fr-FR');
+    const { remInf, remCav, remArc } = getRemainingGlobalTroops();
+    const { rawInf, rawCav, rawArc, isExceeding, maxCap } = getModalInputValues();
 
-    const errorEl = document.getElementById('cm-error');
+    document.getElementById('modal-max-cap').textContent = maxCap.toLocaleString('fr-FR');
+
+    const curRemInf = remInf - rawInf;
+    const curRemCav = remCav - rawCav;
+    const curRemArc = remArc - rawArc;
+
+    const label = document.getElementById('modal-remaining-troops');
+    const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
+
+    let html = `Disponibles : 🛡️ ${curRemInf.toLocaleString('fr-FR')} | 🐎 ${curRemCav.toLocaleString('fr-FR')} | 🏹 ${curRemArc.toLocaleString('fr-FR')}`;
+
+    if (curRemInf < 0 || curRemCav < 0 || curRemArc < 0) {
+        html += `<br><span style="color: #e74c5c;">⚠️ ${dict.errNoTroopsForCustom}</span>`;
+    }
     if (isExceeding) {
-        document.getElementById('cm-total-live').style.color = '#e74c3c';
-        errorEl.style.display = 'block';
-    } else {
-        document.getElementById('cm-total-live').style.color = 'var(--text-light)';
-        errorEl.style.display = 'none';
+        html += `<br><span style="color: #e74c5c;">⚠️ ${dict.errExceedCap}</span>`;
     }
 
-    if (mode === 'percent') {
-        document.getElementById('cm-inf-conv').textContent = `(${rawInf.toLocaleString('fr-FR')})`;
-        document.getElementById('cm-cav-conv').textContent = `(${rawCav.toLocaleString('fr-FR')})`;
-        document.getElementById('cm-arc-conv').textContent = `(${rawArc.toLocaleString('fr-FR')})`;
-    } else {
-        let pInf = maxCapacity > 0 ? ((rawInf / maxCapacity) * 100).toFixed(1) : 0;
-        let pCav = maxCapacity > 0 ? ((rawCav / maxCapacity) * 100).toFixed(1) : 0;
-        let pArc = maxCapacity > 0 ? ((rawArc / maxCapacity) * 100).toFixed(1) : 0;
+    label.innerHTML = html;
+
+    const mode = document.querySelector('input[name="cm-input-mode"]:checked').value;
+    
+    const updateConv = (id, val, raw) => {
+        const span = document.getElementById(id + '-conv');
+        const inputVal = document.getElementById(id).value;
         
-        document.getElementById('cm-inf-conv').textContent = `(${pInf}%)`;
-        document.getElementById('cm-cav-conv').textContent = `(${pCav}%)`;
-        document.getElementById('cm-arc-conv').textContent = `(${pArc}%)`;
-    }
+        if (inputVal === '') {
+            span.textContent = '';
+            return;
+        }
+        
+        if (mode === 'number') {
+            let pct = maxCap > 0 ? Math.round((val / maxCap) * 100) : 0;
+            span.textContent = `${pct}%`;
+        } else {
+            span.textContent = `${raw.toLocaleString('fr-FR')}`;
+        }
+    };
+
+    updateConv('cm-inf', getRawNumber('cm-inf'), rawInf);
+    updateConv('cm-cav', getRawNumber('cm-cav'), rawCav);
+    updateConv('cm-arc', getRawNumber('cm-arc'), rawArc);
+}
+
+function getRemainingGlobalTroops() {
+    let remInf = getRawNumber('troop-inf');
+    let remCav = getRawNumber('troop-cav');
+    let remArc = getRawNumber('troop-arc');
+
+    customMarchesList.forEach(m => {
+        remInf -= m.inf;
+        remCav -= m.cav;
+        remArc -= m.arc;
+    });
+
+    return { remInf, remCav, remArc };
+}
+
+function getTotalMarchesAllowed() {
+    let marchesCount = getRawNumber('marches-count');
+    if (marchesCount === 0) marchesCount = 1;
+    if (document.getElementById('player-role').value === 'organizer') marchesCount += 1;
+    return marchesCount;
+}
+
+function updateStudioBadge() {
+    const badge = document.getElementById('remaining-marches-badge');
+    badge.textContent = `${customMarchesList.length} / ${getTotalMarchesAllowed()} utilisées`;
 }
 
 function renderCustomMarches() {
@@ -614,8 +510,10 @@ function editCustomMarch(id) {
     if (!march) return;
 
     editingMarchId = id; 
+
     document.getElementById('cm-name').value = march.name;
-    document.querySelector('input[name="cm-input-mode"][value="percent"]').checked = true;
+    const mode = march.mode || 'number';
+    document.querySelector(`input[name="cm-input-mode"][value="${mode}"]`).checked = true;
 
     document.getElementById('cm-hero-1').value = march.h1 || "";
     document.getElementById('cm-hero-2').value = march.h2 || "";
@@ -624,52 +522,220 @@ function editCustomMarch(id) {
     let theoreticalCapacity = getRawNumber('cap-base') + getRawNumber('cap-expert') + getRawNumber('cap-animal');
     if (theoreticalCapacity === 0) theoreticalCapacity = 1;
 
-    document.getElementById('cm-inf').value = Math.round((march.inf / theoreticalCapacity) * 100) || 0;
-    document.getElementById('cm-cav').value = Math.round((march.cav / theoreticalCapacity) * 100) || 0;
-    document.getElementById('cm-arc').value = Math.round((march.arc / theoreticalCapacity) * 100) || 0;
+    if (mode === 'percent') {
+        document.getElementById('cm-inf').value = Math.round((march.inf / theoreticalCapacity) * 100) || 0;
+        document.getElementById('cm-cav').value = Math.round((march.cav / theoreticalCapacity) * 100) || 0;
+        document.getElementById('cm-arc').value = Math.round((march.arc / theoreticalCapacity) * 100) || 0;
+    } else {
+        document.getElementById('cm-inf').value = (march.inf || 0).toLocaleString('fr-FR');
+        document.getElementById('cm-cav').value = (march.cav || 0).toLocaleString('fr-FR');
+        document.getElementById('cm-arc').value = (march.arc || 0).toLocaleString('fr-FR');
+    }
 
     updateModalLiveStats();
     document.getElementById('custom-march-modal').classList.add('active');
 }
 
-function updateStudioBadge() {
-    const badge = document.getElementById('studio-badge');
-    badge.textContent = customMarchesList.length;
-    badge.style.display = customMarchesList.length > 0 ? 'flex' : 'none';
-}
-
-
 // ========================================
-// OUTILS DE CALCUL GLOBAUX
+// TRADUCTION & FORMATAGE
 // ========================================
 
-function getRemainingGlobalTroops() {
-    const tInf = getRawNumber('total-inf');
-    const tCav = getRawNumber('total-cav');
-    const tArc = getRawNumber('total-arc');
-
-    let usedInf = 0, usedCav = 0, usedArc = 0;
-    customMarchesList.forEach(m => {
-        usedInf += m.inf; usedCav += m.cav; usedArc += m.arc;
+function applyTranslations(lang) {
+    const dict = i18nBearTrap[lang] || i18nBearTrap.EN;
+    
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
     });
 
-    return {
-        remInf: tInf - usedInf,
-        remCav: tCav - usedCav,
-        remArc: tArc - usedArc
-    };
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key]) el.placeholder = dict[key];
+    });
+
+    const roleSelect = document.getElementById('player-role');
+    if (roleSelect) {
+        roleSelect.options[0].text = dict.optPart;
+        roleSelect.options[1].text = dict.optOrg;
+    }
+
+    const modeSelect = document.getElementById('optim-mode');
+    if (modeSelect) {
+        modeSelect.options[0].text = dict.optMin;
+        modeSelect.options[1].text = dict.optForm;
+    }
+    
+    updateModalLiveStats();
 }
 
-function getCurrentMaxMarchCapacity() {
-    return getRawNumber('cap-base') + getRawNumber('cap-expert') + getRawNumber('cap-animal');
-}
-
-function getTotalMarchesAllowed() {
-    return getRawNumber('max-marches') || 1;
+function formatInputNumber(e) {
+    let val = e.target.value.replace(/\D/g, ''); 
+    if (val === '') {
+        e.target.value = '';
+        return;
+    }
+    e.target.value = parseInt(val, 10).toLocaleString('fr-FR');
 }
 
 // ========================================
-// CALCULATEUR PRINCIPAL BEAR TRAP
+// SAUVEGARDE
+// ========================================
+
+function saveBearTrapData() {
+    const fields = [
+        'troop-inf', 'troop-arc', 'troop-cav', 'cap-base', 'cap-expert', 'cap-animal', 
+        'marches-count', 'alliance-limit', 'min-inf-percent', 'min-cav-percent'
+    ];
+    const data = {};
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) data[id] = el.value;
+    });
+    data['player-role'] = document.getElementById('player-role').value;
+    data['optim-mode'] = document.getElementById('optim-mode').value;
+    data['server-generation'] = document.getElementById('server-generation').value; 
+    data['custom-marches'] = customMarchesList;
+
+    localStorage.setItem('beartrap_data', JSON.stringify(data));
+}
+
+function loadBearTrapData() {
+    const saved = localStorage.getItem('beartrap_data');
+    if (saved) {
+        const data = JSON.parse(saved);
+        for (const [id, val] of Object.entries(data)) {
+            const el = document.getElementById(id);
+            if (el) el.value = val;
+        }
+
+        if (data['custom-marches']) {
+            customMarchesList = data['custom-marches'];
+        }
+        if (data['server-generation']) {
+            const genEl = document.getElementById('server-generation');
+            if (genEl) genEl.value = data['server-generation'];
+        }
+        
+        const optimMode = document.getElementById('optim-mode');
+        const thresholdInputs = document.getElementById('threshold-inputs');
+        if (optimMode && thresholdInputs) {
+            thresholdInputs.style.display = optimMode.value === 'threshold' ? 'block' : 'none';
+        }
+    }
+}
+
+
+// ========================================
+// MOTEUR DE SÉLECTION DES HÉROS
+// ========================================
+
+function selectHeroesForMarches(marchesCount, role, generation) {
+    const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
+    const hasCaserneData = Object.keys(userHeroes).length > 0;
+    
+    let assignedMarches = [];
+
+    if (!hasCaserneData || heroesDB.length === 0) {
+        for (let i = 0; i < marchesCount; i++) {
+            assignedMarches.push({ heroes: [], missingHeroes: 0, penalty: 0 });
+        }
+        return assignedMarches;
+    }
+
+    let usedHeroIds = new Set();
+    customMarchesList.forEach(m => {
+        if (m.h1) usedHeroIds.add(m.h1);
+        if (m.h2) usedHeroIds.add(m.h2);
+        if (m.h3) usedHeroIds.add(m.h3);
+    });
+
+    let pool = [];
+    for (let id in userHeroes) {
+        if (userHeroes[id].unlocked && !usedHeroIds.has(id)) {
+            let dbHero = heroesDB.find(h => h.id === id);
+            if (dbHero) {
+                let lvl = userHeroes[id].level || 1;
+                pool.push({
+                    ...dbHero,
+                    level: lvl,
+                    penalty: 13470 - getHeroCapacity(lvl)
+                });
+            }
+        }
+    }
+
+    let classes = {
+        inf: pool.filter(h => h.troopType.toLowerCase() === 'infantry').sort((a, b) => b.level - a.level),
+        cav: pool.filter(h => h.troopType.toLowerCase() === 'cavalry').sort((a, b) => b.level - a.level),
+        arc: pool.filter(h => h.troopType.toLowerCase() === 'archer').sort((a, b) => b.level - a.level)
+    };
+
+    const getTierScore = (heroName, typeStr) => {
+        let typeShort = typeStr.substring(0, 3).toLowerCase(); 
+        let tierList = organizerTierList[generation] || organizerTierList[6];
+        let list = tierList[typeShort];
+        if (!list) return 999;
+        let idx = list.indexOf(heroName);
+        return idx === -1 ? 999 : idx;
+    };
+
+    for (let i = 0; i < marchesCount; i++) {
+        let team = [];
+
+        if (role === 'organizer') {
+            ['inf', 'cav', 'arc'].forEach(cls => {
+                classes[cls].sort((a, b) => {
+                    let scoreA = getTierScore(a.name, a.troopType);
+                    let scoreB = getTierScore(b.name, b.troopType);
+                    if (scoreA !== scoreB) return scoreA - scoreB;
+                    return b.level - a.level; 
+                });
+                if (classes[cls].length > 0) team.push(classes[cls].shift());
+            });
+            team.sort((a, b) => getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType));
+
+        } else {
+            let possibleCaptains = [];
+            ['inf', 'cav', 'arc'].forEach(c => {
+                let idx = classes[c].findIndex(h => h.goodJoinerBear);
+                if (idx > -1) possibleCaptains.push({ cls: c, hero: classes[c][idx], index: idx });
+            });
+
+            let capClass = null;
+            if (possibleCaptains.length > 0) {
+                possibleCaptains.sort((a, b) => b.hero.level - a.hero.level);
+                let bestCap = possibleCaptains[0];
+                team.push(bestCap.hero);
+                capClass = bestCap.cls;
+                classes[bestCap.cls].splice(bestCap.index, 1);
+            }
+
+            ['inf', 'cav', 'arc'].forEach(c => {
+                if (c !== capClass && classes[c].length > 0) {
+                    team.push(classes[c].shift());
+                } else if (c === capClass && !capClass && classes[c].length > 0) {
+                    team.push(classes[c].shift());
+                }
+            });
+        }
+
+        let penalty = 0;
+        let missingHeroes = 3 - team.length;
+        penalty += missingHeroes * 13470; 
+        team.forEach(h => penalty += h.penalty);
+
+        assignedMarches.push({
+            heroes: team,
+            missingHeroes: missingHeroes,
+            penalty: penalty
+        });
+    }
+    
+    return assignedMarches;
+}
+
+// ========================================
+// MOTEUR DE CALCUL (Marches automatiques)
 // ========================================
 
 function calculateBearTrap() {
@@ -701,14 +767,15 @@ function calculateBearTrap() {
     const role = document.getElementById('player-role').value;
     const generation = document.getElementById('server-generation').value;
 
-    // Attribution automatique des héros
     let heroAssignments = selectHeroesForMarches(marchesCount, role, generation);
 
     let startId = customMarchesList.length + 1;
     
     for (let i = 0; i < marchesCount; i++) {
         let assignment = heroAssignments[i];
+        
         let currentMarchCap = Math.max(0, maxMarchCapacity - assignment.penalty);
+        
         let marchesLeft = marchesCount - i;
 
         let fairInf = Math.floor(availableInf / marchesLeft);
@@ -765,44 +832,36 @@ function calculateBearTrap() {
     displayResults(marches, maxMarchCapacity, marchesCount, theoreticalCapacity, dict);
 }
 
-function displayResults(marches, capExemple, marchesCount, theoreticalCapacity, dict) {
-    const resultsDiv = document.getElementById('results');
+function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalCapacity, dict) {
+    const resultArea = document.getElementById('result-area');
     
-    if (marchesCount <= 0 && customMarchesList.length > 0) {
-        resultsDiv.innerHTML = `<div style="text-align:center; padding: 30px; color: var(--accent); font-weight: bold;">
-            Toutes vos marches sont personnalisées dans le Studio de Déploiement.
-        </div>`;
-        return;
-    }
-
-    if (marches.length === 0) {
-        resultsDiv.innerHTML = `<div style="text-align:center; padding: 30px; color: var(--text-muted);">
-            ${dict.noTroops}
-        </div>`;
+    if (marches.length === 0 || marches[0].total === 0) {
+        resultArea.innerHTML = `<p style='color: var(--text-muted); padding: 15px; border-radius: 6px; border: 1px dashed var(--border);'>${dict.noTroops}</p>`;
+        resultArea.style.display = 'block';
         return;
     }
 
     let html = `
-        <table class="data-table">
+        <table class="styled-table" style="width: 100%; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th style="text-align: left;">${dict.thMarch}</th>
-                    <th style="text-align: right;">Capacité Nette</th>
-                    <th style="text-align: right;">${dict.lblInf}</th>
-                    <th style="text-align: right;">${dict.lblCav}</th>
-                    <th style="text-align: right; color: var(--accent);">${dict.lblArc}</th>
-                    <th style="text-align: right; background: rgba(245, 184, 64, 0.1);">Total</th>
+                    <th style="text-align: left; padding: 10px; border-bottom: 2px solid var(--accent);">${dict.thMarch} (Auto)</th>
+                    <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent); color: var(--text-muted);">${dict.thCap}</th>
+                    <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent);">${dict.lblInf}</th>
+                    <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent);">${dict.lblCav}</th>
+                    <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent);">${dict.lblArc}</th>
+                    <th style="text-align: right; padding: 10px; border-bottom: 2px solid var(--accent); background: rgba(245, 184, 64, 0.05);">${dict.thTotal}</th>
                 </tr>
             </thead>
             <tbody>
     `;
 
     marches.forEach(march => {
-        let pInf = Math.round((march.inf / march.capacity) * 100) || 0;
-        let pCav = Math.round((march.cav / march.capacity) * 100) || 0;
-        let pArc = Math.round((march.arc / march.capacity) * 100) || 0;
+        let pInf = Math.round((march.inf / theoreticalCapacity) * 100) || 0;
+        let pCav = Math.round((march.cav / theoreticalCapacity) * 100) || 0;
+        let pArc = Math.round((march.arc / theoreticalCapacity) * 100) || 0;
 
-        let fMaxCap = march.capacity.toLocaleString('fr-FR');
+        let fMaxCap = march.capacity.toLocaleString('fr-FR'); 
         let fTotal = march.total.toLocaleString('fr-FR');
         let fInf = march.inf.toLocaleString('fr-FR');
         let fCav = march.cav.toLocaleString('fr-FR');
@@ -845,9 +904,11 @@ function displayResults(marches, capExemple, marchesCount, theoreticalCapacity, 
             </tbody>
         </table>
         <div style="margin-top: 15px; font-size: 13px; color: var(--text-muted);">
-            ${dict.txtGen} <strong>${marchesCount}</strong>
+            ${dict.txtGen} <strong>${autoMarchesGenerated}</strong><br>
+            ${dict.txtRef} <strong>${theoreticalCapacity.toLocaleString('fr-FR')}</strong>
         </div>
     `;
 
-    resultsDiv.innerHTML = html;
+    resultArea.innerHTML = html;
+    resultArea.style.display = 'block';
 }
