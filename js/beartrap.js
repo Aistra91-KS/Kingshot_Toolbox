@@ -482,6 +482,8 @@ function suggestHeroesForModal() {
             // On ajoute les héros secondaires UNIQUEMENT si on a un capitaine
             ['inf', 'cav', 'arc'].forEach(c => {
                 if (selectedCaptain.cls !== c && classes[c].length > 0) {
+                    // CORRECTION : On force le tri par niveau décroissant pour les poubelles
+                    classes[c].sort((a, b) => b.level - a.level);
                     team.push(classes[c].shift());
                 }
             });
@@ -988,6 +990,8 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                 // On ajoute les héros secondaires UNIQUEMENT si on a un capitaine valide
                 ['inf', 'cav', 'arc'].forEach(c => {
                     if (selectedCaptain.cls !== c && classes[c].length > 0) {
+                        // CORRECTION : On force le tri par niveau décroissant pour les poubelles
+                        classes[c].sort((a, b) => b.level - a.level);
                         let filler = classes[c].shift(); 
                         filler.isCaptain = false;
                         team.push(filler);
