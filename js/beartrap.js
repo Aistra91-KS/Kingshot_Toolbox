@@ -54,6 +54,10 @@ const i18nBearTrap = {
         noCaptain: "Aucun capitaine disponible",
         txtUsed: "utilisées",
         lblHost: "(Hôte)",
+        modalHeroes: "Héros de la marche",
+        btnSuggest: "🪄 Suggérer",
+        optNone: "Aucun",
+        txtAvailable: "Disponibles :",
         errDuplicateHero: "Un héros ne peut être sélectionné qu'une seule fois dans la même marche."
     },
     EN: {
@@ -107,6 +111,10 @@ const i18nBearTrap = {
         noCaptain: "No captain available",
         txtUsed: "used",
         lblHost: "(Host)",
+        modalHeroes: "March Heroes",
+        btnSuggest: "🪄 Suggest",
+        optNone: "None",
+        txtAvailable: "Available:",
         errDuplicateHero: "A hero can only be selected once in the same march."
     }
 };
