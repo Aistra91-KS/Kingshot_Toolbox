@@ -326,13 +326,16 @@ function loadBearTrapData() {
 function populateHeroDropdowns() {
     const userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
     
-    // NOUVEAU : On récupère la génération max sélectionnée
     const genEl = document.getElementById('server-generation');
     const maxGen = genEl ? parseInt(genEl.value, 10) : 6;
     
-    let optionsHTML = '<option value="" data-class="">Aucun</option>';
+    // NOUVEAU : On récupère la traduction pour "Aucun"
+    let currentLang = window.GlobalLang ? window.GlobalLang.get() : 'EN';
+    const dict = i18nBearTrap[currentLang] || i18nBearTrap.EN;
+    let textNone = dict.optNone || "Aucun";
     
-    // NOUVEAU : On ajoute "&& h.generation <= maxGen" pour exclure les héros du futur
+    let optionsHTML = `<option value="" data-class="">${textNone}</option>`;
+    
     let availableHeroes = heroesDB.filter(h => userHeroes[h.id] && userHeroes[h.id].unlocked && h.generation <= maxGen);
     availableHeroes.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -731,7 +734,9 @@ function updateModalLiveStats() {
     let currentLang = window.GlobalLang ? window.GlobalLang.get() : 'EN';
     const dict = i18nBearTrap[currentLang] || i18nBearTrap.EN;
 
-    let html = `Disponibles : 🛡️ ${curRemInf.toLocaleString('fr-FR')} | 🐎 ${curRemCav.toLocaleString('fr-FR')} | 🏹 ${curRemArc.toLocaleString('fr-FR')}`;
+    // NOUVEAU : On utilise le dictionnaire pour "Disponibles :"
+    let textAvailable = dict.txtAvailable || "Disponibles :";
+    let html = `${textAvailable} 🛡️ ${curRemInf.toLocaleString('fr-FR')} | 🐎 ${curRemCav.toLocaleString('fr-FR')} | 🏹 ${curRemArc.toLocaleString('fr-FR')}`;
 
     if (curRemInf < 0 || curRemCav < 0 || curRemArc < 0) {
         html += `<br><span style="color: #e74c5c;">⚠️ ${dict.errNoTroopsForCustom}</span>`;
