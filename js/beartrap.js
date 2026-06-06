@@ -538,6 +538,34 @@ function suggestHeroesForModal() {
     updateHeroDropdownsState();
 }
 
+function updateHostCheckboxState() {
+    const hostCheck = document.getElementById('cm-is-host');
+    if (!hostCheck) return;
+
+    const roleEl = document.getElementById('player-role');
+    const role = roleEl ? roleEl.value : 'participant';
+    
+    // On vérifie si une marche "Hôte" existe DÉJÀ (en excluant la marche qu'on est en train de modifier)
+    const hostExists = customMarchesList.some(m => m.isHost && m.id !== editingMarchId);
+    
+    // On désactive si le joueur n'est pas Orga OU si un Hôte existe déjà ailleurs
+    const shouldDisable = (role !== 'organizer') || hostExists;
+
+    hostCheck.disabled = shouldDisable;
+    
+    // On grise le texte et on change le curseur
+    const labelEl = hostCheck.closest('label');
+    if (labelEl) {
+        labelEl.style.opacity = shouldDisable ? '0.4' : '1';
+        labelEl.style.cursor = shouldDisable ? 'not-allowed' : 'pointer';
+    }
+
+    // Si on n'a pas le droit d'être Hôte, on décoche la case par sécurité
+    if (shouldDisable) {
+        hostCheck.checked = false;
+    }
+}
+
 function initStudioModal() {
     const modal = document.getElementById('custom-march-modal');
     const btnAdd = document.getElementById('btn-add-custom');
@@ -602,6 +630,7 @@ function initStudioModal() {
         document.querySelector('input[name="cm-input-mode"][value="percent"]').checked = true; 
         
         updateHeroDropdownsState();
+        updateHostCheckboxState(); // NOUVEAU : On gère l'état de la case
         updateModalLiveStats();
         modal.classList.add('active');
     });
@@ -883,6 +912,7 @@ function editCustomMarch(id) {
     if(hostCheck) hostCheck.checked = march.isHost || false;
 
     updateHeroDropdownsState();
+    updateHostCheckboxState(); // NOUVEAU : On gère l'état de la case
 
     let theoreticalCapacity = getRawNumber('cap-base') + getRawNumber('cap-expert') + getRawNumber('cap-animal');
     if (theoreticalCapacity === 0) theoreticalCapacity = 1;
