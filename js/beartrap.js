@@ -445,8 +445,8 @@ function suggestHeroesForModal() {
 
     let team = [];
 
-    // Si on a coché "Hôte" OU (qu'on est orga et qu'aucun autre hôte n'existe)
-    if (isHost || (role === 'organizer' && !customMarchesList.some(m => m.isHost && m.id !== editingMarchId))) {
+    // CORRECTION : La suggestion obéit UNIQUEMENT à la case à cocher de la modale
+    if (isHost) {
         ['inf', 'cav', 'arc'].forEach(cls => {
             classes[cls].sort((a, b) => {
                 // 1. PRIORITÉ ABSOLUE : Somme des compétences
