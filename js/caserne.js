@@ -341,7 +341,11 @@ function renderHeroes() {
         const card = document.createElement('div');
         card.className = `hero-card ${hero.rarity.toLowerCase()} ${isLocked ? 'locked' : ''}`;
         
+        const hasWidget = hero.widget && heroData.widgetLevel > 0;
+        const widgetBadgeHTML = hasWidget ? `<div style="position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.8); padding: 2px 6px; border-radius: 4px; font-size: 10px; border: 1px solid #f5b840; color: #f5b840; z-index: 2;">⚙️ ${heroData.widgetLevel}</div>` : '';
+
         card.innerHTML = `
+            ${widgetBadgeHTML}
             <div class="hero-image" style="background-image: url('img/heroes/${hero.name}.png');"></div>
             <div class="hero-gradient"></div>
             
@@ -527,6 +531,7 @@ window.setModalSkillLevel = function(skillIndex, newLevel) {
     modalState.skills[skillIndex] = newLevel;
     updateModalUI();
 };
+
 function renderModalWidget() {
     const widgetContainer = document.getElementById('hero-widget-container');
     const dbHero = currentEditingHeroObj;
@@ -537,14 +542,26 @@ function renderModalWidget() {
         let currentLang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
         let dict = i18nCaserne[currentLang] || i18nCaserne['FR'];
 
+        // Noms traduits pour l'affichage textuel
         let widgetName = dbHero.widget.name[currentLang] || dbHero.widget.name['EN'];
-        let savedWidgetLevel = modalState.widgetLevel;
+        let nameConquest = dbHero.widget.effectConquest.name[currentLang] || dbHero.widget.effectConquest.name['EN'];
+        let nameExpe = dbHero.widget.effectExpe.name[currentLang] || dbHero.widget.effectExpe.name['EN'];
 
+        // Noms EN sécurisés pour les chemins d'images (remplacement des apostrophes)
+        const safeWidgetImg = dbHero.widget.name['EN'].replace(/'/g, "%27");
+        const safeConquestImg = dbHero.widget.effectConquest.name['EN'].replace(/'/g, "%27");
+        const safeExpeImg = dbHero.widget.effectExpe.name['EN'].replace(/'/g, "%27");
+
+        let savedWidgetLevel = modalState.widgetLevel;
         let optionsHTML = Array.from({length: 11}, (_, i) => `<option value="${i}" ${i == savedWidgetLevel ? 'selected' : ''}>${i}</option>`).join('');
 
+        // Structure HTML globale du bloc
         let widgetHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h4 style="margin: 0; font-size: 13px; color: #f5b840; text-transform: uppercase;">⚙️ ${widgetName}</h4>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="img/widgetname/${safeWidgetImg}.png" alt="Widget" style="width: 32px; height: 32px; border-radius: 4px; border: 1px solid #f5b840;" onerror="this.style.display='none'">
+                    <h4 style="margin: 0; font-size: 13px; color: #f5b840; text-transform: uppercase;">${widgetName}</h4>
+                </div>
                 <div style="display: flex; align-items: center; gap: 5px;">
                     <span style="font-size: 11px; color: var(--text-muted);">${dict.modalWidgetLvl || 'Level:'}</span>
                     <select id="widget-level-select" style="padding: 2px 5px; font-size: 12px; border-radius: 4px; background: var(--bg-color); color: var(--text-light); border: 1px solid var(--border);" onchange="setModalWidgetLevel(this.value)">
@@ -552,24 +569,38 @@ function renderModalWidget() {
                     </select>
                 </div>
             </div>
-            <div id="widget-effects-display" style="font-size: 12px; color: var(--text-light); background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;">
+            <div id="widget-effects-display" style="display: flex; flex-direction: column; gap: 10px;">
             </div>
         `;
         widgetContainer.innerHTML = widgetHTML;
 
-        // Mise à jour des textes avec remplacement du X%
+        // Récupération des bonnes valeurs selon le niveau
         let valConquest = getWidgetEffectValue(dbHero.widget.effectConquest.levels, savedWidgetLevel, true);
         let valExpe = getWidgetEffectValue(dbHero.widget.effectExpe.levels, savedWidgetLevel, false);
 
         let descConquest = (dbHero.widget.effectConquest.description[currentLang] || dbHero.widget.effectConquest.description['EN']).replace(/X%|X/g, `<span style="color:#e74c5c; font-weight:bold;">${valConquest}</span>`);
         let descExpe = (dbHero.widget.effectExpe.description[currentLang] || dbHero.widget.effectExpe.description['EN']).replace(/X%|X/g, `<span style="color:#3498db; font-weight:bold;">${valExpe}</span>`);
 
-        let nameConquest = dbHero.widget.effectConquest.name[currentLang] || dbHero.widget.effectConquest.name['EN'];
-        let nameExpe = dbHero.widget.effectExpe.name[currentLang] || dbHero.widget.effectExpe.name['EN'];
-
+        // Injection des effets avec le même design CSS que les compétences (skill-row, skill-icon)
         document.getElementById('widget-effects-display').innerHTML = `
-            <div style="margin-bottom: 6px;"><strong>⚔️ ${nameConquest} :</strong> ${descConquest}</div>
-            <div><strong>🛡️ ${nameExpe} :</strong> ${descExpe}</div>
+            <div class="skill-row active" style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid rgba(231, 76, 92, 0.2);">
+                <div class="skill-header">
+                    <div class="skill-icon" style="background-image: url('img/widgetskill/${safeConquestImg}.png');"></div>
+                    <div class="skill-info">
+                        <div class="skill-name" style="color: #e74c5c;">⚔️ ${nameConquest}</div>
+                        <div class="skill-effect" style="font-size: 11px;">${descConquest}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="skill-row active" style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid rgba(52, 152, 219, 0.2);">
+                <div class="skill-header">
+                    <div class="skill-icon" style="background-image: url('img/widgetskill/${safeExpeImg}.png');"></div>
+                    <div class="skill-info">
+                        <div class="skill-name" style="color: #3498db;">🛡️ ${nameExpe}</div>
+                        <div class="skill-effect" style="font-size: 11px;">${descExpe}</div>
+                    </div>
+                </div>
+            </div>
         `;
     } else {
         widgetContainer.style.display = 'none';
@@ -577,11 +608,12 @@ function renderModalWidget() {
     }
 }
 
-// Fonction appelée quand le menu déroulant change
+// Ajout de l'événement lié au menu déroulant
 window.setModalWidgetLevel = function(val) {
     modalState.widgetLevel = parseInt(val, 10);
-    updateModalUI(); // Recharge les textes dynamiquement
+    updateModalUI();
 };
+
 
 function closeModal() {
     // Ferme le tiroir et remet la grille à sa place
