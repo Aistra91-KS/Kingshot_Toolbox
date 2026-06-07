@@ -713,8 +713,36 @@
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Revelation",
+      "FR": "Révélation"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Holy Invocation",
+        "FR": "Invocation Sacrée"
+      },
+      "description": {
+        "EN": "Increasing her healing effects by X%",
+        "FR": "Les soldats ne jurent que par les miracles quotidiens de Hilde, qui augmentent ses effets de soins de X%"
+      },
+      "levels": ["30%", "40%", "50%", "60%", "70%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Fortitude",
+        "FR": "Force Morale"
+      },
+      "description": {
+        "EN": "Increasing Defender Squads' Health by X%",
+        "FR": "la foi pieuse de Hilde eb sa cause est contagieuse, augmentant la Santé des Escouades du défenseur de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0018",
     "name": "Marlin",
@@ -756,8 +784,36 @@
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Mistweaver",
+      "FR": "Tisseur de Brume"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Servant of Wine",
+        "FR": "Serviteur de Vin"
+      },
+      "description": {
+        "EN": "Healing your weakest hero by Attack X% with each basic attack",
+        "FR": "il n'y a pas de meilleur remontant pour le champ de bataille que le breuvage spécial de Marlin, qui soigne le plus faible de tes héros de X% d'Attaque* à chaque fois"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Admiral of the Line",
+        "FR": "Amirale de la Ligne"
+      },
+      "description": {
+        "EN": "Increases Rally Squads' Lethality by X%",
+        "FR": "Un véritable amiral dirige depuis le front. Augment de X% la létalité de l'escouade de ralliement en organisant ce dernier."
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0019",
     "name": "Zoe",
@@ -799,8 +855,36 @@
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "The Unrighteous",
+      "FR": "l'injuste"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Death or Glory",
+        "FR": "Mort ou Gloire"
+      },
+      "description": {
+        "EN": "Zoe's inner demon is awakened only by pain. Gaining a X% increased Attack until the end of the Battle once 'Agony Rush' is triggered.",
+        "FR": "Le démon intérieur de Zoé n'est réveillé que par la douleur. Gagne X% d'attaque supplémentaire jusqu'à la fin du combat une fois que 'Ruée vers l'agonie' est déclenché"
+      },
+      "levels": ["8%", "12%", "16%", "20%", "24%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Dark Lady",
+        "FR": "lady Sombre"
+      },
+      "description": {
+        "EN": "Zoe is a relentlessly demanding garrison commander, increasing Defender Squads' Attack by X%",
+        "FR": "Zoé est une commandante de garnison exigeante, qui augmente l'attaque des escouades du défenseur de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0020",
     "name": "Jaeger",
