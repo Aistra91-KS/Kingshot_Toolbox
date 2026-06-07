@@ -926,8 +926,36 @@
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Wanderwail",
+      "FR": "Lamentations du Vagabond"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Sound of Silence",
+        "FR": "Son du Silence"
+      },
+      "description": {
+        "EN": "Silences and prevents the target from using skills for X%s, dealing Attack * X% damage",
+        "FR": "Jaeger réduit au silence et empêche la cible d'utiliser ses compétances pendant X%s (les compétences déja lancées ne sont pas affectées), tout en infligeant Attaque * X% de dégâts."
+      },
+      "levels": ["(3,220%)", "(3.5,240%)", "(4,260%)", "(4.5,280%)", "(5,300%)"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Hymn to Survival",
+        "FR": "Hymne à la Survie"
+      },
+      "description": {
+        "EN": "Increases Defender Squads' Health by X%",
+        "FR": "Il n'y a ni aisance, ni luxe si les soldats ne sont pas bien protégés. Jaeger augmente la Santé des Escouades Defensives de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0021",
     "name": "Petra",
@@ -969,8 +997,36 @@
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Fate's Writ",
+      "FR": "Écrit du Destin"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Weighted Deck",
+        "FR": "Jeu Équilibré"
+      },
+      "description": {
+        "EN": "Increases fluctuating skills limits by X%.",
+        "FR": "Petra est devenue plus habile dans l'art de manipuler les cartes du destin en sa faveur, ce qui augmente les limites supérieures et inférieures de ses compétences fluctuantes de X%"
+      },
+      "levels": ["30%", "60%", "90%", "120%", "150%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Cosmic Eye",
+        "FR": "Oeuil Cosmique"
+      },
+      "description": {
+        "EN": "Increases Rally Squad Attack by X%",
+        "FR": "'A l'attaque !' Les cartes informent toujours Petra du bon moment pour agir. Petra augmente de X% l'attaque des escouades e ralliement en organisant ce dernier."
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0022",
     "name": "Eric",
@@ -1012,8 +1068,36 @@
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Anvil of Truth",
+      "FR": "Enclume de la Vérité"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Blessed Hammer",
+        "FR": "Marteau Béni"
+      },
+      "description": {
+        "EN": "Increasing damage by  X%.",
+        "FR": "Éric se fie non seulement à lui-même, mais aussi à son marteau béni, ce qui augmente les dégâts de X%"
+      },
+      "levels": ["10%", "15%", "20%", "25%", "30%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Vanguard",
+        "FR": "Avant-garde"
+      },
+      "description": {
+        "EN": "Increases Defender Squad Defense by X%",
+        "FR": "Un paladin doit toujours montrer l'exemple depuis le front. Éric augmente la Défense de l'Escouade Défensive de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0023",
     "name": "Margot",
