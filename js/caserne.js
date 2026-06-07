@@ -347,7 +347,6 @@ function renderHeroes() {
         const widgetBadgeHTML = hasWidget ? `<div style="position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.8); padding: 2px 6px; border-radius: 4px; font-size: 10px; border: 1px solid #f5b840; color: #f5b840; z-index: 2;">⚙️ ${heroData.widgetLevel}</div>` : '';
 
         card.innerHTML = `
-            ${widgetBadgeHTML}
             <div class="hero-image" style="background-image: url('img/heroes/${hero.name}.png');"></div>
             <div class="hero-gradient"></div>
             
