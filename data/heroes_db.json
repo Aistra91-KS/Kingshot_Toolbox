@@ -262,6 +262,7 @@
     "rarity": "Epic",
     "troopType": "Cavalry",
     "goodJoinerBear": true,
+    "GoodJoinerBearRank": 1,
     "skills": [
       {
         "name": {
@@ -326,6 +327,7 @@
     "rarity": "Epic",
     "troopType": "Archer",
     "goodJoinerBear": true,
+    "GoodJoinerBearRank": 1,
     "skills": [
       {
         "name": {
@@ -358,6 +360,7 @@
     "rarity": "Epic",
     "troopType": "Archer",
     "goodJoinerBear": true,
+    "GoodJoinerBearRank": 1,
     "skills": [
       {
         "name": {
@@ -532,6 +535,7 @@
     "rarity": "legendary",
     "troopType": "Infantry",
     "goodJoinerBear": true,
+    "GoodJoinerBearRank": 1,
     "skills": [
       {
         "name": {
@@ -618,6 +622,7 @@
     "rarity": "legendary",
     "troopType": "Cavalry",
     "goodJoinerBear": true,
+    "GoodJoinerBearRank": 2,
     "skills": [
       {
         "name": {
@@ -876,6 +881,7 @@
     "rarity": "legendary",
     "troopType": "Cavalry",
     "goodJoinerBear": true,
+    "GoodJoinerBearRank": 1,
     "skills": [
       {
         "name": {
@@ -1005,6 +1011,7 @@
     "rarity": "legendary",
     "troopType": "Cavalry",
     "goodJoinerBear": true,
+    "GoodJoinerBearRank": 2,
     "skills": [
       {
         "name": {
@@ -1091,6 +1098,7 @@
     "rarity": "legendary",
     "troopType": "Archer",
     "goodJoinerBear": true,
+    "GoodJoinerBearRank": 1,
     "skills": [
       {
         "name": {
@@ -1263,6 +1271,7 @@
     "rarity": "legendary",
     "troopType": "Archer",
     "goodJoinerBear": true,
+    "GoodJoinerBearRank": 1,
     "skills": [
       {
         "name": {
