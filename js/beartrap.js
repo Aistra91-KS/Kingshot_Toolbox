@@ -481,10 +481,18 @@ function suggestHeroesForModal() {
 
         if (possibleCaptains.length > 0) {
             possibleCaptains.sort((a, b) => {
+                // 1. D'abord on compare la 1ère compétence
                 let skillA = a.hero.skills[0] || 0;
                 let skillB = b.hero.skills[0] || 0;
                 if (skillB !== skillA) return skillB - skillA;
-                return b.hero.level - a.hero.level;
+                
+                // 2. En cas d'égalité, on regarde le niveau d'XP
+                if (b.hero.level !== a.hero.level) return b.hero.level - a.hero.level;
+                
+                // 3. En cas d'égalité parfaite, le Rank tranche
+                let rankA = a.hero.GoodJoinerBearRank || 99;
+                let rankB = b.hero.GoodJoinerBearRank || 99;
+                return rankA - rankB;
             });
             let selectedCaptain = possibleCaptains[0];
             team.push(selectedCaptain.hero);
