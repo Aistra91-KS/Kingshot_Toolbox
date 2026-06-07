@@ -553,9 +553,11 @@ function renderModalWidget() {
         const safeExpeImg = dbHero.widget.effectExpe.name['EN'].replace(/'/g, "%27");
 
         let savedWidgetLevel = modalState.widgetLevel;
-        let optionsHTML = Array.from({length: 11}, (_, i) => `<option value="${i}" ${i == savedWidgetLevel ? 'selected' : ''}>${i}</option>`).join('');
+        
+        // CORRECTION 1 : Ajout des styles explicites sur les <option> pour le mode sombre
+        let optionsHTML = Array.from({length: 11}, (_, i) => `<option value="${i}" style="background: var(--bg-color); color: var(--text-light);" ${i == savedWidgetLevel ? 'selected' : ''}>${i}</option>`).join('');
 
-        // Structure HTML globale du bloc (Aligné sur la DA des compétences)
+        // Structure HTML globale du bloc
         let widgetHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
@@ -564,7 +566,7 @@ function renderModalWidget() {
                 </div>
                 <div style="display: flex; align-items: center; gap: 5px;">
                     <span style="font-size: 11px; color: var(--text-muted);">${dict.modalWidgetLvl || 'Level:'}</span>
-                    <select id="widget-level-select" style="padding: 2px 5px; font-size: 12px; border-radius: 4px; background: var(--bg-color); color: var(--text-light); border: 1px solid var(--border);" onchange="setModalWidgetLevel(this.value)">
+                    <select id="widget-level-select" style="padding: 2px 5px; font-size: 12px; border-radius: 4px; background: var(--control-bg); color: var(--text-light); border: 1px solid var(--border);" onchange="setModalWidgetLevel(this.value)">
                         ${optionsHTML}
                     </select>
                 </div>
@@ -579,26 +581,30 @@ function renderModalWidget() {
         let valConquest = getWidgetEffectValue(dbHero.widget.effectConquest.levels, savedWidgetLevel, true);
         let valExpe = getWidgetEffectValue(dbHero.widget.effectExpe.levels, savedWidgetLevel, false);
 
-        // Remplacement des X% avec les bonnes couleurs (Rouge pour conquête, Bleu pour expédition)
-        let descConquest = (dbHero.widget.effectConquest.description[currentLang] || dbHero.widget.effectConquest.description['EN']).replace(/X%|X/g, `<span style="color:#e74c5c; font-weight:bold;">${valConquest}</span>`);
-        let descExpe = (dbHero.widget.effectExpe.description[currentLang] || dbHero.widget.effectExpe.description['EN']).replace(/X%|X/g, `<span style="color:#3498db; font-weight:bold;">${valExpe}</span>`);
+        // CORRECTION 2 : Détection des valeurs à 0%
+        let isConquestLocked = valConquest === "0%";
+        let isExpeLocked = valExpe === "0%";
 
-        // Injection des effets en utilisant EXACTEMENT les classes CSS des compétences (.skill-row)
+        // Remplacement des X% en appliquant une couleur neutre si verrouillé
+        let descConquest = (dbHero.widget.effectConquest.description[currentLang] || dbHero.widget.effectConquest.description['EN']).replace(/X%|X/g, `<span style="color:${isConquestLocked ? 'var(--text-muted)' : '#e74c5c'}; font-weight:bold;">${valConquest}</span>`);
+        let descExpe = (dbHero.widget.effectExpe.description[currentLang] || dbHero.widget.effectExpe.description['EN']).replace(/X%|X/g, `<span style="color:${isExpeLocked ? 'var(--text-muted)' : '#3498db'}; font-weight:bold;">${valExpe}</span>`);
+
+        // Injection des effets avec les classes conditionnelles .locked ou .active
         document.getElementById('widget-effects-display').innerHTML = `
-            <div class="skill-row active">
+            <div class="skill-row ${isConquestLocked ? 'locked' : 'active'}">
                 <div class="skill-header">
                     <div class="skill-icon" style="background-image: url('img/widgetskill/${safeConquestImg}.png');"></div>
                     <div class="skill-info">
-                        <div class="skill-name" style="color: #e74c5c;">⚔️ ${nameConquest}</div>
+                        <div class="skill-name" style="color: ${isConquestLocked ? 'var(--text-muted)' : '#e74c5c'};">⚔️ ${nameConquest}</div>
                         <div class="skill-effect">${descConquest}</div>
                     </div>
                 </div>
             </div>
-            <div class="skill-row active">
+            <div class="skill-row ${isExpeLocked ? 'locked' : 'active'}">
                 <div class="skill-header">
                     <div class="skill-icon" style="background-image: url('img/widgetskill/${safeExpeImg}.png');"></div>
                     <div class="skill-info">
-                        <div class="skill-name" style="color: #3498db;">🛡️ ${nameExpe}</div>
+                        <div class="skill-name" style="color: ${isExpeLocked ? 'var(--text-muted)' : '#3498db'};">🛡️ ${nameExpe}</div>
                         <div class="skill-effect">${descExpe}</div>
                     </div>
                 </div>
