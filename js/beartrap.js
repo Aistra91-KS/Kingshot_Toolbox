@@ -1038,10 +1038,18 @@ function selectHeroesForMarches(marchesCount, role, generation) {
 
             if (possibleCaptains.length > 0) {
                 possibleCaptains.sort((a, b) => {
+                    // 1. D'abord on compare la 1ère compétence (la plus grande en premier)
                     let skillA = a.hero.skills[0] || 0;
                     let skillB = b.hero.skills[0] || 0;
                     if (skillB !== skillA) return skillB - skillA;
-                    return b.hero.level - a.hero.level;
+                    
+                    // 2. En cas d'égalité, on regarde le niveau d'XP
+                    if (b.hero.level !== a.hero.level) return b.hero.level - a.hero.level;
+                    
+                    // 3. En cas d'égalité parfaite, on utilise ton GoodJoinerBearRank (1 passe avant 2)
+                    let rankA = a.hero.GoodJoinerBearRank || 99; // 99 par défaut si non défini
+                    let rankB = b.hero.GoodJoinerBearRank || 99;
+                    return rankA - rankB; 
                 });
                 let selectedCaptain = possibleCaptains[0];
                 selectedCaptain.hero.isCaptain = true;
