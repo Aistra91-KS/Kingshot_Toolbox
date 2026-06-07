@@ -555,12 +555,12 @@ function renderModalWidget() {
         let savedWidgetLevel = modalState.widgetLevel;
         let optionsHTML = Array.from({length: 11}, (_, i) => `<option value="${i}" ${i == savedWidgetLevel ? 'selected' : ''}>${i}</option>`).join('');
 
-        // Structure HTML globale du bloc
+        // Structure HTML globale du bloc (Aligné sur la DA des compétences)
         let widgetHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <img src="img/widgetname/${safeWidgetImg}.png" alt="Widget" style="width: 32px; height: 32px; border-radius: 4px; border: 1px solid #f5b840;" onerror="this.style.display='none'">
-                    <h4 style="margin: 0; font-size: 13px; color: #f5b840; text-transform: uppercase;">${widgetName}</h4>
+                    <div class="skill-icon" style="background-image: url('img/widgetname/${safeWidgetImg}.png'); border: 1px solid #f5b840; width: 34px; height: 34px; border-radius: 6px;"></div>
+                    <h4 style="margin: 0; font-size: 14px; color: #f5b840; text-transform: uppercase;">${widgetName}</h4>
                 </div>
                 <div style="display: flex; align-items: center; gap: 5px;">
                     <span style="font-size: 11px; color: var(--text-muted);">${dict.modalWidgetLvl || 'Level:'}</span>
@@ -569,7 +569,8 @@ function renderModalWidget() {
                     </select>
                 </div>
             </div>
-            <div id="widget-effects-display" style="display: flex; flex-direction: column; gap: 10px;">
+            <div id="widget-effects-display" style="display: flex; flex-direction: column; gap: 15px;">
+                <!-- Les effets seront injectés ici -->
             </div>
         `;
         widgetContainer.innerHTML = widgetHTML;
@@ -578,26 +579,27 @@ function renderModalWidget() {
         let valConquest = getWidgetEffectValue(dbHero.widget.effectConquest.levels, savedWidgetLevel, true);
         let valExpe = getWidgetEffectValue(dbHero.widget.effectExpe.levels, savedWidgetLevel, false);
 
+        // Remplacement des X% avec les bonnes couleurs (Rouge pour conquête, Bleu pour expédition)
         let descConquest = (dbHero.widget.effectConquest.description[currentLang] || dbHero.widget.effectConquest.description['EN']).replace(/X%|X/g, `<span style="color:#e74c5c; font-weight:bold;">${valConquest}</span>`);
         let descExpe = (dbHero.widget.effectExpe.description[currentLang] || dbHero.widget.effectExpe.description['EN']).replace(/X%|X/g, `<span style="color:#3498db; font-weight:bold;">${valExpe}</span>`);
 
-        // Injection des effets avec le même design CSS que les compétences (skill-row, skill-icon)
+        // Injection des effets en utilisant EXACTEMENT les classes CSS des compétences (.skill-row)
         document.getElementById('widget-effects-display').innerHTML = `
-            <div class="skill-row active" style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid rgba(231, 76, 92, 0.2);">
+            <div class="skill-row active">
                 <div class="skill-header">
                     <div class="skill-icon" style="background-image: url('img/widgetskill/${safeConquestImg}.png');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: #e74c5c;">⚔️ ${nameConquest}</div>
-                        <div class="skill-effect" style="font-size: 11px;">${descConquest}</div>
+                        <div class="skill-effect">${descConquest}</div>
                     </div>
                 </div>
             </div>
-            <div class="skill-row active" style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid rgba(52, 152, 219, 0.2);">
+            <div class="skill-row active">
                 <div class="skill-header">
                     <div class="skill-icon" style="background-image: url('img/widgetskill/${safeExpeImg}.png');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: #3498db;">🛡️ ${nameExpe}</div>
-                        <div class="skill-effect" style="font-size: 11px;">${descExpe}</div>
+                        <div class="skill-effect">${descExpe}</div>
                     </div>
                 </div>
             </div>
