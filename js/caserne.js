@@ -438,7 +438,7 @@ function updateModalUI() {
     document.getElementById('modal-stars-display').textContent = starsDisplay;
 
     renderModalSkills(fullStars);
-    renderModalWidget();
+    );
 }
 
 function renderModalSkills(fullStars) {
@@ -585,9 +585,31 @@ function renderModalWidget() {
         let isConquestLocked = valConquest === "0%";
         let isExpeLocked = valExpe === "0%";
 
-        // Remplacement des X% en appliquant une couleur neutre si verrouillé
-        let descConquest = (dbHero.widget.effectConquest.description[currentLang] || dbHero.widget.effectConquest.description['EN']).replace(/X%|X/g, `<span style="color:${isConquestLocked ? 'var(--text-muted)' : '#e74c5c'}; font-weight:bold;">${valConquest}</span>`);
-        let descExpe = (dbHero.widget.effectExpe.description[currentLang] || dbHero.widget.effectExpe.description['EN']).replace(/X%|X/g, `<span style="color:${isExpeLocked ? 'var(--text-muted)' : '#3498db'}; font-weight:bold;">${valExpe}</span>`);
+        // Récupération des textes bruts
+        let rawDescConquest = dbHero.widget.effectConquest.description[currentLang] || dbHero.widget.effectConquest.description['EN'];
+        let rawDescExpe = dbHero.widget.effectExpe.description[currentLang] || dbHero.widget.effectExpe.description['EN'];
+
+        let colorConquest = isConquestLocked ? 'var(--text-muted)' : '#e74c5c';
+        let colorExpe = isExpeLocked ? 'var(--text-muted)' : '#3498db';
+
+        // NOUVEAU : Fonction qui gère les valeurs multiples "(val1, val2)"
+        const formatWidgetDesc = (desc, valString, color) => {
+            if (valString.startsWith('(') && valString.endsWith(')')) {
+                // S'il y a plusieurs valeurs, on les sépare et on remplace les X un par un
+                let values = valString.substring(1, valString.length - 1).split(',');
+                let result = desc;
+                values.forEach(v => {
+                    result = result.replace(/X%|X/, `<span style="color:${color}; font-weight:bold;">${v.trim()}</span>`);
+                });
+                return result;
+            } else {
+                // Sinon, remplacement classique
+                return desc.replace(/X%|X/g, `<span style="color:${color}; font-weight:bold;">${valString}</span>`);
+            }
+        };
+
+        let descConquest = formatWidgetDesc(rawDescConquest, valConquest, colorConquest);
+        let descExpe = formatWidgetDesc(rawDescExpe, valExpe, colorExpe);
 
         // Injection des effets avec les classes conditionnelles .locked ou .active
         document.getElementById('widget-effects-display').innerHTML = `
