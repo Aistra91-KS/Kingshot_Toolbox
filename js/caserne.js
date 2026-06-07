@@ -31,6 +31,7 @@ const i18nCaserne = {
         modalSkills: "COMPÉTENCES",
         modalCancel: "Annuler",
         modalSave: "Enregistrer",
+        modalWidgetLvl: "Niveau :",
         modalWIP: "(Bientôt) Modale pour configurer"
     },
     EN: {
@@ -62,6 +63,7 @@ const i18nCaserne = {
         modalShards: "Star Shards :",
         modalSkills: "SKILLS",
         modalCancel: "Cancel",
+        modalWidgetLvl: "Level:",
         modalSave: "Save"
     }
 };
@@ -80,6 +82,29 @@ const DEFAULT_FILTERS = {
     checkedGens: ['1'],
     filterUnlocked: false
 };
+
+
+// ==========================================
+// CALCUL DU WIDGET
+// ==========================================
+function getWidgetEffectValue(levelsArray, widgetLevel, isConquest) {
+    if (widgetLevel == 0) return "0%"; // Niveau 0 = aucun bonus
+    
+    let index;
+    if (isConquest) {
+        // Conquête : niveaux impairs (1, 3, 5, 7, 9) -> indices 0, 1, 2, 3, 4
+        index = Math.ceil(widgetLevel / 2) - 1;
+    } else {
+        // Expédition : niveaux pairs (2, 4, 6, 8, 10) -> indices 0, 1, 2, 3, 4
+        if (widgetLevel < 2) return "0%"; 
+        index = Math.floor(widgetLevel / 2) - 1;
+    }
+    
+    if (index >= levelsArray.length) index = levelsArray.length - 1;
+    if (index < 0) index = 0;
+    return levelsArray[index];
+}
+
 
 // ==========================================
 // SYSTÈME DE TRADUCTION 
@@ -346,7 +371,8 @@ let modalState = {
     unlocked: false,
     level: 1,
     shards: 0,
-    skills: [0, 0, 0] 
+    skills: [0, 0, 0],
+    widgetLevel: 0 // NOUVEAU
 };
 
 function openModal(hero, heroData) {
@@ -358,6 +384,7 @@ function openModal(hero, heroData) {
     modalState.level = heroData.level || 1;
     modalState.shards = heroData.shards || 0;
     modalState.skills = heroData.skills || [0, 0, 0];
+    modalState.widgetLevel = heroData.widgetLevel || 0;
 
     document.getElementById('modal-hero-name').textContent = hero.name;
     document.getElementById('modal-unlocked').checked = modalState.unlocked;
@@ -409,6 +436,7 @@ function updateModalUI() {
     document.getElementById('modal-stars-display').textContent = starsDisplay;
 
     renderModalSkills(fullStars);
+    renderModalWidget();
 }
 
 function renderModalSkills(fullStars) {
@@ -499,6 +527,61 @@ window.setModalSkillLevel = function(skillIndex, newLevel) {
     modalState.skills[skillIndex] = newLevel;
     updateModalUI();
 };
+function renderModalWidget() {
+    const widgetContainer = document.getElementById('hero-widget-container');
+    const dbHero = currentEditingHeroObj;
+
+    if (dbHero.widget) {
+        widgetContainer.style.display = 'block';
+
+        let currentLang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
+        let dict = i18nCaserne[currentLang] || i18nCaserne['FR'];
+
+        let widgetName = dbHero.widget.name[currentLang] || dbHero.widget.name['EN'];
+        let savedWidgetLevel = modalState.widgetLevel;
+
+        let optionsHTML = Array.from({length: 11}, (_, i) => `<option value="${i}" ${i == savedWidgetLevel ? 'selected' : ''}>${i}</option>`).join('');
+
+        let widgetHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h4 style="margin: 0; font-size: 13px; color: #f5b840; text-transform: uppercase;">⚙️ ${widgetName}</h4>
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <span style="font-size: 11px; color: var(--text-muted);">${dict.modalWidgetLvl || 'Level:'}</span>
+                    <select id="widget-level-select" style="padding: 2px 5px; font-size: 12px; border-radius: 4px; background: var(--bg-color); color: var(--text-light); border: 1px solid var(--border);" onchange="setModalWidgetLevel(this.value)">
+                        ${optionsHTML}
+                    </select>
+                </div>
+            </div>
+            <div id="widget-effects-display" style="font-size: 12px; color: var(--text-light); background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;">
+            </div>
+        `;
+        widgetContainer.innerHTML = widgetHTML;
+
+        // Mise à jour des textes avec remplacement du X%
+        let valConquest = getWidgetEffectValue(dbHero.widget.effectConquest.levels, savedWidgetLevel, true);
+        let valExpe = getWidgetEffectValue(dbHero.widget.effectExpe.levels, savedWidgetLevel, false);
+
+        let descConquest = (dbHero.widget.effectConquest.description[currentLang] || dbHero.widget.effectConquest.description['EN']).replace(/X%|X/g, `<span style="color:#e74c5c; font-weight:bold;">${valConquest}</span>`);
+        let descExpe = (dbHero.widget.effectExpe.description[currentLang] || dbHero.widget.effectExpe.description['EN']).replace(/X%|X/g, `<span style="color:#3498db; font-weight:bold;">${valExpe}</span>`);
+
+        let nameConquest = dbHero.widget.effectConquest.name[currentLang] || dbHero.widget.effectConquest.name['EN'];
+        let nameExpe = dbHero.widget.effectExpe.name[currentLang] || dbHero.widget.effectExpe.name['EN'];
+
+        document.getElementById('widget-effects-display').innerHTML = `
+            <div style="margin-bottom: 6px;"><strong>⚔️ ${nameConquest} :</strong> ${descConquest}</div>
+            <div><strong>🛡️ ${nameExpe} :</strong> ${descExpe}</div>
+        `;
+    } else {
+        widgetContainer.style.display = 'none';
+        widgetContainer.innerHTML = '';
+    }
+}
+
+// Fonction appelée quand le menu déroulant change
+window.setModalWidgetLevel = function(val) {
+    modalState.widgetLevel = parseInt(val, 10);
+    updateModalUI(); // Recharge les textes dynamiquement
+};
 
 function closeModal() {
     // Ferme le tiroir et remet la grille à sa place
@@ -514,11 +597,12 @@ function saveHeroSettings() {
         delete userHeroes[currentEditingHeroObj.id];
     } else {
         userHeroes[currentEditingHeroObj.id] = {
-            unlocked: true,
-            level: modalState.level,
-            shards: modalState.shards,
-            skills: modalState.skills
-        };
+         unlocked: true,
+         level: modalState.level,
+         shards: modalState.shards,
+         skills: modalState.skills,
+         widgetLevel: modalState.widgetLevel
+     };
     }
     
     localStorage.setItem('caserne_user_heroes', JSON.stringify(userHeroes));
