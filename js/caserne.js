@@ -32,6 +32,7 @@ const i18nCaserne = {
         modalCancel: "Annuler",
         modalSave: "Enregistrer",
         modalWidgetLvl: "Niveau :",
+        modalWidgetTitle: "Équipement Exclusif",
         modalWIP: "(Bientôt) Modale pour configurer"
     },
     EN: {
@@ -64,6 +65,7 @@ const i18nCaserne = {
         modalSkills: "SKILLS",
         modalCancel: "Cancel",
         modalWidgetLvl: "Level:",
+        modalWidgetTitle: "Exclusive Gear",
         modalSave: "Save"
     }
 };
@@ -558,7 +560,9 @@ function renderModalWidget() {
         let optionsHTML = Array.from({length: 11}, (_, i) => `<option value="${i}" style="background: var(--bg-color); color: var(--text-light);" ${i == savedWidgetLevel ? 'selected' : ''}>${i}</option>`).join('');
 
         // Structure HTML globale du bloc
+        // Structure HTML globale du bloc
         let widgetHTML = `
+            <h4 style="margin: 0 0 15px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;">${dict.modalWidgetTitle || 'Équipement Exclusif'}</h4>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <div class="skill-icon" style="background-image: url('img/widgetname/${safeWidgetImg}.png'); border: 1px solid #f5b840; width: 34px; height: 34px; border-radius: 6px;"></div>
