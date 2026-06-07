@@ -438,7 +438,7 @@ function updateModalUI() {
     document.getElementById('modal-stars-display').textContent = starsDisplay;
 
     renderModalSkills(fullStars);
-    );
+    renderModalWidget(); // NOUVEAU : On appelle bien l'affichage du widget ici !
 }
 
 function renderModalSkills(fullStars) {
