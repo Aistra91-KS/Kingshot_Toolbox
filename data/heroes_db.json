@@ -570,8 +570,36 @@
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Aegis of Fate",
+      "FR": "Égide du Destin"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Double Parry",
+        "FR": "Double parade"
+      },
+      "description": {
+        "EN": "Skillful parrier, reducing damage taken by X%",
+        "FR": "Parade habile, réduisant les dégâts subis de X%"
+      },
+      "levels": ["10%", "15%", "20%", "25%", "30%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Discernment",
+        "FR": "Discernement"
+      },
+      "description": {
+        "EN": "Attacks in a sword-tailored formation, increasing Rally Attack by X%",
+        "FR": "Attaques en formation serrée, augmentant l'attaque de ralliement de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0016",
     "name": "Jabel",
@@ -613,7 +641,36 @@
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
-    ]
+    ],
+  "widget": {
+    "name": {
+      "EN": "Greaves of Faith",
+      "FR": "Grève de la Foi"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Crimson Spirit",
+        "FR": "Esprit Pourpre"
+      },
+      "description": {
+        "EN": "Jabel's will to win helps breakthrough her limitation, increasing damage dealt by X%",
+        "FR": "La volonté de vaincre de jabel l'aide à surmonter ses limites, en augmentant les dégâts infligés de X%"
+      },
+      "levels": ["10%", "15%", "20%", "25%", "30%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Divine Strength",
+        "FR": "Force Divine"
+      },
+      "description": {
+        "EN": "Based on steadfast faith, Defender Troops' Lethality is increased by X%",
+        "FR": "Sur la base d'une foi indéfectible, la Létalité des Troupes Défensives est augmentée de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   },
   {
     "id": "0017",
