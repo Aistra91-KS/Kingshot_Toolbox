@@ -499,10 +499,10 @@
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
     ],
-   "widget": {
-    "name": {
-      "EN": "Bands of Tyre",
-      "FR": "Bandes de roulement"
+    "widget": {
+      "name": {
+        "EN": "Bands of Tyre",
+        "FR": "Bandes de roulement"
     },
     "effectConquest": {
       "name": {
@@ -671,7 +671,6 @@
     }
   }
 },
-  },
   {
     "id": "0017",
     "name": "Hilde",
