@@ -383,49 +383,77 @@
       }
     ]
   },
-  {
-    "id": "0013",
-    "name": "Saul",
-    "generation": 1,
-    "rarity": "legendary",
-    "troopType": "Archer",
-    "goodJoinerBear": false,
-    "skills": [
-      {
-        "name": {
-          "EN": "Taskforce Training",
-          "FR": "Entraînement de la Force d'Intervention"
-        },
-        "effect": {
-          "EN": "Increases the total Squads' Defense by X% and Health by X%.",
-          "FR": "Augmente la Défense de X% et la Santé de X% de toutes les escouades."
-        },
-        "levels": ["(2%,3%)", "(4%,6%)", "(6%,9%)", "(8%,12%)", "(10%,15%)"]
+ {
+  "id": "0013",
+  "name": "Saul",
+  "generation": 1,
+  "rarity": "legendary",
+  "troopType": "Archer",
+  "goodJoinerBear": false,
+  "skills": [
+    {
+      "name": {
+        "EN": "Taskforce Training",
+        "FR": "Entraînement de la Force d'Intervention"
       },
-      {
-        "name": {
-          "EN": "Resourceful",
-          "FR": "Débrouillard"
-        },
-        "effect": {
-          "EN": "Increases Construction Speed by X%, and reduces Construction Costs by X%.",
-          "FR": "Augmente la Vitesse de Construction de X% et réduit le Coût de Construction de X%."
-        },
-        "levels": ["(3%,3%)", "(6%,6%)", "(9%,9%)", "(12%,12%)", "(15%,15%)"]
+      "effect": {
+        "EN": "Increases the total Squads' Defense by X% and Health by X%.",
+        "FR": "Augmente la Défense de X% et la Santé de X% de toutes les escouades."
       },
-      {
-        "name": {
-          "EN": "Positional Batter",
-          "FR": "Frappeur Positionnel"
-        },
-        "effect": {
-          "EN": "Increasing the total Squads' Lethality by X%.",
-          "FR": "Augmente la Létalité totale des escouades de X%."
-        },
-        "levels": ["5%", "10%", "15%", "20%", "25%"]
-      }
-    ]
-  },
+      "levels": ["(2%,3%)", "(4%,6%)", "(6%,9%)", "(8%,12%)", "(10%,15%)"]
+    },
+    {
+      "name": {
+        "EN": "Resourceful",
+        "FR": "Débrouillard"
+      },
+      "effect": {
+        "EN": "Increases Construction Speed by X%, and reduces Construction Costs by X%.",
+        "FR": "Augmente la Vitesse de Construction de X% et réduit le Coût de Construction de X%."
+      },
+      "levels": ["(3%,3%)", "(6%,6%)", "(9%,9%)", "(12%,12%)", "(15%,15%)"]
+    },
+    {
+      "name": {
+        "EN": "Positional Batter",
+        "FR": "Frappeur Positionnel"
+      },
+      "effect": {
+        "EN": "Increasing the total Squads' Lethality by X%.",
+        "FR": "Augmente la Létalité totale des escouades de X%."
+      },
+      "levels": ["5%", "10%", "15%", "20%", "25%"]
+    }
+  ],
+  "widget": {
+    "name": {
+      "EN": "Rabbitgear Cannon",
+      "FR": "Canon Lapin Sauvage"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Fearless Advance",
+        "FR": "Avancée Téméraire"
+      },
+      "description": {
+        "EN": "Increase his attack by X%",
+        "FR": "La détermination de Saul dans une situation extrême augmente son attaque de X%"
+      },
+      "levels": ["8%", "12%", "16%", "20%", "24%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Defend to Attack",
+        "FR": "Se Défendre pour Mieux attaquer"
+      },
+      "description": {
+        "EN": "Increases Defender troops Attack by X%",
+        "FR": "Augmente l'Attaque des troupes Défensives de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0014",
     "name": "Helga",
@@ -467,8 +495,36 @@
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
-    ]
-  },
+    ],
+   "widget": {
+    "name": {
+      "EN": "Bands of Tyre",
+      "FR": "Bandes de roulement"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Valiant Fury",
+        "FR": "Furie Vaillante"
+      },
+      "description": {
+        "EN": "Fueled by fury, Helga increases her damage dealt by X%",
+        "FR": "Consumée par la furie, Helga augmente ses dégâts de X%"
+      },
+      "levels": ["10%", "15%", "20%", "25%", "30%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Zeal",
+        "FR": "Rage"
+      },
+      "description": {
+        "EN": "Helga joins the rally, increasing Rally Troops' Lethality by X%",
+        "FR": "helga organise le ralliement, augmentant de X% la létalité de l'escouade de celui-ci"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0015",
     "name": "Amadeus",
