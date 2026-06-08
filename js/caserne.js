@@ -646,10 +646,14 @@ window.setModalWidgetLevel = function(val) {
 
 
 function closeModal() {
-    // Ferme le tiroir et remet la grille à sa place
+    // 1. On ferme le tiroir visuellement (il glisse vers la droite)
     document.getElementById('hero-modal').classList.remove('show');
-    document.body.classList.remove('modal-active');
-    currentEditingHeroObj = null;
+    
+    // 2. On attend la fin de l'animation (400ms) pour étendre la grille
+    setTimeout(() => {
+        document.body.classList.remove('modal-active');
+        currentEditingHeroObj = null;
+    }, 400); // 400ms correspond à la durée de ton CSS (0.4s)
 }
 
 function saveHeroSettings() {
