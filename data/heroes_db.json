@@ -1568,8 +1568,36 @@
         },
         "levels": ["15%", "30%", "45%", "60%", "75%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Scarlet Rose",
+      "FR": "Rose Écarlate"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Eyes of Obedience",
+        "FR": "Regard Docile"
+      },
+      "description": {
+        "EN": "\"Loyalty to our Queen is your one and only purpose.\" Sophia's attacks have a X% chance of confusing the target for 1s. Confused enemies attack all surrounding targets, friend and foe.",
+        "FR": "\"Votre unique objectif est d'être loyal envers votre reine. \" Les attaques de Sophia ont X% de chances de rendre la cible confuse pendant 1s. les ennemis confus attaquent toutes les cibles environnantes"
+      },
+      "levels": ["2%", "3.5%", "5%", "6.5%", "8%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Queen of Night",
+        "FR": "Reine de la Nuit"
+      },
+      "description": {
+        "EN": "Sophia draws upon her avatar as Queen of the Night to enhance soldiers' Attack, increasing Defender Squad's Lethality by X%.",
+        "FR": "Sophia puise dans son incarnation de Reine de la Nuit pour améliorer l'Attaque des soldats. Augmente la Létalité de l'Escouade Défensive de X%."
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0030",
     "name": "Triton",
@@ -1611,8 +1639,36 @@
         },
         "levels": ["(4%,6%)", "(8%,12%)", "(12%,18%)", "(16%,24%)", "(20%,30%)"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Tidal Scepter",
+      "FR": "Sceptre des marées"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Magnetic Reformation",
+        "FR": "Réforme magnétique"
+      },
+      "description": {
+        "EN": "An artifice of ancient modification, the scepter grants Triton X% increased damage.",
+        "FR": "Artefact issu d'une ancienne modification, le sceptre confère à Triton X% de dégâts supplémentaires."
+      },
+      "levels": ["10%", "15%", "20%", "25%", "30%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Whale Call",
+        "FR": "Appel de baleine"
+      },
+      "description": {
+        "EN": "Triton's ancient whale-calls echo through the barricades, filling soldiers with unshakable resolve and increasing Defender Squad Defense by X%.",
+        "FR": "Les chants ancestraux des baleines de Triton résonnent à travers les barricades, insufflant aux soldats une détermination inébranlable et augmentant la défense de l'escouade de défenseurs de X%."
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0031",
     "name": "Yang",
@@ -1654,8 +1710,36 @@
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Frostkin",
+      "FR": "Lancer Cinétique"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Quick Draw",
+        "FR": "Dégaine Rapide"
+      },
+      "description": {
+        "EN": "Yang's impressive muscle memory enables a five-shot barrage, dealing Attack * X% damage to a random enemy. If the target is an Escort, there is a X% chance of instantly knocking them down.",
+        "FR": "L'impressionnnate mémoire musculaire de Yang lui permet de déclencher un barrage de cinq tirs. Inflige Attque*X% de dégâts à un ennemi aléatoire. Si la cible est une Escorte, elle a X% de chances d'être insantanément à terre."
+      },
+      "levels": ["(40%,40%)", "(44%,55%)", "(48%,70%)", "(52%,85%)", "(56%,100%)"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Offenseive Defense",
+        "FR": "Défense à l'Attaque"
+      },
+      "description": {
+        "EN": "Yang puts the maxim that the best defense is a good offense to good use, increasing Rally Squad's Lethality by X%.",
+        "FR": "yang met à profit la maxime selon laquelle la meilleur défense est l'attaque. Augmente de X% la létalité de l'escouade de ralliement en organisant ce dernier."
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0032",
     "name": "Wee & Woo",
