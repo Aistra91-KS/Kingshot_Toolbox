@@ -1367,7 +1367,7 @@
       },
       "description": {
         "EN": "While releasing Axe Flurry, Thrud has X% chance of stunning the targets for X%s.",
-        "FR": "Lorsqu'elle lance Rafale de Haches, Thrud a 25% de chance d'étourdir les cibles pendant X%s"
+        "FR": "Lorsqu'elle lance Rafale de Haches, Thrud a X% de chance d'étourdir les cibles pendant X%s"
       },
       "levels": ["(25%,0.6)", "(27.5%,0.7)", "(30%,0.8)", "(32.5%,0.9)", "(35%,1)"]
     },
