@@ -1354,8 +1354,36 @@
         },
         "levels": ["(5%,5%)", "(10%,10%)", "(15%,15%)", "(20%,20%)", "(25%,25%)"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Bloodfang",
+      "FR": "Crocs de Sang"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Berserker's Edge",
+        "FR": "Lame du Berserker"
+      },
+      "description": {
+        "EN": "While releasing Axe Flurry, Thrud has X% chance of stunning the targets for X%s.",
+        "FR": "Lorsqu'elle lance Rafale de Haches, Thrud a 25% de chance d'étourdir les cibles pendant X%s"
+      },
+      "levels": ["(25%,0.6)", "(27.5%,0.7)", "(30%,0.8)", "(32.5%,0.9)", "(35%,1)"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Wolf-Kissed",
+        "FR": "baiser du Loup"
+      },
+      "description": {
+        "EN": "Thrud lives up to her title, \"Wolf-Kissed\". Increases rally squads' lethality by X%",
+        "FR": "thrud est à la hauteur de son titre, le \"baiser du loup\". Augmente de X% la létalité de l'escouade de ralliement en organisant ce dernier"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0027",
     "name": "Long Fei",
@@ -1397,8 +1425,36 @@
         },
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Immortal's Flask",
+      "FR": "Fiole Immortelle"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Strong Brew",
+        "FR": "Boisson Forte"
+      },
+      "description": {
+        "EN": "Extends Ambrosia by 1.5s and restores Long Fei's health by X% of damage dealt.",
+        "FR": "Prolonge Ambroise de 1.5s et restaure la santé de Long fei de X% des dégâts infligés"
+      },
+      "levels": ["7%", "9%", "11%", "13%", "15%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Strategic Strike",
+        "FR": "Frappe Stratégique"
+      },
+      "description": {
+        "EN": "\"Appear unable when able; appear inactive when active.\" Long Fei's war wisdom increases Defender Squads' Attack by X%",
+        "FR": "\" Fais semblant d'être incapable quand tu es capable; fais semblant d'être inactif quand tu es actif. \" La sagesse guerrière de Long Fei augmente l'attaque des escouades défensives de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0028",
     "name": "Vivian",
@@ -1441,8 +1497,36 @@
         },
         "levels": ["12%", "24%", "36%", "48%", "60%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Lucky Spinner",
+      "FR": "Tour de Chance"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Refined Gunplay",
+        "FR": "jeu de Tir Affiné"
+      },
+      "description": {
+        "EN": "Vivian's refined shooting style lets her deal Attack * X% damage to a random enemy each time she casts a skill (heroes first).",
+        "FR": "Le style de tir précis de Viviane lui permet de tirer sur un ennermi aléatoire lors de l'utilisation d'une compétence (héros en premier) et d'infliger des dégâts équivalents à une Attaque * de X%"
+      },
+      "levels": ["50%", "55%", "60%", "65%", "70%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Money Driven",
+        "FR": "Conducteur de Fonds"
+      },
+      "description": {
+        "EN": "Big rewards fuel great bravery, increasing Defender Squad Defense by X%",
+        "FR": "les grandes récompenses motivent le courage, augmentant la défense de l'escouade de défense de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0029",
     "name": "Sophia",
