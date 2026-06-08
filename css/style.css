@@ -1283,18 +1283,9 @@ tbody tr:hover {
    PANNEAU LATÉRAL COULISSANT (EFFET TIROIR & DÉCALAGE GRILLE)
    ============================================================================ */
 
-/* 1. Animation fluide de la zone principale (la grille) */
-body {
-    transition: padding-right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.main-content, .heroes-grid {
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-}
-
-/* Quand le tiroir est ouvert, on "pousse" la grille vers la gauche */
+/* 1. La zone principale (la grille) s'adapte INSTANTANÉMENT pour éviter les saccades */
 body.modal-active .main-content {
-    padding-right: 440px !important; /* Fait de la place (400px de menu + 40px de marge) */
+    padding-right: 440px !important; 
 }
 
 /* 2. Le panneau latéral (Hors de l'écran par défaut) */
@@ -1309,7 +1300,7 @@ body.modal-active .main-content {
     pointer-events: none !important; /* Permet de cliquer à travers */
     
     display: flex !important; 
-    visibility: hidden; /* Remplace le display:none pour l'animation */
+    visibility: hidden; 
     opacity: 0;
     
     transform: translateX(120%); /* Caché à droite hors de l'écran */
