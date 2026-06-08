@@ -1328,3 +1328,34 @@ body.modal-active .main-content {
     box-shadow: -15px 0 40px rgba(0, 0, 0, 0.5) !important;
     background: var(--bg-color) !important;
 }
+
+/* --- ANIMATION DE LA GRILLE --- */
+/* Permet à la grille de s'écraser et s'étendre en douceur */
+body {
+    transition: padding-right 0.3s ease-in-out;
+}
+
+.main-content, .heroes-grid {
+    transition: all 0.3s ease-in-out;
+}
+
+/* --- ANIMATION DU TIROIR (MODALE) --- */
+/* État par défaut : caché sur la droite */
+#hero-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    transform: translateX(100%); /* Décale la modale hors de l'écran à droite */
+    opacity: 0;
+    visibility: hidden; /* Remplace le display:none */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+/* État actif : le tiroir glisse vers la gauche */
+#hero-modal.show {
+    transform: translateX(0); /* Ramène la modale à sa position normale */
+    opacity: 1;
+    visibility: visible;
+}
