@@ -1284,8 +1284,12 @@ tbody tr:hover {
    ============================================================================ */
 
 /* 1. Animation fluide de la zone principale (la grille) */
-.main-content {
-    transition: padding-right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+body {
+    transition: padding-right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.main-content, .heroes-grid {
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
 }
 
 /* Quand le tiroir est ouvert, on "pousse" la grille vers la gauche */
@@ -1302,16 +1306,21 @@ body.modal-active .main-content {
     width: 400px !important;
     z-index: 9999 !important;
     background: transparent !important;
-    pointer-events: none !important; /* Permet de cliquer à travers (sur la grille) */
+    pointer-events: none !important; /* Permet de cliquer à travers */
     
-    display: flex !important; /* Annule le display:none du HTML */
+    display: flex !important; 
+    visibility: hidden; /* Remplace le display:none pour l'animation */
+    opacity: 0;
+    
     transform: translateX(120%); /* Caché à droite hors de l'écran */
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease, visibility 0.3s;
 }
 
 /* 3. Classe ajoutée par le JS pour ouvrir le tiroir */
 #hero-modal.show {
     transform: translateX(0); /* Glisse dans l'écran */
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Contenu du panneau */
@@ -1326,36 +1335,5 @@ body.modal-active .main-content {
     border: 1px solid var(--border) !important;
     border-radius: 12px !important;
     box-shadow: -15px 0 40px rgba(0, 0, 0, 0.5) !important;
-    background: var(--bg-color) !important;
-}
-
-/* --- ANIMATION DE LA GRILLE --- */
-/* Permet à la grille de s'écraser et s'étendre en douceur */
-body {
-    transition: padding-right 0.3s ease-in-out;
-}
-
-.main-content, .heroes-grid {
-    transition: all 0.3s ease-in-out;
-}
-
-/* --- ANIMATION DU TIROIR (MODALE) --- */
-/* État par défaut : caché sur la droite */
-#hero-modal {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    transform: translateX(100%); /* Décale la modale hors de l'écran à droite */
-    opacity: 0;
-    visibility: hidden; /* Remplace le display:none */
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-    z-index: 1000;
-}
-
-/* État actif : le tiroir glisse vers la gauche */
-#hero-modal.show {
-    transform: translateX(0); /* Ramène la modale à sa position normale */
-    opacity: 1;
-    visibility: visible;
+    background: var(--bg-panel) !important;
 }
