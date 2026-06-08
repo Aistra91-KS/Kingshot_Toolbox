@@ -617,7 +617,7 @@ function renderModalWidget() {
                 <div class="skill-header">
                     <div class="skill-icon" style="background-image: url('img/widgetskill/${safeConquestImg}.png');"></div>
                     <div class="skill-info">
-                        <div class="skill-name" style="color: ${isConquestLocked ? 'var(--text-muted)' : '#e74c5c'};">⚔️ ${nameConquest}</div>
+                        <div class="skill-name" style="color: ${isConquestLocked ? 'var(--text-muted)' : '#e74c5c'};"> ${nameConquest}</div>
                         <div class="skill-effect">${descConquest}</div>
                     </div>
                 </div>
@@ -626,7 +626,7 @@ function renderModalWidget() {
                 <div class="skill-header">
                     <div class="skill-icon" style="background-image: url('img/widgetskill/${safeExpeImg}.png');"></div>
                     <div class="skill-info">
-                        <div class="skill-name" style="color: ${isExpeLocked ? 'var(--text-muted)' : '#3498db'};">🛡️ ${nameExpe}</div>
+                        <div class="skill-name" style="color: ${isExpeLocked ? 'var(--text-muted)' : '#3498db'};"> ${nameExpe}</div>
                         <div class="skill-effect">${descExpe}</div>
                     </div>
                 </div>
