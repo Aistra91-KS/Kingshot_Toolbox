@@ -1140,8 +1140,36 @@
         },
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Revel Fang",
+      "FR": "Croc des Festivités"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Indefensible",
+        "FR": "Indéfendable"
+      },
+      "description": {
+        "EN": "40% chance for second attack dealing X% damage",
+        "FR": "'Tu n'esquiveras pas les deux lames'. Margot a 40% de chances de lancer une seconde attaque à chaque attaque normale. inflige Attaque*X% de dégats."
+      },
+      "levels": ["25%", "30%", "35%", "40%", "45%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Pugilist",
+        "FR": "Pugiliste"
+      },
+      "description": {
+        "EN": "Increases Defender Squads' Lethality by X%",
+        "FR": "Margot ne baisse jamais sa garde sur les remparts, même pour un instant, augmentant la létalité des escouades défensives de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0024",
     "name": "Alcar",
@@ -1183,8 +1211,36 @@
         },
         "levels": ["12%", "24%", "36%", "48%", "60%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Praetorian Guard",
+      "FR": "Garde Prétorienne"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Flagbearer",
+        "FR": "Porte-étendard"
+      },
+      "description": {
+        "EN": "Glorious Mark increases friendly Squads' Attack by X% for 2.5s",
+        "FR": "La gloire est meilleur partagée. Marque de la Gloire augmente l'Attaque des Escouades alliées de X% pendant 2.5s"
+      },
+      "levels": ["30%", "33%", "36%", "39%", "42%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Vow of Honor",
+        "FR": "Serment d'Honneur"
+      },
+      "description": {
+        "EN": "Increases Defender Squads' Health by X%",
+        "FR": "il y a du pouvoir dans le serment inébranlable. Alcar augmente la Santé des Escouades Défensives de X%"
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0025",
     "name": "Rosa",
@@ -1226,8 +1282,36 @@
         },
         "levels": ["6%", "12%", "18%", "24%", "30%"]
       }
-    ]
-  },
+    ],
+  "widget": {
+    "name": {
+      "EN": "Aeolian",
+      "FR": "Éolien"
+    },
+    "effectConquest": {
+      "name": {
+        "EN": "Night Reverie",
+        "FR": "Rêverie Nocturne"
+      },
+      "description": {
+        "EN": "Increases her Attack by X%.",
+        "FR": "En lançant Concentration au Combat, Rosa augmente son Attaque de X% jusqu'à la fin du combat"
+      },
+      "levels": ["7%", "9%", "11%", "13%", "15%"]
+    },
+    "effectExpe": {
+      "name": {
+        "EN": "Perihelion",
+        "FR": "Périhélie"
+      },
+      "description": {
+        "EN": "Increasing Rally Squad's Lethality by X%",
+        "FR": "les performances de Rosa améliorent grandement la volonté de combat de tes soldats, augmentant de X% la létalité de l'escouade de ralliement en organisant ce dernier."
+      },
+      "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+    }
+  }
+},
   {
     "id": "0026",
     "name": "Thrud",
