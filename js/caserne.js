@@ -675,3 +675,80 @@ function saveHeroSettings() {
     closeModal();
     renderHeroes(); 
 }
+
+// ==========================================
+// IMPORT / EXPORT CSV
+// ==========================================
+
+function exportCaserneCSV() {
+    // 1. Définition des en-têtes du CSV
+    let csvContent = "hero_id,unlocked,level,shards,skill_1,skill_2,skill_3,widgetLevel\n";
+
+    // 2. Remplissage avec les données sauvegardées
+    for (const [id, data] of Object.entries(userHeroes)) {
+        let s1 = data.skills ? data.skills[0] || 0 : 0;
+        let s2 = data.skills ? data.skills[1] || 0 : 0;
+        let s3 = data.skills ? data.skills[2] || 0 : 0;
+        let widget = data.widgetLevel || 0;
+        
+        csvContent += `${id},${data.unlocked},${data.level},${data.shards},${s1},${s2},${s3},${widget}\n`;
+    }
+
+    // 3. Création et téléchargement du fichier
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", "caserne_export.csv");
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function importCaserneCSV(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result;
+        const rows = text.split('\n');
+        
+        let newHeroesData = {};
+
+        // On boucle sur les lignes (en sautant la première ligne qui contient les en-têtes)
+        for (let i = 1; i < rows.length; i++) {
+            if (!rows[i].trim()) continue; // Ignore les lignes vides
+            
+            const cols = rows[i].split(',');
+            if (cols.length >= 8) {
+                const id = cols[0].trim();
+                newHeroesData[id] = {
+                    unlocked: cols[1].trim() === 'true',
+                    level: parseInt(cols[2]) || 1,
+                    shards: parseInt(cols[3]) || 0,
+                    skills: [
+                        parseInt(cols[4]) || 0, 
+                        parseInt(cols[5]) || 0, 
+                        parseInt(cols[6]) || 0
+                    ],
+                    widgetLevel: parseInt(cols[7]) || 0
+                };
+            }
+        }
+
+        // 3. Mise à jour de la mémoire et rechargement visuel
+        userHeroes = newHeroesData;
+        localStorage.setItem('caserne_user_heroes', JSON.stringify(userHeroes));
+        
+        renderHeroes();
+        alert("Importation réussie ! Votre caserne a été mise à jour.");
+        
+        // Reset de l'input pour pouvoir réimporter le même fichier si besoin
+        event.target.value = ''; 
+    };
+    
+    reader.readAsText(file);
+}
