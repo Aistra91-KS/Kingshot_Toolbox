@@ -43,14 +43,14 @@ const i18n = {
         'treeGrowthLabel': '🧭 Expansion', 'treeEconomyLabel': '🌾 Économie',
         'treeBattleLabel': '⚔️ Combat', 'modeKvkBlock': 'Mode KVK',
         'modeKvkLabel': 'Actif (Limité par accélérateurs)', 'tabOptimal': 'Ordre de Recherche',
-        'tabGrowth': 'Arbre Croissance', 'tabEconomy': 'Arbre Économie', 'tabBattle': 'Arbre Combat',
+        'tabGrowth': 'Arbre Expansion', 'tabEconomy': 'Arbre Économie', 'tabBattle': 'Arbre Combat',
         'suggTitle': 'Suggestions pour les prochaines recherches', 'recapTitle': 'Récapitulatif Global',
         'colSuggName': 'Nom de la recherche', 'colSuggStep': 'Étape', 'colSuggTime': 'Temps',
         'colSuggTree': 'Arbre', 'colDone': 'Fait', 'colName': 'Nom',
         'colBaseTime': 'Temps de base', 'colDiscountTime': 'Temps réduit', 'colCost': 'Coût',
         'msgNoResearch': 'Aucune recherche disponible ou temps insuffisant',
         'msgMore': '+ {n} autre(s) recherche(s) possible(s)',
-        'statGlobal': 'Toutes les recherches', 'statGrowth': 'Arbre Croissance',
+        'statGlobal': 'Toutes les recherches', 'statGrowth': 'Arbre Expansion',
         'statEco': 'Arbre Économie', 'statBattle': 'Arbre Combat',
         'timeTitle': 'Temps : ', 'stepTxt': 'étape', 'forTxt': 'pour',
         'nextSuggTxt': 'Suggestion de prochaine recherche :', 'completedTxt': 'Terminé !',
@@ -452,7 +452,7 @@ function renderOptimal() {
         let name = lang === 'FR' ? item['Fr Name'] : item['Name'];
         let treeName = item.Tree;
         if(lang === 'FR') {
-            if(treeName === 'Growth') treeName = 'Croissance';
+            if(treeName === 'Growth') treeName = 'Expansion';
             if(treeName === 'Economy') treeName = 'Économie';
             if(treeName === 'Battle') treeName = 'Combat';
         }
