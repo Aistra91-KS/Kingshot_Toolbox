@@ -85,6 +85,25 @@
                     <span data-i18n="filterUnlocked">Uniquement les débloqués</span>
                 </label>
             </div>
+
+            <!-- ZONE DE SAUVEGARDE (IMPORT / EXPORT) -->
+            <div class="control-group" style="margin-top: 20px;">
+                <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;">Sauvegarde</h3>
+            
+                <div style="display: flex; gap: 10px;">
+                    <!-- Bouton Exporter -->
+                    <button onclick="exportCaserneCSV()" class="btn-reset" style="flex: 1; background: var(--control-bg); color: var(--text-light); border: 1px solid var(--border); padding: 8px; font-weight: bold; cursor: pointer; border-radius: 4px;">
+                        📥 Exporter CSV
+                    </button>
+                
+                    <!-- Bouton Importer -->
+                    <button onclick="document.getElementById('csv-file-input').click()" class="btn-reset" style="flex: 1; background: var(--control-bg); color: var(--text-light); border: 1px solid var(--border); padding: 8px; font-weight: bold; cursor: pointer; border-radius: 4px;">
+                        📤 Importer CSV
+                    </button>
+                    <!-- Input caché pour la sélection du fichier -->
+                    <input type="file" id="csv-file-input" accept=".csv" style="display: none;" onchange="importCaserneCSV(event)">
+                </div>
+            </div>
         </div>
     </div>
 
