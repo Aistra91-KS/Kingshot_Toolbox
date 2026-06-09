@@ -40,7 +40,7 @@ const i18n = {
         'hideCompleted': 'Masquer les terminés', 'accelerators': 'Accélérateurs',
         'days': 'Jours (j)', 'hours': 'Heures (h)', 'minutes': 'Minutes (m)',
         'totalAvailable': 'Total Disponible', 'targetTree': 'Arbres cibles',
-        'treeGrowthLabel': '🧭 Croissance', 'treeEconomyLabel': '🌾 Économie',
+        'treeGrowthLabel': '🧭 Expansion', 'treeEconomyLabel': '🌾 Économie',
         'treeBattleLabel': '⚔️ Combat', 'modeKvkBlock': 'Mode KVK',
         'modeKvkLabel': 'Actif (Limité par accélérateurs)', 'tabOptimal': 'Ordre de Recherche',
         'tabGrowth': 'Arbre Croissance', 'tabEconomy': 'Arbre Économie', 'tabBattle': 'Arbre Combat',
