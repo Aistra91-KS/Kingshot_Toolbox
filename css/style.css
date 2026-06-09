@@ -1328,3 +1328,139 @@ body.modal-active .main-content {
     box-shadow: -15px 0 40px rgba(0, 0, 0, 0.5) !important;
     background: var(--bg-panel) !important;
 }
+
+/* ============================================================================
+   MODALE DE SAUVEGARDE GLOBALE (IMPORT / EXPORT JSON)
+   ============================================================================ */
+
+.backup-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.backup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.backup-modal {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: 450px;
+    max-width: 90%;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(245, 184, 64, 0.2);
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.backup-overlay.active .backup-modal {
+    transform: translateY(0);
+}
+
+.backup-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.backup-title {
+    color: var(--accent);
+    margin: 0;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.backup-body {
+    padding: 20px;
+}
+
+/* Checkboxes de sélection */
+.backup-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background: var(--control-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.backup-option:hover {
+    border-color: var(--accent);
+    background: rgba(245, 184, 64, 0.05);
+}
+
+.backup-option-text {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+/* Boutons Modernes */
+.backup-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-modern {
+    flex: 1;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-modern-primary {
+    background: linear-gradient(135deg, var(--accent), #d49820);
+    color: #000;
+    border: none;
+    box-shadow: 0 4px 15px rgba(245, 184, 64, 0.2);
+}
+
+.btn-modern-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 184, 64, 0.4);
+}
+
+.btn-modern-secondary {
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--border);
+}
+
+.btn-modern-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.svg-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
