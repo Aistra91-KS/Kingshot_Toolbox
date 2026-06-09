@@ -1464,3 +1464,26 @@ body.modal-active .main-content {
     height: 18px;
     fill: currentColor;
 }
+
+/* ============================================================================
+   CUSTOM ALERTS (REMPLACEMENT DES ALERT NAVIGATEUR)
+   ============================================================================ */
+.custom-alert-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
+    z-index: 10005; display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: all 0.3s ease;
+}
+.custom-alert-overlay.active { opacity: 1; visibility: visible; }
+
+.custom-alert-box {
+    background: var(--bg-panel); border: 1px solid var(--border);
+    border-radius: 12px; width: 380px; max-width: 90%;
+    padding: 25px; text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    transform: translateY(20px); transition: all 0.3s ease;
+}
+.custom-alert-overlay.active .custom-alert-box { transform: translateY(0); }
+
+.custom-alert-icon { font-size: 35px; margin-bottom: 10px; }
+.custom-alert-msg { color: var(--text-light); font-size: 14.5px; line-height: 1.6; margin-bottom: 25px; white-space: pre-wrap; }
