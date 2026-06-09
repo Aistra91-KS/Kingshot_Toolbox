@@ -40,9 +40,9 @@ const i18nBackup = {
 // Liste des modules sauvegardables (Clés exactes du localStorage ciblées)
 const BACKUP_MODULES = [
     { id: 'module-caserne', labelKey: 'modCaserne', keys: ['caserne_user_heroes', 'caserne_filters'] },
-    { id: 'module-research', labelKey: 'modResearch', keys: ['research_data'] },
-    { id: 'module-beartrap', labelKey: 'modBeartrap', keys: ['beartrap_custom_marches', 'beartrap_settings'] },
-    { id: 'module-truegold', labelKey: 'modTrueGold', keys: ['tg_calc_data_v3'] } // Clé exacte trouvée dans truegold_script.js
+    { id: 'module-research', labelKey: 'modResearch', keys: ['research_calc_db_v9', 'research_calc_inputs_v9'] },
+    { id: 'module-beartrap', labelKey: 'modBeartrap', keys: ['beartrap_data'] },
+    { id: 'module-truegold', labelKey: 'modTrueGold', keys: ['tg_calc_data_v3'] }
 ];
 
 function initBackupSystem() {
