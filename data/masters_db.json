@@ -1,0 +1,427 @@
+[
+  {
+    "id": "valora",
+    "name": { "EN": "Valora", "FR": "Valora" },
+    "title": { "EN": "Hunting Master", "FR": "Expert de Chasse" },
+    "affinityBonus": { "EN": "Squad Attack Bonus", "FR": "Bonus d'Attaque d'Escouade" },
+    "affinityMilestones": [
+      { "level": 1, "affinity": 200, "emblems": 0, "bonus": 1.58 },
+      { "level": 10, "affinity": 320, "emblems": 5, "bonus": 2.25 },
+      { "level": 20, "affinity": 520, "emblems": 10, "bonus": 3.60 },
+      { "level": 30, "affinity": 720, "emblems": 15, "bonus": 4.95 },
+      { "level": 40, "affinity": 920, "emblems": 20, "bonus": 6.30 },
+      { "level": 50, "affinity": 1120, "emblems": 25, "bonus": 7.65 },
+      { "level": 60, "affinity": 1320, "emblems": 30, "bonus": 9.00 },
+      { "level": 70, "affinity": 1520, "emblems": 35, "bonus": 10.35 },
+      { "level": 80, "affinity": 1720, "emblems": 40, "bonus": 11.70 },
+      { "level": 90, "affinity": 1920, "emblems": 45, "bonus": 13.05 },
+      { "level": 100, "affinity": 2120, "emblems": 50, "bonus": 15.00 }
+    ],
+    "passive": {
+      "name": { "EN": "Hunter Instinct", "FR": "Instinct de Chasseur" },
+      "levels": [
+        { "level": 1, "effect": "+2% Bear Hunt Damage Points" },
+        { "level": 2, "effect": "+4%" },
+        { "level": 3, "effect": "+6%" },
+        { "level": 4, "effect": "+8%" },
+        { "level": 5, "effect": "+10%" },
+        { "level": 6, "effect": "+13%" },
+        { "level": 7, "effect": "+16%" },
+        { "level": 8, "effect": "+19%" },
+        { "level": 9, "effect": "+22%" },
+        { "level": 10, "effect": "+26%" },
+        { "level": 11, "effect": "+30%" }
+      ]
+    },
+    "skills": [
+      {
+        "id": "dance_of_the_hunt",
+        "name": { "EN": "Dance of the Hunt", "FR": "Danse de la Chasse" },
+        "unlockRelLevel": 1,
+        "levels": [
+          { "level": 1, "effect": "+30,000", "xpCost": 0, "manuscripts": 0, "power": 3000 },
+          { "level": 2, "effect": "+60,000", "xpCost": 3600, "manuscripts": 70, "power": 6000 },
+          { "level": 3, "effect": "+90,000", "xpCost": 10800, "manuscripts": 140, "power": 9000 },
+          { "level": 4, "effect": "+120,000", "xpCost": 21600, "manuscripts": 210, "power": 12000 },
+          { "level": 5, "effect": "+150,000", "xpCost": 36000, "manuscripts": 280, "power": 15000 },
+          { "level": 6, "effect": "+180,000", "xpCost": 54000, "manuscripts": 350, "power": 18000 },
+          { "level": 7, "effect": "+210,000", "xpCost": 75600, "manuscripts": 420, "power": 21000 },
+          { "level": 8, "effect": "+240,000", "xpCost": 100800, "manuscripts": 490, "power": 24000 },
+          { "level": 9, "effect": "+270,000", "xpCost": 129600, "manuscripts": 560, "power": 27000 },
+          { "level": 10, "effect": "+300,000", "xpCost": 162000, "manuscripts": 630, "power": 30000 }
+        ]
+      },
+      {
+        "id": "leader_by_example",
+        "name": { "EN": "Leader by Example", "FR": "Mener par l'Exemple" },
+        "unlockRelLevel": 20,
+        "levels": [
+          { "level": 1, "effect": "+1", "xpCost": 0, "manuscripts": 0, "power": 13000 },
+          { "level": 2, "effect": "+2", "xpCost": 27600, "manuscripts": 400, "power": 26000 },
+          { "level": 3, "effect": "+3", "xpCost": 82800, "manuscripts": 800, "power": 39000 },
+          { "level": 4, "effect": "+4", "xpCost": 193200, "manuscripts": 1600, "power": 52000 },
+          { "level": 5, "effect": "+5", "xpCost": 414000, "manuscripts": 3200, "power": 65000 }
+        ]
+      },
+      {
+        "id": "weapon_obsession",
+        "name": { "EN": "Weapon Obsession", "FR": "Obsession des Armes" },
+        "unlockRelLevel": 30,
+        "levels": [
+          { "level": 1, "effect": "+1", "xpCost": 0, "manuscripts": 0, "power": 20000 },
+          { "level": 2, "effect": "+2", "xpCost": 43200, "manuscripts": 500, "power": 40000 },
+          { "level": 3, "effect": "+3", "xpCost": 129600, "manuscripts": 1000, "power": 60000 },
+          { "level": 4, "effect": "+4", "xpCost": 302400, "manuscripts": 2000, "power": 80000 },
+          { "level": 5, "effect": "+5", "xpCost": 648000, "manuscripts": 4000, "power": 100000 }
+        ]
+      },
+      {
+        "id": "savage_advantage",
+        "name": { "EN": "Savage Advantage", "FR": "Avantage Sauvage" },
+        "unlockRelLevel": 40,
+        "levels": [
+          { "level": 1, "effect": "+3,000", "xpCost": 0, "manuscripts": 0, "power": 7000 },
+          { "level": 2, "effect": "+6,000", "xpCost": 10200, "manuscripts": 100, "power": 14000 },
+          { "level": 3, "effect": "+9,000", "xpCost": 30600, "manuscripts": 200, "power": 21000 },
+          { "level": 4, "effect": "+12,000", "xpCost": 61200, "manuscripts": 300, "power": 28000 },
+          { "level": 5, "effect": "+15,000", "xpCost": 102600, "manuscripts": 400, "power": 35000 },
+          { "level": 6, "effect": "+18,000", "xpCost": 154200, "manuscripts": 500, "power": 42000 },
+          { "level": 7, "effect": "+21,000", "xpCost": 216000, "manuscripts": 600, "power": 49000 },
+          { "level": 8, "effect": "+24,000", "xpCost": 288600, "manuscripts": 700, "power": 56000 },
+          { "level": 9, "effect": "+27,000", "xpCost": 371400, "manuscripts": 800, "power": 63000 },
+          { "level": 10, "effect": "+30,000", "xpCost": 464400, "manuscripts": 900, "power": 70000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pan",
+    "name": { "EN": "Pan", "FR": "Pan" },
+    "title": { "EN": "Prosperity Master", "FR": "Expert de Prospérité" },
+    "affinityBonus": { "EN": "Squad Defense Bonus", "FR": "Bonus de Défense d'Escouade" },
+    "affinityMilestones": [
+      { "level": 1, "affinity": 240, "emblems": 0, "bonus": 1.58 },
+      { "level": 10, "affinity": 400, "emblems": 8, "bonus": 2.85 },
+      { "level": 20, "affinity": 600, "emblems": 16, "bonus": 4.20 },
+      { "level": 30, "affinity": 800, "emblems": 24, "bonus": 5.55 },
+      { "level": 40, "affinity": 1000, "emblems": 32, "bonus": 6.90 },
+      { "level": 50, "affinity": 1200, "emblems": 40, "bonus": 8.25 },
+      { "level": 60, "affinity": 1400, "emblems": 48, "bonus": 9.60 },
+      { "level": 70, "affinity": 1600, "emblems": 56, "bonus": 10.95 },
+      { "level": 80, "affinity": 1800, "emblems": 64, "bonus": 12.30 },
+      { "level": 90, "affinity": 2000, "emblems": 72, "bonus": 13.65 },
+      { "level": 100, "affinity": 2200, "emblems": 80, "bonus": 15.00 }
+    ],
+    "passive": {
+      "name": { "EN": "Efficient Reserves", "FR": "Réserves Efficaces" },
+      "levels": [
+        { "level": 1, "effect": "1 chest / 120 gathering min · Daily cap 10" },
+        { "level": 2, "effect": "1 chest · Daily cap 12" },
+        { "level": 3, "effect": "2 chests · Daily cap 14" },
+        { "level": 4, "effect": "2 chests · Daily cap 16" },
+        { "level": 5, "effect": "2 chests · Daily cap 18" },
+        { "level": 6, "effect": "3 chests · Daily cap 20" },
+        { "level": 7, "effect": "3 chests · Daily cap 22" },
+        { "level": 8, "effect": "3 chests · Daily cap 24" },
+        { "level": 9, "effect": "4 chests · Daily cap 26" },
+        { "level": 10, "effect": "4 chests · Daily cap 28" },
+        { "level": 11, "effect": "5 chests · Daily cap 30" }
+      ]
+    },
+    "skills": [
+      {
+        "id": "falconer",
+        "name": { "EN": "Falconer", "FR": "Fauconnier" },
+        "unlockRelLevel": 10,
+        "levels": [
+          { "level": 1, "effect": "+2", "xpCost": 0, "manuscripts": 0, "power": 20000 },
+          { "level": 2, "effect": "+3", "xpCost": 43200, "manuscripts": 500, "power": 40000 },
+          { "level": 3, "effect": "+4", "xpCost": 129600, "manuscripts": 1000, "power": 60000 },
+          { "level": 4, "effect": "+6", "xpCost": 302400, "manuscripts": 2000, "power": 80000 },
+          { "level": 5, "effect": "+8", "xpCost": 648000, "manuscripts": 4000, "power": 100000 }
+        ]
+      },
+      {
+        "id": "good_steward",
+        "name": { "EN": "Good Steward", "FR": "Bon Intendant" },
+        "unlockRelLevel": 20,
+        "levels": [
+          { "level": 1, "effect": "+10", "xpCost": 0, "manuscripts": 0, "power": 16000 },
+          { "level": 2, "effect": "+15", "xpCost": 34200, "manuscripts": 400, "power": 32000 },
+          { "level": 3, "effect": "+20", "xpCost": 103200, "manuscripts": 800, "power": 48000 },
+          { "level": 4, "effect": "+30", "xpCost": 241200, "manuscripts": 1600, "power": 64000 },
+          { "level": 5, "effect": "+40", "xpCost": 517200, "manuscripts": 3200, "power": 80000 }
+        ]
+      },
+      {
+        "id": "master_architect",
+        "name": { "EN": "Master Architect", "FR": "Maître Architecte" },
+        "unlockRelLevel": 30,
+        "levels": [
+          { "level": 1, "effect": "-2 hr", "xpCost": 0, "manuscripts": 0, "power": 7000 },
+          { "level": 2, "effect": "-3 hr", "xpCost": 13800, "manuscripts": 200, "power": 14000 },
+          { "level": 3, "effect": "-4 hr", "xpCost": 41400, "manuscripts": 400, "power": 21000 },
+          { "level": 4, "effect": "-6 hr", "xpCost": 96600, "manuscripts": 800, "power": 28000 },
+          { "level": 5, "effect": "-8 hr", "xpCost": 207000, "manuscripts": 1600, "power": 35000 }
+        ]
+      },
+      {
+        "id": "ways_and_means",
+        "name": { "EN": "Ways and Means", "FR": "Voies et Moyens" },
+        "unlockRelLevel": 40,
+        "levels": [
+          { "level": 1, "effect": "+20 Badges · 1 refresh", "xpCost": 0, "manuscripts": 0, "power": 7000 },
+          { "level": 2, "effect": "+30 Badges · 1 refresh", "xpCost": 10200, "manuscripts": 100, "power": 14000 },
+          { "level": 3, "effect": "+40 Badges · 1 refresh", "xpCost": 30600, "manuscripts": 200, "power": 21000 },
+          { "level": 4, "effect": "+50 Badges · 2 refreshes", "xpCost": 61200, "manuscripts": 300, "power": 28000 },
+          { "level": 5, "effect": "+60 Badges · 2 refreshes", "xpCost": 102600, "manuscripts": 400, "power": 35000 },
+          { "level": 6, "effect": "+70 Badges · 2 refreshes", "xpCost": 154200, "manuscripts": 500, "power": 42000 },
+          { "level": 7, "effect": "+80 Badges · 3 refreshes", "xpCost": 216000, "manuscripts": 600, "power": 49000 },
+          { "level": 8, "effect": "+90 Badges · 3 refreshes", "xpCost": 288600, "manuscripts": 700, "power": 56000 },
+          { "level": 9, "effect": "+100 Badges · 4 refreshes", "xpCost": 371400, "manuscripts": 800, "power": 63000 },
+          { "level": 10, "effect": "+120 Badges · 4 refreshes", "xpCost": 464400, "manuscripts": 900, "power": 70000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "roman",
+    "name": { "EN": "Roman", "FR": "Roman" },
+    "title": { "EN": "Arena Champion", "FR": "Champion d'Arène" },
+    "affinityBonus": { "EN": "Squad Atk & Def Bonus", "FR": "Bonus Atk & Def d'Escouade" },
+    "affinityMilestones": [
+      { "level": 1, "affinity": 1000, "emblems": 0, "bonus": 1.58 },
+      { "level": 10, "affinity": 960, "emblems": 8, "bonus": 2.85 },
+      { "level": 20, "affinity": 1560, "emblems": 16, "bonus": 4.20 },
+      { "level": 30, "affinity": 2190, "emblems": 24, "bonus": 5.55 },
+      { "level": 40, "affinity": 3120, "emblems": 32, "bonus": 6.90 },
+      { "level": 50, "affinity": 4350, "emblems": 40, "bonus": 8.25 },
+      { "level": 60, "affinity": 5850, "emblems": 48, "bonus": 9.60 },
+      { "level": 70, "affinity": 7350, "emblems": 56, "bonus": 10.95 },
+      { "level": 80, "affinity": 8850, "emblems": 64, "bonus": 12.30 },
+      { "level": 90, "affinity": 10350, "emblems": 72, "bonus": 13.65 },
+      { "level": 100, "affinity": 11850, "emblems": 80, "bonus": 15.00 }
+    ],
+    "passive": {
+      "name": { "EN": "Star Belligerent", "FR": "Belligérant Étoilé" },
+      "levels": [
+        { "level": 1, "effect": "50% chance · 1 Arena Star Chest per match", "power": 58000 },
+        { "level": 2, "effect": "55% chance · 1 chest", "power": 116000 },
+        { "level": 3, "effect": "60% chance · 1 chest", "power": 174000 },
+        { "level": 4, "effect": "70% chance · 1 chest", "power": 232000 },
+        { "level": 5, "effect": "80% chance · 1 chest", "power": 290000 },
+        { "level": 6, "effect": "80% chance · 2 chests", "power": 348000 },
+        { "level": 7, "effect": "85% chance · 2 chests", "power": 406000 },
+        { "level": 8, "effect": "90% chance · 2 chests", "power": 464000 },
+        { "level": 9, "effect": "95% chance · 2 chests", "power": 522000 },
+        { "level": 10, "effect": "95% chance · 3 chests", "power": 580000 },
+        { "level": 11, "effect": "100% chance · 3 chests", "power": 638000 }
+      ]
+    },
+    "skills": [
+      {
+        "id": "teacher_of_champions",
+        "name": { "EN": "Teacher of Champions", "FR": "Professeur des Champions" },
+        "unlockRelLevel": 10,
+        "levels": [
+          { "level": 1, "effect": "+2%", "xpCost": 0, "manuscripts": 0, "power": 42000 },
+          { "level": 2, "effect": "+4%", "xpCost": 82800, "manuscripts": 600, "power": 84000 },
+          { "level": 3, "effect": "+6%", "xpCost": 248400, "manuscripts": 1200, "power": 126000 },
+          { "level": 4, "effect": "+8%", "xpCost": 496800, "manuscripts": 1800, "power": 168000 },
+          { "level": 5, "effect": "+10%", "xpCost": 828600, "manuscripts": 2400, "power": 210000 },
+          { "level": 6, "effect": "+12%", "xpCost": 1243200, "manuscripts": 3000, "power": 252000 },
+          { "level": 7, "effect": "+14%", "xpCost": 1740600, "manuscripts": 3600, "power": 294000 },
+          { "level": 8, "effect": "+16%", "xpCost": 2320800, "manuscripts": 4200, "power": 336000 },
+          { "level": 9, "effect": "+18%", "xpCost": 2984400, "manuscripts": 4800, "power": 378000 },
+          { "level": 10, "effect": "+20%", "xpCost": 3730800, "manuscripts": 5400, "power": 420000 }
+        ]
+      },
+      {
+        "id": "winner_take_all",
+        "name": { "EN": "Winner Take All", "FR": "Le Gagnant Rafle Tout" },
+        "unlockRelLevel": 20,
+        "levels": [
+          { "level": 1, "effect": "+5%", "xpCost": 0, "manuscripts": 0, "power": 18000 },
+          { "level": 2, "effect": "+10%", "xpCost": 30600, "manuscripts": 300, "power": 36000 },
+          { "level": 3, "effect": "+15%", "xpCost": 92400, "manuscripts": 600, "power": 54000 },
+          { "level": 4, "effect": "+20%", "xpCost": 185400, "manuscripts": 900, "power": 72000 },
+          { "level": 5, "effect": "+25%", "xpCost": 309600, "manuscripts": 1200, "power": 90000 },
+          { "level": 6, "effect": "+30%", "xpCost": 465000, "manuscripts": 1500, "power": 108000 },
+          { "level": 7, "effect": "+35%", "xpCost": 651600, "manuscripts": 1800, "power": 126000 },
+          { "level": 8, "effect": "+40%", "xpCost": 868800, "manuscripts": 2100, "power": 144000 },
+          { "level": 9, "effect": "+45%", "xpCost": 1117200, "manuscripts": 2400, "power": 162000 },
+          { "level": 10, "effect": "+50%", "xpCost": 1396800, "manuscripts": 2700, "power": 180000 }
+        ]
+      },
+      {
+        "id": "crowd_favorite",
+        "name": { "EN": "Crowd Favorite", "FR": "Favori de la Foule" },
+        "unlockRelLevel": 30,
+        "levels": [
+          { "level": 1, "effect": "1 item · 5% off", "xpCost": 0, "manuscripts": 0, "power": 18000 },
+          { "level": 2, "effect": "1 item · 10% off", "xpCost": 30600, "manuscripts": 300, "power": 36000 },
+          { "level": 3, "effect": "1 item · 15% off", "xpCost": 92400, "manuscripts": 600, "power": 54000 },
+          { "level": 4, "effect": "2 items · 20% off", "xpCost": 185400, "manuscripts": 900, "power": 72000 },
+          { "level": 5, "effect": "2 items · 25% off", "xpCost": 309600, "manuscripts": 1200, "power": 90000 },
+          { "level": 6, "effect": "2 items · 30% off", "xpCost": 465000, "manuscripts": 1500, "power": 108000 },
+          { "level": 7, "effect": "3 items · 35% off", "xpCost": 651600, "manuscripts": 1800, "power": 126000 },
+          { "level": 8, "effect": "3 items · 40% off", "xpCost": 868800, "manuscripts": 2100, "power": 144000 },
+          { "level": 9, "effect": "3 items · 45% off", "xpCost": 1117200, "manuscripts": 2400, "power": 162000 },
+          { "level": 10, "effect": "3 items · 50% off", "xpCost": 1396800, "manuscripts": 2700, "power": 180000 }
+        ]
+      },
+      {
+        "id": "one_desire",
+        "name": { "EN": "One Desire", "FR": "Un Seul Désir" },
+        "unlockRelLevel": 40,
+        "levels": [
+          { "level": 1, "effect": "+2%", "xpCost": 0, "manuscripts": 0, "power": 42000 },
+          { "level": 2, "effect": "+4%", "xpCost": 82800, "manuscripts": 600, "power": 84000 },
+          { "level": 3, "effect": "+6%", "xpCost": 248400, "manuscripts": 1200, "power": 126000 },
+          { "level": 4, "effect": "+8%", "xpCost": 496800, "manuscripts": 1800, "power": 168000 },
+          { "level": 5, "effect": "+10%", "xpCost": 828600, "manuscripts": 2400, "power": 210000 },
+          { "level": 6, "effect": "+12%", "xpCost": 1243200, "manuscripts": 3000, "power": 252000 },
+          { "level": 7, "effect": "+14%", "xpCost": 1740600, "manuscripts": 3600, "power": 294000 },
+          { "level": 8, "effect": "+16%", "xpCost": 2320800, "manuscripts": 4200, "power": 336000 },
+          { "level": 9, "effect": "+18%", "xpCost": 2984400, "manuscripts": 4800, "power": 378000 },
+          { "level": 10, "effect": "+20%", "xpCost": 3730800, "manuscripts": 5400, "power": 420000 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cassia",
+    "name": { "EN": "Cassia", "FR": "Cassia" },
+    "title": { "EN": "Battle Master", "FR": "Expert de Combat" },
+    "affinityBonus": { "EN": "Squad Atk & Def Bonus", "FR": "Bonus Atk & Def d'Escouade" },
+    "affinityMilestones": [
+      { "level": 1, "affinity": 1320, "emblems": 0, "bonus": 1.58 },
+      { "level": 10, "affinity": 1760, "emblems": 8, "bonus": 2.85 },
+      { "level": 20, "affinity": 2860, "emblems": 16, "bonus": 4.20 },
+      { "level": 30, "affinity": 4020, "emblems": 24, "bonus": 5.55 },
+      { "level": 40, "affinity": 5290, "emblems": 32, "bonus": 6.90 },
+      { "level": 50, "affinity": 7180, "emblems": 40, "bonus": 8.25 },
+      { "level": 60, "affinity": 9890, "emblems": 48, "bonus": 9.60 },
+      { "level": 70, "affinity": 13320, "emblems": 56, "bonus": 10.95 },
+      { "level": 80, "affinity": 16380, "emblems": 64, "bonus": 12.30 },
+      { "level": 90, "affinity": 19560, "emblems": 72, "bonus": 13.65 },
+      { "level": 100, "affinity": 23010, "emblems": 80, "bonus": 15.00 }
+    ],
+    "passive": {
+      "name": { "EN": "Horn of Valor", "FR": "Cor de Valeur" },
+      "levels": [
+        { "level": 1, "effect": "+300 Squad size limit" },
+        { "level": 2, "effect": "+600" },
+        { "level": 3, "effect": "+1,000" },
+        { "level": 4, "effect": "+1,500" },
+        { "level": 5, "effect": "+2,000" },
+        { "level": 6, "effect": "+3,000" },
+        { "level": 7, "effect": "+4,000" },
+        { "level": 8, "effect": "+5,500" },
+        { "level": 9, "effect": "+7,000" },
+        { "level": 10, "effect": "+8,500" },
+        { "level": 11, "effect": "+10,000" }
+      ]
+    },
+    "skills": [
+      {
+        "id": "recruiter_in_chief",
+        "name": { "EN": "Recruiter In Chief", "FR": "Recruteur en Chef" },
+        "unlockRelLevel": 10,
+        "levels": [
+          { "level": 1, "effect": "+1 high-level soldier · +150 Medallions", "xpCost": 0, "manuscripts": 0, "power": 18000 },
+          { "level": 2, "effect": "+2 soldiers · +200 Medallions", "xpCost": 30600, "manuscripts": 300, "power": 36000 },
+          { "level": 3, "effect": "+3 · +250", "xpCost": 92400, "manuscripts": 600, "power": 54000 },
+          { "level": 4, "effect": "+4 · +300", "xpCost": 185400, "manuscripts": 900, "power": 72000 },
+          { "level": 5, "effect": "+5 · +350", "xpCost": 309600, "manuscripts": 1200, "power": 90000 },
+          { "level": 6, "effect": "+6 · +400", "xpCost": 465000, "manuscripts": 1500, "power": 108000 },
+          { "level": 7, "effect": "+7 · +450", "xpCost": 651600, "manuscripts": 1800, "power": 126000 },
+          { "level": 8, "effect": "+8 · +500", "xpCost": 868800, "manuscripts": 2100, "power": 144000 },
+          { "level": 9, "effect": "+9 · +550", "xpCost": 1117200, "manuscripts": 2400, "power": 162000 },
+          { "level": 10, "effect": "+10 · +600", "xpCost": 1396800, "manuscripts": 2700, "power": 180000 }
+        ]
+      },
+      {
+        "id": "firepower_to_win",
+        "name": { "EN": "Firepower to Win", "FR": "Puissance de Feu" },
+        "unlockRelLevel": 20,
+        "levels": [
+          { "level": 1, "effect": "+0.5%", "xpCost": 0, "manuscripts": 0, "power": 108000 },
+          { "level": 2, "effect": "+1%", "xpCost": 86400, "manuscripts": 500, "power": 216000 },
+          { "level": 3, "effect": "+1.5%", "xpCost": 259200, "manuscripts": 1000, "power": 324000 },
+          { "level": 4, "effect": "+2%", "xpCost": 518400, "manuscripts": 1500, "power": 432000 },
+          { "level": 5, "effect": "+2.5%", "xpCost": 864000, "manuscripts": 2000, "power": 540000 },
+          { "level": 6, "effect": "+3%", "xpCost": 1296000, "manuscripts": 2500, "power": 648000 },
+          { "level": 7, "effect": "+3.5%", "xpCost": 1814400, "manuscripts": 3000, "power": 756000 },
+          { "level": 8, "effect": "+4%", "xpCost": 2419200, "manuscripts": 3500, "power": 864000 },
+          { "level": 9, "effect": "+4.5%", "xpCost": 3110400, "manuscripts": 4000, "power": 972000 },
+          { "level": 10, "effect": "+5%", "xpCost": 3888000, "manuscripts": 4500, "power": 1080000 },
+          { "level": 11, "effect": "+5.5%", "xpCost": 4752000, "manuscripts": 5000, "power": 1188000 },
+          { "level": 12, "effect": "+6%", "xpCost": 5702400, "manuscripts": 5500, "power": 1296000 },
+          { "level": 13, "effect": "+6.5%", "xpCost": 6739200, "manuscripts": 6000, "power": 1404000 },
+          { "level": 14, "effect": "+7%", "xpCost": 7948800, "manuscripts": 7000, "power": 1512000 },
+          { "level": 15, "effect": "+7.5%", "xpCost": 9331200, "manuscripts": 8000, "power": 1620000 },
+          { "level": 16, "effect": "+8%", "xpCost": 10713600, "manuscripts": 8000, "power": 1728000 },
+          { "level": 17, "effect": "+8.5%", "xpCost": 12268800, "manuscripts": 9000, "power": 1836000 },
+          { "level": 18, "effect": "+9%", "xpCost": 13824000, "manuscripts": 9000, "power": 1944000 },
+          { "level": 19, "effect": "+9.5%", "xpCost": 15552000, "manuscripts": 10000, "power": 2052000 },
+          { "level": 20, "effect": "+10%", "xpCost": 17280000, "manuscripts": 10000, "power": 2160000 }
+        ]
+      },
+      {
+        "id": "commando",
+        "name": { "EN": "Commando", "FR": "Commando" },
+        "unlockRelLevel": 30,
+        "levels": [
+          { "level": 1, "effect": "+0.5%", "xpCost": 0, "manuscripts": 0, "power": 135000 },
+          { "level": 2, "effect": "+1%", "xpCost": 159000, "manuscripts": 800, "power": 270000 },
+          { "level": 3, "effect": "+1.5%", "xpCost": 456600, "manuscripts": 1500, "power": 405000 },
+          { "level": 4, "effect": "+2%", "xpCost": 893400, "manuscripts": 2200, "power": 540000 },
+          { "level": 5, "effect": "+2.5%", "xpCost": 1489200, "manuscripts": 3000, "power": 675000 },
+          { "level": 6, "effect": "+3%", "xpCost": 2244000, "manuscripts": 3800, "power": 810000 },
+          { "level": 7, "effect": "+3.5%", "xpCost": 3138000, "manuscripts": 4500, "power": 945000 },
+          { "level": 8, "effect": "+4%", "xpCost": 4171200, "manuscripts": 5200, "power": 1080000 },
+          { "level": 9, "effect": "+4.5%", "xpCost": 5363400, "manuscripts": 6000, "power": 1215000 },
+          { "level": 10, "effect": "+5%", "xpCost": 6714600, "manuscripts": 6800, "power": 1350000 },
+          { "level": 11, "effect": "+5.5%", "xpCost": 8205000, "manuscripts": 7500, "power": 1485000 },
+          { "level": 12, "effect": "+6%", "xpCost": 9834000, "manuscripts": 8200, "power": 1620000 },
+          { "level": 13, "effect": "+6.5%", "xpCost": 11622000, "manuscripts": 9000, "power": 1755000 },
+          { "level": 14, "effect": "+7%", "xpCost": 13708200, "manuscripts": 10500, "power": 1890000 },
+          { "level": 15, "effect": "+7.5%", "xpCost": 16092600, "manuscripts": 12000, "power": 2025000 },
+          { "level": 16, "effect": "+8%", "xpCost": 18477000, "manuscripts": 12000, "power": 2160000 },
+          { "level": 17, "effect": "+8.5%", "xpCost": 21159600, "manuscripts": 13500, "power": 2295000 },
+          { "level": 18, "effect": "+9%", "xpCost": 23842200, "manuscripts": 13500, "power": 2430000 },
+          { "level": 19, "effect": "+9.5%", "xpCost": 26823000, "manuscripts": 15000, "power": 2565000 },
+          { "level": 20, "effect": "+10%", "xpCost": 29803800, "manuscripts": 15000, "power": 2700000 }
+        ]
+      },
+      {
+        "id": "inspiring_mobilization",
+        "name": { "EN": "Inspiring Mobilization", "FR": "Mobilisation Inspirante" },
+        "unlockRelLevel": 40,
+        "levels": [
+          { "level": 1, "effect": "+5,000", "xpCost": 0, "manuscripts": 0, "power": 150000 },
+          { "level": 2, "effect": "+10,000", "xpCost": 179400, "manuscripts": 800, "power": 300000 },
+          { "level": 3, "effect": "+15,000", "xpCost": 516000, "manuscripts": 1500, "power": 450000 },
+          { "level": 4, "effect": "+20,000", "xpCost": 1009800, "manuscripts": 2200, "power": 600000 },
+          { "level": 5, "effect": "+25,000", "xpCost": 1683600, "manuscripts": 3000, "power": 750000 },
+          { "level": 6, "effect": "+30,000", "xpCost": 2536800, "manuscripts": 3800, "power": 900000 },
+          { "level": 7, "effect": "+35,000", "xpCost": 3547200, "manuscripts": 4500, "power": 1050000 },
+          { "level": 8, "effect": "+40,000", "xpCost": 4714800, "manuscripts": 5200, "power": 1200000 },
+          { "level": 9, "effect": "+45,000", "xpCost": 6062400, "manuscripts": 6000, "power": 1350000 },
+          { "level": 10, "effect": "+50,000", "xpCost": 7590000, "manuscripts": 6800, "power": 1500000 },
+          { "level": 11, "effect": "+55,000", "xpCost": 9274800, "manuscripts": 7500, "power": 1650000 },
+          { "level": 12, "effect": "+60,000", "xpCost": 11116800, "manuscripts": 8200, "power": 1800000 },
+          { "level": 13, "effect": "+65,000", "xpCost": 13138200, "manuscripts": 9000, "power": 1950000 },
+          { "level": 14, "effect": "+70,000", "xpCost": 15496800, "manuscripts": 10500, "power": 2100000 },
+          { "level": 15, "effect": "+75,000", "xpCost": 18192000, "manuscripts": 12000, "power": 2250000 },
+          { "level": 16, "effect": "+80,000", "xpCost": 20887200, "manuscripts": 12000, "power": 2400000 },
+          { "level": 17, "effect": "+85,000", "xpCost": 23919600, "manuscripts": 13500, "power": 2550000 },
+          { "level": 18, "effect": "+90,000", "xpCost": 26952000, "manuscripts": 13500, "power": 2700000 },
+          { "level": 19, "effect": "+95,000", "xpCost": 30321600, "manuscripts": 15000, "power": 2850000 },
+          { "level": 20, "effect": "+100,000", "xpCost": 33691200, "manuscripts": 15000, "power": 3000000 }
+        ]
+      }
+    ]
+  }
+]
