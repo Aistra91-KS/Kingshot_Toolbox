@@ -166,7 +166,7 @@ function executeExport() {
     const checkboxes = document.querySelectorAll('.backup-checkbox:checked');
     
     if (checkboxes.length === 0) {
-        alert(dict.errSelectExport);
+        showBackupAlert(dict.errSelectExport, false);
         return;
     }
 
@@ -207,11 +207,10 @@ function executeImport(event) {
     const selectedModuleIds = Array.from(checkboxes).map(cb => cb.value);
 
     if (selectedModuleIds.length === 0) {
-        alert(dict.errSelectImport);
+        showBackupAlert(dict.errSelectImport, false);
         event.target.value = '';
         return;
     }
-
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
@@ -234,11 +233,13 @@ function executeImport(event) {
                 }
             });
 
-            alert(dict.successImport.replace('{count}', restoredCount));
-            location.reload(); 
+            showBackupAlert(dict.successImport.replace('{count}', restoredCount), true, () => {
+                // Cette fonction se déclenche uniquement QUAND on clique sur OK
+                location.reload(); 
+            });
 
         } catch (error) {
-            alert(dict.errCorrupt);
+            showBackupAlert(dict.errCorrupt, false);
             console.error(error);
         }
         event.target.value = ''; 
@@ -248,3 +249,35 @@ function executeImport(event) {
 
 // Initialisation au chargement de la page
 document.addEventListener('DOMContentLoaded', initBackupSystem);
+
+// --- NOTIFICATION CUSTOMISÉE CENTRÉE ---
+function showBackupAlert(message, isSuccess = false, callback = null) {
+    const overlay = document.createElement('div');
+    overlay.className = 'custom-alert-overlay active';
+    
+    // Adaptation des couleurs (succès = turquoise, erreur = orange)
+    const color = isSuccess ? 'var(--success)' : 'var(--warning)';
+    const icon = isSuccess ? '✅' : '⚠️';
+    const title = isSuccess ? (window.GlobalLang && window.GlobalLang.get() === 'EN' ? 'Success' : 'Succès') 
+                            : (window.GlobalLang && window.GlobalLang.get() === 'EN' ? 'Error' : 'Erreur');
+    
+    overlay.innerHTML = `
+        <div class="custom-alert-box" style="border-top: 4px solid ${color};">
+            <div class="custom-alert-icon">${icon}</div>
+            <h3 style="color: ${color}; margin-top: 0; margin-bottom: 15px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;">${title}</h3>
+            <div class="custom-alert-msg">${message}</div>
+            <button class="btn-modern btn-modern-secondary" style="width: 100%; border-color: ${color}; color: ${color};">OK</button>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    const btn = overlay.querySelector('button');
+    btn.onclick = () => {
+        overlay.classList.remove('active');
+        setTimeout(() => {
+            document.body.removeChild(overlay);
+            if (callback) callback(); // Déclenche le rechargement de la page si besoin
+        }, 300);
+    };
+}
