@@ -179,7 +179,7 @@ function updateMasterUI() {
         skillsHTML += `
             <div class="skill-row ${isUnlocked ? 'active' : 'locked'}">
                 <div class="skill-header">
-                    <div class="skill-icon" style="background-image: url('img/masterskill/${safeSkillImg}.png');"></div>
+                    <div class="skill-icon" style="background-image: url('img/MasterSkill/${safeSkillImg}.png');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: ${isUnlocked ? 'var(--text-light)' : 'var(--text-muted)'};">${sName}</div>
                         <div class="skill-effect">${effectDisplay}</div>
