@@ -1487,3 +1487,32 @@ body.modal-active .main-content {
 
 .custom-alert-icon { font-size: 35px; margin-bottom: 10px; }
 .custom-alert-msg { color: var(--text-light); font-size: 14.5px; line-height: 1.6; margin-bottom: 25px; white-space: pre-wrap; }
+
+
+
+/* ============================================================================
+   HEADER RESPONSIVE MOBILE (SWIPE HORIZONTAL)
+   ============================================================================ */
+@media (max-width: 768px) {
+    /* Cible les conteneurs de boutons en haut (ajuste les classes si besoin) */
+    .header-lang-wrapper, 
+    .header-nav, 
+    .app-header {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        gap: 10px;
+        padding-bottom: 5px;
+        /* Masque la scrollbar sur Firefox et IE */
+        scrollbar-width: none; 
+        -ms-overflow-style: none;
+    }
+    
+    /* Masque la scrollbar sur Chrome/Safari/Edge */
+    .header-lang-wrapper::-webkit-scrollbar, 
+    .header-nav::-webkit-scrollbar, 
+    .app-header::-webkit-scrollbar {
+        display: none;
+    }
+}
