@@ -136,11 +136,12 @@ function updateMasterUI() {
     }
 
     // --- CALCUL COMPÉTENCES ACTIVES ---
+    // --- CALCUL COMPÉTENCES ACTIVES ---
     let skillsHTML = '';
     master.skills.forEach(skill => {
         const isUnlocked = modalState.relLevel >= skill.unlockRelLevel;
         const currentSkillLevel = modalState.skills[skill.id] || 0;
-        const safeSkillImg = skill.id; // Ton ID json correspond au nom de fichier
+        const safeSkillImg = skill.name['EN']; // Utilise le nom exact avec les espaces
         const sName = skill.name[lang] || skill.name['EN'];
 
         let optionsHTML = `<option value="0" style="background:var(--bg-color); color:var(--text-light);">${isUnlocked ? '0' : '🔒'}</option>`;
