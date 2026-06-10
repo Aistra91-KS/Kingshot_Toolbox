@@ -127,48 +127,66 @@ function updateMasterUI() {
     
     const passiveContainer = document.getElementById('modal-passive-display');
     const pName = master.passive.name[lang] || master.passive.name['EN'];
+    const safePassiveImg = master.passive.name['EN']; // Image basée sur le nom EN
     
     if (passiveLvlIndex >= 0) {
-        const pEffect = master.passive.levels[passiveLvlIndex].effect;
-        passiveContainer.innerHTML = `<strong style="color:var(--accent);">${pName} (${dict.lvlPrefix}${passiveLvlIndex + 1})</strong><br><span style="color:var(--text-light); font-size:13px;">${pEffect}</span>`;
+        // Supporte le JSON si 'effect' est un objet {FR: "", EN: ""} ou un simple texte
+        let rawEffect = master.passive.levels[passiveLvlIndex].effect;
+        let pEffect = (typeof rawEffect === 'object') ? (rawEffect[lang] || rawEffect['EN']) : rawEffect;
+
+        passiveContainer.innerHTML = `
+            <div class="skill-row active" style="margin: 0; padding: 0; border: none; background: transparent;">
+                <div class="skill-header">
+                    <div class="skill-icon" style="background-image: url('img/masterskill/${safePassiveImg}.png');"></div>
+                    <div class="skill-info">
+                        <div class="skill-name" style="color: var(--accent); font-weight: bold;">${pName} (${dict.lvlPrefix}${passiveLvlIndex + 1})</div>
+                        <div class="skill-effect" style="color: var(--text-light);">${pEffect}</div>
+                    </div>
+                </div>
+            </div>`;
     } else {
         passiveContainer.innerHTML = `<span style="color:var(--text-muted);">Bloqué (Nécessite Niveau 1)</span>`;
     }
 
     // --- CALCUL COMPÉTENCES ACTIVES ---
-    // --- CALCUL COMPÉTENCES ACTIVES ---
     let skillsHTML = '';
     master.skills.forEach(skill => {
         const isUnlocked = modalState.relLevel >= skill.unlockRelLevel;
         const currentSkillLevel = modalState.skills[skill.id] || 0;
-        const safeSkillImg = skill.name['EN']; // Utilise le nom exact avec les espaces
+        const safeSkillImg = skill.name['EN']; // Image basée sur le nom EN exact
         const sName = skill.name[lang] || skill.name['EN'];
 
-        let optionsHTML = `<option value="0" style="background:var(--bg-color); color:var(--text-light);">${isUnlocked ? '0' : '🔒'}</option>`;
-        if (isUnlocked) {
-            for (let i = 1; i <= skill.levels.length; i++) {
-                optionsHTML += `<option value="${i}" style="background:var(--bg-color); color:var(--text-light);" ${i === currentSkillLevel ? 'selected' : ''}>${i}</option>`;
+        // Création des carrés (pips)
+        let pipsHTML = `<div class="master-skill-pips">`;
+        for (let i = 1; i <= skill.levels.length; i++) {
+            let isActive = i <= currentSkillLevel;
+            if (isUnlocked) {
+                // Si on clique sur le carré déjà actif (le dernier), ça le désélectionne (i - 1)
+                let levelToSet = (currentSkillLevel === i) ? i - 1 : i;
+                pipsHTML += `<div class="master-pip ${isActive ? 'active' : ''}" onclick="setMasterSkill('${skill.id}', ${levelToSet})" title="Niv. ${i}"></div>`;
+            } else {
+                pipsHTML += `<div class="master-pip locked"></div>`;
             }
         }
+        pipsHTML += `</div>`;
 
-        let effectDisplay = isUnlocked && currentSkillLevel > 0 
-            ? `<span style="color:var(--success); font-weight:bold;">${skill.levels[currentSkillLevel-1].effect}</span>` 
-            : `<span style="color:var(--text-muted);">${dict.lockedSkill} ${skill.unlockRelLevel}</span>`;
+        let effectDisplay = `<span style="color:var(--text-muted);">${dict.lockedSkill} ${skill.unlockRelLevel}</span>`;
+        if (isUnlocked && currentSkillLevel > 0) {
+            let rawEffect = skill.levels[currentSkillLevel - 1].effect;
+            let finalEffect = (typeof rawEffect === 'object') ? (rawEffect[lang] || rawEffect['EN']) : rawEffect;
+            effectDisplay = `<span style="color:var(--success); font-weight:bold;">${finalEffect}</span>`;
+        }
 
         skillsHTML += `
-            <div class="skill-row ${isUnlocked ? 'active' : 'locked'}">
-                <div class="skill-header">
-                    <div class="skill-icon" style="background-image: url('img/MasterSkill/${safeSkillImg}.png');"></div>
+            <div class="skill-row ${isUnlocked ? 'active' : 'locked'}" style="flex-direction: column; align-items: flex-start; padding: 12px;">
+                <div class="skill-header" style="width: 100%;">
+                    <div class="skill-icon" style="background-image: url('img/masterskill/${safeSkillImg}.png');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: ${isUnlocked ? 'var(--text-light)' : 'var(--text-muted)'};">${sName}</div>
                         <div class="skill-effect">${effectDisplay}</div>
                     </div>
                 </div>
-                <div class="skill-controls">
-                    <select class="table-select" style="width: 50px; text-align: center;" onchange="setMasterSkill('${skill.id}', this.value)" ${!isUnlocked ? 'disabled' : ''}>
-                        ${optionsHTML}
-                    </select>
-                </div>
+                ${pipsHTML}
             </div>
         `;
     });
