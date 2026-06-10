@@ -1556,6 +1556,43 @@ body.modal-active .main-content {
     background-position: center top;
     border-bottom: 2px solid var(--border);
     position: relative;
+    /* Astuce Anti-Pixel : un très léger flou et un boost de contraste pour lisser l'image */
+    filter: blur(0.6px) contrast(1.1);
+    transform: translateZ(0); /* Force l'accélération matérielle pour le rendu */
+}
+
+#modal-header-bg {
+    filter: blur(0.6px) contrast(1.1);
+}
+
+/* Design des carrés (Pips) de compétences (Style Caserne) */
+.master-skill-pips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+}
+.master-pip {
+    width: 14px;
+    height: 14px;
+    background: var(--control-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.master-pip:hover {
+    border-color: var(--text-light);
+}
+.master-pip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 5px rgba(245, 184, 64, 0.4);
+}
+.master-pip.locked {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(150, 150, 150, 0.2);
+    cursor: not-allowed;
 }
 
 .master-portrait::after {
