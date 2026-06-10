@@ -1516,3 +1516,111 @@ body.modal-active .main-content {
         display: none;
     }
 }
+
+/* ============================================================================
+   PAGE DES EXPERTS (MASTERS)
+   ============================================================================ */
+.masters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.master-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.master-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 15px rgba(245, 184, 64, 0.2);
+}
+
+.master-card.locked {
+    filter: grayscale(100%);
+    opacity: 0.6;
+}
+
+.master-portrait {
+    height: 320px;
+    background-size: cover;
+    background-position: center top;
+    border-bottom: 2px solid var(--border);
+    position: relative;
+}
+
+.master-portrait::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(to top, var(--bg-panel) 0%, transparent 100%);
+}
+
+.master-info {
+    padding: 15px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    margin-top: -40px; /* Fait remonter le texte sur le dégradé */
+}
+
+.master-name {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.master-title {
+    color: var(--text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.master-rel-badge {
+    display: inline-block;
+    background: rgba(245, 184, 64, 0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* Modale spécifique (réutilise l'animation fluide de la caserne) */
+#master-modal {
+    position: fixed !important;
+    top: 90px !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    width: 400px !important;
+    z-index: 9999 !important;
+    background: transparent !important;
+    pointer-events: none !important;
+    display: flex !important; 
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease, visibility 0.3s;
+}
+
+#master-modal.show {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
