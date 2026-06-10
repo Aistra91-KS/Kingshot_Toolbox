@@ -325,7 +325,7 @@
     },
     "skills": [
       {
-        "id": "recruiter_in_chief",
+        "id": "Recruiter in Chief",
         "name": { "EN": "Recruiter In Chief", "FR": "Recruteur en Chef" },
         "unlockRelLevel": 10,
         "levels": [
