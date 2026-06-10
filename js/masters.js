@@ -27,6 +27,21 @@ const i18nMasters = {
     }
 };
 
+// --- GESTION DU STATUT DE RELATION ---
+function getRelationshipStatusObj(level) {
+    if (level <= 10) return { FR: "Étranger", EN: "Stranger" };
+    if (level <= 20) return { FR: "Relation 1", EN: "Relationship 1" };
+    if (level <= 30) return { FR: "Relation 2", EN: "Relationship 2" };
+    if (level <= 40) return { FR: "Relation 3", EN: "Relationship 3" };
+    if (level <= 50) return { FR: "Connaissance 1", EN: "Acquaintance 1" };
+    if (level <= 60) return { FR: "Connaissance 2", EN: "Acquaintance 2" };
+    if (level <= 70) return { FR: "Connaissance 3", EN: "Acquaintance 3" };
+    if (level <= 80) return { FR: "Proche 1", EN: "Close 1" };
+    if (level <= 90) return { FR: "Proche 2", EN: "Close 2" };
+    if (level <= 99) return { FR: "Proche 3", EN: "Close 3" };
+    return { FR: "Alter Ego", EN: "Alter Ego" };
+}
+
 let mastersDB = [];
 let userMasters = JSON.parse(localStorage.getItem('masters_user_data')) || {};
 let currentMasterId = null;
@@ -68,14 +83,18 @@ function renderMastersGrid() {
         const mName = master.name[lang] || master.name['EN'];
         const mTitle = master.title[lang] || master.title['EN'];
 
+        const relLevel = userData.relLevel || 0;
+        const statusObj = getRelationshipStatusObj(relLevel);
+        const statusText = statusObj[lang] || statusObj['EN'];
+
         const card = document.createElement('div');
-        card.className = `master-card ${isLocked ? 'locked' : ''}`;
+        card.className = `master-card ${relLevel === 0 ? 'locked' : ''}`;
         card.innerHTML = `
             <div class="master-portrait" style="background-image: url('img/Master/${safeImgName}.png');"></div>
             <div class="master-info">
                 <h3 class="master-name">${mName}</h3>
                 <div class="master-title">${mTitle}</div>
-                <div class="master-rel-badge">${isLocked ? 'Non Débloqué' : `Relation ${dict.lvlPrefix}${userData.relLevel}`}</div>
+                <div class="master-rel-badge">${dict.lvlPrefix}${relLevel} • ${statusText}</div>
             </div>
         `;
         
@@ -114,25 +133,35 @@ function updateMasterUI() {
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
     const dict = i18nMasters[lang] || i18nMasters['FR'];
     
-    // Récupération de la saisie utilisateur
+    // Récupération et sécurisation de la saisie utilisateur
     modalState.relLevel = parseInt(document.getElementById('modal-rel-input').value) || 0;
-    
+    if (modalState.relLevel < 0) modalState.relLevel = 0;
+    if (modalState.relLevel > 100) modalState.relLevel = 100;
+    document.getElementById('modal-rel-input').value = modalState.relLevel;
+
+    // --- MISE À JOUR DU STATUT ---
+    const statusObj = getRelationshipStatusObj(modalState.relLevel);
+    const statusText = statusObj[lang] || statusObj['EN'];
+    document.getElementById('modal-master-status').textContent = statusText;
+
     // --- CALCUL COMPÉTENCE PASSIVE ---
     let passiveLvlIndex = -1;
+    let nextPassiveReq = null;
     for (let i = 0; i < master.affinityMilestones.length; i++) {
         if (modalState.relLevel >= master.affinityMilestones[i].level) {
             passiveLvlIndex = i;
-        } else { break; }
+        } else if (nextPassiveReq === null) {
+            nextPassiveReq = master.affinityMilestones[i].level;
+        }
     }
     
     const passiveContainer = document.getElementById('modal-passive-display');
     const pName = master.passive.name[lang] || master.passive.name['EN'];
-    const safePassiveImg = master.passive.name['EN']; // Image basée sur le nom EN
+    const safePassiveImg = master.passive.name['EN']; 
     
     if (passiveLvlIndex >= 0) {
-        // Supporte le JSON si 'effect' est un objet {FR: "", EN: ""} ou un simple texte
         let rawEffect = master.passive.levels[passiveLvlIndex].effect;
-        let pEffect = (typeof rawEffect === 'object') ? (rawEffect[lang] || rawEffect['EN']) : rawEffect;
+        let pEffect = (typeof rawEffect === 'object' && rawEffect !== null) ? (rawEffect[lang] || rawEffect['EN']) : rawEffect;
 
         passiveContainer.innerHTML = `
             <div class="skill-row active" style="margin: 0; padding: 0; border: none; background: transparent;">
@@ -150,32 +179,42 @@ function updateMasterUI() {
 
     // --- CALCUL COMPÉTENCES ACTIVES ---
     let skillsHTML = '';
+    let nextActiveReq = null;
+
     master.skills.forEach(skill => {
-        const isUnlocked = modalState.relLevel >= skill.unlockRelLevel;
+        // CORRECTION DE LA LOGIQUE : Déblocage au niveau 11, 21, 31, 41... (sauf pour le niveau 1 absolu)
+        let requiredLevel = skill.unlockRelLevel;
+        if (requiredLevel > 1 && requiredLevel % 10 === 0) {
+            requiredLevel += 1; 
+        }
+
+        const isUnlocked = modalState.relLevel >= requiredLevel;
         const currentSkillLevel = modalState.skills[skill.id] || 0;
         const safeSkillImg = skill.name['EN']; 
         const sName = skill.name[lang] || skill.name['EN'];
 
-        // Création des Pips avec la DA exacte des héros
+        // Identifier le prochain objectif de compétence
+        if (!isUnlocked && (nextActiveReq === null || requiredLevel < nextActiveReq)) {
+            nextActiveReq = requiredLevel;
+        }
+
         let pipsHTML = `<div class="skill-pips-container" style="flex-wrap: wrap; justify-content: flex-start; margin-top: 5px;">`;
         if (isUnlocked) {
             for (let i = 1; i <= skill.levels.length; i++) {
                 let isActive = i <= currentSkillLevel;
-                // Si on clique sur le niveau actuel, ça redescend d'un cran (désélection)
                 let levelToSet = (currentSkillLevel === i) ? i - 1 : i;
                 pipsHTML += `<div class="skill-pip ${isActive ? 'active' : ''}" onclick="setMasterSkill('${skill.id}', ${levelToSet})">${i}</div>`;
             }
         }
         pipsHTML += `</div>`;
 
-        let effectDisplay = `<span style="color:var(--text-muted);">${dict.lockedSkill} ${skill.unlockRelLevel}</span>`;
+        let effectDisplay = `<span style="color:var(--text-muted);">${dict.lockedSkill} ${requiredLevel}</span>`;
         if (isUnlocked && currentSkillLevel > 0) {
             let rawEffect = skill.levels[currentSkillLevel - 1].effect;
             let finalEffect = (typeof rawEffect === 'object' && rawEffect !== null) ? (rawEffect[lang] || rawEffect['EN']) : rawEffect;
             effectDisplay = `<span style="color:var(--success); font-weight:bold;">${finalEffect}</span>`;
         }
 
-        // On utilise la classe "skill-row" d'origine sans forcer de styles CSS supplémentaires
         skillsHTML += `
             <div class="skill-row ${isUnlocked ? 'active' : 'locked'}">
                 <div class="skill-header">
@@ -191,6 +230,23 @@ function updateMasterUI() {
     });
     
     document.getElementById('modal-skills-list').innerHTML = skillsHTML;
+
+    // --- MISE À JOUR DU PROCHAIN OBJECTIF ---
+    const objContainer = document.getElementById('modal-next-objective');
+    if (objContainer) {
+        if (modalState.relLevel >= 100) {
+            objContainer.style.display = 'none';
+        } else {
+            let nextLvl = 100;
+            if (nextPassiveReq && nextPassiveReq < nextLvl) nextLvl = nextPassiveReq;
+            if (nextActiveReq && nextActiveReq < nextLvl) nextLvl = nextActiveReq;
+
+            let textObj = (lang === 'FR') ? `Prochain palier majeur au <strong>Niveau ${nextLvl}</strong>` : `Next major milestone at <strong>Level ${nextLvl}</strong>`;
+            
+            objContainer.innerHTML = `🎯 ${textObj}`;
+            objContainer.style.display = 'block';
+        }
+    }
 }
 
 window.setMasterSkill = function(skillId, val) {
