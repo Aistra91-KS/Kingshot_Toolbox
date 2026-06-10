@@ -71,7 +71,7 @@ function renderMastersGrid() {
         const card = document.createElement('div');
         card.className = `master-card ${isLocked ? 'locked' : ''}`;
         card.innerHTML = `
-            <div class="master-portrait" style="background-image: url('img/widgetname/${safeImgName}.png');"></div>
+            <div class="master-portrait" style="background-image: url('img/Master/${safeImgName}.png');"></div>
             <div class="master-info">
                 <h3 class="master-name">${mName}</h3>
                 <div class="master-title">${mTitle}</div>
@@ -95,7 +95,7 @@ function openMasterModal(master, userData) {
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
     const safeImgName = master.name['EN'].replace(/'/g, "%27");
 
-    document.getElementById('modal-header-bg').style.backgroundImage = `url('img/widgetname/${safeImgName}.png')`;
+    document.getElementById('modal-header-bg').style.backgroundImage = `url('img/Master/${safeImgName}.png')`;
     document.getElementById('modal-master-name').textContent = master.name[lang] || master.name['EN'];
     document.getElementById('modal-master-title').textContent = master.title[lang] || master.title['EN'];
     
@@ -157,7 +157,7 @@ function updateMasterUI() {
         skillsHTML += `
             <div class="skill-row ${isUnlocked ? 'active' : 'locked'}">
                 <div class="skill-header">
-                    <div class="skill-icon" style="background-image: url('img/widgetskill/${safeSkillImg}.png');"></div>
+                    <div class="skill-icon" style="background-image: url('img/MasterSkill/${safeSkillImg}.png');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: ${isUnlocked ? 'var(--text-light)' : 'var(--text-muted)'};">${sName}</div>
                         <div class="skill-effect">${effectDisplay}</div>
