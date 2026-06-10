@@ -1562,7 +1562,21 @@ body.modal-active .main-content {
 }
 
 #modal-header-bg {
-    filter: blur(0.6px) contrast(1.1);
+    /* Lissage algorithmique puissant pour les images basse résolution */
+    image-rendering: smooth;
+    /* On augmente un peu le flou et la luminosité pour effacer les pixels carrés */
+    filter: blur(1px) contrast(1.15) brightness(1.05);
+}
+
+.master-portrait {
+    height: 320px;
+    background-size: cover;
+    background-position: center top;
+    border-bottom: 2px solid var(--border);
+    position: relative;
+    image-rendering: smooth;
+    filter: blur(0.8px) contrast(1.1);
+    transform: translateZ(0); 
 }
 
 /* Design des carrés (Pips) de compétences (Style Caserne) */
