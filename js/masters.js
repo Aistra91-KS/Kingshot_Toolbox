@@ -153,19 +153,17 @@ function updateMasterUI() {
     master.skills.forEach(skill => {
         const isUnlocked = modalState.relLevel >= skill.unlockRelLevel;
         const currentSkillLevel = modalState.skills[skill.id] || 0;
-        const safeSkillImg = skill.name['EN']; // Image basée sur le nom EN exact
+        const safeSkillImg = skill.name['EN']; 
         const sName = skill.name[lang] || skill.name['EN'];
 
-        // Création des carrés (pips)
-        let pipsHTML = `<div class="master-skill-pips">`;
-        for (let i = 1; i <= skill.levels.length; i++) {
-            let isActive = i <= currentSkillLevel;
-            if (isUnlocked) {
-                // Si on clique sur le carré déjà actif (le dernier), ça le désélectionne (i - 1)
+        // Création des Pips avec la DA exacte des héros
+        let pipsHTML = `<div class="skill-pips-container" style="flex-wrap: wrap; justify-content: flex-start; margin-top: 5px;">`;
+        if (isUnlocked) {
+            for (let i = 1; i <= skill.levels.length; i++) {
+                let isActive = i <= currentSkillLevel;
+                // Si on clique sur le niveau actuel, ça redescend d'un cran (désélection)
                 let levelToSet = (currentSkillLevel === i) ? i - 1 : i;
-                pipsHTML += `<div class="master-pip ${isActive ? 'active' : ''}" onclick="setMasterSkill('${skill.id}', ${levelToSet})" title="Niv. ${i}"></div>`;
-            } else {
-                pipsHTML += `<div class="master-pip locked"></div>`;
+                pipsHTML += `<div class="skill-pip ${isActive ? 'active' : ''}" onclick="setMasterSkill('${skill.id}', ${levelToSet})">${i}</div>`;
             }
         }
         pipsHTML += `</div>`;
@@ -173,20 +171,21 @@ function updateMasterUI() {
         let effectDisplay = `<span style="color:var(--text-muted);">${dict.lockedSkill} ${skill.unlockRelLevel}</span>`;
         if (isUnlocked && currentSkillLevel > 0) {
             let rawEffect = skill.levels[currentSkillLevel - 1].effect;
-            let finalEffect = (typeof rawEffect === 'object') ? (rawEffect[lang] || rawEffect['EN']) : rawEffect;
+            let finalEffect = (typeof rawEffect === 'object' && rawEffect !== null) ? (rawEffect[lang] || rawEffect['EN']) : rawEffect;
             effectDisplay = `<span style="color:var(--success); font-weight:bold;">${finalEffect}</span>`;
         }
 
+        // On utilise la classe "skill-row" d'origine sans forcer de styles CSS supplémentaires
         skillsHTML += `
-            <div class="skill-row ${isUnlocked ? 'active' : 'locked'}" style="flex-direction: column; align-items: flex-start; padding: 12px;">
-                <div class="skill-header" style="width: 100%;">
-                    <div class="skill-icon" style="background-image: url('img/MasterSkill/${safeSkillImg}.png');"></div>
+            <div class="skill-row ${isUnlocked ? 'active' : 'locked'}">
+                <div class="skill-header">
+                    <div class="skill-icon" style="background-image: url('img/masterskill/${safeSkillImg}.png');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: ${isUnlocked ? 'var(--text-light)' : 'var(--text-muted)'};">${sName}</div>
                         <div class="skill-effect">${effectDisplay}</div>
                     </div>
                 </div>
-                ${pipsHTML}
+                ${isUnlocked ? pipsHTML : ''}
             </div>
         `;
     });
