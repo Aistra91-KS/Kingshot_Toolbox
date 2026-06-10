@@ -137,7 +137,7 @@ function updateMasterUI() {
         passiveContainer.innerHTML = `
             <div class="skill-row active" style="margin: 0; padding: 0; border: none; background: transparent;">
                 <div class="skill-header">
-                    <div class="skill-icon" style="background-image: url('img/masterskill/${safePassiveImg}.png');"></div>
+                    <div class="skill-icon" style="background-image: url('img/MasterSkill/${safePassiveImg}.png');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: var(--accent); font-weight: bold;">${pName} (${dict.lvlPrefix}${passiveLvlIndex + 1})</div>
                         <div class="skill-effect" style="color: var(--text-light);">${pEffect}</div>
@@ -180,7 +180,7 @@ function updateMasterUI() {
         skillsHTML += `
             <div class="skill-row ${isUnlocked ? 'active' : 'locked'}" style="flex-direction: column; align-items: flex-start; padding: 12px;">
                 <div class="skill-header" style="width: 100%;">
-                    <div class="skill-icon" style="background-image: url('img/masterskill/${safeSkillImg}.png');"></div>
+                    <div class="skill-icon" style="background-image: url('img/MasterSkill/${safeSkillImg}.png');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: ${isUnlocked ? 'var(--text-light)' : 'var(--text-muted)'};">${sName}</div>
                         <div class="skill-effect">${effectDisplay}</div>
