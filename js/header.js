@@ -43,6 +43,10 @@
                     <span class="nav-icon">⛺</span>
                     <span class="nav-label">Caserne</span>
                 </a>
+                <a href="masters.html" class="nav-link" id="nav-masters">
+                    <span class="nav-icon">⚜️</span>
+                    <span class="nav-label" data-i18n="navMasters">Experts</span>
+                </a>
             </nav>
             
             <div style="display: flex; align-items: center;">
