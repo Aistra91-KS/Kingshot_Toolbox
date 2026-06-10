@@ -17,6 +17,7 @@ const i18nBackup = {
         errSelectImport: "Veuillez cocher les modules que vous souhaitez restaurer avant d'importer le fichier.",
         errInvalidFile: "Fichier de sauvegarde invalide.",
         successImport: "Importation réussie ! {count} élément(s) restauré(s).\nLa page va se rafraîchir pour appliquer les données.",
+        modMasters: "Conseil des Experts (Masters)",
         errCorrupt: "Erreur lors de l'importation : Le fichier est corrompu ou ne provient pas de l'application."
     },
     EN: {
@@ -33,6 +34,7 @@ const i18nBackup = {
         errSelectImport: "Please check the modules you want to restore before importing the file.",
         errInvalidFile: "Invalid backup file.",
         successImport: "Import successful! {count} item(s) restored.\nThe page will refresh to apply the data.",
+        modMasters: "Hall of Masters (Experts)",
         errCorrupt: "Import error: The file is corrupted or does not come from the application."
     }
 };
