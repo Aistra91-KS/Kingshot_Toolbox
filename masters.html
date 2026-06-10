@@ -30,12 +30,22 @@
 
             <div id="modal-body" style="padding: 20px; flex: 1;">
                 
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--control-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                <!-- RELATION & STATUT -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: var(--control-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
                     <div>
                         <span style="font-size: 13px; color: var(--text-muted);" data-i18n="relLevel">Niv. de Relation</span>
                         <div id="modal-master-title" style="font-size: 11px; color: var(--accent); text-transform: uppercase; margin-top: 4px;">Titre</div>
+                        <!-- NOUVEAU : Statut de Relation -->
+                        <div id="modal-master-status" style="font-size: 14px; font-weight: bold; color: var(--success); margin-top: 6px;">Étranger</div>
                     </div>
-                    <input type="number" id="modal-rel-input" min="0" max="100" style="width: 70px; background: var(--bg-dark); color: var(--text-light); border: 1px solid var(--accent); padding: 5px; border-radius: 4px; text-align: center; font-weight: bold;" onchange="updateMasterUI()">
+                    <div style="text-align: right;">
+                        <input type="number" id="modal-rel-input" min="0" max="100" style="width: 70px; background: var(--bg-dark); color: var(--text-light); border: 1px solid var(--accent); padding: 8px; border-radius: 4px; text-align: center; font-weight: bold; font-size: 16px;" onchange="updateMasterUI()">
+                    </div>
+                </div>
+
+                <!-- NOUVEAU : PROCHAIN OBJECTIF -->
+                <div id="modal-next-objective" style="margin-bottom: 25px; padding: 12px 15px; background: rgba(78, 205, 196, 0.1); border-left: 4px solid var(--success); border-radius: 4px; font-size: 13px; color: var(--text-light); display: none;">
+                    <!-- Injecté par JS -->
                 </div>
 
                 <div class="skills-section" style="margin-bottom: 25px;">
