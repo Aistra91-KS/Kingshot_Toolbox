@@ -60,12 +60,7 @@ async function initMasters() {
 
 function applyTranslations() {
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
-    const dict = i18nMasters[lang] || i18nMasters['FR'];
-    
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-    });
+    GlobalLang.applyI18n(i18nMasters[lang] || i18nMasters['FR']);
 }
 
 function renderMastersGrid() {
