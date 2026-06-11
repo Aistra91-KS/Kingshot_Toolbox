@@ -492,7 +492,7 @@ function renderModalSkills(fullStars) {
 
         // Remplacement dynamique des "X%" ou "(X%, Y%)"
         if (currentLvl > 0 && skill.levels && skill.levels[currentLvl - 1]) {
-            let valueStr = skill.levels[currentLvl - 1];
+            let valueStr = String(skill.levels[currentLvl - 1]);
 
             if (valueStr.startsWith('(') && valueStr.endsWith(')')) {
                 valueStr = valueStr.substring(1, valueStr.length - 1);
@@ -604,6 +604,7 @@ function renderModalWidget() {
 
         // NOUVEAU : Fonction qui gère les valeurs multiples "(val1, val2)"
         const formatWidgetDesc = (desc, valString, color) => {
+            valString = String(valString);
             if (valString.startsWith('(') && valString.endsWith(')')) {
                 // S'il y a plusieurs valeurs, on les sépare et on remplace les X un par un
                 let values = valString.substring(1, valString.length - 1).split(',');
