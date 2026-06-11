@@ -76,7 +76,7 @@ const i18nCaserne = {
 
 // Variables globales
 let heroesDB = []; 
-let userHeroes = JSON.parse(localStorage.getItem(STORAGE_KEYS.caserneHeroes)) || {};
+let userHeroes = safeParse(STORAGE_KEYS.caserneHeroes, {});
 let currentEditingHeroObj = null;
 
 const rarityWeight = { "legendary": 3, "epic": 2, "rare": 1 };
