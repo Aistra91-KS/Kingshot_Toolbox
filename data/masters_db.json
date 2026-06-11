@@ -325,8 +325,8 @@
     },
     "skills": [
       {
-        "id": "Recruiter in Chief",
-        "name": { "EN": "Recruiter In Chief", "FR": "Recruteur en Chef" },
+        "id": "Recruiter_in_Chief",
+        "name": { "EN": "Recruiter in Chief", "FR": "Recruteur en Chef" },
         "unlockRelLevel": 10,
         "levels": [
           { "level": 1, "effect": "+1 high-level soldier · +150 Medallions", "xpCost": 0, "manuscripts": 0, "power": 18000 },
