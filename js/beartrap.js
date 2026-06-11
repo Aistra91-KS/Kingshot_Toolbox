@@ -171,6 +171,11 @@ function getRawNumber(id) {
     return parseInt(cleanStr, 10) || 0;
 }
 
+function escapeHTML(str) {
+    return String(str).replace(/[&<>"']/g, c =>
+        ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
 function formatInputNumber(e) {
     let val = e.target.value.replace(/\D/g, ''); 
     if (val === '') {
@@ -868,7 +873,7 @@ function renderCustomMarches() {
         div.className = 'custom-march-card';
         div.innerHTML = `
             <div>
-                <strong style="color: var(--accent); display: inline-block; margin-bottom: 5px;">${march.name} ${hostBadge}</strong>
+                <strong style="color: var(--accent); display: inline-block; margin-bottom: 5px;">${escapeHTML(march.name)} ${hostBadge}</strong>
                 <div class="custom-march-stats">
                     <div>Total: <span>${march.total.toLocaleString('fr-FR')}</span></div>
                     <div>🛡️ <span>${march.inf.toLocaleString('fr-FR')}</span> <span style="color: var(--text-muted); font-size: 0.85em; font-weight: normal;">(${pInf}%)</span></div>
