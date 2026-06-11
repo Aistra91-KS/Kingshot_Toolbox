@@ -16,6 +16,13 @@
 
         <div class="control-group" style="margin-top: 20px;">
             <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;" data-i18n="filterSort">Tri & Filtres</h3>
+
+            <div class="filter-group" style="margin-bottom: 15px;">
+                <label data-i18n="searchHero">Rechercher</label>
+                <input type="text" id="hero-search" class="table-input"
+                    data-i18n-placeholder="searchHeroPh" placeholder="Nom du héros…"
+                   style="width: 100%;">
+            </div>
             
             <div class="control-row" style="margin-bottom: 10px;">
                 <label data-i18n="sortBy">Trier par</label>
@@ -88,9 +95,6 @@
     </div>
 
     <main class="main-content flow" style="padding: 20px;">
-        <input type="text" id="hero-search" class="table-input"
-           data-i18n-placeholder="searchHero" placeholder="Rechercher un héros…"
-           style="width:100%; margin-bottom:15px;">
         <div id="heroes-grid" class="heroes-grid"></div>
     </main>
 
