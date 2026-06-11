@@ -86,9 +86,6 @@ function toggleHeaderTheme() {
     const target = current === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', target);
     localStorage.setItem('hub_theme', target);
-    // Sauvegarder aussi pour les anciennes clés (compatibilité)
-    localStorage.setItem('tg_calc_theme', target);
-    localStorage.setItem('research_calc_theme', target);
     updateHeaderThemeIcon(target);
 }
 
