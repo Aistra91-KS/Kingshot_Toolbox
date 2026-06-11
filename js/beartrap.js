@@ -244,29 +244,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function applyTranslations(lang) {
     const dict = i18nBearTrap[lang] || i18nBearTrap.EN;
-    
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-    });
-
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (dict[key]) el.placeholder = dict[key];
-    });
+    GlobalLang.applyI18n(dict);
 
     const roleSelect = document.getElementById('player-role');
     if (roleSelect) {
         roleSelect.options[0].text = dict.optPart;
         roleSelect.options[1].text = dict.optOrg;
     }
-
     const modeSelect = document.getElementById('optim-mode');
     if (modeSelect) {
         modeSelect.options[0].text = dict.optMin;
         modeSelect.options[1].text = dict.optForm;
     }
-    
     updateModalLiveStats();
 }
 
