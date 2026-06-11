@@ -33,6 +33,8 @@ const i18nCaserne = {
         modalSave: "Enregistrer",
         modalWidgetLvl: "Niveau :",
         modalWidgetTitle: "Équipement Exclusif",
+        searchHero: 'Rechercher', 
+        searchHeroPh: 'Nom du héros…',
         modalWIP: "(Bientôt) Modale pour configurer"
     },
     EN: {
@@ -66,6 +68,8 @@ const i18nCaserne = {
         modalCancel: "Cancel",
         modalWidgetLvl: "Level:",
         modalWidgetTitle: "Exclusive Gear",
+        searchHero: 'Search', 
+        searchHeroPh: 'Hero name…',
         modalSave: "Save"
     }
 };
