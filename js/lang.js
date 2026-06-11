@@ -68,5 +68,18 @@ const GlobalLang = {
     }
 };
 
+// Applique un dictionnaire aux éléments [data-i18n] et [data-i18n-placeholder]
+GlobalLang.applyI18n = function(dict) {
+    if (!dict) return;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key]) el.placeholder = dict[key];
+    });
+};
+
 // Expose globalement pour les autres scripts
 window.GlobalLang = GlobalLang;
