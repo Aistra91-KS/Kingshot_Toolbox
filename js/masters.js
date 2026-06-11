@@ -79,7 +79,7 @@ function renderMastersGrid() {
         const isLocked = userData.relLevel === 0;
         
         // Nom sécurisé pour le chemin d'image
-        const safeImgName = master.name['EN'].replace(/'/g, "%27");
+        const safeImgName = encodeURIComponent(master.name['EN']);
         const mName = master.name[lang] || master.name['EN'];
         const mTitle = master.title[lang] || master.title['EN'];
 
@@ -112,7 +112,7 @@ function openMasterModal(master, userData) {
     };
 
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
-    const safeImgName = master.name['EN'].replace(/'/g, "%27");
+    const safeImgName = encodeURIComponent(master.name['EN']);
 
     document.getElementById('modal-header-bg').style.backgroundImage = `url('img/Master/${safeImgName}.png')`;
     document.getElementById('modal-master-name').textContent = master.name[lang] || master.name['EN'];
@@ -157,7 +157,7 @@ function updateMasterUI() {
     
     const passiveContainer = document.getElementById('modal-passive-display');
     const pName = master.passive.name[lang] || master.passive.name['EN'];
-    const safePassiveImg = master.passive.name['EN']; 
+    const safePassiveImg = encodeURIComponent(master.passive.name['EN']); 
     
     if (passiveLvlIndex >= 0) {
         let rawEffect = master.passive.levels[passiveLvlIndex].effect;
@@ -190,7 +190,7 @@ function updateMasterUI() {
 
         const isUnlocked = modalState.relLevel >= requiredLevel;
         const currentSkillLevel = modalState.skills[skill.id] || 0;
-        const safeSkillImg = skill.name['EN']; 
+        const safeSkillImg = encodeURIComponent(skill.name['EN']); 
         const sName = skill.name[lang] || skill.name['EN'];
 
         // Identifier le prochain objectif de compétence
