@@ -43,7 +43,7 @@ function getRelationshipStatusObj(level) {
 }
 
 let mastersDB = [];
-let userMasters = JSON.parse(localStorage.getItem('masters_user_data')) || {};
+let userMasters = JSON.parse(localStorage.getItem(STORAGE_KEYS.masters')) || {};
 let currentMasterId = null;
 let modalState = { relLevel: 0, skills: {} };
 
@@ -271,7 +271,7 @@ function saveMasterSettings() {
         };
     }
     
-    localStorage.setItem('masters_user_data', JSON.stringify(userMasters));
+    localStorage.setItem(STORAGE_KEYS.masters, JSON.stringify(userMasters));
     renderMastersGrid();
     closeMasterModal();
 }
