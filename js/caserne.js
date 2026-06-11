@@ -344,7 +344,7 @@ function renderHeroes() {
         card.className = `hero-card ${hero.rarity.toLowerCase()} ${isLocked ? 'locked' : ''}`;
 
         card.innerHTML = `
-            <div class="hero-image" style="background-image: url('img/heroes/${hero.name}.png');"></div>
+            <div class="hero-image" style="background-image: url('img/heroes/${encodeURIComponent(hero.name)}.png');"></div>
             <div class="hero-gradient"></div>
             
             <div class="hero-type-badge">${getTroopEmoji(hero.troopType)}</div>
@@ -478,7 +478,7 @@ function renderModalSkills(fullStars) {
         // 3. NOM DE L'IMAGE : On force TOUJOURS l'anglais pour le fichier PNG
         const imageName = typeof skill.name === 'object' ? skill.name['EN'] : skill.name;
         // On remplace les apostrophes par leur code URL (%27) pour ne pas casser le CSS
-        const safeImageName = imageName.replace(/'/g, "%27");
+        const safeImageName = encodeURIComponent(imageName);
 
         // Remplacement dynamique des "X%" ou "(X%, Y%)"
         if (currentLvl > 0 && skill.levels && skill.levels[currentLvl - 1]) {
@@ -546,9 +546,9 @@ function renderModalWidget() {
         let nameExpe = dbHero.widget.effectExpe.name[currentLang] || dbHero.widget.effectExpe.name['EN'];
 
         // Noms EN sécurisés pour les chemins d'images (remplacement des apostrophes)
-        const safeWidgetImg = dbHero.widget.name['EN'].replace(/'/g, "%27");
-        const safeConquestImg = dbHero.widget.effectConquest.name['EN'].replace(/'/g, "%27");
-        const safeExpeImg = dbHero.widget.effectExpe.name['EN'].replace(/'/g, "%27");
+        const safeWidgetImg = encodeURIComponent(dbHero.widget.name['EN']);
+        const safeConquestImg = encodeURIComponent(dbHero.widget.effectConquest.name['EN']);
+        const safeExpeImg = encodeURIComponent(dbHero.widget.effectExpe.name['EN']);
 
         let savedWidgetLevel = modalState.widgetLevel;
         
