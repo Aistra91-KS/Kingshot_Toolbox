@@ -65,6 +65,7 @@
 
     if (window.GlobalLang) {
         window.GlobalLang.applyToSelect('global-lang-select');
+        document.documentElement.lang = window.GlobalLang.get().toLowerCase();
     }
 })();
 
@@ -72,6 +73,7 @@
 window.addEventListener('langChanged', (e) => {
     const select = document.getElementById('global-lang-select');
     if (select) select.value = e.detail.lang;
+    document.documentElement.lang = (e.detail.lang || 'en').toLowerCase();
 });
 
 // ============ THEME (gestion globale) ============
