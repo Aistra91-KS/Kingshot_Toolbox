@@ -35,30 +35,6 @@ const i18nHub = {
     }
 };
 
-// ============ THEME ============
-function initTheme() {
-    const savedTheme = localStorage.getItem('hub_theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeButton(savedTheme);
-}
-
-function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme');
-    const target = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', target);
-    localStorage.setItem('hub_theme', target);
-    updateThemeButton(target);
-}
-
-function updateThemeButton(theme) {
-    const btn = document.getElementById('theme-toggle');
-    if (theme === 'dark') {
-        btn.textContent = '☀️ Light Mode';
-    } else {
-        btn.textContent = '🌙 Dark Mode';
-    }
-}
-
 // ============ LANGUAGE ============
 function applyHubTranslations(lang) {
     const dict = i18nHub[lang];
@@ -87,5 +63,4 @@ window.addEventListener('langChanged', (e) => {
 });
 
 // ============ STARTUP ============
-initTheme();
 initLang();
