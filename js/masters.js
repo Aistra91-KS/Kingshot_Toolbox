@@ -43,7 +43,7 @@ function getRelationshipStatusObj(level) {
 }
 
 let mastersDB = [];
-let userMasters = JSON.parse(localStorage.getItem(STORAGE_KEYS.masters)) || {};
+let userMasters = safeParse(STORAGE_KEYS.masters, {});
 let currentMasterId = null;
 let modalState = { relLevel: 0, skills: {} };
 
