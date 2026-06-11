@@ -16,7 +16,9 @@ const i18nHub = {
         MadeBy: "Fait par",
         caserneTitle: "Ma Caserne",
         caserneDesc: "Gérez vos héros, définissez leurs générations et enregistrez les niveaux de leurs compétences.",
-        beartrapDesc: "Optimisez vos ralliements pour le Bear Trap. Calculez la répartition parfaite de vos marches."
+        beartrapDesc: "Optimisez vos ralliements pour le Bear Trap. Calculez la répartition parfaite de vos marches.",
+        mastersTitle: "Experts",
+        mastersDesc: "Consultez les experts, leurs compétences et leurs paliers d'affinité pour optimiser vos bonus."
     },
     EN: {
         subtitle: "Your strategic toolbox",
@@ -31,6 +33,8 @@ const i18nHub = {
         MadeBy: "Made by",
         caserneTitle: "My Barracks",
         caserneDesc: "Manage your heroes, set their generations, and record their skill levels.",
+        mastersTitle: "Experts",
+        mastersDesc: "Browse the experts, their skills and affinity milestones to optimize your bonuses.",
         beartrapDesc: "Optimize your rallies for the Bear Trap. Calculate the perfect distribution of your steps."
     }
 };
