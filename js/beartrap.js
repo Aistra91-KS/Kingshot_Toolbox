@@ -525,7 +525,7 @@ function suggestHeroesForModal() {
     }
 
     if (team.length === 0) {
-        alert("Aucun héros disponible pour cette suggestion.");
+        showAppAlert("Aucun héros disponible pour cette suggestion.");
         return;
     }
 
@@ -615,7 +615,7 @@ function initStudioModal() {
     btnAdd.addEventListener('click', () => {
         const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
         if (customMarchesList.length >= getTotalMarchesAllowed()) {
-            alert(dict.errMaxMarches);
+            showAppAlert(dict.errMaxMarches);
             return;
         }
         
@@ -653,7 +653,7 @@ function initStudioModal() {
         const selectedHeroes = [h1, h2, h3].filter(v => v !== "");
         
         if (selectedHeroes.length !== new Set(selectedHeroes).size) {
-            alert(dict.errDuplicateHero || "Erreur : Un héros est sélectionné en double.");
+            showAppAlert(dict.errDuplicateHero || "Erreur : Un héros est sélectionné en double.");
             return;
         }
         
@@ -663,7 +663,7 @@ function initStudioModal() {
         }).filter(Boolean);
 
         if (selectedClasses.length !== new Set(selectedClasses).size) {
-            alert("Erreur : Vous ne pouvez pas sélectionner plusieurs héros de la même classe.");
+            showAppAlert("Erreur : Vous ne pouvez pas sélectionner plusieurs héros de la même classe.");
             return;
         }
 
@@ -678,7 +678,7 @@ function initStudioModal() {
         const total = rawInf + rawCav + rawArc;
 
         if (total === 0) return; 
-        if (isExceeding) { alert(dict.errExceedCap); return; }
+        if (isExceeding) { showAppAlert(dict.errExceedCap); return; }
 
         const { remInf, remCav, remArc } = getRemainingGlobalTroops();
         let currentEditingInf = 0, currentEditingCav = 0, currentEditingArc = 0;
@@ -691,7 +691,7 @@ function initStudioModal() {
         }
 
         if (rawInf > (remInf + currentEditingInf) || rawCav > (remCav + currentEditingCav) || rawArc > (remArc + currentEditingArc)) {
-            alert(dict.errNoTroopsForCustom);
+            showAppAlert(dict.errNoTroopsForCustom);
             return;
         }
 
