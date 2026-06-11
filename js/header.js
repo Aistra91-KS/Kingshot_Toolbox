@@ -139,3 +139,15 @@ function showAppConfirm(message, onConfirm, onCancel = null) {
     overlay.querySelector('#confirm-yes').onclick = () => { close(); onConfirm(); };
     overlay.querySelector('#confirm-no').onclick  = () => { close(); if (onCancel) onCancel(); };
 }
+
+function showLoader(message = '...') {
+    const el = document.createElement('div');
+    el.id = 'app-loader';
+    el.style.cssText = 'position:fixed;inset:0;background:var(--bg-primary);display:flex;align-items:center;justify-content:center;z-index:9999;font-size:1.1em;color:var(--text-muted);';
+    el.textContent = message;
+    document.body.appendChild(el);
+}
+function hideLoader() {
+    const el = document.getElementById('app-loader');
+    if (el) el.remove();
+}
