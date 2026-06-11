@@ -134,20 +134,14 @@ window.addEventListener('storage', (e) => {
 });
 
 function applyCaserneTranslations(lang) {
-    const dict = i18nCaserne[lang] || i18nCaserne['FR'];
-
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-    });
+    GlobalLang.applyI18n(i18nCaserne[lang] || i18nCaserne['FR']);
 
     if (heroesDB.length > 0) renderHeroes();
-    
-    // NOUVEAU : Met à jour les textes de la fenêtre latérale si elle est ouverte !
     if (currentEditingHeroObj && document.getElementById('hero-modal').classList.contains('show')) {
         updateModalUI();
     }
 }
+
 // ==========================================
 // INITIALISATION DE LA PAGE
 // ==========================================
