@@ -438,14 +438,27 @@ function loadData() {
 }
 
 // ============ MAIN UPDATE ============
+
+// Utilitaire : ne lance fn qu'après 'delay' ms sans nouvel appel
+function debounce(fn, delay = 200) {
+    let timer;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+}
+
+// Version différée de l'optimiseur lourd (relancée seulement à la fin de la frappe)
+const scheduleCalculation = debounce(runCalculator, 200);
+
 function triggerUpdate() {
     try {
-        getTotalVitesse();
-        applyTranslations();
-        renderBuildings();
-        runCalculator();
-        saveData();
-    } catch(e) {
+        getTotalVitesse();      // léger : met à jour le bonus total affiché (immédiat)
+        applyTranslations();    // léger (immédiat)
+        renderBuildings();      // met à jour les coûts par ligne (feedback immédiat)
+        saveData();             // léger : persistance garantie (immédiat)
+        scheduleCalculation();  // LOURD : optimiseur différé de 200 ms
+    } catch (e) {
         console.error(e);
     }
 }
