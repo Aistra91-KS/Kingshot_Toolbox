@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ==========================================
 
 function loadFilters() {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.caserneFilters)) || DEFAULT_FILTERS;
+    const saved = safeParse(STORAGE_KEYS.caserneFilters, DEFAULT_FILTERS);
     
     if(document.getElementById('sort-by')) document.getElementById('sort-by').value = saved.sortBy;
     if(document.getElementById('filter-type')) document.getElementById('filter-type').value = saved.filterType;
