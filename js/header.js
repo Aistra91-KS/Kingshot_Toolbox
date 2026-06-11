@@ -97,3 +97,45 @@ function updateHeaderThemeIcon(theme) {
         icon.textContent = theme === 'dark' ? '☀️' : '🌙';
     }
 }
+
+// ============ MODALES GLOBALES ============
+function showAppAlert(message, isSuccess = false, callback = null) {
+    const color = isSuccess ? 'var(--success)' : 'var(--warning)';
+    const icon  = isSuccess ? '✅' : '⚠️';
+    const lang  = window.GlobalLang ? window.GlobalLang.get() : 'FR';
+    const title = isSuccess ? (lang === 'EN' ? 'Success' : 'Succès')
+                            : (lang === 'EN' ? 'Error'   : 'Erreur');
+    const overlay = document.createElement('div');
+    overlay.className = 'custom-alert-overlay active';
+    overlay.innerHTML = `
+        <div class="custom-alert-box" style="border-top:4px solid ${color};">
+            <div class="custom-alert-icon">${icon}</div>
+            <h3 style="color:${color};margin:0 0 15px;font-size:16px;text-transform:uppercase;letter-spacing:1px;">${title}</h3>
+            <div class="custom-alert-msg">${message}</div>
+            <button class="btn-modern btn-modern-secondary" style="width:100%;border-color:${color};color:${color};">OK</button>
+        </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('button').onclick = () => {
+        overlay.classList.remove('active');
+        setTimeout(() => { document.body.removeChild(overlay); if (callback) callback(); }, 300);
+    };
+}
+
+function showAppConfirm(message, onConfirm, onCancel = null) {
+    const lang = window.GlobalLang ? window.GlobalLang.get() : 'FR';
+    const overlay = document.createElement('div');
+    overlay.className = 'custom-alert-overlay active';
+    overlay.innerHTML = `
+        <div class="custom-alert-box" style="border-top:4px solid var(--warning);">
+            <div class="custom-alert-icon">⚠️</div>
+            <div class="custom-alert-msg" style="margin-bottom:20px;">${message}</div>
+            <div style="display:flex;gap:10px;">
+                <button id="confirm-yes" class="btn-modern" style="flex:1;">${lang === 'EN' ? 'Confirm' : 'Confirmer'}</button>
+                <button id="confirm-no"  class="btn-modern btn-modern-secondary" style="flex:1;">${lang === 'EN' ? 'Cancel' : 'Annuler'}</button>
+            </div>
+        </div>`;
+    document.body.appendChild(overlay);
+    const close = () => { overlay.classList.remove('active'); setTimeout(() => document.body.removeChild(overlay), 300); };
+    overlay.querySelector('#confirm-yes').onclick = () => { close(); onConfirm(); };
+    overlay.querySelector('#confirm-no').onclick  = () => { close(); if (onCancel) onCancel(); };
+}
