@@ -141,7 +141,7 @@ function saveData() {
     Object.keys(inputs).forEach(key => {
         inputsState[key] = inputs[key].type === 'checkbox' ? inputs[key].checked : inputs[key].value;
     });
-    localStorage.setItem(STORAGE_KEYS.researchInputs', JSON.stringify(inputsState));
+    localStorage.setItem(STORAGE_KEYS.researchInputs, JSON.stringify(inputsState));
 }
 
 // ============ UTILS ============
