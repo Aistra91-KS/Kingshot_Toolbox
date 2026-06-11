@@ -98,7 +98,7 @@ async function loadInitialDb() {
 }
 
 function initData() {
-    const savedDb = localStorage.getItem('research_calc_db_v9');
+    const savedDb = localStorage.getItem(STORAGE_KEYS.researchDb);
     if (savedDb) {
         try {
             db = JSON.parse(savedDb);
@@ -118,7 +118,7 @@ function initData() {
         db = JSON.parse(JSON.stringify(initialDb));
     }
 
-    const savedInputs = localStorage.getItem('research_calc_inputs_v9');
+    const savedInputs = localStorage.getItem(STORAGE_KEYS.researchInputs);
     if (savedInputs) {
         try {
             const parsedInputs = JSON.parse(savedInputs);
@@ -136,12 +136,12 @@ function initData() {
 }
 
 function saveData() {
-    localStorage.setItem('research_calc_db_v9', JSON.stringify(db));
+    localStorage.setItem(STORAGE_KEYS.researchDb, JSON.stringify(db));
     const inputsState = {};
     Object.keys(inputs).forEach(key => {
         inputsState[key] = inputs[key].type === 'checkbox' ? inputs[key].checked : inputs[key].value;
     });
-    localStorage.setItem('research_calc_inputs_v9', JSON.stringify(inputsState));
+    localStorage.setItem(STORAGE_KEYS.researchInputs', JSON.stringify(inputsState));
 }
 
 // ============ UTILS ============
@@ -488,8 +488,8 @@ document.getElementById('reset-button').addEventListener('click', () => {
     const lang = GlobalLang.get();
     const confirmMsg = lang === 'FR' ? "Êtes-vous sûr de vouloir réinitialiser toutes vos cases cochées et paramètres ?" : "Are you sure you want to reset all checkboxes and settings to defaults?";
     if (confirm(confirmMsg)) {
-        localStorage.removeItem('research_calc_db_v9');
-        localStorage.removeItem('research_calc_inputs_v9');
+        localStorage.removeItem(STORAGE_KEYS.researchDb);
+        localStorage.removeItem(STORAGE_KEYS.researchInputs);
         initData();
         updateUI();
     }
