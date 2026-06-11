@@ -147,11 +147,7 @@ function saveData() {
 // ============ UTILS ============
 function applyTranslations() {
     const lang = GlobalLang.get();
-    const dict = i18n[lang];
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if(dict[key]) el.textContent = dict[key];
-    });
+    GlobalLang.applyI18n(i18n[lang]);
 }
 
 function formatTime(seconds) {
