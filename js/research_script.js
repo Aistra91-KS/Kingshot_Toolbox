@@ -103,11 +103,12 @@ function initData() {
         try {
             db = JSON.parse(savedDb);
             const refMap = {};
-            initialDb.forEach(d => { refMap[d.Name + '_' + d.Level] = {r: d.reqs, e: d.Etage}; });
-            db.forEach(d => { 
-                if(refMap[d.Name + '_' + d.Level]) {
-                    d.reqs = refMap[d.Name + '_' + d.Level].r;
-                    d.Etage = refMap[d.Name + '_' + d.Level].e;
+            initialDb.forEach(d => { refMap[d.Tree + '_' + d.Name + '_' + d.Level] = {r: d.reqs, e: d.Etage}; });
+            db.forEach(d => {
+                const key = d.Tree + '_' + d.Name + '_' + d.Level;
+                if(refMap[key]) {
+                    d.reqs = refMap[key].r;
+                    d.Etage = refMap[key].e;
                 }
             });
         } catch(e) {
