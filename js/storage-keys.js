@@ -8,4 +8,16 @@ const STORAGE_KEYS = {
     beartrap:       'beartrap_data',
     truegold:       'tg_calc_data_v3'
 };
+
+function safeParse(key, fallback) {
+    try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+    } catch (e) {
+        console.warn('Données corrompues pour', key, '— réinitialisation.');
+        return fallback;
+    }
+}
+window.safeParse = safeParse;
+
 window.STORAGE_KEYS = STORAGE_KEYS;
