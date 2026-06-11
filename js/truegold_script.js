@@ -213,7 +213,7 @@ async function loadDatabase() {
             `3. Le JSON est-il valide (testez sur jsonlint.com) ?\n\n` +
             `💡 Ouvrez la console (F12) pour plus de détails.`;
         
-        alert(errorMessage);
+        showAppAlert(errorMessage);
         return false;
     }
 }
