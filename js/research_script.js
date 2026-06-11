@@ -92,7 +92,7 @@ async function loadInitialDb() {
         console.error('❌ Erreur de chargement du JSON :', e);
         // Affiche l'alerte UNIQUEMENT si la BDD est vraiment vide
         if (!initialDb || initialDb.length === 0) {
-            alert(`Impossible de charger la base de données.\n\nDétails : ${e.message}\n\nVérifiez que data/research_db.json existe et est valide.`);
+            showAppAlert(`Impossible de charger la base de données.<br><small>${e.message}</small>`);
         }
     }
 }
@@ -487,12 +487,11 @@ Object.values(inputs).forEach(input => {
 document.getElementById('reset-button').addEventListener('click', () => {
     const lang = GlobalLang.get();
     const confirmMsg = lang === 'FR' ? "Êtes-vous sûr de vouloir réinitialiser toutes vos cases cochées et paramètres ?" : "Are you sure you want to reset all checkboxes and settings to defaults?";
-    if (confirm(confirmMsg)) {
+    showAppConfirm(confirmMsg, () => {
         localStorage.removeItem(STORAGE_KEYS.researchDb);
         localStorage.removeItem(STORAGE_KEYS.researchInputs);
-        initData();
-        updateUI();
-    }
+        location.reload();
+    });
 });
 
 window.addEventListener('langChanged', updateUI);
