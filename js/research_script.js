@@ -74,32 +74,6 @@ const inputs = {
     hideCompleted: document.getElementById('hide-completed')
 };
 
-// ============ THEME ============
-function initTheme() {
-    const savedTheme = localStorage.getItem('research_calc_theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeButton(savedTheme);
-}
-function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme');
-    const target = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', target);
-    localStorage.setItem('research_calc_theme', target);
-    updateThemeButton(target);
-}
-function updateThemeButton(theme) {
-    const btn = document.getElementById('theme-toggle');
-    if (theme === 'dark') {
-        btn.textContent = '☀️ Light Mode';
-        btn.style.background = '#333';
-        btn.style.color = '#fff';
-    } else {
-        btn.textContent = '🌙 Dark Mode';
-        btn.style.background = '#fff';
-        btn.style.color = '#333';
-    }
-}
-
 // ============ DATA LOADING (depuis JSON) ============
 async function loadInitialDb() {
     try {
@@ -158,8 +132,6 @@ function initData() {
             });
         } catch(e) {}
     }
-    
-    initTheme();
 }
 
 function saveData() {
