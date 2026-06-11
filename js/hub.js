@@ -37,11 +37,7 @@ const i18nHub = {
 
 // ============ LANGUAGE ============
 function applyHubTranslations(lang) {
-    const dict = i18nHub[lang];
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-    });
+    GlobalLang.applyI18n(i18nHub[lang]);
 }
 
 function initLang() {
