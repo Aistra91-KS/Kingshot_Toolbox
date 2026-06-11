@@ -123,31 +123,6 @@ const i18n = {
     }
 };
 
-// ============ THEME ============
-function initTheme() {
-    const savedTheme = localStorage.getItem('tg_calc_theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeButton(savedTheme);
-}
-
-function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme');
-    const target = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', target);
-    localStorage.setItem('tg_calc_theme', target);
-    updateThemeButton(target);
-}
-
-function updateThemeButton(theme) {
-    const btn = document.getElementById('theme-toggle');
-    if (!btn) return;
-    if (theme === 'dark') {
-        btn.textContent = '☀️ Light Mode';
-    } else {
-        btn.textContent = '🌙 Dark Mode';
-    }
-}
-
 /**
  * Génère la map levelsByBuilding à partir d'une référence commune
  * et d'une config min/max par bâtiment.
@@ -893,7 +868,6 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
 (async function startup() {
     await loadDatabase();    // 1. Charger le JSON
     loadData();              // 2. Charger les préférences utilisateur
-    initTheme();             // 3. Init thème
     triggerUpdate();         // 4. Afficher
     window.addEventListener('langChanged', triggerUpdate);
 })();
