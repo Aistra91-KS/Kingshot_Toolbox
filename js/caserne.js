@@ -72,7 +72,7 @@ const i18nCaserne = {
 
 // Variables globales
 let heroesDB = []; 
-let userHeroes = JSON.parse(localStorage.getItem('caserne_user_heroes')) || {};
+let userHeroes = JSON.parse(localStorage.getItem(STORAGE_KEYS.caserneHeroes)) || {};
 let currentEditingHeroObj = null;
 
 const rarityWeight = { "legendary": 3, "epic": 2, "rare": 1 };
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ==========================================
 
 function loadFilters() {
-    const saved = JSON.parse(localStorage.getItem('caserne_filters')) || DEFAULT_FILTERS;
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.caserneFilters)) || DEFAULT_FILTERS;
     
     if(document.getElementById('sort-by')) document.getElementById('sort-by').value = saved.sortBy;
     if(document.getElementById('filter-type')) document.getElementById('filter-type').value = saved.filterType;
@@ -214,7 +214,7 @@ function saveFilters() {
     const filterUnlocked = unlockedCheckbox ? unlockedCheckbox.checked : false;
 
     const filters = { sortBy, filterType, filterRarity, checkedGens, filterUnlocked };
-    localStorage.setItem('caserne_filters', JSON.stringify(filters));
+    localStorage.setItem(STORAGE_KEYS.caserneFilters, JSON.stringify(filters));
 }
 
 function handleFilterChange() {
@@ -665,7 +665,7 @@ function saveHeroSettings() {
      };
     }
     
-    localStorage.setItem('caserne_user_heroes', JSON.stringify(userHeroes));
+    localStorage.setItem(STORAGE_KEYS.caserneHeroes, JSON.stringify(userHeroes));
     closeModal();
     renderHeroes(); 
 }
