@@ -320,7 +320,7 @@ function loadBearTrapData() {
 // ========================================
 
 function populateHeroDropdowns() {
-    const userHeroes = JSON.parse(localStorage.getItem(STORAGE_KEYS.caserneHeroes)) || {};
+    const userHeroes = safeParse(STORAGE_KEYS.caserneHeroes, {});
     
     const genEl = document.getElementById('server-generation');
     const maxGen = genEl ? parseInt(genEl.value, 10) : 6;
@@ -396,7 +396,7 @@ function updateHeroDropdownsState() {
 
 // NOUVEAU : Fonction du bouton "Suggérer"
 function suggestHeroesForModal() {
-    const userHeroes = JSON.parse(localStorage.getItem(STORAGE_KEYS.caserneHeroes)) || {};
+    const userHeroes = safeParse(STORAGE_KEYS.caserneHeroes, {});
     const role = document.getElementById('player-role').value;
     const generation = document.getElementById('server-generation').value;
     const maxGen = parseInt(generation, 10) || 6; // NOUVEAU
@@ -940,7 +940,7 @@ function editCustomMarch(id) {
 // ========================================
 
 function selectHeroesForMarches(marchesCount, role, generation) {
-    const userHeroes = JSON.parse(localStorage.getItem(STORAGE_KEYS.caserneHeroes)) || {};
+    const userHeroes = safeParse(STORAGE_KEYS.caserneHeroes, {});
     const hasCaserneData = Object.keys(userHeroes).length > 0;
     let assignedMarches = [];
 
