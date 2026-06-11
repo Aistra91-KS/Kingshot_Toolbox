@@ -159,7 +159,8 @@ function getHeroCapacity(level) {
     if (heroCapacityByLevel[level]) return heroCapacityByLevel[level];
     let closestLevel = 1;
     for (let key in heroCapacityByLevel) {
-        if (key <= level && key > closestLevel) closestLevel = key;
+        const k = Number(key);
+        if (k <= level && k > closestLevel) closestLevel = k;
     }
     return heroCapacityByLevel[closestLevel];
 }
