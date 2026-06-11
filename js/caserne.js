@@ -180,6 +180,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         cb.addEventListener('change', handleFilterChange);
     });
 
+    const searchInput = document.getElementById('hero-search');
+    if (searchInput) searchInput.addEventListener('input', renderHeroes);
+    
     document.getElementById('close-modal').addEventListener('click', closeModal);
     document.getElementById('save-modal').addEventListener('click', saveHeroSettings);
 });
@@ -321,7 +324,16 @@ function renderHeroes() {
         // 1. Vérification "Uniquement débloqués"
         if (isUnlockedOnlyChecked && !hData.unlocked) return false;
 
-        // 2. Autres filtres
+        // 2. Recherche par nom (FR + EN)
+        const searchEl = document.getElementById('hero-search');
+        const q = searchEl ? searchEl.value.trim().toLowerCase() : '';
+        if (q) {
+            const nameFr = (hero.name_fr || hero.name || '').toLowerCase();
+            const nameEn = (hero.name || '').toLowerCase();
+            if (!nameFr.includes(q) && !nameEn.includes(q)) return false;
+        }
+
+        // 3. Autres filtres
         if (!checkedGens.includes(hero.generation.toString())) return false;
         if (filterType !== 'all' && hero.troopType.toLowerCase() !== filterType.toLowerCase()) return false;
         if (filterRarity !== 'all' && hero.rarity.toLowerCase() !== filterRarity.toLowerCase()) return false;
