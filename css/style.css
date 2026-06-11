@@ -666,6 +666,25 @@ tbody tr:hover {
     border-color: var(--accent);
 }
 
+.table-input {
+    background: var(--input-bg);
+    color: var(--text-light);
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 4px;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.table-input:focus {
+    border-color: var(--accent);
+}
+
+.table-input::placeholder {
+    color: var(--text-muted);
+}
+
 .bldg-name {
     font-weight: bold;
     color: var(--accent);
