@@ -9,6 +9,10 @@ let levelsByBuilding = {};
 let bldgMap = {};
 let buildingsState = [];
 
+// Index des colonnes — dbDataRaw (bâtiments) et rangeDataTTG (transformations)
+const COL     = { NAME: 0, LEVEL: 1, LABEL: 2, TG: 4, TTG: 5, TIME: 11 };
+const TTG_COL = { STEP: 0, COST: 1, GAIN: 2 };
+
 // ============ I18N ============
 const i18n = {
     'EN': {
@@ -305,10 +309,10 @@ function updateAllRowCosts() {
         let sumTime = 0;
         
         dbDataRaw.forEach(row => {
-            if (row[0] === b.name && row[1] > b.current && row[1] <= b.target) {
-                sumTG += (parseInt(row[4]) || 0);
-                sumTTG += (parseInt(row[5]) || 0);
-                sumTime += (parseInt(row[11]) || 0);
+            if (row[COL.NAME] === b.name && row[COL.LEVEL] > b.current && row[COL.LEVEL] <= b.target) {
+                sumTG += (parseInt(row[COL.TG]) || 0);
+                sumTTG += (parseInt(row[COL.TTG]) || 0);
+                sumTime += (parseInt(row[COL.TIME]) || 0);
             }
         });
         
@@ -538,12 +542,12 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     // Construction de la base de données indexée
     const db = {};
     for (let i = 0; i < rangeDatabase.length; i++) {
-        const nomBatiment = rangeDatabase[i][0];
-        const niveau = Number(rangeDatabase[i][1]);
-        const labelNiveau = rangeDatabase[i][2];
-        const coutTG = Number(rangeDatabase[i][4]);
-        const coutTTG = Number(rangeDatabase[i][5]);
-        const tempsBaseMinutes = Number(rangeDatabase[i][11]);
+        const nomBatiment = rangeDatabase[i][COL.NAME];
+        const niveau = Number(rangeDatabase[i][COL.LEVEL]);
+        const labelNiveau = rangeDatabase[i][COL.LABEL];
+        const coutTG = Number(rangeDatabase[i][COL.TG]);
+        const coutTTG = Number(rangeDatabase[i][COL.TTG]);
+        const tempsBaseMinutes = Number(rangeDatabase[i][COL.TIME]);
 
         if (nomBatiment && !isNaN(niveau)) {
             if (!db[nomBatiment]) db[nomBatiment] = {};
@@ -587,9 +591,9 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             let etapeTrouvee = false;
 
             for (let j = 0; j < rangeDataTTG.length; j++) {
-                if (Number(rangeDataTTG[j][0]) === stepVise) {
-                    coutTransfo = Number(rangeDataTTG[j][1]);
-                    gainTransfo = Number(rangeDataTTG[j][2]);
+                if (Number(rangeDataTTG[j][TTG_COL.STEP]) === stepVise) {
+                    coutTransfo = Number(rangeDataTTG[j][TTG_COL.COST]);
+                    gainTransfo = Number(rangeDataTTG[j][TTG_COL.GAIN]);
                     etapeTrouvee = true;
                     break;
                 }
