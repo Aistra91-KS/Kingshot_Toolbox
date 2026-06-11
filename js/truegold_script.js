@@ -396,7 +396,7 @@ function saveData() {
         accelMinutes: document.getElementById('accelMinutes').value,
         buildings: buildingsState
     };
-    localStorage.setItem(STORAGE_KEYS.truegold', JSON.stringify(data));
+    localStorage.setItem(STORAGE_KEYS.truegold, JSON.stringify(data));
 }
 
 function loadData() {
