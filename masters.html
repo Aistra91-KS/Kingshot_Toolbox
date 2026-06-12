@@ -13,6 +13,31 @@
         <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;" data-i18n="pageDesc">
             Gérez le niveau de relation et les compétences de vos experts.
         </p>
+
+        <div class="control-group" style="margin-top: 20px;">
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;" data-i18n="filterSort">Tri & Filtres</h3>
+
+            <div class="filter-group" style="margin-bottom: 15px;">
+                <label data-i18n="searchMaster" style="display:block; margin-bottom:6px;">Rechercher</label>
+                <input type="text" id="master-search" class="table-input" data-i18n-placeholder="searchMasterPh" placeholder="Nom de l'expert…" style="width: 100%;">
+            </div>
+
+            <div class="control-row" style="margin-bottom: 10px;">
+                <label data-i18n="sortBy">Trier par</label>
+                <select id="master-sort" class="table-select" style="width: 100%;">
+                    <option value="name" data-i18n="sortName">Nom (A-Z)</option>
+                    <option value="rel-desc" data-i18n="sortRelDesc">Relation (Décroissant)</option>
+                    <option value="rel-asc" data-i18n="sortRelAsc">Relation (Croissant)</option>
+                </select>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
+
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" id="master-hide-locked">
+                <span data-i18n="hideLocked">Masquer les experts non débloqués</span>
+            </label>
+        </div>
     </div>
 
     <div class="main-content">
