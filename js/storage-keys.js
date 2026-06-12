@@ -6,7 +6,8 @@ const STORAGE_KEYS = {
     researchDb:     'research_calc_db_v9',
     researchInputs: 'research_calc_inputs_v9',
     beartrap:       'beartrap_data',
-    truegold:       'tg_calc_data_v3'
+    truegold:       'tg_calc_data_v3',
+    vikings:        'vikings_data',
 };
 
 function safeParse(key, fallback) {
