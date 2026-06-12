@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vikings - Hub-Kingshot</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Champs numériques formatés (identique au Bear Trap) */
+        input[type="text"].formatted-number {
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 6px;
+            border-radius: 4px;
+            width: 110px;
+            text-align: right;
+            outline: none;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        input[type="text"].formatted-number:focus { border-color: var(--accent); }
+        input[type="text"].formatted-number::placeholder { color: var(--text-muted); opacity: 0.7; }
+
+        /* Bandeau de synthèse */
+        .vk-summary { display: flex; flex-wrap: wrap; gap: 20px; padding: 15px;
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+            border-radius: 8px; margin-bottom: 20px; }
+        .vk-summary-item { display: flex; flex-direction: column; gap: 2px; }
+        .vk-summary-item .vk-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .vk-summary-item .vk-value { font-size: 18px; font-weight: bold; color: var(--text-light); }
+        .vk-summary-item .vk-value.accent { color: var(--accent); }
+
+        /* Encart garnison */
+        .vk-garrison { padding: 12px 15px; background: var(--control-bg);
+            border: 1px solid var(--border); border-left: 3px solid var(--accent);
+            border-radius: 6px; font-size: 14px; color: var(--text-muted); }
+        .vk-garrison strong { color: var(--text-light); }
+
+        /* Cellules pourcentage */
+        .vk-pct { color: var(--text-muted); font-size: 12px; }
+        td.vk-num { text-align: right; }
+        tr.vk-total-row { font-weight: bold; border-top: 2px solid var(--border); }
+        tr.vk-total-row td { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR : Saisies -->
+    <aside class="sidebar">
+        <h2 data-i18n="titleParams" style="color: var(--accent); margin-top: 0;">Paramètres</h2>
+
+        <!-- Bloc 1 : Troupes -->
+        <div class="control-group">
+            <h3 data-i18n="grpTroops" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mes Troupes</h3>
+            <div class="control-row">
+                <label data-i18n="lblInf">Infanterie 🛡️</label>
+                <input type="text" id="vk-inf" class="formatted-number" value="0">
+            </div>
+            <div class="control-row">
+                <label data-i18n="lblCav">Cavalerie 🐎</label>
+                <input type="text" id="vk-cav" class="formatted-number" value="0">
+            </div>
+            <div class="control-row">
+                <label data-i18n="lblArc">Archers 🏹</label>
+                <input type="text" id="vk-arc" class="formatted-number" value="0">
+            </div>
+        </div>
+
+        <!-- Bloc 2 : Capacité -->
+        <div class="control-group">
+            <h3 data-i18n="grpCap" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Capacité</h3>
+            <div class="control-row">
+                <label data-i18n="lblMarchCap">Capacité de marche</label>
+                <input type="text" id="vk-cap" class="formatted-number" value="0">
+            </div>
+            <div class="control-row">
+                <label data-i18n="lblAnimal">Bonus animal</label>
+                <input type="text" id="vk-animal" class="formatted-number" value="0">
+            </div>
+            <div class="control-row">
+                <label data-i18n="lblPet">Pet activé 🐾</label>
+                <input type="checkbox" id="vk-pet" style="width: 18px; height: 18px; cursor: pointer;">
+            </div>
+        </div>
+
+        <!-- Bloc 3 : Marches -->
+        <div class="control-group">
+            <h3 data-i18n="grpMarches" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Marches</h3>
+            <div class="control-row">
+                <label data-i18n="lblMarchesNb">Nombre de marches</label>
+                <input type="text" id="vk-marches" class="formatted-number" value="6">
+            </div>
+        </div>
+
+        <button id="vk-reset" class="btn-reset" data-i18n="btnReset" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 14px;">
+            Réinitialiser
+        </button>
+    </aside>
+
+    <!-- MAIN CONTENT : Résultats -->
+    <main class="main-content flow">
+        <div class="panel">
+            <h2 data-i18n="planTitle" style="color: var(--accent); margin-top: 0;">Répartition Vikings</h2>
+            <p data-i18n="planDesc" style="color: var(--text-muted); font-size: 14px;">
+                Renseignez vos troupes et votre capacité à gauche. La répartition équitable Infanterie → Cavalerie → Archers se calcule automatiquement.
+            </p>
+
+            <!-- Synthèse -->
+            <div class="vk-summary" id="vk-summary"></div>
+
+            <!-- Tableau des marches -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-i18n="thMarch">Marche</th>
+                            <th data-i18n="thInf" style="text-align:right;">Infanterie</th>
+                            <th data-i18n="thCav" style="text-align:right;">Cavalerie</th>
+                            <th data-i18n="thArc" style="text-align:right;">Archers</th>
+                            <th data-i18n="thTotal" style="text-align:right;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vk-tbody"></tbody>
+                </table>
+            </div>
+
+            <!-- Garnison (reste en ville) -->
+            <div class="vk-garrison" id="vk-garrison"></div>
+        </div>
+    </main>
+
+    <!-- Scripts partagés -->
+    <script src="js/storage-keys.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/vikings.js"></script>
+    <script src="js/backup.js"></script>
+</body>
+</html>
