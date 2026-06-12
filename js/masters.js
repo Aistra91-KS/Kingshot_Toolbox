@@ -12,7 +12,15 @@ const i18nMasters = {
         btnCancel: "Annuler",
         btnSave: "Enregistrer",
         lockedSkill: "Débloqué au Niv. Rel.",
-        lvlPrefix: "Niv. "
+        lvlPrefix: "Niv. ",
+        filterSort: "Tri & Filtres",
+        searchMaster: "Rechercher",
+        searchMasterPh: "Nom de l'expert…",
+        sortBy: "Trier par",
+        sortName: "Nom (A-Z)",
+        sortRelDesc: "Relation (Décroissant)",
+        sortRelAsc: "Relation (Croissant)",
+        hideLocked: "Masquer les experts non débloqués"
     },
     EN: {
         pageTitle: "Hall of Masters",
@@ -23,7 +31,15 @@ const i18nMasters = {
         btnCancel: "Cancel",
         btnSave: "Save",
         lockedSkill: "Unlocks at Rel. Lv.",
-        lvlPrefix: "Lv. "
+        lvlPrefix: "Lv. ",
+        filterSort: "Sort & Filters",
+        searchMaster: "Search",
+        searchMasterPh: "Expert name…",
+        sortBy: "Sort by",
+        sortName: "Name (A-Z)",
+        sortRelDesc: "Relationship (Descending)",
+        sortRelAsc: "Relationship (Ascending)",
+        hideLocked: "Hide locked experts"
     }
 };
 
@@ -53,9 +69,19 @@ async function initMasters() {
         mastersDB = await response.json();
         renderMastersGrid();
         applyTranslations();
+        bindMasterControls();
     } catch (e) {
         console.error("Erreur de chargement de masters_db.json", e);
     }
+}
+
+function bindMasterControls() {
+    const s = document.getElementById('master-search');
+    const so = document.getElementById('master-sort');
+    const h = document.getElementById('master-hide-locked');
+    if (s) s.addEventListener('input', renderMastersGrid);
+    if (so) so.addEventListener('change', renderMastersGrid);
+    if (h) h.addEventListener('change', renderMastersGrid);
 }
 
 function applyTranslations() {
@@ -69,7 +95,32 @@ function renderMastersGrid() {
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
     const dict = i18nMasters[lang] || i18nMasters['FR'];
 
-    mastersDB.forEach(master => {
+    // --- Lecture des contrôles sidebar ---
+    const searchEl = document.getElementById('master-search');
+    const sortEl = document.getElementById('master-sort');
+    const hideLockedEl = document.getElementById('master-hide-locked');
+    const q = searchEl ? searchEl.value.trim().toLowerCase() : '';
+    const sortMode = sortEl ? sortEl.value : 'name';
+    const hideLocked = hideLockedEl ? hideLockedEl.checked : false;
+    const relOf = (m) => (userMasters[m.id] && userMasters[m.id].relLevel) || 0;
+
+    let list = mastersDB.filter(master => {
+        if (hideLocked && relOf(master) === 0) return false;
+        if (q) {
+            const nameEn = (master.name['EN'] || '').toLowerCase();
+            const nameFr = (master.name['FR'] || '').toLowerCase();
+            if (!nameEn.includes(q) && !nameFr.includes(q)) return false;
+        }
+        return true;
+    });
+
+    list.sort((a, b) => {
+        if (sortMode === 'rel-desc') return relOf(b) - relOf(a);
+        if (sortMode === 'rel-asc') return relOf(a) - relOf(b);
+        return (a.name[lang] || a.name['EN']).localeCompare(b.name[lang] || b.name['EN']);
+    });
+
+    list.forEach(master => {
         const userData = userMasters[master.id] || { relLevel: 0, skills: {} };
         const isLocked = userData.relLevel === 0;
         
