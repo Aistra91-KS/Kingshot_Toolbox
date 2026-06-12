@@ -23,7 +23,13 @@ const i18nVikings = {
         btnImportBT: "⤵ Importer depuis Bear Trap",
         importOk: "Données importées depuis Bear Trap.",
         noBearTrap: "Aucune donnée Bear Trap trouvée. Renseignez d'abord la page Bear Trap.",
-        confirmReset: "Réinitialiser toutes les données de la page Vikings ?"
+        confirmReset: "Réinitialiser toutes les données de la page Vikings ?",
+        importTitle: "Importer depuis Bear Trap",
+        impTroops: "Troupes (Inf / Cav / Arc)",
+        impCapacity: "Capacité + bonus animal",
+        impMarches: "Nombre de marches",
+        btnDoImport: "Importer",
+        btnCancel: "Annuler"
     },
     EN: {
         titleParams: "Parameters",
@@ -42,7 +48,13 @@ const i18nVikings = {
         btnImportBT: "⤵ Import from Bear Trap",
         importOk: "Data imported from Bear Trap.",
         noBearTrap: "No Bear Trap data found. Fill in the Bear Trap page first.",
-        confirmReset: "Reset all Vikings page data?"
+        confirmReset: "Reset all Vikings page data?",
+        importTitle: "Import from Bear Trap",
+        impTroops: "Troops (Inf / Cav / Arc)",
+        impCapacity: "Capacity + pet bonus",
+        impMarches: "Number of marches",
+        btnDoImport: "Import",
+        btnCancel: "Cancel"
     }
 };
 
@@ -195,21 +207,46 @@ function triggerUpdate() {
 function importFromBearTrap() {
     const bt = safeParse(STORAGE_KEYS.beartrap, null);
     if (!bt) { showAppAlert(tr('noBearTrap')); return; }
+
+    const overlay = document.createElement('div');
+    overlay.className = 'custom-alert-overlay active';
+    overlay.innerHTML = `
+        <div class="custom-alert-box">
+            <h3 style="color:var(--accent); margin:0 0 15px; font-size:16px;">${tr('importTitle')}</h3>
+            <div style="text-align:left; display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+                <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                    <input type="checkbox" class="imp-opt" value="troops" checked style="width:16px;height:16px;"> ${tr('impTroops')}
+                </label>
+                <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                    <input type="checkbox" class="imp-opt" value="capacity" checked style="width:16px;height:16px;"> ${tr('impCapacity')}
+                </label>
+                <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+                    <input type="checkbox" class="imp-opt" value="marches" checked style="width:16px;height:16px;"> ${tr('impMarches')}
+                </label>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button id="imp-go" class="btn-modern btn-modern-primary" style="flex:1;">${tr('btnDoImport')}</button>
+                <button id="imp-cancel" class="btn-modern btn-modern-secondary" style="flex:1;">${tr('btnCancel')}</button>
+            </div>
+        </div>`;
+    document.body.appendChild(overlay);
+
+    const close = () => { overlay.classList.remove('active'); setTimeout(() => document.body.removeChild(overlay), 300); };
+    overlay.querySelector('#imp-cancel').onclick = close;
+    overlay.querySelector('#imp-go').onclick = () => {
+        const sel = Array.from(overlay.querySelectorAll('.imp-opt:checked')).map(c => c.value);
+        applyImport(bt, sel);
+        close();
+    };
+}
+
+function applyImport(bt, sel) {
     const num = (v) => parseInt(String(v || '').replace(/\s/g, ''), 10) || 0;
     const setNum = (id, v) => { document.getElementById(id).value = (v || 0).toLocaleString('fr-FR'); };
 
-    setNum('vk-inf', num(bt['troop-inf']));
-    setNum('vk-cav', num(bt['troop-cav']));
-    setNum('vk-arc', num(bt['troop-arc']));
-    setNum('vk-cap', num(bt['cap-base']) + num(bt['cap-expert']));
-    setNum('vk-animal', num(bt['cap-animal']));
-    setNum('vk-marches', num(bt['marches-count']));
-    document.getElementById('vk-pet').checked = true;
-
-    triggerUpdate();
-    showAppAlert(tr('importOk'), true);
-}
-
+    if (sel.includes('troops')) {
+        setNum('vk-inf', num(bt['troop-inf']));
+        setNum('vk-cav', num(bt['troop-cav']));
 // ---------- Init ----------
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
