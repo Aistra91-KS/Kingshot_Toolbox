@@ -49,7 +49,7 @@ const navI18n = {
                     <span class="nav-icon">⛺</span>
                     <span class="nav-label" data-i18n="navHeroes">Héros</span>
                 </a>
-                <a href="masters.html" class="nav-link" id="nav-masters">
+                <a href="masters.html" class="nav-link ${currentPage === 'masters.html' ? 'active' : ''}">
                     <span class="nav-icon">⚜️</span>
                     <span class="nav-label" data-i18n="navMasters">Experts</span>
                 </a>
