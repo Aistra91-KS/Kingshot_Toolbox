@@ -247,6 +247,20 @@ function applyImport(bt, sel) {
     if (sel.includes('troops')) {
         setNum('vk-inf', num(bt['troop-inf']));
         setNum('vk-cav', num(bt['troop-cav']));
+        setNum('vk-arc', num(bt['troop-arc']));
+    }
+    if (sel.includes('capacity')) {
+        setNum('vk-cap', num(bt['cap-base']));
+        setNum('vk-animal', num(bt['cap-animal']));
+        document.getElementById('vk-pet').checked = true;
+    }
+    if (sel.includes('marches')) {
+        setNum('vk-marches', num(bt['marches-count']));
+    }
+    triggerUpdate();
+    if (sel.length) showAppAlert(tr('importOk'), true);
+}
+
 // ---------- Init ----------
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
