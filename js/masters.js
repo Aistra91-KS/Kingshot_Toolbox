@@ -163,8 +163,12 @@ function updateMasterUI() {
     // --- TEXTE AFFINITÉ (sous le statut) ---
     const affEl = document.getElementById('modal-affinity-text');
     if (affEl) {
-        if (passiveLvlIndex >= 0 && master.TextToInclude) {
-            const bonus = master.affinityMilestones[passiveLvlIndex].bonus;
+        let affinityIndex = -1;
+        for (let i = 0; i < master.affinityMilestones.length; i++) {
+            if (modalState.relLevel >= master.affinityMilestones[i].level) affinityIndex = i;
+        }
+        if (affinityIndex >= 0 && master.TextToInclude) {
+            const bonus = master.affinityMilestones[affinityIndex].bonus;
             affEl.innerHTML = injectValue(master.TextToInclude, lang, bonus);
             affEl.style.display = 'block';
         } else {
