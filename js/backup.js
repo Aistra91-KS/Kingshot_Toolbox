@@ -10,6 +10,7 @@ const i18nBackup = {
         modCaserne: "Caserne (Héros & Filtres)",
         modResearch: "Recherches (Technologies)",
         modBeartrap: "Piège à Ours (Formations personnalisées & Paramètres)",
+        modVikings: "Vikings (Répartition des troupes)",
         modTrueGold: "TrueGold (Niveaux, Stocks & Paramètres)",
         btnExport: "Exporter (.json)",
         btnImport: "Importer",
@@ -27,6 +28,7 @@ const i18nBackup = {
         modCaserne: "Barracks (Heroes & Filters)",
         modResearch: "Research (Technologies)",
         modBeartrap: "Bear Trap (Custom Formations & Settings)",
+        modVikings: "Vikings (Troop Distribution)",
         modTrueGold: "TrueGold (Levels, Stocks & Settings)",
         btnExport: "Export (.json)",
         btnImport: "Import",
@@ -45,7 +47,8 @@ const BACKUP_MODULES = [
     { id: 'module-masters',  labelKey: 'modMasters',  keys: [STORAGE_KEYS.masters] },
     { id: 'module-research', labelKey: 'modResearch', keys: [STORAGE_KEYS.researchDb, STORAGE_KEYS.researchInputs] },
     { id: 'module-beartrap', labelKey: 'modBeartrap', keys: [STORAGE_KEYS.beartrap] },
-    { id: 'module-truegold', labelKey: 'modTrueGold', keys: [STORAGE_KEYS.truegold] }
+    { id: 'module-truegold', labelKey: 'modTrueGold', keys: [STORAGE_KEYS.truegold] },
+    { id: 'module-vikings',  labelKey: 'modVikings',  keys: [STORAGE_KEYS.vikings] }
 ];
 
 function initBackupSystem() {
