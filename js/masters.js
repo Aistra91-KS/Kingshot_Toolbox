@@ -151,10 +151,12 @@ function updateMasterUI() {
     let passiveLvlIndex = -1;
     let nextPassiveReq = null;
     for (let i = 0; i < master.affinityMilestones.length; i++) {
-        if (modalState.relLevel >= master.affinityMilestones[i].level) {
+        let reqLvl = master.affinityMilestones[i].level;
+        if (reqLvl > 1 && reqLvl % 10 === 0 && reqLvl < 100) reqLvl += 1;
+        if (modalState.relLevel >= reqLvl) {
             passiveLvlIndex = i;
         } else if (nextPassiveReq === null) {
-            nextPassiveReq = master.affinityMilestones[i].level;
+            nextPassiveReq = reqLvl;
         }
     }
 
