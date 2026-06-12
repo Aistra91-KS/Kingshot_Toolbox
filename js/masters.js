@@ -121,6 +121,14 @@ function openMasterModal(master, userData) {
     document.body.classList.add('modal-active'); // Pour pousser la grille comme dans la caserne
 }
 
+// Remplace X placeholder (pas dans mot type EXP/XP) par valeur colorée
+function injectValue(textObj, lang, value) {
+    if (!textObj) return null;
+    const txt = textObj[lang] || textObj['EN'] || '';
+    const val = `<span style="color: var(--accent); font-weight: bold;">${value}</span>`;
+    return txt.replace(/(?<![A-Za-z])X(?![A-Za-z])/g, val);
+}
+
 function updateMasterUI() {
     const master = mastersDB.find(m => m.id === currentMasterId);
     if (!master) return;
@@ -149,6 +157,18 @@ function updateMasterUI() {
             nextPassiveReq = master.affinityMilestones[i].level;
         }
     }
+
+    // --- TEXTE AFFINITÉ (sous le statut) ---
+    const affEl = document.getElementById('modal-affinity-text');
+    if (affEl) {
+        if (passiveLvlIndex >= 0 && master.TextToInclude) {
+            const bonus = master.affinityMilestones[passiveLvlIndex].bonus;
+            affEl.innerHTML = injectValue(master.TextToInclude, lang, bonus);
+            affEl.style.display = 'block';
+        } else {
+            affEl.style.display = 'none';
+        }
+    }
     
     const passiveContainer = document.getElementById('modal-passive-display');
     const pName = master.passive.name[lang] || master.passive.name['EN'];
@@ -164,7 +184,7 @@ function updateMasterUI() {
                     <div class="skill-icon" style="background-image: url('img/MasterSkill/${safePassiveImg}.png');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: var(--accent); font-weight: bold;">${pName} (${dict.lvlPrefix}${passiveLvlIndex + 1})</div>
-                        <div class="skill-effect" style="color: var(--text-light);">${pEffect}</div>
+                        <div class="skill-effect" style="color: var(--text-muted);">${master.passive.TextToInclude ? injectValue(master.passive.TextToInclude, lang, pEffect) : pEffect}</div>
                     </div>
                 </div>
             </div>`;
@@ -207,7 +227,11 @@ function updateMasterUI() {
         if (isUnlocked && currentSkillLevel > 0) {
             let rawEffect = skill.levels[currentSkillLevel - 1].effect;
             let finalEffect = (typeof rawEffect === 'object' && rawEffect !== null) ? (rawEffect[lang] || rawEffect['EN']) : rawEffect;
-            effectDisplay = `<span style="color:var(--success); font-weight:bold;">${finalEffect}</span>`;
+            if (skill.TextToInclude) {
+                effectDisplay = `<span style="color: var(--text-muted);">${injectValue(skill.TextToInclude, lang, finalEffect)}</span>`;
+            } else {
+                effectDisplay = `<span style="color:var(--success); font-weight:bold;">${finalEffect}</span>`;
+            }
         }
 
         skillsHTML += `
