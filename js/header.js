@@ -45,6 +45,10 @@ const navI18n = {
                     <span class="nav-icon">🐻</span>
                     <span class="nav-label">Bear Trap</span>
                 </a>
+                <a href="vikings.html" class="nav-link ${currentPage === 'vikings.html' ? 'active' : ''}">
+                    <span class="nav-icon">🪓</span>
+                    <span class="nav-label">Vikings</span>
+                </a>
                 <a href="caserne.html" class="nav-link ${currentPage === 'caserne.html' ? 'active' : ''}">
                     <span class="nav-icon">⛺</span>
                     <span class="nav-label" data-i18n="navHeroes">Héros</span>
