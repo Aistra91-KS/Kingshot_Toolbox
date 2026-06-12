@@ -37,6 +37,8 @@ const i18nHub = {
         mastersDesc: "Browse the experts, their skills and affinity milestones to optimize your bonuses.",
         caserneTitle: "Heroes",
         mastersTitle: "Masters",
+        vikingsTitle: "Vikings",
+        vikingsDesc: "Distribute your troops across your marches for the Vikings event and maximize your defense.",
         beartrapDesc: "Optimize your rallies for the Bear Trap. Calculate the perfect distribution of your steps."
     }
 };
