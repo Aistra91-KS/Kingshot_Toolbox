@@ -20,6 +20,9 @@ const i18nVikings = {
         sumCap: "Capacité / marche", sumDeployable: "Total déployable", sumDeployed: "Total déployé", sumFill: "Remplissage",
         rowTotal: "TOTAL",
         garrisonLabel: "Reste en ville",
+        btnImportBT: "⤵ Importer depuis Bear Trap",
+        importOk: "Données importées depuis Bear Trap.",
+        noBearTrap: "Aucune donnée Bear Trap trouvée. Renseignez d'abord la page Bear Trap.",
         confirmReset: "Réinitialiser toutes les données de la page Vikings ?"
     },
     EN: {
@@ -36,6 +39,9 @@ const i18nVikings = {
         sumCap: "Capacity / march", sumDeployable: "Total deployable", sumDeployed: "Total deployed", sumFill: "Fill rate",
         rowTotal: "TOTAL",
         garrisonLabel: "Left in city",
+        btnImportBT: "⤵ Import from Bear Trap",
+        importOk: "Data imported from Bear Trap.",
+        noBearTrap: "No Bear Trap data found. Fill in the Bear Trap page first.",
         confirmReset: "Reset all Vikings page data?"
     }
 };
@@ -186,9 +192,29 @@ function triggerUpdate() {
     saveData();
 }
 
+function importFromBearTrap() {
+    const bt = safeParse(STORAGE_KEYS.beartrap, null);
+    if (!bt) { showAppAlert(tr('noBearTrap')); return; }
+    const num = (v) => parseInt(String(v || '').replace(/\s/g, ''), 10) || 0;
+    const setNum = (id, v) => { document.getElementById(id).value = (v || 0).toLocaleString('fr-FR'); };
+
+    setNum('vk-inf', num(bt['troop-inf']));
+    setNum('vk-cav', num(bt['troop-cav']));
+    setNum('vk-arc', num(bt['troop-arc']));
+    setNum('vk-cap', num(bt['cap-base']) + num(bt['cap-expert']));
+    setNum('vk-animal', num(bt['cap-animal']));
+    setNum('vk-marches', num(bt['marches-count']));
+    document.getElementById('vk-pet').checked = true;
+
+    triggerUpdate();
+    showAppAlert(tr('importOk'), true);
+}
+
 // ---------- Init ----------
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
+
+    document.getElementById('vk-import-bt').addEventListener('click', importFromBearTrap);
 
     // Formatage + recalcul sur les champs numériques
     document.querySelectorAll('.formatted-number').forEach(input => {
