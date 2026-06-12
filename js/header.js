@@ -1,3 +1,9 @@
+const navI18n = {
+    FR: { navHeroes: 'Héros',  navMasters: 'Experts' },
+    EN: { navHeroes: 'Heroes', navMasters: 'Masters' }
+};
+
+
 // ========================================
 //  HEADER PARTAGÉ - Navigation entre pages
 // ========================================
@@ -41,7 +47,7 @@
                 </a>
                 <a href="caserne.html" class="nav-link ${currentPage === 'caserne.html' ? 'active' : ''}">
                     <span class="nav-icon">⛺</span>
-                    <span class="nav-label">Caserne</span>
+                    <span class="nav-label" data-i18n="navHeroes">Héros</span>
                 </a>
                 <a href="masters.html" class="nav-link" id="nav-masters">
                     <span class="nav-icon">⚜️</span>
@@ -74,6 +80,8 @@ window.addEventListener('langChanged', (e) => {
     const select = document.getElementById('global-lang-select');
     if (select) select.value = e.detail.lang;
     document.documentElement.lang = (e.detail.lang || 'en').toLowerCase();
+    window.GlobalLang.applyI18n(navI18n[window.GlobalLang.get()]);
+    if (window.GlobalLang) window.GlobalLang.applyI18n(navI18n[e.detail.lang]);
 });
 
 // ============ THEME (gestion globale) ============
