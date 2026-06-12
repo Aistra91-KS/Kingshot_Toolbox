@@ -18,6 +18,8 @@ const i18nHub = {
         beartrapDesc: "Optimisez vos ralliements pour le Bear Trap. Calculez la répartition parfaite de vos marches.",
         mastersTitle: "Experts",
         caserneTitle: "Héros",
+        vikingsTitle: "Vikings",
+        vikingsDesc: "Répartissez vos troupes sur vos marches pour l'événement Vikings et maximisez votre défense.",
         mastersDesc: "Consultez les experts, leurs compétences et leurs paliers d'affinité pour optimiser vos bonus."
     },
     EN: {
