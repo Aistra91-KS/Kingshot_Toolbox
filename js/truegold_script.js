@@ -68,6 +68,11 @@ const i18n = {
         'totalMax': "🚀 Maximum total to obtain : ",
         'tgAnd': " TG and ",
         'ttgClose': " TTG.",
+        'panTitle': "Construction Bonus (PAN)",
+        'panSource': "Source",
+        'panReduc': "Reduction (hours)",
+        'panAuto': "Automatic (PAN)",
+        'panManual': "Manual",
         'ptsEnd': "points"
     },
     'FR': {
@@ -123,6 +128,11 @@ const i18n = {
         'totalMax': "🚀 Total maximal à obtenir : ",
         'tgAnd': " TG et ",
         'ttgClose': " TTG.",
+        'panTitle': "Bonus de construction (PAN)",
+        'panSource': "Source",
+        'panReduc': "Réduction (heures)",
+        'panAuto': "Automatique (PAN)",
+        'panManual': "Manuel",
         'ptsEnd': "points"
     }
 };
@@ -291,6 +301,57 @@ function updateBuildingLvl(index, val, type) {
     runCalculator();
 }
 
+// ============ BONUS CONSTRUCTION PAN ============
+let panAutoHours = null; // null = manuel ; nombre = auto (PAN renseigné)
+
+async function loadPanBonus() {
+    try {
+        const res = await fetch('data/masters_db.json');
+        const db = await res.json();
+        const map = {};
+        const pan = db.find(m => m.id === 'pan');
+        const skill = pan && pan.skills.find(s => s.id === 'master_architect');
+        if (skill) skill.levels.forEach(l => { map[l.level] = Number(l.effect) || 0; });
+        const userMasters = safeParse(STORAGE_KEYS.masters, {});
+        const lvl = (userMasters.pan && userMasters.pan.skills) ? (userMasters.pan.skills.master_architect || 0) : 0;
+        panAutoHours = (lvl >= 1 && map[lvl] !== undefined) ? map[lvl] : null;
+    } catch (e) {
+        console.error('PAN bonus load failed', e);
+        panAutoHours = null;
+    }
+    applyPanUI();
+}
+
+function applyPanUI() {
+    const input = document.getElementById('panReduction');
+    const badge = document.getElementById('pan-source-badge');
+    if (!input || !badge) return;
+    const tx = i18n[GlobalLang.get()];
+    if (panAutoHours !== null) {
+        input.value = panAutoHours;
+        input.disabled = true;
+        input.style.opacity = '0.6';
+        badge.textContent = '🟢 ' + tx.panAuto;
+        badge.style.color = 'var(--success)';
+    } else {
+        input.disabled = false;
+        input.style.opacity = '1';
+        badge.textContent = '✏️ ' + tx.panManual;
+        badge.style.color = 'var(--text-muted)';
+    }
+}
+
+function getPanReductionMinutes() {
+    let hours;
+    if (panAutoHours !== null) {
+        hours = panAutoHours;
+    } else {
+        hours = parseInt(document.getElementById('panReduction').value) || 0;
+        hours = Math.max(0, Math.min(8, hours));
+    }
+    return hours * 60;
+}
+
 function updateAllRowCosts() {
     let speedBonus = parseFloat(document.getElementById('totalVitesseDisplay').textContent) / 100 || 0;
     const lang = GlobalLang.get();
@@ -304,15 +365,16 @@ function updateAllRowCosts() {
         let sumTTG = 0;
         let sumTime = 0;
         
+       let realTimeMinutes = 0;
+        const panRedMin = getPanReductionMinutes();
         dbDataRaw.forEach(row => {
             if (row[COL.NAME] === b.name && row[COL.LEVEL] > b.current && row[COL.LEVEL] <= b.target) {
                 sumTG += (parseInt(row[COL.TG]) || 0);
                 sumTTG += (parseInt(row[COL.TTG]) || 0);
-                sumTime += (parseInt(row[COL.TIME]) || 0);
+                const lvlTime = parseInt(row[COL.TIME]) || 0;
+                realTimeMinutes += Math.max(0, Math.ceil(lvlTime / (1 + speedBonus)) - panRedMin);
             }
         });
-        
-        let realTimeMinutes = Math.ceil(sumTime / (1 + speedBonus));
         let timeFormatted = (realTimeMinutes > 0) ? formatMinutesCustom(realTimeMinutes, lang) : '-';
         
         document.getElementById(`tg-cost-${index}`).textContent = sumTG > 0 ? sumTG.toLocaleString() : '-';
@@ -394,6 +456,7 @@ function saveData() {
         accelJours: document.getElementById('accelJours').value,
         accelHeures: document.getElementById('accelHeures').value,
         accelMinutes: document.getElementById('accelMinutes').value,
+        panReduction: document.getElementById('panReduction').value,
         buildings: buildingsState
     };
     localStorage.setItem(STORAGE_KEYS.truegold, JSON.stringify(data));
@@ -418,6 +481,7 @@ function loadData() {
             if (data.accelJours !== undefined) document.getElementById('accelJours').value = data.accelJours;
             if (data.accelHeures !== undefined) document.getElementById('accelHeures').value = data.accelHeures;
             if (data.accelMinutes !== undefined) document.getElementById('accelMinutes').value = data.accelMinutes;
+            if (data.panReduction !== undefined) document.getElementById('panReduction').value = data.panReduction;
             if (data.buildings !== undefined) buildingsState = data.buildings;
         } catch(e) {
             console.error("Error loading data", e);
@@ -455,6 +519,7 @@ function triggerUpdate() {
     try {
         getTotalVitesse();      // léger : met à jour le bonus total affiché (immédiat)
         applyTranslations();    // léger (immédiat)
+        applyPanUI();
         renderBuildings();      // met à jour les coûts par ligne (feedback immédiat)
         saveData();             // léger : persistance garantie (immédiat)
         scheduleCalculation();  // LOURD : optimiseur différé de 200 ms
@@ -492,6 +557,7 @@ function runCalculator() {
 
 // ============ STRATEGIC OPTIMIZER ============
 function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, accelJours, accelHeures, accelMinutes, modeKVK, tx, rangeTableur, rangeDatabase, rangeDataTTG, lang) {
+    const panReductionMin = getPanReductionMinutes();
 
     const isEN = (lang === 'EN');
 
@@ -672,7 +738,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                     }
 
                     if (estValide && tgActuel >= couts.tg && ttgActuel >= couts.ttg) {
-                        const tempsReelMinutes = Math.ceil(couts.tempsBase / (1 + Number(vitesseAmelio)));
+                        const tempsReelMinutes = Math.max(0, Math.ceil(couts.tempsBase / (1 + Number(vitesseAmelio))) - panReductionMin);
                         const gainKVKRessources = (couts.tg * 2000) + (couts.ttg * 30000);
                         const minutesAAccelerer = Math.min(tempsReelMinutes, stockAccelSimule);
                         const gainKVKAccel = minutesAAccelerer * 30;
@@ -879,8 +945,9 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
 
 // ============ STARTUP ============
 (async function startup() {
-    await loadDatabase();    // 1. Charger le JSON
-    loadData();              // 2. Charger les préférences utilisateur
-    triggerUpdate();         // 4. Afficher
+    await loadDatabase();
+    loadData();
+    await loadPanBonus();
+    triggerUpdate();
     window.addEventListener('langChanged', triggerUpdate);
 })();
