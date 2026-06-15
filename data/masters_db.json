@@ -158,7 +158,7 @@
         "name": { "EN": "Falconer", "FR": "Fauconnier" },
          "TextToInclude" : {
            "EN" : "Pan' skilled falconry gives them grater range, increasing the number of daily Watchtower inter missions found by X",
-           "FR" : "X" },
+           "FR" : "les talents de fauconnier de Pan lui confèrent une plus grande portée. Augmente de X le nombre de missions de rensignements de l'observatoire quotidiennes trouvées." },
         "unlockRelLevel": 10,
         "levels": [
           { "level": 1, "effect": "+2", "xpCost": 0, "manuscripts": 0, "power": 20000 },
@@ -173,7 +173,7 @@
         "name": { "EN": "Good Steward", "FR": "Bon Intendant" },
         "TextToInclude" : {
           "EN" : "A good steward must be responsible for their master's needs. Pan increases the Storehouse's Governor Stamina replenishment by X",
-          "FR" : "X" },
+          "FR" : "En tant que bon intendant, les besoins de son maitre font partie de ses responsabilités. Pan augmente de X la récupération d'endurance du gouverneur de l'entrepôt." },
         "unlockRelLevel": 20,
         "levels": [
           { "level": 1, "effect": "+10", "xpCost": 0, "manuscripts": 0, "power": 16000 },
@@ -185,10 +185,10 @@
       },
       {
         "id": "master_architect",
-        "name": { "EN": "Master Architect", "FR": "Maître Architecte" },
+        "name": { "EN": "Master Architect", "FR": "Maître-Architecte" },
          "TextToInclude" : {
           "EN" : "Pan is a master of construction efficiency, speeding up construction by X hours on every new build",
-          "FR" : "X" },
+          "FR" : "Pan est un expert efficace en matière de construction. Accélère de X heures chaque nouvelle construction." },
         "unlockRelLevel": 30,
         "levels": [
           { "level": 1, "effect": "2", "xpCost": 0, "manuscripts": 0, "power": 7000 },
@@ -200,10 +200,10 @@
       },
       {
         "id": "ways_and_means",
-        "name": { "EN": "Ways and Means", "FR": "Voies et Moyens" },
+        "name": { "EN": "Ways and Means", "FR": "L'art et la manière" },
         "TextToInclude" : {
           "EN" : "An experienced manager sees opportunities others don't. Pan gains X additional Mystery Badge(s) upon daily mission completion and X more free refreshes at the Mystery Shop.",
-          "FR" : "X" },
+          "FR" : "Un administrateur expérimenté voit des opportunités la où d'autres n'en voient pas. Pan gagne X insignes mystères bonus en terminant des missions quotidiennes et X actualisations gratuites dans le magasin mystère." },
         "unlockRelLevel": 40,
         "levels": [
           { "level": 1, "effect": "(20;1)", "xpCost": 0, "manuscripts": 0, "power": 7000 },
