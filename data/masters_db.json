@@ -225,6 +225,9 @@
     "name": { "EN": "Roman", "FR": "Roman" },
     "title": { "EN": "Arena Champion", "FR": "Champion d'Arène" },
     "affinityBonus": { "EN": "Squad Atk & Def Bonus", "FR": "Bonus Atk & Def d'Escouade" },
+    "TextToInclude" : {
+          "FR": "Attaque des escouades : +X%<br>Défense des escouades +X%",
+          "EN": "Squads' Attack & Defense : +X%" },
     "affinityMilestones": [
       { "level": 1, "affinity": 1000, "emblems": 0, "bonus": 1.58 },
       { "level": 10, "affinity": 960, "emblems": 8, "bonus": 2.85 },
@@ -239,25 +242,31 @@
       { "level": 100, "affinity": 11850, "emblems": 80, "bonus": 15.00 }
     ],
     "passive": {
-      "name": { "EN": "Star Belligerent", "FR": "Belligérant Étoilé" },
+      "name": { "EN": "Star Belligerent", "FR": "Étoile combative" },
+      "TextToInclude" : {
+          "FR": "Roman est tellement apprécié dans l'arène que ses fans le couvrent toujours de cadeaux. Octroie X de chances d'obtenir X coffre(s) d'étoile de l'arène après chaque match.",
+          "EN": "Roman is such a beloved arena star that his fans are always showering him with gifts, granting a X chance of getting X Arena Star Chest(s) after each match." },
       "levels": [
-        { "level": 1, "effect": "50% chance · 1 Arena Star Chest per match", "power": 58000 },
-        { "level": 2, "effect": "55% chance · 1 chest", "power": 116000 },
-        { "level": 3, "effect": "60% chance · 1 chest", "power": 174000 },
-        { "level": 4, "effect": "70% chance · 1 chest", "power": 232000 },
-        { "level": 5, "effect": "80% chance · 1 chest", "power": 290000 },
-        { "level": 6, "effect": "80% chance · 2 chests", "power": 348000 },
-        { "level": 7, "effect": "85% chance · 2 chests", "power": 406000 },
-        { "level": 8, "effect": "90% chance · 2 chests", "power": 464000 },
-        { "level": 9, "effect": "95% chance · 2 chests", "power": 522000 },
-        { "level": 10, "effect": "95% chance · 3 chests", "power": 580000 },
-        { "level": 11, "effect": "100% chance · 3 chests", "power": 638000 }
+        { "level": 1, "effect": "(50%;1)", "power": 58000 },
+        { "level": 2, "effect": "(55%;1)", "power": 116000 },
+        { "level": 3, "effect": "(60%;1)", "power": 174000 },
+        { "level": 4, "effect": "(70%;1)", "power": 232000 },
+        { "level": 5, "effect": "(80%;1)", "power": 290000 },
+        { "level": 6, "effect": "(80%;2)", "power": 348000 },
+        { "level": 7, "effect": "(85%;2)", "power": 406000 },
+        { "level": 8, "effect": "(90%;2)", "power": 464000 },
+        { "level": 9, "effect": "(95%;2)", "power": 522000 },
+        { "level": 10, "effect": "(95%;3)", "power": 580000 },
+        { "level": 11, "effect": "(100%;3)", "power": 638000 }
       ]
     },
     "skills": [
       {
         "id": "teacher_of_champions",
-        "name": { "EN": "Teacher of Champions", "FR": "Professeur des Champions" },
+        "name": { "EN": "Teacher of Champions", "FR": "Formateur de Champions" },
+        "TextToInclude" : {
+          "FR": "Roman forme les candidats à des compétences qui ne seront pas oubliées de sitôt. Augment de X l'attaque et la santé des escortes en combat d'arène.",
+          "EN": "Roman trains candidates in skills that will not soon be forgot, increasing Escorts' Arena Battle Attack and Health by X." },
         "unlockRelLevel": 10,
         "levels": [
           { "level": 1, "effect": "+2%", "xpCost": 0, "manuscripts": 0, "power": 42000 },
@@ -275,6 +284,9 @@
       {
         "id": "winner_take_all",
         "name": { "EN": "Winner Take All", "FR": "Le Gagnant Rafle Tout" },
+        "TextToInclude" : {
+          "FR": "\"il ne peut en rester qu'un !\" déclare souvent Roman. Fidèle à lui-même, il augmente de X les récompenses quotidienne et hebdomadaires en jetons d'arène.",
+          "EN": "\"There can be only one!\" Roman often declares. True to form, he increases the Daily and Weekly Arena Token rewards by X." },
         "unlockRelLevel": 20,
         "levels": [
           { "level": 1, "effect": "+5%", "xpCost": 0, "manuscripts": 0, "power": 18000 },
@@ -291,24 +303,30 @@
       },
       {
         "id": "crowd_favorite",
-        "name": { "EN": "Crowd Favorite", "FR": "Favori de la Foule" },
+        "name": { "EN": "Crowd Favorite", "FR": "Favori du public" },
+        "TextToInclude" : {
+          "FR": "Les avantages liés à la popularité de Roman ne se limitent pas à ses tenues élégantes et à ses phrases cultes. Ils octroient aussi X objets bonus dans le magasin d'arène à moins X",
+          "EN": "The perks of Roman's popularity aren't limited to stylish outfits and catchphrases, but also X extra Arena Shop items discounted by X." },
         "unlockRelLevel": 30,
         "levels": [
-          { "level": 1, "effect": "1 item · 5% off", "xpCost": 0, "manuscripts": 0, "power": 18000 },
-          { "level": 2, "effect": "1 item · 10% off", "xpCost": 30600, "manuscripts": 300, "power": 36000 },
-          { "level": 3, "effect": "1 item · 15% off", "xpCost": 92400, "manuscripts": 600, "power": 54000 },
-          { "level": 4, "effect": "2 items · 20% off", "xpCost": 185400, "manuscripts": 900, "power": 72000 },
-          { "level": 5, "effect": "2 items · 25% off", "xpCost": 309600, "manuscripts": 1200, "power": 90000 },
-          { "level": 6, "effect": "2 items · 30% off", "xpCost": 465000, "manuscripts": 1500, "power": 108000 },
-          { "level": 7, "effect": "3 items · 35% off", "xpCost": 651600, "manuscripts": 1800, "power": 126000 },
-          { "level": 8, "effect": "3 items · 40% off", "xpCost": 868800, "manuscripts": 2100, "power": 144000 },
-          { "level": 9, "effect": "3 items · 45% off", "xpCost": 1117200, "manuscripts": 2400, "power": 162000 },
-          { "level": 10, "effect": "3 items · 50% off", "xpCost": 1396800, "manuscripts": 2700, "power": 180000 }
+          { "level": 1, "effect": "(1;5%)", "xpCost": 0, "manuscripts": 0, "power": 18000 },
+          { "level": 2, "effect": "(1;10%)", "xpCost": 30600, "manuscripts": 300, "power": 36000 },
+          { "level": 3, "effect": "(1;15%)", "xpCost": 92400, "manuscripts": 600, "power": 54000 },
+          { "level": 4, "effect": "(2;20%)", "xpCost": 185400, "manuscripts": 900, "power": 72000 },
+          { "level": 5, "effect": "(2;25%)", "xpCost": 309600, "manuscripts": 1200, "power": 90000 },
+          { "level": 6, "effect": "(2;30%)", "xpCost": 465000, "manuscripts": 1500, "power": 108000 },
+          { "level": 7, "effect": "(3;35%)", "xpCost": 651600, "manuscripts": 1800, "power": 126000 },
+          { "level": 8, "effect": "(3;40%)", "xpCost": 868800, "manuscripts": 2100, "power": 144000 },
+          { "level": 9, "effect": "(3;45%)", "xpCost": 1117200, "manuscripts": 2400, "power": 162000 },
+          { "level": 10, "effect": "(3;50%)", "xpCost": 1396800, "manuscripts": 2700, "power": 180000 }
         ]
       },
       {
         "id": "one_desire",
-        "name": { "EN": "One Desire", "FR": "Un Seul Désir" },
+        "name": { "EN": "One Desire", "FR": "Unique souhait" },
+        "TextToInclude" : {
+          "FR": "Recevoir honneur et gloire sur le même podium que Roman est le rêve de tout héros dans l'arène. Augmente de X l'attaque et la santé en combat d'arène.",
+          "EN": "To receive honor and glory upon the same podium on which Roman stands is the dream of every hero in the Arena, boosting Arena Battle Attack and Health by X." },
         "unlockRelLevel": 40,
         "levels": [
           { "level": 1, "effect": "+2%", "xpCost": 0, "manuscripts": 0, "power": 42000 },
