@@ -176,8 +176,16 @@ function openMasterModal(master, userData) {
 function injectValue(textObj, lang, value) {
     if (!textObj) return null;
     const txt = textObj[lang] || textObj['EN'] || '';
-    const val = `<span style="color: var(--accent); font-weight: bold;">${value}</span>`;
-    return txt.replace(/(?<![A-Za-z])X(?![A-Za-z])/g, val);
+    // Tuple "(a;b)" → remplacements séquentiels ; valeur simple → réutilisée
+    const str = String(value).trim();
+    const m = str.match(/^\((.*)\)$/);
+    const parts = m ? m[1].split(';').map(s => s.trim()) : [str];
+    let i = 0;
+    return txt.replace(/(?<![A-Za-z])X(?![A-Za-z])/g, () => {
+        const v = parts[Math.min(i, parts.length - 1)];
+        i++;
+        return `<span style="color: var(--accent); font-weight: bold;">${v}</span>`;
+    });
 }
 
 function updateMasterUI() {
