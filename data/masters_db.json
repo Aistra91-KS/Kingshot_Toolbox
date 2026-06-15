@@ -135,18 +135,21 @@
     ],
     "passive": {
       "name": { "EN": "Efficient Reserves", "FR": "Réserves Efficaces" },
+      "TextToInclude" : {
+        "FR" : "En tant que ceuilleur vétéran, Pan accomplit ces tâches plus efficacement. Gagne X coffres de réserves toutes les 120 minutes de collecte. Limite quotidienne : X",
+        "EN" : "As a crafty veteran gatherer, Pan handles such tasks more efficiently, gaining X Reserve Chests every 120 total gathering mins. Daily limits : X" },
       "levels": [
-        { "level": 1, "effect": "1 chest / 120 gathering min · Daily cap 10" },
-        { "level": 2, "effect": "1 chest · Daily cap 12" },
-        { "level": 3, "effect": "2 chests · Daily cap 14" },
-        { "level": 4, "effect": "2 chests · Daily cap 16" },
-        { "level": 5, "effect": "2 chests · Daily cap 18" },
-        { "level": 6, "effect": "3 chests · Daily cap 20" },
-        { "level": 7, "effect": "3 chests · Daily cap 22" },
-        { "level": 8, "effect": "3 chests · Daily cap 24" },
-        { "level": 9, "effect": "4 chests · Daily cap 26" },
-        { "level": 10, "effect": "4 chests · Daily cap 28" },
-        { "level": 11, "effect": "5 chests · Daily cap 30" }
+        { "level": 1, "effect": "(1;10)" },
+        { "level": 2, "effect": "(1;12)" },
+        { "level": 3, "effect": "(2;14)" },
+        { "level": 4, "effect": "(2;16)" },
+        { "level": 5, "effect": "(2;18)" },
+        { "level": 6, "effect": "(3;20)" },
+        { "level": 7, "effect": "(3;22)" },
+        { "level": 8, "effect": "(3;24)" },
+        { "level": 9, "effect": "(4;26)" },
+        { "level": 10, "effect": "(4;28)" },
+        { "level": 11, "effect": "(5;30)" }
       ]
     },
     "skills": [
