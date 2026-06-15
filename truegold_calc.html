@@ -43,6 +43,18 @@
         </div>
 
         <div class="control-group">
+            <h3 data-i18n="panTitle">Bonus de construction (PAN)</h3>
+            <div class="control-row">
+                <label data-i18n="panSource">Source</label>
+                <span id="pan-source-badge" style="font-weight:bold;"></span>
+            </div>
+            <div class="control-row">
+                <label data-i18n="panReduc">Réduction (heures)</label>
+                <input type="number" id="panReduction" value="0" min="0" max="8" oninput="triggerUpdate()" onchange="triggerUpdate()">
+            </div>
+        </div>
+
+        <div class="control-group">
             <h3 data-i18n="resources">Resources</h3>
             <div class="control-row">
                 <label>TrueGold (TG)</label>
