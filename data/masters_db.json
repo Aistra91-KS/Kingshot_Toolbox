@@ -117,6 +117,9 @@
     "name": { "EN": "Pan", "FR": "Pan" },
     "title": { "EN": "Prosperity Master", "FR": "Expert de Prospérité" },
     "affinityBonus": { "EN": "Squad Defense Bonus", "FR": "Bonus de Défense d'Escouade" },
+    "TextToInclude" : {
+      "FR" : "Défense des escouades : +X%",
+      "EN" : "Squads Defense, up to +X%" },
     "affinityMilestones": [
       { "level": 1, "affinity": 240, "emblems": 0, "bonus": 1.58 },
       { "level": 10, "affinity": 400, "emblems": 8, "bonus": 2.85 },
