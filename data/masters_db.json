@@ -156,6 +156,9 @@
       {
         "id": "falconer",
         "name": { "EN": "Falconer", "FR": "Fauconnier" },
+         "TextToInclude" : {
+           "EN" : "Pan' skilled falconry gives them grater range, increasing the number of daily Watchtower inter missions found by X",
+           "FR" : "X" },
         "unlockRelLevel": 10,
         "levels": [
           { "level": 1, "effect": "+2", "xpCost": 0, "manuscripts": 0, "power": 20000 },
@@ -168,6 +171,9 @@
       {
         "id": "good_steward",
         "name": { "EN": "Good Steward", "FR": "Bon Intendant" },
+        "TextToInclude" : {
+          "EN" : "A good steward must be responsible for their master's needs. Pan increases the Storehouse's Governor Stamina replenishment by X",
+          "FR" : "X" },
         "unlockRelLevel": 20,
         "levels": [
           { "level": 1, "effect": "+10", "xpCost": 0, "manuscripts": 0, "power": 16000 },
@@ -180,30 +186,36 @@
       {
         "id": "master_architect",
         "name": { "EN": "Master Architect", "FR": "Maître Architecte" },
+         "TextToInclude" : {
+          "EN" : "Pan is a master of construction efficiency, speeding up construction by X hours on every new build",
+          "FR" : "X" },
         "unlockRelLevel": 30,
         "levels": [
-          { "level": 1, "effect": "-2 hr", "xpCost": 0, "manuscripts": 0, "power": 7000 },
-          { "level": 2, "effect": "-3 hr", "xpCost": 13800, "manuscripts": 200, "power": 14000 },
-          { "level": 3, "effect": "-4 hr", "xpCost": 41400, "manuscripts": 400, "power": 21000 },
-          { "level": 4, "effect": "-6 hr", "xpCost": 96600, "manuscripts": 800, "power": 28000 },
-          { "level": 5, "effect": "-8 hr", "xpCost": 207000, "manuscripts": 1600, "power": 35000 }
+          { "level": 1, "effect": "2", "xpCost": 0, "manuscripts": 0, "power": 7000 },
+          { "level": 2, "effect": "3", "xpCost": 13800, "manuscripts": 200, "power": 14000 },
+          { "level": 3, "effect": "4", "xpCost": 41400, "manuscripts": 400, "power": 21000 },
+          { "level": 4, "effect": "6", "xpCost": 96600, "manuscripts": 800, "power": 28000 },
+          { "level": 5, "effect": "8", "xpCost": 207000, "manuscripts": 1600, "power": 35000 }
         ]
       },
       {
         "id": "ways_and_means",
         "name": { "EN": "Ways and Means", "FR": "Voies et Moyens" },
+        "TextToInclude" : {
+          "EN" : "An experienced manager sees opportunities others don't. Pan gains X additional Mystery Badge(s) upon daily mission completion and X more free refreshes at the Mystery Shop.",
+          "FR" : "X" },
         "unlockRelLevel": 40,
         "levels": [
-          { "level": 1, "effect": "+20 Badges · 1 refresh", "xpCost": 0, "manuscripts": 0, "power": 7000 },
-          { "level": 2, "effect": "+30 Badges · 1 refresh", "xpCost": 10200, "manuscripts": 100, "power": 14000 },
-          { "level": 3, "effect": "+40 Badges · 1 refresh", "xpCost": 30600, "manuscripts": 200, "power": 21000 },
-          { "level": 4, "effect": "+50 Badges · 2 refreshes", "xpCost": 61200, "manuscripts": 300, "power": 28000 },
-          { "level": 5, "effect": "+60 Badges · 2 refreshes", "xpCost": 102600, "manuscripts": 400, "power": 35000 },
-          { "level": 6, "effect": "+70 Badges · 2 refreshes", "xpCost": 154200, "manuscripts": 500, "power": 42000 },
-          { "level": 7, "effect": "+80 Badges · 3 refreshes", "xpCost": 216000, "manuscripts": 600, "power": 49000 },
-          { "level": 8, "effect": "+90 Badges · 3 refreshes", "xpCost": 288600, "manuscripts": 700, "power": 56000 },
-          { "level": 9, "effect": "+100 Badges · 4 refreshes", "xpCost": 371400, "manuscripts": 800, "power": 63000 },
-          { "level": 10, "effect": "+120 Badges · 4 refreshes", "xpCost": 464400, "manuscripts": 900, "power": 70000 }
+          { "level": 1, "effect": "(20;1)", "xpCost": 0, "manuscripts": 0, "power": 7000 },
+          { "level": 2, "effect": "(30;1)", "xpCost": 10200, "manuscripts": 100, "power": 14000 },
+          { "level": 3, "effect": "(40;1)", "xpCost": 30600, "manuscripts": 200, "power": 21000 },
+          { "level": 4, "effect": "(50;2)", "xpCost": 61200, "manuscripts": 300, "power": 28000 },
+          { "level": 5, "effect": "(60;2)", "xpCost": 102600, "manuscripts": 400, "power": 35000 },
+          { "level": 6, "effect": "(70;2)", "xpCost": 154200, "manuscripts": 500, "power": 42000 },
+          { "level": 7, "effect": "(80;3)", "xpCost": 216000, "manuscripts": 600, "power": 49000 },
+          { "level": 8, "effect": "(90;3)", "xpCost": 288600, "manuscripts": 700, "power": 56000 },
+          { "level": 9, "effect": "(100;4)", "xpCost": 371400, "manuscripts": 800, "power": 63000 },
+          { "level": 10, "effect": "(120;4)", "xpCost": 464400, "manuscripts": 900, "power": 70000 }
         ]
       }
     ]
