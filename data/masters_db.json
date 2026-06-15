@@ -250,12 +250,12 @@
         { "level": 1, "effect": "(50%;1)", "power": 58000 },
         { "level": 2, "effect": "(55%;1)", "power": 116000 },
         { "level": 3, "effect": "(60%;1)", "power": 174000 },
-        { "level": 4, "effect": "(70%;1)", "power": 232000 },
-        { "level": 5, "effect": "(80%;1)", "power": 290000 },
-        { "level": 6, "effect": "(80%;2)", "power": 348000 },
-        { "level": 7, "effect": "(85%;2)", "power": 406000 },
-        { "level": 8, "effect": "(90%;2)", "power": 464000 },
-        { "level": 9, "effect": "(95%;2)", "power": 522000 },
+        { "level": 4, "effect": "(65%;1)", "power": 232000 },
+        { "level": 5, "effect": "(70%;1)", "power": 290000 },
+        { "level": 6, "effect": "(75%;2)", "power": 348000 },
+        { "level": 7, "effect": "(80%;2)", "power": 406000 },
+        { "level": 8, "effect": "(85%;2)", "power": 464000 },
+        { "level": 9, "effect": "(90%;2)", "power": 522000 },
         { "level": 10, "effect": "(95%;3)", "power": 580000 },
         { "level": 11, "effect": "(100%;3)", "power": 638000 }
       ]
