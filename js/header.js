@@ -1,7 +1,7 @@
 // ============================================================
 //  HEADER CONTEXTUEL — généré depuis window.SITE (site-config.js)
 //  Logo (portail) · Jeu · Catégorie · Outils filtrés · Langue · Thème
-//  Vanilla · statique · offline (icônes SVG inline, pas de CDN)
+//  Dropdowns custom (modernes) · icônes SVG inline (offline)
 // ============================================================
 
 // --- Icônes SVG inline (Lucide, licence ISC/MIT) ---
@@ -21,13 +21,12 @@ function hdrSvg(name, size = 18) {
 
 // --- État global du header ---
 let HDR_CURRENT_PAGE = (window.location.pathname.split('/').pop() || 'index.html');
-let HDR_CTX = { gameId: null, catId: null, toolId: null }; // contexte (page courante)
-let HDR_SELECTED_CAT = null;                                 // catégorie affichée dans le déroulant
+let HDR_CTX = { gameId: null, catId: null, toolId: null };
+let HDR_SELECTED_CAT = null;
 
 function hdrLang() { return window.GlobalLang ? window.GlobalLang.get() : 'FR'; }
 function hdrT(obj) { return obj ? (obj[hdrLang()] || obj.EN || obj.FR || '') : ''; }
 
-// Trouve le jeu/catégorie/outil correspondant à la page courante
 function hdrResolveContext(page) {
   const S = window.SITE;
   for (const game of S.games) {
@@ -40,7 +39,6 @@ function hdrResolveContext(page) {
       }
     }
   }
-  // Aucune correspondance (ex. portail/hub index.html) → 1er jeu actif, 1re catégorie active
   const firstGame = S.games.find(g => g.status === 'active') || S.games[0];
   const firstCat  = (firstGame.categories || []).find(c => c.status === 'active');
   return { gameId: firstGame.id, catId: firstCat ? firstCat.id : null, toolId: null };
@@ -52,33 +50,81 @@ function hdrGetCat(gameId, catId) {
   return g ? (g.categories || []).find(c => c.id === catId) : null;
 }
 
-// Remplit le sélecteur de JEU
-function hdrRenderGames() {
-  const sel = document.getElementById('hdr-game');
-  if (!sel) return;
-  const S = window.SITE;
-  sel.innerHTML = S.games.map(g => {
-    const soon = g.status !== 'active';
-    const label = hdrT(g.name) + (soon ? ' — ' + hdrT(S.ui.soon) : '');
-    return `<option value="${g.id}" ${soon ? 'disabled' : ''} ${g.id === HDR_CTX.gameId ? 'selected' : ''}>${label}</option>`;
-  }).join('');
+// ---------- Dropdown custom (générique) ----------
+function hdrCloseAllDropdowns(except) {
+  document.querySelectorAll('.hdr-dd.open').forEach(d => { if (d !== except) d.classList.remove('open'); });
 }
 
-// Remplit le sélecteur de CATÉGORIE (du jeu courant)
+function hdrBuildDropdown(containerId, items, currentValue, onSelect) {
+  const box = document.getElementById(containerId);
+  if (!box) return;
+  const cur = items.find(i => i.value === currentValue) || items.find(i => !i.disabled) || items[0];
+  box.classList.add('hdr-dd');
+  box.innerHTML = `
+    <button type="button" class="hdr-dd-trigger">
+      <span class="hdr-dd-current">${cur ? cur.label : ''}</span>
+      <span class="hdr-dd-chevron" aria-hidden="true">▾</span>
+    </button>
+    <div class="hdr-dd-panel" role="listbox">
+      ${items.map(i => `
+        <button type="button" class="hdr-dd-item ${i.value === currentValue ? 'active' : ''} ${i.disabled ? 'disabled' : ''}"
+                data-value="${i.value}" ${i.disabled ? 'disabled' : ''}>${i.label}</button>`).join('')}
+    </div>`;
+
+  const trigger = box.querySelector('.hdr-dd-trigger');
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = !box.classList.contains('open');
+    hdrCloseAllDropdowns(box);
+    box.classList.toggle('open', willOpen);
+  });
+  box.querySelectorAll('.hdr-dd-item').forEach(btn => {
+    if (btn.disabled) return;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      box.classList.remove('open');
+      onSelect(btn.getAttribute('data-value'));
+    });
+  });
+}
+
+// Fermeture au clic extérieur / Échap (une seule fois)
+if (!window.__hdrDDInit) {
+  window.__hdrDDInit = true;
+  document.addEventListener('click', () => hdrCloseAllDropdowns(null));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hdrCloseAllDropdowns(null); });
+}
+
+// ---------- Rendus ----------
+function hdrRenderGames() {
+  const S = window.SITE;
+  const items = S.games.map(g => ({
+    value: g.id,
+    label: hdrT(g.name) + (g.status !== 'active' ? ' — ' + hdrT(S.ui.soon) : ''),
+    disabled: g.status !== 'active'
+  }));
+  hdrBuildDropdown('hdr-game', items, HDR_CTX.gameId, (val) => {
+    const g = hdrGetGame(val);
+    if (g && g.status === 'active' && g.hub) window.location.href = g.hub;
+  });
+}
+
 function hdrRenderCategories() {
-  const sel = document.getElementById('hdr-cat');
-  if (!sel) return;
   const S = window.SITE;
   const game = hdrGetGame(HDR_CTX.gameId);
   const cats = (game && game.categories) || [];
-  sel.innerHTML = cats.map(c => {
-    const soon = c.status !== 'active';
-    const label = hdrT(c.name) + (soon ? ' — ' + hdrT(S.ui.soon) : '');
-    return `<option value="${c.id}" ${soon ? 'disabled' : ''} ${c.id === HDR_SELECTED_CAT ? 'selected' : ''}>${label}</option>`;
-  }).join('');
+  const items = cats.map(c => ({
+    value: c.id,
+    label: hdrT(c.name) + (c.status !== 'active' ? ' — ' + hdrT(S.ui.soon) : ''),
+    disabled: c.status !== 'active'
+  }));
+  hdrBuildDropdown('hdr-cat', items, HDR_SELECTED_CAT, (val) => {
+    HDR_SELECTED_CAT = val;
+    hdrRenderCategories(); // rafraîchit le libellé + l'état actif
+    hdrRenderTools();
+  });
 }
 
-// Remplit la rangée d'OUTILS (de la catégorie sélectionnée)
 function hdrRenderTools() {
   const box = document.getElementById('hdr-tools');
   if (!box) return;
@@ -102,7 +148,7 @@ function hdrRenderTools() {
   }).join('');
 }
 
-// Construit + injecte le header
+// ---------- Construction + injection ----------
 (function buildHeader() {
   if (!window.SITE) { console.error('site-config.js manquant — header non généré.'); return; }
 
@@ -118,15 +164,11 @@ function hdrRenderTools() {
           <span class="logo-icon">⚔️</span>
           <span class="logo-text">KVK Optimizer</span>
         </a>
-        <div class="header-pill-wrapper">
-          <select id="hdr-game" class="header-pill-select" title="Jeu"></select>
-        </div>
+        <div id="hdr-game" class="hdr-dd" title="Jeu"></div>
       </div>
 
       <nav class="hdr-zone hdr-center">
-        <div class="header-pill-wrapper">
-          <select id="hdr-cat" class="header-pill-select" title="Catégorie"></select>
-        </div>
+        <div id="hdr-cat" class="hdr-dd" title="Catégorie"></div>
         <div id="hdr-tools" class="hdr-tools"></div>
       </nav>
 
@@ -147,24 +189,9 @@ function hdrRenderTools() {
   document.body.insertAdjacentHTML('afterbegin', headerHTML);
   document.body.classList.add('has-app-header');
 
-  // Remplissage initial
   hdrRenderGames();
   hdrRenderCategories();
   hdrRenderTools();
-
-  // --- Événements ---
-  // Changer de jeu → aller à son hub (si actif)
-  const gameSel = document.getElementById('hdr-game');
-  if (gameSel) gameSel.addEventListener('change', (e) => {
-    const g = hdrGetGame(e.target.value);
-    if (g && g.status === 'active' && g.hub) window.location.href = g.hub;
-  });
-  // Changer de catégorie → re-filtrer les outils (pas de navigation)
-  const catSel = document.getElementById('hdr-cat');
-  if (catSel) catSel.addEventListener('change', (e) => {
-    HDR_SELECTED_CAT = e.target.value;
-    hdrRenderTools();
-  });
 
   initHeaderTheme();
 
@@ -174,7 +201,7 @@ function hdrRenderTools() {
   }
 })();
 
-// Re-rendu du header au changement de langue (labels jeux/catégories/outils)
+// Re-rendu au changement de langue
 window.addEventListener('langChanged', (e) => {
   const select = document.getElementById('global-lang-select');
   if (select && e.detail) select.value = e.detail.lang;
