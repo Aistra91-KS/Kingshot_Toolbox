@@ -1364,6 +1364,9 @@ body.modal-active .main-content {
     background: var(--bg-panel) !important;
 }
 
+#modal-rel-select { min-width: 150px; }
+#modal-rel-select option { background: var(--bg-panel); color: var(--text-light); }
+
 /* ============================================================================
    MODALE DE SAUVEGARDE GLOBALE (IMPORT / EXPORT JSON)
    ============================================================================ */
