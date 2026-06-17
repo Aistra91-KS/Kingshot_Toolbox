@@ -254,12 +254,12 @@ function buildCardHtml(title, s, treeKey, lang) {
                 <div class="progress-bg"><div class="progress-fill" style="width: ${perc}%"></div></div>
             </div>
             <div class="stat-grid" style="margin-bottom:10px;">
-                <div class="stat-item"><span class="resource-icon">${iconSvg('wheat',16)}</span><span>${formatNumber(s.b)}</span></div>
-                <div class="stat-item"><span class="resource-icon">${iconSvg('tree-pine',16)}</span><span>${formatNumber(s.w)}</span></div>
-                <div class="stat-item"><span class="resource-icon">${iconSvg('brick-wall',16)}</span><span>${formatNumber(s.s)}</span></div>
-                <div class="stat-item"><span class="resource-icon">${iconSvg('pickaxe',16)}</span><span>${formatNumber(s.i)}</span></div>
-                <div class="stat-item"><span class="resource-icon">${iconSvg('coins',16)}</span><span>${formatNumber(s.g)}</span></div>
-                <div class="stat-item" style="color:var(--accent)"><span class="resource-icon">${iconSvg('clock',16)}</span><b>${formatTime(s.t)}</b></div>
+                <div class="stat-item">${resIc('wheat',16,lang)}<span>${formatNumber(s.b)}</span></div>
+                <div class="stat-item">${resIc('tree-pine',16,lang)}<span>${formatNumber(s.w)}</span></div>
+                <div class="stat-item">${resIc('brick-wall',16,lang)}<span>${formatNumber(s.s)}</span></div>
+                <div class="stat-item">${resIc('pickaxe',16,lang)}<span>${formatNumber(s.i)}</span></div>
+                <div class="stat-item">${resIc('coins',16,lang)}<span>${formatNumber(s.g)}</span></div>
+                <div class="stat-item" style="color:var(--accent)">${resIc('clock',16,lang)}<b>${formatTime(s.t)}</b></div>
             </div>
             ${suggHtml}
         </div>`;
@@ -344,7 +344,7 @@ function renderTrees() {
         if (!inputs.hideCompleted.checked || !item.Researched) {
             let tr = document.createElement('tr');
             tr.style.cssText = opacityStyle;
-            let costStr = `${iconSvg('wheat',13)} ${formatNumber(item.Bread)} | ${iconSvg('tree-pine',13)} ${formatNumber(item.Wood)} | ${iconSvg('brick-wall',13)} ${formatNumber(item.Stone)} | ${iconSvg('pickaxe',13)} ${formatNumber(item.iron)} | ${iconSvg('coins',13)} ${formatNumber(item.Gold)}`;
+            let costStr = `${resIc('wheat',13,lang)} ${formatNumber(item.Bread)} | ${resIc('tree-pine',13,lang)} ${formatNumber(item.Wood)} | ${resIc('brick-wall',13,lang)} ${formatNumber(item.Stone)} | ${resIc('pickaxe',13,lang)} ${formatNumber(item.iron)} | ${resIc('coins',13,lang)} ${formatNumber(item.Gold)}`;
             tr.innerHTML = `
                 <td><input type="checkbox" data-index="${index}" ${item.Researched ? 'checked' : ''}> ${lockIcon}</td>
                 <td>${name}</td>
