@@ -16,8 +16,8 @@ const i18n = {
         'hideCompleted': 'Hide completed', 'accelerators': 'Accelerators',
         'days': 'Days (d)', 'hours': 'Hours (h)', 'minutes': 'Minutes (m)',
         'totalAvailable': 'Total Available', 'targetTree': 'Target Tree',
-        'treeGrowthLabel': '🧭 Growth', 'treeEconomyLabel': '🌾 Economy',
-        'treeBattleLabel': '⚔️ Battle', 'modeKvkBlock': 'KVK Mode',
+        'treeGrowthLabel': 'Growth', 'treeEconomyLabel': 'Economy',
+        'treeBattleLabel': 'Battle', 'modeKvkBlock': 'KVK Mode',
         'modeKvkLabel': 'Active (Limit by Accelerators)', 'tabOptimal': 'Optimal Search Order',
         'tabGrowth': 'Growth Tree', 'tabEconomy': 'Economy Tree', 'tabBattle': 'Battle Tree',
         'suggTitle': 'Suggestion for the next researches', 'recapTitle': 'Global Recap',
@@ -40,8 +40,8 @@ const i18n = {
         'hideCompleted': 'Masquer les terminés', 'accelerators': 'Accélérateurs',
         'days': 'Jours (j)', 'hours': 'Heures (h)', 'minutes': 'Minutes (m)',
         'totalAvailable': 'Total Disponible', 'targetTree': 'Arbres cibles',
-        'treeGrowthLabel': '🧭 Expansion', 'treeEconomyLabel': '🌾 Économie',
-        'treeBattleLabel': '⚔️ Combat', 'modeKvkBlock': 'Mode KVK',
+        'treeGrowthLabel': 'Expansion', 'treeEconomyLabel': 'Économie',
+        'treeBattleLabel': 'Combat', 'modeKvkBlock': 'Mode KVK',
         'modeKvkLabel': 'Actif (Limité par accélérateurs)', 'tabOptimal': 'Ordre de Recherche',
         'tabGrowth': 'Arbre Expansion', 'tabEconomy': 'Arbre Économie', 'tabBattle': 'Arbre Combat',
         'suggTitle': 'Suggestions pour les prochaines recherches', 'recapTitle': 'Récapitulatif Global',
@@ -244,12 +244,12 @@ function buildCardHtml(title, s, treeKey, lang) {
                 <div class="progress-bg"><div class="progress-fill" style="width: ${perc}%"></div></div>
             </div>
             <div class="stat-grid" style="margin-bottom:10px;">
-                <div class="stat-item"><span class="resource-icon">🍞</span><span>${formatNumber(s.b)}</span></div>
-                <div class="stat-item"><span class="resource-icon">🌲</span><span>${formatNumber(s.w)}</span></div>
-                <div class="stat-item"><span class="resource-icon">🧱</span><span>${formatNumber(s.s)}</span></div>
-                <div class="stat-item"><span class="resource-icon">⚒️</span><span>${formatNumber(s.i)}</span></div>
-                <div class="stat-item"><span class="resource-icon">💰</span><span>${formatNumber(s.g)}</span></div>
-                <div class="stat-item" style="color:var(--accent)"><span class="resource-icon">⏳</span><b>${formatTime(s.t)}</b></div>
+                <div class="stat-item"><span class="resource-icon">${iconSvg('wheat',16)}</span><span>${formatNumber(s.b)}</span></div>
+                <div class="stat-item"><span class="resource-icon">${iconSvg('tree-pine',16)}</span><span>${formatNumber(s.w)}</span></div>
+                <div class="stat-item"><span class="resource-icon">${iconSvg('brick-wall',16)}</span><span>${formatNumber(s.s)}</span></div>
+                <div class="stat-item"><span class="resource-icon">${iconSvg('pickaxe',16)}</span><span>${formatNumber(s.i)}</span></div>
+                <div class="stat-item"><span class="resource-icon">${iconSvg('coins',16)}</span><span>${formatNumber(s.g)}</span></div>
+                <div class="stat-item" style="color:var(--accent)"><span class="resource-icon">${iconSvg('clock',16)}</span><b>${formatTime(s.t)}</b></div>
             </div>
             ${suggHtml}
         </div>`;
@@ -295,7 +295,7 @@ function buildVisualTree(treeName, containerId) {
                 let isLocked = (!item.Researched && !avail);
                 let stepRow = document.createElement('label');
                 stepRow.className = `step-row ${isLocked ? 'locked' : ''}`;
-                let lockIcon = isLocked ? `<span title="${i18n[lang]['blockedTxt']}" style="cursor:help;">🔒</span>` : '';
+                let lockIcon = isLocked ? `<span title="${i18n[lang]['blockedTxt']}" style="cursor:help;">${iconSvg('lock',13)}</span>` : '';
                 stepRow.innerHTML = `
                     <div class="step-left">
                         <input type="checkbox" data-index="${db.indexOf(item)}" ${item.Researched ? 'checked' : ''}>
@@ -329,12 +329,12 @@ function renderTrees() {
     db.forEach((item, index) => {
         let name = lang === 'FR' ? item['Fr Name'] : item['Name'];
         let avail = isAvailable(item, currentMaxLevels);
-        let lockIcon = (!item.Researched && !avail) ? `<span title="${i18n[lang]['blockedTxt']}" style="font-size:14px;margin-left:6px;cursor:help;">🔒</span>` : '';
+        let lockIcon = (!item.Researched && !avail) ? `<span title="${i18n[lang]['blockedTxt']}" style="font-size:14px;margin-left:6px;cursor:help;">${iconSvg('lock',14)}</span>` : '';
         let opacityStyle = (!item.Researched && !avail) ? 'opacity: 0.45;' : '';
         if (!inputs.hideCompleted.checked || !item.Researched) {
             let tr = document.createElement('tr');
             tr.style.cssText = opacityStyle;
-            let costStr = `🍞 ${formatNumber(item.Bread)} | 🌲 ${formatNumber(item.Wood)} | 🧱 ${formatNumber(item.Stone)} | ⚒️ ${formatNumber(item.iron)} | 💰 ${formatNumber(item.Gold)}`;
+            let costStr = `${iconSvg('wheat',13)} ${formatNumber(item.Bread)} | ${iconSvg('tree-pine',13)} ${formatNumber(item.Wood)} | ${iconSvg('brick-wall',13)} ${formatNumber(item.Stone)} | ${iconSvg('pickaxe',13)} ${formatNumber(item.iron)} | ${iconSvg('coins',13)} ${formatNumber(item.Gold)}`;
             tr.innerHTML = `
                 <td><input type="checkbox" data-index="${index}" ${item.Researched ? 'checked' : ''}> ${lockIcon}</td>
                 <td>${name}</td>
