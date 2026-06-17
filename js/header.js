@@ -1,7 +1,8 @@
 // ============================================================
 //  HEADER CONTEXTUEL — généré depuis window.SITE (site-config.js)
-//  Logo (portail) · Jeu · Catégorie · Outils filtrés · Langue · Thème
-//  Dropdowns custom (modernes) · icônes SVG inline (offline)
+//  Desktop : logo · jeu · catégorie · outils · langue · thème
+//  Mobile  : logo + bouton ☰ → drawer (toute la nav depuis SITE)
+//  Icônes SVG inline (offline)
 // ============================================================
 
 // --- Icônes SVG inline (Lucide, licence ISC/MIT) ---
@@ -19,7 +20,7 @@ function hdrSvg(name, size = 18) {
   return `<svg class="hdr-ic" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
 }
 
-// --- État global du header ---
+// --- État global ---
 let HDR_CURRENT_PAGE = (window.location.pathname.split('/').pop() || 'index.html');
 let HDR_CTX = { gameId: null, catId: null, toolId: null };
 let HDR_SELECTED_CAT = null;
@@ -50,7 +51,7 @@ function hdrGetCat(gameId, catId) {
   return g ? (g.categories || []).find(c => c.id === catId) : null;
 }
 
-// ---------- Dropdown custom (générique) ----------
+// ---------- Dropdown custom (desktop) ----------
 function hdrCloseAllDropdowns(except) {
   document.querySelectorAll('.hdr-dd.open').forEach(d => { if (d !== except) d.classList.remove('open'); });
 }
@@ -92,10 +93,12 @@ function hdrBuildDropdown(containerId, items, currentValue, onSelect) {
 if (!window.__hdrDDInit) {
   window.__hdrDDInit = true;
   document.addEventListener('click', () => hdrCloseAllDropdowns(null));
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hdrCloseAllDropdowns(null); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { hdrCloseAllDropdowns(null); hdrCloseDrawer(); }
+  });
 }
 
-// ---------- Rendus ----------
+// ---------- Rendus desktop ----------
 function hdrRenderGames() {
   const S = window.SITE;
   const items = S.games.map(g => ({
@@ -120,7 +123,7 @@ function hdrRenderCategories() {
   }));
   hdrBuildDropdown('hdr-cat', items, HDR_SELECTED_CAT, (val) => {
     HDR_SELECTED_CAT = val;
-    hdrRenderCategories(); // rafraîchit le libellé + l'état actif
+    hdrRenderCategories();
     hdrRenderTools();
   });
 }
@@ -148,6 +151,66 @@ function hdrRenderTools() {
   }).join('');
 }
 
+// ---------- Drawer mobile ----------
+function hdrBuildDrawer() {
+  const drawer = document.getElementById('hdr-drawer');
+  if (!drawer || !window.SITE) return;
+  const S = window.SITE;
+  const game = hdrGetGame(HDR_CTX.gameId);
+  const lang = hdrLang();
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+  let nav = '';
+  (game.categories || []).forEach(cat => {
+    const soon = cat.status !== 'active';
+    nav += `<div class="drawer-cat">${hdrT(cat.name)}${soon ? ` <span class="drawer-soon">${hdrT(S.ui.soon)}</span>` : ''}</div>`;
+    if (!soon) {
+      (cat.tools || []).forEach(toolId => {
+        const tool = S.tools[toolId];
+        if (!tool) return;
+        const active = (tool.href === HDR_CURRENT_PAGE) ? 'active' : '';
+        const badge = tool.badge ? `<span class="hdr-badge">${hdrT(S.ui[tool.badge]) || tool.badge}</span>` : '';
+        nav += `<a href="${tool.href}" class="drawer-tool ${active}">${hdrSvg(tool.icon, 20)}<span>${hdrT(tool.name)}</span>${badge}</a>`;
+      });
+    }
+  });
+
+  drawer.innerHTML = `
+    <div class="drawer-head">
+      <span class="drawer-game">${hdrT(game.name)}</span>
+      <button class="drawer-close" id="hdr-drawer-close" aria-label="Fermer">✕</button>
+    </div>
+    <nav class="drawer-nav">${nav}</nav>
+    <div class="drawer-foot">
+      <div class="drawer-lang">
+        <button class="drawer-lang-btn ${lang === 'FR' ? 'active' : ''}" data-lang="FR">FR</button>
+        <button class="drawer-lang-btn ${lang === 'EN' ? 'active' : ''}" data-lang="EN">EN</button>
+      </div>
+      <button class="drawer-theme" id="hdr-drawer-theme" title="Thème">${isDark ? '☀️' : '🌙'}</button>
+    </div>`;
+
+  document.getElementById('hdr-drawer-close').onclick = hdrCloseDrawer;
+  drawer.querySelectorAll('.drawer-lang-btn').forEach(b => {
+    b.onclick = () => { window.GlobalLang.set(b.getAttribute('data-lang')); };
+  });
+  document.getElementById('hdr-drawer-theme').onclick = () => { toggleHeaderTheme(); hdrBuildDrawer(); };
+}
+
+function hdrOpenDrawer() {
+  const d = document.getElementById('hdr-drawer');
+  const o = document.getElementById('hdr-drawer-overlay');
+  if (d) d.classList.add('open');
+  if (o) o.classList.add('open');
+  document.body.classList.add('drawer-locked');
+}
+function hdrCloseDrawer() {
+  const d = document.getElementById('hdr-drawer');
+  const o = document.getElementById('hdr-drawer-overlay');
+  if (d) d.classList.remove('open');
+  if (o) o.classList.remove('open');
+  document.body.classList.remove('drawer-locked');
+}
+
 // ---------- Construction + injection ----------
 (function buildHeader() {
   if (!window.SITE) { console.error('site-config.js manquant — header non généré.'); return; }
@@ -155,7 +218,7 @@ function hdrRenderTools() {
   HDR_CTX = hdrResolveContext(HDR_CURRENT_PAGE);
   HDR_SELECTED_CAT = HDR_CTX.catId;
 
-  const portalHref = 'index.html'; // retour portail (deviendra "/" à la restructuration)
+  const portalHref = 'index.html';
 
   const headerHTML = `
     <header class="app-header">
@@ -182,6 +245,9 @@ function hdrRenderTools() {
         <button class="app-header-theme" id="header-theme-toggle" onclick="toggleHeaderTheme()" title="Changer le thème">
           <span id="header-theme-icon">🌙</span>
         </button>
+        <button class="hdr-burger" id="hdr-burger" aria-label="Menu" title="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </header>
   `;
@@ -189,9 +255,20 @@ function hdrRenderTools() {
   document.body.insertAdjacentHTML('afterbegin', headerHTML);
   document.body.classList.add('has-app-header');
 
+  // Drawer + overlay (mobile)
+  document.body.insertAdjacentHTML('beforeend',
+    '<div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>' +
+    '<aside class="hdr-drawer" id="hdr-drawer" aria-hidden="true"></aside>');
+
   hdrRenderGames();
   hdrRenderCategories();
   hdrRenderTools();
+  hdrBuildDrawer();
+
+  const burger = document.getElementById('hdr-burger');
+  if (burger) burger.addEventListener('click', hdrOpenDrawer);
+  const overlay = document.getElementById('hdr-drawer-overlay');
+  if (overlay) overlay.addEventListener('click', hdrCloseDrawer);
 
   initHeaderTheme();
 
@@ -209,6 +286,7 @@ window.addEventListener('langChanged', (e) => {
   hdrRenderGames();
   hdrRenderCategories();
   hdrRenderTools();
+  hdrBuildDrawer();
 });
 
 // ============ THEME (gestion globale) ============
@@ -228,9 +306,7 @@ function toggleHeaderTheme() {
 
 function updateHeaderThemeIcon(theme) {
   const icon = document.getElementById('header-theme-icon');
-  if (icon) {
-    icon.textContent = theme === 'dark' ? '☀️' : '🌙';
-  }
+  if (icon) { icon.textContent = theme === 'dark' ? '☀️' : '🌙'; }
 }
 
 // ============ MODALES GLOBALES ============
