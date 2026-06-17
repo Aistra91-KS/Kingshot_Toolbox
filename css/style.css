@@ -608,6 +608,8 @@ input[type="checkbox"] {
     word-wrap: break-word;
 }
 
+.bldg-icon svg { color: var(--accent); vertical-align: middle; }
+
 
 /* ============================================================================
    8. TABLES (communes)
