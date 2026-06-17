@@ -355,18 +355,18 @@
           "EN": "Squads' Lethality and Health, up to +X%" 
     },
     "affinityMilestones": [
-      { "level": 1, "affinity": 1320, "emblems": 0, "bonus": 1.58 },
-      { "level": 10, "affinity": 1760, "emblems": 8, "bonus": 2.85 },
-      { "level": 20, "affinity": 2860, "emblems": 16, "bonus": 4.20 },
-      { "level": 30, "affinity": 4020, "emblems": 24, "bonus": 5.55 },
-      { "level": 40, "affinity": 5290, "emblems": 32, "bonus": 6.90 },
-      { "level": 50, "affinity": 7180, "emblems": 40, "bonus": 8.25 },
-      { "level": 60, "affinity": 9890, "emblems": 48, "bonus": 9.60 },
-      { "level": 70, "affinity": 13320, "emblems": 56, "bonus": 10.95 },
-      { "level": 80, "affinity": 16380, "emblems": 64, "bonus": 12.30 },
-      { "level": 90, "affinity": 19560, "emblems": 72, "bonus": 13.65 },
-      { "level": 100, "affinity": 23010, "emblems": 80, "bonus": 15.00 }
-    ],
+  { "level": 1,   "affinity": 1320,  "emblems": 0,  "bonus": 0.80 },
+  { "level": 10,  "affinity": 1760,  "emblems": 8,  "bonus": 1.60 },
+  { "level": 20,  "affinity": 2860,  "emblems": 16, "bonus": 2.40 },
+  { "level": 30,  "affinity": 4020,  "emblems": 24, "bonus": 3.20 },
+  { "level": 40,  "affinity": 5290,  "emblems": 32, "bonus": 4.00 },
+  { "level": 50,  "affinity": 7180,  "emblems": 40, "bonus": 4.80 },
+  { "level": 60,  "affinity": 9890,  "emblems": 48, "bonus": 5.60 },
+  { "level": 70,  "affinity": 13320, "emblems": 56, "bonus": 6.40 },
+  { "level": 80,  "affinity": 16380, "emblems": 64, "bonus": 7.20 },
+  { "level": 90,  "affinity": 19560, "emblems": 72, "bonus": 8.00 },
+  { "level": 100, "affinity": 23010, "emblems": 80, "bonus": 8.80 }
+  ],
     "passive": {
       "name": { "EN": "Horn of Valor", "FR": "Cor du courage" },
       "TextToInclude" : {
