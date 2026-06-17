@@ -66,7 +66,7 @@
                         <div id="modal-affinity-text" style="font-size: 12px; color: var(--text-muted); margin-top: 6px; display: none;"></div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end;">
-                        <select id="modal-rel-select" onchange="onRelSelectChange()" style="background: var(--bg-dark); color: var(--text-light); border: 1px solid var(--accent); padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 13px; cursor: pointer; text-align: left;"></select>
+                        <select id="modal-rel-select" onchange="updateMasterUI()" style="background: var(--bg-dark); color: var(--text-light); border: 1px solid var(--accent); padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 13px; cursor: pointer; text-align: left;"></select>
                         <input type="number" id="modal-rel-level" min="0" max="100" oninput="updateMasterUI()" onchange="updateMasterUI()" title="Niveau exact (0-100)" style="width: 72px; background: var(--bg-dark); color: var(--text-light); border: 1px solid var(--border); padding: 5px 8px; border-radius: 4px; text-align: center; font-weight: bold; font-size: 13px;">
                     </div>
                 </div>
