@@ -1847,7 +1847,9 @@ body.modal-active .main-content {
 }
 .drawer-lang-btn.active { background: var(--accent); color: #0a0a0a; border-color: var(--accent); }
 .drawer-theme {
+  display: flex; align-items: center; justify-content: center;
   background: var(--control-bg); border: 1px solid var(--border);
-  width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 18px;
+  width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+  font-size: 18px; padding: 0; line-height: 1;
 }
 body.drawer-locked { overflow: hidden; }
