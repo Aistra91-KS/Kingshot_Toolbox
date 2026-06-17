@@ -1794,3 +1794,20 @@ body.modal-active .main-content {
   .hdr-dd-trigger { min-width: 0; max-width: 150px; font-size: 12px; }
   .hdr-dd-current { overflow: hidden; text-overflow: ellipsis; }
 }
+
+/* ===== Hub : sections par catégorie ===== */
+.hub-section { margin-bottom: 35px; }
+.hub-section .hub-grid { margin-bottom: 0; }
+.hub-section-title {
+  font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--accent); font-weight: 700;
+  margin: 0 0 18px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.hub-section-soon { font-size: 11px; color: var(--text-muted); font-style: italic; letter-spacing: 0.5px; }
+.hub-card-icon svg { color: var(--accent); display: block; }
+.hub-badge {
+  font-size: 10px; vertical-align: middle; margin-left: 8px;
+  background: var(--accent); color: #0a0a0a; padding: 2px 7px;
+  border-radius: 8px; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;
+}
