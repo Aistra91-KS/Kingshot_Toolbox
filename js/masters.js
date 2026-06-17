@@ -58,6 +58,37 @@ function getRelationshipStatusObj(level) {
     return { FR: "Alter Ego", EN: "Alter Ego" };
 }
 
+// --- PALIERS DE RELATION (sélection manuelle) ---
+const REL_STAGES = [
+  { level: 0,   FR: "Non débloqué",   EN: "Locked" },
+  { level: 1,   FR: "Étranger",       EN: "Stranger" },
+  { level: 10,  FR: "Relation 1",     EN: "Relationship 1" },
+  { level: 20,  FR: "Relation 2",     EN: "Relationship 2" },
+  { level: 30,  FR: "Relation 3",     EN: "Relationship 3" },
+  { level: 40,  FR: "Connaissance 1", EN: "Acquaintance 1" },
+  { level: 50,  FR: "Connaissance 2", EN: "Acquaintance 2" },
+  { level: 60,  FR: "Connaissance 3", EN: "Acquaintance 3" },
+  { level: 70,  FR: "Proche 1",       EN: "Close 1" },
+  { level: 80,  FR: "Proche 2",       EN: "Close 2" },
+  { level: 90,  FR: "Proche 3",       EN: "Close 3" },
+  { level: 100, FR: "Alter Ego",      EN: "Alter Ego" }
+];
+function snapToStage(level) {
+  let snapped = 0;
+  REL_STAGES.forEach(s => { if (level >= s.level) snapped = s.level; });
+  return snapped;
+}
+function getStageObj(level) {
+  return REL_STAGES.find(s => s.level === level) || REL_STAGES[0];
+}
+function populateRelSelect(lang, current) {
+  const sel = document.getElementById('modal-rel-select');
+  if (!sel) return;
+  sel.innerHTML = REL_STAGES.map(s =>
+    `<option value="${s.level}" ${s.level === current ? 'selected' : ''}>${s[lang] || s.EN}</option>`
+  ).join('');
+}
+
 let mastersDB = [];
 let userMasters = safeParse(STORAGE_KEYS.masters, {});
 let currentMasterId = null;
@@ -130,7 +161,7 @@ function renderMastersGrid() {
         const mTitle = master.title[lang] || master.title['EN'];
 
         const relLevel = userData.relLevel || 0;
-        const statusObj = getRelationshipStatusObj(relLevel);
+        const statusObj = getStageObj(snapToStage(relLevel));
         const statusText = statusObj[lang] || statusObj['EN'];
 
         const card = document.createElement('div');
@@ -164,7 +195,8 @@ function openMasterModal(master, userData) {
     document.getElementById('modal-master-name').textContent = master.name[lang] || master.name['EN'];
     document.getElementById('modal-master-title').textContent = master.title[lang] || master.title['EN'];
     
-    document.getElementById('modal-rel-input').value = modalState.relLevel;
+    modalState.relLevel = snapToStage(modalState.relLevel);
+    populateRelSelect(lang, modalState.relLevel);
 
     updateMasterUI();
     
@@ -195,23 +227,14 @@ function updateMasterUI() {
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
     const dict = i18nMasters[lang] || i18nMasters['FR'];
     
-    // Récupération et sécurisation de la saisie utilisateur
-    modalState.relLevel = parseInt(document.getElementById('modal-rel-input').value) || 0;
-    if (modalState.relLevel < 0) modalState.relLevel = 0;
-    if (modalState.relLevel > 100) modalState.relLevel = 100;
-    document.getElementById('modal-rel-input').value = modalState.relLevel;
-
-    // --- MISE À JOUR DU STATUT ---
-    const statusObj = getRelationshipStatusObj(modalState.relLevel);
-    const statusText = statusObj[lang] || statusObj['EN'];
-    document.getElementById('modal-master-status').textContent = statusText;
+    // Statut choisi via le sélecteur
+    modalState.relLevel = parseInt(document.getElementById('modal-rel-select').value) || 0;
 
     // --- CALCUL COMPÉTENCE PASSIVE ---
     let passiveLvlIndex = -1;
     let nextPassiveReq = null;
     for (let i = 0; i < master.affinityMilestones.length; i++) {
-        let reqLvl = master.affinityMilestones[i].level;
-        if (reqLvl > 1 && reqLvl % 10 === 0 && reqLvl < 100) reqLvl += 1;
+        const reqLvl = master.affinityMilestones[i].level;
         if (modalState.relLevel >= reqLvl) {
             passiveLvlIndex = i;
         } else if (nextPassiveReq === null) {
@@ -257,16 +280,20 @@ function updateMasterUI() {
         passiveContainer.innerHTML = `<span style="color:var(--text-muted);">Bloqué (Nécessite Niveau 1)</span>`;
     }
 
+    const statusEl = document.getElementById('modal-master-status');
+    if (statusEl) {
+        statusEl.textContent = (passiveLvlIndex >= 0)
+            ? `Expertise ${dict.lvlPrefix}${passiveLvlIndex + 1}`
+            : getStageObj(modalState.relLevel)[lang];
+    }
+
     // --- CALCUL COMPÉTENCES ACTIVES ---
     let skillsHTML = '';
     let nextActiveReq = null;
 
     master.skills.forEach(skill => {
-        // CORRECTION DE LA LOGIQUE : Déblocage au niveau 11, 21, 31, 41... (sauf pour le niveau 1 absolu)
-        let requiredLevel = skill.unlockRelLevel;
-        if (requiredLevel > 1 && requiredLevel % 10 === 0) {
-            requiredLevel += 1; 
-        }
+        
+        const requiredLevel = skill.unlockRelLevel;
 
         const isUnlocked = modalState.relLevel >= requiredLevel;
         const currentSkillLevel = modalState.skills[skill.id] || 0;
