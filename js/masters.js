@@ -183,8 +183,9 @@ function openMasterModal(master, userData) {
     if (nameInline) nameInline.textContent = master.name[lang] || master.name['EN'];
     document.getElementById('modal-master-title').textContent = master.title[lang] || master.title['EN'];
     
-    modalState.relLevel = snapToStage(modalState.relLevel);
-    populateRelSelect(lang, modalState.relLevel);
+    const lvlInput = document.getElementById('modal-rel-level');
+    if (lvlInput) lvlInput.value = modalState.relLevel;
+    populateRelSelect(lang, snapToStage(modalState.relLevel));
 
     updateMasterUI();
     
@@ -215,9 +216,15 @@ function updateMasterUI() {
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
     const dict = i18nMasters[lang] || i18nMasters['FR'];
     
-    // Statut choisi via le sélecteur
-    modalState.relLevel = parseInt(document.getElementById('modal-rel-select').value) || 0;
-
+    // Niveau réel = champ numérique (borné 0-100) ; le palier en découle
+    const _lvlInput = document.getElementById('modal-rel-level');
+    if (_lvlInput) {
+        const v = parseInt(_lvlInput.value);
+        modalState.relLevel = isNaN(v) ? 0 : Math.max(0, Math.min(100, v));
+    }
+    const _relSel = document.getElementById('modal-rel-select');
+    if (_relSel) _relSel.value = snapToStage(modalState.relLevel);
+    
     // --- CALCUL COMPÉTENCE PASSIVE ---
     let passiveLvlIndex = -1;
     let nextPassiveReq = null;
@@ -347,6 +354,13 @@ function updateMasterUI() {
         }
     }
 }
+
+window.onRelSelectChange = function() {
+    const lvl = parseInt(document.getElementById('modal-rel-select').value) || 0;
+    const inp = document.getElementById('modal-rel-level');
+    if (inp) inp.value = lvl;
+    updateMasterUI();
+};
 
 window.setMasterSkill = function(skillId, val) {
     modalState.skills[skillId] = parseInt(val, 10);
