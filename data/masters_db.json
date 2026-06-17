@@ -397,16 +397,16 @@
         },
         "unlockRelLevel": 10,
         "levels": [
-          { "level": 1, "effect": "+1 high-level soldier · +150 Medallions", "xpCost": 0, "manuscripts": 0, "power": 18000 },
-          { "level": 2, "effect": "+2 soldiers · +200 Medallions", "xpCost": 30600, "manuscripts": 300, "power": 36000 },
-          { "level": 3, "effect": "+3 · +250", "xpCost": 92400, "manuscripts": 600, "power": 54000 },
-          { "level": 4, "effect": "+4 · +300", "xpCost": 185400, "manuscripts": 900, "power": 72000 },
-          { "level": 5, "effect": "+5 · +350", "xpCost": 309600, "manuscripts": 1200, "power": 90000 },
-          { "level": 6, "effect": "+6 · +400", "xpCost": 465000, "manuscripts": 1500, "power": 108000 },
-          { "level": 7, "effect": "+7 · +450", "xpCost": 651600, "manuscripts": 1800, "power": 126000 },
-          { "level": 8, "effect": "+8 · +500", "xpCost": 868800, "manuscripts": 2100, "power": 144000 },
-          { "level": 9, "effect": "+9 · +550", "xpCost": 1117200, "manuscripts": 2400, "power": 162000 },
-          { "level": 10, "effect": "+10 · +600", "xpCost": 1396800, "manuscripts": 2700, "power": 180000 }
+          { "level": 1, "effect": "(+1;+150)lions", "xpCost": 0, "manuscripts": 0, "power": 18000 },
+          { "level": 2, "effect": "(+2;+200)", "xpCost": 30600, "manuscripts": 300, "power": 36000 },
+          { "level": 3, "effect": "(+3;+250)", "xpCost": 92400, "manuscripts": 600, "power": 54000 },
+          { "level": 4, "effect": "(+4;+300)", "xpCost": 185400, "manuscripts": 900, "power": 72000 },
+          { "level": 5, "effect": "(+5;+350)", "xpCost": 309600, "manuscripts": 1200, "power": 90000 },
+          { "level": 6, "effect": "(+6;+400)", "xpCost": 465000, "manuscripts": 1500, "power": 108000 },
+          { "level": 7, "effect": "(+7;+450)", "xpCost": 651600, "manuscripts": 1800, "power": 126000 },
+          { "level": 8, "effect": "(+8;+500)", "xpCost": 868800, "manuscripts": 2100, "power": 144000 },
+          { "level": 9, "effect": "(+9;+550)", "xpCost": 1117200, "manuscripts": 2400, "power": 162000 },
+          { "level": 10, "effect": "(+10;+600)", "xpCost": 1396800, "manuscripts": 2700, "power": 180000 }
         ]
       },
       {
