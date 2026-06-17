@@ -1,45 +1,23 @@
 // ========================================
-//  HUB - Navigation & Theme
+//  HUB — Rendu par catégories (depuis SITE) + Langue
 // ========================================
 
 const i18nHub = {
     FR: {
         subtitle: "Votre boîte à outils stratégique",
-        researchTitle: "Research Calculator",
-        researchDesc: "Optimisez l'ordre de vos recherches scientifiques. Suivez votre progression sur les arbres Croissance, Économie et Combat.",
-        truegoldTitle: "TrueGold Calculator",
-        truegoldDesc: "Planifiez l'amélioration de vos bâtiments TrueGold. Calculez vos ressources et accélérateurs nécessaires.",
         soonTitle: "Bientôt disponible",
         soonDesc: "De nouveaux outils arrivent prochainement. Restez connectés !",
         open: "Ouvrir →",
         comingSoon: "À venir...",
-        MadeBy: "Fait par",
-        caserneDesc: "Gérez vos héros, définissez leurs générations et enregistrez les niveaux de leurs compétences.",
-        beartrapDesc: "Optimisez vos ralliements pour le Bear Trap. Calculez la répartition parfaite de vos marches.",
-        mastersTitle: "Experts",
-        caserneTitle: "Héros",
-        vikingsTitle: "Vikings",
-        vikingsDesc: "Répartissez vos troupes sur vos marches pour l'événement Vikings et maximisez votre défense.",
-        mastersDesc: "Consultez les experts, leurs compétences et leurs paliers d'affinité pour optimiser vos bonus."
+        MadeBy: "Fait par"
     },
     EN: {
         subtitle: "Your strategic toolbox",
-        researchTitle: "Research Calculator",
-        researchDesc: "Optimize the order of your scientific researches. Track your progress on Growth, Economy and Battle trees.",
-        truegoldTitle: "TrueGold Calculator",
-        truegoldDesc: "Plan the upgrade of your TrueGold buildings. Calculate your needed resources and speedups.",
         soonTitle: "Coming Soon",
         soonDesc: "New tools are coming soon. Stay tuned!",
         open: "Open →",
         comingSoon: "Coming soon...",
-        MadeBy: "Made by",
-        caserneDesc: "Manage your heroes, set their generations, and record their skill levels.",
-        mastersDesc: "Browse the experts, their skills and affinity milestones to optimize your bonuses.",
-        caserneTitle: "Heroes",
-        mastersTitle: "Masters",
-        vikingsTitle: "Vikings",
-        vikingsDesc: "Distribute your troops across your marches for the Vikings event and maximize your defense.",
-        beartrapDesc: "Optimize your rallies for the Bear Trap. Calculate the perfect distribution of your steps."
+        MadeBy: "Made by"
     }
 };
 
@@ -48,19 +26,63 @@ function applyHubTranslations(lang) {
     GlobalLang.applyI18n(i18nHub[lang]);
 }
 
+// ============ RENDU DU HUB (depuis le manifeste SITE) ============
+function renderHub() {
+    const root = document.getElementById('hub-root');
+    if (!root || !window.SITE) return;
+    const S = window.SITE;
+    const lang = GlobalLang.get();
+    const t = (o) => o ? (o[lang] || o.EN || o.FR || '') : '';
+
+    // Jeu actif (Kingshot pour l'instant)
+    const game = S.games.find(g => g.status === 'active') || S.games[0];
+    let html = '';
+
+    (game.categories || []).forEach(cat => {
+        const soonCat = cat.status !== 'active';
+        html += `<section class="hub-section">
+            <h2 class="hub-section-title">${t(cat.name)}${soonCat ? ` <span class="hub-section-soon">${t(S.ui.soon)}</span>` : ''}</h2>
+            <div class="hub-grid">`;
+
+        if (soonCat || !(cat.tools || []).length) {
+            html += `<div class="hub-card hub-card-soon">
+                <div class="hub-card-icon">🚧</div>
+                <h2>${t(S.ui.soon)}</h2>
+                <p>${t(S.ui.soonDesc)}</p>
+            </div>`;
+        } else {
+            cat.tools.forEach(toolId => {
+                const tool = S.tools[toolId];
+                if (!tool) return;
+                const badge = tool.badge ? `<span class="hub-badge">${t(S.ui[tool.badge]) || tool.badge}</span>` : '';
+                html += `<a href="${tool.href}" class="hub-card">
+                    <div class="hub-card-icon">${iconSvg(tool.icon, 34)}</div>
+                    <h2>${t(tool.name)}${badge}</h2>
+                    <p>${t(tool.desc)}</p>
+                    <span class="hub-card-cta">${t(S.ui.open)}</span>
+                </a>`;
+            });
+        }
+        html += `</div></section>`;
+    });
+
+    root.innerHTML = html;
+}
+
 function initLang() {
-    // Utilise le gestionnaire global
+    // Boutons FR/EN du hub
     GlobalLang.applyToButtons('lang-btn', (newLang) => {
         applyHubTranslations(newLang);
+        renderHub();
     });
-    
     // Applique la langue actuelle au démarrage
     applyHubTranslations(GlobalLang.get());
 }
 
-// NOUVEAU : Si la langue change via le header, on synchronise les boutons du milieu de l'accueil
+// Si la langue change via le header → resync boutons + re-rendu
 window.addEventListener('langChanged', (e) => {
     applyHubTranslations(e.detail.lang);
+    renderHub();
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-lang') === e.detail.lang);
     });
@@ -68,3 +90,4 @@ window.addEventListener('langChanged', (e) => {
 
 // ============ STARTUP ============
 initLang();
+renderHub();
