@@ -1517,34 +1517,6 @@ body.modal-active .main-content {
 .custom-alert-msg { color: var(--text-light); font-size: 14.5px; line-height: 1.6; margin-bottom: 25px; white-space: pre-wrap; }
 
 
-
-/* ============================================================================
-   HEADER RESPONSIVE MOBILE (SWIPE HORIZONTAL)
-   ============================================================================ */
-@media (max-width: 768px) {
-    /* Cible les conteneurs de boutons en haut (ajuste les classes si besoin) */
-    .header-lang-wrapper, 
-    .header-nav, 
-    .app-header {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch;
-        gap: 10px;
-        padding-bottom: 5px;
-        /* Masque la scrollbar sur Firefox et IE */
-        scrollbar-width: none; 
-        -ms-overflow-style: none;
-    }
-    
-    /* Masque la scrollbar sur Chrome/Safari/Edge */
-    .header-lang-wrapper::-webkit-scrollbar, 
-    .header-nav::-webkit-scrollbar, 
-    .app-header::-webkit-scrollbar {
-        display: none;
-    }
-}
-
 /* ============================================================================
    PAGE DES EXPERTS (MASTERS)
    ============================================================================ */
@@ -1786,13 +1758,29 @@ body.modal-active .main-content {
 }
 .hdr-soon { color: var(--text-muted); font-size: 13px; font-style: italic; padding: 0 8px; }
 
-/* Mobile (priorité) : icônes seules, tout défile */
+/* Mobile (priorité) : header sur 2 lignes */
 @media (max-width: 820px) {
+  .app-header {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    row-gap: 8px;
+  }
+  /* Ligne 1 : logo + jeu (gauche) · langue + thème (droite) */
+  .hdr-left   { order: 1; }
+  .hdr-right  { order: 2; margin-left: auto; }
+  /* Ligne 2 : catégorie + icônes d'outils (pleine largeur, défilante) */
+  .hdr-center { order: 3; flex-basis: 100%; min-width: 0; justify-content: flex-start; gap: 8px; }
+  .hdr-tools  { flex: 1; min-width: 0; }
+
+  /* Le header fait ~2 lignes → on décale le contenu d'autant */
+  body.has-app-header { padding-top: 104px !important; }
+
   .hdr-tool-label { display: none; }
   .hdr-tool { padding: 8px; }
   .logo-text { display: none; }
-  .hdr-dd-trigger { min-width: 0; max-width: 150px; font-size: 12px; }
-  .hdr-dd-current { overflow: hidden; text-overflow: ellipsis; }
+  .hdr-dd-trigger { min-width: 0; font-size: 12px; }
+  .hdr-dd-current { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 130px; }
 }
 
 /* ===== Hub : sections par catégorie ===== */
