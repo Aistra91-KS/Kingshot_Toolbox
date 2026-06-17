@@ -221,6 +221,16 @@ function getNextSuggestion(treeKey, lang) {
     return unlockedNow[0];
 }
 
+// Libellés ressources (tooltips au survol)
+const RES_LABEL = {
+  FR: { wheat:'Pain', 'tree-pine':'Bois', 'brick-wall':'Pierre', pickaxe:'Fer', coins:'Or', clock:'Temps' },
+  EN: { wheat:'Bread', 'tree-pine':'Wood', 'brick-wall':'Stone', pickaxe:'Iron', coins:'Gold', clock:'Time' }
+};
+function resIc(name, size, lang) {
+  const label = (RES_LABEL[lang] || RES_LABEL.EN)[name] || '';
+  return `<span class="resource-icon" title="${label}" style="cursor:help;">${iconSvg(name, size)}</span>`;
+}
+
 function buildCardHtml(title, s, treeKey, lang) {
     let perc = (s.total === 0) ? 0 : Math.round((s.done / s.total) * 100);
     let suggHtml = "";
