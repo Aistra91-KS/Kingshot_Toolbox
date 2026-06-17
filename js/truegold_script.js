@@ -245,9 +245,9 @@ function renderBuildings() {
     container.innerHTML = '';
     
     const emojis = {
-        "Town Center": "🏛️", "Embassy": "🤝", "Infirmary": "🏥",
-        "Command Center": "🎖️", "War Academy": "⚔️",
-        "Barracks": "🛡️", "Stable": "🐎", "Range": "🏹"
+        "Town Center": iconSvg('landmark',16), "Embassy": iconSvg('handshake',16), "Infirmary": iconSvg('heart-pulse',16),
+        "Command Center": iconSvg('star',16), "War Academy": iconSvg('swords',16),
+        "Barracks": iconSvg('shield',16), "Stable": "🐎", "Range": iconSvg('target',16)
     };
 
     buildingsState.forEach((b, index) => {
@@ -272,7 +272,7 @@ function renderBuildings() {
 
         let tr = document.createElement('tr');
         tr.innerHTML = `
-            <td class="bldg-name"><span class="bldg-icon">${emojis[nom] || "🏢"}</span> ${getLocName(nom)}</td>
+            <td class="bldg-name"><span class="bldg-icon">${emojis[nom] || iconSvg('building-2',16)}</span> ${getLocName(nom)}</td>
             <td><select class="table-select" onchange="updateBuildingLvl(${index}, this.value, 'current')">${curOptions}</select></td>
             <td><select class="table-select" onchange="updateBuildingLvl(${index}, this.value, 'target')">${tgtOptions}</select></td>
             <td id="tg-cost-${index}">0</td>
