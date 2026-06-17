@@ -851,6 +851,11 @@ tbody tr:hover {
 }
 
 
+.ic { vertical-align: middle; }
+.res-ic { color: var(--accent); flex-shrink: 0; vertical-align: middle; }
+.tree-label { display: flex; align-items: center; gap: 6px; }
+.resource-icon svg { vertical-align: middle; }
+
 /* ============================================================================
    11. TREE LAYOUT (Research - Vue arbre visuel)
    ============================================================================ */
