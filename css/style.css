@@ -1723,13 +1723,55 @@ body.modal-active .main-content {
   transition: all 0.2s ease; box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
   max-width: 230px;
 }
-.header-pill-select:hover, .header-pill-select:focus {
-  border-color: var(--accent); box-shadow: 0 0 8px rgba(245,184,64,0.2);
+/* ===== Dropdown custom (Jeu + Catégorie) ===== */
+.hdr-dd { position: relative; }
+.hdr-dd-trigger {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--control-bg); color: var(--text-light);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 16px; min-width: 160px;
+  font-family: inherit; font-size: 13px; font-weight: 600; letter-spacing: 0.3px;
+  cursor: pointer; outline: none; transition: all 0.2s ease;
 }
-.header-pill-wrapper::after {
-  content: '▼'; position: absolute; right: 11px; top: 50%;
-  transform: translateY(-50%); pointer-events: none;
-  font-size: 9px; color: var(--accent);
+.hdr-dd-trigger:hover { border-color: var(--accent); }
+.hdr-dd.open .hdr-dd-trigger {
+  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,184,64,0.12);
+}
+.hdr-dd-current { white-space: nowrap; }
+.hdr-dd-chevron { color: var(--accent); font-size: 11px; transition: transform 0.2s ease; }
+.hdr-dd.open .hdr-dd-chevron { transform: rotate(180deg); }
+
+.hdr-dd-panel {
+  position: absolute; top: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  min-width: 100%; width: max-content; max-width: 280px;
+  background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.45); backdrop-filter: blur(12px);
+  padding: 6px; z-index: 1100;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.hdr-dd.open .hdr-dd-panel {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.hdr-dd-item {
+  display: block; width: 100%; text-align: center;
+  background: transparent; color: var(--text-light);
+  border: none; border-radius: 8px; padding: 9px 18px; margin: 2px 0;
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  white-space: nowrap; cursor: pointer; transition: all 0.15s;
+}
+.hdr-dd-item:hover { background: var(--control-bg); color: var(--accent); }
+.hdr-dd-item.active {
+  background: linear-gradient(135deg, var(--accent-hover), var(--accent), #ffd76b);
+  color: #0a0a0a; font-weight: bold;
+}
+.hdr-dd-item.disabled {
+  color: var(--text-muted); cursor: not-allowed; opacity: 0.55;
+  font-size: 12px; font-style: italic;
+}
+.hdr-dd-item.disabled:hover { background: transparent; color: var(--text-muted); }
 }
 .header-pill-select option { background: var(--bg-panel); color: var(--text-light); font-weight: bold; }
 
@@ -1763,4 +1805,6 @@ body.modal-active .main-content {
   .hdr-tool { padding: 8px; }
   .header-pill-select { max-width: 140px; font-size: 12px; }
   .logo-text { display: none; }
+  .hdr-dd-trigger { min-width: 0; max-width: 150px; font-size: 12px; }
+  .hdr-dd-current { overflow: hidden; text-overflow: ellipsis; }
 }
