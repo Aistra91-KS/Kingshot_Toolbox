@@ -1760,7 +1760,7 @@ body.modal-active .main-content {
 
 /* Mobile : header compact, nav dans le drawer (hamburger) */
 @media (max-width: 820px) {
-  .hdr-burger { display: flex; }
+  .hdr-burger { display: flex !important; }
   #hdr-game,
   .hdr-center,
   .header-lang-wrapper,
