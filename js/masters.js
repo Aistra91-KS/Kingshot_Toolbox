@@ -43,20 +43,6 @@ const i18nMasters = {
     }
 };
 
-// --- GESTION DU STATUT DE RELATION ---
-function getRelationshipStatusObj(level) {
-    if (level <= 10) return { FR: "Étranger", EN: "Stranger" };
-    if (level <= 20) return { FR: "Relation 1", EN: "Relationship 1" };
-    if (level <= 30) return { FR: "Relation 2", EN: "Relationship 2" };
-    if (level <= 40) return { FR: "Relation 3", EN: "Relationship 3" };
-    if (level <= 50) return { FR: "Connaissance 1", EN: "Acquaintance 1" };
-    if (level <= 60) return { FR: "Connaissance 2", EN: "Acquaintance 2" };
-    if (level <= 70) return { FR: "Connaissance 3", EN: "Acquaintance 3" };
-    if (level <= 80) return { FR: "Proche 1", EN: "Close 1" };
-    if (level <= 90) return { FR: "Proche 2", EN: "Close 2" };
-    if (level <= 99) return { FR: "Proche 3", EN: "Close 3" };
-    return { FR: "Alter Ego", EN: "Alter Ego" };
-}
 
 // --- PALIERS DE RELATION (sélection manuelle) ---
 const REL_STAGES = [
