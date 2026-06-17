@@ -247,7 +247,7 @@ function renderBuildings() {
     const emojis = {
         "Town Center": iconSvg('landmark',16), "Embassy": iconSvg('handshake',16), "Infirmary": iconSvg('heart-pulse',16),
         "Command Center": iconSvg('star',16), "War Academy": iconSvg('swords',16),
-        "Barracks": iconSvg('shield',16), "Stable": "🐎", "Range": iconSvg('target',16)
+        "Barracks": iconSvg('shield',16), "Stable": '<svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 22h14a1 1 0 0 0 0-2h-1.18l-.74-7.43A7 7 0 0 0 12.6 6.2l-2.05-1.32a1 1 0 0 0-1.42 1.3l.6 1.04-1 .86a1 1 0 0 0-.2 1.26l.7 1.2-.3.18a6 6 0 0 0-2.9 5.9L6 20H5a1 1 0 0 0 0 2Z"/></svg>', "Range": iconSvg('target',16)
     };
 
     buildingsState.forEach((b, index) => {
