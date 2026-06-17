@@ -139,25 +139,26 @@ function renderMastersGrid() {
 
     list.forEach(master => {
         const userData = userMasters[master.id] || { relLevel: 0, skills: {} };
-        const isLocked = userData.relLevel === 0;
+        const stageLevel = snapToStage(userData.relLevel || 0);
+        const displayLevel = (userData.displayLevel !== undefined) ? userData.displayLevel : (userData.relLevel || 0);
+        const isLocked = stageLevel === 0;
         
         // Nom sécurisé pour le chemin d'image
         const safeImgName = encodeURIComponent(master.name['EN']);
         const mName = master.name[lang] || master.name['EN'];
         const mTitle = master.title[lang] || master.title['EN'];
 
-        const relLevel = userData.relLevel || 0;
-        const statusObj = getStageObj(snapToStage(relLevel));
+        const statusObj = getStageObj(stageLevel);
         const statusText = statusObj[lang] || statusObj['EN'];
 
         const card = document.createElement('div');
-        card.className = `master-card ${relLevel === 0 ? 'locked' : ''}`;
+        card.className = `master-card ${isLocked ? 'locked' : ''}`;
         card.innerHTML = `
             <div class="master-portrait" style="background-image: url('img/Master/${safeImgName}.png');"></div>
             <div class="master-info">
                 <h3 class="master-name">${mName}</h3>
                 <div class="master-title">${mTitle}</div>
-                <div class="master-rel-badge">${dict.lvlPrefix}${relLevel} • ${statusText}</div>
+                <div class="master-rel-badge">${dict.lvlPrefix}${displayLevel} • ${statusText}</div>
             </div>
         `;
         
@@ -170,7 +171,8 @@ function openMasterModal(master, userData) {
     currentMasterId = master.id;
     // Copie profonde de l'état
     modalState = {
-        relLevel: userData.relLevel || 0,
+        relLevel: snapToStage(userData.relLevel || 0),
+        displayLevel: (userData.displayLevel !== undefined ? userData.displayLevel : (userData.relLevel || 0)),
         skills: { ...userData.skills }
     };
 
@@ -184,8 +186,8 @@ function openMasterModal(master, userData) {
     document.getElementById('modal-master-title').textContent = master.title[lang] || master.title['EN'];
     
     const lvlInput = document.getElementById('modal-rel-level');
-    if (lvlInput) lvlInput.value = modalState.relLevel;
-    populateRelSelect(lang, snapToStage(modalState.relLevel));
+    if (lvlInput) lvlInput.value = modalState.displayLevel;
+    populateRelSelect(lang, modalState.relLevel);
 
     updateMasterUI();
     
@@ -216,14 +218,15 @@ function updateMasterUI() {
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
     const dict = i18nMasters[lang] || i18nMasters['FR'];
     
-    // Niveau réel = champ numérique (borné 0-100) ; le palier en découle
+    // Palier (menu) → pilote bonus / expertise / skills
+    const _relSel = document.getElementById('modal-rel-select');
+    if (_relSel) modalState.relLevel = parseInt(_relSel.value) || 0;
+    // Niveau exact (champ) → visuel uniquement, indépendant
     const _lvlInput = document.getElementById('modal-rel-level');
     if (_lvlInput) {
         const v = parseInt(_lvlInput.value);
-        modalState.relLevel = isNaN(v) ? 0 : Math.max(0, Math.min(100, v));
+        modalState.displayLevel = isNaN(v) ? 0 : Math.max(0, Math.min(100, v));
     }
-    const _relSel = document.getElementById('modal-rel-select');
-    if (_relSel) _relSel.value = snapToStage(modalState.relLevel);
     
     // --- CALCUL COMPÉTENCE PASSIVE ---
     let passiveLvlIndex = -1;
@@ -355,12 +358,6 @@ function updateMasterUI() {
     }
 }
 
-window.onRelSelectChange = function() {
-    const lvl = parseInt(document.getElementById('modal-rel-select').value) || 0;
-    const inp = document.getElementById('modal-rel-level');
-    if (inp) inp.value = lvl;
-    updateMasterUI();
-};
 
 window.setMasterSkill = function(skillId, val) {
     modalState.skills[skillId] = parseInt(val, 10);
@@ -380,11 +377,12 @@ function saveMasterSettings() {
     if (!currentMasterId) return;
     
     // Si relation est à 0, on considère qu'il est verrouillé/effacé pour la sauvegarde
-    if (modalState.relLevel <= 0) {
+    if (modalState.relLevel <= 0 && (modalState.displayLevel || 0) <= 0) {
         delete userMasters[currentMasterId];
     } else {
         userMasters[currentMasterId] = {
             relLevel: modalState.relLevel,
+            displayLevel: modalState.displayLevel || 0,
             skills: modalState.skills
         };
     }
