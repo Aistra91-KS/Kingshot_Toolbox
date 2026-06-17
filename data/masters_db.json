@@ -227,7 +227,8 @@
     "affinityBonus": { "EN": "Squad Atk & Def Bonus", "FR": "Bonus Atk & Def d'Escouade" },
     "TextToInclude" : {
           "FR": "Attaque des escouades : +X%<br>Défense des escouades +X%",
-          "EN": "Squads' Attack & Defense : +X%" },
+          "EN": "Squads' Attack & Defense : +X%" 
+    },
     "affinityMilestones": [
       { "level": 1, "affinity": 1000, "emblems": 0, "bonus": 1.58 },
       { "level": 10, "affinity": 960, "emblems": 8, "bonus": 2.85 },
@@ -326,7 +327,8 @@
         "name": { "EN": "One Desire", "FR": "Unique souhait" },
         "TextToInclude" : {
           "FR": "Recevoir honneur et gloire sur le même podium que Roman est le rêve de tout héros dans l'arène. Augmente de X l'attaque et la santé en combat d'arène.",
-          "EN": "To receive honor and glory upon the same podium on which Roman stands is the dream of every hero in the Arena, boosting Arena Battle Attack and Health by X." },
+          "EN": "To receive honor and glory upon the same podium on which Roman stands is the dream of every hero in the Arena, boosting Arena Battle Attack and Health by X."
+        },
         "unlockRelLevel": 40,
         "levels": [
           { "level": 1, "effect": "+2%", "xpCost": 0, "manuscripts": 0, "power": 42000 },
@@ -348,6 +350,10 @@
     "name": { "EN": "Cassia", "FR": "Cassia" },
     "title": { "EN": "Battle Master", "FR": "Expert de Combat" },
     "affinityBonus": { "EN": "Squad Atk & Def Bonus", "FR": "Bonus Atk & Def d'Escouade" },
+    "TextToInclude" : {
+          "FR": "Létalité des escouades : +X%<br>Santé des escouades +X%",
+          "EN": "Squads' Lethality and Health, up to +X%" 
+    },
     "affinityMilestones": [
       { "level": 1, "affinity": 1320, "emblems": 0, "bonus": 1.58 },
       { "level": 10, "affinity": 1760, "emblems": 8, "bonus": 2.85 },
@@ -362,25 +368,33 @@
       { "level": 100, "affinity": 23010, "emblems": 80, "bonus": 15.00 }
     ],
     "passive": {
-      "name": { "EN": "Horn of Valor", "FR": "Cor de Valeur" },
+      "name": { "EN": "Horn of Valor", "FR": "Cor du courage" },
+      "TextToInclude" : {
+          "FR": "Cassia souffle dans son cor avec suffisamment de courage pour motiver la plus grande des armées. Augmente de X la limite de l'escouade",
+          "EN": "Cassia sounds her horn with enough valor to inspire a vast army, increasing Squad size limit by X." 
+      },
       "levels": [
-        { "level": 1, "effect": "+300 Squad size limit" },
+        { "level": 1, "effect": "+300" },
         { "level": 2, "effect": "+600" },
-        { "level": 3, "effect": "+1,000" },
-        { "level": 4, "effect": "+1,500" },
-        { "level": 5, "effect": "+2,000" },
-        { "level": 6, "effect": "+3,000" },
-        { "level": 7, "effect": "+4,000" },
-        { "level": 8, "effect": "+5,500" },
-        { "level": 9, "effect": "+7,000" },
-        { "level": 10, "effect": "+8,500" },
-        { "level": 11, "effect": "+10,000" }
+        { "level": 3, "effect": "+1 000" },
+        { "level": 4, "effect": "+1 500" },
+        { "level": 5, "effect": "+2 000" },
+        { "level": 6, "effect": "+3 000" },
+        { "level": 7, "effect": "+4 000" },
+        { "level": 8, "effect": "+5 500" },
+        { "level": 9, "effect": "+7 000" },
+        { "level": 10, "effect": "+8 500" },
+        { "level": 11, "effect": "+10 000" }
       ]
     },
     "skills": [
       {
         "id": "Recruiter_in_Chief",
-        "name": { "EN": "Recruiter in Chief", "FR": "Recruteur en Chef" },
+        "name": { "EN": "Recruiter in Chief", "FR": "Recruteuse en Chef" },
+        "TextToInclude" : {
+          "FR": "Cassia a trouvé d'autres façons d'améliorer le recrutement au-delà des quartiers, permettant le recrutement gratuit de X soldats de haut niveau supplémentaires de n'importe quel Camp, ainsi que des X médaillon(s) du soldat additionnels du bureau d'enrôlement.",
+          "EN": "Cassia has found new ways to boost recruitment beyond the barracks, allowing free recruitment of X additional high-level soldiers from any Camp, as well as an additional X Soldier's Medallion(s) from the Enlistment Office." 
+        },
         "unlockRelLevel": 10,
         "levels": [
           { "level": 1, "effect": "+1 high-level soldier · +150 Medallions", "xpCost": 0, "manuscripts": 0, "power": 18000 },
@@ -397,7 +411,11 @@
       },
       {
         "id": "firepower_to_win",
-        "name": { "EN": "Firepower to Win", "FR": "Puissance de Feu" },
+        "name": { "EN": "Firepower to Win", "FR": "La puissance pour gagner" },
+        "TextToInclude" : {
+          "FR": "Cassia a acquis beaucoup d'experience sur le terrain au cours de sa longue carrière. Augmente de X l'attaque et la défense de l'escouade.",
+          "EN": "Cassia's lifetime of battlefield experience equates to X increased Squad Attack and Defense." 
+        },
         "unlockRelLevel": 20,
         "levels": [
           { "level": 1, "effect": "+0.5%", "xpCost": 0, "manuscripts": 0, "power": 108000 },
@@ -425,6 +443,10 @@
       {
         "id": "commando",
         "name": { "EN": "Commando", "FR": "Commando" },
+        "TextToInclude" : {
+          "FR": "Cassia a pour habitude de choisir elle-même les escouades d'élite. Augmente de X la létalité et la santé de l'escouade.",
+          "EN": "Cassia's habit of handpicking elite squads increases Squad Lethality and Health by X." 
+        },
         "unlockRelLevel": 30,
         "levels": [
           { "level": 1, "effect": "+0.5%", "xpCost": 0, "manuscripts": 0, "power": 135000 },
@@ -452,6 +474,10 @@
       {
         "id": "inspiring_mobilization",
         "name": { "EN": "Inspiring Mobilization", "FR": "Mobilisation Inspirante" },
+        "TextToInclude" : {
+          "FR": "Cassia a des visions enthousiastes d'une société post-or véritable. Augmente de X la capacité d'escouade de ralliement.",
+          "EN": "Cassia's inspiring visions of a post-Truegold society have helped her boost Rally Squad Capacity by X." 
+        },
         "unlockRelLevel": 40,
         "levels": [
           { "level": 1, "effect": "+5,000", "xpCost": 0, "manuscripts": 0, "power": 150000 },
