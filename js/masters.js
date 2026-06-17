@@ -179,6 +179,8 @@ function openMasterModal(master, userData) {
 
     document.getElementById('modal-header-bg').style.backgroundImage = `url('img/Master/${safeImgName}.png')`;
     document.getElementById('modal-master-name').textContent = master.name[lang] || master.name['EN'];
+    const nameInline = document.getElementById('modal-master-name-inline');
+    if (nameInline) nameInline.textContent = master.name[lang] || master.name['EN'];
     document.getElementById('modal-master-title').textContent = master.title[lang] || master.title['EN'];
     
     modalState.relLevel = snapToStage(modalState.relLevel);
