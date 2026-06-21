@@ -1,7 +1,7 @@
 // ============================================================
 //  SHOP CALCULATION
-//  Phase 1 : Data Item (base éditable, source de vérité)
-//  Onglets : Data Item · Shop Classique · Shop Événement · Coffres
+//  Phase 1 : Data Item (lecture seule sauf valeur gemmes)
+//  Onglets : Shop Classique · Shop Événement · Coffres · Data Item
 //  Vanilla · localStorage · bilingue
 // ============================================================
 
@@ -10,32 +10,48 @@ const i18nShop = {
     scTitle: "Shop Calculation",
     scDesc: "Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires.",
     tabData: "Data Item", tabClassic: "Shop Classique", tabEvent: "Shop d'Événement", tabChest: "Coffres",
-    colName: "Nom", colCat: "Catégorie", colGem: "Valeur (gemmes)", colAct: "",
-    addItem: "+ Ajouter un objet", resetItems: "Réinitialiser",
+    colImg: "", colName: "Nom", colCat: "Catégorie", colGem: "Valeur (gemmes)",
+    resetItems: "Réinitialiser les valeurs",
     allCats: "Toutes les catégories",
-    confirmReset: "Réinitialiser tous les objets aux valeurs par défaut ? Tes modifications seront perdues.",
-    del: "Suppr.", soon: "Bientôt disponible", soonDesc: "Cet onglet arrive dans une prochaine étape.",
+    confirmReset: "Réinitialiser toutes les valeurs en gemmes par défaut ? Tes modifications seront perdues.",
+    soon: "Bientôt disponible", soonDesc: "Cet onglet arrive dans une prochaine étape.",
     count: "objets"
   },
   EN: {
     scTitle: "Shop Calculation",
     scDesc: "Compare in-shop cost to gem value to spot the best deals.",
     tabData: "Data Item", tabClassic: "Classic Shop", tabEvent: "Event Shop", tabChest: "Chests",
-    colName: "Name", colCat: "Category", colGem: "Value (gems)", colAct: "",
-    addItem: "+ Add item", resetItems: "Reset",
+    colImg: "", colName: "Name", colCat: "Category", colGem: "Value (gems)",
+    resetItems: "Reset values",
     allCats: "All categories",
-    confirmReset: "Reset all items to default values? Your changes will be lost.",
-    del: "Del.", soon: "Coming soon", soonDesc: "This tab is coming in a next step.",
+    confirmReset: "Reset all gem values to defaults? Your changes will be lost.",
+    soon: "Coming soon", soonDesc: "This tab is coming in a next step.",
     count: "items"
   }
 };
 function scLang() { return window.GlobalLang ? GlobalLang.get() : 'FR'; }
 function scT(k) { return (i18nShop[scLang()] || i18nShop.FR)[k]; }
 
+// Couleur par catégorie (code couleur de ligne)
+const SC_CAT_COLORS = {
+  Speedup: '#5b9bd5', Pet: '#70ad47', Other: '#9aa0a6', Equipment: '#ed7d31',
+  Event: '#a05bd5', Governor: '#4ecdc4', Hero: '#f5b840', Island: '#48c7e0',
+  Resources: '#c0894a', VIP: '#e060b0', Cosmetic: '#e08bb0'
+};
+function scCatColor(cat) { return SC_CAT_COLORS[cat] || '#9aa0a6'; }
+
 let SC_ITEMS = [];
 let SC_DEFAULTS = [];
 
 function scEscAttr(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+function scName(it, lang) {
+  if (it.name && typeof it.name === 'object') return it.name[lang] || it.name.EN || it.name.FR || '';
+  return it.name || '';
+}
+function scNameEN(it) {
+  if (it.name && typeof it.name === 'object') return it.name.EN || it.name.FR || '';
+  return it.name || '';
+}
 
 async function scLoadItems() {
   try {
@@ -45,6 +61,8 @@ async function scLoadItems() {
   const saved = (typeof safeParse === 'function') ? safeParse(STORAGE_KEYS.shopcalcItems, null)
                                                   : JSON.parse(localStorage.getItem(STORAGE_KEYS.shopcalcItems) || 'null');
   SC_ITEMS = (saved && Array.isArray(saved) && saved.length) ? saved : SC_DEFAULTS.map(x => ({ ...x }));
+  // Migration : ancien nom en chaîne -> objet bilingue
+  SC_ITEMS.forEach(it => { if (typeof it.name === 'string') it.name = { EN: it.name, FR: it.name }; });
 }
 function scSaveItems() { localStorage.setItem(STORAGE_KEYS.shopcalcItems, JSON.stringify(SC_ITEMS)); }
 
@@ -60,45 +78,44 @@ function scRenderCatFilter() {
 function scRenderItems() {
   const tbody = document.getElementById('item-tbody');
   if (!tbody) return;
+  const lang = scLang();
   const q = (document.getElementById('item-search')?.value || '').trim().toLowerCase();
   const cat = document.getElementById('item-cat-filter')?.value || '';
   const rows = SC_ITEMS.map((it, idx) => ({ it, idx }))
-    .filter(({ it }) => (!cat || it.category === cat) && (!q || (it.name || '').toLowerCase().includes(q)));
+    .filter(({ it }) => {
+      if (cat && it.category !== cat) return false;
+      if (!q) return true;
+      const en = scNameEN(it).toLowerCase();
+      const fr = (it.name && it.name.FR ? it.name.FR : '').toLowerCase();
+      return en.includes(q) || fr.includes(q);
+    });
 
-  tbody.innerHTML = rows.map(({ it, idx }) => `
-    <tr>
-      <td><input class="table-input" style="width:100%;" value="${scEscAttr(it.name)}" oninput="scUpdateItem(${idx},'name',this.value)"></td>
-      <td><input class="table-input" style="width:100%;" value="${scEscAttr(it.category)}" onchange="scUpdateItem(${idx},'category',this.value)"></td>
-      <td><input type="number" min="0" step="1" class="table-input" style="width:120px;text-align:right;" value="${it.gemValue}" onchange="scUpdateItem(${idx},'gemValue',this.value)"></td>
-      <td style="text-align:center;"><button class="btn-reset" style="padding:4px 9px;font-size:12px;" onclick="scDeleteItem(${idx})">${scT('del')}</button></td>
-    </tr>`).join('');
+  tbody.innerHTML = rows.map(({ it, idx }) => {
+    const color = scCatColor(it.category);
+    const img = encodeURIComponent(scNameEN(it));
+    return `
+    <tr style="border-left: 4px solid ${color}; background: ${color}14;">
+      <td style="width: 46px;"><div class="sc-item-img" style="background-image: url('img/Item/${img}.png'); background-color: ${color}33;"></div></td>
+      <td style="font-weight: 600;">${scEscAttr(scName(it, lang))}</td>
+      <td><span style="color: ${color}; font-weight: 600; font-size: 12px;">${scEscAttr(it.category)}</span></td>
+      <td><input type="number" min="0" step="1" class="table-input" style="width: 120px; text-align: right;" value="${it.gemValue}" onchange="scUpdateGem(${idx}, this.value)"></td>
+    </tr>`;
+  }).join('');
 
   const cnt = document.getElementById('item-count');
   if (cnt) cnt.textContent = `${rows.length} / ${SC_ITEMS.length} ${scT('count')}`;
 }
 
-window.scUpdateItem = function (idx, field, val) {
+window.scUpdateGem = function (idx, val) {
   if (!SC_ITEMS[idx]) return;
-  if (field === 'gemValue') {
-    let n = parseFloat(String(val).replace(',', '.'));
-    SC_ITEMS[idx].gemValue = isNaN(n) ? 0 : n;
-  } else {
-    SC_ITEMS[idx][field] = val;
-    if (field === 'category') scRenderCatFilter();
-  }
+  let n = parseFloat(String(val).replace(',', '.'));
+  SC_ITEMS[idx].gemValue = isNaN(n) ? 0 : n;
   scSaveItems();
-};
-window.scDeleteItem = function (idx) {
-  SC_ITEMS.splice(idx, 1);
-  scSaveItems(); scRenderCatFilter(); scRenderItems();
-};
-window.scAddItem = function () {
-  SC_ITEMS.unshift({ id: 'custom_' + Date.now(), name: '', category: 'Other', gemValue: 0 });
-  scSaveItems(); scRenderCatFilter(); scRenderItems();
 };
 window.scResetItems = function () {
   showAppConfirm(scT('confirmReset'), () => {
     SC_ITEMS = SC_DEFAULTS.map(x => ({ ...x }));
+    SC_ITEMS.forEach(it => { if (typeof it.name === 'string') it.name = { EN: it.name, FR: it.name }; });
     scSaveItems(); scRenderCatFilter(); scRenderItems();
   });
 };
@@ -113,7 +130,6 @@ function scApplyTranslations() {
   if (window.GlobalLang) GlobalLang.applyI18n(i18nShop[scLang()]);
 }
 
-// Démarrage
 (async function () {
   await scLoadItems();
   scApplyTranslations();
