@@ -18,6 +18,11 @@
         .shop-panel { display: none; }
         .shop-panel.active { display: block; }
         .shop-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 15px; }
+        .sc-item-img {
+            width: 34px; height: 34px; border-radius: 6px;
+            background-size: cover; background-position: center;
+            background-repeat: no-repeat; border: 1px solid var(--border);
+        }
     </style>
 </head>
 <body class="has-app-header">
@@ -28,34 +33,10 @@
         <p style="color: var(--text-muted); margin: 0;" data-i18n="scDesc">Comparez le coût des objets en boutique à leur valeur en gemmes.</p>
 
         <div class="shop-tabs">
-            <button class="shop-tab active" data-tab="data"    onclick="scTab('data')"    data-i18n="tabData">Data Item</button>
             <button class="shop-tab"        data-tab="classic" onclick="scTab('classic')" data-i18n="tabClassic">Shop Classique</button>
             <button class="shop-tab"        data-tab="event"   onclick="scTab('event')"   data-i18n="tabEvent">Shop d'Événement</button>
             <button class="shop-tab"        data-tab="chest"   onclick="scTab('chest')"   data-i18n="tabChest">Coffres</button>
-        </div>
-
-        <!-- ===== DATA ITEM ===== -->
-        <div id="panel-data" class="shop-panel active panel" style="padding: 20px;">
-            <div class="shop-toolbar">
-                <input id="item-search" class="table-input" placeholder="Rechercher…" style="flex: 1; min-width: 180px;">
-                <select id="item-cat-filter" class="table-select" style="min-width: 170px;"></select>
-                <button class="btn-reset" style="background: var(--accent); color: #000; font-weight: bold;" onclick="scAddItem()" data-i18n="addItem">+ Ajouter un objet</button>
-                <button class="btn-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted);" onclick="scResetItems()" data-i18n="resetItems">Réinitialiser</button>
-            </div>
-            <div id="item-count" style="color: var(--text-muted); font-size: 13px; margin-bottom: 8px;"></div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th data-i18n="colName">Nom</th>
-                            <th data-i18n="colCat">Catégorie</th>
-                            <th data-i18n="colGem">Valeur (gemmes)</th>
-                            <th style="width: 70px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="item-tbody"></tbody>
-                </table>
-            </div>
+            <button class="shop-tab active" data-tab="data"    onclick="scTab('data')"    data-i18n="tabData">Data Item</button>
         </div>
 
         <!-- ===== Placeholders (phases suivantes) ===== -->
@@ -70,6 +51,29 @@
         <div id="panel-chest" class="shop-panel panel" style="padding: 30px; text-align: center;">
             <h3 style="color: var(--text-muted);" data-i18n="soon">Bientôt disponible</h3>
             <p style="color: var(--text-muted);" data-i18n="soonDesc">Cet onglet arrive dans une prochaine étape.</p>
+        </div>
+
+        <!-- ===== DATA ITEM ===== -->
+        <div id="panel-data" class="shop-panel active panel" style="padding: 20px;">
+            <div class="shop-toolbar">
+                <input id="item-search" class="table-input" placeholder="Rechercher…" style="flex: 1; min-width: 180px;">
+                <select id="item-cat-filter" class="table-select" style="min-width: 170px;"></select>
+                <button class="btn-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted);" onclick="scResetItems()" data-i18n="resetItems">Réinitialiser les valeurs</button>
+            </div>
+            <div id="item-count" style="color: var(--text-muted); font-size: 13px; margin-bottom: 8px;"></div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 46px;"></th>
+                            <th data-i18n="colName">Nom</th>
+                            <th data-i18n="colCat">Catégorie</th>
+                            <th data-i18n="colGem">Valeur (gemmes)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="item-tbody"></tbody>
+                </table>
+            </div>
         </div>
       </div>
     </div>
