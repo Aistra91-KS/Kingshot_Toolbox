@@ -8,6 +8,7 @@ const STORAGE_KEYS = {
     beartrap:       'beartrap_data',
     truegold:       'tg_calc_data_v3',
     vikings:        'vikings_data',
+    shopcalcItems: 'shopcalc_items',
 };
 
 function safeParse(key, fallback) {
