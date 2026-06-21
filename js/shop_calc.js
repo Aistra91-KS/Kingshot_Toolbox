@@ -34,9 +34,9 @@ function scT(k) { return (i18nShop[scLang()] || i18nShop.FR)[k]; }
 
 // Couleur par catégorie (code couleur de ligne)
 const SC_CAT_COLORS = {
-  Speedup: '#5b9bd5', Pet: '#70ad47', Other: '#9aa0a6', Equipment: '#ed7d31',
-  Event: '#a05bd5', Governor: '#4ecdc4', Hero: '#f5b840', Island: '#48c7e0',
-  Resources: '#c0894a', VIP: '#e060b0', Cosmetic: '#e08bb0'
+  Speedup: '#3B82F6', Pet: '#4ADE80', Other: '#6B7280', Equipment: '#64748B',
+  Event: '#A855F7', Governor: '#DC2626', Hero: '#FBBF24', Island: '#14B8A6',
+  Resources: '#22C55E', VIP: '#EAB308', Cosmetic: '#EC4899'
 };
 function scCatColor(cat) { return SC_CAT_COLORS[cat] || '#9aa0a6'; }
 
