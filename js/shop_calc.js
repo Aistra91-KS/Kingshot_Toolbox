@@ -113,8 +113,10 @@ function scComputeRows(shop){
     return { i, si, it, qty, cost, gem, ratio: cost>0?gem/cost:0 };
   });
   const sorted=[...rows].sort((a,b)=>b.ratio-a.ratio);
-  sorted.forEach((r,idx)=>r.rank=idx+1);
   const maxRatio=sorted.length?sorted[0].ratio:0;
+  const topCount=sorted.filter(r=>r.ratio===maxRatio&&r.ratio>0).length;
+  const showTop = maxRatio>0 && topCount>0 && topCount<sorted.length; // pas de Top si tout est identique
+  sorted.forEach((r,idx)=>{ r.rank=idx+1; r.isTop = showTop && r.ratio===maxRatio && r.ratio>0; });
   return { sorted, maxRatio, totalGem: rows.reduce((a,r)=>a+r.gem,0) };
 }
 function scItemOptions(lang){
@@ -139,16 +141,16 @@ function scRenderShopCard(scope,shop){
   const body = sorted.map(r=>{
     const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=encodeURIComponent(scNameEN(r.it));
     const nameTxt=r.it?scName(r.it,lang):'??';
-    const top=r.rank===1&&r.ratio>0;
-    return `<tr style="border-left:4px solid ${color};background:${color}${top?'26':'14'};">
+    const top=r.isTop;
+    return `<tr style="border-left:4px solid ${top?'#3B82F6':color};background:${color}${top?'26':'14'};${top?'box-shadow: inset 0 0 0 1px #3B82F64d;':''}">
       <td style="width:42px;"><div class="sc-item-img" style="width:30px;height:30px;background-image:url('img/Item/${img}.png');background-color:${color}33;"></div></td>
-      <td>${scEscAttr(nameTxt)} ${top?`<span style="background:var(--success);color:#000;font-size:10px;font-weight:bold;padding:1px 6px;border-radius:8px;">${scT('best')}</span>`:''}</td>
+      <td>${scEscAttr(nameTxt)} ${top?`<span style="background:#3B82F6;color:#fff;font-size:10px;font-weight:bold;padding:1px 6px;border-radius:8px;">${scT('best')}</span>`:''}</td>
       <td style="text-align:center;">${r.qty}</td>
       <td style="text-align:right;">${r.cost.toLocaleString()}</td>
       <td style="text-align:right;">${r.gem.toLocaleString()}</td>
       <td style="min-width:130px;"><div style="display:flex;align-items:center;gap:6px;">
-        <span style="font-weight:bold;color:${top?'var(--success)':'var(--text-light)'};white-space:nowrap;">×${r.ratio.toFixed(2)}</span>
-        <div style="flex:1;height:6px;background:var(--control-bg);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${maxRatio>0?(r.ratio/maxRatio*100):0}%;background:${top?'var(--success)':'var(--accent)'};"></div></div>
+        <span style="font-weight:bold;color:${top?'#3B82F6':'var(--text-light)'};white-space:nowrap;">×${r.ratio.toFixed(2)}</span>
+        <div style="flex:1;height:6px;background:var(--control-bg);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${maxRatio>0?(r.ratio/maxRatio*100):0}%;background:${top?'#3B82F6':'var(--accent)'};"></div></div>
       </div></td>
       <td style="text-align:center;"><button class="btn-reset" style="padding:2px 8px;font-size:13px;" onclick="scRemoveShopItem('${scope}','${shop.id}',${r.i})">✕</button></td></tr>`;
   }).join('');
