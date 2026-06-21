@@ -42,8 +42,8 @@ const SITE = {
           id: "pack-shop",
           name: { EN: "Pack / Shop Calculation", FR: "Calcul Packs / Boutique" },
           icon: "shopping-cart",
-          status: "soon",
-          tools: []
+          status: "active",
+          tools: ["shopcalc"]
         },
         {
           id: "database",
