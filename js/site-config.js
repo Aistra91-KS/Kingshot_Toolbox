@@ -120,6 +120,15 @@ const SITE = {
       icon: "crown",
       href: "masters.html",
       badge: "beta"
+    },
+    shopcalc: {
+      name: { EN: "Shop Calc", FR: "Shop Calc" },
+      desc: {
+        EN: "Compare in-shop cost to gem value to spot the best deals.",
+        FR: "Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires."
+      },
+      icon: "shopping-cart",
+      href: "shop_calc.html"
     }
   },
 
