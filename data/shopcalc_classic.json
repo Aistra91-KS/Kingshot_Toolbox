@@ -1,0 +1,451 @@
+[
+  {
+    "id": "arena",
+    "name": {
+      "EN": "Arena",
+      "FR": "Arène"
+    },
+    "items": [
+      {
+        "itemId": "custom_mythic_hero_gear_chest",
+        "qty": 1,
+        "cost": 12000
+      },
+      {
+        "itemId": "custom_epic_hero_gear_chest",
+        "qty": 1,
+        "cost": 3750
+      },
+      {
+        "itemId": "forgehammers",
+        "qty": 1,
+        "cost": 2500
+      },
+      {
+        "itemId": "fragment_of_a_specific_mythical_hero",
+        "qty": 1,
+        "cost": 2000
+      },
+      {
+        "itemId": "mythic_general_hero_shard",
+        "qty": 1,
+        "cost": 2500
+      },
+      {
+        "itemId": "growth_manual",
+        "qty": 1,
+        "cost": 240
+      },
+      {
+        "itemId": "nutrient_potion",
+        "qty": 1,
+        "cost": 1200
+      },
+      {
+        "itemId": "promotion_medaillon",
+        "qty": 1,
+        "cost": 2400
+      },
+      {
+        "itemId": "advanced_taming_mark",
+        "qty": 1,
+        "cost": 4800
+      },
+      {
+        "itemId": "epic_general_hero_shard",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "rare_general_hero_shard",
+        "qty": 1,
+        "cost": 150
+      },
+      {
+        "itemId": "mythic_conquest_skill_book",
+        "qty": 1,
+        "cost": 1000
+      },
+      {
+        "itemId": "epic_conquest_skill_book",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "rare_conquest_skill_book",
+        "qty": 1,
+        "cost": 150
+      },
+      {
+        "itemId": "mythic_expedition_skill_manual",
+        "qty": 1,
+        "cost": 1000
+      },
+      {
+        "itemId": "epic_expidition_skill_manual",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "rare_expidition_skill_manual",
+        "qty": 1,
+        "cost": 150
+      },
+      {
+        "itemId": "5000_hero_xp",
+        "qty": 1,
+        "cost": 150
+      }
+    ]
+  },
+  {
+    "id": "alliance_championship",
+    "name": {
+      "EN": "Alliance Championship",
+      "FR": "Championnat d'Alliance"
+    },
+    "items": [
+      {
+        "itemId": "gilded_threads",
+        "qty": 1,
+        "cost": 100
+      },
+      {
+        "itemId": "satin",
+        "qty": 1,
+        "cost": 1
+      },
+      {
+        "itemId": "fragment_of_a_specific_mythical_hero",
+        "qty": 1,
+        "cost": 2000
+      },
+      {
+        "itemId": "artisan_s_vision",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "growth_manual",
+        "qty": 1,
+        "cost": 150
+      },
+      {
+        "itemId": "mythic_expedition_skill_manual",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 400
+      },
+      {
+        "itemId": "mythic_conquest_skill_book",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "promotion_medaillon",
+        "qty": 1,
+        "cost": 1500
+      },
+      {
+        "itemId": "rare_expidition_skill_manual",
+        "qty": 1,
+        "cost": 75
+      }
+    ]
+  },
+  {
+    "id": "swordland",
+    "name": {
+      "EN": "Swordland",
+      "FR": "Swordland"
+    },
+    "items": [
+      {
+        "itemId": "fragment_of_a_specific_mythical_hero",
+        "qty": 1,
+        "cost": 2500
+      },
+      {
+        "itemId": "fragment_of_a_specific_mythical_hero",
+        "qty": 1,
+        "cost": 2500
+      },
+      {
+        "itemId": "fragment_of_a_specific_mythical_hero",
+        "qty": 1,
+        "cost": 2500
+      },
+      {
+        "itemId": "mythic_general_hero_shard",
+        "qty": 1,
+        "cost": 2500
+      },
+      {
+        "itemId": "100_enhancement_xp_component",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "forgehammers",
+        "qty": 1,
+        "cost": 1250
+      },
+      {
+        "itemId": "satin",
+        "qty": 1,
+        "cost": 1
+      },
+      {
+        "itemId": "gilded_threads",
+        "qty": 1,
+        "cost": 100
+      },
+      {
+        "itemId": "artisan_s_vision",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "charm_design",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "charm_guide",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "5000_hero_xp",
+        "qty": 1,
+        "cost": 75
+      }
+    ]
+  },
+  {
+    "id": "kingdom_of_power",
+    "name": {
+      "EN": "Kingdom of Power",
+      "FR": "Royaume du Pouvoir"
+    },
+    "items": [
+      {
+        "itemId": "truegold",
+        "qty": 1,
+        "cost": 2
+      },
+      {
+        "itemId": "mythic_general_hero_shard",
+        "qty": 1,
+        "cost": 25
+      },
+      {
+        "itemId": "truegold",
+        "qty": 1,
+        "cost": 2
+      },
+      {
+        "itemId": "artisan_s_vision",
+        "qty": 1,
+        "cost": 6
+      },
+      {
+        "itemId": "charm_design",
+        "qty": 1,
+        "cost": 6
+      },
+      {
+        "itemId": "charm_guide",
+        "qty": 1,
+        "cost": 6
+      },
+      {
+        "itemId": "mythic_conquest_skill_book",
+        "qty": 1,
+        "cost": 6
+      },
+      {
+        "itemId": "mythic_expedition_skill_manual",
+        "qty": 1,
+        "cost": 6
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 5
+      },
+      {
+        "itemId": "5m_general_speedup",
+        "qty": 1,
+        "cost": 2
+      }
+    ]
+  },
+  {
+    "id": "tidal_shop",
+    "name": {
+      "EN": "Tidal Shop",
+      "FR": "Boutique des Marées"
+    },
+    "items": [
+      {
+        "itemId": "advanced_taming_mark",
+        "qty": 1,
+        "cost": 3000
+      },
+      {
+        "itemId": "growth_manual",
+        "qty": 1,
+        "cost": 150
+      },
+      {
+        "itemId": "nutrient_potion",
+        "qty": 1,
+        "cost": 750
+      },
+      {
+        "itemId": "promotion_medaillon",
+        "qty": 1,
+        "cost": 1500
+      },
+      {
+        "itemId": "mythic_general_hero_shard",
+        "qty": 1,
+        "cost": 2500
+      },
+      {
+        "itemId": "100_enhancement_xp_component",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "forgehammers",
+        "qty": 1,
+        "cost": 1250
+      },
+      {
+        "itemId": "satin",
+        "qty": 1,
+        "cost": 1
+      },
+      {
+        "itemId": "gilded_threads",
+        "qty": 1,
+        "cost": 100
+      },
+      {
+        "itemId": "artisan_s_vision",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "charm_design",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "charm_guide",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 250
+      }
+    ]
+  },
+  {
+    "id": "trial_shop",
+    "name": {
+      "EN": "Trial Shop",
+      "FR": "Boutique d'Épreuve"
+    },
+    "items": [
+      {
+        "itemId": "mithril",
+        "qty": 1,
+        "cost": 2500
+      },
+      {
+        "itemId": "fragment_of_a_specific_mythical_hero",
+        "qty": 1,
+        "cost": 500
+      },
+      {
+        "itemId": "100_enhancement_xp_component",
+        "qty": 1,
+        "cost": 50
+      },
+      {
+        "itemId": "lucky_hero_gear_chest",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "mythic_general_decoration_component",
+        "qty": 1,
+        "cost": 1000
+      },
+      {
+        "itemId": "charm_design",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "charm_guide",
+        "qty": 1,
+        "cost": 250
+      },
+      {
+        "itemId": "truegold_dust",
+        "qty": 1,
+        "cost": 50
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 300
+      }
+    ]
+  }
+]
