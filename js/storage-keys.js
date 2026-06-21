@@ -9,6 +9,8 @@ const STORAGE_KEYS = {
     truegold:       'tg_calc_data_v3',
     vikings:        'vikings_data',
     shopcalcItems: 'shopcalc_items',
+    shopcalcClassic: 'shopcalc_classic',
+    shopcalcEvents: 'shopcalc_events',
 };
 
 function safeParse(key, fallback) {
