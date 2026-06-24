@@ -46,6 +46,8 @@ const SC_SORT = {};
 function scEscAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 function scName(it,lang){ if(it&&it.name&&typeof it.name==='object') return it.name[lang]||it.name.EN||it.name.FR||''; return (it&&it.name)||''; }
 function scNameEN(it){ if(it&&it.name&&typeof it.name==='object') return it.name.EN||it.name.FR||''; return (it&&it.name)||''; }
+// URL d'image sûre : encode l'apostrophe en %27 pour ne pas casser le url('...') du CSS.
+function scImg(it){ return encodeURIComponent(scNameEN(it)).replace(/'/g,'%27'); }
 function scItemById(id){ return SC_ITEMS.find(i=>i.id===id); }
 function scGem(id){ const it=scItemById(id); return it?Number(it.gemValue)||0:0; }
 function scShopName(shop,lang){ return (shop.name&&typeof shop.name==='object')?(shop.name[lang]||shop.name.EN):shop.name; }
@@ -98,7 +100,7 @@ function scRenderItems(){
     return scNameEN(it).toLowerCase().includes(q)||((it.name&&it.name.FR)||'').toLowerCase().includes(q);
   });
   tb.innerHTML=rows.map(({it,idx})=>{
-    const color=scCatColor(it.category), img=encodeURIComponent(scNameEN(it));
+    const color=scCatColor(it.category), img=scImg(it);
     return `<tr style="border-left:4px solid ${color};background:${color}14;">
       <td style="width:46px;"><div class="sc-item-img" style="background-image:url('img/Item/${img}.png');background-color:${color}33;"></div></td>
       <td style="font-weight:600;">${scEscAttr(scName(it,lang))}</td>
@@ -158,7 +160,7 @@ function scRenderShopCard(scope,shop){
   const head = `<strong style="font-size:16px;color:var(--accent);">${scEscAttr(nm)}</strong>${resetBtn}`;
 
   const body = rows.map(r=>{
-    const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=encodeURIComponent(scNameEN(r.it));
+    const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=scImg(r.it);
     const nameTxt=r.it?scName(r.it,lang):'??';
     const top=r.isTop;
     const qtyCell = editable
