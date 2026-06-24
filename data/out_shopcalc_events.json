@@ -1,0 +1,11 @@
+[
+  {
+    "id": "evt_sample",
+    "name": { "EN": "Sample Event Shop", "FR": "Boutique Événement (exemple)" },
+    "items": [
+      { "itemId": "custom_mythic_hero_gear_chest", "qty": 1, "cost": 8000 },
+      { "itemId": "forgehammers", "qty": 5, "cost": 2000 },
+      { "itemId": "growth_manual", "qty": 10, "cost": 200 }
+    ]
+  }
+]
