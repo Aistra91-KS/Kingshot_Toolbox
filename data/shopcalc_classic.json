@@ -32,6 +32,11 @@
         "cost": 2500
       },
       {
+        "itemId": "mithril",
+        "qty": 1,
+        "cost": 10000
+      },
+      {
         "itemId": "growth_manual",
         "qty": 1,
         "cost": 240
