@@ -60,13 +60,9 @@ async function scLoadItems(){
 function scSaveItems(){ localStorage.setItem(STORAGE_KEYS.shopcalcItems, JSON.stringify(SC_ITEMS)); }
 
 async function scLoadClassic(){
-  try{ SC_CLASSIC_DEF = await (await fetch('data/shopcalc_classic.json')).json(); }catch(e){ console.error('classic',e); SC_CLASSIC_DEF=[]; }
-  const saved = safeParse(STORAGE_KEYS.shopcalcClassic,null);
-  if(saved&&Array.isArray(saved)){
-    SC_CLASSIC = saved;
-    const ids=new Set(saved.map(s=>s.id));
-    SC_CLASSIC_DEF.forEach(d=>{ if(!ids.has(d.id)) SC_CLASSIC.push(JSON.parse(JSON.stringify(d))); }); // nouvelles boutiques admin
-  } else { SC_CLASSIC = JSON.parse(JSON.stringify(SC_CLASSIC_DEF)); }
+  // Classique = boutiques admin en LECTURE SEULE : toujours chargées depuis le fichier,
+  // sans localStorage (seules les valeurs en gemmes de Data Item l'impactent).
+  try{ SC_CLASSIC = await (await fetch('data/shopcalc_classic.json')).json(); }catch(e){ console.error('classic',e); SC_CLASSIC=[]; }
 }
 function scSaveClassic(){ localStorage.setItem(STORAGE_KEYS.shopcalcClassic, JSON.stringify(SC_CLASSIC)); }
 
@@ -154,6 +150,7 @@ function scTh(scope,shop,col,label,align){
 }
 function scRenderShopCard(scope,shop){
   const lang=scLang();
+  const editable = (scope==='event'); // Classique = lecture seule (admin) ; Événement = éditable
   const { rows, maxRatio } = scComputeRows(shop);
   const nm=scShopName(shop,lang);
   const st=SC_SORT[shop.id];
@@ -164,18 +161,34 @@ function scRenderShopCard(scope,shop){
     const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=encodeURIComponent(scNameEN(r.it));
     const nameTxt=r.it?scName(r.it,lang):'??';
     const top=r.isTop;
+    const qtyCell = editable
+      ? `<td style="text-align:center;"><input type="number" min="1" step="1" class="table-input" style="width:62px;text-align:center;" value="${r.qty}" onchange="scEditQty('${scope}','${shop.id}',${r.i},this.value)"></td>`
+      : `<td style="text-align:center;">${r.qty}</td>`;
+    const costCell = editable
+      ? `<td style="text-align:right;"><input type="number" min="0" step="1" class="table-input" style="width:96px;text-align:right;" value="${r.cost}" onchange="scEditCost('${scope}','${shop.id}',${r.i},this.value)"></td>`
+      : `<td style="text-align:right;">${r.cost.toLocaleString()}</td>`;
+    const removeCell = editable
+      ? `<td style="text-align:center;"><button class="btn-reset" style="padding:2px 8px;font-size:13px;" onclick="scRemoveShopItem('${scope}','${shop.id}',${r.i})">✕</button></td>`
+      : '';
     return `<tr style="border-left:4px solid ${top?'#3B82F6':color};background:${color}${top?'26':'14'};${top?'box-shadow: inset 0 0 0 1px #3B82F64d;':''}">
       <td style="width:42px;"><div class="sc-item-img" style="width:30px;height:30px;background-image:url('img/Item/${img}.png');background-color:${color}33;"></div></td>
       <td>${scEscAttr(nameTxt)} ${top?`<span style="background:#3B82F6;color:#fff;font-size:10px;font-weight:bold;padding:1px 6px;border-radius:8px;">${scT('best')}</span>`:''}</td>
-      <td style="text-align:center;"><input type="number" min="1" step="1" class="table-input" style="width:62px;text-align:center;" value="${r.qty}" onchange="scEditQty('${scope}','${shop.id}',${r.i},this.value)"></td>
-      <td style="text-align:right;"><input type="number" min="0" step="1" class="table-input" style="width:96px;text-align:right;" value="${r.cost}" onchange="scEditCost('${scope}','${shop.id}',${r.i},this.value)"></td>
+      ${qtyCell}
+      ${costCell}
       <td style="text-align:right;">${r.gem.toLocaleString()}</td>
       <td style="min-width:130px;"><div style="display:flex;align-items:center;gap:6px;">
         <span style="font-weight:bold;color:${top?'#3B82F6':'var(--text-light)'};white-space:nowrap;">×${r.ratio.toFixed(2)}</span>
         <div style="flex:1;height:6px;background:var(--control-bg);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${maxRatio>0?(r.ratio/maxRatio*100):0}%;background:${top?'#3B82F6':'var(--accent)'};"></div></div>
       </div></td>
-      <td style="text-align:center;"><button class="btn-reset" style="padding:2px 8px;font-size:13px;" onclick="scRemoveShopItem('${scope}','${shop.id}',${r.i})">✕</button></td></tr>`;
+      ${removeCell}</tr>`;
   }).join('');
+
+  const addForm = editable ? `<div class="sc-add-form" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;">
+      <select class="sc-add-item table-select" style="min-width:200px;">${scItemOptions(lang)}</select>
+      <input class="sc-add-qty table-input" type="number" min="1" value="1" style="width:70px;" title="${scT('hQty')}">
+      <input class="sc-add-cost table-input" type="number" min="0" placeholder="${scT('hCost')}" style="width:100px;">
+      <button class="btn-reset" style="background:var(--accent);color:#000;font-weight:bold;padding:6px 12px;" onclick="scAddShopItem('${scope}','${shop.id}',this)">${scT('addItem')}</button>
+    </div>` : '';
 
   return `<div class="panel sc-shop" style="padding:16px;margin-bottom:18px;">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">${head}</div>
@@ -186,14 +199,9 @@ function scRenderShopCard(scope,shop){
       ${scTh(scope,shop,'cost',scT('hCost'),'right')}
       ${scTh(scope,shop,'gem',scT('hGem'),'right')}
       ${scTh(scope,shop,'ratio',scT('hRatio'))}
-      <th></th></tr></thead>
+      ${editable?'<th></th>':''}</tr></thead>
       <tbody>${body||''}</tbody></table></div>
-    <div class="sc-add-form" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;">
-      <select class="sc-add-item table-select" style="min-width:200px;">${scItemOptions(lang)}</select>
-      <input class="sc-add-qty table-input" type="number" min="1" value="1" style="width:70px;" title="${scT('hQty')}">
-      <input class="sc-add-cost table-input" type="number" min="0" placeholder="${scT('hCost')}" style="width:100px;">
-      <button class="btn-reset" style="background:var(--accent);color:#000;font-weight:bold;padding:6px 12px;" onclick="scAddShopItem('${scope}','${shop.id}',this)">${scT('addItem')}</button>
-    </div></div>`;
+    ${addForm}</div>`;
 }
 function scGetShop(scope,id){ return (scope==='event'?SC_EVENTS:SC_CLASSIC).find(s=>s.id===id); }
 function scSaveScope(scope){ scope==='event'?scSaveEvents():scSaveClassic(); }
