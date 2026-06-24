@@ -6,7 +6,7 @@
     <title>Shop Calculation - KVK Optimizer</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .shop-wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .shop-wrap { max-width: 1400px; margin: 0 auto; padding: 20px; }
         .shop-tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--border); margin: 18px 0; }
         .shop-tab {
             background: transparent; border: none; color: var(--text-muted);
@@ -33,14 +33,14 @@
         <p style="color: var(--text-muted); margin: 0;" data-i18n="scDesc">Comparez le coût des objets en boutique à leur valeur en gemmes.</p>
 
         <div class="shop-tabs">
-            <button class="shop-tab"        data-tab="classic" onclick="scTab('classic')" data-i18n="tabClassic">Shop Classique</button>
+            <button class="shop-tab active" data-tab="classic" onclick="scTab('classic')" data-i18n="tabClassic">Shop Classique</button>
             <button class="shop-tab"        data-tab="event"   onclick="scTab('event')"   data-i18n="tabEvent">Shop d'Événement</button>
             <button class="shop-tab"        data-tab="chest"   onclick="scTab('chest')"   data-i18n="tabChest">Coffres</button>
-            <button class="shop-tab active" data-tab="data"    onclick="scTab('data')"    data-i18n="tabData">Data Item</button>
+            <button class="shop-tab"        data-tab="data"    onclick="scTab('data')"    data-i18n="tabData">Data Item</button>
         </div>
 
         <!-- ===== Placeholders (phases suivantes) ===== -->
-        <div id="panel-classic" class="shop-panel"></div>
+        <div id="panel-classic" class="shop-panel active"></div>
         <div id="panel-event" class="shop-panel"></div>
         <div id="panel-chest" class="shop-panel panel" style="padding: 30px; text-align: center;">
             <h3 style="color: var(--text-muted);" data-i18n="soon">Bientôt disponible</h3>
@@ -48,7 +48,7 @@
         </div>
 
         <!-- ===== DATA ITEM ===== -->
-        <div id="panel-data" class="shop-panel active panel" style="padding: 20px;">
+        <div id="panel-data" class="shop-panel panel" style="padding: 20px;">
             <div class="shop-toolbar">
                 <input id="item-search" class="table-input" placeholder="Rechercher…" style="flex: 1; min-width: 180px;">
                 <select id="item-cat-filter" class="table-select" style="min-width: 170px;"></select>
