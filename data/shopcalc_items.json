@@ -3,7 +3,7 @@
     "id": "1h_general_speedup",
     "name": {
       "EN": "1h General SpeedUP",
-      "FR": "1h General SpeedUP"
+      "FR": "Accélérateur Général 1h"
     },
     "category": "Speedup",
     "gemValue": 800
@@ -12,7 +12,7 @@
     "id": "1m_general_speedup",
     "name": {
       "EN": "1m General SpeedUP",
-      "FR": "1m General SpeedUP"
+      "FR": "Accélérateur Général 1min"
     },
     "category": "Speedup",
     "gemValue": 13
@@ -21,7 +21,7 @@
     "id": "3h_general_speedup",
     "name": {
       "EN": "3h General SpeedUP",
-      "FR": "3h General SpeedUP"
+      "FR": "Accélérateur Général 3h"
     },
     "category": "Speedup",
     "gemValue": 2400
@@ -30,7 +30,7 @@
     "id": "5m_general_speedup",
     "name": {
       "EN": "5m General SpeedUP",
-      "FR": "5m General SpeedUP"
+      "FR": "Accélérateur Général 5min"
     },
     "category": "Speedup",
     "gemValue": 66
@@ -39,7 +39,7 @@
     "id": "8h_general_speedup",
     "name": {
       "EN": "8h General SpeedUP",
-      "FR": "8h General SpeedUP"
+      "FR": "Accélérateur Général 8h"
     },
     "category": "Speedup",
     "gemValue": 6400
@@ -48,7 +48,7 @@
     "id": "fast_walk_1",
     "name": {
       "EN": "Fast Walk 1",
-      "FR": "Fast Walk 1"
+      "FR": "Marche Rapide 1"
     },
     "category": "Speedup",
     "gemValue": 400
@@ -57,7 +57,7 @@
     "id": "fast_walk_2",
     "name": {
       "EN": "Fast Walk 2",
-      "FR": "Fast Walk 2"
+      "FR": "Marche Rapide 2"
     },
     "category": "Speedup",
     "gemValue": 2000
@@ -66,7 +66,7 @@
     "id": "pet_advancement_materials_custom_chest",
     "name": {
       "EN": "Pet Advancement Materials Custom Chest",
-      "FR": "Pet Advancement Materials Custom Chest"
+      "FR": "Coffre personnalisé de Matériaux d'Avancement Animal"
     },
     "category": "Pet",
     "gemValue": 3000
@@ -75,7 +75,7 @@
     "id": "growth_manual",
     "name": {
       "EN": "Growth Manual",
-      "FR": "Growth Manual"
+      "FR": "Manuel de Croissance"
     },
     "category": "Pet",
     "gemValue": 300
@@ -84,7 +84,7 @@
     "id": "advanced_taming_mark",
     "name": {
       "EN": "Advanced Taming Mark",
-      "FR": "Advanced Taming Mark"
+      "FR": "Marque de Dressage Avancée"
     },
     "category": "Pet",
     "gemValue": 6000
@@ -102,7 +102,7 @@
     "id": "promotion_medaillon",
     "name": {
       "EN": "Promotion Medaillon",
-      "FR": "Promotion Medaillon"
+      "FR": "Médaillon de Promotion"
     },
     "category": "Pet",
     "gemValue": 3000
@@ -111,7 +111,7 @@
     "id": "pet_food_x1",
     "name": {
       "EN": "Pet Food x1",
-      "FR": "Pet Food x1"
+      "FR": "Nourriture pour Animaux"
     },
     "category": "Pet",
     "gemValue": 2
@@ -120,7 +120,7 @@
     "id": "nutrient_potion",
     "name": {
       "EN": "Nutrient Potion",
-      "FR": "Nutrient Potion"
+      "FR": "Potion Nutritive"
     },
     "category": "Pet",
     "gemValue": 1500
@@ -129,7 +129,7 @@
     "id": "gold_key",
     "name": {
       "EN": "Gold Key",
-      "FR": "Gold Key"
+      "FR": "Clé en Or"
     },
     "category": "Other",
     "gemValue": 1500
@@ -138,7 +138,7 @@
     "id": "platinium_key",
     "name": {
       "EN": "Platinium Key",
-      "FR": "Platinium Key"
+      "FR": "Clé en Platine"
     },
     "category": "Other",
     "gemValue": 500
@@ -156,7 +156,7 @@
     "id": "truegold_dust",
     "name": {
       "EN": "Truegold Dust",
-      "FR": "Truegold Dust"
+      "FR": "Poussière d'Or Véritable"
     },
     "category": "Other",
     "gemValue": 300
@@ -165,7 +165,7 @@
     "id": "mystery_badge",
     "name": {
       "EN": "Mystery Badge",
-      "FR": "Mystery Badge"
+      "FR": "Insigne Mystère"
     },
     "category": "Other",
     "gemValue": 10
@@ -174,7 +174,7 @@
     "id": "soldier_s_medaillon",
     "name": {
       "EN": "Soldier's Medaillon",
-      "FR": "Soldier's Medaillon"
+      "FR": "Médaillon du Soldat"
     },
     "category": "Other",
     "gemValue": 1000
@@ -183,7 +183,7 @@
     "id": "server_s_megaphone",
     "name": {
       "EN": "Server's Megaphone",
-      "FR": "Server's Megaphone"
+      "FR": "Mégaphone du Serveur"
     },
     "category": "Other",
     "gemValue": 400
@@ -192,7 +192,7 @@
     "id": "truegold",
     "name": {
       "EN": "TrueGold",
-      "FR": "TrueGold"
+      "FR": "Or Véritable"
     },
     "category": "Other",
     "gemValue": 500
@@ -201,7 +201,7 @@
     "id": "transfert_pass",
     "name": {
       "EN": "Transfert Pass",
-      "FR": "Transfert Pass"
+      "FR": "Passe de Transfert"
     },
     "category": "Other",
     "gemValue": 15000
@@ -210,7 +210,7 @@
     "id": "random_relocation",
     "name": {
       "EN": "Random Relocation",
-      "FR": "Random Relocation"
+      "FR": "Relocalisation Aléatoire"
     },
     "category": "Other",
     "gemValue": 800
@@ -219,7 +219,7 @@
     "id": "advanced_relocation",
     "name": {
       "EN": "Advanced Relocation",
-      "FR": "Advanced Relocation"
+      "FR": "Relocalisation Avancée"
     },
     "category": "Other",
     "gemValue": 4000
@@ -237,7 +237,7 @@
     "id": "stamina",
     "name": {
       "EN": "Stamina",
-      "FR": "Stamina"
+      "FR": "Endurance du Chef"
     },
     "category": "Other",
     "gemValue": 300
@@ -246,7 +246,7 @@
     "id": "100_enhancement_xp_component",
     "name": {
       "EN": "100 Enhancement XP Component",
-      "FR": "100 Enhancement XP Component"
+      "FR": "100 Points d'EXP d'Amélioration"
     },
     "category": "Equipment",
     "gemValue": 500
@@ -255,7 +255,7 @@
     "id": "lucky_hero_gear_chest",
     "name": {
       "EN": "Lucky Hero Gear Chest",
-      "FR": "Lucky Hero Gear Chest"
+      "FR": "Caisse d'Équipement de Héros Chanceux"
     },
     "category": "Equipment",
     "gemValue": 2000
@@ -264,7 +264,7 @@
     "id": "custom_mythic_hero_gear_chest",
     "name": {
       "EN": "Custom Mythic Hero Gear Chest",
-      "FR": "Custom Mythic Hero Gear Chest"
+      "FR": "Caisse d'Équipement de Héros Mythique Personnalisée"
     },
     "category": "Equipment",
     "gemValue": 120000
@@ -273,7 +273,7 @@
     "id": "forgehammers",
     "name": {
       "EN": "Forgehammers",
-      "FR": "Forgehammers"
+      "FR": "Marteau de Forge"
     },
     "category": "Equipment",
     "gemValue": 2500
@@ -291,19 +291,10 @@
     "id": "custom_epic_hero_gear_chest",
     "name": {
       "EN": "Custom Epic Hero Gear Chest",
-      "FR": "Custom Epic Hero Gear Chest"
+      "FR": "Caisse d'Équipement de Héros Épique Personnalisée"
     },
     "category": "Equipment",
     "gemValue": 30000
-  },
-  {
-    "id": "brand_of_value",
-    "name": {
-      "EN": "Brand of Value",
-      "FR": "Brand of Value"
-    },
-    "category": "Event",
-    "gemValue": 150
   },
   {
     "id": "divine_tokens",
@@ -313,15 +304,6 @@
     },
     "category": "Event",
     "gemValue": 840
-  },
-  {
-    "id": "shovel",
-    "name": {
-      "EN": "Shovel",
-      "FR": "Shovel"
-    },
-    "category": "Event",
-    "gemValue": 2000
   },
   {
     "id": "treasure_map",
@@ -342,15 +324,6 @@
     "gemValue": 0
   },
   {
-    "id": "bille",
-    "name": {
-      "EN": "Bille",
-      "FR": "Bille"
-    },
-    "category": "Event",
-    "gemValue": 3300
-  },
-  {
     "id": "governor_charm_material_chest",
     "name": {
       "EN": "Governor Charm Material Chest",
@@ -363,7 +336,7 @@
     "id": "governor_gear_material_chest",
     "name": {
       "EN": "Governor Gear Material Chest",
-      "FR": "Governor Gear Material Chest"
+      "FR": "Caisse de Matériaux d'Équipement du Chef"
     },
     "category": "Governor",
     "gemValue": 2600
@@ -381,7 +354,7 @@
     "id": "gilded_threads",
     "name": {
       "EN": "Gilded Threads",
-      "FR": "Gilded Threads"
+      "FR": "Fils Dorés"
     },
     "category": "Governor",
     "gemValue": 200
@@ -390,7 +363,7 @@
     "id": "charm_guide",
     "name": {
       "EN": "Charm Guide",
-      "FR": "Charm Guide"
+      "FR": "Guide de Talisman"
     },
     "category": "Governor",
     "gemValue": 1000
@@ -399,7 +372,7 @@
     "id": "charm_design",
     "name": {
       "EN": "Charm Design",
-      "FR": "Charm Design"
+      "FR": "Plans de Talisman"
     },
     "category": "Governor",
     "gemValue": 1000
@@ -417,7 +390,7 @@
     "id": "artisan_s_vision",
     "name": {
       "EN": "Artisan's Vision",
-      "FR": "Artisan's Vision"
+      "FR": "Vision de l'Artisan"
     },
     "category": "Governor",
     "gemValue": 1000
@@ -453,7 +426,7 @@
     "id": "custome_hero_widget",
     "name": {
       "EN": "Custome Hero Widget",
-      "FR": "Custome Hero Widget"
+      "FR": "Boîte Comp Héros Pers"
     },
     "category": "Hero",
     "gemValue": 5000
@@ -462,7 +435,7 @@
     "id": "epic_general_hero_shard",
     "name": {
       "EN": "Epic General Hero Shard",
-      "FR": "Epic General Hero Shard"
+      "FR": "Fragment Universel de Héros Épique"
     },
     "category": "Hero",
     "gemValue": 1000
@@ -471,7 +444,7 @@
     "id": "mythic_general_hero_shard",
     "name": {
       "EN": "Mythic General Hero Shard",
-      "FR": "Mythic General Hero Shard"
+      "FR": "Fragment Universel de Héros Mythique"
     },
     "category": "Hero",
     "gemValue": 5000
@@ -480,7 +453,7 @@
     "id": "rare_general_hero_shard",
     "name": {
       "EN": "Rare General Hero Shard",
-      "FR": "Rare General Hero Shard"
+      "FR": "Fragment Universel de Héros Rare"
     },
     "category": "Hero",
     "gemValue": 500
@@ -489,7 +462,7 @@
     "id": "epic_expidition_skill_manual",
     "name": {
       "EN": "Epic Expidition Skill Manual",
-      "FR": "Epic Expidition Skill Manual"
+      "FR": "Guide d'Expédition Épique"
     },
     "category": "Hero",
     "gemValue": 500
@@ -498,7 +471,7 @@
     "id": "mythic_expedition_skill_manual",
     "name": {
       "EN": "Mythic Expedition Skill Manual",
-      "FR": "Mythic Expedition Skill Manual"
+      "FR": "Guide d'Expédition Mythique"
     },
     "category": "Hero",
     "gemValue": 1000
@@ -507,7 +480,7 @@
     "id": "rare_expidition_skill_manual",
     "name": {
       "EN": "Rare Expidition Skill Manual",
-      "FR": "Rare Expidition Skill Manual"
+      "FR": "Guide d'Expédition Rare"
     },
     "category": "Hero",
     "gemValue": 150
@@ -516,7 +489,7 @@
     "id": "epic_conquest_skill_book",
     "name": {
       "EN": "Epic Conquest Skill Book",
-      "FR": "Epic Conquest Skill Book"
+      "FR": "Livre de compétence de conquête Épique"
     },
     "category": "Hero",
     "gemValue": 500
@@ -525,7 +498,7 @@
     "id": "mythic_conquest_skill_book",
     "name": {
       "EN": "Mythic Conquest Skill Book",
-      "FR": "Mythic Conquest Skill Book"
+      "FR": "Livre de compétence de conquête mythique"
     },
     "category": "Hero",
     "gemValue": 1000
@@ -534,7 +507,7 @@
     "id": "rare_conquest_skill_book",
     "name": {
       "EN": "Rare Conquest Skill Book",
-      "FR": "Rare Conquest Skill Book"
+      "FR": "Livre de compétence de conquête rare"
     },
     "category": "Hero",
     "gemValue": 150
@@ -552,7 +525,7 @@
     "id": "fragment_of_a_specific_mythical_hero",
     "name": {
       "EN": "fragment of a specific mythical hero",
-      "FR": "fragment of a specific mythical hero"
+      "FR": "fragment d'un héros mythique spécifique"
     },
     "category": "Hero",
     "gemValue": 4000
@@ -561,7 +534,7 @@
     "id": "mythic_general_decoration_component",
     "name": {
       "EN": "Mythic General Decoration Component",
-      "FR": "Mythic General Decoration Component"
+      "FR": "Composant Universel de Décoration Mythique"
     },
     "category": "Island",
     "gemValue": 12000
@@ -570,7 +543,7 @@
     "id": "10k_wood",
     "name": {
       "EN": "10K Wood",
-      "FR": "10K Wood"
+      "FR": "10K Bois"
     },
     "category": "Resources",
     "gemValue": 5
@@ -579,7 +552,7 @@
     "id": "10k_iron",
     "name": {
       "EN": "10K Iron",
-      "FR": "10K Iron"
+      "FR": "10K Fer"
     },
     "category": "Resources",
     "gemValue": 100
@@ -588,7 +561,7 @@
     "id": "10k_bread",
     "name": {
       "EN": "10k Bread",
-      "FR": "10k Bread"
+      "FR": "10k Pains"
     },
     "category": "Resources",
     "gemValue": 5
@@ -597,7 +570,7 @@
     "id": "10k_stone",
     "name": {
       "EN": "10k Stone",
-      "FR": "10k Stone"
+      "FR": "10k Pierres"
     },
     "category": "Resources",
     "gemValue": 25
@@ -606,7 +579,7 @@
     "id": "gem",
     "name": {
       "EN": "Gem",
-      "FR": "Gem"
+      "FR": "Gemme"
     },
     "category": "Resources",
     "gemValue": 1
@@ -615,7 +588,7 @@
     "id": "lv1_custom_resource_chest",
     "name": {
       "EN": "Lv1 Custom resource chest",
-      "FR": "Lv1 Custom resource chest"
+      "FR": "Caisse de Ressources Personnalisée Niv. 1"
     },
     "category": "Resources",
     "gemValue": 5
@@ -624,7 +597,7 @@
     "id": "lv2_custom_resource_chest",
     "name": {
       "EN": "Lv2 Custom Resource Chest",
-      "FR": "Lv2 Custom Resource Chest"
+      "FR": "Caisse de Ressources Personnalisée Niv. 2"
     },
     "category": "Resources",
     "gemValue": 50
@@ -633,7 +606,7 @@
     "id": "lv3_custom_resource_chest",
     "name": {
       "EN": "Lv3 Custom Resource Chest",
-      "FR": "Lv3 Custom Resource Chest"
+      "FR": "Caisse de Ressources Personnalisée Niv. 3"
     },
     "category": "Resources",
     "gemValue": 338
@@ -642,7 +615,7 @@
     "id": "coin",
     "name": {
       "EN": "Coin",
-      "FR": "Coin"
+      "FR": "Or"
     },
     "category": "Resources",
     "gemValue": 0.5
@@ -687,7 +660,7 @@
     "id": "30d_vip_time",
     "name": {
       "EN": "30d VIP TIme",
-      "FR": "30d VIP TIme"
+      "FR": "Temps VIP 30j"
     },
     "category": "VIP",
     "gemValue": 10000
@@ -714,7 +687,7 @@
     "id": "custom_nameplate",
     "name": {
       "EN": "Custom Nameplate",
-      "FR": "Custom Nameplate"
+      "FR": "Plaque d'Identification"
     },
     "category": "Cosmetic",
     "gemValue": 0
@@ -723,7 +696,7 @@
     "id": "town_skin",
     "name": {
       "EN": "Town Skin",
-      "FR": "Town Skin"
+      "FR": "Skin de Ville"
     },
     "category": "Cosmetic",
     "gemValue": 0
@@ -732,7 +705,7 @@
     "id": "march_skin",
     "name": {
       "EN": "March Skin",
-      "FR": "March Skin"
+      "FR": "Skin de Marche"
     },
     "category": "Cosmetic",
     "gemValue": 0
@@ -741,9 +714,63 @@
     "id": "avatar_frame",
     "name": {
       "EN": "Avatar Frame",
-      "FR": "Avatar Frame"
+      "FR": "Cadre d'Avatar"
     },
     "category": "Cosmetic",
     "gemValue": 0
+  },
+  {
+    "id": "silver_goblet",
+    "name": {
+      "EN": "Silver Goblet",
+      "FR": "Coupe en argent"
+    },
+    "category": "Master/Expert",
+    "gemValue": 125
+  },
+  {
+    "id": "masters_manuscript",
+    "name": {
+      "EN": "Masters Manuscript",
+      "FR": "Manuscrit d'expert"
+    },
+    "category": "Master/Expert",
+    "gemValue": 25
+  },
+  {
+    "id": "general_master_emblem",
+    "name": {
+      "EN": "General Master Emblem",
+      "FR": "Emblème d'expert général"
+    },
+    "category": "Master/Expert",
+    "gemValue": 1400
+  },
+  {
+    "id": "elite_spices",
+    "name": {
+      "EN": "Elite Spices",
+      "FR": "Épices d'élite"
+    },
+    "category": "Master/Expert",
+    "gemValue": 1250
+  },
+  {
+    "id": "copper_horn",
+    "name": {
+      "EN": "Copper Horn",
+      "FR": "Cor en cuivre"
+    },
+    "category": "Master/Expert",
+    "gemValue": 10
+  },
+  {
+    "id": "adventure_supply",
+    "name": {
+      "EN": "Adventure Supply",
+      "FR": "Provision d'Aventure"
+    },
+    "category": "Master/Expert",
+    "gemValue": 750
   }
 ]
