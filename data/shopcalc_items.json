@@ -90,9 +90,9 @@
     "gemValue": 6000
   },
   {
-    "id": "marque_de_dressage_commune",
+    "id": "common_taming_mark",
     "name": {
-      "EN": "Marque de Dressage Commune",
+      "EN": "Common Taming Mark",
       "FR": "Marque de Dressage Commune"
     },
     "category": "Pet",
