@@ -1,5 +1,15 @@
 [
   {
+    "id": "Stand_adv",
+    "name": { "EN": "Adventure Stall", "FR": "Stand d'Aventure" },
+    "items": [
+      { "itemId": "truegold", "qty": 58, "cost": 30 },
+      { "itemId": "mythic_general_hero_shard", "qty": 10, "cost": 50 },
+      { "itemId": "forgehammers", "qty": 75, "cost": 100 },
+      { "itemId": "mithril", "qty": 1, "cost": 40 }
+    ]
+  },
+  {
     "id": "evt_sample",
     "name": { "EN": "Sample Event Shop", "FR": "Boutique Événement (exemple)" },
     "items": [
