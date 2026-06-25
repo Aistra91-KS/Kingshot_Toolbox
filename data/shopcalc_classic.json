@@ -126,6 +126,16 @@
         "cost": 2000
       },
       {
+        "itemId": "general_master_emblem",
+        "qty": 1,
+        "cost": 1500
+      },
+      {
+        "itemId": "masters_manuscript",
+        "qty": 1,
+        "cost": 15
+      },
+      {
         "itemId": "artisan_s_vision",
         "qty": 1,
         "cost": 500
@@ -136,9 +146,9 @@
         "cost": 150
       },
       {
-        "itemId": "mythic_expedition_skill_manual",
+        "itemId": "nutrient_potion",
         "qty": 1,
-        "cost": 500
+        "cost": 750
       },
       {
         "itemId": "1h_general_speedup",
@@ -146,19 +156,19 @@
         "cost": 400
       },
       {
-        "itemId": "mythic_conquest_skill_book",
+        "itemId": "1h_general_speedup",
         "qty": 1,
-        "cost": 500
+        "cost": 400
       },
       {
-        "itemId": "promotion_medaillon",
+        "itemId": "epic_conquest_skill_book",
         "qty": 1,
-        "cost": 1500
+        "cost": 250
       },
       {
-        "itemId": "rare_expidition_skill_manual",
+        "itemId": "advanced_taming_mark",
         "qty": 1,
-        "cost": 75
+        "cost": 3000
       }
     ]
   },
@@ -314,7 +324,7 @@
     "id": "tidal_shop",
     "name": {
       "EN": "Tidal Shop",
-      "FR": "Boutique des Marées"
+      "FR": "Magasin des Marées"
     },
     "items": [
       {
@@ -403,7 +413,7 @@
     "id": "trial_shop",
     "name": {
       "EN": "Trial Shop",
-      "FR": "Boutique d'Épreuve"
+      "FR": "Magasin du Défi"
     },
     "items": [
       {
@@ -412,7 +422,7 @@
         "cost": 2500
       },
       {
-        "itemId": "fragment_of_a_specific_mythical_hero",
+        "itemId": "mythic_general_hero_shard",
         "qty": 1,
         "cost": 500
       },
@@ -445,6 +455,11 @@
         "itemId": "truegold_dust",
         "qty": 1,
         "cost": 50
+      },
+      {
+        "itemId": "governor_gear_material_chest",
+        "qty": 1,
+        "cost": 500
       },
       {
         "itemId": "1h_general_speedup",
