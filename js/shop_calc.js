@@ -145,7 +145,7 @@ function scComputeRows(shop){
     const restant=Math.max(0,Number(si.restant)||0);
     const daily=!!si.dailyReset;
     const maxfin = daily ? restant*jours : restant;
-    const obtenable = cost>0 ? Math.min(restant, Math.floor(resources/cost)) : 0;
+    const obtenable = cost>0 ? Math.min(maxfin, Math.floor(resources/cost)) : 0;
     const coutobt = obtenable*cost;
     return { i, si, it, qty, cost, gem, ratio: cost>0?gem/cost:0, restant, daily, maxfin, obtenable, coutobt, nameTxt: it?scName(it,lang):'' };
   });
