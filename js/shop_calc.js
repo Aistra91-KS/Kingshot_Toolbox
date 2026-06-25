@@ -86,17 +86,18 @@ function scSaveClassic(){ localStorage.setItem(STORAGE_KEYS.shopcalcClassic, JSO
 async function scLoadEvents(){
   try{ SC_EVENTS_DEF = await (await fetch('data/shopcalc_events.json')).json(); }catch(e){ console.error('events',e); SC_EVENTS_DEF=[]; }
   const saved = safeParse(STORAGE_KEYS.shopcalcEvents,null);
-  if(saved&&Array.isArray(saved)){
-    SC_EVENTS = saved;
-    const ids=new Set(saved.map(s=>s.id));
-    SC_EVENTS_DEF.forEach(d=>{ if(!ids.has(d.id)) SC_EVENTS.push(JSON.parse(JSON.stringify(d))); }); // nouvelles boutiques admin
-  } else { SC_EVENTS = JSON.parse(JSON.stringify(SC_EVENTS_DEF)); }
+  // Le FICHIER est la liste de référence : on réapplique les éditions user par id,
+  // et on ignore les boutiques absentes du fichier (anciennes boutiques de test = fantômes).
+  const savedById={}; if(Array.isArray(saved)) saved.forEach(s=>{ if(s&&s.id) savedById[s.id]=s; });
+  SC_EVENTS = (SC_EVENTS_DEF||[]).map(d=> savedById[d.id] ? savedById[d.id] : JSON.parse(JSON.stringify(d)) );
   // Rafraîchit les champs ADMIN depuis le fichier (jamais masqués par un vieux localStorage).
   SC_EVENTS.forEach(s=>{
     const def=SC_EVENTS_DEF.find(d=>d.id===s.id); if(!def) return;
     s.endsAt=def.endsAt; s.resourceName=def.resourceName;
     (s.items||[]).forEach((si,i)=>{ const di=(def.items||[])[i]; si.dailyReset = !!(di && di.itemId===si.itemId && di.dailyReset); });
   });
+  // Nettoie les fantômes du localStorage (seulement si le fichier a bien chargé, pour ne rien effacer sur une erreur réseau).
+  if(SC_EVENTS_DEF.length) scSaveEvents();
 }
 function scSaveEvents(){ localStorage.setItem(STORAGE_KEYS.shopcalcEvents, JSON.stringify(SC_EVENTS)); }
 
