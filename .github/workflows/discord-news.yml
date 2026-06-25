@@ -1,0 +1,39 @@
+name: Discord News
+on:
+  schedule:
+    - cron: '0 */2 * * *'   # toutes les 2 h (UTC)
+  workflow_dispatch: {}       # bouton manuel pour tester
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collecter les commits des 2 dernières heures
+        id: c
+        run: |
+          LOG=$(git log --since="2 hours ago" --no-merges --pretty=format:'- %s')
+          if [ -z "$LOG" ]; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "log<<LOG_EOF"
+              echo "$LOG"
+              echo "LOG_EOF"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Traduire et envoyer sur Discord
+        if: steps.c.outputs.has_changes == 'true'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          SRC_LANG: ${{ vars.SRC_LANG }}
+          COMMITS: ${{ steps.c.outputs.log }}
+        run: node .github/scripts/news.js
