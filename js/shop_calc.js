@@ -95,8 +95,7 @@ async function scLoadEvents(){
   SC_EVENTS.forEach(s=>{
     const def=SC_EVENTS_DEF.find(d=>d.id===s.id); if(!def) return;
     s.endsAt=def.endsAt; s.resourceName=def.resourceName;
-    const dmap={}; (def.items||[]).forEach(di=>{ if(di.itemId) dmap[di.itemId]=!!di.dailyReset; });
-    (s.items||[]).forEach(si=>{ si.dailyReset=!!dmap[si.itemId]; });
+    (s.items||[]).forEach((si,i)=>{ const di=(def.items||[])[i]; si.dailyReset = !!(di && di.itemId===si.itemId && di.dailyReset); });
   });
 }
 function scSaveEvents(){ localStorage.setItem(STORAGE_KEYS.shopcalcEvents, JSON.stringify(SC_EVENTS)); }
