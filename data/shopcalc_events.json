@@ -2,10 +2,12 @@
   {
     "id": "Stand_adv",
     "name": { "EN": "Adventure Stall", "FR": "Stand d'Aventure" },
+    "endsAt": "2026-06-28T00:00:00Z",
+    "resourceName": { "EN": "Adventure Coin", "FR": "Pièce d'aventure" },
     "items": [
-      { "itemId": "truegold", "qty": 58, "cost": 30 },
-      { "itemId": "mythic_general_hero_shard", "qty": 10, "cost": 50 },
-      { "itemId": "forgehammers", "qty": 75, "cost": 100 },
+      { "itemId": "truegold", "qty": 58, "cost": 30, "dailyReset": true},
+      { "itemId": "mythic_general_hero_shard", "qty": 10, "cost": 50, "dailyReset": true },
+      { "itemId": "forgehammers", "qty": 75, "cost": 100, "dailyReset": true },
       { "itemId": "mithril", "qty": 1, "cost": 40 },
       { "itemId": "custom_mythic_hero_gear_chest", "qty": 1, "cost": 120 },
       { "itemId": "mythic_general_decoration_component", "qty": 1, "cost": 10 },
