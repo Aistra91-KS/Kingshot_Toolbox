@@ -94,7 +94,7 @@ async function scLoadEvents(){
   SC_EVENTS.forEach(s=>{
     const def=SC_EVENTS_DEF.find(d=>d.id===s.id); if(!def) return;
     s.endsAt=def.endsAt; s.resourceName=def.resourceName;
-    (s.items||[]).forEach((si,i)=>{ const di=(def.items||[])[i]; si.dailyReset = !!(di && di.itemId===si.itemId && di.dailyReset); });
+    (s.items||[]).forEach((si,i)=>{ const di=(def.items||[])[i], ok=di&&di.itemId===si.itemId; si.dailyReset=!!(ok&&di.dailyReset); si.qtyMax = ok?di.qtyMax:undefined; });
   });
   // Nettoie les fantômes du localStorage (seulement si le fichier a bien chargé, pour ne rien effacer sur une erreur réseau).
   if(SC_EVENTS_DEF.length) scSaveEvents();
@@ -143,7 +143,8 @@ function scComputeRows(shop){
     const it=scItemById(si.itemId);
     const qty=Math.max(1,Number(si.qty)||1), cost=Math.max(0,Number(si.cost)||0);
     const gem=scGem(si.itemId)*qty;
-    const restant=Math.max(0,Number(si.restant)||0);
+    const qtyMax=Math.max(0,Number(si.qtyMax)||0);
+    const restant=(si.restant==null||si.restant==='')?qtyMax:Math.max(0,Number(si.restant)||0);
     const daily=!!si.dailyReset;
     const maxfin = daily ? restant*jours : restant;
     const obtenable = cost>0 ? Math.min(maxfin, Math.floor(resources/cost)) : 0;
