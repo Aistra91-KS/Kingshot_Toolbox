@@ -1,31 +1,139 @@
 [
   {
     "id": "Stand_adv",
-    "name": { "EN": "Adventure Stall", "FR": "Stand d'Aventure" },
+    "name": {
+      "EN": "Adventure Stall",
+      "FR": "Stand d'Aventure"
+    },
     "endsAt": "2026-06-28T00:00:00Z",
-    "resourceName": { "EN": "Adventure Coin", "FR": "Pièce d'aventure" },
+    "resourceName": {"EN": "Adventure Coin","FR": "Pièce d'aventure"
+    },
     "items": [
-      { "itemId": "truegold", "qty": 58, "cost": 30, "dailyReset": true},
-      { "itemId": "mythic_general_hero_shard", "qty": 10, "cost": 50, "dailyReset": true },
-      { "itemId": "forgehammers", "qty": 75, "cost": 100, "dailyReset": true },
-      { "itemId": "mithril", "qty": 1, "cost": 40 },
-      { "itemId": "custom_mythic_hero_gear_chest", "qty": 1, "cost": 120 },
-      { "itemId": "mythic_general_decoration_component", "qty": 1, "cost": 10 },
-      { "itemId": "lucky_hero_gear_chest", "qty": 30, "cost": 50 },
-      { "itemId": "forgehammers", "qty": 30, "cost": 50 },
-      { "itemId": "truegold", "qty": 15, "cost": 10 },
-      { "itemId": "artisan_s_vision", "qty": 22, "cost": 20 },
-      { "itemId": "gilded_threads", "qty": 110, "cost": 20 },
-      { "itemId": "satin", "qty": 11000, "cost": 20 },
-      { "itemId": "charm_design", "qty": 19, "cost": 20 },
-      { "itemId": "charm_guide", "qty": 19, "cost": 20 },
-      { "itemId": "pet_food_x1", "qty": 3900, "cost": 20 },
-      { "itemId": "pet_advancement_materials_custom_chest", "qty": 6, "cost": 25 },
-      { "itemId": "advanced_taming_mark", "qty": 8, "cost": 100 },
-      { "itemId": "1h_general_speedup", "qty": 6, "cost": 10 },
-      { "itemId": "1h_general_speedup", "qty": 6, "cost": 10 },
-      { "itemId": "1h_general_speedup", "qty": 6, "cost": 10 },
-      { "itemId": "5m_general_speedup", "qty": 5, "cost": 1 }
+      {
+        "itemId": "truegold","qty": 58,"cost": 30,"dailyReset": true, "qtyMax": 2
+      },
+      {
+        "itemId": "mythic_general_hero_shard",
+        "qty": 10,
+        "cost": 50,
+        "dailyReset": true,
+        "qtyMax": 2
+      },
+      {
+        "itemId": "forgehammers",
+        "qty": 75,
+        "cost": 100,
+        "dailyReset": true,
+        "qtyMax": 2
+      },
+      {
+        "itemId": "mithril",
+        "qty": 1,
+        "cost": 40,
+        "qtyMax": 25
+      },
+      {
+        "itemId": "custom_mythic_hero_gear_chest",
+        "qty": 1,
+        "cost": 120,
+        "qtyMax": 9
+      },
+      {
+        "itemId": "mythic_general_decoration_component",
+        "qty": 1,
+        "cost": 10,
+        "qtyMax": 300
+      },
+      {
+        "itemId": "lucky_hero_gear_chest",
+        "qty": 30,
+        "cost": 50,
+        "qtyMax": 30
+      },
+      {
+        "itemId": "forgehammers",
+        "qty": 30,
+        "cost": 50,
+        "qtyMax": 30
+      },
+      {
+        "itemId": "truegold",
+        "qty": 15,
+        "cost": 10,
+        "qtyMax": 50
+      },
+      {
+        "itemId": "artisan_s_vision",
+        "qty": 22,
+        "cost": 20,
+        "qtyMax": 100
+      },
+      {
+        "itemId": "gilded_threads",
+        "qty": 110,
+        "cost": 20,
+        "qtyMax": 100
+      },
+      {
+        "itemId": "satin",
+        "qty": 11000,
+        "cost": 20,
+        "qtyMax": 100
+      },
+      {
+        "itemId": "charm_design",
+        "qty": 19,
+        "cost": 20,
+        "qtyMax": 100
+      },
+      {
+        "itemId": "charm_guide",
+        "qty": 19,
+        "cost": 20,
+        "qtyMax": 100
+      },
+      {
+        "itemId": "pet_food_x1",
+        "qty": 3900,
+        "cost": 20,
+        "qtyMax": 50
+      },
+      {
+        "itemId": "pet_advancement_materials_custom_chest",
+        "qty": 6,
+        "cost": 25,
+        "qtyMax": 50
+      },
+      {
+        "itemId": "advanced_taming_mark",
+        "qty": 8,
+        "cost": 100,
+        "qtyMax": 50
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 6,
+        "cost": 10,
+        "qtyMax": 200
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 6,
+        "cost": 10,
+        "qtyMax": 200
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 6,
+        "cost": 10,
+        "qtyMax": 200
+      },
+      {
+        "itemId": "5m_general_speedup",
+        "qty": 5,
+        "cost": 1,
+        "qtyMax": 9999
+      }
     ]
   }
 ]
