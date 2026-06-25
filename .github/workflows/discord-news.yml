@@ -18,7 +18,7 @@ jobs:
       - name: Collecter les commits des 2 dernières heures
         id: c
         run: |
-          LOG=$(git log --since="2 hours ago" --no-merges --pretty=format:'- %s')
+          LOG=$(git log --since="2 hours ago" --no-merges --pretty=format:'- %s%n  %b')
           if [ -z "$LOG" ]; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
           else
