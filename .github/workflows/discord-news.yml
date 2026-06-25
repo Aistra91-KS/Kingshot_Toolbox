@@ -1,8 +1,8 @@
 name: Discord News
 on:
   schedule:
-    - cron: '0 */2 * * *'   # toutes les 2 h (UTC)
-  workflow_dispatch: {}       # bouton manuel pour tester
+    - cron: '0 */2 * * *'   # toutes les 2 h (UTC) — déclenchement best-effort côté GitHub
+  workflow_dispatch: {}       # bouton manuel
 
 permissions:
   contents: read
@@ -15,10 +15,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Collecter les commits des 2 dernières heures
+      # Récupère le SHA du dernier commit déjà notifié (persisté entre les runs via le cache)
+      - name: Restaurer le dernier commit notifié
+        uses: actions/cache/restore@v4
+        with:
+          path: .last_notified_sha
+          key: discord-last-sha-${{ github.run_id }}
+          restore-keys: |
+            discord-last-sha-
+
+      - name: Collecter les commits depuis la dernière news
         id: c
         run: |
-          LOG=$(git log --since="2 hours ago" --no-merges --pretty=format:'%s@@@F@@@%b@@@E@@@')
+          SINCE=""
+          [ -f .last_notified_sha ] && SINCE=$(cat .last_notified_sha)
+          if [ -n "$SINCE" ] && git cat-file -e "${SINCE}^{commit}" 2>/dev/null; then
+            LOG=$(git log "${SINCE}..HEAD" --no-merges --pretty=format:'%s@@@F@@@%b@@@E@@@')
+          else
+            # 1er run (ou cache expiré) : on retombe sur la fenêtre 2 h pour ne pas tout renvoyer
+            LOG=$(git log --since="2 hours ago" --no-merges --pretty=format:'%s@@@F@@@%b@@@E@@@')
+          fi
           if [ -z "$LOG" ]; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
           else
@@ -37,3 +53,13 @@ jobs:
           SRC_LANG: ${{ vars.SRC_LANG }}
           COMMITS: ${{ steps.c.outputs.log }}
         run: node .github/scripts/news.js
+
+      # N'avance le pointeur QUE si l'envoi n'a pas échoué (étape sautée si l'envoi plante -> retry au prochain run)
+      - name: Avancer le pointeur au dernier commit
+        run: git rev-parse HEAD > .last_notified_sha
+
+      - name: Mémoriser le dernier commit notifié
+        uses: actions/cache/save@v4
+        with:
+          path: .last_notified_sha
+          key: discord-last-sha-${{ github.run_id }}
