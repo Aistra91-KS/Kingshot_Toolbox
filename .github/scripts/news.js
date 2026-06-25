@@ -36,14 +36,23 @@ async function translate(text, from, to) {
   } catch { return text; }
 }
 
+// Règles de traduction dédiées (corrige les tournures littérales de MyMemory).
+async function translateSmart(text, from, to) {
+  if (from === 'en' && to === 'fr') {
+    const m = text.match(/^update\s+(.+)$/i);   // "Update X" -> "Mise à jour de X"
+    if (m) return 'Mise à jour de ' + (await translate(m[1], from, to));
+  }
+  return translate(text, from, to);
+}
+
 // Construit un bloc. translateIt = true => version traduite (sujet ET corps).
 async function buildBlock(translateIt) {
   const lines = [];
   for (const e of entries.slice(0, 15)) { // garde-fou
-    const subj = translateIt ? await translate(e.subject, srcLang, dstLang) : e.subject;
+    const subj = translateIt ? await translateSmart(e.subject, srcLang, dstLang) : e.subject;
     lines.push(`- ${subj}`);
     if (e.body) {
-      const body = translateIt ? await translate(e.body, srcLang, dstLang) : e.body;
+      const body = translateIt ? await translateSmart(e.body, srcLang, dstLang) : e.body;
       lines.push(`  *(${body})*`); // corps en italique entre parenthèses
     }
   }
