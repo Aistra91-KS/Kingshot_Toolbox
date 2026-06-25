@@ -47,16 +47,17 @@ async function translateSmart(text, from, to) {
 
 // Construit un bloc. translateIt = true => version traduite (sujet ET corps).
 async function buildBlock(translateIt) {
-  const lines = [];
+  const blocks = [];
   for (const e of entries.slice(0, 15)) { // garde-fou
     const subj = translateIt ? await translateSmart(e.subject, srcLang, dstLang) : e.subject;
-    lines.push(`- ${subj}`);
+    let entry = `**${subj}**`;            // sujet en gras
     if (e.body) {
       const body = translateIt ? await translateSmart(e.body, srcLang, dstLang) : e.body;
-      lines.push(`  *(${body})*`); // corps en italique entre parenthèses
+      entry += `\n*(${body})*`;           // corps en italique, sur sa propre ligne
     }
+    blocks.push(entry);
   }
-  return lines.join('\n');
+  return blocks.join('\n\n');             // ligne vide entre chaque entrée
 }
 
 (async () => {
