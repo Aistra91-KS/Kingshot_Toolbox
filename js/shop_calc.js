@@ -12,7 +12,8 @@ const i18nShop = {
     soon:"Bientôt disponible", soonDesc:"Cet onglet arrive dans une prochaine étape.", count:"objets",
     hItem:"Objet", hQty:"Qté", hCost:"Coût", hGem:"Valeur gemmes", hRatio:"Ratio", hAct:"",
     addItem:"+ Ajouter", chooseItem:"— Objet —", resetSort:"⟲ Ordre de saisie",
-    noEvent:"Aucune boutique d'événement.", best:"Top"
+    noEvent:"Aucune boutique d'événement.", best:"Top",
+    hRestant:"Restant", hMaxFin:"Max fin", hObt:"Obtenable", hCostObt:"Coût obt.", endsIn:"Fin dans", days:"j", ended:"Terminé", resDefault:"Ressources", daily:"Réinit. quotidienne (00h UTC)", stock:"Stock (sans réinit.)"
   },
   EN: {
     scTitle:"Shop Calculation", scDesc:"Compare in-shop cost to gem value to spot the best deals.",
@@ -22,7 +23,8 @@ const i18nShop = {
     soon:"Coming soon", soonDesc:"This tab is coming in a next step.", count:"items",
     hItem:"Item", hQty:"Qty", hCost:"Cost", hGem:"Gem value", hRatio:"Ratio", hAct:"",
     addItem:"+ Add", chooseItem:"— Item —", resetSort:"⟲ Entry order",
-    noEvent:"No event shop.", best:"Top"
+    noEvent:"No event shop.", best:"Top",
+    hRestant:"Remaining", hMaxFin:"Max by end", hObt:"Obtainable", hCostObt:"Obt. cost", endsIn:"Ends in", days:"d", ended:"Ended", resDefault:"Resources", daily:"Daily reset (00:00 UTC)", stock:"Stock (no reset)"
   }
 };
 function scLang(){ return window.GlobalLang ? GlobalLang.get() : 'FR'; }
@@ -51,6 +53,17 @@ function scImg(it){ return encodeURIComponent(scNameEN(it)).replace(/'/g,'%27');
 function scItemById(id){ return SC_ITEMS.find(i=>i.id===id); }
 function scGem(id){ const it=scItemById(id); return it?Number(it.gemValue)||0:0; }
 function scShopName(shop,lang){ return (shop.name&&typeof shop.name==='object')?(shop.name[lang]||shop.name.EN):shop.name; }
+function scResName(shop,lang){ const r=shop.resourceName; if(r&&typeof r==='object') return r[lang]||r.EN||r.FR||scT('resDefault'); return r||scT('resDefault'); }
+// Nombre de resets 00h UTC d'ici la fin de l'événement (aujourd'hui inclus).
+function scDaysLeft(endsAt){
+  if(!endsAt) return 0;
+  const ends=new Date(endsAt).getTime(); if(isNaN(ends)) return 0;
+  const now=Date.now(); if(ends<=now) return 0;
+  const e=new Date(ends-1), n=new Date(now);
+  const lastDay=Date.UTC(e.getUTCFullYear(),e.getUTCMonth(),e.getUTCDate());
+  const today=Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate());
+  return Math.max(1, Math.round((lastDay-today)/86400000)+1);
+}
 
 // ---------- chargement ----------
 async function scLoadItems(){
@@ -78,6 +91,13 @@ async function scLoadEvents(){
     const ids=new Set(saved.map(s=>s.id));
     SC_EVENTS_DEF.forEach(d=>{ if(!ids.has(d.id)) SC_EVENTS.push(JSON.parse(JSON.stringify(d))); }); // nouvelles boutiques admin
   } else { SC_EVENTS = JSON.parse(JSON.stringify(SC_EVENTS_DEF)); }
+  // Rafraîchit les champs ADMIN depuis le fichier (jamais masqués par un vieux localStorage).
+  SC_EVENTS.forEach(s=>{
+    const def=SC_EVENTS_DEF.find(d=>d.id===s.id); if(!def) return;
+    s.endsAt=def.endsAt; s.resourceName=def.resourceName;
+    const dmap={}; (def.items||[]).forEach(di=>{ if(di.itemId) dmap[di.itemId]=!!di.dailyReset; });
+    (s.items||[]).forEach(si=>{ si.dailyReset=!!dmap[si.itemId]; });
+  });
 }
 function scSaveEvents(){ localStorage.setItem(STORAGE_KEYS.shopcalcEvents, JSON.stringify(SC_EVENTS)); }
 
@@ -117,11 +137,18 @@ window.scResetItems=function(){ showAppConfirm(scT('confirmReset'),()=>{ SC_ITEM
 // jamais le tableau de données (shop.items). r.i = index réel dans shop.items (édition/retrait fiables).
 function scComputeRows(shop){
   const lang=scLang();
+  const resources=Math.max(0,Number(shop.resources)||0);
+  const jours=scDaysLeft(shop.endsAt);
   const rows=(shop.items||[]).map((si,i)=>{
     const it=scItemById(si.itemId);
     const qty=Math.max(1,Number(si.qty)||1), cost=Math.max(0,Number(si.cost)||0);
     const gem=scGem(si.itemId)*qty;
-    return { i, si, it, qty, cost, gem, ratio: cost>0?gem/cost:0, nameTxt: it?scName(it,lang):'' };
+    const restant=Math.max(0,Number(si.restant)||0);
+    const daily=!!si.dailyReset;
+    const maxfin = daily ? restant*jours : restant;
+    const obtenable = cost>0 ? Math.min(restant, Math.floor(resources/cost)) : 0;
+    const coutobt = obtenable*cost;
+    return { i, si, it, qty, cost, gem, ratio: cost>0?gem/cost:0, restant, daily, maxfin, obtenable, coutobt, nameTxt: it?scName(it,lang):'' };
   });
   // Top = meilleur ratio (basé sur le ratio, indépendant du tri d'affichage).
   const maxRatio=rows.length?Math.max(...rows.map(r=>r.ratio)):0;
@@ -137,7 +164,7 @@ function scComputeRows(shop){
       const av=a[st.col]||0, bv=b[st.col]||0; return (av-bv)*st.dir;
     });
   }
-  return { rows: display, maxRatio };
+  return { rows: display, maxRatio, jours };
 }
 function scItemOptions(lang){
   return `<option value="">${scT('chooseItem')}</option>`+
@@ -152,23 +179,46 @@ function scTh(scope,shop,col,label,align){
 }
 function scRenderShopCard(scope,shop){
   const lang=scLang();
-  const editable = (scope==='event'); // Classique = lecture seule (admin) ; Événement = éditable
-  const { rows, maxRatio } = scComputeRows(shop);
+  const editable = (scope==='event'); // Classique = lecture seule ; Événement = éditable + planification
+  const planning = (scope==='event');
+  const { rows, maxRatio, jours } = scComputeRows(shop);
   const nm=scShopName(shop,lang);
   const st=SC_SORT[shop.id];
   const resetBtn = st ? `<button class="btn-reset" style="margin-left:auto;padding:4px 10px;font-size:12px;" onclick="scResetSort('${scope}','${shop.id}')">${scT('resetSort')}</button>` : '';
-  const head = `<strong style="font-size:16px;color:var(--accent);">${scEscAttr(nm)}</strong>${resetBtn}`;
+
+  let head = `<strong style="font-size:16px;color:var(--accent);">${scEscAttr(nm)}</strong>`;
+  if(planning){
+    const endTxt = jours>0 ? `${scT('endsIn')} : ${jours} ${scT('days')}` : scT('ended');
+    head += `<span style="font-size:12px;color:var(--text-muted);background:var(--control-bg);padding:3px 8px;border-radius:8px;">${endTxt}</span>`;
+    head += `<label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-light);">${scEscAttr(scResName(shop,lang))} : <input type="number" min="0" class="table-input" style="width:90px;" value="${Math.max(0,Number(shop.resources)||0)}" onchange="scEditResources('${scope}','${shop.id}',this.value)"></label>`;
+  }
+  head += resetBtn;
 
   const body = rows.map(r=>{
     const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=scImg(r.it);
     const nameTxt=r.it?scName(r.it,lang):'??';
     const top=r.isTop;
     const qtyCell = editable
-      ? `<td style="text-align:center;"><input type="number" min="1" step="1" class="table-input" style="width:62px;text-align:center;" value="${r.qty}" onchange="scEditQty('${scope}','${shop.id}',${r.i},this.value)"></td>`
+      ? `<td style="text-align:center;"><input type="number" min="1" step="1" class="table-input" style="width:58px;text-align:center;" value="${r.qty}" onchange="scEditQty('${scope}','${shop.id}',${r.i},this.value)"></td>`
       : `<td style="text-align:center;">${r.qty}</td>`;
     const costCell = editable
-      ? `<td style="text-align:right;"><input type="number" min="0" step="1" class="table-input" style="width:96px;text-align:right;" value="${r.cost}" onchange="scEditCost('${scope}','${shop.id}',${r.i},this.value)"></td>`
+      ? `<td style="text-align:right;"><input type="number" min="0" step="1" class="table-input" style="width:84px;text-align:right;" value="${r.cost}" onchange="scEditCost('${scope}','${shop.id}',${r.i},this.value)"></td>`
       : `<td style="text-align:right;">${r.cost.toLocaleString()}</td>`;
+    let planCells='';
+    if(planning){
+      const marker = r.daily
+        ? `<span title="${scT('daily')}" style="color:var(--success);">↻</span>`
+        : `<span title="${scT('stock')}" style="color:var(--text-muted);">🔒</span>`;
+      planCells = `
+      <td style="text-align:center;"><input type="number" min="0" step="1" class="table-input" style="width:64px;text-align:center;" value="${r.restant}" onchange="scEditRestant('${scope}','${shop.id}',${r.i},this.value)"></td>
+      <td style="text-align:center;">${marker}</td>
+      <td style="text-align:center;color:var(--text-muted);">${r.maxfin.toLocaleString()}</td>
+      <td style="text-align:center;font-weight:bold;color:${r.obtenable>0?'var(--success)':'var(--text-muted)'};">${r.obtenable.toLocaleString()}</td>
+      <td style="text-align:right;">${r.coutobt.toLocaleString()}</td>`;
+    }
+    const ratioCell = planning
+      ? `<td style="text-align:center;font-weight:bold;color:${top?'#3B82F6':'var(--text-light)'};white-space:nowrap;">×${r.ratio.toFixed(2)}</td>`
+      : `<td style="min-width:130px;"><div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:bold;color:${top?'#3B82F6':'var(--text-light)'};white-space:nowrap;">×${r.ratio.toFixed(2)}</span><div style="flex:1;height:6px;background:var(--control-bg);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${maxRatio>0?(r.ratio/maxRatio*100):0}%;background:${top?'#3B82F6':'var(--accent)'};"></div></div></div></td>`;
     const removeCell = editable
       ? `<td style="text-align:center;"><button class="btn-reset" style="padding:2px 8px;font-size:13px;" onclick="scRemoveShopItem('${scope}','${shop.id}',${r.i})">✕</button></td>`
       : '';
@@ -177,11 +227,9 @@ function scRenderShopCard(scope,shop){
       <td>${scEscAttr(nameTxt)} ${top?`<span style="background:#3B82F6;color:#fff;font-size:10px;font-weight:bold;padding:1px 6px;border-radius:8px;">${scT('best')}</span>`:''}</td>
       ${qtyCell}
       ${costCell}
+      ${planCells}
       <td style="text-align:right;">${r.gem.toLocaleString()}</td>
-      <td style="min-width:130px;"><div style="display:flex;align-items:center;gap:6px;">
-        <span style="font-weight:bold;color:${top?'#3B82F6':'var(--text-light)'};white-space:nowrap;">×${r.ratio.toFixed(2)}</span>
-        <div style="flex:1;height:6px;background:var(--control-bg);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${maxRatio>0?(r.ratio/maxRatio*100):0}%;background:${top?'#3B82F6':'var(--accent)'};"></div></div>
-      </div></td>
+      ${ratioCell}
       ${removeCell}</tr>`;
   }).join('');
 
@@ -192,15 +240,23 @@ function scRenderShopCard(scope,shop){
       <button class="btn-reset" style="background:var(--accent);color:#000;font-weight:bold;padding:6px 12px;" onclick="scAddShopItem('${scope}','${shop.id}',this)">${scT('addItem')}</button>
     </div>` : '';
 
+  const planHeads = planning ? `
+      ${scTh(scope,shop,'restant',scT('hRestant'),'center')}
+      <th></th>
+      ${scTh(scope,shop,'maxfin',scT('hMaxFin'),'center')}
+      ${scTh(scope,shop,'obtenable',scT('hObt'),'center')}
+      ${scTh(scope,shop,'coutobt',scT('hCostObt'),'right')}` : '';
+
   return `<div class="panel sc-shop" style="padding:16px;margin-bottom:18px;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">${head}</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">${head}</div>
     <div class="table-container"><table>
       <thead><tr><th></th>
       ${scTh(scope,shop,'name',scT('hItem'))}
       ${scTh(scope,shop,'qty',scT('hQty'),'center')}
       ${scTh(scope,shop,'cost',scT('hCost'),'right')}
+      ${planHeads}
       ${scTh(scope,shop,'gem',scT('hGem'),'right')}
-      ${scTh(scope,shop,'ratio',scT('hRatio'))}
+      ${scTh(scope,shop,'ratio',scT('hRatio'),planning?'center':'')}
       ${editable?'<th></th>':''}</tr></thead>
       <tbody>${body||''}</tbody></table></div>
     ${addForm}</div>`;
@@ -224,12 +280,14 @@ window.scAddShopItem=function(scope,id,btn){
   const qty=parseInt(f.querySelector('.sc-add-qty').value)||1; const cost=parseFloat(f.querySelector('.sc-add-cost').value)||0;
   if(!itemId) return;
   const shop=scGetShop(scope,id); if(!shop) return;
-  shop.items.push({itemId,qty:Math.max(1,qty),cost:Math.max(0,cost)});
+  shop.items.push({itemId,qty:Math.max(1,qty),cost:Math.max(0,cost),restant:0});
   scSaveScope(scope); scRenderScope(scope);
 };
 window.scRemoveShopItem=function(scope,id,index){ const shop=scGetShop(scope,id); if(!shop)return; shop.items.splice(index,1); scSaveScope(scope); scRenderScope(scope); };
 window.scEditQty=function(scope,id,index,val){ const s=scGetShop(scope,id); if(!s||!s.items[index])return; s.items[index].qty=Math.max(1,parseInt(val)||1); scSaveScope(scope); scRenderScope(scope); };
 window.scEditCost=function(scope,id,index,val){ const s=scGetShop(scope,id); if(!s||!s.items[index])return; let n=parseFloat(String(val).replace(',','.')); s.items[index].cost=Math.max(0,isNaN(n)?0:n); scSaveScope(scope); scRenderScope(scope); };
+window.scEditRestant=function(scope,id,index,val){ const s=scGetShop(scope,id); if(!s||!s.items[index])return; s.items[index].restant=Math.max(0,parseInt(val)||0); scSaveScope(scope); scRenderScope(scope); };
+window.scEditResources=function(scope,id,val){ const s=scGetShop(scope,id); if(!s)return; let n=parseFloat(String(val).replace(',','.')); s.resources=Math.max(0,isNaN(n)?0:n); scSaveScope(scope); scRenderScope(scope); };
 
 function scRenderClassic(){
   const el=document.getElementById('panel-classic'); if(!el) return;
