@@ -6,16 +6,24 @@
       { "itemId": "truegold", "qty": 58, "cost": 30 },
       { "itemId": "mythic_general_hero_shard", "qty": 10, "cost": 50 },
       { "itemId": "forgehammers", "qty": 75, "cost": 100 },
-      { "itemId": "mithril", "qty": 1, "cost": 40 }
-    ]
-  },
-  {
-    "id": "evt_sample",
-    "name": { "EN": "Sample Event Shop", "FR": "Boutique Événement (exemple)" },
-    "items": [
-      { "itemId": "custom_mythic_hero_gear_chest", "qty": 1, "cost": 8000 },
-      { "itemId": "forgehammers", "qty": 5, "cost": 2000 },
-      { "itemId": "growth_manual", "qty": 10, "cost": 200 }
+      { "itemId": "mithril", "qty": 1, "cost": 40 },
+      { "itemId": "custom_mythic_hero_gear_chest", "qty": 1, "cost": 120 },
+      { "itemId": "mythic_general_decoration_component", "qty": 1, "cost": 10 },
+      { "itemId": "lucky_hero_gear_chest", "qty": 30, "cost": 50 },
+      { "itemId": "forgehammers", "qty": 30, "cost": 50 },
+      { "itemId": "truegold", "qty": 15, "cost": 10 },
+      { "itemId": "artisan_s_vision", "qty": 22, "cost": 20 },
+      { "itemId": "gilded_threads", "qty": 110, "cost": 20 },
+      { "itemId": "satin", "qty": 11000, "cost": 20 },
+      { "itemId": "charm_design", "qty": 19, "cost": 20 },
+      { "itemId": "charm_guide", "qty": 19, "cost": 20 },
+      { "itemId": "pet_food_x1", "qty": 3900, "cost": 20 },
+      { "itemId": "pet_advancement_materials_custom_chest", "qty": 6, "cost": 25 },
+      { "itemId": "advanced_taming_mark", "qty": 8, "cost": 100 },
+      { "itemId": "1h_general_speedup", "qty": 6, "cost": 10 },
+      { "itemId": "1h_general_speedup", "qty": 6, "cost": 10 },
+      { "itemId": "1h_general_speedup", "qty": 6, "cost": 10 },
+      { "itemId": "5m_general_speedup", "qty": 5, "cost": 1 },
     ]
   }
 ]
