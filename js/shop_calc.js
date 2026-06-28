@@ -167,10 +167,10 @@ function scComputeRows(shop){
   }
   return { rows: display, maxRatio, jours };
 }
-function scItemOptions(lang){
-  return `<option value="">${scT('chooseItem')}</option>`+
-    SC_ITEMS.slice().sort((a,b)=>scName(a,lang).localeCompare(scName(b,lang)))
-    .map(it=>`<option value="${it.id}">${scEscAttr(scName(it,lang))}</option>`).join('');
+
+function scItemDatalist(lang){
+  return SC_ITEMS.slice().sort((a,b)=>scName(a,lang).localeCompare(scName(b,lang)))
+    .map(it=>`<option value="${scEscAttr(scName(it,lang))}"></option>`).join('');
 }
 function scTh(scope,shop,col,label,align){
   const st=SC_SORT[shop.id];
@@ -235,9 +235,12 @@ function scRenderShopCard(scope,shop){
   }).join('');
 
   const addForm = editable ? `<div class="sc-add-form" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;">
-      <select class="sc-add-item table-select" style="min-width:200px;">${scItemOptions(lang)}</select>
+      <input class="sc-add-item table-input" list="sc-dl-${shop.id}" placeholder="${scT('chooseItem')}" autocomplete="off" style="min-width:200px;">
+      <datalist id="sc-dl-${shop.id}">${scItemDatalist(lang)}</datalist>
       <input class="sc-add-qty table-input" type="number" min="1" value="1" style="width:70px;" title="${scT('hQty')}">
       <input class="sc-add-cost table-input" type="number" min="0" placeholder="${scT('hCost')}" style="width:100px;">
+      <input class="sc-add-restant table-input" type="number" min="0" value="0" placeholder="${scT('hRestant')}" title="${scT('hRestant')}" style="width:90px;">
+      <label style="display:flex;align-items:center;gap:4px;font-size:13px;color:var(--text-light);white-space:nowrap;"><input class="sc-add-daily" type="checkbox"> ${scT('daily')}</label>
       <button class="btn-reset" style="background:var(--accent);color:#000;font-weight:bold;padding:6px 12px;" onclick="scAddShopItem('${scope}','${shop.id}',this)">${scT('addItem')}</button>
     </div>` : '';
 
@@ -277,11 +280,18 @@ window.scResetSort=function(scope,id){ delete SC_SORT[id]; scRenderScope(scope);
 
 // ---------- édition / ajout / retrait de lignes ----------
 window.scAddShopItem=function(scope,id,btn){
-  const f=btn.closest('.sc-add-form'); const itemId=f.querySelector('.sc-add-item').value;
+  const f=btn.closest('.sc-add-form');
+  const lang=scLang();
+  // Résolution du texte saisi -> itemId (exact insensible casse, sinon unique sous-chaîne).
+  const lc=(f.querySelector('.sc-add-item').value||'').trim().toLowerCase();
+  let match=SC_ITEMS.find(it=>scName(it,lang).toLowerCase()===lc);
+  if(!match && lc){ const subs=SC_ITEMS.filter(it=>scName(it,lang).toLowerCase().includes(lc)); if(subs.length===1) match=subs[0]; }
+  if(!match) return;
   const qty=parseInt(f.querySelector('.sc-add-qty').value)||1; const cost=parseFloat(f.querySelector('.sc-add-cost').value)||0;
-  if(!itemId) return;
+  const rEl=f.querySelector('.sc-add-restant'); const restant=rEl?Math.max(0,parseInt(rEl.value)||0):0;
+  const dEl=f.querySelector('.sc-add-daily'); const dailyReset=dEl?!!dEl.checked:false;
   const shop=scGetShop(scope,id); if(!shop) return;
-  shop.items.push({itemId,qty:Math.max(1,qty),cost:Math.max(0,cost),restant:0});
+  shop.items.push({itemId:match.id,qty:Math.max(1,qty),cost:Math.max(0,cost),restant,dailyReset});
   scSaveScope(scope); scRenderScope(scope);
 };
 window.scRemoveShopItem=function(scope,id,index){ const shop=scGetShop(scope,id); if(!shop)return; shop.items.splice(index,1); scSaveScope(scope); scRenderScope(scope); };
