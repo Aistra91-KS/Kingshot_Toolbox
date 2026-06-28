@@ -728,7 +728,24 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         let filesAttenteDisponibles = 2;
 
         while (true) {
-            if (filesAttenteDisponibles === 0) break;
+            if (filesAttenteDisponibles === 0) {
+                if (!modeTarget) break;
+                // Mode cible : files pleines. Cible déjà atteinte ? -> stop.
+                const ptsCourantsQ = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                if (ptsCourantsQ >= scoreCible) break;
+                // Pas encore atteint : finir le bâtiment le moins coûteux en accél pour libérer un slot.
+                const finissables = ameliorationsFaites.filter(a => a.estEnCours && a.tempsReel <= stockAccelSimule);
+                if (finissables.length === 0) break;
+                finissables.sort((a, b) => a.tempsReel - b.tempsReel);
+                const aFinir = finissables[0];
+                stockAccelSimule -= aFinir.tempsReel;
+                accelMinutesUtilisees += aFinir.tempsReel;
+                aFinir.minutesAccelerables = aFinir.tempsReel;
+                aFinir.estEnCours = false;
+                etatBatiments[aFinir.index].enCours = false;
+                filesAttenteDisponibles++;
+                continue;
+            }
 
             const ameliorationsDisponibles = [];
 
@@ -780,7 +797,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                     if (estValide && tgActuel >= couts.tg && ttgActuel >= couts.ttg) {
                         const tempsReelMinutes = Math.max(0, Math.ceil(couts.tempsBase / (1 + Number(vitesseAmelio))) - panReductionMin);
                         const gainKVKRessources = (couts.tg * 2000) + (couts.ttg * 30000);
-                        const minutesAAccelerer = Math.min(tempsReelMinutes, stockAccelSimule);
+                        const minutesAAccelerer = modeTarget ? 0 : Math.min(tempsReelMinutes, stockAccelSimule);
                         const gainKVKAccel = minutesAAccelerer * 30;
 
                         ameliorationsDisponibles.push({
@@ -804,23 +821,18 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             // --- Choix de l'amélioration selon le mode ---
             let meilleurChoix;
             if (modeTarget) {
-                // Mode Score cible : si un bâtiment dispo suffit à franchir la cible, prendre le PLUS PETIT
-                // qui franchit (dépassement minimal). Sinon, progresser fort (comme KVK) sans gaspiller les slots.
+                // Mode Score cible : tri par valeur RESSOURCE pure (poidsKVK = TG*2000 + TTG*30000, sans accél).
+                // Franchisseur = un bâtiment dont les ressources seules franchissent le manque restant.
                 const ptsCourants = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
                 const ecart = scoreCible - ptsCourants;
                 const franchisseurs = ameliorationsDisponibles.filter(a => a.poidsKVK >= ecart);
                 if (franchisseurs.length > 0) {
-                    // Au moins un bâtiment franchit la cible : prendre le PLUS PETIT (dépassement minimal).
+                    // Plus petit franchisseur → dépassement minimal en ressources.
                     franchisseurs.sort((a, b) => a.poidsKVK - b.poidsKVK);
                     meilleurChoix = franchisseurs[0];
                 } else {
-                    // Encore loin : progresser fort (comme KVK), finis d'abord pour préserver les 2 slots.
-                    ameliorationsDisponibles.sort((a, b) => {
-                        const aFini = (a.minutesAccelerables >= a.tempsReel) ? 1 : 0;
-                        const bFini = (b.minutesAccelerables >= b.tempsReel) ? 1 : 0;
-                        if (aFini !== bFini) return bFini - aFini;
-                        return b.poidsKVK - a.poidsKVK;
-                    });
+                    // Encore loin : plus gros apport en ressources d'abord (pas de tri finissable).
+                    ameliorationsDisponibles.sort((a, b) => b.poidsKVK - a.poidsKVK);
                     meilleurChoix = ameliorationsDisponibles[0];
                 }
             } else if (modeKVK) {
@@ -839,19 +851,6 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                     return a.poidsCout - b.poidsCout;
                 });
                 meilleurChoix = ameliorationsDisponibles[0];
-            }
-
-            // Mode Score cible : pas d'accélérateurs « pour rien ». Si les ressources (TG/TTG) de ce
-            // bâtiment suffisent déjà à atteindre la cible -> 0 accél. Sinon -> seulement le minimum requis.
-            if (modeTarget) {
-                const ptsAvant = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
-                const apresRessource = ptsAvant + (meilleurChoix.tg * 2000) + (meilleurChoix.ttg * 30000);
-                if (apresRessource >= scoreCible) {
-                    meilleurChoix.minutesAccelerables = 0;
-                } else {
-                    const minutesRequises = Math.ceil((scoreCible - apresRessource) / 30);
-                    meilleurChoix.minutesAccelerables = Math.min(meilleurChoix.minutesAccelerables, minutesRequises);
-                }
             }
 
             tgActuel -= meilleurChoix.tg;
@@ -880,6 +879,28 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             }
         }
 
+        // --- Mode cible : combler un éventuel petit manque avec un minimum d'accélérateurs ---
+        if (modeTarget && ameliorationsFaites.length > 0) {
+            const ptsApresGreedy = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+            if (ptsApresGreedy < scoreCible && stockAccelSimule > 0) {
+                const minutesManquantes = Math.ceil((scoreCible - ptsApresGreedy) / 30);
+                const enCours = ameliorationsFaites.filter(a => a.estEnCours && a.minutesAccelerables < a.tempsReel);
+                if (enCours.length > 0) {
+                    const build = enCours[0];
+                    const maxAjout = Math.min(minutesManquantes, stockAccelSimule, build.tempsReel - build.minutesAccelerables);
+                    if (maxAjout > 0) {
+                        build.minutesAccelerables += maxAjout;
+                        accelMinutesUtilisees += maxAjout;
+                        stockAccelSimule -= maxAjout;
+                        if (build.minutesAccelerables >= build.tempsReel) {
+                            build.estEnCours = false;
+                            etatBatiments[build.index].enCours = false;
+                        }
+                    }
+                }
+            }
+        }
+
         // --- Calcul des points KVK pour ce scénario ---
         const ptsRessources = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000);
         const ptsAccel = accelMinutesUtilisees * 30;
@@ -896,7 +917,12 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             if (cibleAtteinte && !bestAtteint) {
                 enregistrerScenario = true;                                              // atteindre la cible prime tout
             } else if (cibleAtteinte && bestAtteint) {
-                if (coutRessourcesTGeq < meilleurScenario.coutRessourcesTGeq) enregistrerScenario = true;  // parmi ceux qui atteignent : le moins coûteux
+                // Parmi ceux qui atteignent : d'abord le moins d'accél, puis le moins de ressources.
+                if (accelMinutesUtilisees < meilleurScenario.accelUtilisees) {
+                    enregistrerScenario = true;
+                } else if (accelMinutesUtilisees === meilleurScenario.accelUtilisees && coutRessourcesTGeq < meilleurScenario.coutRessourcesTGeq) {
+                    enregistrerScenario = true;
+                }
             } else if (!cibleAtteinte && !bestAtteint) {
                 if (pointsKVKTotal > meilleurScenario.pointsKVK) enregistrerScenario = true;               // sinon : le max atteignable
             }
