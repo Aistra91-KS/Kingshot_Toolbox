@@ -45,6 +45,15 @@ const i18n = {
         'err': "❌ No improvements possible (Insufficient resources/prerequisites or full queues).",
         'optKVK': "🏆 KVK OPTIMIZATION MODE (MAX POINTS)",
         'optQty': "✨ 🛠️ QUANTITY OPTIMIZATION MODE (MAX BUILDINGS)",
+        'optTarget': "🎯 TARGET SCORE MODE (CHEAPEST)",
+        'modeLabel': 'Mode',
+        'modeQty': 'Max buildings',
+        'modeKvkOpt': 'KVK (max points)',
+        'modeTarget': 'Target score',
+        'scoreCible': 'Target score',
+        'targetReached': "✅ Target reached: ",
+        'targetOf': " (target ",
+        'notEnough': "⚠️ Not enough resources for the target. Max achievable: ",
         'crucible': "Crucible Strategy:",
         'transform': "Transform ",
         'tgExpecting': " TG expecting to get ",
@@ -105,6 +114,15 @@ const i18n = {
         'err': "❌ Aucune amélioration possible (Ressources/prérequis manquants ou files pleines ou limites atteintes).",
         'optKVK': "🏆 MODE OPTIMISATION KVK (MAX POINTS)",
         'optQty': "✨ 🛠️ MODE OPTIMISATION QUANTITÉ (MAX BÂTIMENTS)",
+        'optTarget': "🎯 MODE SCORE CIBLE (LE PLUS ÉCONOME)",
+        'modeLabel': 'Mode',
+        'modeQty': 'Max bâtiments',
+        'modeKvkOpt': 'KVK (max points)',
+        'modeTarget': 'Score cible',
+        'scoreCible': 'Score cible',
+        'targetReached': "✅ Score cible atteint : ",
+        'targetOf': " (cible ",
+        'notEnough': "⚠️ Pas assez de ressources pour la cible. Maximum atteignable : ",
         'crucible': "Stratégie du Creuset :",
         'transform': "Transforme ",
         'tgExpecting': " TG en espérant obtenir ",
@@ -452,7 +470,8 @@ function saveData() {
         stockTG: document.getElementById('stockTG').value,
         stockTTG: document.getElementById('stockTTG').value,
         transfoUtilisees: document.getElementById('transfoUtilisees').value,
-        modeKVK: document.getElementById('modeKVK').checked,
+        mode: (document.getElementById('modeSelect') || {}).value || 'qty',
+        scoreCible: (document.getElementById('scoreCible') || {}).value || '1000000',
         accelJours: document.getElementById('accelJours').value,
         accelHeures: document.getElementById('accelHeures').value,
         accelMinutes: document.getElementById('accelMinutes').value,
@@ -477,7 +496,9 @@ function loadData() {
             if (data.stockTG !== undefined) document.getElementById('stockTG').value = data.stockTG;
             if (data.stockTTG !== undefined) document.getElementById('stockTTG').value = data.stockTTG;
             if (data.transfoUtilisees !== undefined) document.getElementById('transfoUtilisees').value = data.transfoUtilisees;
-            if (data.modeKVK !== undefined) document.getElementById('modeKVK').checked = data.modeKVK;
+            if (data.mode !== undefined && document.getElementById('modeSelect')) document.getElementById('modeSelect').value = data.mode;
+            if (data.scoreCible !== undefined && document.getElementById('scoreCible')) document.getElementById('scoreCible').value = data.scoreCible;
+            if (typeof syncScoreRow === 'function') syncScoreRow();
             if (data.accelJours !== undefined) document.getElementById('accelJours').value = data.accelJours;
             if (data.accelHeures !== undefined) document.getElementById('accelHeures').value = data.accelHeures;
             if (data.accelMinutes !== undefined) document.getElementById('accelMinutes').value = data.accelMinutes;
@@ -515,6 +536,13 @@ function debounce(fn, delay = 200) {
 // Version différée de l'optimiseur lourd (relancée seulement à la fin de la frappe)
 const scheduleCalculation = debounce(runCalculator, 200);
 
+function syncScoreRow() {
+    const sel = document.getElementById('modeSelect');
+    const row = document.getElementById('scoreCibleRow');
+    if (sel && row) row.style.display = (sel.value === 'target') ? '' : 'none';
+}
+function onModeChange() { syncScoreRow(); triggerUpdate(); }
+
 function triggerUpdate() {
     try {
         getTotalVitesse();      // léger : met à jour le bonus total affiché (immédiat)
@@ -536,7 +564,9 @@ function runCalculator() {
     let accelJours = Number(document.getElementById('accelJours').value);
     let accelHeures = Number(document.getElementById('accelHeures').value);
     let accelMinutes = Number(document.getElementById('accelMinutes').value);
-    let modeKVK = document.getElementById('modeKVK').checked;
+    let modeEl = document.getElementById('modeSelect');
+    let mode = modeEl ? modeEl.value : 'qty';
+    let scoreCible = Number((document.getElementById('scoreCible') || {}).value) || 0;
     
     const lang = GlobalLang.get();
     let tx = i18n[lang];
@@ -546,7 +576,7 @@ function runCalculator() {
     try {
         let resultText = SUGGERER_KINGSHOT(
             stockTG, stockTTG, transfoUtilisees, vitesseAmelio,
-            accelJours, accelHeures, accelMinutes, modeKVK, tx,
+            accelJours, accelHeures, accelMinutes, mode, scoreCible, tx,
             formattedTableur, dbDataRaw, rangeDataTTG, lang
         );
         document.getElementById('output').innerHTML = resultText;
@@ -556,7 +586,10 @@ function runCalculator() {
 }
 
 // ============ STRATEGIC OPTIMIZER ============
-function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, accelJours, accelHeures, accelMinutes, modeKVK, tx, rangeTableur, rangeDatabase, rangeDataTTG, lang) {
+function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, accelJours, accelHeures, accelMinutes, mode, scoreCible, tx, rangeTableur, rangeDatabase, rangeDataTTG, lang) {
+    const modeKVK = (mode === 'kvk');
+    const modeTarget = (mode === 'target');
+    scoreCible = Math.max(0, Number(scoreCible) || 0);
     const panReductionMin = getPanReductionMinutes();
 
     const isEN = (lang === 'EN');
@@ -761,14 +794,36 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
 
             if (ameliorationsDisponibles.length === 0) break;
 
-            // --- Tri selon le mode (KVK ou Quantité) ---
-            if (modeKVK) {
+            // --- Choix de l'amélioration selon le mode ---
+            let meilleurChoix;
+            if (modeTarget) {
+                // Mode Score cible : si un bâtiment dispo suffit à franchir la cible, prendre le PLUS PETIT
+                // qui franchit (dépassement minimal). Sinon, progresser fort (comme KVK) sans gaspiller les slots.
+                const ptsCourants = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                const ecart = scoreCible - ptsCourants;
+                const franchisseurs = ameliorationsDisponibles.filter(a => a.poidsKVK >= ecart);
+                if (franchisseurs.length > 0) {
+                    // Au moins un bâtiment franchit la cible : prendre le PLUS PETIT (dépassement minimal).
+                    franchisseurs.sort((a, b) => a.poidsKVK - b.poidsKVK);
+                    meilleurChoix = franchisseurs[0];
+                } else {
+                    // Encore loin : progresser fort (comme KVK), finis d'abord pour préserver les 2 slots.
+                    ameliorationsDisponibles.sort((a, b) => {
+                        const aFini = (a.minutesAccelerables >= a.tempsReel) ? 1 : 0;
+                        const bFini = (b.minutesAccelerables >= b.tempsReel) ? 1 : 0;
+                        if (aFini !== bFini) return bFini - aFini;
+                        return b.poidsKVK - a.poidsKVK;
+                    });
+                    meilleurChoix = ameliorationsDisponibles[0];
+                }
+            } else if (modeKVK) {
                 ameliorationsDisponibles.sort((a, b) => {
                     const aFini = (a.minutesAccelerables >= a.tempsReel) ? 1 : 0;
                     const bFini = (b.minutesAccelerables >= b.tempsReel) ? 1 : 0;
                     if (aFini !== bFini) return bFini - aFini;
                     return b.poidsKVK - a.poidsKVK;
                 });
+                meilleurChoix = ameliorationsDisponibles[0];
             } else {
                 ameliorationsDisponibles.sort((a, b) => {
                     const aFini = (a.minutesAccelerables >= a.tempsReel) ? 1 : 0;
@@ -776,9 +831,8 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                     if (aFini !== bFini) return bFini - aFini;
                     return a.poidsCout - b.poidsCout;
                 });
+                meilleurChoix = ameliorationsDisponibles[0];
             }
-
-            const meilleurChoix = ameliorationsDisponibles[0];
 
             tgActuel -= meilleurChoix.tg;
             ttgActuel -= meilleurChoix.ttg;
@@ -798,17 +852,34 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
 
             etatBatiments[meilleurChoix.index].lvl = meilleurChoix.niveauCible;
             ameliorationsFaites.push(meilleurChoix);
+
+            // Mode Score cible : on s'arrête dès que le score est franchi (dépassement minimal)
+            if (modeTarget) {
+                const ptsCourants = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                if (ptsCourants >= scoreCible) break;
+            }
         }
 
         // --- Calcul des points KVK pour ce scénario ---
         const ptsRessources = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000);
         const ptsAccel = accelMinutesUtilisees * 30;
         const pointsKVKTotal = ptsRessources + ptsAccel;
+        const cibleAtteinte = modeTarget && (pointsKVKTotal >= scoreCible);
+        const coutRessourcesTGeq = (stockTG - tgActuel) + (stockTTG - ttgActuel) * 15;
 
         // --- Comparaison avec le meilleur scénario actuel ---
         let enregistrerScenario = false;
         if (!meilleurScenario) {
             enregistrerScenario = true;
+        } else if (modeTarget) {
+            const bestAtteint = meilleurScenario.cibleAtteinte;
+            if (cibleAtteinte && !bestAtteint) {
+                enregistrerScenario = true;                                              // atteindre la cible prime tout
+            } else if (cibleAtteinte && bestAtteint) {
+                if (coutRessourcesTGeq < meilleurScenario.coutRessourcesTGeq) enregistrerScenario = true;  // parmi ceux qui atteignent : le moins coûteux
+            } else if (!cibleAtteinte && !bestAtteint) {
+                if (pointsKVKTotal > meilleurScenario.pointsKVK) enregistrerScenario = true;               // sinon : le max atteignable
+            }
         } else if (modeKVK) {
             if (pointsKVKTotal > meilleurScenario.pointsKVK) enregistrerScenario = true;
         } else {
@@ -833,7 +904,9 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                 pointsTG: tgDepenseAmelio * 2000,
                 pointsTTG: ttgDepenseAmelio * 30000,
                 pointsAccel: ptsAccel,
-                pointsKVK: pointsKVKTotal
+                pointsKVK: pointsKVKTotal,
+                cibleAtteinte: cibleAtteinte,
+                coutRessourcesTGeq: coutRessourcesTGeq
             };
         }
     }
@@ -868,7 +941,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     });
 
     // ============ GÉNÉRATION DU HTML FINAL ============
-    const titreMode = modeKVK ? tx.optKVK : tx.optQty;
+    const titreMode = modeKVK ? tx.optKVK : (modeTarget ? tx.optTarget : tx.optQty);
     const c_or = '#f5b840';
     const c_turquoise = '#4ecdc4';
     const c_rubis = '#e74c5c';
@@ -879,6 +952,15 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     html += `<div style="text-align:center; margin-bottom:20px; padding:12px; background:rgba(245,184,64,0.08); border-radius:6px; border:1px solid ${c_or};">`;
     html += `<strong style="font-size:16px; color:${c_or};">${titreMode}</strong>`;
     html += `</div>`;
+
+    // Bannière mode Score cible
+    if (modeTarget) {
+        if (meilleurScenario.cibleAtteinte) {
+            html += `<div style="text-align:center; margin-bottom:15px; padding:10px; background:rgba(78,205,196,0.12); border-radius:6px; border:1px solid ${c_turquoise}; color:${c_turquoise}; font-weight:bold;">${tx.targetReached}${fmt(meilleurScenario.pointsKVK)}${tx.targetOf}${fmt(scoreCible)})</div>`;
+        } else {
+            html += `<div style="text-align:center; margin-bottom:15px; padding:10px; background:rgba(231,76,92,0.12); border-radius:6px; border:1px solid ${c_rubis}; color:${c_rubis}; font-weight:bold;">${tx.notEnough}${fmt(meilleurScenario.pointsKVK)} ${tx.ptsEnd}</div>`;
+        }
+    }
 
     // Stratégie du creuset (Affiché uniquement s'il y a des transformations)
     if (meilleurScenario.nbTransfos > 0) {
