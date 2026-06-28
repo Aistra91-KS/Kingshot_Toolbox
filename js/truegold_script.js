@@ -865,10 +865,21 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             etatBatiments[meilleurChoix.index].lvl = meilleurChoix.niveauCible;
             ameliorationsFaites.push(meilleurChoix);
 
-            // Mode Score cible : on s'arrête dès que le score est franchi (dépassement minimal)
+            // Mode Score cible : on s'arrête si le score est franchi par les ressources, OU si les
+            // accélérateurs disponibles peuvent combler le manque sur les bâtiments déjà en file
+            // (le post-traitement ci-dessous consommera alors le minimum d'accél nécessaire).
             if (modeTarget) {
                 const ptsCourants = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
-                if (ptsCourants >= scoreCible) break;
+                if (ptsCourants >= scoreCible) {
+                    break;
+                } else {
+                    let potentielAccelMinutes = 0;
+                    for (const a of ameliorationsFaites) {
+                        if (a.estEnCours) potentielAccelMinutes += (a.tempsReel - a.minutesAccelerables);
+                    }
+                    potentielAccelMinutes = Math.min(potentielAccelMinutes, stockAccelSimule);
+                    if ((ptsCourants + potentielAccelMinutes * 30) >= scoreCible) break;
+                }
             }
         }
 
