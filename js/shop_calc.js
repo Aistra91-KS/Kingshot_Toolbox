@@ -195,6 +195,31 @@ function scRenderShopCard(scope,shop){
   }
   head += resetBtn;
 
+  // ---------- Shop Classique : grille de cartes (lecture seule) ----------
+  if(scope==='classic'){
+    const cards = rows.map(r=>{
+      const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=scImg(r.it);
+      const nameTxt=r.it?scName(r.it,lang):'??'; const top=r.isTop;
+      return `<div class="shop-item-card${top?' is-top':''}" style="--cat:${color};">
+        <div class="sic-visual" style="background:${color}14;">
+          <div class="sic-img" style="background-image:url('img/Item/${img}.png');"></div>
+          <span class="sic-qty">×${r.qty}</span>
+          ${top?`<span class="sic-top">${scT('best')}</span>`:''}
+        </div>
+        <div class="sic-name">${scEscAttr(nameTxt)}</div>
+        <div class="sic-cost"><strong>${r.cost.toLocaleString()}</strong> <span class="sic-res">${scEscAttr(scResName(shop,lang))}</span></div>
+        <div class="sic-stats">
+          <span class="sic-gem">💎 ${r.gem.toLocaleString()}</span>
+          <span class="sic-ratio">×${r.ratio.toFixed(2)}</span>
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="panel sc-shop" style="padding:16px;margin-bottom:18px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">${head}</div>
+      <div class="shop-card-grid">${cards||'<p style="color:var(--text-muted);">—</p>'}</div>
+    </div>`;
+  }
+
   const body = rows.map(r=>{
     const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=scImg(r.it);
     const nameTxt=r.it?scName(r.it,lang):'??';
