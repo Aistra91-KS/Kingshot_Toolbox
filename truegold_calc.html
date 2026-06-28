@@ -73,8 +73,16 @@
         <div class="control-group">
             <h3 data-i18n="kvkTitle">KVK & Speedups</h3>
             <div class="control-row">
-                <label style="color:var(--accent); font-weight:bold;" data-i18n="kvkMode">KVK Mode</label>
-                <input type="checkbox" id="modeKVK" onchange="triggerUpdate()">
+                <label style="color:var(--accent); font-weight:bold;" data-i18n="modeLabel">Mode</label>
+                <select id="modeSelect" onchange="onModeChange()">
+                    <option value="qty" data-i18n="modeQty">Max bâtiments</option>
+                    <option value="kvk" data-i18n="modeKvkOpt">KVK (max points)</option>
+                    <option value="target" data-i18n="modeTarget">Score cible</option>
+                </select>
+            </div>
+            <div class="control-row" id="scoreCibleRow" style="display:none;">
+                <label data-i18n="scoreCible">Score cible</label>
+                <input type="number" id="scoreCible" value="1000000" min="0" step="10000" oninput="triggerUpdate()" onchange="triggerUpdate()">
             </div>
             <div class="control-row">
                 <label data-i18n="days">Days</label>
