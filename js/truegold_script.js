@@ -657,9 +657,36 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                 tg: coutTG,
                 ttg: coutTTG,
                 label: labelNiveau,
-                tempsBase: isNaN(tempsBaseMinutes) ? 0 : tempsBaseMinutes
+                tempsBase: isNaN(tempsBaseMinutes) ? 0 : tempsBaseMinutes,
+                prereq: rangeDatabase[i][3] || ''
             };
         }
+    }
+
+    // Mapping des noms raccourcis dans les prérequis vers les noms DB
+    const prereqNameMap = { 'academy': 'War Academy' };
+
+    // Vérifie les prérequis TG d'une amélioration à partir du texte DB (col 3).
+    // Retourne false si un prérequis n'est pas rempli.
+    function checkPrereqsTG(prereqText, etatBats) {
+        if (!prereqText) return true;
+        const lines = prereqText.split(/[,\n]+/).map(l => l.trim()).filter(Boolean);
+        for (const line of lines) {
+            const m = line.match(/^(.+?)\s+TG\s*(?:Lv\.\s*)?([\d]+)/i);
+            if (!m) continue; // prérequis non-TG (ex: "Embassy Lv. 30") → toujours rempli dans le tier TG
+            let reqName = m[1].trim();
+            const reqTGMajor = parseInt(m[2]);
+            const mapped = prereqNameMap[reqName.toLowerCase()];
+            if (mapped) reqName = mapped;
+            const bState = etatBats.find(b => b.nom === reqName);
+            if (!bState) continue; // bâtiment non suivi
+            const effLvl = bState.enCours ? bState.lvl - 1 : bState.lvl;
+            const bDB = db[bState.nom] && db[bState.nom][effLvl];
+            if (!bDB) return false;
+            const bTG = parseTG(bDB.label);
+            if (!bTG.isTG || bTG.major < reqTGMajor) return false;
+        }
+        return true;
     }
 
     // État initial des bâtiments
@@ -749,50 +776,16 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
 
             const ameliorationsDisponibles = [];
 
-            // Récupération des niveaux effectifs du Town Center et de l'Embassy
-            const tcState = etatBatiments.find(b => b.nom.replace(/\s/g, '').toLowerCase() === "towncenter");
-            const embState = etatBatiments.find(b => b.nom.replace(/\s/g, '').toLowerCase() === "embassy");
-
-            const tcEffectiveLvl = tcState ? (tcState.enCours ? tcState.lvl - 1 : tcState.lvl) : null;
-            const embEffectiveLvl = embState ? (embState.enCours ? embState.lvl - 1 : embState.lvl) : null;
-
-            const tcLabel = (tcEffectiveLvl && tcState && db[tcState.nom] && db[tcState.nom][tcEffectiveLvl]) ? db[tcState.nom][tcEffectiveLvl].label : "";
-            const embLabel = (embEffectiveLvl && embState && db[embState.nom] && db[embState.nom][embEffectiveLvl]) ? db[embState.nom][embEffectiveLvl].label : "";
-
-            const tcTG = parseTG(tcLabel);
-            const embTG = parseTG(embLabel);
-
             // --- Recherche des améliorations possibles ---
             for (let b = 0; b < etatBatiments.length; b++) {
                 const bState = etatBatiments[b];
                 if (bState.enCours) continue;
 
-                const nomClean = bState.nom.replace(/\s/g, '').toLowerCase();
                 const niveauCible = bState.lvl + 1;
 
                 if (db[bState.nom] && db[bState.nom][niveauCible]) {
                     const couts = db[bState.nom][niveauCible];
-                    const targetTG = parseTG(couts.label);
-                    let estValide = true;
-
-                    // Vérification des prérequis TG
-                    if (targetTG.isTG) {
-                        if (nomClean !== "towncenter") {
-                            if (targetTG.major > tcTG.major || (targetTG.major === tcTG.major && targetTG.minor > 0)) {
-                                estValide = false;
-                            }
-                        }
-                        if (nomClean === "commandcenter") {
-                            if (targetTG.major > embTG.major || (targetTG.major === embTG.major && targetTG.minor > embTG.minor)) {
-                                estValide = false;
-                            }
-                        }
-                        if (nomClean === "towncenter" && targetTG.minor === 0) {
-                            if (embTG.major < targetTG.major - 1) {
-                                estValide = false;
-                            }
-                        }
-                    }
+                    let estValide = checkPrereqsTG(couts.prereq, etatBatiments);
 
                     if (estValide && tgActuel >= couts.tg && ttgActuel >= couts.ttg) {
                         const tempsReelMinutes = Math.max(0, Math.ceil(couts.tempsBase / (1 + Number(vitesseAmelio))) - panReductionMin);
