@@ -499,6 +499,8 @@ function loadData() {
             if (data.mode !== undefined && document.getElementById('modeSelect')) document.getElementById('modeSelect').value = data.mode;
             if (data.scoreCible !== undefined && document.getElementById('scoreCible')) document.getElementById('scoreCible').value = data.scoreCible;
             if (typeof syncScoreRow === 'function') syncScoreRow();
+            const _sc = document.getElementById('scoreCible');
+            if (_sc) { const _b = String(_sc.value || '').replace(/\D/g, ''); _sc.value = _b ? Number(_b).toLocaleString('fr-FR') : ''; }
             if (data.accelJours !== undefined) document.getElementById('accelJours').value = data.accelJours;
             if (data.accelHeures !== undefined) document.getElementById('accelHeures').value = data.accelHeures;
             if (data.accelMinutes !== undefined) document.getElementById('accelMinutes').value = data.accelMinutes;
@@ -536,6 +538,11 @@ function debounce(fn, delay = 200) {
 // Version différée de l'optimiseur lourd (relancée seulement à la fin de la frappe)
 const scheduleCalculation = debounce(runCalculator, 200);
 
+function formatScoreInput(el) {
+    const brut = String(el.value || '').replace(/\D/g, '');
+    el.value = brut ? Number(brut).toLocaleString('fr-FR') : '';
+    triggerUpdate();
+}
 function syncScoreRow() {
     const sel = document.getElementById('modeSelect');
     const row = document.getElementById('scoreCibleRow');
@@ -566,7 +573,7 @@ function runCalculator() {
     let accelMinutes = Number(document.getElementById('accelMinutes').value);
     let modeEl = document.getElementById('modeSelect');
     let mode = modeEl ? modeEl.value : 'qty';
-    let scoreCible = Number((document.getElementById('scoreCible') || {}).value) || 0;
+    let scoreCible = Number(String((document.getElementById('scoreCible') || {}).value || '').replace(/\D/g, '')) || 0;
     
     const lang = GlobalLang.get();
     let tx = i18n[lang];
@@ -832,6 +839,19 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                     return a.poidsCout - b.poidsCout;
                 });
                 meilleurChoix = ameliorationsDisponibles[0];
+            }
+
+            // Mode Score cible : pas d'accélérateurs « pour rien ». Si les ressources (TG/TTG) de ce
+            // bâtiment suffisent déjà à atteindre la cible -> 0 accél. Sinon -> seulement le minimum requis.
+            if (modeTarget) {
+                const ptsAvant = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                const apresRessource = ptsAvant + (meilleurChoix.tg * 2000) + (meilleurChoix.ttg * 30000);
+                if (apresRessource >= scoreCible) {
+                    meilleurChoix.minutesAccelerables = 0;
+                } else {
+                    const minutesRequises = Math.ceil((scoreCible - apresRessource) / 30);
+                    meilleurChoix.minutesAccelerables = Math.min(meilleurChoix.minutesAccelerables, minutesRequises);
+                }
             }
 
             tgActuel -= meilleurChoix.tg;
