@@ -82,7 +82,7 @@
             </div>
             <div class="control-row" id="scoreCibleRow" style="display:none;">
                 <label data-i18n="scoreCible">Score cible</label>
-                <input type="number" id="scoreCible" value="1000000" min="0" step="10000" oninput="triggerUpdate()" onchange="triggerUpdate()">
+                <input type="text" inputmode="numeric" id="scoreCible" value="1 000 000" oninput="triggerUpdate()" onchange="formatScoreInput(this)">
             </div>
             <div class="control-row">
                 <label data-i18n="days">Days</label>
