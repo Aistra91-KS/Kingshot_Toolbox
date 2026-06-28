@@ -5,21 +5,62 @@ const dstLang = srcLang === 'en' ? 'fr' : 'en';
 
 if (!webhook) { console.error('DISCORD_WEBHOOK manquant'); process.exit(1); }
 
-// Parse : chaque commit = "sujet@@@F@@@corps@@@E@@@" (délimiteurs posés par git log).
+// ---- Mapping fichier -> page (libellés bilingues) ----
+const PAGE_LABELS = {
+  truegold: { fr: 'TrueGold',            en: 'TrueGold' },
+  shop:     { fr: 'Boutique',            en: 'Shop' },
+  beartrap: { fr: 'Piège à ours',        en: 'Bear Trap' },
+  caserne:  { fr: 'Caserne',             en: 'Barracks' },
+  research: { fr: 'Recherche',           en: 'Research' },
+  masters:  { fr: 'Conseil des Experts', en: 'Experts Council' },
+  vikings:  { fr: 'Vikings',             en: 'Vikings' },
+  home:     { fr: 'Accueil',             en: 'Home' },
+  multi:    { fr: 'Plusieurs pages',     en: 'Multiple pages' },
+  general:  { fr: 'Général',             en: 'General' }
+};
+const PAGE_ORDER = ['truegold', 'shop', 'beartrap', 'caserne', 'research', 'masters', 'vikings', 'home', 'multi', 'general'];
+
+function fileToPage(path) {
+  const p = String(path).toLowerCase();
+  if (p.includes('truegold')) return 'truegold';
+  if (p.includes('shop_calc') || p.includes('shopcalc')) return 'shop';
+  if (p.includes('beartrap')) return 'beartrap';
+  if (p.includes('caserne')) return 'caserne';
+  if (p.includes('research')) return 'research';
+  if (p.includes('masters') || p.includes('heroes_db')) return 'masters';
+  if (p.includes('vikings')) return 'vikings';
+  if (p.includes('index.html') || p.includes('js/hub.js')) return 'home';
+  return 'general';
+}
+
+// Parse : chaque commit = "@@@C@@@sujet@@@F@@@corps@@@N@@@\nfichier1\nfichier2...".
 // Dédoublonnage sur (sujet + corps) identiques.
 const seen = new Set();
 const entries = [];
-for (const rec of commits.split('@@@E@@@')) {
+for (const rec of commits.split('@@@C@@@')) {
   const r = rec.trim();
   if (!r) continue;
-  const idx = r.indexOf('@@@F@@@');
-  const subject = (idx === -1 ? r : r.slice(0, idx)).trim();
-  const body = (idx === -1 ? '' : r.slice(idx + 7)).replace(/\s+/g, ' ').trim(); // corps sur 1 ligne
+  const fIdx = r.indexOf('@@@F@@@');
+  const subject = (fIdx === -1 ? r : r.slice(0, fIdx)).trim();
   if (!subject) continue;
+  const rest = fIdx === -1 ? '' : r.slice(fIdx + 7);
+  const nIdx = rest.indexOf('@@@N@@@');
+  const body = (nIdx === -1 ? rest : rest.slice(0, nIdx)).replace(/\s+/g, ' ').trim();
+  const filesBlock = nIdx === -1 ? '' : rest.slice(nIdx + 7);
+  const files = filesBlock.split('\n').map(f => f.trim()).filter(Boolean);
+
   const key = subject + '||' + body;
   if (seen.has(key)) continue;
   seen.add(key);
-  entries.push({ subject, body });
+
+  // Pages spécifiques touchées. Aucune -> "general" ; plus de 2 -> commit massif -> "multi".
+  const specific = [...new Set(files.map(fileToPage).filter(k => k !== 'general'))];
+  let pages;
+  if (specific.length === 0) pages = ['general'];
+  else if (specific.length > 2) pages = ['multi'];
+  else pages = specific;
+
+  entries.push({ subject, body, pages });
 }
 
 if (!entries.length) { console.log('Aucun commit.'); process.exit(0); }
@@ -45,26 +86,48 @@ async function translateSmart(text, from, to) {
   return translate(text, from, to);
 }
 
-// Construit un bloc. translateIt = true => version traduite (sujet ET corps).
-async function buildBlock(translateIt) {
-  const blocks = [];
-  for (const e of entries.slice(0, 15)) { // garde-fou
-    const subj = translateIt ? await translateSmart(e.subject, srcLang, dstLang) : e.subject;
-    let entry = `**${subj}**`;            // sujet en gras
-    if (e.body) {
-      const body = translateIt ? await translateSmart(e.body, srcLang, dstLang) : e.body;
-      entry += `\n*(${body})*`;           // corps en italique, sur sa propre ligne
+// Pré-traduit chaque entrée UNE fois (les entrées peuvent apparaître sous plusieurs pages).
+async function preTranslate() {
+  for (const e of entries.slice(0, 15)) {
+    if (srcLang === 'fr') {
+      e.fr = { subject: e.subject, body: e.body };
+      e.en = { subject: await translateSmart(e.subject, 'fr', 'en'), body: e.body ? await translateSmart(e.body, 'fr', 'en') : '' };
+    } else {
+      e.en = { subject: e.subject, body: e.body };
+      e.fr = { subject: await translateSmart(e.subject, 'en', 'fr'), body: e.body ? await translateSmart(e.body, 'en', 'fr') : '' };
     }
-    blocks.push(entry);
   }
-  return blocks.join('\n\n');             // ligne vide entre chaque entrée
+}
+
+// Construit un bloc regroupé par page, dans la langue demandée ('fr' ou 'en').
+function buildBlock(lang) {
+  const groups = new Map(); // pageKey -> [entries]
+  for (const e of entries.slice(0, 15)) {
+    for (const k of e.pages) {
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(e);
+    }
+  }
+  const orderedKeys = [...groups.keys()].sort((a, b) => PAGE_ORDER.indexOf(a) - PAGE_ORDER.indexOf(b));
+  const out = [];
+  for (const k of orderedKeys) {
+    const header = `📄 __${PAGE_LABELS[k][lang]}__`;
+    const lines = [];
+    for (const e of groups.get(k)) {
+      const t = e[lang];
+      let line = `**${t.subject}**`;
+      if (t.body) line += `\n*(${t.body})*`;
+      lines.push(line);
+    }
+    out.push(header + '\n' + lines.join('\n\n'));
+  }
+  return out.join('\n\n');
 }
 
 (async () => {
-  const original = await buildBlock(false);
-  const translated = await buildBlock(true);
-  const fr = srcLang === 'en' ? translated : original;
-  const en = srcLang === 'en' ? original : translated;
+  await preTranslate();
+  const fr = buildBlock('fr');
+  const en = buildBlock('en');
 
   const clip = s => (s || '—').slice(0, 1000);
   const payload = {
