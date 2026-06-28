@@ -899,7 +899,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         const ptsAccel = accelMinutesUtilisees * 30;
         const pointsKVKTotal = ptsRessources + ptsAccel;
         const cibleAtteinte = modeTarget && (pointsKVKTotal >= scoreCible);
-        const coutRessourcesTGeq = (stockTG - tgActuel) + (stockTTG - ttgActuel) * 15;
+        const coutRessourcesTGeq = tgDepenseAmelio + (ttgDepenseAmelio * 15);
 
         // --- Comparaison avec le meilleur scénario actuel ---
         let enregistrerScenario = false;
