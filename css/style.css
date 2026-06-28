@@ -1888,7 +1888,7 @@ body.drawer-locked { overflow: hidden; }
 /* ===== Shop Classique — grille de cartes (DA Kingshot, lecture seule) ===== */
 .shop-card-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
   gap:15px;
 }
 .shop-item-card{
