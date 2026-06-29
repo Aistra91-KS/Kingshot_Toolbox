@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="KvkGame Toolbox">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd271"/>
+      <stop offset="1" stop-color="#f0a830"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Tuile sombre -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#1b1e25"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="13.5" fill="none" stroke="#f5b840" stroke-opacity="0.30"/>
+
+  <!-- Anse + caisse à outils -->
+  <g fill="none" stroke="url(#gold)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 23 q8 -11 16 0"/>
+  </g>
+  <g fill="url(#gold)">
+    <!-- couvercle -->
+    <rect x="14" y="22" width="36" height="9" rx="3"/>
+    <!-- corps -->
+    <rect x="11" y="30" width="42" height="21" rx="4"/>
+  </g>
+
+  <!-- Détails sombres : poignée centrale + séparation -->
+  <g fill="#1b1e25">
+    <rect x="28.5" y="26.5" width="7" height="6" rx="1.4"/>
+  </g>
+  <line x1="11" y1="38.5" x2="53" y2="38.5" stroke="#1b1e25" stroke-width="2.2" stroke-opacity="0.55"/>
+
+  <!-- Épées croisées (clin d'œil KVK), sur le corps -->
+  <g stroke="#1b1e25" stroke-width="2.4" stroke-linecap="round" opacity="0.85">
+    <line x1="26" y1="48" x2="38" y2="42"/>
+    <line x1="38" y1="48" x2="26" y2="42"/>
+  </g>
+</svg>
