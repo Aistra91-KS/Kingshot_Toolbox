@@ -12,6 +12,7 @@ const i18nBearTrap = {
         tipLimit: "Nombre max de troupes envoyables par marche (limite imposée par l'alliance).",
         tipMinInf: "Part minimale d'infanterie imposée dans chaque marche générée (mode Seuils Mini).",
         tipMinCav: "Part minimale de cavalerie imposée dans chaque marche générée (mode Seuils Mini).",
+        tipHeroes: "Chaque marche est menée par des héros. Le niveau du capitaine fixe la capacité de la marche. Les niveaux viennent de la page « Ma Caserne ».",
         lblLang: "Langue",
         grpTroops: "Mes Troupes (T10/T11...)",
         lblInf: "Infanterie 🛡️",
@@ -76,6 +77,7 @@ const i18nBearTrap = {
         tipLimit: "Max troops sendable per march (cap set by your alliance).",
         tipMinInf: "Minimum infantry share enforced in each generated march (Min Thresholds mode).",
         tipMinCav: "Minimum cavalry share enforced in each generated march (Min Thresholds mode).",
+        tipHeroes: "Each march is led by heroes. The captain's level sets the march capacity. Levels come from the “My Barracks” page.",
         lblLang: "Language",
         grpTroops: "My Troops (T10/T11...)",
         lblInf: "Infantry 🛡️",
@@ -207,7 +209,7 @@ function formatInputNumber(e) {
 function btTip(k){ return window.HelpSystem ? HelpSystem.tip({FR:i18nBearTrap.FR[k], EN:i18nBearTrap.EN[k]}) : ''; }
 function btMountTips(){
     if (!window.HelpSystem) return;
-    const map = { lblBase:'tipBase', lblExp:'tipExp', lblAni:'tipAni', lblGen:'tipGen', lblLimit:'tipLimit', lblMinInf:'tipMinInf', lblMinCav:'tipMinCav' };
+    const map = { lblBase:'tipBase', lblExp:'tipExp', lblAni:'tipAni', lblGen:'tipGen', lblLimit:'tipLimit', lblMinInf:'tipMinInf', lblMinCav:'tipMinCav', modalHeroes:'tipHeroes' };
     for (const i18nKey in map) {
         const el = document.querySelector('[data-i18n="' + i18nKey + '"]');
         if (el && !el.querySelector('.help-i')) el.insertAdjacentHTML('beforeend', ' ' + btTip(map[i18nKey]));
@@ -221,17 +223,22 @@ function btInitHelp(){
         summary:{FR:"Répartit automatiquement tes troupes sur plusieurs marches pour le Piège à Ours, en respectant ta capacité, tes héros et tes seuils mini.",
                  EN:"Automatically splits your troops across several marches for the Bear Trap, respecting your capacity, heroes and minimum thresholds."},
         steps:{
-            FR:["Renseigne tes troupes (Infanterie, Archers, Cavalerie) et ta capacité de marche (capacité de base + bonus Expert + bonus Animal), ainsi que le nombre de marches max.",
+            FR:["Renseigne tes troupes (Infanterie 🛡️, Archers 🏹, Cavalerie 🐎) et ta capacité de marche (capacité de base + bonus Expert + bonus Animal), ainsi que le nombre de marches max.",
                 "Indique ton rôle (Participant ou Organisateur) et la génération de ton serveur.",
-                "Optionnel : crée des marches personnalisées (avec leurs héros) via « + Nouvelle marche ».",
-                "Choisis le mode d'optimisation (seuils mini Infanterie/Cavalerie) puis clique « Générer le reste des marches » : tes troupes restantes sont réparties automatiquement.",
+                "Héros : chaque marche est menée par des héros. Le niveau du héros CAPITAINE détermine la capacité (taille) de la marche ; son type 🛡️/🐎/🏹 oriente la composition. Certains héros sont de meilleurs capitaines/renforts pour le Piège à Ours.",
+                "⚠️ Les niveaux de tes héros proviennent de la page « Ma Caserne ». Configure-les là-bas d'abord — sinon ils sont considérés au niveau 1 et les capacités calculées seront fausses.",
+                "Crée une marche via « + Nouvelle marche », choisis ses héros, ou clique « 🪄 Suggérer » pour piocher automatiquement tes meilleurs héros (depuis Ma Caserne) adaptés au Piège à Ours.",
+                "Choisis le mode d'optimisation (seuils mini Infanterie/Cavalerie) puis « Générer le reste des marches » : tes troupes restantes sont réparties automatiquement.",
                 "Lis le plan de déploiement : composition, capacité et total de chaque marche. Survole les « i » pour le détail des champs."],
-            EN:["Enter your troops (Infantry, Archers, Cavalry) and your march capacity (base + Expert bonus + Animal bonus), plus the max number of marches.",
+            EN:["Enter your troops (Infantry 🛡️, Archers 🏹, Cavalry 🐎) and your march capacity (base + Expert bonus + Animal bonus), plus the max number of marches.",
                 "Set your role (Participant or Organizer) and your server generation.",
-                "Optional: create custom marches (with their heroes) via “+ New march”.",
-                "Pick the optimization mode (min Infantry/Cavalry thresholds) then click “Generate the rest”: your remaining troops are split automatically.",
+                "Heroes: each march is led by heroes. The CAPTAIN hero's level sets the march capacity (size); its type 🛡️/🐎/🏹 drives the composition. Some heroes make better captains/joiners for the Bear Trap.",
+                "⚠️ Your heroes' levels come from the “My Barracks” page. Set them there first — otherwise they count as level 1 and the computed capacities will be wrong.",
+                "Create a march via “+ New march”, pick its heroes, or click “🪄 Suggest” to auto-pick your best heroes (from My Barracks) suited to the Bear Trap.",
+                "Pick the optimization mode (min Infantry/Cavalry thresholds) then “Generate the rest”: your remaining troops are split automatically.",
                 "Read the deployment plan: composition, capacity and total of each march. Hover the “i” icons for field details."]
-        }
+        },
+        links:[{label:{FR:'⚙️ Configurer mes héros — Ma Caserne', EN:'⚙️ Set up my heroes — My Barracks'}, href:'caserne.html'}]
     });
 }
 document.addEventListener('DOMContentLoaded', async () => {
