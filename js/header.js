@@ -219,9 +219,9 @@ function hdrCloseDrawer() {
   // Favicon (injecté une seule fois, vaut pour toutes les pages)
   if (!document.querySelector('link[rel="icon"]')) {
     const mk = (rel, type, href, sizes) => { const l = document.createElement('link'); l.rel = rel; if (type) l.type = type; if (sizes) l.sizes = sizes; l.href = href; document.head.appendChild(l); };
-    mk('icon', 'image/svg+xml', 'favicon.svg');
-    mk('alternate icon', 'image/png', 'favicon-32.png');
-    mk('apple-touch-icon', null, 'apple-touch-icon.png', '180x180');
+    mk('icon', 'image/svg+xml', 'img/logo/favicon.svg');
+    mk('alternate icon', 'image/png', 'img/logo/favicon-32.png');
+    mk('apple-touch-icon', null, 'img/logo/apple-touch-icon.png', '180x180');
   }
 
   HDR_CTX = hdrResolveContext(HDR_CURRENT_PAGE);
