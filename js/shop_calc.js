@@ -344,8 +344,15 @@ function scRenderClassic(){
 }
 function scRenderEvents(){
   const el=document.getElementById('panel-event'); if(!el) return;
-  el.innerHTML = SC_EVENTS.length
-    ? SC_EVENTS.map(s=>scRenderShopCard('event',s)).join('')
+  // Tri d'affichage : fin la plus proche d'abord, événements terminés à la fin.
+  const ordered = SC_EVENTS.slice().sort((a,b)=>{
+    const da=scDaysLeft(a.endsAt), db=scDaysLeft(b.endsAt);
+    const ea=da<=0, eb=db<=0;
+    if(ea!==eb) return ea?1:-1;
+    return da-db;
+  });
+  el.innerHTML = ordered.length
+    ? ordered.map(s=>scRenderShopCard('event',s)).join('')
     : `<p style="color:var(--text-muted);text-align:center;padding:30px;">${scT('noEvent')}</p>`;
 }
 
