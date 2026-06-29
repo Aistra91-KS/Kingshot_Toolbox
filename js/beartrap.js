@@ -5,6 +5,13 @@
 const i18nBearTrap = {
     FR: {
         titleParams: "Paramètres",
+        tipBase: "Capacité de marche de base, AVANT bonus (troupes envoyées par marche).",
+        tipExp: "Bonus de capacité (%) apporté par ton expert / héros.",
+        tipAni: "Bonus de capacité (%) apporté par l'animal (pet).",
+        tipGen: "Génération de ton serveur : influence les paliers de troupes pris en compte.",
+        tipLimit: "Nombre max de troupes envoyables par marche (limite imposée par l'alliance).",
+        tipMinInf: "Part minimale d'infanterie imposée dans chaque marche générée (mode Seuils Mini).",
+        tipMinCav: "Part minimale de cavalerie imposée dans chaque marche générée (mode Seuils Mini).",
         lblLang: "Langue",
         grpTroops: "Mes Troupes (T10/T11...)",
         lblInf: "Infanterie 🛡️",
@@ -62,6 +69,13 @@ const i18nBearTrap = {
     },
     EN: {
         titleParams: "Settings",
+        tipBase: "Base march capacity, BEFORE bonuses (troops sent per march).",
+        tipExp: "Capacity bonus (%) from your expert / hero.",
+        tipAni: "Capacity bonus (%) from the animal (pet).",
+        tipGen: "Your server generation: affects which troop tiers are considered.",
+        tipLimit: "Max troops sendable per march (cap set by your alliance).",
+        tipMinInf: "Minimum infantry share enforced in each generated march (Min Thresholds mode).",
+        tipMinCav: "Minimum cavalry share enforced in each generated march (Min Thresholds mode).",
         lblLang: "Language",
         grpTroops: "My Troops (T10/T11...)",
         lblInf: "Infantry 🛡️",
@@ -190,6 +204,36 @@ function formatInputNumber(e) {
 // INITIALISATION
 // ========================================
 
+function btTip(k){ return window.HelpSystem ? HelpSystem.tip({FR:i18nBearTrap.FR[k], EN:i18nBearTrap.EN[k]}) : ''; }
+function btMountTips(){
+    if (!window.HelpSystem) return;
+    const map = { lblBase:'tipBase', lblExp:'tipExp', lblAni:'tipAni', lblGen:'tipGen', lblLimit:'tipLimit', lblMinInf:'tipMinInf', lblMinCav:'tipMinCav' };
+    for (const i18nKey in map) {
+        const el = document.querySelector('[data-i18n="' + i18nKey + '"]');
+        if (el && !el.querySelector('.help-i')) el.insertAdjacentHTML('beforeend', ' ' + btTip(map[i18nKey]));
+    }
+}
+function btInitHelp(){
+    if (!window.HelpSystem) return;
+    HelpSystem.init({
+        id:'beartrap', banner:true, anchor:'[data-i18n="planTitle"]',
+        title:{FR:'Bear Trap — Aide', EN:'Bear Trap — Help'},
+        summary:{FR:"Répartit automatiquement tes troupes sur plusieurs marches pour le Piège à Ours, en respectant ta capacité, tes héros et tes seuils mini.",
+                 EN:"Automatically splits your troops across several marches for the Bear Trap, respecting your capacity, heroes and minimum thresholds."},
+        steps:{
+            FR:["Renseigne tes troupes (Infanterie, Archers, Cavalerie) et ta capacité de marche (capacité de base + bonus Expert + bonus Animal), ainsi que le nombre de marches max.",
+                "Indique ton rôle (Participant ou Organisateur) et la génération de ton serveur.",
+                "Optionnel : crée des marches personnalisées (avec leurs héros) via « + Nouvelle marche ».",
+                "Choisis le mode d'optimisation (seuils mini Infanterie/Cavalerie) puis clique « Générer le reste des marches » : tes troupes restantes sont réparties automatiquement.",
+                "Lis le plan de déploiement : composition, capacité et total de chaque marche. Survole les « i » pour le détail des champs."],
+            EN:["Enter your troops (Infantry, Archers, Cavalry) and your march capacity (base + Expert bonus + Animal bonus), plus the max number of marches.",
+                "Set your role (Participant or Organizer) and your server generation.",
+                "Optional: create custom marches (with their heroes) via “+ New march”.",
+                "Pick the optimization mode (min Infantry/Cavalry thresholds) then click “Generate the rest”: your remaining troops are split automatically.",
+                "Read the deployment plan: composition, capacity and total of each march. Hover the “i” icons for field details."]
+        }
+    });
+}
 document.addEventListener('DOMContentLoaded', async () => {
     
     loadBearTrapData(); 
@@ -204,8 +248,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (window.GlobalLang) {
         applyTranslations(window.GlobalLang.get());
+        btInitHelp();
+        btMountTips();
         window.addEventListener('langChanged', (e) => {
             applyTranslations(e.detail.lang);
+            btMountTips();
             renderCustomMarches();
             calculateBearTrap(); 
         });
