@@ -13,7 +13,13 @@ const i18nShop = {
     hItem:"Objet", hQty:"Qté", hCost:"Coût", hGem:"Valeur gemmes", hRatio:"Ratio", hAct:"",
     addItem:"+ Ajouter", chooseItem:"— Objet —", resetSort:"⟲ Ordre de saisie",
     noEvent:"Aucune boutique d'événement.", best:"Top",
-    hRestant:"Restant", hMaxFin:"Max fin", hObt:"Obtenable", hCostObt:"Coût obt.", endsIn:"Fin dans", days:"j", ended:"Terminé", resDefault:"Ressources", daily:"Réinit. quotidienne (00h UTC)", stock:"Stock (sans réinit.)"
+    hRestant:"Restant", hMaxFin:"Max fin", hObt:"Obtenable", hCostObt:"Coût obt.", endsIn:"Fin dans", days:"j", ended:"Terminé", resDefault:"Ressources", daily:"Réinit. quotidienne (00h UTC)", stock:"Stock (sans réinit.)",
+    tipRatio:"Valeur en gemmes ÷ coût. Plus c'est élevé, meilleure est l'affaire.",
+    tipGem:"Valeur de référence de l'objet en gemmes (modifiable dans l'onglet « Data Item »).",
+    tipRestant:"Quantité encore disponible à l'achat dans cette boutique.",
+    tipMaxFin:"Quantité maximale atteignable d'ici la fin de l'événement avec ta monnaie.",
+    tipObt:"Ce que tu peux réellement obtenir compte tenu de ta monnaie d'événement.",
+    tipCostObt:"Monnaie d'événement nécessaire pour la quantité « Obtenable »."
   },
   EN: {
     scTitle:"Shop Calculation", scDesc:"Compare in-shop cost to gem value to spot the best deals.",
@@ -24,11 +30,18 @@ const i18nShop = {
     hItem:"Item", hQty:"Qty", hCost:"Cost", hGem:"Gem value", hRatio:"Ratio", hAct:"",
     addItem:"+ Add", chooseItem:"— Item —", resetSort:"⟲ Entry order",
     noEvent:"No event shop.", best:"Top",
-    hRestant:"Remaining", hMaxFin:"Max by end", hObt:"Obtainable", hCostObt:"Obt. cost", endsIn:"Ends in", days:"d", ended:"Ended", resDefault:"Resources", daily:"Daily reset (00:00 UTC)", stock:"Stock (no reset)"
+    hRestant:"Remaining", hMaxFin:"Max by end", hObt:"Obtainable", hCostObt:"Obt. cost", endsIn:"Ends in", days:"d", ended:"Ended", resDefault:"Resources", daily:"Daily reset (00:00 UTC)", stock:"Stock (no reset)",
+    tipRatio:"Gem value ÷ cost. The higher it is, the better the deal.",
+    tipGem:"Reference gem value of the item (editable in the “Data Item” tab).",
+    tipRestant:"Quantity still available to buy in this shop.",
+    tipMaxFin:"Max quantity reachable by the event's end with your currency.",
+    tipObt:"What you can actually obtain given your event currency.",
+    tipCostObt:"Event currency needed for the “Obtainable” quantity."
   }
 };
 function scLang(){ return window.GlobalLang ? GlobalLang.get() : 'FR'; }
 function scT(k){ return (i18nShop[scLang()]||i18nShop.FR)[k]; }
+function scTip(k){ return window.HelpSystem ? HelpSystem.tip({FR:i18nShop.FR[k], EN:i18nShop.EN[k]}) : ''; }
 
 const SC_CAT_COLORS = {
   Speedup:'#3B82F6', Pet:'#4ADE80', Other:'#6B7280', Equipment:'#64748B',
@@ -270,11 +283,11 @@ function scRenderShopCard(scope,shop){
     </div>` : '';
 
   const planHeads = planning ? `
-      ${scTh(scope,shop,'restant',scT('hRestant'),'center')}
+      ${scTh(scope,shop,'restant',scT('hRestant')+scTip('tipRestant'),'center')}
       <th></th>
-      ${scTh(scope,shop,'maxfin',scT('hMaxFin'),'center')}
-      ${scTh(scope,shop,'obtenable',scT('hObt'),'center')}
-      ${scTh(scope,shop,'coutobt',scT('hCostObt'),'right')}` : '';
+      ${scTh(scope,shop,'maxfin',scT('hMaxFin')+scTip('tipMaxFin'),'center')}
+      ${scTh(scope,shop,'obtenable',scT('hObt')+scTip('tipObt'),'center')}
+      ${scTh(scope,shop,'coutobt',scT('hCostObt')+scTip('tipCostObt'),'right')}` : '';
 
   return `<div class="panel sc-shop" style="padding:16px;margin-bottom:18px;">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">${head}</div>
@@ -284,8 +297,8 @@ function scRenderShopCard(scope,shop){
       ${scTh(scope,shop,'qty',scT('hQty'),'center')}
       ${scTh(scope,shop,'cost',scT('hCost'),'right')}
       ${planHeads}
-      ${scTh(scope,shop,'gem',scT('hGem'),'right')}
-      ${scTh(scope,shop,'ratio',scT('hRatio'),planning?'center':'')}
+      ${scTh(scope,shop,'gem',scT('hGem')+scTip('tipGem'),'right')}
+      ${scTh(scope,shop,'ratio',scT('hRatio')+scTip('tipRatio'),planning?'center':'')}
       ${editable?'<th></th>':''}</tr></thead>
       <tbody>${body||''}</tbody></table></div>
     ${addForm}</div>`;
@@ -352,5 +365,25 @@ function scApplyTranslations(){ if(window.GlobalLang) GlobalLang.applyI18n(i18nS
   scRenderClassic(); scRenderEvents();
   const s=document.getElementById('item-search'); if(s) s.addEventListener('input',scRenderItems);
   const c=document.getElementById('item-cat-filter'); if(c) c.addEventListener('change',scRenderItems);
+  if (window.HelpSystem) HelpSystem.init({
+    id:'shop', banner:true,
+    title:{FR:'Shop Calculation — Aide', EN:'Shop Calculation — Help'},
+    summary:{FR:"Compare le coût en boutique de chaque objet à sa valeur en gemmes pour repérer les meilleures affaires : plus le ratio est élevé, plus l'achat est rentable.",
+             EN:"Compares each shop item's cost to its gem value to spot the best deals: the higher the ratio, the better the buy."},
+    steps:{
+      FR:["Choisis un onglet : Shop Classique (boutiques permanentes) ou Shop d'Événement (offres limitées, avec stock et monnaie d'événement).",
+          "Chaque objet affiche son coût, sa valeur en gemmes et le ratio (valeur ÷ coût). Le meilleur ratio de chaque boutique est marqué « Top ».",
+          "La valeur en gemmes vient de l'onglet « Data Item » : modifie-la là-bas et toutes les boutiques se recalculent automatiquement.",
+          "Sur le Shop d'Événement, renseigne ta monnaie et le stock restant pour voir ce qui est réellement obtenable d'ici la fin.",
+          "Survole les icônes « i » des colonnes pour le détail de chaque calcul."],
+      EN:["Pick a tab: Classic Shop (permanent shops) or Event Shop (limited offers, with stock and event currency).",
+          "Each item shows its cost, gem value and ratio (value ÷ cost). The best ratio in each shop is tagged “Top”.",
+          "Gem values come from the “Data Item” tab: edit them there and every shop recalculates automatically.",
+          "In the Event Shop, enter your currency and remaining stock to see what's actually obtainable by the end.",
+          "Hover the “i” icons in the column headers for the detail of each calculation."]
+    },
+    links:[{label:{FR:'Ouvrir l\'onglet « Data Item »', EN:'Open the “Data Item” tab'}, action:()=>{ if(typeof scTab==='function') scTab('data'); }}]
+  });
+
   window.addEventListener('langChanged',()=>{ scApplyTranslations(); scRenderCatFilter(); scRenderItems(); scRenderClassic(); scRenderEvents(); });
 })();
