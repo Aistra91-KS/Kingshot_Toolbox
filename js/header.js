@@ -216,6 +216,14 @@ function hdrCloseDrawer() {
 (function buildHeader() {
   if (!window.SITE) { console.error('site-config.js manquant — header non généré.'); return; }
 
+  // Favicon (injecté une seule fois, vaut pour toutes les pages)
+  if (!document.querySelector('link[rel="icon"]')) {
+    const mk = (rel, type, href, sizes) => { const l = document.createElement('link'); l.rel = rel; if (type) l.type = type; if (sizes) l.sizes = sizes; l.href = href; document.head.appendChild(l); };
+    mk('icon', 'image/svg+xml', 'favicon.svg');
+    mk('alternate icon', 'image/png', 'favicon-32.png');
+    mk('apple-touch-icon', null, 'apple-touch-icon.png', '180x180');
+  }
+
   HDR_CTX = hdrResolveContext(HDR_CURRENT_PAGE);
   HDR_SELECTED_CAT = HDR_CTX.catId;
 
@@ -226,7 +234,7 @@ function hdrCloseDrawer() {
       <div class="hdr-zone hdr-left">
         <a href="${portalHref}" class="app-header-logo" title="Accueil">
           <span class="logo-icon">⚔️</span>
-          <span class="logo-text">KVK Optimizer</span>
+          <span class="logo-text">KvkGame Toolbox</span>
         </a>
         <div id="hdr-game" class="hdr-dd" title="Jeu"></div>
       </div>
