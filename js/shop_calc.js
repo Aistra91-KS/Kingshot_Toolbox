@@ -19,7 +19,8 @@ const i18nShop = {
     tipRestant:"Quantité encore disponible à l'achat dans cette boutique.",
     tipMaxFin:"Quantité maximale atteignable d'ici la fin de l'événement avec ta monnaie.",
     tipObt:"Ce que tu peux réellement obtenir compte tenu de ta monnaie d'événement.",
-    tipCostObt:"Monnaie d'événement nécessaire pour la quantité « Obtenable »."
+    tipCostObt:"Monnaie d'événement nécessaire pour la quantité « Obtenable ».",
+    planDetails:"⚙️ Planification / Détails", del:"Supprimer"
   },
   EN: {
     scTitle:"Shop Calculation", scDesc:"Compare in-shop cost to gem value to spot the best deals.",
@@ -36,7 +37,8 @@ const i18nShop = {
     tipRestant:"Quantity still available to buy in this shop.",
     tipMaxFin:"Max quantity reachable by the event's end with your currency.",
     tipObt:"What you can actually obtain given your event currency.",
-    tipCostObt:"Event currency needed for the “Obtainable” quantity."
+    tipCostObt:"Event currency needed for the “Obtainable” quantity.",
+    planDetails:"⚙️ Planning / Details", del:"Remove"
   }
 };
 function scLang(){ return window.GlobalLang ? GlobalLang.get() : 'FR'; }
@@ -289,6 +291,46 @@ function scRenderShopCard(scope,shop){
       ${scTh(scope,shop,'obtenable',scT('hObt')+scTip('tipObt'),'center')}
       ${scTh(scope,shop,'coutobt',scT('hCostObt')+scTip('tipCostObt'),'right')}` : '';
 
+  if(scope==='event'){
+    const cards = rows.map(r=>{
+      const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=scImg(r.it);
+      const nameTxt=r.it?scName(r.it,lang):'??'; const top=r.isTop;
+      const resetTxt = r.daily ? `↻ ${scT('daily')}` : `🔒 ${scT('stock')}`;
+      return `<div class="shop-item-card event-card${top?' is-top':''}" style="--cat:${color};">
+        <div class="sic-visual" style="background:${color}14;">
+          <div class="sic-img" style="background-image:url('img/Item/${img}.png');"></div>
+          <span class="sic-reset" title="${scEscAttr(r.daily?scT('daily'):scT('stock'))}">${r.daily?'↻':'🔒'}</span>
+          ${top?`<span class="sic-top">${scT('best')}</span>`:''}
+        </div>
+        <div class="sic-name">${scEscAttr(nameTxt)}</div>
+        <div class="sic-fields">
+          <label class="sic-f"><span>${scT('hQty')}</span><input type="number" min="1" value="${r.qty}" onchange="scEditQty('${scope}','${shop.id}',${r.i},this.value)"></label>
+          <label class="sic-f"><span>${scT('hCost')}</span><input type="number" min="0" value="${r.cost}" onchange="scEditCost('${scope}','${shop.id}',${r.i},this.value)"></label>
+        </div>
+        <div class="sic-stats">
+          <span class="sic-gem">💎 ${r.gem.toLocaleString()}</span>
+          <span class="sic-ratio" style="color:${top?'#3B82F6':'var(--text-light)'};">×${r.ratio.toFixed(2)}${scTip('tipRatio')}</span>
+        </div>
+        <details class="sic-planning">
+          <summary>${scT('planDetails')}</summary>
+          <div class="sic-plan-body">
+            <label class="sic-f"><span>${scT('hRestant')}${scTip('tipRestant')}</span><input type="number" min="0" value="${r.restant}" onchange="scEditRestant('${scope}','${shop.id}',${r.i},this.value)"></label>
+            <div class="sic-plan-row"><span>${resetTxt}</span></div>
+            <div class="sic-plan-row"><span>${scT('hMaxFin')}${scTip('tipMaxFin')}</span><b>${r.maxfin.toLocaleString()}</b></div>
+            <div class="sic-plan-row"><span>${scT('hObt')}${scTip('tipObt')}</span><b style="color:${r.obtenable>0?'var(--success)':'var(--text-muted)'};">${r.obtenable.toLocaleString()}</b></div>
+            <div class="sic-plan-row"><span>${scT('hCostObt')}${scTip('tipCostObt')}</span><b>${r.coutobt.toLocaleString()}</b></div>
+            <button class="sic-del" onclick="scRemoveShopItem('${scope}','${shop.id}',${r.i})">✕ ${scT('del')}</button>
+          </div>
+        </details>
+      </div>`;
+    }).join('');
+    return `<div class="panel sc-shop" style="padding:16px;margin-bottom:18px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">${head}</div>
+      <div class="shop-card-grid event-grid">${cards||'<p style="color:var(--text-muted);">—</p>'}</div>
+      ${addForm}
+    </div>`;
+  }
+
   return `<div class="panel sc-shop" style="padding:16px;margin-bottom:18px;">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">${head}</div>
     <div class="table-container"><table>
@@ -382,11 +424,13 @@ function scApplyTranslations(){ if(window.GlobalLang) GlobalLang.applyI18n(i18nS
           "Chaque objet affiche son coût, sa valeur en gemmes et le ratio (valeur ÷ coût). Le meilleur ratio de chaque boutique est marqué « Top ».",
           "La valeur en gemmes vient de l'onglet « Data Item » : modifie-la là-bas et toutes les boutiques se recalculent automatiquement.",
           "Sur le Shop d'Événement, renseigne ta monnaie et le stock restant pour voir ce qui est réellement obtenable d'ici la fin.",
+          "Dans le Shop d'Événement, les cartes n'affichent que l'essentiel par défaut. Clique sur « Planification / Détails » sur une carte pour gérer son stock restant et voir ce que tu peux réellement obtenir.",
           "Survole les icônes « i » des colonnes pour le détail de chaque calcul."],
       EN:["Pick a tab: Classic Shop (permanent shops) or Event Shop (limited offers, with stock and event currency).",
           "Each item shows its cost, gem value and ratio (value ÷ cost). The best ratio in each shop is tagged “Top”.",
           "Gem values come from the “Data Item” tab: edit them there and every shop recalculates automatically.",
           "In the Event Shop, enter your currency and remaining stock to see what's actually obtainable by the end.",
+          "In the Event Shop, cards show only the essentials by default. Click on “Planning / Details” on a card to manage its remaining stock and see what you can actually obtain.",
           "Hover the “i” icons in the column headers for the detail of each calculation."]
     },
     links:[{label:{FR:'Ouvrir l\'onglet « Data Item »', EN:'Open the “Data Item” tab'}, action:()=>{ if(typeof scTab==='function') scTab('data'); }}]
