@@ -1947,20 +1947,20 @@ body.drawer-locked { overflow: hidden; }
 .help-i:hover, .help-i:focus{ color:var(--accent); border-color:var(--accent); outline:none; }
 .help-i::after{
   content:attr(data-tip);
-  position:absolute; bottom:calc(100% + 8px); left:50%;
+  position:absolute; top:calc(100% + 8px); left:50%;
   width:max-content; max-width:240px; white-space:normal; text-align:left;
   background:var(--bg-panel); color:var(--text-light);
   border:1px solid var(--border); border-radius:8px;
   box-shadow:0 6px 18px var(--shadow);
   padding:8px 10px; font:400 12px/1.4 sans-serif;
   opacity:0; visibility:hidden;
-  transform:translateX(-50%) translateY(4px);
+  transform:translateX(-50%) translateY(-4px);
   transition:opacity .15s, transform .15s; z-index:50; pointer-events:none;
 }
-.help-i::before{ /* flèche */
-  content:""; position:absolute; bottom:calc(100% + 3px); left:50%;
+.help-i::before{
+  content:""; position:absolute; top:calc(100% + 3px); left:50%;
   transform:translateX(-50%); border:5px solid transparent;
-  border-top-color:var(--border);
+  border-bottom-color:var(--border);
   opacity:0; visibility:hidden; transition:opacity .15s; z-index:51;
 }
 .help-i:hover::after, .help-i:focus::after{ opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); }
