@@ -50,8 +50,6 @@
       {"itemId": "custom_mythic_hero_gear_chest","qty": 1,"cost": 1000,"qtyMax": 2},
       {"itemId": "lucky_hero_gear_chest","qty": 24,"cost": 200,"qtyMax": 100},
       {"itemId": "forgehammers","qty": 24 ,"cost": 40,"qtyMax": 40},
-      {"itemId": "lucky_hero_gear_chest","qty": 30,"cost": 50,"qtyMax": 30},
-      {"itemId": "forgehammers","qty": 30,"cost": 50,"qtyMax": 30},
       {"itemId": "mithril","qty": 1,"cost": 160,"qtyMax": 25},
       {"itemId": "artisan_s_vision","qty": 18,"cost": 40,"qtyMax": 100},
       {"itemId": "gilded_threads","qty": 90,"cost": 40,"qtyMax": 100},
