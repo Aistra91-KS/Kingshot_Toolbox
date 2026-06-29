@@ -1913,3 +1913,112 @@ body.drawer-locked { overflow: hidden; }
 .shop-item-card .sic-ratio{ color:var(--text-light); font-weight:700; }
 .shop-item-card.is-top{ border:1px solid #3B82F6; border-top:3px solid #3B82F6; box-shadow:0 0 0 1px rgba(59,130,246,.4), 0 4px 14px var(--shadow); }
 .shop-item-card.is-top .sic-ratio{ color:#3B82F6; }
+
+
+/* ============================================================
+   HELP SYSTEM — bouton, modale, bandeau, tooltips (DA + thèmes)
+   À coller à la fin de css/style.css
+   ============================================================ */
+
+/* Bouton "Comment ça marche ?" près du titre */
+.help-btn{
+  display:inline-flex; align-items:center; gap:6px;
+  margin:6px 0 0 12px; vertical-align:middle;
+  background:var(--control-bg); color:var(--text-muted);
+  border:1px solid var(--border); border-radius:20px;
+  padding:5px 12px 5px 8px; font-size:13px; font-weight:600;
+  cursor:pointer; transition:color .15s, border-color .15s;
+}
+.help-btn:hover{ color:var(--accent); border-color:var(--accent); }
+.help-btn .help-q{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:18px; height:18px; border-radius:50%;
+  background:var(--accent); color:#1b1e25; font-weight:800; font-size:12px;
+}
+
+/* Icône info "i" + tooltip CSS pur (hover / focus clavier) */
+.help-i{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:15px; height:15px; margin-left:5px; border-radius:50%;
+  background:var(--control-bg); border:1px solid var(--border);
+  color:var(--text-muted); font:italic 700 10px/1 Georgia, serif;
+  cursor:help; position:relative; vertical-align:middle; user-select:none;
+}
+.help-i:hover, .help-i:focus{ color:var(--accent); border-color:var(--accent); outline:none; }
+.help-i::after{
+  content:attr(data-tip);
+  position:absolute; bottom:calc(100% + 8px); left:50%;
+  width:max-content; max-width:240px; white-space:normal; text-align:left;
+  background:var(--bg-panel); color:var(--text-light);
+  border:1px solid var(--border); border-radius:8px;
+  box-shadow:0 6px 18px var(--shadow);
+  padding:8px 10px; font:400 12px/1.4 sans-serif;
+  opacity:0; visibility:hidden;
+  transform:translateX(-50%) translateY(4px);
+  transition:opacity .15s, transform .15s; z-index:50; pointer-events:none;
+}
+.help-i::before{ /* flèche */
+  content:""; position:absolute; bottom:calc(100% + 3px); left:50%;
+  transform:translateX(-50%); border:5px solid transparent;
+  border-top-color:var(--border);
+  opacity:0; visibility:hidden; transition:opacity .15s; z-index:51;
+}
+.help-i:hover::after, .help-i:focus::after{ opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); }
+.help-i:hover::before, .help-i:focus::before{ opacity:1; visibility:visible; }
+
+/* Modale */
+.help-overlay{
+  position:fixed; inset:0; z-index:2000;
+  background:rgba(0,0,0,.55); backdrop-filter:blur(2px);
+  display:flex; align-items:center; justify-content:center; padding:20px;
+  opacity:0; transition:opacity .15s;
+}
+.help-overlay.open{ opacity:1; }
+.help-modal{
+  position:relative; width:100%; max-width:520px; max-height:85vh; overflow-y:auto;
+  background:var(--bg-panel); border:1px solid var(--border); border-radius:14px;
+  box-shadow:0 18px 50px rgba(0,0,0,.5);
+  padding:24px 24px 26px;
+  transform:translateY(8px) scale(.98); transition:transform .15s;
+}
+.help-overlay.open .help-modal{ transform:none; }
+.help-x{
+  position:absolute; top:12px; right:12px;
+  width:32px; height:32px; border-radius:8px;
+  background:transparent; border:none; color:var(--text-muted);
+  font-size:22px; line-height:1; cursor:pointer; transition:background .15s, color .15s;
+}
+.help-x:hover{ background:var(--control-bg); color:var(--text-light); }
+.help-modal-title{ margin:0 34px 4px 0; color:var(--accent); font-size:20px; }
+.help-summary{ color:var(--text-light); line-height:1.5; margin:10px 0 4px; }
+.help-h3{ color:var(--text-light); font-size:13px; text-transform:uppercase; letter-spacing:.4px; margin:18px 0 8px; opacity:.8; }
+.help-steps{ margin:0; padding-left:20px; color:var(--text-light); line-height:1.55; }
+.help-steps li{ margin-bottom:8px; }
+.help-steps li::marker{ color:var(--accent); font-weight:700; }
+.help-links{ list-style:none; margin:0; padding:0; }
+.help-links li{ margin-bottom:6px; }
+.help-links a{ color:var(--accent); text-decoration:none; font-weight:600; }
+.help-links a:hover{ text-decoration:underline; }
+
+/* Bandeau d'intro (mémorisé via localStorage) */
+.help-banner{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  margin:14px 0; padding:12px 14px;
+  background:var(--control-bg); border:1px solid var(--border);
+  border-left:3px solid var(--accent); border-radius:8px;
+}
+.help-banner-txt{ flex:1 1 240px; color:var(--text-light); font-size:13.5px; line-height:1.45; }
+.help-banner-more{
+  background:var(--accent); color:#1b1e25; border:none; border-radius:6px;
+  padding:6px 12px; font-weight:700; font-size:13px; cursor:pointer; white-space:nowrap;
+}
+.help-banner-x{
+  background:transparent; border:none; color:var(--text-muted);
+  font-size:20px; line-height:1; cursor:pointer; padding:0 4px;
+}
+.help-banner-x:hover{ color:var(--text-light); }
+
+@media (max-width:600px){
+  .help-btn{ margin-left:0; }
+  .help-i::after{ max-width:200px; }
+}
