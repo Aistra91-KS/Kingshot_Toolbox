@@ -2022,3 +2022,69 @@ body.drawer-locked { overflow: hidden; }
   .help-btn{ margin-left:0; }
   .help-i::after{ max-width:200px; }
 }
+
+/* ============================================================
+   Shop d'Événement — grille de cartes (divulgation progressive)
+   À coller à la fin de css/style.css
+   ============================================================ */
+
+/* Cartes un peu plus larges que le Classique (plus de contenu) */
+.shop-card-grid.event-grid{ grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); }
+
+/* Le bloc planification est collé en bas -> les "Détails" s'alignent entre cartes */
+.event-card .sic-name{ flex-grow:0; }
+.event-card .sic-stats{ margin-top:0; border-top:none; }
+.event-card .sic-planning{ margin-top:auto; }
+
+/* Badge reset/stock dans le coin du visuel */
+.event-card .sic-reset{
+  position:absolute; top:6px; right:6px;
+  background:rgba(0,0,0,.72); border:1px solid rgba(255,255,255,.18);
+  border-radius:9px; padding:1px 7px; font-size:12px; line-height:1.4;
+}
+
+/* Inputs Quantité / Coût (toujours visibles) */
+.event-card .sic-fields{ display:flex; gap:8px; padding:8px 12px 4px; }
+.event-card .sic-f{ flex:1; display:flex; flex-direction:column; gap:3px; font-size:11px; color:var(--text-muted); }
+.event-card .sic-f > span{ text-transform:uppercase; letter-spacing:.3px; display:flex; align-items:center; }
+.event-card .sic-f input{
+  width:100%; box-sizing:border-box; text-align:right;
+  background:rgba(127,127,127,.10); border:1px solid transparent; border-radius:6px;
+  color:var(--text-light); padding:5px 7px; font-size:13px;
+  transition:border-color .15s, background .15s;
+}
+.event-card .sic-f input:focus{ outline:none; border-color:var(--accent); background:var(--input-bg); }
+
+/* Bloc repliable <details> */
+.sic-planning{ border-top:1px solid var(--border); }
+.sic-planning summary{
+  list-style:none; cursor:pointer; user-select:none;
+  display:flex; align-items:center; gap:6px;
+  padding:8px 12px; font-size:12px; font-weight:600; color:var(--text-muted);
+  transition:color .15s, background .15s;
+}
+.sic-planning summary::-webkit-details-marker{ display:none; }
+.sic-planning summary::after{ content:"▸"; margin-left:auto; transition:transform .2s; }
+.sic-planning[open] summary::after{ transform:rotate(90deg); }
+.sic-planning summary:hover{ color:var(--accent); background:rgba(127,127,127,.06); }
+
+.sic-plan-body{
+  padding:4px 12px 12px; display:flex; flex-direction:column; gap:8px;
+  animation:sicReveal .18s ease;
+}
+@keyframes sicReveal{ from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:none;} }
+
+/* Dans les détails : le champ Restant passe en ligne (label gauche / input droite) */
+.sic-planning .sic-f{ flex-direction:row; align-items:center; justify-content:space-between; }
+.sic-planning .sic-f input{ width:90px; flex:0 0 auto; }
+
+.sic-plan-row{ display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:12px; color:var(--text-muted); }
+.sic-plan-row b{ color:var(--text-light); }
+
+.sic-del{
+  margin-top:2px; align-self:flex-end;
+  background:transparent; border:1px solid var(--border); color:var(--text-muted);
+  border-radius:6px; padding:4px 10px; font-size:12px; cursor:pointer;
+  transition:border-color .15s, color .15s;
+}
+.sic-del:hover{ border-color:#e5484d; color:#e5484d; }
