@@ -85,9 +85,25 @@ const DEFAULT_FILTERS = {
     sortBy: 'rarity-desc',
     filterType: 'all',
     filterRarity: 'all',
-    checkedGens: ['1'],
+    checkedGens: ['1','2','3','4','5','6','7'],
     filterUnlocked: false
 };
+
+// Remplace les placeholders X / X% par leurs valeurs, SANS toucher au X des mots (EXP, XP...).
+// Compatible Safari < 16.4 / iOS : utilise un lookahead (supporté) et une capture pour la lettre
+// precedente au lieu d'un lookbehind (non supporte).
+function caserneFillX(text, rawValue) {
+    const s = String(rawValue);
+    const m = s.match(/^\((.*)\)$/);
+    const parts = m ? m[1].split(',').map(v => v.trim()) : [s.trim()];
+    let i = 0;
+    return text.replace(/([A-Za-z]?)X(%?)(?![A-Za-z])/g, (full, before) => {
+        if (before) return full; // X colle a une lettre -> intact (EXP, XP, max...)
+        const v = parts[Math.min(i, parts.length - 1)];
+        i++;
+        return `<span style="color:#f5b840; font-weight:bold;">${v}</span>`;
+    });
+}
 
 
 // ==========================================
@@ -494,15 +510,7 @@ function renderModalSkills(fullStars) {
         if (currentLvl > 0 && skill.levels && skill.levels[currentLvl - 1]) {
             let valueStr = String(skill.levels[currentLvl - 1]);
 
-            if (valueStr.startsWith('(') && valueStr.endsWith(')')) {
-                valueStr = valueStr.substring(1, valueStr.length - 1);
-                let values = valueStr.split(',');
-                values.forEach(val => {
-                    effectText = effectText.replace(/X%|X/, `<span style="color:#f5b840; font-weight:bold;">${val.trim()}</span>`);
-                });
-            } else {
-                effectText = effectText.replace(/X%|X/g, `<span style="color:#f5b840; font-weight:bold;">${valueStr}</span>`);
-            }
+            effectText = caserneFillX(effectText, valueStr);
         }
 
         // Génération des pips [1][2][3][4][5]
@@ -686,4 +694,3 @@ function saveHeroSettings() {
     closeModal();
     renderHeroes(); 
 }
-
