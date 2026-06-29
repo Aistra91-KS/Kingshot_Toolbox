@@ -233,7 +233,7 @@ function hdrCloseDrawer() {
     <header class="app-header">
       <div class="hdr-zone hdr-left">
         <a href="${portalHref}" class="app-header-logo" title="Accueil">
-          <span class="logo-icon">⚔️</span>
+          <img class="logo-icon" src="favicon.svg" alt="" width="24" height="24">
           <span class="logo-text">KvkGame Toolbox</span>
         </a>
         <div id="hdr-game" class="hdr-dd" title="Jeu"></div>
