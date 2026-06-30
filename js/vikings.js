@@ -284,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     applyTranslations();
     render();
+    vkInitHelp();
 });
 
 function vkInitHelp() {
