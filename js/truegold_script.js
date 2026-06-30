@@ -486,7 +486,6 @@ function loadData() {
     if (saved) {
         try {
             const data = JSON.parse(saved);
-            if (data.langue !== undefined) document.getElementById('langue').value = data.langue;
             if (data.baseVitesse !== undefined) document.getElementById('baseVitesse').value = data.baseVitesse;
             if (data.bonusGround !== undefined) document.getElementById('bonusGround').checked = data.bonusGround;
             if (data.bonusKvk !== undefined) document.getElementById('bonusKvk').checked = data.bonusKvk;
