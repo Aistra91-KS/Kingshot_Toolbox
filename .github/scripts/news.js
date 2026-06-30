@@ -172,26 +172,3 @@ function packChunks(sections, limit = 1000) {
   }
   console.log(`News envoyée (${chunks.length} message(s)).`);
 })();
-
-(async () => {
-  await preTranslate();
-  const fr = buildBlock('fr');
-  const en = buildBlock('en');
-
-  const clip = s => (s || '—').slice(0, 1000);
-  const payload = {
-    embeds: [{
-      title: '📰 Mise à jour du site — Site update',
-      color: 0xE0A100,
-      fields: [
-        { name: '🇫🇷 Nouveautés', value: clip(fr) },
-        { name: "🇬🇧 What's new", value: clip(en) }
-      ],
-      footer: { text: 'KVK Game Optimizer' },
-      timestamp: new Date().toISOString()
-    }]
-  };
-  const r = await fetch(webhook, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
-  if (!r.ok) { console.error('Discord', r.status, await r.text()); process.exit(1); }
-  console.log('News envoyée.');
-})();
