@@ -99,8 +99,8 @@ async function preTranslate() {
   }
 }
 
-// Construit un bloc regroupé par page, dans la langue demandée ('fr' ou 'en').
-function buildBlock(lang) {
+// Construit une section par page : { key, fr, en } (les deux langues alignées).
+function buildSections() {
   const groups = new Map(); // pageKey -> [entries]
   for (const e of entries.slice(0, 15)) {
     for (const k of e.pages) {
@@ -109,20 +109,69 @@ function buildBlock(lang) {
     }
   }
   const orderedKeys = [...groups.keys()].sort((a, b) => PAGE_ORDER.indexOf(a) - PAGE_ORDER.indexOf(b));
-  const out = [];
-  for (const k of orderedKeys) {
+  const render = (k, lang) => {
     const header = `📄 __${PAGE_LABELS[k][lang]}__`;
-    const lines = [];
-    for (const e of groups.get(k)) {
+    const lines = groups.get(k).map(e => {
       const t = e[lang];
       let line = `**${t.subject}**`;
       if (t.body) line += `\n*(${t.body})*`;
-      lines.push(line);
-    }
-    out.push(header + '\n' + lines.join('\n\n'));
-  }
-  return out.join('\n\n');
+      return line;
+    });
+    return header + '\n' + lines.join('\n\n');
+  };
+  return orderedKeys.map(k => ({ key: k, fr: render(k, 'fr'), en: render(k, 'en') }));
 }
+
+// Regroupe les pages en paquets : on ajoute des pages tant que le bloc FR ET le bloc EN
+// tiennent sous `limit`. Dès qu'une page ne rentre plus, on ouvre un nouveau paquet.
+// => on ne coupe jamais au milieu d'une page.
+function packChunks(sections, limit = 1000) {
+  const chunks = [];
+  let cur = [];
+  const len = (arr, lang) => arr.map(s => s[lang]).join('\n\n').length;
+  for (const sec of sections) {
+    const test = [...cur, sec];
+    if (cur.length && (len(test, 'fr') > limit || len(test, 'en') > limit)) {
+      chunks.push(cur);
+      cur = [sec];
+    } else {
+      cur = test;
+    }
+  }
+  if (cur.length) chunks.push(cur);
+  return chunks;
+}
+
+(async () => {
+  await preTranslate();
+  const sections = buildSections();
+  if (!sections.length) { console.log('Rien à publier.'); return; }
+
+  const chunks = packChunks(sections, 1000);
+  const clip = s => (s || '—').slice(0, 1024); // limite réelle d'un champ Discord
+
+  for (let i = 0; i < chunks.length; i++) {
+    const fr = chunks[i].map(s => s.fr).join('\n\n');
+    const en = chunks[i].map(s => s.en).join('\n\n');
+    const part = chunks.length > 1 ? ` (${i + 1}/${chunks.length})` : '';
+    const payload = {
+      embeds: [{
+        title: `📰 Mise à jour du site — Site update${part}`,
+        color: 0xE0A100,
+        fields: [
+          { name: '🇫🇷 Nouveautés', value: clip(fr) },
+          { name: "🇬🇧 What's new", value: clip(en) }
+        ],
+        footer: { text: 'KVK Game Optimizer' },
+        timestamp: new Date().toISOString()
+      }]
+    };
+    const r = await fetch(webhook, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
+    if (!r.ok) { console.error('Discord', r.status, await r.text()); process.exit(1); }
+    if (i < chunks.length - 1) await new Promise(res => setTimeout(res, 800)); // anti rate-limit
+  }
+  console.log(`News envoyée (${chunks.length} message(s)).`);
+})();
 
 (async () => {
   await preTranslate();
