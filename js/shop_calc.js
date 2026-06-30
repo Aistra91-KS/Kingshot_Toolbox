@@ -405,6 +405,29 @@ window.scTab=function(name){
 };
 function scApplyTranslations(){ if(window.GlobalLang) GlobalLang.applyI18n(i18nShop[scLang()]); }
 
+// Event Shop : ouvrir/fermer le « Détails » d'une carte synchronise toute la ligne visible.
+function scBindRowSync() {
+  document.addEventListener('click', (e) => {
+    const summary = e.target.closest('.event-card .sic-planning > summary');
+    if (!summary) return;
+    const det = summary.parentElement;             // le <details>
+    const card = det.closest('.shop-item-card');
+    const grid = card && card.parentElement;        // .shop-card-grid.event-grid
+    if (!grid) return;
+    requestAnimationFrame(() => {                    // après le toggle natif
+      const top = card.offsetTop;
+      const open = det.open;
+      grid.querySelectorAll('.shop-item-card').forEach(c => {
+        if (c === card) return;
+        if (Math.abs(c.offsetTop - top) < 2) {       // même ligne = même haut
+          const d = c.querySelector('.sic-planning');
+          if (d && d.open !== open) d.open = open;    // pas de click -> pas de cascade
+        }
+      });
+    });
+  });
+}
+
 (async function(){
   await scLoadItems();
   await scLoadClassic();
@@ -435,6 +458,8 @@ function scApplyTranslations(){ if(window.GlobalLang) GlobalLang.applyI18n(i18nS
     },
     links:[{label:{FR:'Ouvrir l\'onglet « Data Item »', EN:'Open the “Data Item” tab'}, action:()=>{ if(typeof scTab==='function') scTab('data'); }}]
   });
+
+  scBindRowSync();
 
   window.addEventListener('langChanged',()=>{ scApplyTranslations(); scRenderCatFilter(); scRenderItems(); scRenderClassic(); scRenderEvents(); });
 })();
