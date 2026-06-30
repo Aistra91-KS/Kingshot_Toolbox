@@ -20,7 +20,11 @@ const i18nShop = {
     tipMaxFin:"Quantité maximale atteignable d'ici la fin de l'événement avec ta monnaie.",
     tipObt:"Ce que tu peux réellement obtenir compte tenu de ta monnaie d'événement.",
     tipCostObt:"Monnaie d'événement nécessaire pour la quantité « Obtenable ».",
-    planDetails:"⚙️ Planification / Détails", del:"Supprimer"
+    planDetails:"⚙️ Planification / Détails", del:"Supprimer",
+    confirmDel:"Supprimer cet objet de la boutique ?",
+    resetEvent:"Réinitialiser",
+    resetEventTip:"Revenir à la version d'origine de la boutique (annule tes modifications)",
+    confirmResetEvent:"Réinitialiser cette boutique à sa version d'origine ? Tes modifications (quantités, coûts, suppressions) seront perdues."
   },
   EN: {
     scTitle:"Shop Calculation", scDesc:"Compare in-shop cost to gem value to spot the best deals.",
@@ -38,7 +42,11 @@ const i18nShop = {
     tipMaxFin:"Max quantity reachable by the event's end with your currency.",
     tipObt:"What you can actually obtain given your event currency.",
     tipCostObt:"Event currency needed for the “Obtainable” quantity.",
-    planDetails:"⚙️ Planning / Details", del:"Remove"
+    planDetails:"⚙️ Planning / Details", del:"Remove",
+    confirmDel:"Remove this item from the shop?",
+    resetEvent:"Reset",
+    resetEventTip:"Restore the shop's original version (discards your changes)",
+    confirmResetEvent:"Reset this shop to its original version? Your changes (quantities, costs, deletions) will be lost."
   }
 };
 function scLang(){ return window.GlobalLang ? GlobalLang.get() : 'FR'; }
@@ -207,6 +215,9 @@ function scRenderShopCard(scope,shop){
     const endTxt = jours>0 ? `${scT('endsIn')} : ${jours} ${scT('days')}` : scT('ended');
     head += `<span style="font-size:12px;color:var(--text-muted);background:var(--control-bg);padding:3px 8px;border-radius:8px;">${endTxt}</span>`;
     head += `<label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-light);">${scEscAttr(scResName(shop,lang))} : <input type="number" min="0" class="table-input" style="width:90px;" value="${Math.max(0,Number(shop.resources)||0)}" onchange="scEditResources('${scope}','${shop.id}',this.value)"></label>`;
+    if ((SC_EVENTS_DEF||[]).some(d=>d.id===shop.id)) {
+      head += `<button class="btn-reset" style="padding:4px 10px;font-size:12px;" onclick="scResetEvent('${shop.id}')" title="${scEscAttr(scT('resetEventTip'))}">↺ ${scT('resetEvent')}</button>`;
+    }
   }
   head += resetBtn;
 
@@ -374,11 +385,12 @@ window.scAddShopItem=function(scope,id,btn){
   shop.items.push({itemId:match.id,qty:Math.max(1,qty),cost:Math.max(0,cost),restant,dailyReset});
   scSaveScope(scope); scRenderScope(scope);
 };
-window.scRemoveShopItem=function(scope,id,index){ const shop=scGetShop(scope,id); if(!shop)return; shop.items.splice(index,1); scSaveScope(scope); scRenderScope(scope); };
+window.scRemoveShopItem=function(scope,id,index){ const shop=scGetShop(scope,id); if(!shop||!shop.items[index])return; showAppConfirm(scT('confirmDel'),()=>{ shop.items.splice(index,1); scSaveScope(scope); scRenderScope(scope); }); };
 window.scEditQty=function(scope,id,index,val){ const s=scGetShop(scope,id); if(!s||!s.items[index])return; s.items[index].qty=Math.max(1,parseInt(val)||1); scSaveScope(scope); scRenderScope(scope); };
 window.scEditCost=function(scope,id,index,val){ const s=scGetShop(scope,id); if(!s||!s.items[index])return; let n=parseFloat(String(val).replace(',','.')); s.items[index].cost=Math.max(0,isNaN(n)?0:n); scSaveScope(scope); scRenderScope(scope); };
 window.scEditRestant=function(scope,id,index,val){ const s=scGetShop(scope,id); if(!s||!s.items[index])return; s.items[index].restant=Math.max(0,parseInt(val)||0); scSaveScope(scope); scRenderScope(scope); };
 window.scEditResources=function(scope,id,val){ const s=scGetShop(scope,id); if(!s)return; let n=parseFloat(String(val).replace(',','.')); s.resources=Math.max(0,isNaN(n)?0:n); scSaveScope(scope); scRenderScope(scope); };
+window.scResetEvent=function(id){ const def=(SC_EVENTS_DEF||[]).find(d=>d.id===id); if(!def)return; showAppConfirm(scT('confirmResetEvent'),()=>{ const idx=SC_EVENTS.findIndex(s=>s.id===id); const fresh=JSON.parse(JSON.stringify(def)); if(idx>=0) SC_EVENTS[idx]=fresh; else SC_EVENTS.push(fresh); scSaveEvents(); scRenderEvents(); }); };
 
 function scRenderClassic(){
   const el=document.getElementById('panel-classic'); if(!el) return;
