@@ -162,6 +162,36 @@ function applyCaserneTranslations(lang) {
     }
 }
 
+function csInitHelp() {
+    if (!window.HelpSystem) return;
+    HelpSystem.init({
+        id: 'caserne', banner: true, anchor: '[data-i18n="pageTitle"]',
+        title: { FR: 'Ma Caserne — Aide', EN: 'My Barracks — Help' },
+        summary: {
+            FR: "Recense tes héros et leur niveau. Ces niveaux servent ensuite automatiquement aux autres outils (Piège à Ours, Vikings) pour calculer la capacité de tes marches et te suggérer les meilleurs héros.",
+            EN: "Records your heroes and their levels. These levels are then used automatically by the other tools (Bear Trap, Vikings) to compute your march capacity and suggest your best heroes."
+        },
+        steps: {
+            FR: [
+                "Utilise la recherche, le tri et les filtres (génération, type, rareté) pour retrouver un héros.",
+                "Clique sur un héros pour ouvrir sa fiche, indique s'il est débloqué et règle son niveau.",
+                "Coche « Uniquement les débloqués » pour ne voir que les héros que tu possèdes.",
+                "Important : les niveaux que tu renseignes ici sont réutilisés par le Piège à Ours et les Vikings — tiens-les à jour pour que ces calculs soient justes."
+            ],
+            EN: [
+                "Use the search, sort and filters (generation, type, rarity) to find a hero.",
+                "Click a hero to open its card, mark whether it's unlocked and set its level.",
+                "Tick “Unlocked only” to see just the heroes you own.",
+                "Important: the levels you set here are reused by the Bear Trap and Vikings tools — keep them up to date so those calculations stay accurate."
+            ]
+        },
+        links: [
+            { label: { FR: '🐻 Piège à Ours', EN: '🐻 Bear Trap' }, href: 'beartrap_calc.html' },
+            { label: { FR: '⚔️ Vikings', EN: '⚔️ Vikings' }, href: 'vikings.html' }
+        ]
+    });
+}
+
 // ==========================================
 // INITIALISATION DE LA PAGE
 // ==========================================
@@ -173,6 +203,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 2. Lancer la traduction immédiate
     initCaserneLanguage();
+
+    // 2b. Aide / onboarding
+    csInitHelp();
 
     // 3. Charger le JSON
     try {
