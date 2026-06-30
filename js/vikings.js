@@ -252,7 +252,7 @@ function applyImport(bt, sel) {
     if (sel.includes('capacity')) {
         setNum('vk-cap', num(bt['cap-base']));
         setNum('vk-animal', num(bt['cap-animal']));
-        document.getElementById('vk-pet').checked = true;
+        document.getElementById('vk-pet').checked = num(bt['cap-animal']) > 0;
     }
     if (sel.includes('marches')) {
         setNum('vk-marches', num(bt['marches-count']));
