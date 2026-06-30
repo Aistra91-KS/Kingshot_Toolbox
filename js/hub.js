@@ -88,6 +88,36 @@ window.addEventListener('langChanged', (e) => {
     });
 });
 
+function hubInitHelp() {
+    if (!window.HelpSystem) return;
+    HelpSystem.init({
+        id: 'hub', banner: true,
+        title: { FR: 'Bienvenue — Aide', EN: 'Welcome — Help' },
+        summary: {
+            FR: "Cette boîte à outils regroupe les calculateurs et planificateurs pour Kingshot. Chaque carte ci-dessous ouvre un outil dédié.",
+            EN: "This toolbox gathers the calculators and planners for Kingshot. Each card below opens a dedicated tool."
+        },
+        steps: {
+            FR: [
+                "Chaque carte ouvre un outil : optimiseur TrueGold, calcul de boutique, recherche, Piège à Ours, Vikings, Caserne, experts…",
+                "Change la langue (FR/EN) et le thème clair/sombre via le menu en haut.",
+                "Tes données sont enregistrées localement dans ton navigateur. Utilise « Sauvegarde globale » pour les exporter ou les importer (nouvel appareil, partage).",
+                "Conseil : commence par « Ma Caserne » pour renseigner tes héros — plusieurs outils (Piège à Ours, Vikings) s'en servent."
+            ],
+            EN: [
+                "Each card opens a tool: TrueGold optimizer, shop calculator, research, Bear Trap, Vikings, Barracks, experts…",
+                "Switch language (FR/EN) and light/dark theme from the top menu.",
+                "Your data is saved locally in your browser. Use “Global backup” to export or import it (new device, sharing).",
+                "Tip: start with “My Barracks” to set up your heroes — several tools (Bear Trap, Vikings) rely on them."
+            ]
+        },
+        links: [
+            { label: { FR: '🛡️ Commencer par Ma Caserne', EN: '🛡️ Start with My Barracks' }, href: 'caserne.html' }
+        ]
+    });
+}
+
 // ============ STARTUP ============
 initLang();
 renderHub();
+hubInitHelp();
