@@ -1935,6 +1935,7 @@ body.drawer-locked { overflow: hidden; }
   width:18px; height:18px; border-radius:50%;
   background:var(--accent); color:#1b1e25; font-weight:800; font-size:12px;
 }
+.hub-header .help-btn { margin: 12px auto 0; display: flex; width: fit-content; }
 
 /* Icône info "i" + tooltip CSS pur (hover / focus clavier) */
 .help-i{
