@@ -1078,11 +1078,42 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     return html;
 }
 
+function tgInitHelp() {
+    if (!window.HelpSystem) return;
+    HelpSystem.init({
+        id: 'truegold', banner: true, anchor: '[data-i18n="myBuildings"]',
+        title: { FR: 'TrueGold — Aide', EN: 'TrueGold — Help' },
+        summary: {
+            FR: "Calcule la stratégie d'amélioration de tes bâtiments TrueGold la plus rentable selon ton objectif : maximiser tes points KVK, monter un maximum de bâtiments, ou atteindre un score précis au meilleur coût.",
+            EN: "Computes the most efficient TrueGold building-upgrade strategy for your goal: maximize KVK points, upgrade as many buildings as possible, or reach a target score at the lowest cost."
+        },
+        steps: {
+            FR: [
+                "Renseigne tes stocks de TrueGold (TG) et TrueGold Corrompu (TTG), et le nombre de transformations déjà utilisées (max 100).",
+                "Indique tes accélérateurs (jours / heures / minutes) et tes bonus de vitesse (Ground, KVK, Double Time, Grey Wolf) — ils réduisent le temps de construction.",
+                "Pour chaque bâtiment, mets son niveau actuel et le niveau cible que tu veux atteindre.",
+                "Choisis le mode : « Max points KVK » (rentabilité maximale en points), « Max bâtiments » (en monter le plus possible), ou « Score cible » (atteindre un score précis au coût le plus bas).",
+                "En mode « Score cible », saisis le score visé : l'outil trouve la combinaison la moins chère (bâtiments + transformations + accélérateurs) pour l'atteindre.",
+                "Lis la « Stratégie » : les bâtiments à améliorer et le total de TG, TTG et accélérateurs nécessaires."
+            ],
+            EN: [
+                "Enter your TrueGold (TG) and Tainted TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
+                "Set your speedups (days / hours / minutes) and your speed bonuses (Ground, KVK, Double Time, Grey Wolf) — they cut build time.",
+                "For each building, set its current level and the target level you want to reach.",
+                "Pick a mode: “Max KVK points” (best points value), “Max buildings” (upgrade as many as possible), or “Target score” (reach a specific score at the lowest cost).",
+                "In “Target score” mode, type the score you aim for: the tool finds the cheapest combination (buildings + transformations + speedups) to reach it.",
+                "Read the “Strategy”: which buildings to upgrade and the total TG, TTG and speedups required."
+            ]
+        }
+    });
+}
+
 // ============ STARTUP ============
 (async function startup() {
     await loadDatabase();
     loadData();
     await loadPanBonus();
     triggerUpdate();
+    tgInitHelp();
     window.addEventListener('langChanged', triggerUpdate);
 })();
