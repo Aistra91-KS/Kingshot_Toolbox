@@ -286,4 +286,38 @@ document.addEventListener('DOMContentLoaded', () => {
     render();
 });
 
-window.addEventListener('langChanged', () => { applyTranslations(); render(); });
+function vkInitHelp() {
+    if (!window.HelpSystem) return;
+    HelpSystem.init({
+        id: 'vikings', banner: true, anchor: '[data-i18n="planTitle"]',
+        title: { FR: 'Vikings — Aide', EN: 'Vikings — Help' },
+        summary: {
+            FR: "Répartit tes troupes sur tes marches pour l'événement Vikings selon ta capacité de marche, et te montre la composition de chaque marche ainsi que ce qui reste en garnison.",
+            EN: "Splits your troops across your marches for the Vikings event based on your march capacity, and shows each march's composition and what stays in the garrison."
+        },
+        steps: {
+            FR: [
+                "Renseigne tes troupes (Infanterie, Cavalerie, Archers) à gauche.",
+                "Indique ta capacité de marche, le bonus animal et active le Pet s'il est utilisé, puis le nombre de marches.",
+                "La répartition se calcule automatiquement : chaque marche est remplie selon l'ordre Infanterie → Cavalerie → Archers, dans la limite de ta capacité.",
+                "Tu peux importer directement tes troupes et ta capacité depuis le Piège à Ours via le bouton « Importer depuis Bear Trap »."
+            ],
+            EN: [
+                "Enter your troops (Infantry, Cavalry, Archers) on the left.",
+                "Set your march capacity, the animal bonus and enable Pet if used, then the number of marches.",
+                "The distribution is computed automatically: each march is filled in Infantry → Cavalry → Archers order, up to your capacity.",
+                "You can import your troops and capacity straight from the Bear Trap via the “Import from Bear Trap” button."
+            ]
+        },
+        links: [
+            { label: { FR: '🐻 Piège à Ours', EN: '🐻 Bear Trap' }, href: 'beartrap_calc.html' },
+            { label: { FR: '🛡️ Ma Caserne', EN: '🛡️ My Barracks' }, href: 'caserne.html' }
+        ]
+    });
+}
+
+window.addEventListener('langChanged', () => { 
+    applyTranslations();
+    render();
+    vkInitHelp();
+});
