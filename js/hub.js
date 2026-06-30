@@ -91,7 +91,7 @@ window.addEventListener('langChanged', (e) => {
 function hubInitHelp() {
     if (!window.HelpSystem) return;
     HelpSystem.init({
-        id: 'hub', banner: true,
+        id: 'hub', banner: true, anchor: '.hub-lang-switch',
         title: { FR: 'Bienvenue — Aide', EN: 'Welcome — Help' },
         summary: {
             FR: "Cette boîte à outils regroupe les calculateurs et planificateurs pour Kingshot. Chaque carte ci-dessous ouvre un outil dédié.",
