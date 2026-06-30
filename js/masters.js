@@ -398,4 +398,28 @@ window.addEventListener('langChanged', () => {
     if (currentMasterId) updateMasterUI();
 });
 
-document.addEventListener('DOMContentLoaded', initMasters);
+function msInitHelp() {
+    if (!window.HelpSystem) return;
+    HelpSystem.init({
+        id: 'masters', banner: true, anchor: '[data-i18n="pageTitle"]',
+        title: { FR: 'Conseil des Experts — Aide', EN: 'Hall of Masters — Help' },
+        summary: {
+            FR: "Gère tes experts : leur niveau de relation et leurs compétences. Parcours le catalogue et ouvre une fiche pour suivre ce que tu as débloqué et la progression de chacun.",
+            EN: "Manage your experts: their relationship level and their skills. Browse the catalog and open a card to track what you have unlocked and each one's progression."
+        },
+        steps: {
+            FR: [
+                "Utilise la recherche et les filtres pour retrouver un expert.",
+                "Clique sur un expert pour ouvrir sa fiche : règle son niveau de relation et ses compétences.",
+                "Coche « Masquer les experts non débloqués » pour ne voir que ceux que tu possèdes."
+            ],
+            EN: [
+                "Use the search and filters to find an expert.",
+                "Click an expert to open its card: set its relationship level and skills.",
+                "Tick “Hide locked experts” to see only the ones you own."
+            ]
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => { initMasters(); msInitHelp(); });
