@@ -371,7 +371,7 @@ function getPanReductionMinutes() {
 }
 
 function updateAllRowCosts() {
-    let speedBonus = parseFloat(document.getElementById('totalVitesseDisplay').textContent) / 100 || 0;
+    let speedBonus = computeTotalVitesse() / 100;
     const lang = GlobalLang.get();
     
     let grandTotalTG = 0;
@@ -441,7 +441,7 @@ function formatMinutesShort(minutes, isEN) {
 }
 
 // ============ BONUS CALCULATION ============
-function getTotalVitesse() {
+function computeTotalVitesse() {
     let base = parseFloat(document.getElementById('baseVitesse').value) || 0;
     let elTransfo = document.getElementById('transfoUtilisees');
     if (elTransfo.value > 100) elTransfo.value = 100;
@@ -454,6 +454,10 @@ function getTotalVitesse() {
     if (document.getElementById('bonusWolfCheck').checked) {
         total += parseFloat(document.getElementById('bonusWolfVal').value) || 0;
     }
+    return total; // en %
+}
+function getTotalVitesse() {
+    const total = computeTotalVitesse();
     document.getElementById('totalVitesseDisplay').textContent = total.toFixed(1) + '%';
     return total / 100;
 }
