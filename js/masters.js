@@ -287,6 +287,10 @@ function updateMasterUI() {
     const eff = computeAffinity(master, modalState.displayLevel, modalState.breakthroughs);
     modalState.relLevel = eff.tierLevel;   // pilote expertise passive + skills (logique existante)
     renderBreakthroughs(master, lang);      // reflète l'état "atteint" selon le niveau
+
+    // Type d'affinité (relation) affiché au-dessus du niveau, selon niveau + paliers
+    const typeEl = document.getElementById('modal-affinity-type');
+    if (typeEl) { const st = getStageObj(eff.tierLevel); typeEl.textContent = st[lang] || st.EN; }
     
     // --- CALCUL COMPÉTENCE PASSIVE ---
     let passiveLvlIndex = -1;
