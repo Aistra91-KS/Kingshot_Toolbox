@@ -17,6 +17,7 @@
         .shop-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
         .shop-panel { display: none; }
         .shop-panel.active { display: block; }
+        .shop-card-grid.chest-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
         .shop-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 15px; }
         .sc-item-img {
             width: 34px; height: 34px; border-radius: 6px;
@@ -42,10 +43,7 @@
         <!-- ===== Placeholders (phases suivantes) ===== -->
         <div id="panel-classic" class="shop-panel active"></div>
         <div id="panel-event" class="shop-panel"></div>
-        <div id="panel-chest" class="shop-panel panel" style="padding: 30px; text-align: center;">
-            <h3 style="color: var(--text-muted);" data-i18n="soon">Bientôt disponible</h3>
-            <p style="color: var(--text-muted);" data-i18n="soonDesc">Cet onglet arrive dans une prochaine étape.</p>
-        </div>
+        <div id="panel-chest" class="shop-panel"></div>
 
         <!-- ===== DATA ITEM ===== -->
         <div id="panel-data" class="shop-panel panel" style="padding: 20px;">
