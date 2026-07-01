@@ -11,6 +11,7 @@ const STORAGE_KEYS = {
     shopcalcItems: 'shopcalc_items',
     shopcalcClassic: 'shopcalc_classic',
     shopcalcEvents: 'shopcalc_events',
+    shopcalcTab:    'shopcalc_tab',
 };
 
 function safeParse(key, fallback) {
