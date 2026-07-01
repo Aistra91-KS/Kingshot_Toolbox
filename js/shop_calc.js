@@ -7,6 +7,7 @@ const i18nShop = {
   FR: {
     scTitle:"Shop Calculation", scDesc:"Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires.",
     tabData:"Data Item", tabClassic:"Shop Classique", tabEvent:"Shop d'Événement", tabChest:"Coffres",
+    bestPick:"Meilleur choix", chestPickHint:"Choisis un seul objet — le plus rentable est mis en avant.", noChest:"Aucun coffre pour le moment.",
     colName:"Nom", colCat:"Catégorie", colGem:"Valeur (gemmes)", resetItems:"Réinitialiser les valeurs",
     allCats:"Toutes les catégories", confirmReset:"Réinitialiser toutes les valeurs en gemmes par défaut ?",
     soon:"Bientôt disponible", soonDesc:"Cet onglet arrive dans une prochaine étape.", count:"objets",
@@ -29,6 +30,7 @@ const i18nShop = {
   EN: {
     scTitle:"Shop Calculation", scDesc:"Compare in-shop cost to gem value to spot the best deals.",
     tabData:"Data Item", tabClassic:"Classic Shop", tabEvent:"Event Shop", tabChest:"Chests",
+    bestPick:"Best pick", chestPickHint:"Pick a single item — the best value is highlighted.", noChest:"No chest yet.",
     colName:"Name", colCat:"Category", colGem:"Value (gems)", resetItems:"Reset values",
     allCats:"All categories", confirmReset:"Reset all gem values to defaults?",
     soon:"Coming soon", soonDesc:"This tab is coming in a next step.", count:"items",
@@ -63,6 +65,7 @@ function scCatColor(c){ return SC_CAT_COLORS[c]||'#6B7280'; }
 let SC_ITEMS=[], SC_DEFAULTS=[];
 let SC_CLASSIC=[], SC_CLASSIC_DEF=[];
 let SC_EVENTS=[], SC_EVENTS_DEF=[];
+let SC_CHESTS=[];
 
 // État de tri d'affichage, par boutique (en mémoire, non persisté).
 // SC_SORT[shopId] = { col:'name'|'qty'|'cost'|'gem'|'ratio', dir:1|-1 } ; absent = ordre de saisie
@@ -152,8 +155,8 @@ function scRenderItems(){
   }).join('');
   const cnt=document.getElementById('item-count'); if(cnt) cnt.textContent=`${rows.length} / ${SC_ITEMS.length} ${scT('count')}`;
 }
-window.scUpdateGem=function(idx,val){ if(!SC_ITEMS[idx])return; let n=parseFloat(String(val).replace(',','.')); SC_ITEMS[idx].gemValue=isNaN(n)?0:n; scSaveItems(); scRenderClassic(); scRenderEvents(); };
-window.scResetItems=function(){ showAppConfirm(scT('confirmReset'),()=>{ SC_ITEMS=SC_DEFAULTS.map(x=>({...x})); SC_ITEMS.forEach(it=>{if(typeof it.name==='string')it.name={EN:it.name,FR:it.name};}); scSaveItems(); scRenderCatFilter(); scRenderItems(); scRenderClassic(); scRenderEvents(); }); };
+window.scUpdateGem=function(idx,val){ if(!SC_ITEMS[idx])return; let n=parseFloat(String(val).replace(',','.')); SC_ITEMS[idx].gemValue=isNaN(n)?0:n; scSaveItems(); scRenderClassic(); scRenderEvents(); scRenderChests(); };
+window.scResetItems=function(){ showAppConfirm(scT('confirmReset'),()=>{ SC_ITEMS=SC_DEFAULTS.map(x=>({...x})); SC_ITEMS.forEach(it=>{if(typeof it.name==='string')it.name={EN:it.name,FR:it.name};}); scSaveItems(); scRenderCatFilter(); scRenderItems(); scRenderClassic(); scRenderEvents(); scRenderChests(); }); };
 
 // ---------- MOTEUR BOUTIQUE (partagé Classique/Événement) ----------
 // Ordre d'affichage = ordre de saisie par défaut. Le tri (SC_SORT) ne réordonne que l'affichage,
@@ -440,13 +443,51 @@ function scBindRowSync() {
   });
 }
 
+async function scLoadChests(){
+  try{ SC_CHESTS = await (await fetch('data/shopcalc_chests.json')).json(); }
+  catch(e){ console.error('chests',e); SC_CHESTS=[]; }
+}
+function scRenderChests(){
+  const panel=document.getElementById('panel-chest'); if(!panel) return;
+  const lang=scLang();
+  if(!SC_CHESTS.length){ panel.innerHTML=`<div class="panel" style="padding:20px;text-align:center;color:var(--text-muted);">${scT('noChest')}</div>`; return; }
+  panel.innerHTML = SC_CHESTS.map(chest=>{
+    const opts=(chest.items||[]).map(ci=>{
+      const it=scItemById(ci.itemId), qty=Number(ci.qty)||0;
+      return { it, itemId:ci.itemId, qty, gem: scGem(ci.itemId)*qty };
+    }).sort((a,b)=>b.gem-a.gem);
+    const best = opts.length ? opts[0].gem : 0;
+    const cards = opts.map(o=>{
+      const cat=o.it?o.it.category:'Other', color=scCatColor(cat), img=o.it?scImg(o.it):'';
+      const name=o.it?scName(o.it,lang):o.itemId, isBest=(o.gem===best && best>0);
+      return `<div class="shop-item-card chest-card${isBest?' is-top':''}" style="--cat:${color};">
+        <div class="sic-visual" style="background:${color}14;">
+          <div class="sic-img" style="background-image:url('img/Item/${img}.png');"></div>
+          <span class="sic-qty">×${o.qty}</span>
+          ${isBest?`<span class="sic-top">${scT('bestPick')}</span>`:''}
+        </div>
+        <div class="sic-name">${scEscAttr(name)}</div>
+        <div class="sic-stats"><span class="sic-gem">💎 ${o.gem.toLocaleString()}</span></div>
+      </div>`;
+    }).join('');
+    return `<div class="panel sc-shop" style="padding:16px;margin-bottom:18px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
+        <strong style="font-size:15px;color:var(--text-light);">${scEscAttr(scName(chest,lang))}</strong>
+        <span style="font-size:12px;color:var(--text-muted);">${scT('chestPickHint')}</span>
+      </div>
+      <div class="shop-card-grid chest-grid">${cards||'<p style="color:var(--text-muted);">—</p>'}</div>
+    </div>`;
+  }).join('');
+}
+
 (async function(){
   await scLoadItems();
   await scLoadClassic();
   await scLoadEvents();
+  await scLoadChests();
   scApplyTranslations();
   scRenderCatFilter(); scRenderItems();
-  scRenderClassic(); scRenderEvents();
+  scRenderClassic(); scRenderEvents(); scRenderChests();
   const s=document.getElementById('item-search'); if(s) s.addEventListener('input',scRenderItems);
   const c=document.getElementById('item-cat-filter'); if(c) c.addEventListener('change',scRenderItems);
   if (window.HelpSystem) HelpSystem.init({
@@ -473,5 +514,5 @@ function scBindRowSync() {
 
   scBindRowSync();
 
-  window.addEventListener('langChanged',()=>{ scApplyTranslations(); scRenderCatFilter(); scRenderItems(); scRenderClassic(); scRenderEvents(); });
+  window.addEventListener('langChanged',()=>{ scApplyTranslations(); scRenderCatFilter(); scRenderItems(); scRenderClassic(); scRenderEvents(); scRenderChests(); });
 })();
