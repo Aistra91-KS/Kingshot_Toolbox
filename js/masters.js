@@ -6,7 +6,10 @@ const i18nMasters = {
     FR: {
         pageTitle: "Conseil des Experts",
         pageDesc: "Gérez le niveau de relation et les compétences de vos experts.",
-        relLevel: "Niveau de Relation (0-100)",
+        relLevel: "Niveau (1-100)",
+        lblBreakthroughs: "Paliers de percée",
+        breakthroughHint: "Coche les paliers dont tu as dépensé les emblèmes.",
+        emblemsLabel: "emblèmes",
         lblPassive: "Expertise Passive",
         lblActive: "Compétences Actives",
         btnCancel: "Annuler",
@@ -25,7 +28,10 @@ const i18nMasters = {
     EN: {
         pageTitle: "Hall of Masters",
         pageDesc: "Manage the relationship level and skills of your experts.",
-        relLevel: "Relationship Level (0-100)",
+        relLevel: "Level (1-100)",
+        lblBreakthroughs: "Breakthroughs",
+        breakthroughHint: "Tick the breakthroughs whose emblems you've spent.",
+        emblemsLabel: "emblems",
         lblPassive: "Passive Expertise",
         lblActive: "Active Skills",
         btnCancel: "Cancel",
@@ -75,10 +81,63 @@ function populateRelSelect(lang, current) {
   ).join('');
 }
 
+// Bonus effectif selon (niveau saisi, paliers débloqués)
+function computeAffinity(master, level, breakthroughs) {
+  const aff = master.affinity;
+  level = Math.max(0, Math.min(100, parseInt(level) || 0));
+  if (!aff || level < 1) return { bonus: 0, tierIndex: 0, tierLevel: 0, blocked: false, blockedGate: null, level: 0 };
+  let tierIndex = 0, blocked = false, blockedGate = null;
+  for (const g of aff.gates) {
+    if (g.level > level) break;
+    if (breakthroughs && breakthroughs[g.level]) { tierIndex++; }
+    else { blocked = true; blockedGate = g; break; }
+  }
+  const bonus = blocked ? blockedGate.lockedBonus : aff.levelBonus[level - 1];
+  const tierLevel = aff.stages[tierIndex] ? aff.stages[tierIndex].min : (tierIndex === 0 ? 1 : 100);
+  return { bonus, tierIndex, tierLevel, blocked, blockedGate, level };
+}
+
+// Cases à cocher des paliers de percée
+function renderBreakthroughs(master, lang) {
+  const box = document.getElementById('modal-breakthroughs');
+  if (!box || !master.affinity) return;
+  const dict = i18nMasters[lang] || i18nMasters.FR;
+  const level = modalState.displayLevel || 0;
+  box.innerHTML = master.affinity.gates.map(g => {
+    const reached = level >= g.level;
+    const on = !!modalState.breakthroughs[g.level];
+    return `<label class="bt-pill ${on ? 'on' : ''} ${reached ? '' : 'unreached'}">
+      <input type="checkbox" ${on ? 'checked' : ''} onchange="toggleBreakthrough(${g.level})">
+      <span class="bt-lvl">${dict.lvlPrefix}${g.level}</span>
+      <span class="bt-emb">${g.emblems} ${dict.emblemsLabel}</span>
+    </label>`;
+  }).join('');
+}
+window.toggleBreakthrough = function(g) {
+  if (modalState.breakthroughs[g]) delete modalState.breakthroughs[g];
+  else modalState.breakthroughs[g] = true;
+  updateMasterUI();
+};
+
 let mastersDB = [];
 let userMasters = safeParse(STORAGE_KEYS.masters, {});
+// Migration : ancien format {relLevel} -> {displayLevel, breakthroughs}
+(function migrateMasters() {
+  let changed = false;
+  for (const id in userMasters) {
+    const u = userMasters[id];
+    if (u && u.breakthroughs === undefined) {
+      const rel = u.relLevel || 0;
+      u.breakthroughs = {};
+      [10,20,30,40,50,60,70,80,90,100].forEach(g => { if (rel >= g) u.breakthroughs[g] = true; });
+      if (u.displayLevel === undefined) u.displayLevel = rel;
+      changed = true;
+    }
+  }
+  if (changed) localStorage.setItem(STORAGE_KEYS.masters, JSON.stringify(userMasters));
+})();
 let currentMasterId = null;
-let modalState = { relLevel: 0, skills: {} };
+let modalState = { displayLevel: 0, breakthroughs: {}, relLevel: 0, skills: {} };
 
 async function initMasters() {
     try {
@@ -119,7 +178,7 @@ function renderMastersGrid() {
     const q = searchEl ? searchEl.value.trim().toLowerCase() : '';
     const sortMode = sortEl ? sortEl.value : 'name';
     const hideLocked = hideLockedEl ? hideLockedEl.checked : false;
-    const relOf = (m) => (userMasters[m.id] && userMasters[m.id].relLevel) || 0;
+    const relOf = (m) => (userMasters[m.id] && userMasters[m.id].displayLevel) || 0;
 
     let list = mastersDB.filter(master => {
         if (hideLocked && relOf(master) === 0) return false;
@@ -138,10 +197,10 @@ function renderMastersGrid() {
     });
 
     list.forEach(master => {
-        const userData = userMasters[master.id] || { relLevel: 0, skills: {} };
-        const stageLevel = snapToStage(userData.relLevel || 0);
-        const displayLevel = (userData.displayLevel !== undefined) ? userData.displayLevel : (userData.relLevel || 0);
-        const isLocked = stageLevel === 0;
+        const userData = userMasters[master.id] || { displayLevel: 0, breakthroughs: {}, skills: {} };
+        const displayLevel = userData.displayLevel || 0;
+        const stageLevel = computeAffinity(master, displayLevel, userData.breakthroughs || {}).tierLevel;
+        const isLocked = displayLevel < 1;
         
         // Nom sécurisé pour le chemin d'image
         const safeImgName = encodeURIComponent(master.name['EN']);
@@ -171,8 +230,9 @@ function openMasterModal(master, userData) {
     currentMasterId = master.id;
     // Copie profonde de l'état
     modalState = {
-        relLevel: snapToStage(userData.relLevel || 0),
         displayLevel: (userData.displayLevel !== undefined ? userData.displayLevel : (userData.relLevel || 0)),
+        breakthroughs: { ...(userData.breakthroughs || {}) },
+        relLevel: 0,
         skills: { ...userData.skills }
     };
 
@@ -187,7 +247,7 @@ function openMasterModal(master, userData) {
     
     const lvlInput = document.getElementById('modal-rel-level');
     if (lvlInput) lvlInput.value = modalState.displayLevel;
-    populateRelSelect(lang, modalState.relLevel);
+    renderBreakthroughs(master, lang);
 
     updateMasterUI();
     
@@ -218,15 +278,15 @@ function updateMasterUI() {
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
     const dict = i18nMasters[lang] || i18nMasters['FR'];
     
-    // Palier (menu) → pilote bonus / expertise / skills
-    const _relSel = document.getElementById('modal-rel-select');
-    if (_relSel) modalState.relLevel = parseInt(_relSel.value) || 0;
-    // Niveau exact (champ) → visuel uniquement, indépendant
+    // Niveau saisi (1-100) + paliers débloqués → pilote tout
     const _lvlInput = document.getElementById('modal-rel-level');
     if (_lvlInput) {
         const v = parseInt(_lvlInput.value);
         modalState.displayLevel = isNaN(v) ? 0 : Math.max(0, Math.min(100, v));
     }
+    const eff = computeAffinity(master, modalState.displayLevel, modalState.breakthroughs);
+    modalState.relLevel = eff.tierLevel;   // pilote expertise passive + skills (logique existante)
+    renderBreakthroughs(master, lang);      // reflète l'état "atteint" selon le niveau
     
     // --- CALCUL COMPÉTENCE PASSIVE ---
     let passiveLvlIndex = -1;
@@ -243,16 +303,23 @@ function updateMasterUI() {
     // --- TEXTE AFFINITÉ (sous le statut) ---
     const affEl = document.getElementById('modal-affinity-text');
     if (affEl) {
-        let affinityIndex = -1;
-        for (let i = 0; i < master.affinityMilestones.length; i++) {
-            if (modalState.relLevel >= master.affinityMilestones[i].level) affinityIndex = i;
-        }
-        if (affinityIndex >= 0 && master.TextToInclude) {
-            const bonus = master.affinityMilestones[affinityIndex].bonus;
-            affEl.innerHTML = injectValue(master.TextToInclude, lang, bonus);
+        if (eff.level >= 1 && master.TextToInclude) {
+            affEl.innerHTML = injectValue(master.TextToInclude, lang, eff.bonus);
             affEl.style.display = 'block';
         } else {
             affEl.style.display = 'none';
+        }
+    }
+    const warnEl = document.getElementById('modal-blocked-warning');
+    if (warnEl) {
+        if (eff.blocked) {
+            const g = eff.blockedGate;
+            warnEl.innerHTML = (lang === 'FR')
+                ? `🔒 Progression bloquée au <strong>niveau ${g.level}</strong> : dépense <strong>${g.emblems}</strong> emblèmes pour débloquer le palier et accéder au bonus supérieur.`
+                : `🔒 Progress blocked at <strong>level ${g.level}</strong>: spend <strong>${g.emblems}</strong> emblems to unlock the breakthrough and reach the higher bonus.`;
+            warnEl.style.display = 'block';
+        } else {
+            warnEl.style.display = 'none';
         }
     }
     
@@ -377,12 +444,12 @@ function saveMasterSettings() {
     if (!currentMasterId) return;
     
     // Si relation est à 0, on considère qu'il est verrouillé/effacé pour la sauvegarde
-    if (modalState.relLevel <= 0 && (modalState.displayLevel || 0) <= 0) {
+    if ((modalState.displayLevel || 0) < 1) {
         delete userMasters[currentMasterId];
     } else {
         userMasters[currentMasterId] = {
-            relLevel: modalState.relLevel,
             displayLevel: modalState.displayLevel || 0,
+            breakthroughs: modalState.breakthroughs || {},
             skills: modalState.skills
         };
     }
