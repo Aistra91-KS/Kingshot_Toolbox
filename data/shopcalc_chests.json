@@ -8,5 +8,19 @@
       { "itemId": "100_enhancement_xp_component", "qty": 20 },
       { "itemId": "mithril", "qty": 1 }
     ]
-  }
+  },
+  {
+    "id": "war_chant_chest",
+    "name": { "EN": "War Chant Custom Chest", "FR": "Coffre personnalisé Chant de Guerre" },
+    "items": [
+      { "itemId": "mythic_general_hero_shard", "qty": 2 },
+      { "itemId": "1h_general_speedup", "qty": 8 },
+      { "itemId": "100_enhancement_xp_component", "qty": 5 },
+      { "itemId": "forgehammers", "qty": 3 },
+      { "itemId": "governor_gear_material_chest", "qty": 3 },
+      { "itemId": "artisan_s_vision", "qty": 6 },
+      { "itemId": "charm_guide", "qty": 4 },
+      { "itemId": "charm_design", "qty": 4 }
+    ]
+  } 
 ]
