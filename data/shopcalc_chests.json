@@ -1,0 +1,12 @@
+[
+  {
+    "id": "boost_chest",
+    "name": { "EN": "Gear Boost Custom Chest", "FR": "Coffre personnalisé de Boost d'Équipement" },
+    "items": [
+      { "itemId": "lucky_hero_gear_chest", "qty": 10 },
+      { "itemId": "forgehammers", "qty": 10 },
+      { "itemId": "100_enhancement_xp_component", "qty": 20 },
+      { "itemId": "mithril", "qty": 1 }
+    ]
+  }
+]
