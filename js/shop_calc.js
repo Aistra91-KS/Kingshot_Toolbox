@@ -418,6 +418,7 @@ function scRenderEvents(){
 window.scTab=function(name){
   document.querySelectorAll('.shop-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
   document.querySelectorAll('.shop-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+name));
+  try{ localStorage.setItem(STORAGE_KEYS.shopcalcTab, name); }catch(e){}
 };
 function scApplyTranslations(){ if(window.GlobalLang) GlobalLang.applyI18n(i18nShop[scLang()]); }
 
@@ -489,6 +490,8 @@ function scRenderChests(){
   scApplyTranslations();
   scRenderCatFilter(); scRenderItems();
   scRenderClassic(); scRenderEvents(); scRenderChests();
+  const _savedTab = localStorage.getItem(STORAGE_KEYS.shopcalcTab);
+  if (_savedTab && ['classic','event','chest','data'].includes(_savedTab)) scTab(_savedTab);
   const s=document.getElementById('item-search'); if(s) s.addEventListener('input',scRenderItems);
   const c=document.getElementById('item-cat-filter'); if(c) c.addEventListener('change',scRenderItems);
   if (window.HelpSystem) HelpSystem.init({
