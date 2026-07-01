@@ -80,6 +80,7 @@ function scItemById(id){ return SC_ITEMS.find(i=>i.id===id); }
 function scGem(id){ const it=scItemById(id); return it?Number(it.gemValue)||0:0; }
 function scShopName(shop,lang){ return (shop.name&&typeof shop.name==='object')?(shop.name[lang]||shop.name.EN):shop.name; }
 function scResName(shop,lang){ const r=shop.resourceName; if(r&&typeof r==='object') return r[lang]||r.EN||r.FR||scT('resDefault'); return r||scT('resDefault'); }
+function scResShort(shop,lang){ const r=shop.resourceShort; if(r&&typeof r==='object') return r[lang]||r.EN||r.FR||scResName(shop,lang); return r||scResName(shop,lang); }
 // Nombre de resets 00h UTC d'ici la fin de l'événement (aujourd'hui inclus).
 function scDaysLeft(endsAt){
   if(!endsAt) return 0;
@@ -236,7 +237,7 @@ function scRenderShopCard(scope,shop){
           ${top?`<span class="sic-top">${scT('best')}</span>`:''}
         </div>
         <div class="sic-name">${scEscAttr(nameTxt)}</div>
-        <div class="sic-cost"><strong>${r.cost.toLocaleString()}</strong> <span class="sic-res">${scEscAttr(scResName(shop,lang))}</span></div>
+        <div class="sic-cost"><strong>${r.cost.toLocaleString()}</strong> <span class="sic-res" title="${scEscAttr(scResName(shop,lang))}">${scEscAttr(scResShort(shop,lang))}</span></div>
         <div class="sic-stats">
           <span class="sic-gem">💎 ${r.gem.toLocaleString()}</span>
           <span class="sic-ratio">×${r.ratio.toFixed(2)}</span>
