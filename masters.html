@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conseil des Experts — Kingshot Toolbox</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+      .bt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; }
+      .bt-pill { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 6px; border: 1px solid var(--border); border-radius: 8px; background: var(--control-bg); cursor: pointer; text-align: center; user-select: none; transition: border-color .15s, background .15s; }
+      .bt-pill input { position: absolute; opacity: 0; pointer-events: none; }
+      .bt-pill:hover { border-color: var(--accent); }
+      .bt-pill.on { border-color: var(--success); background: rgba(78,205,196,0.12); box-shadow: 0 0 0 1px var(--success) inset; }
+      .bt-pill.unreached { opacity: 0.45; }
+      .bt-lvl { font-size: 13px; font-weight: bold; color: var(--accent); }
+      .bt-pill.on .bt-lvl { color: var(--success); }
+      .bt-emb { font-size: 10px; color: var(--text-muted); line-height: 1.2; }
+      @media (max-width: 640px) { .bt-grid { grid-template-columns: repeat(3, 1fr); } }
+    </style>
 </head>
 <body class="has-app-header">
     
@@ -66,10 +78,19 @@
                         <div id="modal-affinity-text" style="font-size: 12px; color: var(--text-muted); margin-top: 6px; display: none;"></div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end;">
-                        <select id="modal-rel-select" onchange="updateMasterUI()" style="background: var(--bg-dark); color: var(--text-light); border: 1px solid var(--accent); padding: 5px 8px; border-radius: 4px; font-weight: bold; font-size: 13px; cursor: pointer; text-align: left;"></select>
                         <input type="number" id="modal-rel-level" min="0" max="100" oninput="updateMasterUI()" onchange="updateMasterUI()" title="Niveau exact (0-100)" style="width: 72px; background: var(--bg-dark); color: var(--text-light); border: 1px solid var(--border); padding: 5px 8px; border-radius: 4px; text-align: center; font-weight: bold; font-size: 13px;">
                     </div>
                 </div>
+
+                <!-- PALIERS DE PERCÉE -->
+                <div class="skills-section" style="margin-bottom: 15px;">
+                    <h4 style="margin: 0 0 6px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="lblBreakthroughs">Paliers de percée</h4>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 10px;" data-i18n="breakthroughHint">Coche les paliers dont tu as dépensé les emblèmes.</div>
+                    <div id="modal-breakthroughs" class="bt-grid"></div>
+                </div>
+
+                <!-- AVERTISSEMENT BLOCAGE -->
+                <div id="modal-blocked-warning" style="margin-bottom: 15px; padding: 12px 15px; background: rgba(231, 76, 92, 0.12); border-left: 4px solid var(--warning); border-radius: 4px; font-size: 13px; color: var(--text-light); display: none;"></div>
 
                 <!-- NOUVEAU : PROCHAIN OBJECTIF -->
                 <div id="modal-next-objective" style="margin-bottom: 25px; padding: 12px 15px; background: rgba(78, 205, 196, 0.1); border-left: 4px solid var(--success); border-radius: 4px; font-size: 13px; color: var(--text-light); display: none;">
