@@ -81,6 +81,16 @@ function populateRelSelect(lang, current) {
   ).join('');
 }
 
+// Aligne les paliers sur le niveau : > niveau impossible, < niveau obligatoire
+function normalizeBreakthroughs(master, level) {
+  if (!master.affinity) return;
+  master.affinity.gates.forEach(g => {
+    if (level > g.level) modalState.breakthroughs[g.level] = true;       // dépassé -> obligatoire
+    else if (level < g.level) delete modalState.breakthroughs[g.level];  // non atteint -> impossible
+    // level === g.level : palier courant, choix de l'utilisateur
+  });
+}
+
 // Bonus effectif selon (niveau saisi, paliers débloqués)
 function computeAffinity(master, level, breakthroughs) {
   const aff = master.affinity;
@@ -104,16 +114,20 @@ function renderBreakthroughs(master, lang) {
   const dict = i18nMasters[lang] || i18nMasters.FR;
   const level = modalState.displayLevel || 0;
   box.innerHTML = master.affinity.gates.map(g => {
-    const reached = level >= g.level;
+    const mandatory = level > g.level;    // déjà dépassé -> forcé
+    const reachable = level >= g.level;    // atteignable
     const on = !!modalState.breakthroughs[g.level];
-    return `<label class="bt-pill ${on ? 'on' : ''} ${reached ? '' : 'unreached'}">
-      <input type="checkbox" ${on ? 'checked' : ''} onchange="toggleBreakthrough(${g.level})">
+    const locked = mandatory || !reachable; // non modifiable
+    return `<label class="bt-pill ${on ? 'on' : ''} ${reachable ? '' : 'unreached'} ${mandatory ? 'forced' : ''}">
+      <input type="checkbox" ${on ? 'checked' : ''} ${locked ? 'disabled' : ''} onchange="toggleBreakthrough(${g.level})">
       <span class="bt-lvl">${dict.lvlPrefix}${g.level}</span>
       <span class="bt-emb">${g.emblems} ${dict.emblemsLabel}</span>
     </label>`;
   }).join('');
 }
 window.toggleBreakthrough = function(g) {
+  const level = modalState.displayLevel || 0;
+  if (level !== g) return;   // seul le palier au niveau exact est modifiable
   if (modalState.breakthroughs[g]) delete modalState.breakthroughs[g];
   else modalState.breakthroughs[g] = true;
   updateMasterUI();
@@ -281,9 +295,13 @@ function updateMasterUI() {
     // Niveau saisi (1-100) + paliers débloqués → pilote tout
     const _lvlInput = document.getElementById('modal-rel-level');
     if (_lvlInput) {
-        const v = parseInt(_lvlInput.value);
-        modalState.displayLevel = isNaN(v) ? 0 : Math.max(0, Math.min(100, v));
+        let v = parseInt(_lvlInput.value);
+        if (isNaN(v)) v = 0;
+        if (v > 100) { v = 100; _lvlInput.value = 100; }   // cap dur à 100
+        if (v < 0)   { v = 0;   _lvlInput.value = 0; }
+        modalState.displayLevel = v;
     }
+    normalizeBreakthroughs(master, modalState.displayLevel);   // aligne paliers/niveau
     const eff = computeAffinity(master, modalState.displayLevel, modalState.breakthroughs);
     modalState.relLevel = eff.tierLevel;   // pilote expertise passive + skills (logique existante)
     renderBreakthroughs(master, lang);      // reflète l'état "atteint" selon le niveau
@@ -475,19 +493,21 @@ function msInitHelp() {
         id: 'masters', banner: true, anchor: '[data-i18n="pageTitle"]',
         title: { FR: 'Conseil des Experts — Aide', EN: 'Hall of Masters — Help' },
         summary: {
-            FR: "Gère tes experts : leur niveau de relation et leurs compétences. Parcours le catalogue et ouvre une fiche pour suivre ce que tu as débloqué et la progression de chacun.",
-            EN: "Manage your experts: their relationship level and their skills. Browse the catalog and open a card to track what you have unlocked and each one's progression."
+            FR: "Gère tes experts et calcule leur bonus d'affinité exact. Saisis le niveau et coche les paliers de percée (les emblèmes dépensés) : l'outil affiche le bonus réel, ta relation et ton expertise passive.",
+            EN: "Manage your experts and get their exact affinity bonus. Enter the level and tick the breakthroughs you've paid (emblems spent): the tool shows the real bonus, your relationship tier and passive expertise."
         },
         steps: {
             FR: [
-                "Utilise la recherche et les filtres pour retrouver un expert.",
-                "Clique sur un expert pour ouvrir sa fiche : règle son niveau de relation et ses compétences.",
-                "Coche « Masquer les experts non débloqués » pour ne voir que ceux que tu possèdes."
+                "Ouvre un expert et saisis son niveau (1-100).",
+                "Coche les paliers de percée dont tu as dépensé les emblèmes. Les paliers déjà dépassés par ton niveau se cochent automatiquement ; celui à ton niveau exact reste à ton choix.",
+                "Le bonus d'affinité exact s'affiche. Si un palier requis n'est pas débloqué, un avertissement indique combien d'emblèmes dépenser (le bonus reste plafonné en attendant).",
+                "Règle ensuite tes compétences ; utilise la recherche, le tri et « Masquer les experts non débloqués » pour naviguer."
             ],
             EN: [
-                "Use the search and filters to find an expert.",
-                "Click an expert to open its card: set its relationship level and skills.",
-                "Tick “Hide locked experts” to see only the ones you own."
+                "Open an expert and enter its level (1-100).",
+                "Tick the breakthroughs whose emblems you've spent. Gates already passed by your level are auto-ticked; the one at your exact level is your choice.",
+                "The exact affinity bonus is shown. If a required breakthrough is missing, a warning tells you how many emblems to spend (the bonus stays capped until then).",
+                "Then set your skills; use search, sorting and “Hide locked experts” to browse."
             ]
         }
     });
