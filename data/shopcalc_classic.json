@@ -101,7 +101,15 @@
         "qty": 1,
         "cost": 150
       }
-    ]
+    ],
+    "resourceName": {
+      "EN": "Arena Token",
+      "FR": "Jetons d'Arène"
+    },
+    "resourceShort": {
+      "EN": "Token",
+      "FR": "Jetons"
+    }
   },
   {
     "id": "alliance_championship",
@@ -170,7 +178,15 @@
         "qty": 1,
         "cost": 3000
       }
-    ]
+    ],
+    "resourceName": {
+      "EN": "Championship Badge",
+      "FR": "Insigne du Championnat"
+    },
+    "resourceShort": {
+      "EN": "Badge",
+      "FR": "Insigne"
+    }
   },
   {
     "id": "swordland",
@@ -259,7 +275,15 @@
         "qty": 1,
         "cost": 75
       }
-    ]
+    ],
+    "resourceName": {
+      "EN": "Relic Coins",
+      "FR": "Pièces de relique"
+    },
+    "resourceShort": {
+      "EN": "Coin",
+      "FR": "Pièce"
+    }
   },
   {
     "id": "kingdom_of_power",
@@ -318,7 +342,15 @@
         "qty": 1,
         "cost": 2
       }
-    ]
+    ],
+    "resourceName": {
+      "EN": "Kingdom Coin",
+      "FR": "Pièce du Royaume"
+    },
+    "resourceShort": {
+      "EN": "Coin",
+      "FR": "Pièce"
+    }
   },
   {
     "id": "tidal_shop",
@@ -407,7 +439,15 @@
         "qty": 1,
         "cost": 250
       }
-    ]
+    ],
+    "resourceName": {
+      "EN": "Tidal Stone",
+      "FR": "Pierre des Marées"
+    },
+    "resourceShort": {
+      "EN": "Stone",
+      "FR": "Pierre"
+    }
   },
   {
     "id": "trial_shop",
@@ -466,6 +506,14 @@
         "qty": 1,
         "cost": 300
       }
-    ]
+    ],
+    "resourceName": {
+      "EN": "Trial Crystal",
+      "FR": "Cristal du défi"
+    },
+    "resourceShort": {
+      "EN": "Crystal",
+      "FR": "Cristal"
+    }
   }
 ]
