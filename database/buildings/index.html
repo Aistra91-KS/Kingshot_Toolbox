@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <base href="/hub-kingshot/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingshot Buildings — Upgrade Costs Database (TrueGold, Resources, Time) | Kingshot Toolbox</title>
+    <meta name="description" content="Kingshot buildings database: full upgrade costs per level (TrueGold, Tainted TrueGold, resources, build time and requirements) for every building.">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      .db-page { max-width: 1000px; margin: 0 auto; padding: 20px 16px 60px; }
+      .db-breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+      .db-breadcrumb a { color: var(--accent); text-decoration: none; }
+      .db-page h1 { color: var(--accent); margin: 0 0 6px; }
+      .db-intro { color: var(--text-muted); font-size: 14px; margin: 0 0 22px; line-height: 1.5; }
+      .db-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 12px; }
+      .db-card { display: flex; flex-direction: column; gap: 4px; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-weight: 600; transition: border-color .15s, transform .1s; }
+      .db-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+      .db-card-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+    </style>
+</head>
+<body class="has-app-header">
+    <div class="db-page">
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <span data-i18n="crumbBuildings">Bâtiments</span></div>
+        <h1 data-i18n="idxTitle">Bâtiments — Coûts d'amélioration</h1>
+        <p class="db-intro" data-i18n="idxIntro">Tous les coûts d'amélioration des bâtiments Kingshot, palier par palier : TrueGold, TrueGold Corrompu, ressources, temps et prérequis. Choisis un bâtiment.</p>
+        <div class="db-grid">
+      <a class="db-card" href="database/buildings/town-center.html" data-en="Town Center" data-fr="Centre-ville">Centre-ville<span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span></a>
+      <a class="db-card" href="database/buildings/embassy.html" data-en="Embassy" data-fr="Ambassade">Ambassade<span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span></a>
+      <a class="db-card" href="database/buildings/command-center.html" data-en="Command Center" data-fr="Base de commandement">Base de commandement<span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span></a>
+      <a class="db-card" href="database/buildings/war-academy.html" data-en="War Academy" data-fr="Académie de Guerre">Académie de Guerre<span class="db-card-sub">46 <span data-i18n="tiers">paliers</span></span></a>
+      <a class="db-card" href="database/buildings/infirmary.html" data-en="Infirmary" data-fr="Infirmerie">Infirmerie<span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span></a>
+      <a class="db-card" href="database/buildings/barracks.html" data-en="Barracks" data-fr="Quartiers">Quartiers<span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span></a>
+      <a class="db-card" href="database/buildings/stable.html" data-en="Stable" data-fr="Ecurie">Ecurie<span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span></a>
+      <a class="db-card" href="database/buildings/range.html" data-en="Range" data-fr="Stand de Tir">Stand de Tir<span class="db-card-sub">51 <span data-i18n="tiers">paliers</span></span></a>
+        </div>
+    </div>
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/header.js"></script>
+    <script>
+    (function(){
+      const dict = {
+        FR: { crumbBuildings:"Bâtiments", idxTitle:"Bâtiments — Coûts d'amélioration", idxIntro:"Tous les coûts d'amélioration des bâtiments Kingshot, palier par palier : TrueGold, TrueGold Corrompu, ressources, temps et prérequis. Choisis un bâtiment.", tiers:"paliers" },
+        EN: { crumbBuildings:"Buildings", idxTitle:"Buildings — Upgrade Costs", idxIntro:"All Kingshot building upgrade costs, level by level: TrueGold, Tainted TrueGold, resources, time and requirements. Pick a building.", tiers:"levels" }
+      };
+      function apply(){
+        const lang=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR';
+        if(window.GlobalLang&&GlobalLang.applyI18n) GlobalLang.applyI18n(dict[lang]||dict.FR);
+        document.querySelectorAll('.db-card[data-en][data-fr]').forEach(el=>{
+          const sub=el.querySelector('.db-card-sub');
+          el.childNodes[0].nodeValue = el.getAttribute('data-'+lang.toLowerCase());
+        });
+        document.documentElement.lang=lang.toLowerCase();
+      }
+      window.addEventListener('langChanged', apply); apply();
+    })();
+    </script>
+</body>
+</html>
