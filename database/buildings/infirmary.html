@@ -27,12 +27,19 @@
       a.db-switch-item:hover { border-color: var(--accent); }
       .db-switch-item.active { border-color: var(--accent); background: rgba(245,184,64,0.15); color: var(--accent); cursor: default; }
       .db-switch.footer { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 18px; }
+      .db-head { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+      .db-hero { width: 84px; height: 84px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 3px 8px rgba(0,0,0,.45)); }
+      .db-head h1 { margin: 0; }
+      @media (max-width: 520px){ .db-hero { width: 60px; height: 60px; } }
     </style>
 </head>
 <body class="has-app-header">
     <div class="db-page">
         <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="database/buildings/index.html" data-i18n="crumbBuildings">Bâtiments</a> / <span id="crumb-name">Infirmerie</span></div>
-        <h1 id="bldg-name" data-en="Infirmary" data-fr="Infirmerie">Infirmerie</h1>
+        <div class="db-head">
+          <img class="db-hero" src="img/buildings/infirmary.webp" alt="Infirmary" onerror="this.remove()">
+          <h1 id="bldg-name" data-en="Infirmary" data-fr="Infirmerie">Infirmerie</h1>
+        </div>
         <p class="db-intro" data-i18n="bldgIntro">Coûts d'amélioration complets par palier : TrueGold, TrueGold Corrompu, ressources et temps de construction.</p>
         <nav class="db-switch " aria-label="Buildings"><a class="db-switch-item" href="database/buildings/town-center.html" data-en="Town Center" data-fr="Centre-ville">Centre-ville</a><a class="db-switch-item" href="database/buildings/embassy.html" data-en="Embassy" data-fr="Ambassade">Ambassade</a><a class="db-switch-item" href="database/buildings/command-center.html" data-en="Command Center" data-fr="Base de commandement">Base de commandement</a><a class="db-switch-item" href="database/buildings/war-academy.html" data-en="War Academy" data-fr="Académie de Guerre">Académie de Guerre</a><span class="db-switch-item active" data-en="Infirmary" data-fr="Infirmerie">Infirmerie</span><a class="db-switch-item" href="database/buildings/barracks.html" data-en="Barracks" data-fr="Quartiers">Quartiers</a><a class="db-switch-item" href="database/buildings/stable.html" data-en="Stable" data-fr="Ecurie">Ecurie</a><a class="db-switch-item" href="database/buildings/range.html" data-en="Range" data-fr="Stand de Tir">Stand de Tir</a></nav>
         <div class="table-container">
