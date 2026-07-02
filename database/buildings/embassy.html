@@ -22,6 +22,11 @@
       table.db-table td.ttg { color: #c58cff; font-weight: 600; }
       table.db-table td.c-lbl { font-weight: 700; color: var(--text-light); }
       table.db-table td.c-req { white-space: normal; color: var(--text-muted); font-size: 12px; min-width: 160px; }
+      .db-switch { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+      .db-switch-item { padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-size: 13px; font-weight: 600; transition: border-color .15s, background .15s; }
+      a.db-switch-item:hover { border-color: var(--accent); }
+      .db-switch-item.active { border-color: var(--accent); background: rgba(245,184,64,0.15); color: var(--accent); cursor: default; }
+      .db-switch.footer { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 18px; }
     </style>
 </head>
 <body class="has-app-header">
@@ -29,6 +34,7 @@
         <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="database/buildings/index.html" data-i18n="crumbBuildings">Bâtiments</a> / <span id="crumb-name">Ambassade</span></div>
         <h1 id="bldg-name" data-en="Embassy" data-fr="Ambassade">Ambassade</h1>
         <p class="db-intro" data-i18n="bldgIntro">Coûts d'amélioration complets par palier : TrueGold, TrueGold Corrompu, ressources et temps de construction.</p>
+        <nav class="db-switch " aria-label="Buildings"><a class="db-switch-item" href="database/buildings/town-center.html" data-en="Town Center" data-fr="Centre-ville">Centre-ville</a><span class="db-switch-item active" data-en="Embassy" data-fr="Ambassade">Ambassade</span><a class="db-switch-item" href="database/buildings/command-center.html" data-en="Command Center" data-fr="Base de commandement">Base de commandement</a><a class="db-switch-item" href="database/buildings/war-academy.html" data-en="War Academy" data-fr="Académie de Guerre">Académie de Guerre</a><a class="db-switch-item" href="database/buildings/infirmary.html" data-en="Infirmary" data-fr="Infirmerie">Infirmerie</a><a class="db-switch-item" href="database/buildings/barracks.html" data-en="Barracks" data-fr="Quartiers">Quartiers</a><a class="db-switch-item" href="database/buildings/stable.html" data-en="Stable" data-fr="Ecurie">Ecurie</a><a class="db-switch-item" href="database/buildings/range.html" data-en="Range" data-fr="Stand de Tir">Stand de Tir</a></nav>
         <div class="table-container">
           <table class="db-table">
             <thead><tr>
@@ -596,6 +602,7 @@
             </tbody>
           </table>
         </div>
+        <nav class="db-switch footer" aria-label="Buildings"><a class="db-switch-item" href="database/buildings/town-center.html" data-en="Town Center" data-fr="Centre-ville">Centre-ville</a><span class="db-switch-item active" data-en="Embassy" data-fr="Ambassade">Ambassade</span><a class="db-switch-item" href="database/buildings/command-center.html" data-en="Command Center" data-fr="Base de commandement">Base de commandement</a><a class="db-switch-item" href="database/buildings/war-academy.html" data-en="War Academy" data-fr="Académie de Guerre">Académie de Guerre</a><a class="db-switch-item" href="database/buildings/infirmary.html" data-en="Infirmary" data-fr="Infirmerie">Infirmerie</a><a class="db-switch-item" href="database/buildings/barracks.html" data-en="Barracks" data-fr="Quartiers">Quartiers</a><a class="db-switch-item" href="database/buildings/stable.html" data-en="Stable" data-fr="Ecurie">Ecurie</a><a class="db-switch-item" href="database/buildings/range.html" data-en="Range" data-fr="Stand de Tir">Stand de Tir</a></nav>
     </div>
 
     <script src="js/site-config.js"></script>
