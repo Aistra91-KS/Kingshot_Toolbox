@@ -13,11 +13,12 @@
       .db-breadcrumb a { color: var(--accent); text-decoration: none; }
       .db-page h1 { color: var(--accent); margin: 0 0 6px; }
       .db-intro { color: var(--text-muted); font-size: 14px; margin: 0 0 22px; line-height: 1.5; }
-      .db-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 12px; }
-      .db-card { display: flex; flex-direction: column; gap: 4px; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-weight: 600; transition: border-color .15s, transform .1s; }
+      .db-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 12px; }
+      .db-card { display: flex; flex-direction: row; align-items: center; gap: 14px; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-weight: 600; transition: border-color .15s, transform .1s; }
       .db-card:hover { border-color: var(--accent); transform: translateY(-1px); }
       .db-card-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; }
-      .db-card-img { width: 64px; height: 64px; object-fit: contain; margin-bottom: 4px; filter: drop-shadow(0 2px 5px rgba(0,0,0,.4)); }
+      .db-card-img { width: 92px; height: 92px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(0,0,0,.45)); }
+      .db-card-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
       .db-card-name { font-weight: 600; }
     </style>
 </head>
@@ -29,43 +30,59 @@
         <div class="db-grid">
       <a class="db-card" href="database/buildings/town-center.html">
         <img class="db-card-img" src="img/buildings/town-center.webp" alt="Town Center" onerror="this.remove()">
-        <span class="db-card-name" data-en="Town Center" data-fr="Centre-ville">Centre-ville</span>
-        <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Town Center" data-fr="Centre-ville">Centre-ville</span>
+          <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        </span>
       </a>
       <a class="db-card" href="database/buildings/embassy.html">
         <img class="db-card-img" src="img/buildings/embassy.webp" alt="Embassy" onerror="this.remove()">
-        <span class="db-card-name" data-en="Embassy" data-fr="Ambassade">Ambassade</span>
-        <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Embassy" data-fr="Ambassade">Ambassade</span>
+          <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        </span>
       </a>
       <a class="db-card" href="database/buildings/command-center.html">
         <img class="db-card-img" src="img/buildings/command-center.webp" alt="Command Center" onerror="this.remove()">
-        <span class="db-card-name" data-en="Command Center" data-fr="Base de commandement">Base de commandement</span>
-        <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Command Center" data-fr="Base de commandement">Base de commandement</span>
+          <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        </span>
       </a>
       <a class="db-card" href="database/buildings/war-academy.html">
         <img class="db-card-img" src="img/buildings/war-academy.webp" alt="War Academy" onerror="this.remove()">
-        <span class="db-card-name" data-en="War Academy" data-fr="Académie de Guerre">Académie de Guerre</span>
-        <span class="db-card-sub">46 <span data-i18n="tiers">paliers</span></span>
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="War Academy" data-fr="Académie de Guerre">Académie de Guerre</span>
+          <span class="db-card-sub">46 <span data-i18n="tiers">paliers</span></span>
+        </span>
       </a>
       <a class="db-card" href="database/buildings/infirmary.html">
         <img class="db-card-img" src="img/buildings/infirmary.webp" alt="Infirmary" onerror="this.remove()">
-        <span class="db-card-name" data-en="Infirmary" data-fr="Infirmerie">Infirmerie</span>
-        <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Infirmary" data-fr="Infirmerie">Infirmerie</span>
+          <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        </span>
       </a>
       <a class="db-card" href="database/buildings/barracks.html">
         <img class="db-card-img" src="img/buildings/barracks.webp" alt="Barracks" onerror="this.remove()">
-        <span class="db-card-name" data-en="Barracks" data-fr="Quartiers">Quartiers</span>
-        <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Barracks" data-fr="Quartiers">Quartiers</span>
+          <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        </span>
       </a>
       <a class="db-card" href="database/buildings/stable.html">
         <img class="db-card-img" src="img/buildings/stable.webp" alt="Stable" onerror="this.remove()">
-        <span class="db-card-name" data-en="Stable" data-fr="Ecurie">Ecurie</span>
-        <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Stable" data-fr="Ecurie">Ecurie</span>
+          <span class="db-card-sub">50 <span data-i18n="tiers">paliers</span></span>
+        </span>
       </a>
       <a class="db-card" href="database/buildings/range.html">
         <img class="db-card-img" src="img/buildings/range.webp" alt="Range" onerror="this.remove()">
-        <span class="db-card-name" data-en="Range" data-fr="Stand de Tir">Stand de Tir</span>
-        <span class="db-card-sub">51 <span data-i18n="tiers">paliers</span></span>
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Range" data-fr="Stand de Tir">Stand de Tir</span>
+          <span class="db-card-sub">51 <span data-i18n="tiers">paliers</span></span>
+        </span>
       </a>
         </div>
     </div>
