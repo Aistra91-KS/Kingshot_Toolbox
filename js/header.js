@@ -23,7 +23,7 @@ function hdrSvg(name, size = 18) {
 }
 
 // --- État global ---
-let HDR_CURRENT_PAGE = (window.location.pathname.split('/').pop() || 'index.html');
+let HDR_CURRENT_PAGE = window.HDR_ACTIVE_HREF || (window.location.pathname.split('/').pop() || 'index.html');
 let HDR_CTX = { gameId: null, catId: null, toolId: null };
 let HDR_SELECTED_CAT = null;
 
