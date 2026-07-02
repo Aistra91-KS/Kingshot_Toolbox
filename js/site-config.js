@@ -49,8 +49,8 @@ const SITE = {
           id: "database",
           name: { EN: "Database", FR: "Base de Données" },
           icon: "database",
-          status: "soon",
-          tools: []
+          status: "active",
+          tools: ["buildings"]
         }
       ]
     },
@@ -82,6 +82,15 @@ const SITE = {
       },
       icon: "coins",
       href: "truegold_calc.html"
+    },
+    buildings: {
+      name: { EN: "Buildings", FR: "Bâtiments" },
+      desc: {
+        EN: "Every building's full upgrade table: TrueGold, Tainted TrueGold, resources, build time and requirements per level.",
+        FR: "Le tableau complet d'amélioration de chaque bâtiment : TrueGold, TrueGold Corrompu, ressources, temps et prérequis par palier."
+      },
+      icon: "building-2",
+      href: "database/buildings/index.html"
     },
     beartrap: {
       name: { EN: "Bear Trap", FR: "Piège à Ours" },
