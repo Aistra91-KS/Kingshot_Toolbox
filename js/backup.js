@@ -11,6 +11,7 @@ const i18nBackup = {
         modResearch: "Recherches (Technologies)",
         modBeartrap: "Piège à Ours (Formations personnalisées & Paramètres)",
         modVikings: "Vikings (Répartition des troupes)",
+        modShopcalc: "Calcul Boutique (valeurs en gemmes)",
         modTrueGold: "TrueGold (Niveaux, Stocks & Paramètres)",
         btnExport: "Exporter (.json)",
         btnImport: "Importer",
@@ -29,6 +30,7 @@ const i18nBackup = {
         modResearch: "Research (Technologies)",
         modBeartrap: "Bear Trap (Custom Formations & Settings)",
         modVikings: "Vikings (Troop Distribution)",
+        modShopcalc: "Shop Calc (gem values)",
         modTrueGold: "TrueGold (Levels, Stocks & Settings)",
         btnExport: "Export (.json)",
         btnImport: "Import",
@@ -48,7 +50,8 @@ const BACKUP_MODULES = [
     { id: 'module-research', labelKey: 'modResearch', keys: [STORAGE_KEYS.researchDb, STORAGE_KEYS.researchInputs] },
     { id: 'module-beartrap', labelKey: 'modBeartrap', keys: [STORAGE_KEYS.beartrap] },
     { id: 'module-truegold', labelKey: 'modTrueGold', keys: [STORAGE_KEYS.truegold] },
-    { id: 'module-vikings',  labelKey: 'modVikings',  keys: [STORAGE_KEYS.vikings] }
+    { id: 'module-vikings',  labelKey: 'modVikings',  keys: [STORAGE_KEYS.vikings] },
+    { id: 'module-shopcalc', labelKey: 'modShopcalc', keys: [STORAGE_KEYS.shopcalcItems] }
 ];
 
 function initBackupSystem() {
@@ -71,7 +74,7 @@ function initBackupSystem() {
     if (sidebar) {
         sidebar.insertAdjacentHTML('beforeend', backupBtnHTML);
     } else {
-        document.body.insertAdjacentHTML('beforeend', `<div style="position: fixed; bottom: 20px; right: 20px; z-index: 9000; width: 250px;">${backupBtnHTML}</div>`);
+        document.body.insertAdjacentHTML('beforeend', `<div class="backup-fab">${backupBtnHTML}</div>`);
     }
 
     // 2. Construction dynamique de la modale HTML
