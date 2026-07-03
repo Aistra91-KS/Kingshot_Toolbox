@@ -7,7 +7,7 @@ const i18nShop = {
   FR: {
     scTitle:"Shop Calculation", scDesc:"Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires.",
     tabData:"Data Item", tabClassic:"Shop Classique", tabEvent:"Shop d'Événement", tabChest:"Coffres",
-    bestPick:"Meilleur choix", chestPickHint:"Choisis un seul objet — le plus rentable est mis en avant.", noChest:"Aucun coffre pour le moment.",
+    bestPick:"Meilleur choix", chestPickHint:"Choisis un seul objet — le plus rentable est mis en avant.", noChest:"Aucun coffre pour le moment.", collapseShop:"Replier / déplier la boutique",
     colName:"Nom", colCat:"Catégorie", colGem:"Valeur (gemmes)", resetItems:"Réinitialiser les valeurs",
     allCats:"Toutes les catégories", confirmReset:"Réinitialiser toutes les valeurs en gemmes par défaut ?",
     soon:"Bientôt disponible", soonDesc:"Cet onglet arrive dans une prochaine étape.", count:"objets",
@@ -30,7 +30,7 @@ const i18nShop = {
   EN: {
     scTitle:"Shop Calculation", scDesc:"Compare in-shop cost to gem value to spot the best deals.",
     tabData:"Data Item", tabClassic:"Classic Shop", tabEvent:"Event Shop", tabChest:"Chests",
-    bestPick:"Best pick", chestPickHint:"Pick a single item — the best value is highlighted.", noChest:"No chest yet.",
+    bestPick:"Best pick", chestPickHint:"Pick a single item — the best value is highlighted.", noChest:"No chest yet.", collapseShop:"Collapse / expand shop",
     colName:"Name", colCat:"Category", colGem:"Value (gems)", resetItems:"Reset values",
     allCats:"All categories", confirmReset:"Reset all gem values to defaults?",
     soon:"Coming soon", soonDesc:"This tab is coming in a next step.", count:"items",
@@ -66,6 +66,7 @@ let SC_ITEMS=[], SC_DEFAULTS=[];
 let SC_CLASSIC=[], SC_CLASSIC_DEF=[];
 let SC_EVENTS=[], SC_EVENTS_DEF=[];
 let SC_CHESTS=[];
+let SC_COLLAPSED = safeParse(STORAGE_KEYS.shopcalcCollapsed, {}) || {};
 
 // État de tri d'affichage, par boutique (en mémoire, non persisté).
 // SC_SORT[shopId] = { col:'name'|'qty'|'cost'|'gem'|'ratio', dir:1|-1 } ; absent = ordre de saisie
@@ -157,6 +158,7 @@ function scRenderItems(){
   const cnt=document.getElementById('item-count'); if(cnt) cnt.textContent=`${rows.length} / ${SC_ITEMS.length} ${scT('count')}`;
 }
 window.scUpdateGem=function(idx,val){ if(!SC_ITEMS[idx])return; let n=parseFloat(String(val).replace(',','.')); SC_ITEMS[idx].gemValue=isNaN(n)?0:n; scSaveItems(); scRenderClassic(); scRenderEvents(); scRenderChests(); };
+window.scToggleCollapse=function(scope,id){ const k=scope+':'+id; if(SC_COLLAPSED[k]) delete SC_COLLAPSED[k]; else SC_COLLAPSED[k]=true; try{ localStorage.setItem(STORAGE_KEYS.shopcalcCollapsed, JSON.stringify(SC_COLLAPSED)); }catch(e){} const el=document.querySelector('.sc-shop[data-shop="'+k+'"]'); if(el){ const c=!!SC_COLLAPSED[k]; el.classList.toggle('collapsed',c); const ch=el.querySelector('.sc-collapse'); if(ch) ch.textContent=c?'\u25B8':'\u25BE'; } };
 window.scResetItems=function(){ showAppConfirm(scT('confirmReset'),()=>{ SC_ITEMS=SC_DEFAULTS.map(x=>({...x})); SC_ITEMS.forEach(it=>{if(typeof it.name==='string')it.name={EN:it.name,FR:it.name};}); scSaveItems(); scRenderCatFilter(); scRenderItems(); scRenderClassic(); scRenderEvents(); scRenderChests(); }); };
 
 // ---------- MOTEUR BOUTIQUE (partagé Classique/Événement) ----------
@@ -214,7 +216,8 @@ function scRenderShopCard(scope,shop){
   const st=SC_SORT[shop.id];
   const resetBtn = st ? `<button class="btn-reset" style="margin-left:auto;padding:4px 10px;font-size:12px;" onclick="scResetSort('${scope}','${shop.id}')">${scT('resetSort')}</button>` : '';
 
-  let head = `<strong style="font-size:16px;color:var(--accent);">${scEscAttr(nm)}</strong>`;
+  const collapsed = !!SC_COLLAPSED[scope+':'+shop.id];
+  let head = `<button class="sc-collapse" onclick="scToggleCollapse('${scope}','${shop.id}')" title="${scEscAttr(scT('collapseShop'))}">${collapsed?'\u25B8':'\u25BE'}</button><strong style="font-size:16px;color:var(--accent);">${scEscAttr(nm)}</strong>`;
   if(planning){
     const endTxt = jours>0 ? `${scT('endsIn')} : ${jours} ${scT('days')}` : scT('ended');
     head += `<span style="font-size:12px;color:var(--text-muted);background:var(--control-bg);padding:3px 8px;border-radius:8px;">${endTxt}</span>`;
@@ -244,7 +247,7 @@ function scRenderShopCard(scope,shop){
         </div>
       </div>`;
     }).join('');
-    return `<div class="panel sc-shop" style="padding:16px;margin-bottom:18px;">
+    return `<div class="panel sc-shop${collapsed?' collapsed':''}" data-shop="${scope}:${shop.id}" style="padding:16px;margin-bottom:18px;">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">${head}</div>
       <div class="shop-card-grid">${cards||'<p style="color:var(--text-muted);">—</p>'}</div>
     </div>`;
@@ -339,14 +342,14 @@ function scRenderShopCard(scope,shop){
         </details>
       </div>`;
     }).join('');
-    return `<div class="panel sc-shop" style="padding:16px;margin-bottom:18px;">
+    return `<div class="panel sc-shop${collapsed?' collapsed':''}" data-shop="${scope}:${shop.id}" style="padding:16px;margin-bottom:18px;">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">${head}</div>
       <div class="shop-card-grid event-grid">${cards||'<p style="color:var(--text-muted);">—</p>'}</div>
       ${addForm}
     </div>`;
   }
 
-  return `<div class="panel sc-shop" style="padding:16px;margin-bottom:18px;">
+  return `<div class="panel sc-shop${collapsed?' collapsed':''}" data-shop="${scope}:${shop.id}" style="padding:16px;margin-bottom:18px;">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">${head}</div>
     <div class="table-container"><table>
       <thead><tr><th></th>
