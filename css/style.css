@@ -2089,3 +2089,16 @@ body.drawer-locked { overflow: hidden; }
   transition:border-color .15s, color .15s;
 }
 .sic-del:hover{ border-color:#e5484d; color:#e5484d; }
+
+
+/* Bouton Sauvegarde Globale : flottant desktop, en bas de page sur mobile */
+.backup-fab { position: fixed; bottom: 20px; right: 20px; z-index: 9000; width: 250px; }
+@media (max-width: 600px) {
+  .backup-fab { position: static; width: auto; margin: 28px 16px 40px; }
+}
+/* Repli d'une boutique (Shop Calc) */
+.sc-collapse { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 15px; line-height: 1; padding: 0 4px 0 0; }
+.sc-collapse:hover { color: var(--accent); }
+.sc-shop.collapsed .shop-card-grid,
+.sc-shop.collapsed table { display: none; }
+.sc-shop.collapsed { padding-bottom: 10px; }
