@@ -969,6 +969,43 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         return `<div style="text-align:center; padding:20px; color:var(--warning);">${tx.err}</div>`;
     }
 
+     // ============ TRIM : minimiser les transformations sans changer le plan ============
+    // Une transformation pouvait être suggérée comme simple artefact du glouton (appauvrir le TG
+    // force un autre chemin). On garde la séquence gagnante à l'identique — donc les mêmes points —
+    // et on ne conserve que le minimum de transformations qui finance encore ce plan.
+    if (meilleurScenario.nbTransfos > 0) {
+        const tgNeeded = meilleurScenario.tgUtilisesAmelio;
+        const ttgNeeded = meilleurScenario.ttgUtiliseesAmelio;
+        const simTransfos = (t) => {
+            let tg = stockTG, ttg = stockTTG, step = transfoUtilisees, cost = 0, gain = 0, ok = true;
+            for (let c = 0; c < t; c++) {
+                const stepVise = step + 1;
+                let cTr = 0, gTr = 0, found = false;
+                for (let j = 0; j < rangeDataTTG.length; j++) {
+                    if (Number(rangeDataTTG[j][TTG_COL.STEP]) === stepVise) {
+                        cTr = Number(rangeDataTTG[j][TTG_COL.COST]); gTr = Number(rangeDataTTG[j][TTG_COL.GAIN]); found = true; break;
+                    }
+                }
+                if (!found || tg < cTr) { ok = false; break; }
+                tg -= cTr; ttg += gTr; cost += cTr; gain += gTr; step++;
+            }
+            return { tgAfter: tg, ttgAfter: ttg, cost, gain, ok };
+        };
+        for (let t = 0; t <= meilleurScenario.nbTransfos; t++) {
+            const sim = simTransfos(t);
+            if (sim.ok && sim.tgAfter >= tgNeeded && sim.ttgAfter >= ttgNeeded) {
+                if (t < meilleurScenario.nbTransfos) {
+                    meilleurScenario.nbTransfos = t;
+                    meilleurScenario.tgInvestiTransfo = sim.cost;
+                    meilleurScenario.ttgObtenu = Math.floor(sim.gain);
+                    meilleurScenario.nouveauStockTG = Math.floor(stockTG - sim.cost);
+                    meilleurScenario.nouveauStockTTG = Math.floor(stockTTG + sim.gain);
+                }
+                break;
+            }
+        }
+    }
+
     // ============ GROUPEMENT DES AMÉLIORATIONS PAR BÂTIMENT ============
     const batimentsGroupes = {};
     for (let i = 0; i < meilleurScenario.ameliorations.length; i++) {
