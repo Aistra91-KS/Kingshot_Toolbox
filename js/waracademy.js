@@ -478,19 +478,16 @@
       return 0;
     });
 
-    // "En cours" : only the LAST non-maxed research, only in KvK/Target when time > speedups.
-    // Classic mode: time is hard constraint, so everything is always completed.
+    // Exactly ONE research can be left unfinished (single in-game research queue):
+    // the optimizer reports it as res.inProgress; every other research is completed.
     const tot = res.totals;
     const availMin = state.accDays * 1440 + state.accHours * 60 + state.accMinutes;
-    const timeExceedsSpeedups = res.mode !== 'classic' && tot.effTimeMin > availMin;
-    const lastNonMaxKey = sorted.length > 0 && !(agg[sorted[sorted.length - 1]].to >= agg[sorted[sorted.length - 1]].maxLevel)
-      ? sorted[sorted.length - 1] : null;
 
     const rowsHtml = sorted.map((k) => {
       const a = agg[k];
       const isMax = a.to >= a.maxLevel;
-      const isLastInProgress = !isMax && k === lastNonMaxKey && timeExceedsSpeedups;
-      const statusHtml = isLastInProgress
+      const isInProgress = (k === res.inProgress);
+      const statusHtml = isInProgress
         ? `<span class="wa-step__status wa-step__status--progress">${t('inProgress')}</span>`
         : `<span class="wa-step__status wa-step__status--done">${t('completed')}</span>`;
       const treeTag = `<span class="wa-step__tree" style="color:${colors[a.treeId]}">${treeLabels[a.treeId]}</span>`;
@@ -534,11 +531,11 @@
     }
 
     // Summary: completed count + in-progress indicator
-    const completedCount = sorted.filter(k => agg[k].to >= agg[k].maxLevel).length;
-    const nonMaxCount = sorted.length - completedCount;
+    const inProgressCount = order.includes(res.inProgress) ? 1 : 0;
+    const completedCount = order.length - inProgressCount;
     const summaryParts = [];
     if (completedCount) summaryParts.push(`<b style="color:var(--success)">${completedCount}</b> ${t('completed')}`);
-    if (nonMaxCount) summaryParts.push(`<b style="color:var(--warning)">${nonMaxCount}</b> ${t('inProgress')}`);
+    if (inProgressCount) summaryParts.push(`<b style="color:var(--warning)">${inProgressCount}</b> ${t('inProgress')}`);
 
     const totalHtml =
       `<div class="wa-out-bilan">
