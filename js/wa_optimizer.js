@@ -3,8 +3,9 @@
 //  Pure logic, NO DOM. Usable in the browser (window.WA_Optimizer)
 //  and in Node (module.exports) for the test harness.
 //
-//  Hard constraint  : Truegold Dust budget (only).
-//  Speedups / time  : informational (reported, never gates selection).
+//  Hard constraint  : Truegold Dust budget (always).
+//  Speedups / time  : hard constraint in Classic mode only;
+//                      informational in KvK and Target modes.
 //
 //  KvK scoring (spec): 1000 pts / dust  +  60 pts / speedup-minute.
 //  Points are computed on the BASE (nominal) dust & time of each level.
@@ -85,6 +86,7 @@
     const enabledTrees  = opts.enabledTrees || null;
     const mode          = opts.mode || 'classic';
     const targetScore   = Math.max(0, Number(opts.targetScore) || 0);
+    const speedupBudget = opts.speedupBudget == null ? Infinity : Math.max(0, Number(opts.speedupBudget) || 0);
 
     const speedFactor = 1 + speedPct / 100;         // time_eff = base / factor
     const costFactor  = 1 - costRedPct / 100;        // dust_eff = ceil(base * factor)
@@ -110,8 +112,12 @@
         if (!lvl) continue;
         const baseDust = lvl.dust || 0;
         const eff = effDustOf(baseDust);
-        // Budget check (hard): skip if this step alone can't be afforded
+                // Budget checks: dust is always hard; time is hard in classic mode only
         if (spentEffDust + eff > dustBudget) continue;
+        if (mode === 'classic') {
+          const effTime = effTimeOf(lvl.time || 0);
+          if (spentEffTime + effTime > speedupBudget) continue;
+        }
         const pri = priority(mode, eff, baseDust, lvl.time || 0);
         if (pri > bestPri) { bestPri = pri; best = { entry, lvl, eff, baseDust }; }
       }
@@ -165,7 +171,10 @@
         kvkPoints: kvkFromDust + kvkFromTime,
         kvkFromDust, kvkFromTime,
       },
-      remaining: { dust: dustBudget === Infinity ? null : Math.max(0, dustBudget - spentEffDust) },
+      remaining: {
+        dust: dustBudget === Infinity ? null : Math.max(0, dustBudget - spentEffDust),
+        time: speedupBudget === Infinity ? null : Math.max(0, speedupBudget - spentEffTime),
+      },
       target: mode === 'target' ? {
         requested: targetScore,
         reached: targetScore > 0 ? (kvkFromDust + kvkFromTime) >= targetScore : null,
