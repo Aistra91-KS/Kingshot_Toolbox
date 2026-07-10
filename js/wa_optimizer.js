@@ -7,6 +7,13 @@
 //  Speedups / time  : hard constraint in Classic mode only;
 //                      informational in KvK and Target modes.
 //
+//  Research queue   : the War Academy researches ONE thing at a time, so the
+//                      plan completes researches sequentially (finishing the one
+//                      in progress before starting another). This guarantees at
+//                      most ONE research is ever left unfinished by resources —
+//                      returned as `inProgress`. Prerequisites are always driven
+//                      to max first, which unlocks every dependent level.
+//
 //  KvK scoring (spec): 1000 pts / dust  +  60 pts / speedup-minute.
 //  Points are computed on the BASE (nominal) dust & time of each level.
 //  Cost/speed bonuses reduce what the PLAYER spends (budget + readout),
@@ -98,61 +105,131 @@
     const steps = [];
     let spentDust = 0, spentEffDust = 0, spentBaseTime = 0, spentEffTime = 0;
     let score = 0; // KvK points accumulated (nominal or effective per flag)
+    let inProgressKey = null; // the single research left unfinished by a resource limit
 
-    // Safety cap: total levels across trees is small (<=264); avoid infinite loops.
+    // Highest level a research can currently reach (WA gate + prereq levels), walking up.
+    function reachable(entry) {
+      let L = entry.level;
+      while (L < entry.res.maxLevel) {
+        const nx = levelObj(entry.res, L + 1);
+        if (!nx || (nx.reqWA || 0) > waLevel) break;
+        let ok = true;
+        for (const dep of (nx.req || [])) {
+          const de = state[key(entry.treeId, dep.r)];
+          if (!de || de.level < dep.lvl) { ok = false; break; }
+        }
+        if (!ok) break;
+        L++;
+      }
+      return L;
+    }
+    // Remaining effective dust & KvK points to drive a research to its reachable ceiling.
+    function remaining(entry) {
+      let dust = 0, pts = 0;
+      const top = reachable(entry);
+      for (let L = entry.level + 1; L <= top; L++) {
+        const lv = levelObj(entry.res, L); if (!lv) break;
+        const bd = lv.dust || 0, bt = lv.time || 0;
+        dust += effDustOf(bd);
+        pts += PTS_PER_DUST * (SCORE_ON_EFFECTIVE ? effDustOf(bd) : bd)
+             + PTS_PER_MIN  * (SCORE_ON_EFFECTIVE ? effTimeOf(bt) : bt);
+      }
+      return { dust, pts };
+    }
+    // Priority for choosing which research to START next (only when none is in progress).
+    function startScore(entry) {
+      const r = remaining(entry);
+      if (mode === 'classic') return -r.dust;             // cheapest to finish first -> most researches
+      return r.pts / Math.max(1, r.dust);                 // kvk & target -> best points per dust
+    }
+    const affordable = (nl) =>
+      spentEffDust + effDustOf(nl.dust || 0) <= dustBudget &&
+      (mode !== 'classic' || spentEffTime + effTimeOf(nl.time || 0) <= speedupBudget);
+
     const HARD_CAP = 100000;
     let iter = 0;
+    let stack = []; // chain of {k, needLevel}; top = research we're currently completing.
+                     // needLevel is set when pushed as a blocker (pop as soon as reached);
+                     // null for the freely-chosen root (pop only when maxed/permanently gated).
+
+    // If `entry`'s next level is gated by an unmet same-tree prereq, return
+    // {key, needLevel} for that prereq (to research it first); otherwise null.
+    function blockingPrereq(entry) {
+      const nl = levelObj(entry.res, entry.level + 1);
+      if (!nl) return null; // maxed
+      for (const dep of (nl.req || [])) {
+        const de = state[key(entry.treeId, dep.r)];
+        if (de && de.level < dep.lvl) return { k: key(entry.treeId, dep.r), needLevel: dep.lvl };
+      }
+      return null;
+    }
 
     while (iter++ < HARD_CAP) {
-      // Build current frontier
-      let best = null, bestPri = -Infinity;
+      // Researches whose NEXT level is unlockable right now (deps + WA ok, not at max).
+      const cands = [];
       for (const k in state) {
-        const entry = state[k];
-        const lvl = nextUnlockable(entry, state, waLevel);
-        if (!lvl) continue;
-        const baseDust = lvl.dust || 0;
-        const eff = effDustOf(baseDust);
-                // Budget checks: dust is always hard; time is hard in classic mode only
-        if (spentEffDust + eff > dustBudget) continue;
-        if (mode === 'classic') {
-          const effTime = effTimeOf(lvl.time || 0);
-          if (spentEffTime + effTime > speedupBudget) continue;
-        }
-        const pri = priority(mode, eff, baseDust, lvl.time || 0);
-        if (pri > bestPri) { bestPri = pri; best = { entry, lvl, eff, baseDust }; }
+        const nl = nextUnlockable(state[k], state, waLevel);
+        if (nl) cands.push({ k, entry: state[k], nl });
+      }
+      if (!cands.length) break; // everything is maxed or gated — nothing more to do
+
+      // KEY RULE: only ONE research chain is ever "in progress". If the current
+      // research is blocked by an unmet same-tree prereq, push that prereq and
+      // work on IT first (exactly like the in-game single research queue) — but
+      // only until it reaches the level actually needed, then resume where we
+      // left off. This guarantees at most ONE research is ever left unfinished.
+      while (stack.length) {
+        const top = stack[stack.length - 1];
+        const topEntry = state[top.k];
+        if (top.needLevel != null && topEntry.level >= top.needLevel) { stack.pop(); continue; } // unblocked its parent
+        if (top.needLevel == null && topEntry.level >= topEntry.res.maxLevel) { stack.pop(); continue; } // root maxed
+        const blocker = blockingPrereq(topEntry);
+        if (blocker && blocker.k !== top.k && !stack.some(s => s.k === blocker.k)) { stack.push(blocker); continue; }
+        break; // top is either unlockable now or genuinely resource-blocked
       }
 
-      if (!best) break; // frontier empty or nothing affordable
+      let chosen;
+      if (stack.length) {
+        const k2 = stack[stack.length - 1].k;
+        chosen = cands.find(c => c.k === k2) || null;
+        if (!chosen) { stack.pop(); continue; } // gated further (e.g. by WA) -> drop and reassess
+      } else {
+        // Nothing in progress: pick a new research to start (prefer already-partial ones).
+        const started = cands.filter(c => c.entry.level > 0);
+        const pool = started.length ? started : cands;
+        pool.sort((a, b) => startScore(b.entry) - startScore(a.entry));
+        chosen = pool[0];
+        stack = [{ k: chosen.k, needLevel: null }];
+      }
 
-      // Commit the pick
-      const { entry, lvl, eff, baseDust } = best;
-      const baseTime = lvl.time || 0;
-      const effTime  = effTimeOf(baseTime);
+      if (!affordable(chosen.nl)) {
+        if (chosen.entry.level > 0) { inProgressKey = chosen.k; break; } // resource-blocked -> stop (the ONE unfinished)
+        const alt = cands.find(c => affordable(c.nl)); // haven't started it -> try a cheaper start
+        if (!alt) break;
+        chosen = alt; stack = [{ k: alt.k, needLevel: null }];
+      }
+
+      // Commit one level of the chosen research.
+      const entry = chosen.entry, lvl = chosen.nl;
+      const baseDust = lvl.dust || 0, baseTime = lvl.time || 0;
+      const eff = effDustOf(baseDust), effTime = effTimeOf(baseTime);
       const scoreDust = SCORE_ON_EFFECTIVE ? eff : baseDust;
       const scoreTime = SCORE_ON_EFFECTIVE ? effTime : baseTime;
-      const stepPts   = PTS_PER_DUST * scoreDust + PTS_PER_MIN * scoreTime;
+      const stepPts = PTS_PER_DUST * scoreDust + PTS_PER_MIN * scoreTime;
 
       entry.level = lvl.level;
-      spentDust     += baseDust;
-      spentEffDust  += eff;
-      spentBaseTime += baseTime;
-      spentEffTime  += effTime;
-      score         += stepPts;
+      spentDust += baseDust; spentEffDust += eff;
+      spentBaseTime += baseTime; spentEffTime += effTime;
+      score += stepPts;
 
       steps.push({
-        treeId: entry.treeId,
-        researchId: entry.res.id,
-        name: entry.res.name,
-        toLevel: lvl.level,
-        fromLevel: lvl.level - 1,
-        maxLevel: entry.res.maxLevel,
-        baseDust, effDust: eff,
-        baseTime, effTime,
-        points: stepPts,
-        buff: lvl.buff || '',
+        treeId: entry.treeId, researchId: entry.res.id, name: entry.res.name,
+        toLevel: lvl.level, fromLevel: lvl.level - 1, maxLevel: entry.res.maxLevel,
+        baseDust, effDust: eff, baseTime, effTime, points: stepPts, buff: lvl.buff || '',
       });
+      // Stack popping (if this level satisfied a `needLevel`, or maxed the root)
+      // is handled at the top of the next iteration's while-loop.
 
-      // Target mode: stop as soon as the target score is reached
       if (mode === 'target' && targetScore > 0 && score >= targetScore) break;
     }
 
@@ -175,6 +252,7 @@
         dust: dustBudget === Infinity ? null : Math.max(0, dustBudget - spentEffDust),
         time: speedupBudget === Infinity ? null : Math.max(0, speedupBudget - spentEffTime),
       },
+      inProgress: inProgressKey, // "treeId.researchId" of the single unfinished research, or null
       target: mode === 'target' ? {
         requested: targetScore,
         reached: targetScore > 0 ? (kvkFromDust + kvkFromTime) >= targetScore : null,
