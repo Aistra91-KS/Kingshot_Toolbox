@@ -1,0 +1,3052 @@
+{
+  "meta": {
+    "generatedFrom": "tools/data-src/war_academy.csv",
+    "generatedAt": "2026-07-10",
+    "warAcademyMaxLevel": 5,
+    "note": "Levels[].req prereqs are same-tree. reqWA is the War Academy TG building level gate."
+  },
+  "scoring": {
+    "pointsPerDust": 1000,
+    "pointsPerSpeedupMinute": 60
+  },
+  "trees": [
+    {
+      "id": "infantry",
+      "name": {
+        "EN": "Infantry",
+        "FR": "Infanterie"
+      },
+      "researches": [
+        {
+          "id": "truegold_battalion",
+          "name": {
+            "EN": "Truegold Battalion",
+            "FR": "Bataillon d'or Véritable"
+          },
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 16,
+              "time": 480,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 2,
+              "dust": 25,
+              "time": 768,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 41,
+              "time": 1248,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 68,
+              "time": 2064,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 108,
+              "time": 3240,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_shields",
+          "name": {
+            "EN": "Truegold Shields",
+            "FR": "Boucliers d'Or Véritable"
+          },
+          "maxLevel": 8,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 40,
+              "time": 1200,
+              "power": 82500,
+              "buff": "+1.50% Infantry Health",
+              "reqWA": 1,
+              "req": [
+                {
+                  "r": "truegold_battalion",
+                  "lvl": 3
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 56,
+              "time": 1680,
+              "power": 74250,
+              "buff": "+1.50% Infantry Health",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 74,
+              "time": 2220,
+              "power": 90750,
+              "buff": "+3.00% Infantry Health",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 102,
+              "time": 3060,
+              "power": 99000,
+              "buff": "+3.00% Infantry Health",
+              "reqWA": 2,
+              "req": [
+                {
+                  "r": "truegold_battalion",
+                  "lvl": 4
+                }
+              ]
+            },
+            {
+              "level": 5,
+              "dust": 136,
+              "time": 4080,
+              "power": 95700,
+              "buff": "+3.00% Infantry Health",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_battalion",
+                  "lvl": 5
+                }
+              ]
+            },
+            {
+              "level": 6,
+              "dust": 184,
+              "time": 5520,
+              "power": 98175,
+              "buff": "+3.00% Infantry Health",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 248,
+              "time": 7440,
+              "power": 122925,
+              "buff": "+5.00% Infantry Health",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 334,
+              "time": 10020,
+              "power": 120450,
+              "buff": "+5.00% Infantry Health",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_blades",
+          "name": {
+            "EN": "Truegold Blades",
+            "FR": "Lames d'Or Véritable"
+          },
+          "maxLevel": 8,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 40,
+              "time": 1200,
+              "power": 82500,
+              "buff": "+1.50% Infantry Lethality",
+              "reqWA": 1,
+              "req": [
+                {
+                  "r": "truegold_battalion",
+                  "lvl": 3
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 56,
+              "time": 1680,
+              "power": 74250,
+              "buff": "+1.50% Infantry Lethality",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 74,
+              "time": 2220,
+              "power": 90750,
+              "buff": "+3.00% Infantry Lethality",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 102,
+              "time": 3060,
+              "power": 99000,
+              "buff": "+3.00% Infantry Lethality",
+              "reqWA": 2,
+              "req": [
+                {
+                  "r": "truegold_battalion",
+                  "lvl": 4
+                }
+              ]
+            },
+            {
+              "level": 5,
+              "dust": 136,
+              "time": 4080,
+              "power": 95700,
+              "buff": "+3.00% Infantry Lethality",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_battalion",
+                  "lvl": 5
+                }
+              ]
+            },
+            {
+              "level": 6,
+              "dust": 184,
+              "time": 5520,
+              "power": 98175,
+              "buff": "+3.00% Infantry Lethality",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 248,
+              "time": 7440,
+              "power": 122925,
+              "buff": "+5.00% Infantry Lethality",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 334,
+              "time": 10020,
+              "power": 120450,
+              "buff": "+5.00% Infantry Lethality",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_legionaries",
+          "name": {
+            "EN": "Truegold Legionaries",
+            "FR": "Legionnaires d'Or Véritable"
+          },
+          "maxLevel": 12,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 83,
+              "time": 1760,
+              "power": 150,
+              "buff": "+1500 Rally Capacity",
+              "reqWA": 4,
+              "req": [
+                {
+                  "r": "truegold_blades",
+                  "lvl": 6
+                },
+                {
+                  "r": "truegold_shields",
+                  "lvl": 6
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 102,
+              "time": 2165,
+              "power": 135,
+              "buff": "+1500 Rally Capacity",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 125,
+              "time": 2640,
+              "power": 175,
+              "buff": "+2000 Rally Capacity",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 150,
+              "time": 3169,
+              "power": 135,
+              "buff": "+2000 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 184,
+              "time": 3873,
+              "power": 1745,
+              "buff": "+2500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 225,
+              "time": 4753,
+              "power": 1425,
+              "buff": "+2500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 276,
+              "time": 5809,
+              "power": 1465,
+              "buff": "+2500 Rally Capacity",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_shields",
+                  "lvl": 7
+                },
+                {
+                  "r": "truegold_blades",
+                  "lvl": 7
+                }
+              ]
+            },
+            {
+              "level": 8,
+              "dust": 334,
+              "time": 7041,
+              "power": 184,
+              "buff": "+3000 Rally Capacity",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_shields",
+                  "lvl": 8
+                },
+                {
+                  "r": "truegold_blades",
+                  "lvl": 8
+                }
+              ]
+            },
+            {
+              "level": 9,
+              "dust": 418,
+              "time": 8801,
+              "power": 1225,
+              "buff": "+3500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 502,
+              "time": 10562,
+              "power": 160,
+              "buff": "+4000 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 11,
+              "dust": 602,
+              "time": 12674,
+              "power": 157,
+              "buff": "+4000 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 12,
+              "dust": 744,
+              "time": 15667,
+              "power": 194,
+              "buff": "+4500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_mauls",
+          "name": {
+            "EN": "Truegold Mauls",
+            "FR": "Merlins d'Or Véritable"
+          },
+          "maxLevel": 12,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 54,
+              "time": 1136,
+              "power": 120,
+              "buff": "+2.00% Infantry Attack",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_blades",
+                  "lvl": 6
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 66,
+              "time": 1397,
+              "power": 108,
+              "buff": "+2.00% Infantry Attack",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 81,
+              "time": 1704,
+              "power": 1032,
+              "buff": "+2.00% Infantry Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 97,
+              "time": 2044,
+              "power": 1023,
+              "buff": "+2.50% Infantry Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 118,
+              "time": 2498,
+              "power": 1011,
+              "buff": "+2.50% Infantry Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 145,
+              "time": 3066,
+              "power": 1038,
+              "buff": "+3.00% Infantry Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 178,
+              "time": 3748,
+              "power": 1062,
+              "buff": "+3.00% Infantry Attack",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_blades",
+                  "lvl": 7
+                }
+              ]
+            },
+            {
+              "level": 8,
+              "dust": 216,
+              "time": 4543,
+              "power": 1074,
+              "buff": "+3.00% Infantry Attack",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_blades",
+                  "lvl": 8
+                }
+              ]
+            },
+            {
+              "level": 9,
+              "dust": 270,
+              "time": 5678,
+              "power": 123,
+              "buff": "+5.00% Infantry Attack",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 324,
+              "time": 6814,
+              "power": 123,
+              "buff": "+5.00% Infantry Attack",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 11,
+              "dust": 388,
+              "time": 8177,
+              "power": 120,
+              "buff": "+5.00% Infantry Attack",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 12,
+              "dust": 480,
+              "time": 10107,
+              "power": 126,
+              "buff": "+5.00% Infantry Attack",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_plating",
+          "name": {
+            "EN": "Truegold Plating",
+            "FR": "Plaque d'Or Véritable"
+          },
+          "maxLevel": 12,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 54,
+              "time": 1136,
+              "power": 120,
+              "buff": "+2.00% Infantry Defense",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_shields",
+                  "lvl": 6
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 66,
+              "time": 1397,
+              "power": 108,
+              "buff": "+2.00% Infantry Defense",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 81,
+              "time": 1704,
+              "power": 1032,
+              "buff": "+2.00% Infantry Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 97,
+              "time": 2044,
+              "power": 1023,
+              "buff": "+2.50% Infantry Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 118,
+              "time": 2498,
+              "power": 1011,
+              "buff": "+2.50% Infantry Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 145,
+              "time": 3066,
+              "power": 1038,
+              "buff": "+3.00% Infantry Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 178,
+              "time": 3748,
+              "power": 1062,
+              "buff": "+3.00% Infantry Defense",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_shields",
+                  "lvl": 7
+                }
+              ]
+            },
+            {
+              "level": 8,
+              "dust": 216,
+              "time": 4543,
+              "power": 1074,
+              "buff": "+3.00% Infantry Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 270,
+              "time": 5678,
+              "power": 123,
+              "buff": "+5.00% Infantry Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 324,
+              "time": 6814,
+              "power": 123,
+              "buff": "+5.00% Infantry Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 11,
+              "dust": 388,
+              "time": 8177,
+              "power": 120,
+              "buff": "+5.00% Infantry Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 12,
+              "dust": 480,
+              "time": 10107,
+              "power": 126,
+              "buff": "+5.00% Infantry Defense",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_infantry",
+          "name": {
+            "EN": "Truegold Infantry",
+            "FR": "Infanterie d'Or Véritable"
+          },
+          "maxLevel": 1,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 2,
+              "time": 131535,
+              "power": 8000000,
+              "buff": "Unlock XI Truegold Infantry",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_mauls",
+                  "lvl": 12
+                },
+                {
+                  "r": "truegold_plating",
+                  "lvl": 12
+                },
+                {
+                  "r": "truegold_legionaries",
+                  "lvl": 12
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "truegold_infantry_healing",
+          "name": {
+            "EN": "Truegold Infantry Healing",
+            "FR": "Soins d'Infanterie d'Or Véritable"
+          },
+          "maxLevel": 10,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 102,
+              "time": 3000,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_infantry",
+                  "lvl": 1
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 137,
+              "time": 4050,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 188,
+              "time": 5550,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 255,
+              "time": 7500,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 341,
+              "time": 10050,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 459,
+              "time": 13500,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 612,
+              "time": 18000,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 836,
+              "time": 24600,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 1,
+              "time": 33000,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 2,
+              "time": 45000,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_infantry_aid",
+          "name": {
+            "EN": "Truegold Infantry Aid",
+            "FR": "Aide d'infanterie Or véritable"
+          },
+          "maxLevel": 10,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 51,
+              "time": 1500,
+              "power": 1725,
+              "buff": "+1.50% Truegold Infantry Healing Time Down",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_infantry",
+                  "lvl": 1
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 68,
+              "time": 2025,
+              "power": 1725,
+              "buff": "+1.50% Truegold Infantry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 94,
+              "time": 2775,
+              "power": 1725,
+              "buff": "+1.50% Truegold Infantry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 127,
+              "time": 3750,
+              "power": 1725,
+              "buff": "+1.50% Truegold Infantry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 170,
+              "time": 5025,
+              "power": 1725,
+              "buff": "+1.50% Truegold Infantry Healing Time Down",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_infantry_aidd",
+                  "lvl": 4
+                }
+              ]
+            },
+            {
+              "level": 6,
+              "dust": 229,
+              "time": 6750,
+              "power": 1725,
+              "buff": "+1.50% Truegold Infantry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 306,
+              "time": 9000,
+              "power": 1725,
+              "buff": "+1.50% Truegold Infantry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 418,
+              "time": 12300,
+              "power": 1725,
+              "buff": "+1.50% Truegold Infantry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 561,
+              "time": 16500,
+              "power": 1725,
+              "buff": "+1.50% Truegold Infantry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 765,
+              "time": 22500,
+              "power": 1725,
+              "buff": "+1.50% Truegold Infantry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_infantry_training",
+          "name": {
+            "EN": "Truegold Infantry Training",
+            "FR": "Entrainement d'Infanterie d'Or Véritable"
+          },
+          "maxLevel": 10,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 102,
+              "time": 3000,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Training Cost Down",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_infantry",
+                  "lvl": 1
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 137,
+              "time": 4050,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 188,
+              "time": 5550,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 255,
+              "time": 7500,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 341,
+              "time": 10050,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 459,
+              "time": 13500,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 612,
+              "time": 18000,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 836,
+              "time": 24600,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 1,
+              "time": 33000,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 2,
+              "time": 45000,
+              "power": 35,
+              "buff": "+5.00% Truegold Infantry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "archer",
+      "name": {
+        "EN": "Archer",
+        "FR": "Archers"
+      },
+      "researches": [
+        {
+          "id": "truegold_battalion",
+          "name": {
+            "EN": "Truegold Battalion",
+            "FR": "Bataillon d'or Véritable"
+          },
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 16,
+              "time": 480,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 2,
+              "dust": 25,
+              "time": 768,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 41,
+              "time": 1248,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 68,
+              "time": 2064,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 108,
+              "time": 3240,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_bracers",
+          "name": {
+            "EN": "Truegold Bracers",
+            "FR": "Brassards d'Or Véritable"
+          },
+          "maxLevel": 8,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 40,
+              "time": 1200,
+              "power": 82500,
+              "buff": "+1.50% Archer Health",
+              "reqWA": 1,
+              "req": [
+                {
+                  "r": "truegold_battalion_archer",
+                  "lvl": 3
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 56,
+              "time": 1680,
+              "power": 74250,
+              "buff": "+1.50% Archer Health",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 74,
+              "time": 2220,
+              "power": 90750,
+              "buff": "+3.00% Archer Health",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 102,
+              "time": 3060,
+              "power": 99000,
+              "buff": "+3.00% Archer Health",
+              "reqWA": 2,
+              "req": [
+                {
+                  "r": "truegold_battalion_archer",
+                  "lvl": 4
+                }
+              ]
+            },
+            {
+              "level": 5,
+              "dust": 136,
+              "time": 4080,
+              "power": 95700,
+              "buff": "+3.00% Archer Health",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_battalion_archer",
+                  "lvl": 5
+                }
+              ]
+            },
+            {
+              "level": 6,
+              "dust": 184,
+              "time": 5520,
+              "power": 98175,
+              "buff": "+3.00% Archer Health",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 248,
+              "time": 7440,
+              "power": 122925,
+              "buff": "+5.00% Archer Health",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 334,
+              "time": 10020,
+              "power": 120450,
+              "buff": "+5.00% Archer Health",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_bows",
+          "name": {
+            "EN": "Truegold Bows",
+            "FR": "Arcs d'Or Véritable"
+          },
+          "maxLevel": 8,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 40,
+              "time": 1200,
+              "power": 82500,
+              "buff": "+1.50% Archer Lethality",
+              "reqWA": 1,
+              "req": [
+                {
+                  "r": "truegold_battalion_archer",
+                  "lvl": 3
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 56,
+              "time": 1680,
+              "power": 74250,
+              "buff": "+1.50% Archer Lethality",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 74,
+              "time": 2220,
+              "power": 90750,
+              "buff": "+3.00% Archer Lethality",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 102,
+              "time": 3060,
+              "power": 99000,
+              "buff": "+3.00% Archer Lethality",
+              "reqWA": 2,
+              "req": [
+                {
+                  "r": "truegold_battalion_archer",
+                  "lvl": 4
+                }
+              ]
+            },
+            {
+              "level": 5,
+              "dust": 136,
+              "time": 4080,
+              "power": 95700,
+              "buff": "+3.00% Archer Lethality",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_battalion_archer",
+                  "lvl": 5
+                }
+              ]
+            },
+            {
+              "level": 6,
+              "dust": 184,
+              "time": 5520,
+              "power": 98175,
+              "buff": "+3.00% Archer Lethality",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 248,
+              "time": 7440,
+              "power": 122925,
+              "buff": "+5.00% Archer Lethality",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 334,
+              "time": 10020,
+              "power": 120450,
+              "buff": "+5.00% Archer Lethality",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_legionaries",
+          "name": {
+            "EN": "Truegold Legionaries",
+            "FR": "Légionnaires d'Or Véritable"
+          },
+          "maxLevel": 12,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 83,
+              "time": 1760,
+              "power": 150000,
+              "buff": "+1500 Rally Capacity",
+              "reqWA": 4,
+              "req": [
+                {
+                  "r": "truegold_bows",
+                  "lvl": 6
+                },
+                {
+                  "r": "truegold_bracers",
+                  "lvl": 6
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 102,
+              "time": 2165,
+              "power": 135000,
+              "buff": "+1500 Rally Capacity",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 125,
+              "time": 2640,
+              "power": 175000,
+              "buff": "+2000 Rally Capacity",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 150,
+              "time": 3169,
+              "power": 135000,
+              "buff": "+2000 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 184,
+              "time": 3873,
+              "power": 174500,
+              "buff": "+2500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 225,
+              "time": 4753,
+              "power": 142500,
+              "buff": "+2500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 276,
+              "time": 5809,
+              "power": 146500,
+              "buff": "+2500 Rally Capacity",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_bracers",
+                  "lvl": 7
+                },
+                {
+                  "r": "truegold_bows",
+                  "lvl": 7
+                }
+              ]
+            },
+            {
+              "level": 8,
+              "dust": 334,
+              "time": 7041,
+              "power": 184000,
+              "buff": "+3000 Rally Capacity",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_bracers",
+                  "lvl": 8
+                },
+                {
+                  "r": "truegold_bows",
+                  "lvl": 8
+                }
+              ]
+            },
+            {
+              "level": 9,
+              "dust": 418,
+              "time": 8801,
+              "power": 122500,
+              "buff": "+3500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 502,
+              "time": 10562,
+              "power": 160000,
+              "buff": "+4000 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 11,
+              "dust": 602,
+              "time": 12674,
+              "power": 157000,
+              "buff": "+4000 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 12,
+              "dust": 744,
+              "time": 15667,
+              "power": 194000,
+              "buff": "+4000 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_arrows",
+          "name": {
+            "EN": "Truegold Arrows",
+            "FR": "Flèches d'Or Véritable"
+          },
+          "maxLevel": 12,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 54,
+              "time": 1136,
+              "power": 120000,
+              "buff": "+2.00% Archer Attack",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_bows",
+                  "lvl": 6
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 66,
+              "time": 1397,
+              "power": 108000,
+              "buff": "+2.00% Archer Attack",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 81,
+              "time": 1704,
+              "power": 103200,
+              "buff": "+2.00% Archer Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 97,
+              "time": 2044,
+              "power": 102300,
+              "buff": "+2.50% Archer Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 118,
+              "time": 2498,
+              "power": 101100,
+              "buff": "+2.50% Archer Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 145,
+              "time": 3066,
+              "power": 103800,
+              "buff": "+3.00% Archer Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 178,
+              "time": 3748,
+              "power": 106200,
+              "buff": "+3.00% Archer Attack",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_bows",
+                  "lvl": 7
+                }
+              ]
+            },
+            {
+              "level": 8,
+              "dust": 216,
+              "time": 4543,
+              "power": 107400,
+              "buff": "+3.00% Archer Attack",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_bows",
+                  "lvl": 8
+                }
+              ]
+            },
+            {
+              "level": 9,
+              "dust": 270,
+              "time": 5678,
+              "power": 123000,
+              "buff": "+5.00% Archer Attack",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 324,
+              "time": 6814,
+              "power": 123000,
+              "buff": "+5.00% Archer Attack",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 11,
+              "dust": 388,
+              "time": 8177,
+              "power": 120000,
+              "buff": "+5.00% Archer Attack",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 12,
+              "dust": 480,
+              "time": 10107,
+              "power": 126000,
+              "buff": "+5.00% Archer Attack",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_vests",
+          "name": {
+            "EN": "Truegold Vests",
+            "FR": "Gilet d'Or Véritable"
+          },
+          "maxLevel": 12,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 54,
+              "time": 1136,
+              "power": 120000,
+              "buff": "+2.00% Archer Defense",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_bracers",
+                  "lvl": 6
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 66,
+              "time": 1397,
+              "power": 108000,
+              "buff": "+2.00% Archer Defense",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 81,
+              "time": 1704,
+              "power": 103200,
+              "buff": "+2.00% Archer Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 97,
+              "time": 2044,
+              "power": 102300,
+              "buff": "+2.50% Archer Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 118,
+              "time": 2498,
+              "power": 101100,
+              "buff": "+2.50% Archer Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 145,
+              "time": 3066,
+              "power": 103800,
+              "buff": "+3.00% Archer Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 178,
+              "time": 3748,
+              "power": 106200,
+              "buff": "+3.00% Archer Defense",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_bracers",
+                  "lvl": 7
+                }
+              ]
+            },
+            {
+              "level": 8,
+              "dust": 216,
+              "time": 4543,
+              "power": 107400,
+              "buff": "+3.00% Archer Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 270,
+              "time": 5678,
+              "power": 123000,
+              "buff": "+5.00% Archer Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 324,
+              "time": 6814,
+              "power": 123000,
+              "buff": "+5.00% Archer Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 11,
+              "dust": 388,
+              "time": 8177,
+              "power": 120000,
+              "buff": "+5.00% Archer Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 12,
+              "dust": 480,
+              "time": 10107,
+              "power": 126000,
+              "buff": "+5.00% Archer Defense",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_archers",
+          "name": {
+            "EN": "Truegold Archers",
+            "FR": "Archers d'Or Véritable"
+          },
+          "maxLevel": 1,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 2236,
+              "time": 131535,
+              "power": 8000000,
+              "buff": "Unlock XI Truegold Archer",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_arrows",
+                  "lvl": 12
+                },
+                {
+                  "r": "truegold_vests",
+                  "lvl": 12
+                },
+                {
+                  "r": "truegold_legionaries_archer",
+                  "lvl": 12
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "truegold_archer_healing",
+          "name": {
+            "EN": "Truegold Archer Healing",
+            "FR": "Soins des Archers d'Or Véritable"
+          },
+          "maxLevel": 10,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 102,
+              "time": 3000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Healing Cost Reduction",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_archer",
+                  "lvl": 1
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 137,
+              "time": 4050,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 188,
+              "time": 5550,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 255,
+              "time": 7500,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 341,
+              "time": 10050,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 459,
+              "time": 13500,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 612,
+              "time": 18000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 836,
+              "time": 24600,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 1122,
+              "time": 33000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 1500,
+              "time": 45000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_archer_aid",
+          "name": {
+            "EN": "Truegold Archer Aid",
+            "FR": "Aide aux Archers d'Or Véritable"
+          },
+          "maxLevel": 10,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 51,
+              "time": 1500,
+              "power": 17250,
+              "buff": "+1.50% Truegold Archer Healing Time Down",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_archer",
+                  "lvl": 1
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 68,
+              "time": 2025,
+              "power": 17250,
+              "buff": "+1.50% Truegold Archer Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 94,
+              "time": 2775,
+              "power": 17250,
+              "buff": "+1.50% Truegold Archer Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 127,
+              "time": 3750,
+              "power": 17250,
+              "buff": "+1.50% Truegold Archer Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 170,
+              "time": 5025,
+              "power": 17250,
+              "buff": "+1.50% Truegold Archer Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 229,
+              "time": 6750,
+              "power": 17250,
+              "buff": "+1.50% Truegold Archer Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 306,
+              "time": 9000,
+              "power": 17250,
+              "buff": "+1.50% Truegold Archer Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 418,
+              "time": 12300,
+              "power": 17250,
+              "buff": "+1.50% Truegold Archer Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 561,
+              "time": 16500,
+              "power": 17250,
+              "buff": "+1.50% Truegold Archer Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 765,
+              "time": 22500,
+              "power": 17250,
+              "buff": "+1.50% Truegold Archer Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_archer_training",
+          "name": {
+            "EN": "Truegold Archer Training",
+            "FR": "Entrainement des Archers d'Or Véritable"
+          },
+          "maxLevel": 10,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 102,
+              "time": 3000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Training Cost Down",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_archer",
+                  "lvl": 1
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 137,
+              "time": 4050,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 188,
+              "time": 5550,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 255,
+              "time": 7500,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 341,
+              "time": 10050,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 459,
+              "time": 13500,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 612,
+              "time": 18000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 836,
+              "time": 24600,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 1122,
+              "time": 33000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 1500,
+              "time": 45000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Archer Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cavalry",
+      "name": {
+        "EN": "Cavalry",
+        "FR": "Cavalerie"
+      },
+      "researches": [
+        {
+          "id": "truegold_battalion",
+          "name": {
+            "EN": "Truegold Battalion",
+            "FR": "Bataillon d'or Véritable"
+          },
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 16,
+              "time": 480,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 2,
+              "dust": 25,
+              "time": 768,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 41,
+              "time": 1248,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 68,
+              "time": 2064,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 108,
+              "time": 3240,
+              "power": 60000,
+              "buff": "+200 Squad Deployment Capacity",
+              "reqWA": 1,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_farriery",
+          "name": {
+            "EN": "Truegold Farriery",
+            "FR": "Maréchal-ferrant d'Or Véritable"
+          },
+          "maxLevel": 8,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 40,
+              "time": 1200,
+              "power": 82500,
+              "buff": "+1.50% Cavalry Health",
+              "reqWA": 1,
+              "req": [
+                {
+                  "r": "truegold_battalion_cavalry",
+                  "lvl": 3
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 56,
+              "time": 1680,
+              "power": 74250,
+              "buff": "+1.50% Cavalry Health",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 74,
+              "time": 2220,
+              "power": 90750,
+              "buff": "+3.00% Cavalry Health",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 102,
+              "time": 3060,
+              "power": 99000,
+              "buff": "+3.00% Cavalry Health",
+              "reqWA": 2,
+              "req": [
+                {
+                  "r": "truegold_battalion_cavalry",
+                  "lvl": 4
+                }
+              ]
+            },
+            {
+              "level": 5,
+              "dust": 136,
+              "time": 4080,
+              "power": 95700,
+              "buff": "+3.00% Cavalry Health",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_battalion_cavalry",
+                  "lvl": 5
+                }
+              ]
+            },
+            {
+              "level": 6,
+              "dust": 184,
+              "time": 5520,
+              "power": 98175,
+              "buff": "+3.00% Cavalry Health",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 248,
+              "time": 7440,
+              "power": 122925,
+              "buff": "+5.00% Cavalry Health",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 334,
+              "time": 10020,
+              "power": 120450,
+              "buff": "+5.00% Cavalry Health",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_charge",
+          "name": {
+            "EN": "Truegold Charge",
+            "FR": "Charge d'Or Véritable"
+          },
+          "maxLevel": 8,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 40,
+              "time": 1200,
+              "power": 82500,
+              "buff": "+1.50% Cavalry Lethality",
+              "reqWA": 1,
+              "req": [
+                {
+                  "r": "truegold_battalion_cavalry",
+                  "lvl": 3
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 56,
+              "time": 1680,
+              "power": 74250,
+              "buff": "+1.50% Cavalry Lethality",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 74,
+              "time": 2220,
+              "power": 90750,
+              "buff": "+3.00% Cavalry Lethality",
+              "reqWA": 2,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 102,
+              "time": 3060,
+              "power": 99000,
+              "buff": "+3.00% Cavalry Lethality",
+              "reqWA": 2,
+              "req": [
+                {
+                  "r": "truegold_battalion_cavalry",
+                  "lvl": 4
+                }
+              ]
+            },
+            {
+              "level": 5,
+              "dust": 136,
+              "time": 4080,
+              "power": 95700,
+              "buff": "+3.00% Cavalry Lethality",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_battalion_cavalry",
+                  "lvl": 5
+                }
+              ]
+            },
+            {
+              "level": 6,
+              "dust": 184,
+              "time": 5520,
+              "power": 98175,
+              "buff": "+3.00% Cavalry Lethality",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 248,
+              "time": 7440,
+              "power": 122925,
+              "buff": "+5.00% Cavalry Lethality",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 334,
+              "time": 10020,
+              "power": 120450,
+              "buff": "+5.00% Cavalry Lethality",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_legionaries",
+          "name": {
+            "EN": "Truegold Legionaries",
+            "FR": "Légionnaires d'Or Véritable"
+          },
+          "maxLevel": 12,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 83,
+              "time": 1760,
+              "power": 150000,
+              "buff": "+1500 Rally Capacity",
+              "reqWA": 4,
+              "req": [
+                {
+                  "r": "truegold_charge",
+                  "lvl": 6
+                },
+                {
+                  "r": "truegold_farriery",
+                  "lvl": 6
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 102,
+              "time": 2165,
+              "power": 135000,
+              "buff": "+1500 Rally Capacity",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 125,
+              "time": 2640,
+              "power": 175000,
+              "buff": "+2000 Rally Capacity",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 150,
+              "time": 3169,
+              "power": 135000,
+              "buff": "+2000 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 184,
+              "time": 3873,
+              "power": 174500,
+              "buff": "+2500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 225,
+              "time": 4753,
+              "power": 142500,
+              "buff": "+2500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 276,
+              "time": 5809,
+              "power": 146500,
+              "buff": "+2500 Rally Capacity",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_farriery",
+                  "lvl": 7
+                },
+                {
+                  "r": "truegold_charge",
+                  "lvl": 7
+                }
+              ]
+            },
+            {
+              "level": 8,
+              "dust": 334,
+              "time": 7041,
+              "power": 184000,
+              "buff": "+3000 Rally Capacity",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_farriery",
+                  "lvl": 8
+                },
+                {
+                  "r": "truegold_charge",
+                  "lvl": 8
+                }
+              ]
+            },
+            {
+              "level": 9,
+              "dust": 418,
+              "time": 8801,
+              "power": 122500,
+              "buff": "+3500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 502,
+              "time": 10562,
+              "power": 160000,
+              "buff": "+4000 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 11,
+              "dust": 602,
+              "time": 12674,
+              "power": 157000,
+              "buff": "+4000 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 12,
+              "dust": 744,
+              "time": 15667,
+              "power": 194000,
+              "buff": "+4500 Rally Capacity",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_lances",
+          "name": {
+            "EN": "Truegold Lances",
+            "FR": "Lances d'Or Véritable"
+          },
+          "maxLevel": 12,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 54,
+              "time": 1136,
+              "power": 120000,
+              "buff": "+2.00% Cavalry Attack",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_charge",
+                  "lvl": 6
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 66,
+              "time": 1397,
+              "power": 108000,
+              "buff": "+2.00% Cavalry Attack",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 81,
+              "time": 1704,
+              "power": 103200,
+              "buff": "+2.00% Cavalry Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 97,
+              "time": 2044,
+              "power": 102300,
+              "buff": "+2.50% Cavalry Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 118,
+              "time": 2498,
+              "power": 101100,
+              "buff": "+2.50% Cavalry Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 145,
+              "time": 3066,
+              "power": 103800,
+              "buff": "+3.00% Cavalry Attack",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 178,
+              "time": 3748,
+              "power": 106200,
+              "buff": "+3.00% Cavalry Attack",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_charge",
+                  "lvl": 7
+                }
+              ]
+            },
+            {
+              "level": 8,
+              "dust": 216,
+              "time": 4543,
+              "power": 107400,
+              "buff": "+3.00% Cavalry Attack",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_charge",
+                  "lvl": 8
+                }
+              ]
+            },
+            {
+              "level": 9,
+              "dust": 270,
+              "time": 5678,
+              "power": 123000,
+              "buff": "+5.00% Cavalry Attack",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 324,
+              "time": 6814,
+              "power": 123000,
+              "buff": "+5.00% Cavalry Attack",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 11,
+              "dust": 388,
+              "time": 8177,
+              "power": 120000,
+              "buff": "+5.00% Cavalry Attack",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 12,
+              "dust": 480,
+              "time": 10107,
+              "power": 126000,
+              "buff": "+5.00% Cavalry Attack",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_platecraft",
+          "name": {
+            "EN": "Truegold Platecraft",
+            "FR": "Armure d'Or Véritable"
+          },
+          "maxLevel": 12,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 54,
+              "time": 1136,
+              "power": 120000,
+              "buff": "+2.00% Cavalry Defense",
+              "reqWA": 3,
+              "req": [
+                {
+                  "r": "truegold_farriery",
+                  "lvl": 6
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 66,
+              "time": 1397,
+              "power": 108000,
+              "buff": "+2.00% Cavalry Defense",
+              "reqWA": 3,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 81,
+              "time": 1704,
+              "power": 103200,
+              "buff": "+2.00% Cavalry Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 97,
+              "time": 2044,
+              "power": 102300,
+              "buff": "+2.50% Cavalry Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 118,
+              "time": 2498,
+              "power": 101100,
+              "buff": "+2.50% Cavalry Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 145,
+              "time": 3066,
+              "power": 103800,
+              "buff": "+3.00% Cavalry Defense",
+              "reqWA": 4,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 178,
+              "time": 3748,
+              "power": 106200,
+              "buff": "+3.00% Cavalry Defense",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_farriery",
+                  "lvl": 7
+                }
+              ]
+            },
+            {
+              "level": 8,
+              "dust": 216,
+              "time": 4543,
+              "power": 107400,
+              "buff": "+3.00% Cavalry Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 270,
+              "time": 5678,
+              "power": 123000,
+              "buff": "+5.00% Cavalry Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 324,
+              "time": 6814,
+              "power": 123000,
+              "buff": "+5.00% Cavalry Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 11,
+              "dust": 388,
+              "time": 8177,
+              "power": 120000,
+              "buff": "+5.00% Cavalry Defense",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 12,
+              "dust": 480,
+              "time": 10107,
+              "power": 126000,
+              "buff": "+5.00% Cavalry Defense",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_cavalry",
+          "name": {
+            "EN": "Truegold Cavalry",
+            "FR": "Cavalerie D'or Véritable"
+          },
+          "maxLevel": 1,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 2336,
+              "time": 131535,
+              "power": 8000000,
+              "buff": "Unlock XI Truegold Cavalry",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_lances",
+                  "lvl": 12
+                },
+                {
+                  "r": "truegold_platecraft",
+                  "lvl": 12
+                },
+                {
+                  "r": "truegold_legionaries_cavalry",
+                  "lvl": 12
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "truegold_cavalry_healing",
+          "name": {
+            "EN": "Truegold Cavalry Healing",
+            "FR": "Soins de Cavalerie d'Or Véritable"
+          },
+          "maxLevel": 10,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 102,
+              "time": 3000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_cavalry",
+                  "lvl": 1
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 137,
+              "time": 4050,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 188,
+              "time": 5550,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 255,
+              "time": 7500,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 341,
+              "time": 10050,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 459,
+              "time": 13500,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 612,
+              "time": 18000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 836,
+              "time": 24600,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 1112,
+              "time": 33000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 1500,
+              "time": 45000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Healing Cost Reduction",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_cavalry_aid",
+          "name": {
+            "EN": "Truegold Cavalry Aid",
+            "FR": "Aide à la Cavalerie d'Or Véritable"
+          },
+          "maxLevel": 10,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 51,
+              "time": 1500,
+              "power": 17250,
+              "buff": "+1.50% Truegold Cavalry Healing Time Down",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_cavalry",
+                  "lvl": 1
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 68,
+              "time": 2025,
+              "power": 17250,
+              "buff": "+1.50% Truegold Cavalry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 94,
+              "time": 2775,
+              "power": 17250,
+              "buff": "+1.50% Truegold Cavalry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 127,
+              "time": 3750,
+              "power": 17250,
+              "buff": "+1.50% Truegold Cavalry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 170,
+              "time": 5025,
+              "power": 17250,
+              "buff": "+1.50% Truegold Cavalry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 229,
+              "time": 6750,
+              "power": 17250,
+              "buff": "+1.50% Truegold Cavalry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 306,
+              "time": 9000,
+              "power": 17250,
+              "buff": "+1.50% Truegold Cavalry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 418,
+              "time": 12300,
+              "power": 17250,
+              "buff": "+1.50% Truegold Cavalry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 561,
+              "time": 16500,
+              "power": 17250,
+              "buff": "+1.50% Truegold Cavalry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 765,
+              "time": 22500,
+              "power": 17250,
+              "buff": "+1.50% Truegold Cavalry Healing Time Down",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        },
+        {
+          "id": "truegold_cavalry_training",
+          "name": {
+            "EN": "Truegold Cavalry Training",
+            "FR": "Entrainement de la Cavalerie d'Or Véritable"
+          },
+          "maxLevel": 10,
+          "levels": [
+            {
+              "level": 1,
+              "dust": 102,
+              "time": 3000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Training Cost Down",
+              "reqWA": 5,
+              "req": [
+                {
+                  "r": "truegold_cavalry",
+                  "lvl": 1
+                }
+              ]
+            },
+            {
+              "level": 2,
+              "dust": 137,
+              "time": 4050,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 3,
+              "dust": 188,
+              "time": 5550,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 4,
+              "dust": 255,
+              "time": 7500,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 5,
+              "dust": 341,
+              "time": 10050,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 6,
+              "dust": 459,
+              "time": 13500,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 7,
+              "dust": 612,
+              "time": 18000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 8,
+              "dust": 836,
+              "time": 24600,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 9,
+              "dust": 1122,
+              "time": 33000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            },
+            {
+              "level": 10,
+              "dust": 1500,
+              "time": 45000,
+              "power": 35000,
+              "buff": "+5.00% Truegold Cavalry Training Cost Down",
+              "reqWA": 5,
+              "req": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
