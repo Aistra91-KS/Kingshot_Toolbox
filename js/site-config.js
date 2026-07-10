@@ -29,7 +29,7 @@ const SITE = {
           name: { EN: "KVK Guide", FR: "Guide KVK" },
           icon: "book-open",
           status: "active",
-          tools: ["research", "truegold"]
+          tools: ["research", "truegold", "waracademy"]
         },
         {
           id: "event-optimizer",
@@ -82,6 +82,15 @@ const SITE = {
       },
       icon: "coins",
       href: "truegold_calc.html"
+    },
+    waracademy: {
+      name: { EN: "War Academy", FR: "Académie de Guerre" },
+      desc: {
+        EN: "Plan your TrueGold troop research. Suggests the optimal path to maximize researches, KvK points, or hit a target score.",
+        FR: "Planifiez vos recherches de troupes TrueGold. Suggère le chemin optimal pour maximiser les recherches, les points KvK, ou viser un score précis."
+      },
+      icon: "shield",
+      href: "waracademy.html"
     },
     buildings: {
       name: { EN: "Buildings", FR: "Bâtiments" },
