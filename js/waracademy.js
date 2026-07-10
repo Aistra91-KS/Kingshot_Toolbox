@@ -30,6 +30,12 @@
       reached: '✅ Target reached', notReached: '⚠️ Target not reached with this dust — max:',
       lvls: 'lvls', empty: 'No research available. Raise your War Academy level, set your current levels, or add dust.',
       dbErr: '⚠️ Could not load the research database (data/truegold_war_db.json).',
+      plan: 'Research Plan:', completed: '(Completed)', inProgress: '(In progress)',
+      costLabel: 'Cost:', dustUnit: 'dust', buffLabel: 'Buff:',
+      timeMgt: 'Time Management:', totalTime: 'Total time:', speedupsAvail: 'Speedups available:',
+      bilan: 'KvK Breakdown:', dustUsed: ' dust = ', accelUsed: ' speedup min = ',
+      pts: ' KvK points', totalMax: 'Total:',
+      modesFilters: 'Modes & Filters',
       helpTitle: 'War Academy — Help',
       helpSummary: "Plans the optimal TrueGold research path for your goal: complete as many researches as possible, maximize KvK points, or reach a target score for the least dust.",
     },
@@ -51,6 +57,12 @@
       cFromDust: 'poussières', cFromTime: 'temps',
       reached: '✅ Score cible atteint', notReached: '⚠️ Cible non atteinte avec ces poussières — max :',
       lvls: 'niv.', empty: "Aucune recherche disponible. Monte ton niveau d'Académie de Guerre, renseigne tes niveaux, ou ajoute des poussières.",
+      plan: 'Plan de Recherche :', completed: '(Terminé)', inProgress: '(En cours)',
+      costLabel: 'Coût :', dustUnit: 'pouss.', buffLabel: 'Bonus :',
+      timeMgt: 'Gestion du Temps :', totalTime: 'Temps total :', speedupsAvail: 'Accélérateurs disponibles :',
+      bilan: 'Bilan KvK :', dustUsed: ' pouss. = ', accelUsed: ' min d\'accél. = ',
+      pts: ' points KvK', totalMax: 'Total :',
+      modesFilters: 'Modes & Filtres',
       dbErr: '⚠️ Impossible de charger la base de recherche (data/truegold_war_db.json).',
       helpTitle: 'Académie de Guerre — Aide',
       helpSummary: "Calcule le chemin de recherche TrueGold optimal selon ton objectif : valider un maximum de recherches, maximiser les points KvK, ou atteindre un score cible au moindre coût en poussières.",
@@ -421,58 +433,92 @@
   function renderOutput(res) {
     const box = document.getElementById('wa-output');
     const heads = { classic: t('headClassic'), kvk: t('headKvk'), target: t('headTarget') };
+
     if (!res.steps.length) {
-      box.innerHTML = `<div class="wa-out-head">${heads[res.mode]}</div>
-        <div class="wa-empty">${t('empty')}</div>`;
+      box.innerHTML = `<div class="wa-empty">${t('empty')}</div>`;
       return;
     }
 
-    // Aggregate per research, keep first-appearance order (priority hint)
+    // Aggregate per research (same logic as before)
     const agg = {}; const order = [];
     res.steps.forEach(s => {
       const k = rkey(s.treeId, s.researchId);
-      if (!agg[k]) { agg[k] = { treeId: s.treeId, name: s.name, from: s.fromLevel, to: s.toLevel, dust: 0, time: 0, n: 0 }; order.push(k); }
+      if (!agg[k]) { agg[k] = { treeId: s.treeId, name: s.name, maxLevel: s.maxLevel, from: s.fromLevel, to: s.toLevel, dust: 0, time: 0, n: 0, points: 0 }; order.push(k); }
       const a = agg[k];
       a.from = Math.min(a.from, s.fromLevel); a.to = Math.max(a.to, s.toLevel);
-      a.dust += s.effDust; a.time += s.effTime; a.n += 1;
+      a.dust += s.effDust; a.time += s.effTime; a.n += s.n + 1; a.points += s.points;
     });
 
     const colors = { infantry: '#54c66a', archer: '#ef5a4c', cavalry: '#4d9be6' };
-    const rowsHtml = order.map((k, i) => {
-      const a = agg[k];
-      return `<div class="wa-step" style="--step-color:${colors[a.treeId]}">
-        <span class="wa-step__idx">${i + 1}</span>
-        <span class="wa-step__name">${nm(a.name)} <small>Lv.${a.from} → ${a.to} · ${a.n} ${t('lvls')}</small></span>
-        <span class="wa-step__cost"><b>${fmtNum(a.dust)}</b> · ${fmtTime(a.time)}</span>
-      </div>`;
-    }).join('');
-
+    const c_or = '#f5b840';
+    const c_ok = '#4ecdc4';
+    const c_warn = '#e74c5c';
     const tot = res.totals;
     const availMin = state.accDays * 1440 + state.accHours * 60 + state.accMinutes;
     const diff = availMin - tot.effTimeMin;
-    const speedChip = diff >= 0
-      ? `<span class="wa-chip wa-chip-ok">${t('cSpeedHave')}: ${fmtTime(availMin)} — <b>${fmtTime(diff)} ${t('cSpare')}</b></span>`
-      : `<span class="wa-chip wa-chip-warn">${t('cSpeedHave')}: ${fmtTime(availMin)} — <b>${t('cMissing')} ${fmtTime(-diff)}</b></span>`;
 
-    let chips =
-      `<span class="wa-chip"><b>${order.length}</b> ${t('cResearch')} · <b>${tot.count}</b> ${t('cLevels')}</span>` +
-      `<span class="wa-chip">${t('cDust')}: <b>${fmtNum(tot.effDust)}</b>${res.remaining.dust != null ? ` / ${fmtNum(state.dustBudget)} (${fmtNum(res.remaining.dust)} ${t('cReste')})` : ''}</span>` +
-      `<span class="wa-chip">${t('cTime')}: <b>${fmtTime(tot.effTimeMin)}</b></span>` +
-      speedChip +
-      `<span class="wa-chip">${t('cPoints')}: <b>${fmtNum(tot.kvkPoints)}</b> <small>(${fmtNum(tot.kvkFromDust)} ${t('cFromDust')} + ${fmtNum(tot.kvkFromTime)} ${t('cFromTime')})</small></span>`;
+    let html = '<div class="wa-out">';
 
-    let targetLine = '';
+    // 1. Mode banner
+    html += `<div class="wa-out__banner">${heads[res.mode]}</div>`;
+
+    // 2. Target reached / not reached
     if (res.mode === 'target' && res.target) {
-      targetLine = res.target.reached
-        ? `<div class="wa-chip wa-chip-ok" style="margin-bottom:14px;"><b>${t('reached')}</b> (${fmtNum(tot.kvkPoints)})</div>`
-        : `<div class="wa-chip wa-chip-warn" style="margin-bottom:14px;"><b>${t('notReached')} ${fmtNum(tot.kvkPoints)}</b></div>`;
+      if (res.target.reached) {
+        html += `<div class="wa-out__status wa-out__status--ok">${t('reached')} (${fmtNum(tot.kvkPoints)})</div>`;
+      } else {
+        html += `<div class="wa-out__status wa-out__status--warn">${t('notReached')} ${fmtNum(tot.kvkPoints)}</div>`;
+      }
     }
 
-    box.innerHTML =
-      `<div class="wa-out-head">${heads[res.mode]}</div>` +
-      targetLine +
-      `<div class="wa-out-chips">${chips}</div>` +
-      `<div class="wa-steps">${rowsHtml}</div>`;
+    // 3. Research Plan
+    html += `<div class="wa-out__section"><div class="wa-out__title">🏗️ ${t('plan')}</div>`;
+    order.forEach((k, i) => {
+      const a = agg[k];
+      const color = colors[a.treeId] || c_or;
+      const isComplete = a.to >= a.maxLevel;
+      const statusTxt = isComplete ? t('completed') : t('inProgress');
+      const statusColor = isComplete ? c_ok : c_warn;
+      // Get the last step's buff for display
+      const lastStep = res.steps.filter(s => rkey(s.treeId, s.researchId) === k).pop();
+      const buff = lastStep ? lastStep.buff : '';
+
+      html += `<div class="wa-out__item">`;
+      html += `<div class="wa-out__item-head"><span class="wa-out__idx">${i + 1}.</span>`;
+      html += `<span class="wa-out__dot" style="background:${color}"></span>`;
+      html += `<strong>${nm(a.name)}</strong></div>`;
+      html += `<div class="wa-out__item-detail">`;
+      html += `<span class="wa-out__levels">➡️ Lv.${a.from} → ${a.to} · ${a.n} ${t('lvls')}</span>`;
+      html += ` <span class="wa-out__badge" style="color:${statusColor}">${statusTxt}</span>`;
+      html += `</div>`;
+      html += `<div class="wa-out__item-cost">${t('costLabel')} <b style="color:${c_or}">${fmtNum(a.dust)}</b> ${t('dustUnit')} · <b>${fmtTime(a.time)}</b></div>`;
+      html += `<div class="wa-out__item-buff">${t('buffLabel')} ${buff}</div>`;
+      html += `</div>`;
+    });
+    html += `</div>`;
+
+    // 4. Time Management
+    html += `<div class="wa-out__section"><div class="wa-out__title">⚡ ${t('timeMgt')}</div>`;
+    html += `<div class="wa-out__line">${t('totalTime')} <b>${fmtTime(tot.effTimeMin)}</b></div>`;
+    html += `<div class="wa-out__line">${t('speedupsAvail')} <b>${fmtTime(availMin)}</b></div>`;
+    if (diff >= 0) {
+      html += `<div class="wa-out__line">→ <b style="color:${c_ok}">${fmtTime(diff)} ${t('cSpare')}</b></div>`;
+    } else {
+      html += `<div class="wa-out__line">→ <b style="color:${c_warn}">${t('cMissing')} ${fmtTime(-diff)}</b></div>`;
+    }
+    html += `</div>`;
+
+    // 5. KvK Breakdown
+    html += `<div class="wa-out__section"><div class="wa-out__title">📊 ${t('bilan')}</div>`;
+    html += `<div class="wa-out__line">🔶 <b style="color:${c_or}">${fmtNum(tot.effDust)}</b>${t('dustUsed')}<b style="color:${c_or}">${fmtNum(tot.kvkFromDust)}</b>${t('pts')}</div>`;
+    html += `<div class="wa-out__line">⏱️ <b>${fmtNum(tot.effTimeMin)}</b>${t('accelUsed')}<b style="color:${c_or}">${fmtNum(tot.kvkFromTime)}</b>${t('pts')}</div>`;
+    html += `</div>`;
+
+    // 6. Total
+    html += `<div class="wa-out__total">${t('totalMax')} <b style="color:${c_or}; font-size:22px;"> ${fmtNum(tot.kvkPoints)}</b> ${t('pts')}</div>`;
+
+    html += '</div>';
+    box.innerHTML = html;
   }
 
   // ---------------- inline handlers (window.WA) ----------------
