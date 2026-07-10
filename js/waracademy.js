@@ -549,6 +549,19 @@
       `<div class="wa-steps">${rowsHtml}</div>`;
   }
 
+  // ---------------- inline handlers (window.WA) ----------------
+  const debounce = (fn, d = 180) => { let x; return (...a) => { clearTimeout(x); x = setTimeout(() => fn(...a), d); }; };
+  const doUpdate = debounce(() => { readInputs(); syncInputs(); save(); recompute(); }, 160);
+
+  window.WA = {
+    triggerUpdate: doUpdate,
+    onModeChange() {
+      const tr = document.getElementById('targetRow');
+      if (tr) tr.style.display = document.getElementById('modeSelect').value === 'target' ? '' : 'none';
+      doUpdate();
+    },
+  };
+
   // ---------------- i18n apply + startup ----------------
   function applyI18n() {
     if (window.GlobalLang) window.GlobalLang.applyI18n(i18n[lang()]);
