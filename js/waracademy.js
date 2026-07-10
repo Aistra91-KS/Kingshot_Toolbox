@@ -77,17 +77,18 @@
 
   // ---------------- layout (identical topology for the 3 trees) ----------------
   // slot index -> grid position + icon. Order matches the DB research order.
+  // Top-to-bottom layout: root (War Academy) at row 1, progression descends.
   const LAYOUT = [
-    { slot: 0, row: 5, col: 2, icon: 'users' },        // Battalion
-    { slot: 1, row: 4, col: 1, icon: 'shield' },       // Weapon A (Shields/Bracers/Farriery)
-    { slot: 2, row: 4, col: 3, icon: 'swords' },       // Weapon B (Blades/Bows/Charge)
-    { slot: 3, row: 3, col: 2, icon: 'crown' },        // Legionaries
-    { slot: 4, row: 3, col: 3, icon: 'pickaxe' },      // Maul type (needs Weapon B)
-    { slot: 5, row: 3, col: 1, icon: 'brick-wall' },   // Plate type (needs Weapon A)
-    { slot: 6, row: 2, col: 2, icon: 'star' },         // Unit unlock
-    { slot: 7, row: 1, col: 1, icon: 'heart-pulse' },  // Healing
-    { slot: 8, row: 1, col: 3, icon: 'handshake' },    // Aid
-    { slot: 9, row: 1, col: 2, icon: 'trending-up' },  // Training
+    { slot: 0, row: 2, col: 2, icon: 'users' },        // Battalion
+    { slot: 1, row: 3, col: 1, icon: 'shield' },       // Weapon A (Shields/Bracers/Farriery)
+    { slot: 2, row: 3, col: 3, icon: 'swords' },       // Weapon B (Blades/Bows/Charge)
+    { slot: 3, row: 4, col: 2, icon: 'crown' },        // Legionaries
+    { slot: 4, row: 4, col: 3, icon: 'pickaxe' },      // Maul type (needs Weapon B)
+    { slot: 5, row: 4, col: 1, icon: 'brick-wall' },   // Plate type (needs Weapon A)
+    { slot: 6, row: 5, col: 2, icon: 'star' },         // Unit unlock
+    { slot: 7, row: 6, col: 1, icon: 'heart-pulse' },  // Healing
+    { slot: 8, row: 6, col: 3, icon: 'handshake' },    // Aid
+    { slot: 9, row: 6, col: 2, icon: 'trending-up' },  // Training
   ];
   // Connector edges (prereq -> dependent). 'core' is the War Academy node.
   const EDGES = [
@@ -103,7 +104,7 @@
   // ---------------- state ----------------
   let DB = null;
   let state = {
-    waLevel: 4, speedBonus: 76.5, costReduction: 0, dustBudget: 1621,
+    waLevel: 4, speedBonus: 76.5, dustBudget: 0,
     mode: 'classic', targetScore: 2000000,
     accDays: 2, accHours: 0, accMinutes: 0,
     enabled: { infantry: true, archer: true, cavalry: true },
@@ -172,9 +173,8 @@
     const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
     set('waLevel', state.waLevel);
     set('speedBonus', state.speedBonus);
-    set('costReduction', state.costReduction);
-    set('dustBudget', fmtNum(state.dustBudget));
-    set('targetScore', fmtNum(state.targetScore));
+    set('dustBudget', state.dustBudget);
+    set('targetScore', state.targetScore);
     set('accDays', state.accDays);
     set('accHours', state.accHours);
     set('accMinutes', state.accMinutes);
@@ -189,9 +189,8 @@
   // Pull sidebar inputs -> state
   function readInputs() {
     const g = (id) => document.getElementById(id);
-    state.waLevel = clampInt(g('waLevel').value, 1, 5);
+    state.waLevel = clampInt(g('waLevel').value, 1, 10);
     state.speedBonus = Math.max(0, Number(g('speedBonus').value) || 0);
-    state.costReduction = Math.min(95, Math.max(0, Number(g('costReduction').value) || 0));
     state.dustBudget = parseNum(g('dustBudget').value);
     state.targetScore = parseNum(g('targetScore').value);
     state.accDays = Math.max(0, Number(g('accDays').value) || 0);
@@ -204,6 +203,18 @@
   }
 
   // ---------------- rendering: tabs ----------------
+  // Level control: [−] value [+] /max  (replaces the old text input)
+  function stepperHtml(cur, max, min, label) {
+    const dis = (c) => c ? ' disabled' : '';
+    const maxTxt = cur >= max ? 'MAX' : '/' + max;
+    return `<div class="wa-node__badge" role="group" aria-label="${label}">
+        <button type="button" class="wa-node__step" data-d="-1" aria-label="−"${dis(cur <= min)}>−</button>
+        <span class="wa-node__cur">${cur}</span>
+        <button type="button" class="wa-node__step" data-d="1" aria-label="+"${dis(cur >= max)}>+</button>
+        <span class="wa-node__max">${maxTxt}</span>
+      </div>`;
+  }
+
   function renderTabs() {
     const box = document.getElementById('wa-tabs');
     box.innerHTML = TREE_ORDER.map(id => {
@@ -215,6 +226,8 @@
     box.querySelectorAll('.tab').forEach(el => {
       el.addEventListener('click', () => {
         state.activeTree = el.getAttribute('data-tree');
+        box.querySelectorAll('.tab').forEach(t2 =>
+          t2.classList.toggle('active', t2.getAttribute('data-tree') === state.activeTree));
         save();
         renderTree();
         recompute();
@@ -232,22 +245,16 @@
 
     const tree = treeById(state.activeTree);
 
-    // Core node (War Academy gate) — bottom center
+    // Core node (War Academy gate) — top center. Selectable up to 10 (content unlocks at 5).
     const core = document.createElement('div');
     core.className = 'wa-node wa-core';
-    core.style.gridRow = 6; core.style.gridColumn = 2;
+    core.style.gridRow = 1; core.style.gridColumn = 2;
     core.dataset.node = 'core';
     core.innerHTML =
       `<div class="wa-node__diamond"><span>${window.iconSvg('coins', 18)}</span></div>
        <div class="wa-node__name">${t('core')}</div>
-       <div class="wa-node__badge"><input class="wa-node__cur" type="number" min="1" max="5"
-            value="${state.waLevel}" aria-label="${t('core')}"><span class="wa-node__max">/5</span></div>`;
+       ${stepperHtml(clampInt(state.waLevel, 1, 10), 10, 1, t('core'))}`;
     wrap.appendChild(core);
-    core.querySelector('.wa-node__cur').addEventListener('change', (e) => {
-      state.waLevel = clampInt(e.target.value, 1, 5);
-      const sb = document.getElementById('waLevel'); if (sb) sb.value = state.waLevel;
-      save(); refreshStates(); recompute();
-    });
 
     // Research nodes
     LAYOUT.forEach(L => {
@@ -258,23 +265,12 @@
       el.className = 'wa-node';
       el.style.gridRow = L.row; el.style.gridColumn = L.col;
       el.dataset.node = res.id;
-      const maxTxt = cur >= res.maxLevel ? 'MAX' : '/' + res.maxLevel;
       el.innerHTML =
         `<span class="wa-node__lock">🔒</span>
          <div class="wa-node__icon">${window.iconSvg(L.icon, 20)}</div>
          <div class="wa-node__name">${nm(res.name)}</div>
-         <div class="wa-node__badge">
-           <input class="wa-node__cur" type="number" min="0" max="${res.maxLevel}" value="${cur}" aria-label="${nm(res.name)}">
-           <span class="wa-node__max">${maxTxt}</span>
-         </div>`;
+         ${stepperHtml(cur, res.maxLevel, 0, nm(res.name))}`;
       wrap.appendChild(el);
-      el.querySelector('.wa-node__cur').addEventListener('change', (e) => {
-        const res2 = resAt(tree, L.slot);
-        const v = clampInt(e.target.value, 0, res2.maxLevel);
-        e.target.value = v;
-        state.levels[rkey(state.activeTree, res2.id)] = v;
-        save(); refreshStates(); recompute();
-      });
     });
 
     // ensure svg sits behind nodes
@@ -282,22 +278,55 @@
     refreshStates();
   }
 
-  // Recompute node classes + connectors (no rebuild -> inputs keep focus)
+  // Delegated +/- handling (attached once; survives re-renders)
+  function onStepClick(e) {
+    const btn = e.target.closest('.wa-node__step');
+    if (!btn || btn.disabled) return;
+    const node = btn.closest('.wa-node');
+    if (!node) return;
+    const d = parseInt(btn.getAttribute('data-d'), 10);
+    if (node.classList.contains('wa-core')) {
+      state.waLevel = clampInt(state.waLevel + d, 1, 10);
+      const sb = document.getElementById('waLevel'); if (sb) sb.value = state.waLevel;
+    } else {
+      const tree = treeById(state.activeTree);
+      const res = tree.researches.find(r => r.id === node.getAttribute('data-node'));
+      if (!res) return;
+      const cur = curOf(state.activeTree, res);
+      state.levels[rkey(state.activeTree, res.id)] = clampInt(cur + d, 0, res.maxLevel);
+    }
+    save();
+    recompute(); // re-runs optimiser -> refreshStates(suggested) -> updates values, badges, connectors
+  }
+
+  // Recompute node classes + stepper values + connectors (no rebuild)
+  function syncStepper(el, cur, max, min) {
+    if (!el) return;
+    const val = el.querySelector('.wa-node__cur');
+    if (val) val.textContent = cur;
+    const maxEl = el.querySelector('.wa-node__max');
+    if (maxEl) maxEl.textContent = cur >= max ? 'MAX' : '/' + max;
+    const btns = el.querySelectorAll('.wa-node__step');
+    if (btns[0]) btns[0].disabled = cur <= min; // −
+    if (btns[1]) btns[1].disabled = cur >= max; // +
+  }
+
   function refreshStates(suggested) {
     const wrap = document.getElementById('wa-tree');
     const tree = treeById(state.activeTree);
+    // core
+    syncStepper(wrap.querySelector('.wa-core'), clampInt(state.waLevel, 1, 10), 10, 1);
+    // researches
     LAYOUT.forEach(L => {
       const res = resAt(tree, L.slot);
       if (!res) return;
       const el = wrap.querySelector('.wa-node[data-node="' + res.id + '"]');
       if (!el) return;
+      const cur = curOf(state.activeTree, res);
       const st = nodeState(state.activeTree, res);
       el.classList.remove('is-max', 'is-done', 'is-available', 'is-locked', 'is-suggested');
       el.classList.add('is-' + st);
-      // update /max label
-      const cur = curOf(state.activeTree, res);
-      const maxEl = el.querySelector('.wa-node__max');
-      if (maxEl) maxEl.textContent = cur >= res.maxLevel ? 'MAX' : '/' + res.maxLevel;
+      syncStepper(el, cur, res.maxLevel, 0);
       // suggested tag
       let tag = el.querySelector('.wa-node__tag');
       const sKey = rkey(state.activeTree, res.id);
@@ -338,24 +367,27 @@
     for (const [aSlot, bSlot] of EDGES) {
       const aKey = nodeKeyOf(aSlot), bKey = nodeKeyOf(bSlot);
       if (!aKey || !bKey) continue;
-      const a = centerOf(aKey), b = centerOf(bKey); // a = lower prereq, b = upper dependent
+      const a = centerOf(aKey), b = centerOf(bKey);
       if (!a || !b) continue;
-      // route: from a.top up to a mid, horizontal to b.x, up to b.bot  (rounded elbows)
-      const y1 = a.top, y2 = b.bot;
+      // Direction-agnostic: connect bottom of the higher node to top of the lower node
+      const upper = a.top <= b.top ? a : b;
+      const lower = a.top <= b.top ? b : a;
+      const x1 = upper.x, y1 = upper.bot;
+      const x2 = lower.x, y2 = lower.top;
       const midY = y1 + (y2 - y1) * 0.5;
       const r = 8;
-      const dir = b.x >= a.x ? 1 : -1;
+      const dir = x2 >= x1 ? 1 : -1;
       let d;
-      if (Math.abs(b.x - a.x) < 2) {
-        d = `M ${a.x} ${y1} L ${b.x} ${y2}`;
+      if (Math.abs(x2 - x1) < 2) {
+        d = `M ${x1} ${y1} L ${x2} ${y2}`;
       } else {
-        d = `M ${a.x} ${y1} L ${a.x} ${midY + r} ` +
-            `Q ${a.x} ${midY} ${a.x + dir * r} ${midY} ` +
-            `L ${b.x - dir * r} ${midY} ` +
-            `Q ${b.x} ${midY} ${b.x} ${midY - r} ` +
-            `L ${b.x} ${y2}`;
+        d = `M ${x1} ${y1} L ${x1} ${midY - r} ` +
+            `Q ${x1} ${midY} ${x1 + dir * r} ${midY} ` +
+            `L ${x2 - dir * r} ${midY} ` +
+            `Q ${x2} ${midY} ${x2} ${midY + r} ` +
+            `L ${x2} ${y2}`;
       }
-      const cls = isLive(bKey) ? 'live' : 'dim';
+      const cls = isLive(bKey) ? 'live' : 'dim'; // bKey = dependent
       paths += `<path d="${d}" class="${cls}"/>`;
     }
     svg.innerHTML = paths;
@@ -371,7 +403,7 @@
     const res = window.WA_Optimizer.suggest({
       db: DB, currentLevels: state.levels, waLevel: state.waLevel,
       dustBudget: state.dustBudget, speedBonusPct: state.speedBonus,
-      costReductionPct: state.costReduction, enabledTrees: enabledTrees(),
+      costReductionPct: 0, enabledTrees: enabledTrees(),
       mode: state.mode, targetScore: state.targetScore,
     });
     renderOutput(res);
@@ -452,11 +484,6 @@
       if (tr) tr.style.display = document.getElementById('modeSelect').value === 'target' ? '' : 'none';
       doUpdate();
     },
-    formatNumInput(el) {
-      const n = parseNum(el.value);
-      el.value = n ? fmtNum(n) : '';
-      doUpdate();
-    },
   };
 
   // ---------------- i18n apply + startup ----------------
@@ -490,6 +517,7 @@
     applyI18n();
     renderTabs();
     renderTree();
+    document.getElementById('wa-tree').addEventListener('click', onStepClick);
     recompute();
     initHelp();
 
