@@ -1,5 +1,31 @@
 [
   {
+    "id": "Golden_Ball_Shop",
+    "name": {
+      "EN": "Golden Ball Shop",
+      "FR": "Magasin du ballon d'or"
+    },
+    "endsAt": "2026-07-17T00:00:00Z",
+    "resourceName": {"EN": "Ballon d'Or brand","FR": "Marque du ballon d'or"
+    },
+    "items": [
+      {
+        "itemId": "100_enhancement_xp_component","qty": 9,"cost": 10,"dailyReset": true, "qtyMax": 2},
+      {"itemId": "truegold","qty": 92,"cost": 100,"qtyMax": 25},
+      {"itemId": "mythic_general_hero_shard","qty": 10,"cost": 100,"qtyMax": 30},
+      {"itemId": "lucky_hero_gear_chest","qty": 35,"cost": 100,"qtyMax": 30},
+      {"itemId": "100_enhancement_xp_component","qty": 62,"cost": 100,"qtyMax": 30},
+      {"itemId": "forgehammers","qty": 35,"cost": 100,"qtyMax": 30},
+      {"itemId": "mithril","qty": 1,"cost": 100,"qtyMax": 30},
+      {"itemId": "artisan_s_vision","qty": 80,"cost": 100,"qtyMax": 30},
+      {"itemId": "governor_gear_material_chest","qty": 31,"cost": 100,"qtyMax": 30},
+      {"itemId": "charm_design","qty": 70,"cost": 100,"qtyMax": 30},
+      {"itemId": "charm_guide","qty": 70,"cost": 100,"qtyMax": 30},
+      {"itemId": "1h_general_speedup","qty": 56,"cost": 100,"qtyMax": 30},
+      {"itemId": "5m_general_speedup","qty": 22,"cost": 5,"qtyMax": 1000}
+    ]
+  },
+  {
     "id": "Stand_adv",
     "name": {
       "EN": "Adventure Stall",
