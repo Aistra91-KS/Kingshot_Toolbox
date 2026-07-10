@@ -139,7 +139,10 @@
     // Priority for choosing which research to START next (only when none is in progress).
     function startScore(entry) {
       const r = remaining(entry);
-      if (mode === 'classic') return -r.dust;             // cheapest to finish first -> most researches
+      if (mode === 'classic') {                            // most levels: cheapest next level first
+        const nx = levelObj(entry.res, entry.level + 1);
+        return nx ? -effDustOf(nx.dust || 0) : -Infinity;
+      }
       return r.pts / Math.max(1, r.dust);                 // kvk & target -> best points per dust
     }
     const affordable = (nl) =>
