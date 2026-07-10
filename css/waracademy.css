@@ -1,0 +1,219 @@
+/* ============================================================
+   WAR ACADEMY — page-specific styles (all classes namespaced .wa-)
+   Reuses the shared DA from style.css (--accent gold, dark panels).
+   Tree colours are game-faithful: Infantry green / Archer red / Cavalry blue.
+   ============================================================ */
+
+/* Per-tree accent, set on .wa-tree via JS (data-active-tree) */
+.wa-tree[data-active-tree="infantry"] { --wa-tree: #54c66a; --wa-tree-dim: #2f6b3d; }
+.wa-tree[data-active-tree="archer"]   { --wa-tree: #ef5a4c; --wa-tree-dim: #7a332b; }
+.wa-tree[data-active-tree="cavalry"]  { --wa-tree: #4d9be6; --wa-tree-dim: #2c5a83; }
+
+/* Sidebar filter dots */
+.wa-dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.wa-dot[data-tree="infantry"] { background: #54c66a; }
+.wa-dot[data-tree="archer"]   { background: #ef5a4c; }
+.wa-dot[data-tree="cavalry"]  { background: #4d9be6; }
+
+.wa-hint { color: var(--text-muted); font-size: 13px; margin: -6px 0 12px; }
+
+/* Tabs: reuse .tabs/.tab from style.css, just add a colour dot */
+#wa-tabs .tab { display: flex; align-items: center; gap: 8px; }
+#wa-tabs .tab .wa-dot { opacity: .55; }
+#wa-tabs .tab.active .wa-dot { opacity: 1; }
+
+/* ---------- Tree canvas ---------- */
+.wa-tree-wrap { overflow-x: auto; padding: 6px 2px 2px; }
+
+.wa-tree {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(96px, 1fr));
+    grid-template-rows: repeat(6, auto);
+    gap: 26px 18px;
+    min-width: 320px;
+    padding: 10px 6px;
+}
+
+.wa-connectors {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: visible;
+}
+.wa-connectors path { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.wa-connectors path.dim  { stroke: var(--border); }
+.wa-connectors path.live { stroke: var(--wa-tree); }
+
+/* ---------- Node ---------- */
+.wa-node {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 9px 6px 7px;
+    background: var(--control-bg);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    text-align: center;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.wa-node__icon { color: var(--text-muted); line-height: 0; }
+.wa-node__name { font-size: 11px; line-height: 1.15; color: var(--text-light); max-width: 108px; }
+
+.wa-node__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-muted);
+    background: var(--bg-dark);
+    border-radius: 6px;
+    padding: 2px 6px;
+}
+.wa-node__cur {
+    width: 30px;
+    padding: 1px 2px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-light);
+    font-weight: bold;
+    font-size: 12px;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.wa-node__cur::-webkit-outer-spin-button,
+.wa-node__cur::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.wa-node__cur:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-radius: 3px; }
+.wa-node__max { color: var(--text-muted); }
+
+/* States */
+.wa-node.is-available { border-color: var(--wa-tree); box-shadow: 0 0 12px -2px var(--wa-tree); }
+.wa-node.is-available .wa-node__icon { color: var(--wa-tree); }
+
+.wa-node.is-done { border-color: var(--wa-tree); background: color-mix(in srgb, var(--wa-tree) 12%, var(--control-bg)); }
+.wa-node.is-done .wa-node__icon { color: var(--wa-tree); }
+
+.wa-node.is-max {
+    border-color: var(--wa-tree);
+    background: color-mix(in srgb, var(--wa-tree) 22%, var(--control-bg));
+}
+.wa-node.is-max .wa-node__icon { color: var(--wa-tree); }
+.wa-node.is-max .wa-node__cur { color: var(--wa-tree); }
+.wa-node.is-max .wa-node__max { color: var(--wa-tree); }
+
+.wa-node.is-locked { opacity: .42; filter: grayscale(.55); }
+.wa-node.is-locked .wa-node__cur { pointer-events: auto; opacity: 1; }
+.wa-node.is-locked:focus-within { opacity: .85; filter: none; }
+.wa-node__lock { position: absolute; top: 4px; right: 5px; font-size: 11px; color: var(--text-muted); }
+
+/* Suggested (from the optimiser) — gold overlay, on top of any state */
+.wa-node.is-suggested {
+    outline: 2px dashed var(--accent);
+    outline-offset: 2px;
+    animation: wa-pulse 1.6s ease-in-out infinite;
+}
+.wa-node__tag {
+    position: absolute;
+    top: -9px;
+    right: -6px;
+    background: var(--accent);
+    color: #1a1a1a;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 1px 6px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px var(--shadow);
+}
+@keyframes wa-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+    50%      { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 0%, transparent); }
+}
+
+/* ---------- Core node (War Academy diamond) ---------- */
+.wa-node.wa-core {
+    background: var(--bg-dark);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 16px -4px var(--accent);
+}
+.wa-core .wa-node__icon { color: var(--accent); }
+.wa-core .wa-node__cur { color: var(--accent); border-bottom-color: var(--accent); }
+.wa-core .wa-node__diamond {
+    width: 34px; height: 34px; margin-bottom: 2px;
+    background: color-mix(in srgb, var(--accent) 20%, var(--bg-dark));
+    border: 2px solid var(--accent);
+    transform: rotate(45deg);
+    border-radius: 6px;
+    display: grid; place-items: center;
+}
+.wa-core .wa-node__diamond > span { transform: rotate(-45deg); color: var(--accent); line-height: 0; }
+
+/* ---------- Legend ---------- */
+.wa-legend {
+    display: flex; flex-wrap: wrap; gap: 14px;
+    margin-top: 16px; padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-muted);
+}
+.wa-legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.wa-swatch { width: 14px; height: 14px; border-radius: 4px; border: 2px solid var(--border); background: var(--control-bg); }
+.wa-swatch.is-available { border-color: var(--accent); box-shadow: 0 0 6px -1px var(--accent); }
+.wa-swatch.is-done { border-color: #4ecdc4; background: rgba(78,205,196,.15); }
+.wa-swatch.is-max { border-color: #4ecdc4; background: rgba(78,205,196,.4); }
+.wa-swatch.is-locked { opacity: .42; filter: grayscale(.55); }
+.wa-swatch.is-suggested { border-style: dashed; border-color: var(--accent); }
+
+/* ---------- Strategy output ---------- */
+.wa-out-head { font-size: 15px; font-weight: bold; color: var(--accent); margin-bottom: 12px; }
+.wa-out-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.wa-chip {
+    background: var(--control-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 13px;
+    color: var(--text-light);
+}
+.wa-chip b { color: var(--accent); }
+.wa-chip.wa-chip-ok b { color: var(--success); }
+.wa-chip.wa-chip-warn b { color: var(--warning); }
+
+.wa-steps { display: flex; flex-direction: column; gap: 6px; }
+.wa-step {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--step-color, var(--accent));
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+.wa-step__idx { color: var(--text-muted); font-size: 12px; min-width: 20px; }
+.wa-step__name { color: var(--text-light); font-size: 13px; }
+.wa-step__name small { color: var(--text-muted); }
+.wa-step__cost { text-align: right; font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+.wa-step__cost b { color: var(--accent); }
+
+.wa-empty { color: var(--text-muted); text-align: center; padding: 20px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 560px) {
+    .wa-tree { gap: 20px 10px; grid-template-columns: repeat(3, minmax(84px, 1fr)); }
+    .wa-node__name { font-size: 10px; max-width: 90px; }
+    .wa-step { grid-template-columns: auto 1fr; }
+    .wa-step__cost { grid-column: 2; text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wa-node.is-suggested { animation: none; }
+}
