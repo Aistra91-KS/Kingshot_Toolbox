@@ -69,7 +69,7 @@
 .wa-node__badge {
     display: inline-flex;
     align-items: center;
-    gap: 1px;
+    gap: 4px;
     font-size: 12px;
     font-weight: bold;
     color: var(--text-muted);
@@ -77,22 +77,25 @@
     border-radius: 6px;
     padding: 2px 6px;
 }
-.wa-node__cur {
-    width: 30px;
-    padding: 1px 2px;
-    text-align: center;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--border);
+.wa-node__step {
+    width: 20px; height: 20px; padding: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
     color: var(--text-light);
-    font-weight: bold;
-    font-size: 12px;
-    -moz-appearance: textfield;
-    appearance: textfield;
+    border-radius: 4px;
+    font-size: 15px; font-weight: bold; line-height: 1;
+    cursor: pointer;
+    transition: border-color .15s, color .15s;
 }
-.wa-node__cur::-webkit-outer-spin-button,
-.wa-node__cur::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.wa-node__cur:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-radius: 3px; }
+.wa-node__step:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.wa-node__step:active:not(:disabled) { background: var(--control-bg); }
+.wa-node__step:disabled { opacity: .3; cursor: default; }
+.wa-node__step:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.wa-node__cur {
+    min-width: 22px; text-align: center;
+    color: var(--text-light); font-weight: bold; font-size: 13px;
+}
 .wa-node__max { color: var(--text-muted); }
 
 /* States */
@@ -111,8 +114,8 @@
 .wa-node.is-max .wa-node__max { color: var(--wa-tree); }
 
 .wa-node.is-locked { opacity: .42; filter: grayscale(.55); }
-.wa-node.is-locked .wa-node__cur { pointer-events: auto; opacity: 1; }
-.wa-node.is-locked:focus-within { opacity: .85; filter: none; }
+.wa-node.is-locked .wa-node__step { opacity: 1; }
+.wa-node.is-locked:focus-within, .wa-node.is-locked:hover { opacity: .9; filter: none; }
 .wa-node__lock { position: absolute; top: 4px; right: 5px; font-size: 11px; color: var(--text-muted); }
 
 /* Suggested (from the optimiser) — gold overlay, on top of any state */
@@ -145,7 +148,7 @@
     box-shadow: 0 0 16px -4px var(--accent);
 }
 .wa-core .wa-node__icon { color: var(--accent); }
-.wa-core .wa-node__cur { color: var(--accent); border-bottom-color: var(--accent); }
+.wa-core .wa-node__cur { color: var(--accent); }
 .wa-core .wa-node__diamond {
     width: 34px; height: 34px; margin-bottom: 2px;
     background: color-mix(in srgb, var(--accent) 20%, var(--bg-dark));
