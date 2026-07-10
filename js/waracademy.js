@@ -540,13 +540,22 @@
     if (completedCount) summaryParts.push(`<b style="color:var(--success)">${completedCount}</b> ${t('completed')}`);
     if (nonMaxCount) summaryParts.push(`<b style="color:var(--warning)">${nonMaxCount}</b> ${t('inProgress')}`);
 
+    const totalHtml =
+      `<div class="wa-out-bilan">
+        <div class="wa-out-bilan-title">${t('bilan')}</div>
+        <div class="wa-out-bilan-row">🔶 <b>${fmtNum(tot.kvkFromDust)}</b>${t('pts')} — ${t('cFromDust')}</div>
+        <div class="wa-out-bilan-row">⏱️ <b>${fmtNum(tot.kvkFromTime)}</b>${t('pts')} — ${t('cFromTime')}</div>
+      </div>
+      <div class="wa-out-total">🚀 ${t('totalMax')} <span class="wa-out-total-num">${fmtNum(tot.kvkPoints)}</span>${t('pts')}</div>`;
+
     box.innerHTML =
       `<div class="wa-out-head">${heads[res.mode]}</div>` +
       targetLine +
       `<div class="wa-out-chips">${chips}</div>` +
       (summaryParts.length ? `<div class="wa-out-summary">${summaryParts.join(' · ')}</div>` : '') +
       `<div class="wa-out-plan-title">${t('planTitle')}</div>` +
-      `<div class="wa-steps">${rowsHtml}</div>`;
+      `<div class="wa-steps">${rowsHtml}</div>` +
+      totalHtml;
   }
 
   // ---------------- inline handlers (window.WA) ----------------
