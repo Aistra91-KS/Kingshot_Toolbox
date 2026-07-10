@@ -1,0 +1,507 @@
+// ============================================================
+//  WAR ACADEMY — page controller
+//  Loads truegold_war_db.json, renders the faithful per-troop
+//  research tree (nodes + dynamically drawn connectors), wires
+//  the sidebar controls to wa_optimizer.js, persists to localStorage.
+//  Bilingual FR/EN via GlobalLang. Exposes window.WA for inline handlers.
+// ============================================================
+
+(function () {
+  'use strict';
+
+  // ---------------- i18n ----------------
+  const i18n = {
+    EN: {
+      ctrlPanel: 'Control Panel', config: 'Configuration',
+      waLevel: 'War Academy Level', speedBonus: 'Speed Bonus (%)', costReduction: 'Cost Reduction (%)',
+      resources: 'Resources', dustBudget: 'TrueGold Dust',
+      kvkTitle: 'Mode & Speedups', modeLabel: 'Mode',
+      modeClassic: 'Max researches', modeKvk: 'KvK (max points)', modeTarget: 'Target score',
+      targetScore: 'Target score', days: 'Days', hours: 'Hours', minutes: 'Minutes',
+      filters: 'Suggestion Filters', treeInfantry: 'Infantry', treeArcher: 'Archer', treeCavalry: 'Cavalry',
+      researchTree: 'Research Tree', treeHint: "Tap a node's level to set your current progress.",
+      strategyOutput: 'Strategy Output',
+      legMax: 'Maxed', legDone: 'In progress', legAvail: 'Available', legLocked: 'Locked', legSuggested: 'Suggested',
+      core: 'War Academy',
+      headClassic: '🛠️ MAX RESEARCHES', headKvk: '🏆 KvK — MAX POINTS', headTarget: '🎯 TARGET SCORE',
+      cResearch: 'researches', cLevels: 'levels', cDust: 'Dust', cReste: 'left', cTime: 'Time',
+      cSpeedHave: 'your speedups', cMissing: 'short', cSpare: 'spare', cPoints: 'KvK points',
+      cFromDust: 'dust', cFromTime: 'time',
+      reached: '✅ Target reached', notReached: '⚠️ Target not reached with this dust — max:',
+      lvls: 'lvls', empty: 'No research available. Raise your War Academy level, set your current levels, or add dust.',
+      dbErr: '⚠️ Could not load the research database (data/truegold_war_db.json).',
+      helpTitle: 'War Academy — Help',
+      helpSummary: "Plans the optimal TrueGold research path for your goal: complete as many researches as possible, maximize KvK points, or reach a target score for the least dust.",
+    },
+    FR: {
+      ctrlPanel: 'Panneau de Contrôle', config: 'Configuration',
+      waLevel: 'Niveau Académie de Guerre', speedBonus: 'Bonus Vitesse (%)', costReduction: 'Réduction de Coût (%)',
+      resources: 'Ressources', dustBudget: "Poussières d'Or Véritable",
+      kvkTitle: 'Mode & Accélérateurs', modeLabel: 'Mode',
+      modeClassic: 'Max recherches', modeKvk: 'KvK (max points)', modeTarget: 'Score cible',
+      targetScore: 'Score cible', days: 'Jours', hours: 'Heures', minutes: 'Minutes',
+      filters: 'Filtres de Suggestion', treeInfantry: 'Infanterie', treeArcher: 'Archers', treeCavalry: 'Cavalerie',
+      researchTree: 'Arbre de Recherche', treeHint: "Touche le niveau d'un nœud pour indiquer ta progression.",
+      strategyOutput: 'Résultat de la Stratégie',
+      legMax: 'Max', legDone: 'En cours', legAvail: 'Disponible', legLocked: 'Bloqué', legSuggested: 'Suggéré',
+      core: 'Académie de Guerre',
+      headClassic: '🛠️ MAX RECHERCHES', headKvk: '🏆 KvK — MAX POINTS', headTarget: '🎯 SCORE CIBLE',
+      cResearch: 'recherches', cLevels: 'niveaux', cDust: 'Poussières', cReste: 'reste', cTime: 'Temps',
+      cSpeedHave: 'tes accélérateurs', cMissing: 'il manque', cSpare: 'de reste', cPoints: 'points KvK',
+      cFromDust: 'poussières', cFromTime: 'temps',
+      reached: '✅ Score cible atteint', notReached: '⚠️ Cible non atteinte avec ces poussières — max :',
+      lvls: 'niv.', empty: "Aucune recherche disponible. Monte ton niveau d'Académie de Guerre, renseigne tes niveaux, ou ajoute des poussières.",
+      dbErr: '⚠️ Impossible de charger la base de recherche (data/truegold_war_db.json).',
+      helpTitle: 'Académie de Guerre — Aide',
+      helpSummary: "Calcule le chemin de recherche TrueGold optimal selon ton objectif : valider un maximum de recherches, maximiser les points KvK, ou atteindre un score cible au moindre coût en poussières.",
+    },
+  };
+  const HELP_STEPS = {
+    FR: [
+      "Renseigne ton niveau d'Académie de Guerre (1–5) : il débloque les paliers de l'arbre.",
+      "Sur l'arbre, touche le niveau de chaque recherche pour indiquer ta progression actuelle.",
+      "Indique tes poussières d'Or Véritable (la seule contrainte dure), tes accélérateurs (info) et tes bonus.",
+      "Coche les arbres (Infanterie / Archers / Cavalerie) à inclure dans la suggestion.",
+      "Choisis le mode : Max recherches, KvK (max points) ou Score cible.",
+      "Lis la stratégie : les recherches à monter, les poussières et le temps nécessaires, et les points KvK.",
+    ],
+    EN: [
+      'Set your War Academy level (1–5): it unlocks the tree tiers.',
+      'On the tree, tap each research level to set your current progress.',
+      'Enter your TrueGold Dust (the only hard constraint), your speedups (info) and your bonuses.',
+      'Tick the trees (Infantry / Archer / Cavalry) to include in the suggestion.',
+      'Pick a mode: Max researches, KvK (max points), or Target score.',
+      'Read the strategy: which researches to level, the dust and time needed, and the KvK points.',
+    ],
+  };
+
+  // ---------------- layout (identical topology for the 3 trees) ----------------
+  // slot index -> grid position + icon. Order matches the DB research order.
+  const LAYOUT = [
+    { slot: 0, row: 5, col: 2, icon: 'users' },        // Battalion
+    { slot: 1, row: 4, col: 1, icon: 'shield' },       // Weapon A (Shields/Bracers/Farriery)
+    { slot: 2, row: 4, col: 3, icon: 'swords' },       // Weapon B (Blades/Bows/Charge)
+    { slot: 3, row: 3, col: 2, icon: 'crown' },        // Legionaries
+    { slot: 4, row: 3, col: 3, icon: 'pickaxe' },      // Maul type (needs Weapon B)
+    { slot: 5, row: 3, col: 1, icon: 'brick-wall' },   // Plate type (needs Weapon A)
+    { slot: 6, row: 2, col: 2, icon: 'star' },         // Unit unlock
+    { slot: 7, row: 1, col: 1, icon: 'heart-pulse' },  // Healing
+    { slot: 8, row: 1, col: 3, icon: 'handshake' },    // Aid
+    { slot: 9, row: 1, col: 2, icon: 'trending-up' },  // Training
+  ];
+  // Connector edges (prereq -> dependent). 'core' is the War Academy node.
+  const EDGES = [
+    ['core', 0],
+    [0, 1], [0, 2],
+    [1, 5], [1, 3],
+    [2, 4], [2, 3],
+    [5, 6], [3, 6], [4, 6],
+    [6, 7], [6, 8], [6, 9],
+  ];
+  const TREE_ORDER = ['infantry', 'archer', 'cavalry'];
+
+  // ---------------- state ----------------
+  let DB = null;
+  let state = {
+    waLevel: 4, speedBonus: 76.5, costReduction: 0, dustBudget: 1621,
+    mode: 'classic', targetScore: 2000000,
+    accDays: 2, accHours: 0, accMinutes: 0,
+    enabled: { infantry: true, archer: true, cavalry: true },
+    activeTree: 'infantry',
+    levels: {}, // "treeId.researchId" -> current level
+  };
+  const SKEY = (window.STORAGE_KEYS && window.STORAGE_KEYS.waracademy) || 'wa_calc_data_v1';
+  const lang = () => (window.GlobalLang ? window.GlobalLang.get() : 'FR');
+  const t = (k) => (i18n[lang()] && i18n[lang()][k]) || i18n.EN[k] || k;
+  const nm = (obj) => (obj ? (obj[lang()] || obj.EN || obj.FR || '') : '');
+  const rkey = (tree, res) => tree + '.' + res;
+
+  // ---------------- helpers ----------------
+  const clampInt = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.floor(Number(v) || 0)));
+  const digits = (s) => String(s).replace(/[^\d]/g, '');
+  const parseNum = (s) => { const d = digits(s); return d ? parseInt(d, 10) : 0; };
+  const fmtNum = (n) => Number(n || 0).toLocaleString('fr-FR').replace(/\u202f/g, ' ');
+
+  function fmtTime(min) {
+    min = Math.round(min || 0);
+    const d = Math.floor(min / 1440), h = Math.floor((min % 1440) / 60), m = min % 60;
+    const dl = lang() === 'EN' ? 'd' : 'j';
+    const out = [];
+    if (d) out.push(d + dl);
+    if (h) out.push(h + 'h');
+    if (m || !out.length) out.push(m + 'm');
+    return out.join(' ');
+  }
+
+  const treeById = (id) => DB.trees.find(tr => tr.id === id);
+  const resAt = (tree, slot) => tree.researches[slot];
+  const curOf = (treeId, res) => clampInt(state.levels[rkey(treeId, res.id)] || 0, 0, res.maxLevel);
+
+  // Visual state of a node: 'max' | 'done' | 'available' | 'locked'
+  function nodeState(treeId, res) {
+    const cur = curOf(treeId, res);
+    if (cur >= res.maxLevel) return 'max';
+    if (cur > 0) return 'done';
+    // cur === 0 -> is level 1 doable?
+    const lvl = res.levels.find(l => l.level === 1);
+    if (!lvl) return 'locked';
+    if ((lvl.reqWA || 0) > state.waLevel) return 'locked';
+    for (const dep of (lvl.req || [])) {
+      const depRes = treeById(treeId).researches.find(r => r.id === dep.r);
+      if (!depRes || curOf(treeId, depRes) < dep.lvl) return 'locked';
+    }
+    return 'available';
+  }
+
+  // ---------------- persistence ----------------
+  function save() {
+    try { localStorage.setItem(SKEY, JSON.stringify(state)); } catch (e) { /* quota */ }
+  }
+  function load() {
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(SKEY)); } catch (e) { saved = null; }
+    if (saved && typeof saved === 'object') {
+      state = Object.assign(state, saved);
+      state.enabled = Object.assign({ infantry: true, archer: true, cavalry: true }, saved.enabled || {});
+      state.levels = saved.levels || {};
+    }
+  }
+
+  // Push state -> sidebar inputs
+  function syncInputs() {
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+    set('waLevel', state.waLevel);
+    set('speedBonus', state.speedBonus);
+    set('costReduction', state.costReduction);
+    set('dustBudget', fmtNum(state.dustBudget));
+    set('targetScore', fmtNum(state.targetScore));
+    set('accDays', state.accDays);
+    set('accHours', state.accHours);
+    set('accMinutes', state.accMinutes);
+    const ms = document.getElementById('modeSelect'); if (ms) ms.value = state.mode;
+    ['infantry', 'archer', 'cavalry'].forEach(id => {
+      const c = document.getElementById('filter-' + id); if (c) c.checked = !!state.enabled[id];
+    });
+    const tr = document.getElementById('targetRow');
+    if (tr) tr.style.display = state.mode === 'target' ? '' : 'none';
+  }
+
+  // Pull sidebar inputs -> state
+  function readInputs() {
+    const g = (id) => document.getElementById(id);
+    state.waLevel = clampInt(g('waLevel').value, 1, 5);
+    state.speedBonus = Math.max(0, Number(g('speedBonus').value) || 0);
+    state.costReduction = Math.min(95, Math.max(0, Number(g('costReduction').value) || 0));
+    state.dustBudget = parseNum(g('dustBudget').value);
+    state.targetScore = parseNum(g('targetScore').value);
+    state.accDays = Math.max(0, Number(g('accDays').value) || 0);
+    state.accHours = Math.max(0, Number(g('accHours').value) || 0);
+    state.accMinutes = Math.max(0, Number(g('accMinutes').value) || 0);
+    state.mode = g('modeSelect').value;
+    ['infantry', 'archer', 'cavalry'].forEach(id => {
+      const c = g('filter-' + id); if (c) state.enabled[id] = c.checked;
+    });
+  }
+
+  // ---------------- rendering: tabs ----------------
+  function renderTabs() {
+    const box = document.getElementById('wa-tabs');
+    box.innerHTML = TREE_ORDER.map(id => {
+      const tr = treeById(id);
+      const active = id === state.activeTree ? ' active' : '';
+      return `<div class="tab${active}" data-tree="${id}">
+        <span class="wa-dot" data-tree="${id}"></span>${nm(tr.name)}</div>`;
+    }).join('');
+    box.querySelectorAll('.tab').forEach(el => {
+      el.addEventListener('click', () => {
+        state.activeTree = el.getAttribute('data-tree');
+        save();
+        renderTree();
+        recompute();
+      });
+    });
+  }
+
+  // ---------------- rendering: tree ----------------
+  function renderTree() {
+    const wrap = document.getElementById('wa-tree');
+    const svg = document.getElementById('wa-connectors');
+    // clear nodes but keep the svg element
+    wrap.querySelectorAll('.wa-node').forEach(n => n.remove());
+    wrap.setAttribute('data-active-tree', state.activeTree);
+
+    const tree = treeById(state.activeTree);
+
+    // Core node (War Academy gate) — bottom center
+    const core = document.createElement('div');
+    core.className = 'wa-node wa-core';
+    core.style.gridRow = 6; core.style.gridColumn = 2;
+    core.dataset.node = 'core';
+    core.innerHTML =
+      `<div class="wa-node__diamond"><span>${window.iconSvg('coins', 18)}</span></div>
+       <div class="wa-node__name">${t('core')}</div>
+       <div class="wa-node__badge"><input class="wa-node__cur" type="number" min="1" max="5"
+            value="${state.waLevel}" aria-label="${t('core')}"><span class="wa-node__max">/5</span></div>`;
+    wrap.appendChild(core);
+    core.querySelector('.wa-node__cur').addEventListener('change', (e) => {
+      state.waLevel = clampInt(e.target.value, 1, 5);
+      const sb = document.getElementById('waLevel'); if (sb) sb.value = state.waLevel;
+      save(); refreshStates(); recompute();
+    });
+
+    // Research nodes
+    LAYOUT.forEach(L => {
+      const res = resAt(tree, L.slot);
+      if (!res) return;
+      const cur = curOf(state.activeTree, res);
+      const el = document.createElement('div');
+      el.className = 'wa-node';
+      el.style.gridRow = L.row; el.style.gridColumn = L.col;
+      el.dataset.node = res.id;
+      const maxTxt = cur >= res.maxLevel ? 'MAX' : '/' + res.maxLevel;
+      el.innerHTML =
+        `<span class="wa-node__lock">🔒</span>
+         <div class="wa-node__icon">${window.iconSvg(L.icon, 20)}</div>
+         <div class="wa-node__name">${nm(res.name)}</div>
+         <div class="wa-node__badge">
+           <input class="wa-node__cur" type="number" min="0" max="${res.maxLevel}" value="${cur}" aria-label="${nm(res.name)}">
+           <span class="wa-node__max">${maxTxt}</span>
+         </div>`;
+      wrap.appendChild(el);
+      el.querySelector('.wa-node__cur').addEventListener('change', (e) => {
+        const res2 = resAt(tree, L.slot);
+        const v = clampInt(e.target.value, 0, res2.maxLevel);
+        e.target.value = v;
+        state.levels[rkey(state.activeTree, res2.id)] = v;
+        save(); refreshStates(); recompute();
+      });
+    });
+
+    // ensure svg sits behind nodes
+    wrap.insertBefore(svg, wrap.firstChild);
+    refreshStates();
+  }
+
+  // Recompute node classes + connectors (no rebuild -> inputs keep focus)
+  function refreshStates(suggested) {
+    const wrap = document.getElementById('wa-tree');
+    const tree = treeById(state.activeTree);
+    LAYOUT.forEach(L => {
+      const res = resAt(tree, L.slot);
+      if (!res) return;
+      const el = wrap.querySelector('.wa-node[data-node="' + res.id + '"]');
+      if (!el) return;
+      const st = nodeState(state.activeTree, res);
+      el.classList.remove('is-max', 'is-done', 'is-available', 'is-locked', 'is-suggested');
+      el.classList.add('is-' + st);
+      // update /max label
+      const cur = curOf(state.activeTree, res);
+      const maxEl = el.querySelector('.wa-node__max');
+      if (maxEl) maxEl.textContent = cur >= res.maxLevel ? 'MAX' : '/' + res.maxLevel;
+      // suggested tag
+      let tag = el.querySelector('.wa-node__tag');
+      const sKey = rkey(state.activeTree, res.id);
+      if (suggested && suggested[sKey]) {
+        el.classList.add('is-suggested');
+        if (!tag) { tag = document.createElement('span'); tag.className = 'wa-node__tag'; el.appendChild(tag); }
+        tag.textContent = '→ ' + suggested[sKey];
+      } else if (tag) { tag.remove(); }
+    });
+    drawConnectors();
+  }
+
+  function drawConnectors() {
+    const wrap = document.getElementById('wa-tree');
+    const svg = document.getElementById('wa-connectors');
+    const tree = treeById(state.activeTree);
+    const box = wrap.getBoundingClientRect();
+    if (!box.width) return;
+    svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+    svg.setAttribute('width', box.width);
+    svg.setAttribute('height', box.height);
+
+    const centerOf = (nodeKey) => {
+      const el = wrap.querySelector('.wa-node[data-node="' + nodeKey + '"]');
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { el, x: r.left - box.left + r.width / 2, top: r.top - box.top, bot: r.top - box.top + r.height };
+    };
+    const nodeKeyOf = (slotOrCore) =>
+      slotOrCore === 'core' ? 'core' : (resAt(tree, slotOrCore) ? resAt(tree, slotOrCore).id : null);
+    const isLive = (nodeKey) => {
+      if (nodeKey === 'core') return state.waLevel >= 1;
+      const el = wrap.querySelector('.wa-node[data-node="' + nodeKey + '"]');
+      return el && (el.classList.contains('is-done') || el.classList.contains('is-max'));
+    };
+
+    let paths = '';
+    for (const [aSlot, bSlot] of EDGES) {
+      const aKey = nodeKeyOf(aSlot), bKey = nodeKeyOf(bSlot);
+      if (!aKey || !bKey) continue;
+      const a = centerOf(aKey), b = centerOf(bKey); // a = lower prereq, b = upper dependent
+      if (!a || !b) continue;
+      // route: from a.top up to a mid, horizontal to b.x, up to b.bot  (rounded elbows)
+      const y1 = a.top, y2 = b.bot;
+      const midY = y1 + (y2 - y1) * 0.5;
+      const r = 8;
+      const dir = b.x >= a.x ? 1 : -1;
+      let d;
+      if (Math.abs(b.x - a.x) < 2) {
+        d = `M ${a.x} ${y1} L ${b.x} ${y2}`;
+      } else {
+        d = `M ${a.x} ${y1} L ${a.x} ${midY + r} ` +
+            `Q ${a.x} ${midY} ${a.x + dir * r} ${midY} ` +
+            `L ${b.x - dir * r} ${midY} ` +
+            `Q ${b.x} ${midY} ${b.x} ${midY - r} ` +
+            `L ${b.x} ${y2}`;
+      }
+      const cls = isLive(bKey) ? 'live' : 'dim';
+      paths += `<path d="${d}" class="${cls}"/>`;
+    }
+    svg.innerHTML = paths;
+  }
+
+  // ---------------- optimiser + output ----------------
+  function enabledTrees() {
+    return TREE_ORDER.filter(id => state.enabled[id]);
+  }
+
+  function recompute() {
+    if (!DB || !window.WA_Optimizer) return;
+    const res = window.WA_Optimizer.suggest({
+      db: DB, currentLevels: state.levels, waLevel: state.waLevel,
+      dustBudget: state.dustBudget, speedBonusPct: state.speedBonus,
+      costReductionPct: state.costReduction, enabledTrees: enabledTrees(),
+      mode: state.mode, targetScore: state.targetScore,
+    });
+    renderOutput(res);
+    // suggested set (research -> highest target level) for the ACTIVE tree highlight
+    const suggested = {};
+    res.steps.forEach(s => {
+      const k = rkey(s.treeId, s.researchId);
+      suggested[k] = Math.max(suggested[k] || 0, s.toLevel);
+    });
+    refreshStates(suggested);
+  }
+
+  function renderOutput(res) {
+    const box = document.getElementById('wa-output');
+    const heads = { classic: t('headClassic'), kvk: t('headKvk'), target: t('headTarget') };
+    if (!res.steps.length) {
+      box.innerHTML = `<div class="wa-out-head">${heads[res.mode]}</div>
+        <div class="wa-empty">${t('empty')}</div>`;
+      return;
+    }
+
+    // Aggregate per research, keep first-appearance order (priority hint)
+    const agg = {}; const order = [];
+    res.steps.forEach(s => {
+      const k = rkey(s.treeId, s.researchId);
+      if (!agg[k]) { agg[k] = { treeId: s.treeId, name: s.name, from: s.fromLevel, to: s.toLevel, dust: 0, time: 0, n: 0 }; order.push(k); }
+      const a = agg[k];
+      a.from = Math.min(a.from, s.fromLevel); a.to = Math.max(a.to, s.toLevel);
+      a.dust += s.effDust; a.time += s.effTime; a.n += 1;
+    });
+
+    const colors = { infantry: '#54c66a', archer: '#ef5a4c', cavalry: '#4d9be6' };
+    const rowsHtml = order.map((k, i) => {
+      const a = agg[k];
+      return `<div class="wa-step" style="--step-color:${colors[a.treeId]}">
+        <span class="wa-step__idx">${i + 1}</span>
+        <span class="wa-step__name">${nm(a.name)} <small>Lv.${a.from} → ${a.to} · ${a.n} ${t('lvls')}</small></span>
+        <span class="wa-step__cost"><b>${fmtNum(a.dust)}</b> · ${fmtTime(a.time)}</span>
+      </div>`;
+    }).join('');
+
+    const tot = res.totals;
+    const availMin = state.accDays * 1440 + state.accHours * 60 + state.accMinutes;
+    const diff = availMin - tot.effTimeMin;
+    const speedChip = diff >= 0
+      ? `<span class="wa-chip wa-chip-ok">${t('cSpeedHave')}: ${fmtTime(availMin)} — <b>${fmtTime(diff)} ${t('cSpare')}</b></span>`
+      : `<span class="wa-chip wa-chip-warn">${t('cSpeedHave')}: ${fmtTime(availMin)} — <b>${t('cMissing')} ${fmtTime(-diff)}</b></span>`;
+
+    let chips =
+      `<span class="wa-chip"><b>${order.length}</b> ${t('cResearch')} · <b>${tot.count}</b> ${t('cLevels')}</span>` +
+      `<span class="wa-chip">${t('cDust')}: <b>${fmtNum(tot.effDust)}</b>${res.remaining.dust != null ? ` / ${fmtNum(state.dustBudget)} (${fmtNum(res.remaining.dust)} ${t('cReste')})` : ''}</span>` +
+      `<span class="wa-chip">${t('cTime')}: <b>${fmtTime(tot.effTimeMin)}</b></span>` +
+      speedChip +
+      `<span class="wa-chip">${t('cPoints')}: <b>${fmtNum(tot.kvkPoints)}</b> <small>(${fmtNum(tot.kvkFromDust)} ${t('cFromDust')} + ${fmtNum(tot.kvkFromTime)} ${t('cFromTime')})</small></span>`;
+
+    let targetLine = '';
+    if (res.mode === 'target' && res.target) {
+      targetLine = res.target.reached
+        ? `<div class="wa-chip wa-chip-ok" style="margin-bottom:14px;"><b>${t('reached')}</b> (${fmtNum(tot.kvkPoints)})</div>`
+        : `<div class="wa-chip wa-chip-warn" style="margin-bottom:14px;"><b>${t('notReached')} ${fmtNum(tot.kvkPoints)}</b></div>`;
+    }
+
+    box.innerHTML =
+      `<div class="wa-out-head">${heads[res.mode]}</div>` +
+      targetLine +
+      `<div class="wa-out-chips">${chips}</div>` +
+      `<div class="wa-steps">${rowsHtml}</div>`;
+  }
+
+  // ---------------- inline handlers (window.WA) ----------------
+  const debounce = (fn, d = 180) => { let x; return (...a) => { clearTimeout(x); x = setTimeout(() => fn(...a), d); }; };
+  const doUpdate = debounce(() => { readInputs(); syncInputs(); save(); recompute(); }, 160);
+
+  window.WA = {
+    triggerUpdate: doUpdate,
+    onModeChange() {
+      const tr = document.getElementById('targetRow');
+      if (tr) tr.style.display = document.getElementById('modeSelect').value === 'target' ? '' : 'none';
+      doUpdate();
+    },
+    formatNumInput(el) {
+      const n = parseNum(el.value);
+      el.value = n ? fmtNum(n) : '';
+      doUpdate();
+    },
+  };
+
+  // ---------------- i18n apply + startup ----------------
+  function applyI18n() {
+    if (window.GlobalLang) window.GlobalLang.applyI18n(i18n[lang()]);
+    document.title = (lang() === 'EN' ? 'TrueGold War Academy' : 'Académie de Guerre TrueGold') + ' — Kingshot Toolbox';
+  }
+
+  function initHelp() {
+    if (!window.HelpSystem) return;
+    try {
+      window.HelpSystem.init({
+        id: 'waracademy', banner: true, anchor: '[data-i18n="researchTree"]',
+        title: { FR: i18n.FR.helpTitle, EN: i18n.EN.helpTitle },
+        summary: { FR: i18n.FR.helpSummary, EN: i18n.EN.helpSummary },
+        steps: HELP_STEPS,
+      });
+    } catch (e) { /* help optional */ }
+  }
+
+  async function boot() {
+    load();
+    syncInputs();
+    try {
+      const r = await fetch('data/truegold_war_db.json');
+      DB = await r.json();
+    } catch (e) {
+      document.getElementById('wa-output').innerHTML = `<div class="wa-empty">${t('dbErr')}</div>`;
+      return;
+    }
+    applyI18n();
+    renderTabs();
+    renderTree();
+    recompute();
+    initHelp();
+
+    window.addEventListener('resize', debounce(drawConnectors, 120));
+    window.addEventListener('langChanged', () => {
+      applyI18n();
+      renderTabs();
+      renderTree();
+      recompute();
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
