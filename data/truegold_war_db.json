@@ -682,7 +682,7 @@
           "levels": [
             {
               "level": 1,
-              "dust": 2286,
+              "dust": 2236,
               "time": 131535,
               "power": 8000000,
               "buff": "Unlock XI Truegold Infantry",
@@ -867,7 +867,7 @@
               "reqWA": 5,
               "req": [
                 {
-                  "r": "truegold_infantry_aidd",
+                  "r": "truegold_infantry_aid",
                   "lvl": 4
                 }
               ]
@@ -1105,7 +1105,7 @@
               "reqWA": 1,
               "req": [
                 {
-                  "r": "truegold_battalion_archer",
+                  "r": "truegold_battalion",
                   "lvl": 3
                 }
               ]
@@ -1137,7 +1137,7 @@
               "reqWA": 2,
               "req": [
                 {
-                  "r": "truegold_battalion_archer",
+                  "r": "truegold_battalion",
                   "lvl": 4
                 }
               ]
@@ -1151,7 +1151,7 @@
               "reqWA": 3,
               "req": [
                 {
-                  "r": "truegold_battalion_archer",
+                  "r": "truegold_battalion",
                   "lvl": 5
                 }
               ]
@@ -1202,7 +1202,7 @@
               "reqWA": 1,
               "req": [
                 {
-                  "r": "truegold_battalion_archer",
+                  "r": "truegold_battalion",
                   "lvl": 3
                 }
               ]
@@ -1234,7 +1234,7 @@
               "reqWA": 2,
               "req": [
                 {
-                  "r": "truegold_battalion_archer",
+                  "r": "truegold_battalion",
                   "lvl": 4
                 }
               ]
@@ -1248,7 +1248,7 @@
               "reqWA": 3,
               "req": [
                 {
-                  "r": "truegold_battalion_archer",
+                  "r": "truegold_battalion",
                   "lvl": 5
                 }
               ]
@@ -1713,7 +1713,7 @@
                   "lvl": 12
                 },
                 {
-                  "r": "truegold_legionaries_archer",
+                  "r": "truegold_legionaries",
                   "lvl": 12
                 }
               ]
@@ -1737,7 +1737,7 @@
               "reqWA": 5,
               "req": [
                 {
-                  "r": "truegold_archer",
+                  "r": "truegold_archers",
                   "lvl": 1
                 }
               ]
@@ -1807,7 +1807,7 @@
             },
             {
               "level": 9,
-              "dust": 1122,
+              "dust": 1112,
               "time": 33000,
               "power": 35000,
               "buff": "+5.00% Truegold Archer Healing Cost Reduction",
@@ -1842,7 +1842,7 @@
               "reqWA": 5,
               "req": [
                 {
-                  "r": "truegold_archer",
+                  "r": "truegold_archers",
                   "lvl": 1
                 }
               ]
@@ -1947,7 +1947,7 @@
               "reqWA": 5,
               "req": [
                 {
-                  "r": "truegold_archer",
+                  "r": "truegold_archers",
                   "lvl": 1
                 }
               ]
@@ -2116,7 +2116,7 @@
               "reqWA": 1,
               "req": [
                 {
-                  "r": "truegold_battalion_cavalry",
+                  "r": "truegold_battalion",
                   "lvl": 3
                 }
               ]
@@ -2148,7 +2148,7 @@
               "reqWA": 2,
               "req": [
                 {
-                  "r": "truegold_battalion_cavalry",
+                  "r": "truegold_battalion",
                   "lvl": 4
                 }
               ]
@@ -2162,7 +2162,7 @@
               "reqWA": 3,
               "req": [
                 {
-                  "r": "truegold_battalion_cavalry",
+                  "r": "truegold_battalion",
                   "lvl": 5
                 }
               ]
@@ -2213,7 +2213,7 @@
               "reqWA": 1,
               "req": [
                 {
-                  "r": "truegold_battalion_cavalry",
+                  "r": "truegold_battalion",
                   "lvl": 3
                 }
               ]
@@ -2245,7 +2245,7 @@
               "reqWA": 2,
               "req": [
                 {
-                  "r": "truegold_battalion_cavalry",
+                  "r": "truegold_battalion",
                   "lvl": 4
                 }
               ]
@@ -2259,7 +2259,7 @@
               "reqWA": 3,
               "req": [
                 {
-                  "r": "truegold_battalion_cavalry",
+                  "r": "truegold_battalion",
                   "lvl": 5
                 }
               ]
@@ -2724,7 +2724,7 @@
                   "lvl": 12
                 },
                 {
-                  "r": "truegold_legionaries_cavalry",
+                  "r": "truegold_legionaries",
                   "lvl": 12
                 }
               ]
