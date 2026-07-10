@@ -400,10 +400,12 @@
 
   function recompute() {
     if (!DB || !window.WA_Optimizer) return;
+    const speedupBudget = state.accDays * 1440 + state.accHours * 60 + state.accMinutes;
     const res = window.WA_Optimizer.suggest({
       db: DB, currentLevels: state.levels, waLevel: state.waLevel,
       dustBudget: state.dustBudget, speedBonusPct: state.speedBonus,
-      costReductionPct: 0, enabledTrees: enabledTrees(),
+      costReductionPct: 0, speedupBudget,
+      enabledTrees: enabledTrees(),
       mode: state.mode, targetScore: state.targetScore,
     });
     renderOutput(res);
