@@ -469,14 +469,9 @@
     const colors = { infantry: '#54c66a', archer: '#ef5a4c', cavalry: '#4d9be6' };
     const treeLabels = { infantry: t('treeInfantry'), archer: t('treeArcher'), cavalry: t('treeCavalry') };
 
-    // Sort: completed (maxed) first, then non-maxed. Preserve priority order within each group.
-    const sorted = [...order];
-    sorted.sort((a, b) => {
-      const aMax = agg[a].to >= agg[a].maxLevel;
-      const bMax = agg[b].to >= agg[b].maxLevel;
-      if (aMax !== bMax) return aMax ? -1 : 1;
-      return 0;
-    });
+    // Keep the plan's order, but always put the single "in progress" research last.
+    const sorted = order.filter(k => k !== res.inProgress);
+    if (order.includes(res.inProgress)) sorted.push(res.inProgress);
 
     // Exactly ONE research can be left unfinished (single in-game research queue):
     // the optimizer reports it as res.inProgress; every other research is completed.
