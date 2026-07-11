@@ -107,13 +107,10 @@
     let score = 0; // KvK points accumulated (nominal or effective per flag)
     let inProgressKey = null; // the single research left unfinished by a resource limit
 
-    const affordable = (nl) =>
-      spentEffDust + effDustOf(nl.dust || 0) <= dustBudget &&
-      (mode !== 'classic' || spentEffTime + effTimeOf(nl.time || 0) <= speedupBudget);
+    const affordable = (nl) => spentEffDust + effDustOf(nl.dust || 0) <= dustBudget;
 
     const HARD_CAP = 100000;
     let iter = 0;
-    let lastKey = null; // last research advanced (for the "in progress" flag)
 
     // Per-level value for choosing the next level (free switching, no lock).
     function levelScore(entry, nl) {
@@ -176,6 +173,7 @@
         if (score + dustPts < targetScore && st2 > 0) {
           frac = Math.min(1, ((targetScore - score - dustPts) / PTS_PER_MIN) / st2);
         }
+        if (et > 0) frac = Math.min(frac, Math.max(0, speedupBudget - spentEffTime) / et); // can't exceed speedups
         const partBase = bt * frac, partEff = et * frac; // exact for accounting
         spentDust += bd; spentEffDust += ed;
         spentBaseTime += partBase; spentEffTime += partEff;
@@ -191,7 +189,29 @@
         break;
       }
 
-      entry.level = lvl.level; lastKey = best.k;
+      // SPEEDUP limit: if this level's full time exceeds the remaining speedups, apply
+      // only what's left (partial) — this level becomes the single "in progress" one, then
+      // stop. If instead DUST runs out, the loop simply ends above with every level
+      // finished (no "in progress"): the limiting resource was dust.
+      if (spentEffTime + effTime > speedupBudget) {
+        const remEff = Math.max(0, speedupBudget - spentEffTime);
+        const frac = effTime > 0 ? remEff / effTime : 0;
+        const partBase = baseTime * frac, partEff = effTime * frac;
+        spentDust += baseDust; spentEffDust += eff;
+        spentBaseTime += partBase; spentEffTime += partEff;
+        score += PTS_PER_DUST * scoreDust + PTS_PER_MIN * scoreTime * frac;
+        steps.push({
+          treeId: entry.treeId, researchId: entry.res.id, name: entry.res.name,
+          toLevel: lvl.level, fromLevel: lvl.level - 1, maxLevel: entry.res.maxLevel,
+          baseDust, effDust: eff, baseTime: Math.round(partBase), effTime: Math.round(partEff),
+          points: Math.round(PTS_PER_DUST * scoreDust + PTS_PER_MIN * scoreTime * frac),
+          buff: lvl.buff || '', partial: true,
+        });
+        inProgressKey = best.k;
+        break;
+      }
+
+      entry.level = lvl.level;
       spentDust += baseDust; spentEffDust += eff;
       spentBaseTime += baseTime; spentEffTime += effTime;
       score += stepPts;
@@ -204,8 +224,6 @@
 
       if (mode === 'target' && targetScore > 0 && score >= targetScore) break;
     }
-    // The last research advanced is "in progress" only if it isn't maxed.
-    if (lastKey && state[lastKey].level < state[lastKey].res.maxLevel) inProgressKey = lastKey;
 
     const kvkFromDust = Math.round(PTS_PER_DUST * (SCORE_ON_EFFECTIVE ? spentEffDust : spentDust));
     const kvkFromTime = Math.round(PTS_PER_MIN  * (SCORE_ON_EFFECTIVE ? spentEffTime : spentBaseTime));
