@@ -188,7 +188,7 @@
 
   // Push state -> sidebar inputs
   function syncInputs() {
-    const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+    const set = (id, v) => { const el = document.getElementById(id); if (el && el !== document.activeElement) el.value = v; };
     set('waLevel', state.waLevel);
     set('speedBonus', state.speedBonus);
     set('dustBudget', state.dustBudget);
@@ -208,7 +208,7 @@
   function readInputs() {
     const g = (id) => document.getElementById(id);
     state.waLevel = clampInt(g('waLevel').value, 1, 10);
-    state.speedBonus = Math.max(0, Number(g('speedBonus').value) || 0);
+    state.speedBonus = Math.max(0, parseFloat(g('speedBonus').value) || 0);
     state.dustBudget = parseNum(g('dustBudget').value);
     state.targetScore = parseNum(g('targetScore').value);
     state.accDays = Math.max(0, Number(g('accDays').value) || 0);
