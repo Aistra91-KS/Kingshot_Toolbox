@@ -319,3 +319,20 @@
     .wa-node__res { width: 100%; }
     .wa-res { grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); }
 }
+
+
+/* ---------- Suggestion card: expandable per-level breakdown ---------- */
+details.wa-step > summary.wa-step__summary { cursor: pointer; list-style: none; display: block; }
+summary.wa-step__summary::-webkit-details-marker { display: none; }
+.wa-step__hint { margin-top: 8px; font-size: 11px; color: var(--text-muted); display: inline-flex; align-items: center; gap: 5px; }
+.wa-step__chev { transition: transform .15s; display: inline-block; }
+details.wa-step[open] .wa-step__chev { transform: rotate(90deg); }
+.wa-step__bd { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); display: flex; flex-direction: column; gap: 5px; }
+.wa-bd__row { display: flex; align-items: flex-start; gap: 10px; font-size: 11px; }
+.wa-bd__lv { color: var(--text-muted); min-width: 64px; font-weight: 700; padding-top: 1px; }
+.wa-bd__items { display: flex; flex-wrap: wrap; gap: 3px 10px; }
+.wa-bd__it { display: inline-flex; align-items: center; gap: 3px; color: var(--text-muted); }
+.wa-bd__it svg { width: 11px; height: 11px; opacity: .8; flex-shrink: 0; }
+.wa-bd__it b { color: var(--text-light); font-weight: 600; }
+.wa-bd__it.is-dust svg { color: var(--accent); opacity: 1; }
+.wa-bd__it.is-dust b { color: var(--accent); }
