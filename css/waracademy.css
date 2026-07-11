@@ -299,6 +299,8 @@
 .wa-node__fb { line-height: 0; }
 .wa-node__fb svg { width: 40px; height: 40px; }
 .wa-node__res { flex: 1; min-width: 0; }
+.wa-node.is-max .wa-node__res { display: none; }
+.wa-node.is-max .wa-node__body { justify-content: center; }
 
 .wa-res-title { font-size: 10px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .04em; }
 .wa-res {
