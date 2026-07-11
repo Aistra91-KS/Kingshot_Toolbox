@@ -248,9 +248,11 @@
     if (cur >= res.maxLevel) return '';
     const lv = res.levels[cur]; // levels[cur] === level cur+1
     if (!lv) return '';
-    const it = (icon, val, cls) => `<span class="wa-res__item${cls ? ' ' + cls : ''}">${window.iconSvg(icon, 12)}<b>${val}</b></span>`;
-    return '<div class="wa-res">' +
-      it('coins', fmtNum(lv.dust), 'is-dust') +
+    const dustSvg = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>';
+    const it = (icon, val, cls) => `<span class="wa-res__item${cls ? ' ' + cls : ''}">${window.iconSvg(icon, 13)}<b>${val}</b></span>`;
+    const title = lang() === 'EN' ? 'Next level cost' : 'Coût du prochain niveau';
+    return `<div class="wa-res-title">${title}</div><div class="wa-res">` +
+      `<span class="wa-res__item is-dust">${dustSvg}<b>${fmtNum(lv.dust)}</b></span>` +
       it('clock', shortTime(lv.time)) +
       (lv.coin ? it('coins', abbr(lv.coin)) : '') +
       (lv.bread ? it('wheat', abbr(lv.bread)) : '') +
@@ -324,10 +326,14 @@
       el.dataset.node = res.id;
       el.innerHTML =
         `<span class="wa-node__lock">🔒</span>
-         ${nodeImgHtml(res, L.icon)}
-         <div class="wa-node__name">${nm(res.name)}</div>
-         ${stepperHtml(cur, res.maxLevel, 0, nm(res.name))}
-         <div class="wa-node__res">${nextResHtml(res, cur)}</div>`;
+         <div class="wa-node__body">
+           <div class="wa-node__main">
+             ${nodeImgHtml(res, L.icon)}
+             <div class="wa-node__name">${nm(res.name)}</div>
+             ${stepperHtml(cur, res.maxLevel, 0, nm(res.name))}
+           </div>
+           <div class="wa-node__res">${nextResHtml(res, cur)}</div>
+         </div>`;
       wrap.appendChild(el);
     });
 
