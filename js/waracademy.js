@@ -498,7 +498,7 @@
     res.steps.forEach(s => {
       const k = rkey(s.treeId, s.researchId);
       if (!agg[k]) {
-        agg[k] = { treeId: s.treeId, name: s.name, from: s.fromLevel, to: s.toLevel, maxLevel: s.maxLevel,
+        agg[k] = { treeId: s.treeId, researchId: s.researchId, name: s.name, from: s.fromLevel, to: s.toLevel, maxLevel: s.maxLevel,
           dust: 0, baseDust: 0, time: 0, points: 0, n: 0, buff: '' };
         order.push(k);
       }
@@ -526,6 +526,30 @@
     const tot = res.totals;
     const availMin = state.accDays * 1440 + state.accHours * 60 + state.accMinutes;
 
+    // Per-level resource breakdown (shown when a card is expanded).
+    const bdDust = '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>';
+    const bdSpeed = 1 + (Number(state.speedBonus) || 0) / 100;
+    function breakdownHtml(a) {
+      const rr = treeById(a.treeId).researches.find(r => r.id === a.researchId);
+      if (!rr) return '';
+      const ic = (name) => window.iconSvg(name, 11);
+      let rows = '';
+      for (let L = a.from + 1; L <= a.to; L++) {
+        const lv = rr.levels[L - 1];
+        if (!lv) continue;
+        const items =
+          `<span class="wa-bd__it is-dust">${bdDust}<b>${fmtNum(lv.dust)}</b></span>` +
+          `<span class="wa-bd__it">${ic('clock')}<b>${shortTime(Math.round(lv.time / bdSpeed))}</b></span>` +
+          (lv.coin ? `<span class="wa-bd__it">${ic('coins')}<b>${abbr(lv.coin)}</b></span>` : '') +
+          (lv.bread ? `<span class="wa-bd__it">${ic('wheat')}<b>${abbr(lv.bread)}</b></span>` : '') +
+          (lv.wood ? `<span class="wa-bd__it">${ic('tree-pine')}<b>${abbr(lv.wood)}</b></span>` : '') +
+          (lv.stone ? `<span class="wa-bd__it">${ic('brick-wall')}<b>${abbr(lv.stone)}</b></span>` : '') +
+          (lv.iron ? `<span class="wa-bd__it">${ic('pickaxe')}<b>${abbr(lv.iron)}</b></span>` : '');
+        rows += `<div class="wa-bd__row"><span class="wa-bd__lv">Lv.${L - 1}→${L}</span><div class="wa-bd__items">${items}</div></div>`;
+      }
+      return `<div class="wa-step__bd">${rows}</div>`;
+    }
+
     const rowsHtml = sorted.map((k) => {
       const a = agg[k];
       const isMax = a.to >= a.maxLevel;
@@ -538,20 +562,24 @@
         ? `<div class="wa-step__buff">${a.buff}</div>`
         : '';
 
-      return `<div class="wa-step" style="--step-color:${colors[a.treeId]}">
-        <div class="wa-step__header">
-          <span class="wa-step__name">${nm(a.name)}</span>
-          ${treeTag}
-          ${statusHtml}
-        </div>
-        <div class="wa-step__levels">Lv.${a.from} → <b>Lv.${a.to}</b>${isMax ? '' : ' / ' + a.maxLevel} <small>(${a.n} ${t('lvls')})</small></div>
-        ${buffHtml}
-        <div class="wa-step__details">
-          <span class="wa-step__detail"><span class="wa-step__detail-label">${t('planDust')}</span> <b>${fmtNum(a.dust)}</b></span>
-          <span class="wa-step__detail"><span class="wa-step__detail-label">${t('planTime')}</span> <b>${fmtTime(a.time)}</b></span>
-          <span class="wa-step__detail"><span class="wa-step__detail-label">${t('planPoints')}</span> <b>${fmtNum(a.points)}</b></span>
-        </div>
-      </div>`;
+      return `<details class="wa-step" style="--step-color:${colors[a.treeId]}">
+        <summary class="wa-step__summary">
+          <div class="wa-step__header">
+            <span class="wa-step__name">${nm(a.name)}</span>
+            ${treeTag}
+            ${statusHtml}
+          </div>
+          <div class="wa-step__levels">Lv.${a.from} → <b>Lv.${a.to}</b>${isMax ? '' : ' / ' + a.maxLevel} <small>(${a.n} ${t('lvls')})</small></div>
+          ${buffHtml}
+          <div class="wa-step__details">
+            <span class="wa-step__detail"><span class="wa-step__detail-label">${t('planDust')}</span> <b>${fmtNum(a.dust)}</b></span>
+            <span class="wa-step__detail"><span class="wa-step__detail-label">${t('planTime')}</span> <b>${fmtTime(a.time)}</b></span>
+            <span class="wa-step__detail"><span class="wa-step__detail-label">${t('planPoints')}</span> <b>${fmtNum(a.points)}</b></span>
+          </div>
+          <div class="wa-step__hint">${lang() === 'EN' ? 'Per-level detail' : 'Détail par niveau'} <span class="wa-step__chev">▸</span></div>
+        </summary>
+        ${breakdownHtml(a)}
+      </details>`;
     }).join('');
 
     const diff = availMin - tot.effTimeMin;
