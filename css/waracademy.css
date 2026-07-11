@@ -289,3 +289,19 @@
     color: var(--text-light);
 }
 .wa-out-total-num { color: var(--accent); font-weight: bold; font-size: 22px; }
+
+
+
+/* ---------- Node official image + next-level resource cost ---------- */
+.wa-node__img { width: 34px; height: 34px; object-fit: contain; display: block; }
+.wa-node__fb { line-height: 0; }
+.wa-res {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 3px 7px; margin-top: 6px; padding-top: 6px;
+    border-top: 1px solid var(--border); width: 100%;
+}
+.wa-res__item { display: inline-flex; align-items: center; gap: 2px; font-size: 10px; color: var(--text-muted); }
+.wa-res__item svg { width: 11px; height: 11px; opacity: .8; }
+.wa-res__item b { color: var(--text-light); font-weight: 600; }
+.wa-res__item.is-dust svg { color: var(--accent); opacity: 1; }
+.wa-res__item.is-dust b { color: var(--accent); }
