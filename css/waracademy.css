@@ -28,7 +28,7 @@
 .wa-tree {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(3, minmax(96px, 1fr));
+    grid-template-columns: repeat(3, minmax(215px, 1fr));
     grid-template-rows: repeat(6, auto);
     gap: 26px 18px;
     min-width: 320px;
@@ -258,7 +258,7 @@
 
 /* ---------- Responsive ---------- */
 @media (max-width: 560px) {
-    .wa-tree { gap: 20px 10px; grid-template-columns: repeat(3, minmax(84px, 1fr)); }
+    .wa-tree { gap: 20px 10px; grid-template-columns: repeat(3, minmax(150px, 1fr)); }
     .wa-node__name { font-size: 10px; max-width: 90px; }
     .wa-step__header { gap: 6px; }
     .wa-step__tree { font-size: 10px; padding: 1px 6px; }
@@ -292,16 +292,28 @@
 
 
 
-/* ---------- Node official image + next-level resource cost ---------- */
-.wa-node__img { width: 34px; height: 34px; object-fit: contain; display: block; }
+/* ---------- Node: image + next-level cost (horizontal layout) ---------- */
+.wa-node__body { display: flex; flex-direction: row; align-items: center; gap: 14px; width: 100%; }
+.wa-node__main { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
+.wa-node__img { width: 52px; height: 52px; object-fit: contain; display: block; }
 .wa-node__fb { line-height: 0; }
+.wa-node__fb svg { width: 40px; height: 40px; }
+.wa-node__res { flex: 1; min-width: 0; }
+
+.wa-res-title { font-size: 10px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .04em; }
 .wa-res {
-    display: flex; flex-wrap: wrap; justify-content: center;
-    gap: 3px 7px; margin-top: 6px; padding-top: 6px;
-    border-top: 1px solid var(--border); width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 5px 10px;
 }
-.wa-res__item { display: inline-flex; align-items: center; gap: 2px; font-size: 10px; color: var(--text-muted); }
-.wa-res__item svg { width: 11px; height: 11px; opacity: .8; }
+.wa-res__item { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; color: var(--text-muted); }
+.wa-res__item svg { width: 13px; height: 13px; opacity: .85; flex-shrink: 0; }
 .wa-res__item b { color: var(--text-light); font-weight: 600; }
 .wa-res__item.is-dust svg { color: var(--accent); opacity: 1; }
 .wa-res__item.is-dust b { color: var(--accent); }
+
+@media (max-width: 620px) {
+    .wa-node__body { flex-direction: column; gap: 8px; }
+    .wa-node__res { width: 100%; }
+    .wa-res { grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); }
+}
