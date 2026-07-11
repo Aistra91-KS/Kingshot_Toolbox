@@ -221,6 +221,45 @@
   }
 
   // ---------------- rendering: tabs ----------------
+// ---- node visuals: official image (with icon fallback) + next-level resource cost ----
+  const abbr = (v) => {
+    v = Number(v) || 0;
+    if (v >= 1e6) { const x = v / 1e6; return (x >= 10 || x % 1 === 0 ? Math.round(x) : x.toFixed(1)) + 'M'; }
+    if (v >= 1e3) { const x = v / 1e3; return (x >= 10 || x % 1 === 0 ? Math.round(x) : x.toFixed(1)) + 'K'; }
+    return String(v);
+  };
+  function shortTime(min) {
+    min = Math.round(min || 0);
+    const d = Math.floor(min / 1440), h = Math.floor((min % 1440) / 60), m = min % 60;
+    const dl = lang() === 'EN' ? 'd' : 'j';
+    if (d) return d + dl + (h ? ' ' + h + 'h' : '');
+    if (h) return h + 'h' + (m ? ' ' + m + 'm' : '');
+    return m + 'm';
+  }
+  function nodeImgHtml(res, iconName) {
+    const src = 'img/WarAcademy/' + state.activeTree + '_' + res.id + '.webp';
+    return `<div class="wa-node__icon">
+        <img class="wa-node__img" src="${src}" alt="" loading="lazy"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='';">
+        <span class="wa-node__fb" style="display:none">${window.iconSvg(iconName, 22)}</span>
+      </div>`;
+  }
+  function nextResHtml(res, cur) {
+    if (cur >= res.maxLevel) return '';
+    const lv = res.levels[cur]; // levels[cur] === level cur+1
+    if (!lv) return '';
+    const it = (icon, val, cls) => `<span class="wa-res__item${cls ? ' ' + cls : ''}">${window.iconSvg(icon, 12)}<b>${val}</b></span>`;
+    return '<div class="wa-res">' +
+      it('coins', fmtNum(lv.dust), 'is-dust') +
+      it('clock', shortTime(lv.time)) +
+      (lv.coin ? it('coins', abbr(lv.coin)) : '') +
+      (lv.bread ? it('wheat', abbr(lv.bread)) : '') +
+      (lv.wood ? it('tree-pine', abbr(lv.wood)) : '') +
+      (lv.stone ? it('brick-wall', abbr(lv.stone)) : '') +
+      (lv.iron ? it('pickaxe', abbr(lv.iron)) : '') +
+      '</div>';
+  }
+  
   // Level control: [−] value [+] /max  (replaces the old text input)
   function stepperHtml(cur, max, min, label) {
     const dis = (c) => c ? ' disabled' : '';
@@ -285,9 +324,10 @@
       el.dataset.node = res.id;
       el.innerHTML =
         `<span class="wa-node__lock">🔒</span>
-         <div class="wa-node__icon">${window.iconSvg(L.icon, 20)}</div>
+         ${nodeImgHtml(res, L.icon)}
          <div class="wa-node__name">${nm(res.name)}</div>
-         ${stepperHtml(cur, res.maxLevel, 0, nm(res.name))}`;
+         ${stepperHtml(cur, res.maxLevel, 0, nm(res.name))}
+         <div class="wa-node__res">${nextResHtml(res, cur)}</div>`;
       wrap.appendChild(el);
     });
 
@@ -345,6 +385,8 @@
       el.classList.remove('is-max', 'is-done', 'is-available', 'is-locked', 'is-suggested');
       el.classList.add('is-' + st);
       syncStepper(el, cur, res.maxLevel, 0);
+      const rEl = el.querySelector('.wa-node__res');
+      if (rEl) rEl.innerHTML = nextResHtml(res, cur);
       // suggested tag
       let tag = el.querySelector('.wa-node__tag');
       const sKey = rkey(state.activeTree, res.id);
