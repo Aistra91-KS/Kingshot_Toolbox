@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <base href="/hub-kingshot/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingshot War Academy — Troop Research Database (TrueGold Dust, Resources, Time) | Kingshot Toolbox</title>
+    <meta name="description" content="Kingshot War Academy troop research database: full per-level costs (TrueGold dust, resources, research time, effects and requirements) for the Infantry, Archer and Cavalry trees.">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      .db-page { max-width: 1000px; margin: 0 auto; padding: 20px 16px 60px; }
+      .db-breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+      .db-breadcrumb a { color: var(--accent); text-decoration: none; }
+      .db-page h1 { color: var(--accent); margin: 0 0 6px; }
+      .db-intro { color: var(--text-muted); font-size: 14px; margin: 0 0 22px; line-height: 1.5; }
+      .db-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 12px; }
+      .db-card { display: flex; flex-direction: row; align-items: center; gap: 14px; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-weight: 600; transition: border-color .15s, transform .1s; }
+      .db-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+      .db-card-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+      .db-card-img { width: 92px; height: 92px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(0,0,0,.45)); }
+      .db-card-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+      .db-card-name { font-weight: 600; }
+    </style>
+</head>
+<body class="has-app-header">
+    <div class="db-page">
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <span data-i18n="crumbWa">Académie de Guerre</span></div>
+        <h1 data-i18n="idxTitle">Académie de Guerre — Recherches</h1>
+        <p class="db-intro" data-i18n="idxIntro">Toutes les recherches de troupes de l'Académie de Guerre, palier par palier : poussière d'Or Véritable, ressources, temps, effets et prérequis. Choisis un arbre.</p>
+        <div class="db-grid">
+      <a class="db-card" href="database/waracademy/infantry.html">
+        <img class="db-card-img" src="img/WarAcademy/tree-infantry.webp" alt="Infantry" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Infantry" data-fr="Infanterie">Infanterie</span>
+          <span class="db-card-sub">10 <span data-i18n="researches">recherches</span></span>
+        </span>
+      </a>
+      <a class="db-card" href="database/waracademy/archer.html">
+        <img class="db-card-img" src="img/WarAcademy/tree-archer.webp" alt="Archer" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Archer" data-fr="Archers">Archers</span>
+          <span class="db-card-sub">10 <span data-i18n="researches">recherches</span></span>
+        </span>
+      </a>
+      <a class="db-card" href="database/waracademy/cavalry.html">
+        <img class="db-card-img" src="img/WarAcademy/tree-cavalry.webp" alt="Cavalry" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Cavalry" data-fr="Cavalerie">Cavalerie</span>
+          <span class="db-card-sub">10 <span data-i18n="researches">recherches</span></span>
+        </span>
+      </a>
+        </div>
+    </div>
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'database/waracademy/index.html';</script>
+    <script src="js/header.js"></script>
+    <script>
+    (function(){
+      const dict = {
+        FR: { crumbWa:"Académie de Guerre", idxTitle:"Académie de Guerre — Recherches", idxIntro:"Toutes les recherches de troupes de l'Académie de Guerre, palier par palier : poussière d'Or Véritable, ressources, temps, effets et prérequis. Choisis un arbre.", researches:"recherches" },
+        EN: { crumbWa:"War Academy", idxTitle:"War Academy — Research", idxIntro:"All War Academy troop research, level by level: TrueGold dust, resources, time, effects and requirements. Pick a tree.", researches:"researches" }
+      };
+      function apply(){
+        const lang=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR';
+        if(window.GlobalLang&&GlobalLang.applyI18n) GlobalLang.applyI18n(dict[lang]||dict.FR);
+        document.querySelectorAll('[data-en][data-fr]').forEach(el=>{ el.textContent = el.getAttribute('data-'+lang.toLowerCase()) || el.textContent; });
+        document.documentElement.lang=lang.toLowerCase();
+      }
+      window.addEventListener('langChanged', apply); apply();
+    })();
+    </script>
+</body>
+</html>
