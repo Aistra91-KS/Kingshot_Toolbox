@@ -248,7 +248,7 @@
     if (cur >= res.maxLevel) return '';
     const lv = res.levels[cur]; // levels[cur] === level cur+1
     if (!lv) return '';
-    const dustSvg = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>';
+    const dustSvg = '<svg viewBox="0 0 24 24" width="13" height="13"><path d="M12 4c2.4 0 4.5 3.4 6 9H6c1.5-5.6 3.6-9 6-9z" fill="currentColor"/><path d="M3 13h18l-2 4.2c-.3.5-.8.8-1.4.8H6.4c-.6 0-1.1-.3-1.4-.8L3 13z" fill="currentColor" opacity=".5"/></svg>';
     const it = (icon, val, cls) => `<span class="wa-res__item${cls ? ' ' + cls : ''}">${window.iconSvg(icon, 13)}<b>${val}</b></span>`;
     const title = lang() === 'EN' ? 'Next level cost' : 'Coût du prochain niveau';
     return `<div class="wa-res-title">${title}</div><div class="wa-res">` +
@@ -527,7 +527,7 @@
     const availMin = state.accDays * 1440 + state.accHours * 60 + state.accMinutes;
 
     // Per-level resource breakdown (shown when a card is expanded).
-    const bdDust = '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>';
+    const bdDust = '<svg viewBox="0 0 24 24" width="11" height="11"><path d="M12 4c2.4 0 4.5 3.4 6 9H6c1.5-5.6 3.6-9 6-9z" fill="currentColor"/><path d="M3 13h18l-2 4.2c-.3.5-.8.8-1.4.8H6.4c-.6 0-1.1-.3-1.4-.8L3 13z" fill="currentColor" opacity=".5"/></svg>';
     const bdSpeed = 1 + (Number(state.speedBonus) || 0) / 100;
     function breakdownHtml(a) {
       const rr = treeById(a.treeId).researches.find(r => r.id === a.researchId);
