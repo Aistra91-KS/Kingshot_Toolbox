@@ -8,6 +8,8 @@ if (!webhook) { console.error('DISCORD_WEBHOOK manquant'); process.exit(1); }
 // ---- Mapping fichier -> page (libellés bilingues) ----
 const PAGE_LABELS = {
   truegold: { fr: 'TrueGold',            en: 'TrueGold' },
+  waracademy: { fr: 'Académie de Guerre', en: 'War Academy' },
+  buildings:  { fr: 'Bâtiments',          en: 'Buildings' },
   shop:     { fr: 'Boutique',            en: 'Shop' },
   beartrap: { fr: 'Piège à ours',        en: 'Bear Trap' },
   caserne:  { fr: 'Caserne',             en: 'Barracks' },
@@ -18,10 +20,12 @@ const PAGE_LABELS = {
   multi:    { fr: 'Plusieurs pages',     en: 'Multiple pages' },
   general:  { fr: 'Général',             en: 'General' }
 };
-const PAGE_ORDER = ['truegold', 'shop', 'beartrap', 'caserne', 'research', 'masters', 'vikings', 'home', 'multi', 'general'];
+const PAGE_ORDER = ['truegold', 'waracademy', 'shop', 'beartrap', 'caserne', 'research', 'masters', 'vikings', 'buildings', 'home', 'multi', 'general'];
 
 function fileToPage(path) {
   const p = String(path).toLowerCase();
+  if (p.includes('waracademy') || p.includes('wa_optimizer') || p.includes('war_db')) return 'waracademy';
+  if (p.includes('database/buildings') || p.includes('img/buildings')) return 'buildings';
   if (p.includes('truegold')) return 'truegold';
   if (p.includes('shop_calc') || p.includes('shopcalc')) return 'shop';
   if (p.includes('beartrap')) return 'beartrap';
