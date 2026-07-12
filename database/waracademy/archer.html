@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <base href="/hub-kingshot/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archer Troop Research — War Academy (TrueGold Dust, Resources, Time) | Kingshot Toolbox</title>
+    <meta name="description" content="Complete Archer troop research table for the Kingshot War Academy: TrueGold dust, resources, research time, effects and requirements for every research level.">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      .db-page { max-width: 1180px; margin: 0 auto; padding: 20px 16px 60px; }
+      .db-breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+      .db-breadcrumb a { color: var(--accent); text-decoration: none; }
+      .db-page h1 { color: var(--accent); margin: 0 0 6px; }
+      .db-intro { color: var(--text-muted); font-size: 14px; margin: 0 0 18px; line-height: 1.5; }
+      .db-page .table-container { max-height: 72vh; overflow: auto; }
+      table.db-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      table.db-table th, table.db-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+      table.db-table thead th { position: sticky; top: 0; background: var(--control-bg); color: var(--text-muted); text-transform: uppercase; font-size: 11px; letter-spacing: .04em; z-index: 2; }
+      table.db-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+      table.db-table tr.wa-group:hover { background: var(--table-header); }
+      table.db-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+      table.db-table td.tg { color: var(--accent); font-weight: 600; }
+      table.db-table td.c-lbl { font-weight: 700; color: var(--text-light); }
+      table.db-table td.c-wa { color: var(--text-muted); font-size: 12px; }
+      table.db-table td.c-req { white-space: normal; color: var(--text-muted); font-size: 12px; min-width: 160px; }
+      table.db-table td.c-eff { white-space: normal; color: var(--text-light); font-size: 12px; min-width: 190px; }
+      table.db-table tr.wa-group td { background: var(--table-header); color: var(--accent); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+      .db-switch { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+      .db-switch-item { padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-size: 13px; font-weight: 600; transition: border-color .15s, background .15s; }
+      a.db-switch-item:hover { border-color: var(--accent); }
+      .db-switch-item.active { border-color: var(--accent); background: rgba(245,184,64,0.15); color: var(--accent); cursor: default; }
+      .db-switch.footer { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 18px; }
+      .db-head { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+      .db-hero { width: 84px; height: 84px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 3px 8px rgba(0,0,0,.45)); }
+      .db-head h1 { margin: 0; }
+      @media (max-width: 520px){ .db-hero { width: 60px; height: 60px; } }
+    </style>
+</head>
+<body class="has-app-header">
+    <div class="db-page">
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="database/waracademy/index.html" data-i18n="crumbWa">Académie de Guerre</a> / <span id="crumb-name">Archers</span></div>
+        <div class="db-head">
+          <img class="db-hero" src="img/WarAcademy/tree-archer.webp" alt="Archer" onerror="this.remove()">
+          <h1 id="tree-name" data-en="Archer" data-fr="Archers">Archers</h1>
+        </div>
+        <p class="db-intro" data-i18n="waIntro">Coûts complets par palier : poussière d'Or Véritable, ressources, temps de recherche, effet et prérequis. 1 recherche = 1 palier.</p>
+        <nav class="db-switch" aria-label="War Academy trees"><a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infanterie</a><span class="db-switch-item active" data-en="Archer" data-fr="Archers">Archers</span><a class="db-switch-item" href="database/waracademy/cavalry.html" data-en="Cavalry" data-fr="Cavalerie">Cavalerie</a></nav>
+        <div class="table-container">
+          <table class="db-table">
+            <thead><tr>
+              <th data-i18n="cLevel">Palier</th>
+              <th data-i18n="cWA">Bâtiment</th>
+              <th data-i18n="cReq">Prérequis</th>
+              <th data-i18n="cDust">Poussière</th>
+              <th data-i18n="cBread">Pain</th>
+              <th data-i18n="cWood">Bois</th>
+              <th data-i18n="cStone">Pierre</th>
+              <th data-i18n="cIron">Fer</th>
+              <th data-i18n="cCoin">Pièces</th>
+              <th data-i18n="cTime">Temps</th>
+              <th data-i18n="cEffect">Effet</th>
+            </tr></thead>
+            <tbody id="wa-rows"></tbody>
+          </table>
+        </div>
+        <nav class="db-switch footer" aria-label="War Academy trees"><a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infanterie</a><span class="db-switch-item active" data-en="Archer" data-fr="Archers">Archers</span><a class="db-switch-item" href="database/waracademy/cavalry.html" data-en="Cavalry" data-fr="Cavalerie">Cavalerie</a></nav>
+    </div>
+
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'database/waracademy/index.html'; window.WA_TREE = 'archer';</script>
+    <script src="js/header.js"></script>
+    <script>
+
+    (function(){
+      const TREE_ID = window.WA_TREE;
+      const DATA_URL = 'data/truegold_war_db.json';
+      const dict = {
+        FR: { crumbWa:"Académie de Guerre", waIntro:"Coûts complets par palier : poussière d'Or Véritable, ressources, temps de recherche, effet et prérequis. 1 recherche = 1 palier.", cLevel:"Palier", cWA:"Bâtiment", cReq:"Prérequis", cDust:"Poussière", cBread:"Pain", cWood:"Bois", cStone:"Pierre", cIron:"Fer", cCoin:"Pièces", cTime:"Temps", cEffect:"Effet", loading:"Chargement des données…", err:"Impossible de charger les données (data/truegold_war_db.json). Le fichier existe-t-il ?" },
+        EN: { crumbWa:"War Academy", waIntro:"Full per-level costs: TrueGold dust, resources, research time, effect and requirements. 1 research = 1 level.", cLevel:"Level", cWA:"Building", cReq:"Requirements", cDust:"Dust", cBread:"Bread", cWood:"Wood", cStone:"Stone", cIron:"Iron", cCoin:"Coins", cTime:"Time", cEffect:"Effect", loading:"Loading data…", err:"Could not load data (data/truegold_war_db.json). Does the file exist?" }
+      };
+
+      function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+      function compact(n){ if(n==null||n==='') return '—'; n=+n; if(!isFinite(n)) return '—'; if(n>=1e6){ const v=Math.round(n/1e5)/10; return String(v).replace(/\.0$/,'')+'M'; } if(n>=1e3){ return Math.round(n/1e3)+'K'; } return String(n); }
+      function timeStr(min,L){ min=+min||0; const d=Math.floor(min/1440), h=Math.floor(min%1440/60), m=min%60; const u=L==='FR'?{d:'j',h:'h',m:'min'}:{d:'d',h:'h',m:'m'}; const o=[]; if(d)o.push(d+u.d); if(h)o.push(h+u.h); if(m)o.push(m+u.m); return o.join(' ')||('0'+u.m); }
+      function reqStr(req,nameMap,L){ if(!req||!req.length) return '—'; const lv=L==='FR'?'Niv.':'Lv.'; return req.map(function(x){ const nm=(nameMap[x.r]&&nameMap[x.r][L])||x.r; return nm+' '+lv+' '+x.lvl; }).join(', '); }
+      function waStr(n,L){ if(n==null) return '—'; const lv=L==='FR'?'Niv.':'Lv.'; return (L==='FR'?'AG ':'WA ')+lv+' '+n; }
+      function td(cls,en,fr){ const c=cls?(' class="'+cls+'"'):''; return '<td'+c+' data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(fr)+'</td>'; }
+      function tdNum(cls,txt){ return '<td class="num '+(cls||'')+'">'+esc(txt)+'</td>'; }
+      function statusRow(txt){ return '<tr><td colspan="11" style="text-align:center;padding:22px;color:var(--text-muted)">'+esc(txt)+'</td></tr>'; }
+
+      function render(tree){
+        const nameMap={}; tree.researches.forEach(function(r){ nameMap[r.id]=r.name; });
+        let html='';
+        tree.researches.forEach(function(r){
+          const en=(r.name&&r.name.EN)||r.id, fr=(r.name&&r.name.FR)||r.id;
+          html+='<tr class="wa-group"><td colspan="11" data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(fr)+'</td></tr>';
+          (r.levels||[]).forEach(function(lv){
+            const buff=lv.buff||'';
+            html+='<tr>'
+              +'<td class="c-lbl">'+esc(lv.level)+'</td>'
+              +td('c-wa', waStr(lv.reqWA,'EN'), waStr(lv.reqWA,'FR'))
+              +td('c-req', reqStr(lv.req,nameMap,'EN'), reqStr(lv.req,nameMap,'FR'))
+              +tdNum('tg', compact(lv.dust))
+              +tdNum('', compact(lv.bread))
+              +tdNum('', compact(lv.wood))
+              +tdNum('', compact(lv.stone))
+              +tdNum('', compact(lv.iron))
+              +tdNum('', compact(lv.coin))
+              +td('c-time', timeStr(lv.time,'EN'), timeStr(lv.time,'FR'))
+              +td('c-eff', buff, buff)
+              +'</tr>';
+          });
+        });
+        return html;
+      }
+
+      const tbody=document.getElementById('wa-rows');
+      function apply(){
+        const lang=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR';
+        if(window.GlobalLang&&GlobalLang.applyI18n) GlobalLang.applyI18n(dict[lang]||dict.FR);
+        document.querySelectorAll('[data-en][data-fr]').forEach(function(el){ el.textContent = el.getAttribute('data-'+lang.toLowerCase()) || el.textContent; });
+        const n=document.getElementById('tree-name'), c=document.getElementById('crumb-name'); if(n&&c) c.textContent=n.textContent;
+        document.documentElement.lang=lang.toLowerCase();
+      }
+      window.addEventListener('langChanged', apply);
+
+      const L0=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR';
+      if(tbody) tbody.innerHTML=statusRow(dict[L0].loading);
+      fetch(DATA_URL).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+        .then(function(db){
+          const tree=(db.trees||[]).find(function(t){ return t.id===TREE_ID; });
+          if(!tree){ if(tbody) tbody.innerHTML=statusRow(dict[L0].err); return; }
+          tbody.innerHTML=render(tree);
+          apply();
+        })
+        .catch(function(){ const L=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR'; if(tbody) tbody.innerHTML=statusRow(dict[L].err); });
+
+      apply();
+    })();
+
+    </script>
+</body>
+</html>
