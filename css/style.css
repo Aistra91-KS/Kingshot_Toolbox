@@ -1923,7 +1923,7 @@ body.drawer-locked { overflow: hidden; }
 /* Bouton "Comment ça marche ?" près du titre */
 .help-btn{
   display:inline-flex; align-items:center; gap:6px;
-  margin:6px 0 0 12px; vertical-align:middle;
+  margin:6px 0 10px 12px; vertical-align:middle;
   background:var(--control-bg); color:var(--text-muted);
   border:1px solid var(--border); border-radius:20px;
   padding:5px 12px 5px 8px; font-size:13px; font-weight:600;
