@@ -717,6 +717,154 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     // ============ SIMULATION : TROUVER LE MEILLEUR SCÉNARIO ============
     let meilleurScenario = null;
 
+    // Glouton d'améliorations pour un état de départ donné (tgDebut/ttgDebut post-transfo),
+    // selon une stratégie de tri : 'kvk' = ressource max, 'cout' = moins cher, 'ratio' = rendement.
+    // La logique du mode Score cible (files / relance) reste pilotée par modeTarget.
+    function executerPlan(tgDebut, ttgDebut, strategie) {
+        let tgActuel = tgDebut;
+        let ttgActuel = ttgDebut;
+        const etatBatiments = JSON.parse(JSON.stringify(batimentsInitiaux));
+        const ameliorationsFaites = [];
+        let tgDepenseAmelio = 0;
+        let ttgDepenseAmelio = 0;
+        let accelMinutesUtilisees = 0;
+        let stockAccelSimule = stockAccelMinutesTotal;
+        let filesAttenteDisponibles = 2;
+
+        while (true) {
+            if (filesAttenteDisponibles === 0) {
+                if (!modeTarget) break;
+                const ptsCourantsQ = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                if (ptsCourantsQ >= scoreCible) break;
+                const finissables = ameliorationsFaites.filter(a => a.estEnCours && a.tempsReel <= stockAccelSimule);
+                if (finissables.length === 0) break;
+                finissables.sort((a, b) => a.tempsReel - b.tempsReel);
+                const aFinir = finissables[0];
+                stockAccelSimule -= aFinir.tempsReel;
+                accelMinutesUtilisees += aFinir.tempsReel;
+                aFinir.minutesAccelerables = aFinir.tempsReel;
+                aFinir.estEnCours = false;
+                etatBatiments[aFinir.index].enCours = false;
+                filesAttenteDisponibles++;
+                continue;
+            }
+
+            const ameliorationsDisponibles = [];
+            for (let b = 0; b < etatBatiments.length; b++) {
+                const bState = etatBatiments[b];
+                if (bState.enCours) continue;
+                if (bState.exclu) continue;
+                const niveauCible = bState.lvl + 1;
+                if (db[bState.nom] && db[bState.nom][niveauCible]) {
+                    const couts = db[bState.nom][niveauCible];
+                    let estValide = checkPrereqsTG(couts.prereq, etatBatiments);
+                    if (estValide && tgActuel >= couts.tg && ttgActuel >= couts.ttg) {
+                        const tempsReelMinutes = Math.max(0, Math.ceil(couts.tempsBase / (1 + Number(vitesseAmelio))) - panReductionMin);
+                        const gainKVKRessources = (couts.tg * 2000) + (couts.ttg * 30000);
+                        const minutesAAccelerer = modeTarget ? 0 : Math.min(tempsReelMinutes, stockAccelSimule);
+                        const gainKVKAccel = minutesAAccelerer * 30;
+                        ameliorationsDisponibles.push({
+                            index: b,
+                            nom: bState.nom,
+                            niveauCible: niveauCible,
+                            labelCible: couts.label,
+                            tg: couts.tg,
+                            ttg: couts.ttg,
+                            tempsReel: tempsReelMinutes,
+                            minutesAccelerables: minutesAAccelerer,
+                            poidsKVK: gainKVKRessources + gainKVKAccel,
+                            poidsCout: couts.tg + (couts.ttg * 15)
+                        });
+                    }
+                }
+            }
+
+            if (ameliorationsDisponibles.length === 0) break;
+
+            let meilleurChoix;
+            if (modeTarget) {
+                const ptsCourants = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                const ecart = scoreCible - ptsCourants;
+                const franchisseurs = ameliorationsDisponibles.filter(a => a.poidsKVK >= ecart);
+                if (franchisseurs.length > 0) {
+                    franchisseurs.sort((a, b) => a.poidsKVK - b.poidsKVK);
+                    meilleurChoix = franchisseurs[0];
+                } else {
+                    ameliorationsDisponibles.sort((a, b) => b.poidsKVK - a.poidsKVK);
+                    meilleurChoix = ameliorationsDisponibles[0];
+                }
+            } else {
+                ameliorationsDisponibles.sort((a, b) => {
+                    const aFini = (a.minutesAccelerables >= a.tempsReel) ? 1 : 0;
+                    const bFini = (b.minutesAccelerables >= b.tempsReel) ? 1 : 0;
+                    if (aFini !== bFini) return bFini - aFini;
+                    if (strategie === 'kvk') return b.poidsKVK - a.poidsKVK;
+                    if (strategie === 'ratio') return (b.poidsKVK / b.poidsCout) - (a.poidsKVK / a.poidsCout);
+                    return a.poidsCout - b.poidsCout;
+                });
+                meilleurChoix = ameliorationsDisponibles[0];
+            }
+
+            tgActuel -= meilleurChoix.tg;
+            ttgActuel -= meilleurChoix.ttg;
+            tgDepenseAmelio += meilleurChoix.tg;
+            ttgDepenseAmelio += meilleurChoix.ttg;
+            stockAccelSimule -= meilleurChoix.minutesAccelerables;
+            accelMinutesUtilisees += meilleurChoix.minutesAccelerables;
+            const estFini = (meilleurChoix.minutesAccelerables >= meilleurChoix.tempsReel);
+            meilleurChoix.estEnCours = !estFini;
+            if (!estFini) {
+                etatBatiments[meilleurChoix.index].enCours = true;
+                filesAttenteDisponibles--;
+            }
+            etatBatiments[meilleurChoix.index].lvl = meilleurChoix.niveauCible;
+            ameliorationsFaites.push(meilleurChoix);
+
+            if (modeTarget) {
+                const ptsCourants = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                if (ptsCourants >= scoreCible) {
+                    break;
+                } else {
+                    let potentielAccelMinutes = 0;
+                    for (const a of ameliorationsFaites) {
+                        if (a.estEnCours) potentielAccelMinutes += (a.tempsReel - a.minutesAccelerables);
+                    }
+                    potentielAccelMinutes = Math.min(potentielAccelMinutes, stockAccelSimule);
+                    if ((ptsCourants + potentielAccelMinutes * 30) >= scoreCible) break;
+                }
+            }
+        }
+
+        // Mode cible : combler un éventuel petit manque avec un minimum d'accélérateurs
+        if (modeTarget && ameliorationsFaites.length > 0) {
+            const ptsApresGreedy = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+            if (ptsApresGreedy < scoreCible && stockAccelSimule > 0) {
+                const minutesManquantes = Math.ceil((scoreCible - ptsApresGreedy) / 30);
+                const enCours = ameliorationsFaites.filter(a => a.estEnCours && a.minutesAccelerables < a.tempsReel);
+                if (enCours.length > 0) {
+                    const build = enCours[0];
+                    const maxAjout = Math.min(minutesManquantes, stockAccelSimule, build.tempsReel - build.minutesAccelerables);
+                    if (maxAjout > 0) {
+                        build.minutesAccelerables += maxAjout;
+                        accelMinutesUtilisees += maxAjout;
+                        stockAccelSimule -= maxAjout;
+                        if (build.minutesAccelerables >= build.tempsReel) {
+                            build.estEnCours = false;
+                            etatBatiments[build.index].enCours = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return {
+            ameliorationsFaites: ameliorationsFaites,
+            tgDepenseAmelio: tgDepenseAmelio,
+            ttgDepenseAmelio: ttgDepenseAmelio,
+            accelMinutesUtilisees: accelMinutesUtilisees
+        };
+    }
+
     for (let transfosTest = 0; transfosTest <= 100; transfosTest++) {
         let tgActuel = stockTG;
         let ttgActuel = stockTTG;
@@ -759,73 +907,22 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         tgActuel = Math.floor(tgActuel);
         ttgActuel = Math.floor(ttgActuel);
 
-        // --- Simulation des améliorations de bâtiments ---
-        const etatBatiments = JSON.parse(JSON.stringify(batimentsInitiaux));
-        const ameliorationsFaites = [];
-        let tgDepenseAmelio = 0;
-        let ttgDepenseAmelio = 0;
-        let accelMinutesUtilisees = 0;
-        let stockAccelSimule = stockAccelMinutesTotal;
-        let filesAttenteDisponibles = 2;
-
-        while (true) {
-            if (filesAttenteDisponibles === 0) {
-                if (!modeTarget) break;
-                // Mode cible : files pleines. Cible déjà atteinte ? -> stop.
-                const ptsCourantsQ = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
-                if (ptsCourantsQ >= scoreCible) break;
-                // Pas encore atteint : finir le bâtiment le moins coûteux en accél pour libérer un slot.
-                const finissables = ameliorationsFaites.filter(a => a.estEnCours && a.tempsReel <= stockAccelSimule);
-                if (finissables.length === 0) break;
-                finissables.sort((a, b) => a.tempsReel - b.tempsReel);
-                const aFinir = finissables[0];
-                stockAccelSimule -= aFinir.tempsReel;
-                accelMinutesUtilisees += aFinir.tempsReel;
-                aFinir.minutesAccelerables = aFinir.tempsReel;
-                aFinir.estEnCours = false;
-                etatBatiments[aFinir.index].enCours = false;
-                filesAttenteDisponibles++;
-                continue;
-            }
-
-            const ameliorationsDisponibles = [];
-
-            // --- Recherche des améliorations possibles ---
-            for (let b = 0; b < etatBatiments.length; b++) {
-                const bState = etatBatiments[b];
-                if (bState.enCours) continue;
-                if (bState.exclu) continue;
-
-                const niveauCible = bState.lvl + 1;
-
-                if (db[bState.nom] && db[bState.nom][niveauCible]) {
-                    const couts = db[bState.nom][niveauCible];
-                    let estValide = checkPrereqsTG(couts.prereq, etatBatiments);
-
-                    if (estValide && tgActuel >= couts.tg && ttgActuel >= couts.ttg) {
-                        const tempsReelMinutes = Math.max(0, Math.ceil(couts.tempsBase / (1 + Number(vitesseAmelio))) - panReductionMin);
-                        const gainKVKRessources = (couts.tg * 2000) + (couts.ttg * 30000);
-                        const minutesAAccelerer = modeTarget ? 0 : Math.min(tempsReelMinutes, stockAccelSimule);
-                        const gainKVKAccel = minutesAAccelerer * 30;
-
-                        ameliorationsDisponibles.push({
-                            index: b,
-                            nom: bState.nom,
-                            niveauCible: niveauCible,
-                            labelCible: couts.label,
-                            tg: couts.tg,
-                            ttg: couts.ttg,
-                            tempsReel: tempsReelMinutes,
-                            minutesAccelerables: minutesAAccelerer,
-                            poidsKVK: gainKVKRessources + gainKVKAccel,
-                            poidsCout: couts.tg + (couts.ttg * 15)
-                        });
-                    }
-                }
-            }
-
-            if (ameliorationsDisponibles.length === 0) break;
-
+        // --- Simulation des améliorations (glouton) ---
+        // En mode KVK, on évalue plusieurs stratégies de tri et on garde le plan qui rapporte le
+        // plus de points : un tri par ressource pure peut sous-utiliser le stock d'accélérateurs.
+        const strategies = modeKVK ? ['kvk', 'cout', 'ratio'] : ['cout'];
+        let plan = null;
+        let planPts = -Infinity;
+        for (let s = 0; s < strategies.length; s++) {
+            const p = executerPlan(tgActuel, ttgActuel, strategies[s]);
+            const pts = (p.tgDepenseAmelio * 2000) + (p.ttgDepenseAmelio * 30000) + (p.accelMinutesUtilisees * 30);
+            if (!plan || pts > planPts) { plan = p; planPts = pts; }
+        }
+        const ameliorationsFaites = plan.ameliorationsFaites;
+        const tgDepenseAmelio = plan.tgDepenseAmelio;
+        const ttgDepenseAmelio = plan.ttgDepenseAmelio;
+        const accelMinutesUtilisees = plan.accelMinutesUtilisees;
+        
             // --- Choix de l'amélioration selon le mode ---
             let meilleurChoix;
             if (modeTarget) {
