@@ -50,7 +50,7 @@ const SITE = {
           name: { EN: "Database", FR: "Base de Données" },
           icon: "database",
           status: "active",
-          tools: ["buildings"]
+          tools: ["buildings", "waresearch"]
         }
       ]
     },
@@ -100,6 +100,15 @@ const SITE = {
       },
       icon: "building-2",
       href: "database/buildings/index.html"
+    },
+    waresearch: {
+      name: { EN: "War Academy Research", FR: "Recherches Académie" },
+      desc: {
+        EN: "Every War Academy troop research, level by level: TrueGold dust, resources, research time, effects and requirements — Infantry, Archer and Cavalry trees.",
+        FR: "Toutes les recherches de troupes de l'Académie de Guerre, palier par palier : poussière d'Or Véritable, ressources, temps, effets et prérequis — arbres Infanterie, Archers et Cavalerie."
+      },
+      icon: "flask-conical",
+      href: "database/waracademy/index.html"
     },
     beartrap: {
       name: { EN: "Bear Trap", FR: "Piège à Ours" },
