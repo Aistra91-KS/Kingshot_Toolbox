@@ -75,6 +75,12 @@ hub-kingshot/
 │       ├── stable.html           Écurie
 │       └── range.html            Stand de Tir
 │
+│   └── waracademy/               Base de données recherches Académie de Guerre (pages statiques, table depuis JSON)
+│       ├── index.html            Sommaire des 3 arbres
+│       ├── infantry.html         Table recherches Infanterie
+│       ├── archer.html           Table recherches Archers
+│       └── cavalry.html          Table recherches Cavalerie
+│
 ├── img/                          Assets (WebP jeu, PNG items/héros, SVG icônes)
 │   ├── logo/                     favicon.svg, favicon-32.png, apple-touch-icon.png
 │   ├── buildings/                Vignettes bâtiments (.webp)
@@ -105,6 +111,7 @@ hub-kingshot/
 | `masters.html` | Experts & affinités (beta) | `masters.js` | `style.css` | `masters_db.json` |
 | `shop_calc.html` | Coût boutique vs gemmes | `shop_calc.js` | `style.css` | `shopcalc_items/classic/events/chests.json` |
 | `database/buildings/*.html` | Tables d'amélioration bâtiments | inline + `header.js`, `lang.js`, `site-config.js` | `style.css` | données inline (HTML) |
+| `database/waracademy/*.html` | Tables recherches Académie (3 arbres) | inline + `header.js`, `lang.js`, `site-config.js` | `style.css` | `truegold_war_db.json` (fetch) |
 
 **Socle chargé sur toutes les pages outils** (ordre) : `site-config.js` → `storage-keys.js` → `lang.js` → `help.js` → *(script de page)* → `header.js` → `backup.js`.
 Les pages `database/buildings/*` n'incluent que `site-config.js` + `lang.js` + `header.js` (pas de help/backup).
