@@ -41,6 +41,7 @@ const i18n = {
         'totalTgTarget': 'Total TG (Goal)',
         'totalTtgTarget': 'Total TTG (Goal)',
         'speedupsTarget': 'Speedups needed',
+        'inclSuggest': 'Include in suggestions',
         'total': 'Total :',
         'err': "❌ No improvements possible (Insufficient resources/prerequisites or full queues).",
         'optKVK': "🏆 KVK OPTIMIZATION MODE (MAX POINTS)",
@@ -110,6 +111,7 @@ const i18n = {
         'totalTgTarget': 'Total TG (Obj.)',
         'totalTtgTarget': 'Total TTG (Obj.)',
         'speedupsTarget': 'Accélérateurs nécessaires',
+        'inclSuggest': 'Inclure dans les suggestions',
         'total': 'Total :',
         'err': "❌ Aucune amélioration possible (Ressources/prérequis manquants ou files pleines ou limites atteintes).",
         'optKVK': "🏆 MODE OPTIMISATION KVK (MAX POINTS)",
@@ -261,6 +263,7 @@ function getLocName(enName) {
 function renderBuildings() {
     const container = document.getElementById('buildings-container');
     container.innerHTML = '';
+    const tx = i18n[GlobalLang.get()];
     
     const emojis = {
         "Town Center": iconSvg('landmark',16), "Embassy": iconSvg('handshake',16), "Infirmary": iconSvg('heart-pulse',16),
@@ -290,13 +293,14 @@ function renderBuildings() {
 
         let tr = document.createElement('tr');
         tr.innerHTML = `
-            <td class="bldg-name"><span class="bldg-icon">${emojis[nom] || iconSvg('building-2',16)}</span> ${getLocName(nom)}</td>
+            <td class="bldg-name"><input type="checkbox" class="bldg-toggle" title="${tx.inclSuggest}" style="vertical-align:middle; margin-right:6px;" ${b.enabled !== false ? 'checked' : ''} onchange="toggleBuildingEnabled(${index}, this.checked)"><span class="bldg-icon">${emojis[nom] || iconSvg('building-2',16)}</span> ${getLocName(nom)}</td>
             <td><select class="table-select" onchange="updateBuildingLvl(${index}, this.value, 'current')">${curOptions}</select></td>
             <td><select class="table-select" onchange="updateBuildingLvl(${index}, this.value, 'target')">${tgtOptions}</select></td>
             <td id="tg-cost-${index}">0</td>
             <td id="ttg-cost-${index}">0</td>
             <td id="time-cost-${index}" style="font-size:13px;">0</td>
         `;
+        if (b.enabled === false) tr.style.opacity = '0.5';
         container.appendChild(tr);
     });
     
@@ -315,6 +319,13 @@ function updateBuildingLvl(index, val, type) {
         buildingsState[index].target = num;
         updateAllRowCosts();
     }
+    saveData();
+    runCalculator();
+}
+
+function toggleBuildingEnabled(index, checked) {
+    buildingsState[index].enabled = checked;
+    renderBuildings();
     saveData();
     runCalculator();
 }
@@ -581,7 +592,7 @@ function runCalculator() {
     const lang = GlobalLang.get();
     let tx = i18n[lang];
 
-    let formattedTableur = buildingsState.map(b => [b.name, "", "", "", b.current, b.target]);
+    let formattedTableur = buildingsState.map(b => [b.name, "", "", "", b.current, b.target, b.enabled !== false]);
 
     try {
         let resultText = SUGGERER_KINGSHOT(
@@ -699,7 +710,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         const niveauActuel = Number(rangeTableur[i][4]);
 
         if (nom && !isNaN(niveauActuel) && db[nom]) {
-            batimentsInitiaux.push({ nom: nom, lvl: niveauActuel, enCours: false });
+            batimentsInitiaux.push({ nom: nom, lvl: niveauActuel, enCours: false, exclu: (rangeTableur[i][6] === false) });
         }
     }
 
@@ -783,6 +794,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             for (let b = 0; b < etatBatiments.length; b++) {
                 const bState = etatBatiments[b];
                 if (bState.enCours) continue;
+                if (bState.exclu) continue;
 
                 const niveauCible = bState.lvl + 1;
 
