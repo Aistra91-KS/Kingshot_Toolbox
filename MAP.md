@@ -205,6 +205,7 @@ Un seul workflow : **`discord-news.yml`** (notification Discord des mises à jou
 - **Déclencheurs** : cron `0 */2 * * *` (toutes les 2 h, best-effort) + `workflow_dispatch` (bouton manuel).
 - **Mécanique** : restaure le SHA du dernier commit notifié (cache `actions/cache`), collecte `git log <SINCE>..HEAD` (1er run → fenêtre « 2 hours ago »), passe la liste des commits à `.github/scripts/news.js`.
 - **`news.js`** : parse les commits, mappe chaque fichier modifié à une **page** (`fileToPage`), traduit FR↔EN (`SRC_LANG` via `vars`), et POST un message groupé sur le **`DISCORD_WEBHOOK`** (`secrets`). Le pointeur SHA n'avance **que** si l'envoi réussit (retry au run suivant).
+    - **Buckets `fileToPage`** (libellés `PAGE_LABELS`, ordre `PAGE_ORDER`) : `waracademy` (waracademy / wa_optimizer / truegold_war_db), `buildings` (database/buildings, img/buildings), `truegold`, `shop`, `beartrap`, `caserne`, `research`, `masters` (masters / heroes_db), `vikings`, `home` (index.html / hub.js), `multi` (>2 pages touchées), `general` (défaut). ⚠️ Ordre des tests : `waracademy` avant `truegold`, `buildings` avant la règle `index.html`→`home`.
 - **Secrets/vars** : `secrets.DISCORD_WEBHOOK`, `vars.SRC_LANG`.
 
 ---
@@ -240,6 +241,7 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 
 **Conventions**
 - **Manifeste unique** : ajouter un jeu / une catégorie / un outil = éditer **uniquement `site-config.js`** (jamais coder la nav en dur).
+- **Notifications Discord** : tout nouvel outil/page doit aussi être ajouté à `.github/scripts/news.js` (`fileToPage` + `PAGE_LABELS` + `PAGE_ORDER`), sinon ses commits tombent dans `general`. Respecter l'ordre des tests (règles spécifiques avant `truegold` / `index.html`).
 - **Clés localStorage** : toujours passer par `STORAGE_KEYS` + `safeParse` (jamais de chaîne littérale).
 - **i18n** : toute chaîne visible passe par un dictionnaire `{FR,EN}` + `data-i18n` (ou `data-en`/`data-fr` sur les pages bâtiments). Réagir à `langChanged`.
 - **Icônes** : SVG Lucide **inline** (offline) via `SITE_ICONS`/`iconSvg()` (site-config) et `HEADER_ICONS`/`hdrSvg()` (header). Ajouter une nouvelle icône dans **les deux** registres si utilisée dans le header.
