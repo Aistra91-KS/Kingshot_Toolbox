@@ -1141,6 +1141,7 @@ function tgInitHelp() {
                 "Renseigne tes stocks de TrueGold (TG) et TrueGold Corrompu (TTG), et le nombre de transformations déjà utilisées (max 100).",
                 "Indique tes accélérateurs (jours / heures / minutes) et tes bonus de vitesse (Ground, KVK, Double Time, Grey Wolf) — ils réduisent le temps de construction.",
                 "Pour chaque bâtiment, mets son niveau actuel et le niveau cible que tu veux atteindre.",
+                "Décoche la case devant un bâtiment pour l'exclure des suggestions (quel que soit le mode) : il reste figé à son niveau actuel et sert toujours de prérequis aux autres.",
                 "Choisis le mode : « Max points KVK » (rentabilité maximale en points), « Max bâtiments » (en monter le plus possible), ou « Score cible » (atteindre un score précis au coût le plus bas).",
                 "En mode « Score cible », saisis le score visé : l'outil trouve la combinaison la moins chère (bâtiments + transformations + accélérateurs) pour l'atteindre.",
                 "Lis la « Stratégie » : les bâtiments à améliorer et le total de TG, TTG et accélérateurs nécessaires."
@@ -1149,6 +1150,7 @@ function tgInitHelp() {
                 "Enter your TrueGold (TG) and Tainted TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
                 "Set your speedups (days / hours / minutes) and your speed bonuses (Ground, KVK, Double Time, Grey Wolf) — they cut build time.",
                 "For each building, set its current level and the target level you want to reach.",
+                "Uncheck the box next to a building to exclude it from the suggestions (in any mode): it stays frozen at its current level and still counts as a prerequisite for the others.",
                 "Pick a mode: “Max KVK points” (best points value), “Max buildings” (upgrade as many as possible), or “Target score” (reach a specific score at the lowest cost).",
                 "In “Target score” mode, type the score you aim for: the tool finds the cheapest combination (buildings + transformations + speedups) to reach it.",
                 "Read the “Strategy”: which buildings to upgrade and the total TG, TTG and speedups required."
