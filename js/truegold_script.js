@@ -922,7 +922,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         const tgDepenseAmelio = plan.tgDepenseAmelio;
         const ttgDepenseAmelio = plan.ttgDepenseAmelio;
         const accelMinutesUtilisees = plan.accelMinutesUtilisees;
-        
+
         // --- Calcul des points KVK pour ce scénario ---
         const ptsRessources = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000);
         const ptsAccel = accelMinutesUtilisees * 30;
