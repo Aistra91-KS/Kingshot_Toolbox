@@ -46,6 +46,13 @@ const SITE = {
           tools: ["shopcalc"]
         },
         {
+          id: "utilities",
+          name: { EN: "Utilities", FR: "Utilitaires" },
+          icon: "gift",
+          status: "active",
+          tools: ["giftcodes"]
+        },
+        {
           id: "database",
           name: { EN: "Database", FR: "Base de Données" },
           icon: "database",
@@ -156,9 +163,17 @@ const SITE = {
       },
       icon: "shopping-cart",
       href: "shop_calc.html"
+    },
+    giftcodes: {
+      name: { EN: "Gift Codes", FR: "Codes Cadeaux" },
+      desc: {
+        EN: "All active Kingshot gift codes in one place. Save your Player ID, copy a code and redeem it on the official site in one click.",
+        FR: "Tous les codes cadeaux Kingshot actifs au même endroit. Enregistre ton ID Joueur, copie un code et utilise-le sur le site officiel en un clic."
+      },
+      icon: "gift",
+      href: "gift_codes.html"
     }
   },
-
   // ---------------------------------------------------------
   //  Libellés génériques (boutons / états)
   // ---------------------------------------------------------
@@ -193,7 +208,8 @@ const SITE_ICONS = {
   "shield": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
   "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
   "building-2": '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
-  "shopping-cart": '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>'
+  "shopping-cart": '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
+  "gift": '<path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>'
 };
 
 function iconSvg(name, size = 18) {
