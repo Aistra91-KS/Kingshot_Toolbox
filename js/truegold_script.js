@@ -383,6 +383,7 @@ function getPanReductionMinutes() {
 
 function updateAllRowCosts() {
     let speedBonus = computeTotalVitesse() / 100;
+    let reducRestant = computeReductionTempsRestant() / 100;
     const lang = GlobalLang.get();
     
     let grandTotalTG = 0;
@@ -401,7 +402,9 @@ function updateAllRowCosts() {
                 sumTG += (parseInt(row[COL.TG]) || 0);
                 sumTTG += (parseInt(row[COL.TTG]) || 0);
                 const lvlTime = parseInt(row[COL.TIME]) || 0;
-                realTimeMinutes += Math.max(0, Math.ceil(lvlTime / (1 + speedBonus)) - panRedMin);
+                let t = lvlTime / (1 + speedBonus);       // vitesse (groupe A)
+                t = t * Math.max(0, 1 - reducRestant);    // Loup + Bouchées sur temps restant (groupe B)
+                realTimeMinutes += Math.max(0, Math.ceil(t) - panRedMin);
             }
         });
         let timeFormatted = (realTimeMinutes > 0) ? formatMinutesCustom(realTimeMinutes, lang) : '-';
@@ -461,11 +464,16 @@ function computeTotalVitesse() {
     let total = base;
     if (document.getElementById('bonusGround').checked) total += 10;
     if (document.getElementById('bonusKvk').checked) total += 5;
+    return total; // groupe A (bonus de vitesse) en %
+}
+// Loup Gris + Bouchées Doubles : réduisent le TEMPS RESTANT (cumul), pas la vitesse de base
+function computeReductionTempsRestant() {
+    let total = 0;
     if (document.getElementById('bonusDouble').checked) total += 20;
     if (document.getElementById('bonusWolfCheck').checked) {
         total += parseFloat(document.getElementById('bonusWolfVal').value) || 0;
     }
-    return total; // en %
+    return total; // groupe B en %
 }
 function getTotalVitesse() {
     const total = computeTotalVitesse();
@@ -612,7 +620,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     const modeTarget = (mode === 'target');
     scoreCible = Math.max(0, Number(scoreCible) || 0);
     const panReductionMin = getPanReductionMinutes();
-
+    const reducRestant = computeReductionTempsRestant() / 100;
     const isEN = (lang === 'EN');
 
     // ============ BOUCLIER DE SÉCURITÉ ============
@@ -759,7 +767,9 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                     const couts = db[bState.nom][niveauCible];
                     let estValide = checkPrereqsTG(couts.prereq, etatBatiments);
                     if (estValide && tgActuel >= couts.tg && ttgActuel >= couts.ttg) {
-                        const tempsReelMinutes = Math.max(0, Math.ceil(couts.tempsBase / (1 + Number(vitesseAmelio))) - panReductionMin);
+                        let tReel = couts.tempsBase / (1 + Number(vitesseAmelio));   // vitesse (A)
+                        tReel = tReel * Math.max(0, 1 - reducRestant);                // Loup + Bouchées (B)
+                        const tempsReelMinutes = Math.max(0, Math.ceil(tReel) - panReductionMin);
                         const gainKVKRessources = (couts.tg * 2000) + (couts.ttg * 30000);
                         const minutesAAccelerer = modeTarget ? 0 : Math.min(tempsReelMinutes, stockAccelSimule);
                         const gainKVKAccel = minutesAAccelerer * 30;
