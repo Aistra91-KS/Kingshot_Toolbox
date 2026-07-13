@@ -13,6 +13,8 @@
         
         <div class="control-group">
             <h3 data-i18n="config">Configuration</h3>
+
+            <div data-i18n="grpSpeed" style="color:var(--text-muted); font-weight:bold; font-size:12px;">Speed bonuses (÷ base time)</div>
             <div class="control-row">
                 <label data-i18n="baseBonus">Bonus Speed (%)</label>
                 <input type="number" id="baseVitesse" value="76.5" step="0.1" oninput="triggerUpdate()" onchange="triggerUpdate()">
@@ -25,6 +27,12 @@
                 <label data-i18n="kvkBonus">KVK Bonus (+5%)</label>
                 <input type="checkbox" id="bonusKvk" onchange="triggerUpdate()">
             </div>
+            <div class="total-bonus-row">
+                <span data-i18n="totalBonus">Speed bonus</span>
+                <span id="totalVitesseDisplay">76.5%</span>
+            </div>
+
+            <div data-i18n="grpReduc" style="color:var(--text-muted); font-weight:bold; font-size:12px; margin-top:8px;">Remaining-time reduction (cumulative)</div>
             <div class="control-row">
                 <label data-i18n="greyWolf">Grey Wolf Bonus (%)</label>
                 <div style="display:flex; align-items:center; gap:5px;">
@@ -36,12 +44,7 @@
                 <label data-i18n="doubleTime">Double Time (+20%)</label>
                 <input type="checkbox" id="bonusDouble" onchange="triggerUpdate()">
             </div>
-            <div class="total-bonus-row">
-                <span data-i18n="totalBonus">Total Bonus</span>
-                <span id="totalVitesseDisplay">76.5%</span>
-            </div>
         </div>
-
         <div class="control-group">
             <h3 data-i18n="panTitle">Bonus de construction (PAN)</h3>
             <div class="control-row">
