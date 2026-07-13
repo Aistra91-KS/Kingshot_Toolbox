@@ -11,15 +11,15 @@
       "addedAt": "2026-07-13",
       "expiresAt": "2026-07-27",
       "rewards": [
-        { "name": { "EN": "Gold", "FR": "Or" }, "qty": 500 },
-        { "name": { "EN": "60-min Speedup", "FR": "Accélérateur 60 min" }, "qty": 5 },
-        { "name": { "EN": "Bread", "FR": "Pain" }, "qty": 100000 },
-        { "name": { "EN": "Wood", "FR": "Bois" }, "qty": 100000 }
+        { "name": { "EN": "Gems x100", "FR": "Gemmes x100" }, "qty": 5 },
+        { "name": { "EN": "Avatar Frame", "FR": "Cadre d'Avatar" }, "qty": 1 },
+        { "name": { "EN": "100 EXP VIP", "FR": "100 EXP VIP" }, "qty": 2 },
+        { "name": { "EN": "5m General SpeedUP", "FR": "Accélérateur Général 5min" }, "qty": 10 }
       ]
     },
     {
       "id": "welcomeks",
-      "code": "WELCOMEKS",
+      "code": "TEST",
       "addedAt": "2026-06-01",
       "expiresAt": null,
       "rewards": [
