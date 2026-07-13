@@ -5,7 +5,7 @@
     <base href="/hub-kingshot/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barracks — Upgrade Costs (TrueGold, Resources, Time) | Kingshot Toolbox</title>
-    <meta name="description" content="Complete Barracks upgrade table for Kingshot: TrueGold, Tainted TrueGold, resources and build time for every level.">
+    <meta name="description" content="Complete Barracks upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.">
     <link rel="stylesheet" href="css/style.css">
     <style>
       .db-page { max-width: 1120px; margin: 0 auto; padding: 20px 16px 60px; }
@@ -41,7 +41,7 @@
           <img class="db-hero" src="img/buildings/barracks.webp" alt="Barracks" onerror="this.remove()">
           <h1 id="bldg-name" data-en="Barracks" data-fr="Quartiers">Quartiers</h1>
         </div>
-        <p class="db-intro" data-i18n="bldgIntro">Coûts d'amélioration complets par palier : TrueGold, TrueGold Corrompu, ressources et temps de construction.</p>
+        <p class="db-intro" data-i18n="bldgIntro">Coûts d'amélioration complets par palier : TrueGold, Or Véritable Trempé, ressources et temps de construction.</p>
         <nav class="db-switch " aria-label="Buildings"><a class="db-switch-item" href="database/buildings/town-center.html" data-en="Town Center" data-fr="Centre-ville">Centre-ville</a><a class="db-switch-item" href="database/buildings/embassy.html" data-en="Embassy" data-fr="Ambassade">Ambassade</a><a class="db-switch-item" href="database/buildings/command-center.html" data-en="Command Center" data-fr="Base de commandement">Base de commandement</a><a class="db-switch-item" href="database/buildings/war-academy.html" data-en="War Academy" data-fr="Académie de Guerre">Académie de Guerre</a><a class="db-switch-item" href="database/buildings/infirmary.html" data-en="Infirmary" data-fr="Infirmerie">Infirmerie</a><span class="db-switch-item active" data-en="Barracks" data-fr="Quartiers">Quartiers</span><a class="db-switch-item" href="database/buildings/stable.html" data-en="Stable" data-fr="Ecurie">Ecurie</a><a class="db-switch-item" href="database/buildings/range.html" data-en="Range" data-fr="Stand de Tir">Stand de Tir</a></nav>
         <div class="table-container">
           <table class="db-table">
@@ -49,7 +49,7 @@
               <th data-i18n="cLevel">Palier</th>
               <th data-i18n="cReq">Prérequis</th>
               <th data-i18n="cTG">TrueGold</th>
-              <th data-i18n="cTTG">TG Corrompu</th>
+              <th data-i18n="cTTG">TG Trempé</th>
               <th data-i18n="cBread">Pain</th>
               <th data-i18n="cWood">Bois</th>
               <th data-i18n="cStone">Pierre</th>
@@ -620,8 +620,8 @@
     <script>
     (function(){
       const dict = {
-        FR: { crumbBuildings:"Bâtiments", bldgIntro:"Coûts d'amélioration complets par palier : TrueGold, TrueGold Corrompu, ressources et temps de construction.", cLevel:"Palier", cReq:"Prérequis", cTG:"TrueGold", cTTG:"TG Corrompu", cBread:"Pain", cWood:"Bois", cStone:"Pierre", cIron:"Fer", cTime:"Temps" },
-        EN: { crumbBuildings:"Buildings", bldgIntro:"Full per-level upgrade costs: TrueGold, Tainted TrueGold, resources and build time.", cLevel:"Level", cReq:"Requirements", cTG:"TrueGold", cTTG:"Tainted TG", cBread:"Bread", cWood:"Wood", cStone:"Stone", cIron:"Iron", cTime:"Time" }
+        FR: { crumbBuildings:"Bâtiments", bldgIntro:"Coûts d'amélioration complets par palier : TrueGold, Or Véritable Trempé, ressources et temps de construction.", cLevel:"Palier", cReq:"Prérequis", cTG:"TrueGold", cTTG:"TG Trempé", cBread:"Pain", cWood:"Bois", cStone:"Pierre", cIron:"Fer", cTime:"Temps" },
+        EN: { crumbBuildings:"Buildings", bldgIntro:"Full per-level upgrade costs: TrueGold, Tempered TrueGold, resources and build time.", cLevel:"Level", cReq:"Requirements", cTG:"TrueGold", cTTG:"Tempered TG", cBread:"Bread", cWood:"Wood", cStone:"Stone", cIron:"Iron", cTime:"Time" }
       };
       function apply(){
         const lang = (window.GlobalLang && GlobalLang.get && GlobalLang.get()) || 'FR';

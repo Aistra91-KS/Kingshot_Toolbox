@@ -5,7 +5,7 @@
     <base href="/hub-kingshot/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kingshot Buildings — Upgrade Costs Database (TrueGold, Resources, Time) | Kingshot Toolbox</title>
-    <meta name="description" content="Kingshot buildings database: full upgrade costs per level (TrueGold, Tainted TrueGold, resources, build time and requirements) for every building.">
+    <meta name="description" content="Kingshot buildings database: full upgrade costs per level (TrueGold, Tempered TrueGold, resources, build time and requirements) for every building.">
     <link rel="stylesheet" href="css/style.css">
     <style>
       .db-page { max-width: 1000px; margin: 0 auto; padding: 20px 16px 60px; }
@@ -26,7 +26,7 @@
     <div class="db-page">
         <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <span data-i18n="crumbBuildings">Bâtiments</span></div>
         <h1 data-i18n="idxTitle">Bâtiments — Coûts d'amélioration</h1>
-        <p class="db-intro" data-i18n="idxIntro">Tous les coûts d'amélioration des bâtiments Kingshot, palier par palier : TrueGold, TrueGold Corrompu, ressources, temps et prérequis. Choisis un bâtiment.</p>
+        <p class="db-intro" data-i18n="idxIntro">Tous les coûts d'amélioration des bâtiments Kingshot, palier par palier : TrueGold, Or Véritable Trempé, ressources, temps et prérequis. Choisis un bâtiment.</p>
         <div class="db-grid">
       <a class="db-card" href="database/buildings/town-center.html">
         <img class="db-card-img" src="img/buildings/town-center.webp" alt="Town Center" onerror="this.remove()">
@@ -93,8 +93,8 @@
     <script>
     (function(){
       const dict = {
-        FR: { crumbBuildings:"Bâtiments", idxTitle:"Bâtiments — Coûts d'amélioration", idxIntro:"Tous les coûts d'amélioration des bâtiments Kingshot, palier par palier : TrueGold, TrueGold Corrompu, ressources, temps et prérequis. Choisis un bâtiment.", tiers:"paliers" },
-        EN: { crumbBuildings:"Buildings", idxTitle:"Buildings — Upgrade Costs", idxIntro:"All Kingshot building upgrade costs, level by level: TrueGold, Tainted TrueGold, resources, time and requirements. Pick a building.", tiers:"levels" }
+        FR: { crumbBuildings:"Bâtiments", idxTitle:"Bâtiments — Coûts d'amélioration", idxIntro:"Tous les coûts d'amélioration des bâtiments Kingshot, palier par palier : TrueGold, Or Véritable Trempé, ressources, temps et prérequis. Choisis un bâtiment.", tiers:"paliers" },
+        EN: { crumbBuildings:"Buildings", idxTitle:"Buildings — Upgrade Costs", idxIntro:"All Kingshot building upgrade costs, level by level: TrueGold, Tempered TrueGold, resources, time and requirements. Pick a building.", tiers:"levels" }
       };
       function apply(){
         const lang=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR';

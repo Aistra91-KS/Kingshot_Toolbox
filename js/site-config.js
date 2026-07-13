@@ -95,8 +95,8 @@ const SITE = {
     buildings: {
       name: { EN: "Buildings", FR: "Bâtiments" },
       desc: {
-        EN: "Every building's full upgrade table: TrueGold, Tainted TrueGold, resources, build time and requirements per level.",
-        FR: "Le tableau complet d'amélioration de chaque bâtiment : TrueGold, TrueGold Corrompu, ressources, temps et prérequis par palier."
+        EN: "Every building's full upgrade table: TrueGold, Tempered TrueGold, resources, build time and requirements per level.",
+        FR: "Le tableau complet d'amélioration de chaque bâtiment : TrueGold, Or Véritable Trempé, ressources, temps et prérequis par palier."
       },
       icon: "building-2",
       href: "database/buildings/index.html"

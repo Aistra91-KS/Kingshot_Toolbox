@@ -1155,7 +1155,7 @@ function tgInitHelp() {
         },
         steps: {
             FR: [
-                "Renseigne tes stocks de TrueGold (TG) et TrueGold Corrompu (TTG), et le nombre de transformations déjà utilisées (max 100).",
+                "Renseigne tes stocks de TrueGold (TG) et Or Véritable Trempé (TTG), et le nombre de transformations déjà utilisées (max 100).",
                 "Deux types de bonus : les bonus de vitesse (Bonus Vitesse, 1er Ministre, KVK) divisent le temps de base ; le Loup Gris et les Bouchées Doubles réduisent ensuite le temps restant (cumulés). Indique aussi tes accélérateurs (jours / heures / minutes).",
                 "Pour chaque bâtiment, mets son niveau actuel et le niveau cible que tu veux atteindre.",
                 "Décoche la case devant un bâtiment pour l'exclure des suggestions (quel que soit le mode) : il reste figé à son niveau actuel et sert toujours de prérequis aux autres.",
@@ -1164,7 +1164,7 @@ function tgInitHelp() {
                 "Lis la « Stratégie » : les bâtiments à améliorer et le total de TG, TTG et accélérateurs nécessaires."
             ],
             EN: [
-                "Enter your TrueGold (TG) and Tainted TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
+                "Enter your TrueGold (TG) and Tempered TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
                 "Two kinds of bonus: speed bonuses (Speed, Ground Works, KVK) divide the base time; Grey Wolf and Double Time then cut the remaining time (cumulative). Also set your speedups (days / hours / minutes).",
                 "For each building, set its current level and the target level you want to reach.",
                 "Uncheck the box next to a building to exclude it from the suggestions (in any mode): it stays frozen at its current level and still counts as a prerequisite for the others.",
