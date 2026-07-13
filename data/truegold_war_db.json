@@ -7,7 +7,7 @@
   },
   "scoring": {
     "pointsPerDust": 1000,
-    "pointsPerSpeedupMinute": 60
+    "pointsPerSpeedupMinute": 30
   },
   "trees": [
     {
