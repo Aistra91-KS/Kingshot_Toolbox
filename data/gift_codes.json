@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "updated": "2026-07-13",
+    "note": "Codes édités à la main. Retirer ou laisser expirer les anciens codes. Récompenses d'exemple à remplacer."
+  },
+  "redeemUrl": "https://ks-giftcode.centurygame.com/",
+  "codes": [
+    {
+      "id": "ks0713",
+      "code": "KS0713",
+      "addedAt": "2026-07-13",
+      "expiresAt": "2026-07-27",
+      "rewards": [
+        { "name": { "EN": "Gold", "FR": "Or" }, "qty": 500 },
+        { "name": { "EN": "60-min Speedup", "FR": "Accélérateur 60 min" }, "qty": 5 },
+        { "name": { "EN": "Bread", "FR": "Pain" }, "qty": 100000 },
+        { "name": { "EN": "Wood", "FR": "Bois" }, "qty": 100000 }
+      ]
+    },
+    {
+      "id": "welcomeks",
+      "code": "WELCOMEKS",
+      "addedAt": "2026-06-01",
+      "expiresAt": null,
+      "rewards": [
+        { "name": { "EN": "Gems", "FR": "Gemmes" }, "qty": 300 },
+        { "name": { "EN": "Hero Shard", "FR": "Fragment de héros" }, "qty": 10 }
+      ]
+    }
+  ]
+}
