@@ -14,7 +14,7 @@
 //                      returned as `inProgress`. Prerequisites are always driven
 //                      to max first, which unlocks every dependent level.
 //
-//  KvK scoring (spec): 1000 pts / dust  +  60 pts / speedup-minute.
+//  KvK scoring (spec): 1000 pts / dust  +  30 pts / speedup-minute.
 //  Points are computed on the BASE (nominal) dust & time of each level.
 //  Cost/speed bonuses reduce what the PLAYER spends (budget + readout),
 //  not the nominal value that scores points. Flip SCORE_ON_EFFECTIVE
@@ -30,7 +30,7 @@
 
   const SCORE_ON_EFFECTIVE = false; // false = score nominal cost; true = score post-bonus cost
   const PTS_PER_DUST = 1000;
-  const PTS_PER_MIN  = 60;
+  const PTS_PER_MIN  = 30;
 
   const key = (treeId, resId) => treeId + '.' + resId;
 
