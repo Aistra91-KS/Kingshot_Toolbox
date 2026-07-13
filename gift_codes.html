@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Codes Cadeaux — Kingshot Toolbox</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/giftcodes.css">
+</head>
+<body class="has-app-header">
+
+  <main class="gc-page">
+    <div class="gc-inner">
+
+      <header class="gc-head">
+        <h1 class="gc-title" data-i18n="pageTitle">Codes Cadeaux</h1>
+        <p class="gc-sub" data-i18n="pageDesc">Retrouve tous les codes cadeaux actifs de Kingshot.</p>
+      </header>
+
+      <!-- ID Joueur -->
+      <section class="gc-panel">
+        <div class="gc-panel-head">
+          <h2 data-i18n="idTitle">Ton ID Joueur</h2>
+          <p class="gc-muted" data-i18n="idHint">Enregistré dans ce navigateur.</p>
+        </div>
+        <div id="gc-id-body"><!-- rendu par giftcodes.js --></div>
+      </section>
+
+      <!-- Codes -->
+      <section class="gc-panel">
+        <div class="gc-panel-head gc-row">
+          <h2 data-i18n="codesTitle">Codes actifs</h2>
+          <button type="button" id="gc-reload" class="gc-refresh"><span data-i18n="reload">Actualiser</span></button>
+        </div>
+        <div id="gc-codes" class="gc-grid"><!-- rendu par giftcodes.js --></div>
+      </section>
+
+      <!-- Aide -->
+      <section class="gc-panel gc-how">
+        <h2 data-i18n="howTitle">Comment ça marche</h2>
+        <ol class="gc-steps">
+          <li data-i18n="how1">Enregistre ton ID Joueur.</li>
+          <li data-i18n="how2">Clique sur « Utiliser ce code ».</li>
+          <li data-i18n="how3">Colle le code sur le site et valide.</li>
+        </ol>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="js/site-config.js"></script>
+  <script src="js/storage-keys.js"></script>
+  <script src="js/lang.js"></script>
+  <script src="js/help.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/giftcodes.js"></script>
+  <script src="js/backup.js"></script>
+</body>
+</html>
