@@ -14,7 +14,6 @@ const STORAGE_KEYS = {
     shopcalcEvents: 'shopcalc_events',
     shopcalcTab:    'shopcalc_tab',
     shopcalcCollapsed: 'shopcalc_collapsed',
-    giftPlayerId:   'gift_player_id',
 };
 
 function safeParse(key, fallback) {
