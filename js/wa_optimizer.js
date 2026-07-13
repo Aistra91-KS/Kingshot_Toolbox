@@ -83,7 +83,7 @@
     return PTS_PER_DUST + (PTS_PER_MIN * baseTime) / d;
   }
 
-  function suggest(opts) {
+  function runPlan(opts, orderStrategy) {
     const db            = opts.db;
     const currentLevels = opts.currentLevels || {};
     const waLevel       = Number(opts.waLevel) || 0;
@@ -116,10 +116,11 @@
     function levelScore(entry, nl) {
       const bd = nl.dust || 0, bt = nl.time || 0;
       const eff = effDustOf(bd);
-      if (mode === 'classic') return -eff;                        // cheapest next level -> most levels
+      if (orderStrategy === 'classic') return -eff;               // cheapest next level -> most levels
+      if (orderStrategy === 'dustdense') return bd / Math.max(1, bt); // max dust per time unit (time-bound regime)
       const pts = PTS_PER_DUST * (SCORE_ON_EFFECTIVE ? eff : bd)
                 + PTS_PER_MIN  * (SCORE_ON_EFFECTIVE ? effTimeOf(bt) : bt);
-      return pts / Math.max(1, eff);                              // kvk/target -> best points per dust
+      return pts / Math.max(1, eff);                              // 'kvk' -> best points per dust
     }
 
     while (iter++ < HARD_CAP) {
@@ -250,6 +251,19 @@
         reached: targetScore > 0 ? (kvkFromDust + kvkFromTime) >= targetScore - 0.5 : null,
       } : null,
     };
+  }
+
+  // Public entry point. Classic uses the 'classic' order; target keeps the
+  // 'kvk' order (its original behaviour). KVK evaluates several orderings and
+  // returns the plan with the highest KVK score — this guarantees KVK >= Classic
+  // (a pure points/dust greedy can otherwise underspend a bounded resource).
+  function suggest(opts) {
+    const mode = (opts && opts.mode) || 'classic';
+    if (mode === 'kvk') {
+      const cands = ['kvk', 'classic', 'dustdense'].map(s => runPlan(opts, s));
+      return cands.reduce((a, b) => (b.totals.kvkPoints > a.totals.kvkPoints ? b : a));
+    }
+    return runPlan(opts, mode === 'target' ? 'kvk' : 'classic');
   }
 
   return { suggest, SCORE_ON_EFFECTIVE, PTS_PER_DUST, PTS_PER_MIN };
