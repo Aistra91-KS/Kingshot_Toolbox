@@ -148,6 +148,15 @@ const SITE = {
       href: "masters.html",
       badge: "beta"
     },
+    pets: {
+      name: { EN: "Pets", FR: "Familiers" },
+      desc: {
+        EN: "Browse your in-game pets tier by tier: attributes, level, army bonus and skills.",
+        FR: "Parcourez vos familiers palier par palier : caractéristiques, niveau, bonus d'armée et compétences."
+      },
+      icon: "paw-print",
+      href: "pets.html"
+    },
     shopcalc: {
       name: { EN: "Shop Calc", FR: "Shop Calc" },
       desc: {
