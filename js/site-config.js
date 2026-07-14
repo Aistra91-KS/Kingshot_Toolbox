@@ -36,7 +36,7 @@ const SITE = {
           name: { EN: "Event Optimizer", FR: "Optimiseur d'Événements" },
           icon: "swords",
           status: "active",
-          tools: ["beartrap", "vikings", "heroes", "masters"]
+          tools: ["beartrap", "vikings", "heroes", "masters", "pets"]
         },
         {
           id: "pack-shop",
