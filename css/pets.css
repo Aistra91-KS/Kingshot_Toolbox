@@ -1,29 +1,24 @@
 /* ============================================================
-   css/pets.css — Page Familiers · PROMENADE nature (parallax)
-   On assume une DA locale "golden hour" (verts + ciel chaud)
-   distincte du reste du site (choix validé). Le panneau info
-   garde le liseré doré pour le rattacher à l'identité.
+   css/pets.css — Familiers · SENTIER vertical (d'après maquette
+   Claude Design "Le Sentier"). Palette jour/sage, décor 100% CSS.
+   DA locale distincte du site (choix validé). Panneau info =
+   carte blanche translucide de la maquette.
    ============================================================ */
 
-/* Raretés → variables DA (panneau info) */
 :root{
-  --r-common:var(--text-muted); --r-rare:var(--success);
-  --r-epic:var(--warning); --r-legendary:var(--accent); --r-mythic:var(--battle-color, #e74c5c);
+  --r-common:#8a8378; --r-rare:oklch(0.55 0.10 200); --r-epic:#c07a2e;
+  --r-legendary:oklch(0.55 0.12 90); --r-mythic:#b5462f;
+  --ink:oklch(0.26 0.04 140); --ink-soft:oklch(0.40 0.03 135); --green:oklch(0.50 0.10 135);
 }
-
 body.pets-page{ overflow:hidden; }
 
-/* ---------------- SIDEBAR : liste des familiers ---------------- */
+/* ---------------- SIDEBAR (inchangée) ---------------- */
 .pet-sidebar{ gap:6px; padding:16px 12px; }
 .pet-sb-title{ font-size:.72rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); padding:4px 8px 10px; }
 .pet-list{ display:flex; flex-direction:column; gap:4px; }
-.pet-list-item{
-  --rc:var(--text-muted);
-  display:flex; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer;
-  background:transparent; border:1px solid transparent; border-radius:8px; padding:9px 10px;
-  color:var(--text-light); font:inherit; font-size:.9rem;
-  transition:background .18s, border-color .18s, transform .18s;
-}
+.pet-list-item{ --rc:var(--text-muted); display:flex; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer;
+  background:transparent; border:1px solid transparent; border-radius:8px; padding:9px 10px; color:var(--text-light); font:inherit; font-size:.9rem;
+  transition:background .18s, border-color .18s, transform .18s; }
 .pet-list-item:hover{ background:var(--control-bg); transform:translateX(2px); }
 .pet-list-item .dot{ width:8px; height:8px; border-radius:50%; flex:none; background:var(--rc); box-shadow:0 0 8px var(--rc); }
 .pet-list-item .nm{ flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -32,141 +27,129 @@ body.pets-page{ overflow:hidden; }
 .pet-list-item.active .nm{ color:var(--accent); font-weight:600; }
 
 /* ============================================================
-   SCÈNE (bloc principal) — overflow hidden, hauteur fixe
+   SCÈNE — bloc principal, overflow hidden, ciel sage
    ============================================================ */
 .pet-main{
   position:relative; flex:1; overflow:hidden; outline:none;
-  height:calc(100vh - var(--header-offset) - 20px);
-  border-radius:8px; box-shadow:0 4px 6px var(--shadow);
-  background:linear-gradient(180deg,#1f1830 0%,#3a2748 34%,#6e4453 54%,#b56a3e 63%,#e0954a 67%,#caa14e 72%,#7d6a34 100%);
+  height:calc(100vh - var(--header-offset) - 20px); border-radius:8px;
+  box-shadow:0 4px 6px var(--shadow);
+  font-family:'Karla', 'Segoe UI', sans-serif;
+  background:linear-gradient(180deg, oklch(0.93 0.035 128) 0%, oklch(0.90 0.045 134) 30%, oklch(0.88 0.05 138) 60%, oklch(0.86 0.05 142) 100%);
 }
-.scene{ position:absolute; inset:0; will-change:transform; } /* reçoit le "bob" de marche */
-.layer{ position:absolute; left:0; right:0; background-repeat:repeat-x; will-change:background-position; }
+.scene{ position:absolute; inset:0; }
+.scene > div{ pointer-events:none; }
 
-/* Ciel : le fond du .pet-main sert de ciel. Soleil + nuages par-dessus. */
-.sun{
-  position:absolute; left:44%; bottom:33%; width:230px; height:230px; transform:translateX(-50%);
-  background:radial-gradient(circle at center, #ffe6ad 0%, rgba(255,210,120,.55) 32%, rgba(255,190,90,0) 70%);
-  filter:blur(2px); pointer-events:none;
-}
-.cloud{
-  position:absolute; height:26px; border-radius:20px; background:rgba(255,225,190,.16); filter:blur(6px);
-  box-shadow:26px 6px 0 -4px rgba(255,225,190,.14), -30px 8px 0 -6px rgba(255,225,190,.12);
-}
-.cloud.c1{ top:16%; width:150px; animation:drift 90s linear infinite; }
-.cloud.c2{ top:26%; width:110px; animation:drift 130s linear infinite; animation-delay:-40s; }
+/* Champs de part et d'autre du sentier (rangées labourées) */
+.field-left{ position:absolute; top:0; bottom:0; left:0; right:calc(50% + 70px);
+  background-image:repeating-linear-gradient(98deg, rgba(255,255,255,.06) 0 2px, transparent 2px 28px),
+                   repeating-linear-gradient(180deg, rgba(60,90,40,.04) 0 1px, transparent 1px 90px); }
+.field-right{ position:absolute; top:0; bottom:0; right:0; left:calc(50% + 70px); background-color:rgba(160,160,60,.05);
+  background-image:repeating-linear-gradient(82deg, rgba(255,255,255,.05) 0 2px, transparent 2px 32px),
+                   repeating-linear-gradient(180deg, rgba(90,90,30,.04) 0 1px, transparent 1px 110px); }
 
-/* Reliefs (fonds SVG injectés par JS via background-image) */
-.hills-far{ bottom:31%; height:26%; opacity:.9; background-position:bottom; }
-.hills-mid{ bottom:30%; height:30%; background-position:bottom; }
-.trees   { bottom:30%; height:22%; background-position:bottom; }
-.grass-fg{ bottom:0;   height:14%; background-position:bottom; z-index:6; }
+/* Nappes de lumière (statique) */
+.light{ position:absolute; inset:0;
+  background:radial-gradient(900px 600px at 15% 12%, rgba(255,255,240,.35), transparent 70%),
+            radial-gradient(800px 700px at 88% 45%, rgba(240,255,220,.28), transparent 70%),
+            radial-gradient(1000px 800px at 10% 80%, rgba(220,240,200,.25), transparent 70%); }
 
-/* Sol chaud + lignes de vitesse */
-.ground{
-  bottom:0; height:35%;
-  background:linear-gradient(180deg,#7a6a38 0%,#5a4d28 30%,#3e3418 70%,#2a2410 100%);
-}
-.ground-tex{
-  position:absolute; inset:0; background-repeat:repeat-x; will-change:background-position;
-  background-image:repeating-linear-gradient(90deg, rgba(0,0,0,.14) 0 2px, transparent 2px 58px);
-  -webkit-mask-image:linear-gradient(180deg, transparent, #000 30%);
-          mask-image:linear-gradient(180deg, transparent, #000 30%);
-}
+/* Sentier de terre (base statique) + grain (défile) */
+.path{ position:absolute; top:0; bottom:0; left:50%; transform:translateX(-50%); width:140px;
+  background:linear-gradient(180deg, oklch(0.84 0.045 78) 0%, oklch(0.81 0.05 74) 40%, oklch(0.79 0.05 70) 100%);
+  box-shadow:inset 14px 0 22px -14px rgba(80,60,30,.55), inset -14px 0 22px -14px rgba(80,60,30,.55), 0 0 40px rgba(70,90,40,.15); }
+.path-grain{ position:absolute; inset:0;
+  background-image:repeating-linear-gradient(180deg, rgba(110,85,50,.05) 0 3px, transparent 3px 9px),
+                   repeating-linear-gradient(92deg, rgba(255,255,255,.05) 0 1px, transparent 1px 14px); }
 
-/* Calque des animaux (translaté globalement, animaux placés au km) */
-.animals{ position:absolute; inset:0; z-index:5; will-change:transform; }
-.animal{
-  position:absolute; bottom:18%; left:50%;
-  display:grid; place-items:center; transform:translateX(-50%);
-  will-change:transform, opacity;
-}
-.animal img{
-  display:block; max-height:min(50vh, 440px); max-width:min(42vw, 460px); object-fit:contain;
-  filter:drop-shadow(0 18px 20px rgba(0,0,0,.5));
-  animation:breathe 4.5s ease-in-out infinite;
-}
-.animal .sh{
-  position:absolute; bottom:-14px; width:52%; height:26px; border-radius:50%;
-  background:radial-gradient(ellipse at center, rgba(0,0,0,.5) 0%, rgba(0,0,0,.25) 45%, transparent 72%);
-  filter:blur(4px);
-}
+/* Lisières herbeuses (défilent) */
+.grass-l{ position:absolute; top:0; bottom:0; left:calc(50% - 74px); width:6px; opacity:.55; border-radius:3px;
+  background:repeating-linear-gradient(180deg, oklch(0.72 0.09 135) 0 10px, oklch(0.78 0.08 130) 10px 22px); }
+.grass-r{ position:absolute; top:0; bottom:0; left:calc(50% + 68px); width:6px; opacity:.55; border-radius:3px;
+  background:repeating-linear-gradient(180deg, oklch(0.72 0.09 135) 0 14px, oklch(0.78 0.08 130) 14px 25px); }
 
-.scene-vignette{ position:absolute; inset:0; z-index:7; pointer-events:none;
-  box-shadow:inset 0 0 200px 60px rgba(20,16,10,.7); }
+/* Ligne pointillée + traces de pas (défilent) */
+.dashed{ position:absolute; top:0; bottom:0; left:50%; transform:translateX(-50%); width:3px; border-radius:2px;
+  background:repeating-linear-gradient(180deg, rgba(120,92,55,.38) 0 16px, transparent 16px 40px); }
+.footsteps{ position:absolute; top:0; bottom:0; left:50%; transform:translateX(-50%); width:64px; background-size:64px 130px;
+  background-image:radial-gradient(ellipse 5px 10px at 32% 22%, rgba(101,78,46,.28) 96%, transparent 100%),
+                   radial-gradient(ellipse 5px 10px at 68% 72%, rgba(101,78,46,.28) 96%, transparent 100%); }
+
+/* Fondu haut/bas pour l'entrée/sortie des animaux */
+.scene-fade{ position:absolute; inset:0; z-index:7;
+  background:linear-gradient(180deg, oklch(0.92 0.04 132) 0%, transparent 14%, transparent 86%, oklch(0.87 0.05 140) 100%); }
+
+/* ---------------- Animaux (calque translaté en Y) ---------------- */
+.animals{ position:absolute; inset:0; z-index:5; }
+.animal{ position:absolute; left:50%; display:grid; place-items:center; }
+.animal img{ display:block; max-height:min(46vh, 400px); max-width:min(40vw, 440px); object-fit:contain;
+  filter:drop-shadow(0 16px 18px rgba(60,50,20,.35)); animation:breathe 4.5s ease-in-out infinite; }
+.animal .sh{ position:absolute; bottom:-12px; width:50%; height:24px; border-radius:50%; filter:blur(4px);
+  background:radial-gradient(ellipse at center, rgba(70,55,25,.4) 0%, rgba(70,55,25,.18) 50%, transparent 72%); }
+.animal .marker{ position:absolute; bottom:-42px; width:42px; height:42px; border-radius:50%; display:grid; place-items:center;
+  background:rgba(255,255,255,.9); border:3px solid oklch(0.55 0.10 135);
+  box-shadow:0 6px 18px rgba(60,70,40,.3), 0 0 0 8px rgba(255,255,255,.28);
+  font-family:'Cormorant Garamond', serif; font-weight:600; font-size:17px; color:oklch(0.35 0.07 138); }
 
 @keyframes breathe{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
-@keyframes drift{ from{ transform:translateX(-20vw) } to{ transform:translateX(120vw) } }
-@keyframes nudge{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(4px) } }
+@keyframes nudge{ 0%,100%{ transform:translateY(0); opacity:.7 } 50%{ transform:translateY(6px); opacity:1 } }
 
 /* ============================================================
-   PANNEAU INFO (glass + liseré doré = rappel identité)
+   PANNEAU INFO — carte blanche translucide (maquette)
    ============================================================ */
-.pet-info{
-  position:absolute; left:clamp(16px,3vw,32px); bottom:clamp(16px,3vw,28px); z-index:9;
-  width:min(360px, 40vw); transition:opacity .28s ease; will-change:opacity;
-}
-.pet-info .glass{
-  position:relative; border-radius:12px; overflow:hidden; padding:20px 22px;
-  background:color-mix(in srgb, #161616 66%, transparent);
-  backdrop-filter:blur(14px) saturate(120%); -webkit-backdrop-filter:blur(14px) saturate(120%);
-  border:1px solid rgba(255,255,255,.08); border-top:3px solid var(--accent);
-  box-shadow:0 18px 50px rgba(0,0,0,.5); color:#f0e8d5;
-}
-.pet-badge{
-  --rc:var(--accent);
-  display:inline-flex; align-items:center; gap:8px; margin-bottom:10px;
-  padding:5px 14px; border-radius:22px; font-size:.76rem; font-weight:600; letter-spacing:.4px;
-  color:var(--rc); background:color-mix(in srgb, var(--rc) 14%, transparent);
-  border:1px solid color-mix(in srgb, var(--rc) 45%, transparent);
-}
-.pet-badge .bdot{ width:7px; height:7px; border-radius:50%; background:currentColor; box-shadow:0 0 8px currentColor; }
-.pet-name{ font-size:1.5rem; font-weight:700; line-height:1.15; margin:0; }
-.pet-level{ margin-top:3px; color:#8a8378; font-size:.9rem; }
-.pet-level b{ color:var(--accent); }
-.pet-sec{ font-size:.7rem; text-transform:uppercase; letter-spacing:1.4px; color:#8a8378; margin:16px 0 8px; display:flex; align-items:center; gap:8px; }
-.pet-sec::after{ content:""; flex:1; height:1px; background:rgba(255,255,255,.1); }
+.pet-info{ position:absolute; right:clamp(20px,4vw,48px); top:50%; transform:translateY(-50%); z-index:9;
+  width:min(360px, 34vw); transition:opacity .28s ease; }
+.pet-info .card{ background:rgba(255,255,255,.68); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.75); border-radius:22px; padding:26px 30px;
+  box-shadow:0 24px 48px -18px rgba(60,70,40,.3), 0 4px 12px rgba(60,70,40,.08); color:var(--ink-soft); }
+.pet-badge{ --rc:var(--green); display:inline-block; margin-bottom:10px; font-size:11px; font-weight:700;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--rc); }
+.pet-badge .bdot{ display:none; }
+.pet-name{ margin:0; font-family:'Cormorant Garamond', serif; font-weight:600; font-size:2rem; line-height:1.1; color:var(--ink); }
+.pet-level{ margin-top:4px; color:var(--green); font-size:.9rem; }
+.pet-level b{ color:oklch(0.42 0.10 135); }
+.pet-sec{ font-size:11px; text-transform:uppercase; letter-spacing:.2em; font-weight:600; color:var(--green);
+  margin:18px 0 9px; display:flex; align-items:center; gap:8px; }
+.pet-sec::after{ content:""; flex:1; height:1px; background:rgba(90,100,60,.18); }
 .pet-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-.stat{ background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:10px 8px; text-align:center; }
-.stat .lbl{ font-size:.66rem; color:#8a8378; text-transform:uppercase; letter-spacing:.6px; }
-.stat .val{ font-size:1.05rem; font-weight:700; margin-top:2px; }
-.stat.atk .val{ color:var(--battle-color, #e74c5c); } .stat.def .val{ color:var(--success); } .stat.hp .val{ color:var(--accent); }
-.pet-bonus{ display:flex; align-items:center; gap:9px; font-size:.9rem; margin-top:2px;
-  background:color-mix(in srgb, var(--accent) 9%, transparent); border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  border-radius:8px; padding:10px 12px; }
-.pet-bonus svg{ width:16px; height:16px; stroke:var(--accent); fill:none; stroke-width:2; flex:none; }
-.pet-skill{ display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); }
+.stat{ background:rgba(255,255,255,.55); border:1px solid rgba(120,130,90,.18); border-radius:10px; padding:10px 8px; text-align:center; }
+.stat .lbl{ font-size:.66rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.5px; }
+.stat .val{ font-size:1.05rem; font-weight:700; margin-top:2px; font-family:'Cormorant Garamond',serif; }
+.stat.atk .val{ color:#b5462f; } .stat.def .val{ color:oklch(0.48 0.11 135); } .stat.hp .val{ color:#b7841f; }
+.pet-bonus{ display:flex; align-items:center; gap:9px; font-size:.9rem; margin-top:2px; color:var(--ink);
+  background:oklch(0.88 0.06 135 / .5); border:1px solid oklch(0.70 0.09 135 / .4); border-radius:10px; padding:10px 12px; }
+.pet-bonus svg{ width:16px; height:16px; stroke:var(--green); fill:none; stroke-width:2; flex:none; }
+.pet-skill{ display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(90,100,60,.15); }
 .pet-skill:last-child{ border-bottom:0; }
-.pet-skill .ico{ width:32px; height:32px; flex:none; border-radius:8px; display:grid; place-items:center;
-  background:color-mix(in srgb, var(--accent) 13%, transparent); border:1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
-.pet-skill .ico svg{ width:17px; height:17px; stroke:var(--accent); fill:none; stroke-width:2; }
-.pet-skill .sk-nm{ font-weight:600; font-size:.92rem; }
-.pet-skill .sk-ds{ font-size:.83rem; color:#8a8378; margin-top:2px; line-height:1.4; }
+.pet-skill .ico{ width:32px; height:32px; flex:none; border-radius:9px; display:grid; place-items:center;
+  background:oklch(0.85 0.07 135 / .5); border:1px solid oklch(0.68 0.09 135 / .45); }
+.pet-skill .ico svg{ width:17px; height:17px; stroke:oklch(0.42 0.10 135); fill:none; stroke-width:2; }
+.pet-skill .sk-nm{ font-weight:600; font-size:.92rem; color:var(--ink); }
+.pet-skill .sk-ds{ font-size:.83rem; color:var(--ink-soft); margin-top:2px; line-height:1.45; }
 
 /* ---------------- HUD ---------------- */
-.pet-progress{ position:absolute; right:16px; top:50%; transform:translateY(-50%); z-index:9; display:flex; flex-direction:column; gap:10px; }
-.pp-dot{ width:9px; height:9px; border-radius:50%; padding:0; border:0; cursor:pointer; background:rgba(255,255,255,.25); transition:transform .2s, background .2s; }
+.pet-progress{ position:absolute; left:16px; top:50%; transform:translateY(-50%); z-index:9; display:flex; flex-direction:column; gap:10px; }
+.pp-dot{ width:9px; height:9px; border-radius:50%; padding:0; border:0; cursor:pointer; background:oklch(0.62 0.03 135 / .4); transition:transform .2s, background .2s; }
 .pp-dot:hover{ transform:scale(1.3); }
-.pp-dot.active{ background:var(--accent); box-shadow:0 0 10px var(--accent); transform:scale(1.35); }
-.pet-counter{ position:absolute; right:18px; bottom:16px; z-index:9; color:#e8dcc0; font-size:.85rem; font-variant-numeric:tabular-nums; text-shadow:0 1px 4px rgba(0,0,0,.6); }
-.pet-counter b{ color:var(--accent); font-size:1.05rem; }
+.pp-dot.active{ background:oklch(0.52 0.11 135); box-shadow:0 0 10px oklch(0.62 0.12 135 / .6); transform:scale(1.35); }
+.pet-counter{ position:absolute; left:18px; top:16px; z-index:9; color:var(--ink); font-size:.85rem; font-variant-numeric:tabular-nums;
+  font-family:'Cormorant Garamond',serif; }
+.pet-counter b{ color:oklch(0.42 0.11 135); font-size:1.1rem; }
 .pet-hint{ position:absolute; left:50%; bottom:16px; transform:translateX(-50%); z-index:9;
-  display:flex; align-items:center; gap:9px; color:#e8dcc0; font-size:.82rem;
-  background:rgba(20,16,10,.4); border:1px solid rgba(255,255,255,.12); border-radius:20px; padding:7px 14px; backdrop-filter:blur(6px); }
-.pet-hint svg{ width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; animation:nudge 1.8s ease-in-out infinite; }
+  display:flex; flex-direction:column; align-items:center; gap:6px; color:var(--green);
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase; }
+.pet-hint .chev{ animation:nudge 2.2s ease-in-out infinite; }
+.pet-hint svg{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; }
 
 /* ---------------- Responsive ---------------- */
 @media (max-width:880px){
   .pet-sidebar{ display:none; }
-  .animal img{ max-height:min(38vh, 300px); max-width:70vw; }
-  .pet-info{ left:12px; right:12px; bottom:12px; width:auto; max-height:44%; }
-  .pet-info .glass{ overflow:auto; max-height:100%; padding:16px 18px; }
-  .pet-name{ font-size:1.3rem; }
-  .pet-progress{ right:10px; }
+  .animal img{ max-height:min(34vh, 280px); max-width:62vw; }
+  .pet-info{ right:12px; left:12px; top:auto; bottom:12px; transform:none; width:auto; max-height:42%; }
+  .pet-info .card{ overflow:auto; max-height:100%; padding:18px 20px; }
+  .pet-name{ font-size:1.6rem; }
+  .pet-progress{ left:10px; }
 }
-
-/* ---------------- Mouvement réduit ---------------- */
 @media (prefers-reduced-motion:reduce){
-  .animal img, .cloud, .pet-hint svg{ animation:none !important; }
+  .animal img, .pet-hint .chev{ animation:none !important; }
 }
-.pet-main :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:6px; }
+.pet-main :focus-visible{ outline:2px solid oklch(0.52 0.11 135); outline-offset:2px; border-radius:6px; }
