@@ -9,35 +9,38 @@
 </head>
 <body class="pets-page">
 
-    <!-- Le header fixe est injecté par header.js (comme sur toutes les pages) -->
+    <!-- Header fixe injecté par header.js -->
 
-    <!-- SIDEBAR : navigateur de familiers -->
+    <!-- SIDEBAR : liste des familiers -->
     <aside class="sidebar pet-sidebar">
         <div class="pet-sb-title" data-i18n="collection">Collection</div>
         <div id="petList" class="pet-list"></div>
     </aside>
 
-    <!-- BLOC PRINCIPAL : scène "champ / chemin" (scroll-jacking) -->
-    <main class="pet-main" id="petMain" tabindex="0" aria-label="Familiers">
+    <!-- BLOC PRINCIPAL : promenade nature (scroll-jacking horizontal) -->
+    <main class="pet-main" id="petMain" tabindex="0" aria-label="Promenade des familiers">
+        <div class="scene" id="scene">
+            <div class="sun"></div>
+            <div class="cloud c1"></div>
+            <div class="cloud c2"></div>
 
-        <!-- Décor -->
-        <div class="field" aria-hidden="true">
-            <div class="sky"></div>
-            <div class="horizon"></div>
-            <div class="ground"><div class="rungs" id="rungs"></div></div>
-            <div class="field-vignette"></div>
-        </div>
+            <div class="layer hills-far" data-rate="hills-far" aria-hidden="true"></div>
+            <div class="layer hills-mid" data-rate="hills-mid" aria-hidden="true"></div>
+            <div class="layer trees"     data-rate="trees"     aria-hidden="true"></div>
 
-        <!-- Familier actif -->
-        <div class="pet-stage">
-            <div class="pet-holder" id="petHolder">
-                <img class="pet-img" id="petImg" alt="">
-                <div class="pet-shadow"></div>
+            <div class="ground" aria-hidden="true">
+                <div class="ground-tex" data-rate="ground-tex"></div>
             </div>
+
+            <!-- Les familiers sont injectés ici (positionnés "au km") -->
+            <div class="animals" id="animals"></div>
+
+            <div class="layer grass-fg" data-rate="grass-fg" aria-hidden="true"></div>
+            <div class="scene-vignette" aria-hidden="true"></div>
         </div>
 
-        <!-- Panneau data (glass, ancré à droite) -->
-        <aside class="pet-panel" id="petPanel">
+        <!-- Panneau info du familier courant -->
+        <aside class="pet-info" id="petInfo">
             <div class="glass">
                 <span class="pet-badge" id="petBadge"><span class="bdot"></span><span id="petBadgeLabel"></span></span>
                 <h1 class="pet-name" id="petName"></h1>
@@ -62,11 +65,11 @@
         <div class="pet-counter"><b id="cIdx">1</b> / <span id="cTot">14</span></div>
         <div class="pet-hint">
             <svg viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="4"/><path d="M12 8v3"/></svg>
-            <span data-i18n="hint">Molette / flèches pour avancer</span>
+            <span data-i18n="hint">Molette / flèches pour marcher</span>
         </div>
     </main>
 
-    <!-- Socle (ordre identique aux autres pages, sans help/backup : page en lecture seule) -->
+    <!-- Socle -->
     <script src="js/site-config.js"></script>
     <script src="js/lang.js"></script>
     <script src="js/header.js"></script>
