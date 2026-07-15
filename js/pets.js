@@ -1,17 +1,15 @@
 /* ============================================================
-   js/pets.js — Logique page Familiers
-   - Données en dur (MVP). Prod → fetch('data/pets_db.json').
-   - Scroll-jacking : molette/flèches/swipe = 1 familier à la fois.
-   - Transition "avancer sur le chemin" : le familier actif fuit
-     vers l'avant/l'horizon, le suivant surgit de la profondeur.
-   - i18n : via GlobalLang + event 'langChanged' (comme le site).
+   js/pets.js — Promenade nature (parallax scroll-jacking)
+   Le monde défile horizontalement ; la molette te fait
+   "marcher" d'un familier au suivant. Multi-couches parallax
+   + profondeur atmosphérique + léger balancement de marche.
+   Données en dur (MVP) → prod : fetch('data/pets_db.json').
+   i18n via GlobalLang + event 'langChanged'.
    ============================================================ */
 (function () {
   "use strict";
 
-  /* --------------------------------------------------------
-     DONNÉES — ordre du + faible au + fort (liste inversée)
-     -------------------------------------------------------- */
+  /* -------- DONNÉES (du + faible au + fort) -------- */
   const PETS = [
     {name:{EN:"Gray Wolf",FR:"Loup Gris"},rarity:"common",lvl:12,atk:130,def:120,hp:1500,
      bonus:{EN:"+2% March Speed",FR:"+2% Vitesse de Marche"},
@@ -66,252 +64,218 @@
   ];
 
   const RARITY = {
-    common:   {v:"--r-common",   EN:"Common",   FR:"Commun"},
-    rare:     {v:"--r-rare",     EN:"Rare",     FR:"Rare"},
-    epic:     {v:"--r-epic",     EN:"Epic",     FR:"Épique"},
-    legendary:{v:"--r-legendary",EN:"Legendary",FR:"Légendaire"},
-    mythic:   {v:"--r-mythic",   EN:"Mythic",   FR:"Mythique"},
+    common:{v:"--r-common",EN:"Common",FR:"Commun"}, rare:{v:"--r-rare",EN:"Rare",FR:"Rare"},
+    epic:{v:"--r-epic",EN:"Epic",FR:"Épique"}, legendary:{v:"--r-legendary",EN:"Legendary",FR:"Légendaire"},
+    mythic:{v:"--r-mythic",EN:"Mythic",FR:"Mythique"},
   };
-
-  /* i18n statique (clés = attributs data-i18n du HTML) */
   const i18n = {
     FR:{collection:"Collection",attributes:"Caractéristiques",armyBonus:"Bonus d'Armée",skills:"Compétences",
-        hint:"Molette / flèches pour avancer",levelWord:"Niveau",atk:"Attaque",def:"Défense",hp:"Vie"},
+        hint:"Molette / flèches pour marcher",levelWord:"Niveau",atk:"Attaque",def:"Défense",hp:"Vie"},
     EN:{collection:"Collection",attributes:"Attributes",armyBonus:"Army Bonus",skills:"Skills",
-        hint:"Scroll / arrows to advance",levelWord:"Level",atk:"Attack",def:"Defense",hp:"Health"},
+        hint:"Scroll / arrows to walk",levelWord:"Level",atk:"Attack",def:"Defense",hp:"Health"},
   };
 
-  /* --------------------------------------------------------
-     ÉTAT + réglages (à ajuster librement)
-     -------------------------------------------------------- */
-  let idx = 0, locked = false, transitionDone = true, settleTimer = null;
-  const COOLDOWN = 130;              // ms d'apaisement (absorbe l'inertie trackpad)
-  const EXIT_MS = 360, ENTER_MS = 540;
-  const EASE = "cubic-bezier(.22,.61,.36,1)";
+  /* -------- ÉTAT + réglages -------- */
+  const SPACING = 640;          // distance "monde" entre 2 animaux (px)
+  const WALK_MS = 780;          // durée d'un pas
+  const COOLDOWN = 130;         // apaisement anti multi-scroll
   const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // "Profondeur" simulée par l'échelle : loin (horizon) ↔ repos ↔ près (passe devant la caméra)
-  const DEPTH = {
-    far:  {t:"scale(.5) translateY(-6%)",  o:0, f:"blur(3px)"},
-    rest: {t:"scale(1) translateY(0)",     o:1, f:"blur(0px)"},
-    near: {t:"scale(1.6) translateY(20%)", o:0, f:"blur(2px)"},
-  };
+  let station = 0, worldX = 0, startX = 0, targetX = 0, startT = 0, dur = WALK_MS;
+  let walking = false, locked = false, swapped = false, raf = 0, settleTimer = null;
 
-  /* Refs DOM (remplies au DOMContentLoaded) */
-  let petMain, petHolder, petImg, petPanel, rungs,
-      petBadge, petBadgeLabel, petName, petLevel, petStats, petBonus, petSkills,
+  const LAYER_RATES = { "hills-far":0.12, "hills-mid":0.22, "trees":0.42, "ground-tex":1.0, "grass-fg":1.55 };
+
+  /* Refs */
+  let petMain, scene, animalsLayer, animalEls = [], texLayers = [],
+      info, petBadge, petBadgeLabel, petName, petLevel, petStats, petBonus, petSkills,
       petList, progress, cIdx, cTot;
 
-  /* --------------------------------------------------------
-     HELPERS
-     -------------------------------------------------------- */
+  /* -------- Helpers -------- */
   const $ = s => document.querySelector(s);
   const L = () => (window.GlobalLang ? GlobalLang.get() : "FR");
   const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const fmt = n => n.toLocaleString(L() === "FR" ? "fr-FR" : "en-US");
   const imgSrc = p => `img/pets/${slug(p.name.EN)}.webp`;
+  const easeInOut = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+  const svgURL = s => `url("data:image/svg+xml,${encodeURIComponent(s)}")`;
 
-  // Fallback si une image manque (rarement utilisé, toutes présentes)
   function fallbackSVG(p){
-    const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'>
-      <circle cx='120' cy='110' r='90' fill='none' stroke='#f5b840' stroke-opacity='.3' stroke-width='2'/>
-      <text x='120' y='120' text-anchor='middle' font-family='Segoe UI,sans-serif' font-size='16' fill='#f5b840'>${p.name[L()]}</text></svg>`;
-    return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+    return "data:image/svg+xml," + encodeURIComponent(
+      `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><circle cx='120' cy='110' r='88' fill='none' stroke='#f5b840' stroke-opacity='.3' stroke-width='2'/><text x='120' y='120' text-anchor='middle' font-family='sans-serif' font-size='16' fill='#f5b840'>${p.name[L()]}</text></svg>`);
   }
 
-  /* --------------------------------------------------------
-     RENDU
-     -------------------------------------------------------- */
-  function renderStage(){
-    const p = PETS[idx], r = RARITY[p.rarity], lang = L(), S = i18n[lang];
+  /* -------- Décor SVG (collines / arbres / herbe) -------- */
+  function setBackgrounds(){
+    const hillFar  = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='160'><path d='M0 160 V100 C90 60 180 60 250 92 C320 124 410 124 500 100 V160 Z' fill='#4a5d4a'/></svg>`;
+    const hillMid  = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='200'><path d='M0 200 V120 C110 72 230 72 300 112 C380 152 500 152 600 120 V200 Z' fill='#354a30'/></svg>`;
+    let bumps = "M0 120 V95"; for (let x=0; x<360; x+=60) bumps += ` C${x+15} 70 ${x+45} 70 ${x+60} 95`;
+    const trees = `<svg xmlns='http://www.w3.org/2000/svg' width='360' height='120'><path d='${bumps} V120 Z' fill='#20301a'/></svg>`;
+    let spikes = "M0 70 V52"; for (let x=0; x<160; x+=18) spikes += ` L${x+7} 16 L${x+18} 52`;
+    const grass = `<svg xmlns='http://www.w3.org/2000/svg' width='160' height='70'><path d='${spikes} V70 Z' fill='#16210f'/></svg>`;
 
-    petImg.onerror = () => { petImg.onerror = null; petImg.src = fallbackSVG(p); };
-    petImg.src = imgSrc(p);
-    petImg.alt = p.name[lang];
-
-    petBadge.style.setProperty("--rc", `var(${r.v})`);
-    petBadgeLabel.textContent = r[lang];
-
-    petName.textContent = p.name[lang];
-    petLevel.innerHTML = `${S.levelWord} <b>${p.lvl}</b>`;
-
-    petStats.innerHTML =
-      `<div class="stat atk"><div class="lbl">${S.atk}</div><div class="val">${fmt(p.atk)}</div></div>` +
-      `<div class="stat def"><div class="lbl">${S.def}</div><div class="val">${fmt(p.def)}</div></div>` +
-      `<div class="stat hp"><div class="lbl">${S.hp}</div><div class="val">${fmt(p.hp)}</div></div>`;
-
-    petBonus.textContent = p.bonus[lang];
-
-    const skIco = `<svg viewBox="0 0 24 24"><path d="m12 3 1.9 5.8H20l-4.9 3.6L17 18l-5-3.7L7 18l1.9-5.6L4 8.8h6.1z"/></svg>`;
-    petSkills.innerHTML = p.skills.map(s =>
-      `<div class="pet-skill"><div class="ico">${skIco}</div>` +
-      `<div><div class="sk-nm">${s.n[lang]}</div><div class="sk-ds">${s.d[lang]}</div></div></div>`).join("");
-
-    cIdx.textContent = idx + 1;
-    updateActive();
+    $(".hills-far").style.backgroundImage = svgURL(hillFar);
+    $(".hills-mid").style.backgroundImage = svgURL(hillMid);
+    $(".trees").style.backgroundImage     = svgURL(trees);
+    $(".grass-fg").style.backgroundImage  = svgURL(grass);
+    $(".hills-far").style.backgroundSize = "500px 100%";
+    $(".hills-mid").style.backgroundSize = "600px 100%";
+    $(".trees").style.backgroundSize     = "360px 100%";
+    $(".grass-fg").style.backgroundSize  = "160px 100%";
   }
 
+  /* -------- Construction -------- */
+  function buildAnimals(){
+    animalsLayer.innerHTML = PETS.map((p, i) =>
+      `<div class="animal" data-i="${i}" style="left:calc(50% + ${i*SPACING}px)">` +
+      `<img loading="lazy" alt=""><div class="sh"></div></div>`).join("");
+    animalEls = Array.from(animalsLayer.querySelectorAll(".animal"));
+    animalEls.forEach((a, i) => {
+      const img = a.querySelector("img"), p = PETS[i];
+      img.onerror = () => { img.onerror = null; img.src = fallbackSVG(p); };
+      img.src = imgSrc(p);
+      a.addEventListener("click", () => go(i));
+    });
+    refreshAlts();
+  }
+  function refreshAlts(){ animalEls.forEach((a, i) => a.querySelector("img").alt = PETS[i].name[L()]); }
+
+  function buildProgress(){
+    cTot.textContent = PETS.length;
+    progress.innerHTML = PETS.map((_, i) => `<button class="pp-dot" data-i="${i}" aria-label="Familier ${i+1}"></button>`).join("");
+    progress.querySelectorAll(".pp-dot").forEach(d => d.addEventListener("click", () => go(+d.dataset.i)));
+  }
   function renderSidebar(){
     const lang = L();
     petList.innerHTML = PETS.map((p, i) =>
       `<button class="pet-list-item" data-i="${i}" style="--rc:var(${RARITY[p.rarity].v})">` +
       `<span class="dot"></span><span class="nm">${p.name[lang]}</span><span class="lv">${p.lvl}</span></button>`).join("");
-    petList.querySelectorAll(".pet-list-item").forEach(b =>
-      b.addEventListener("click", () => navigate(+b.dataset.i)));
+    petList.querySelectorAll(".pet-list-item").forEach(b => b.addEventListener("click", () => go(+b.dataset.i)));
     updateActive();
   }
-
-  function buildProgress(){
-    cTot.textContent = PETS.length;
-    progress.innerHTML = PETS.map((_, i) =>
-      `<button class="pp-dot" data-i="${i}" aria-label="Familier ${i + 1}"></button>`).join("");
-    progress.querySelectorAll(".pp-dot").forEach(d =>
-      d.addEventListener("click", () => navigate(+d.dataset.i)));
+  function renderInfo(i){
+    const p = PETS[i], r = RARITY[p.rarity], lang = L(), S = i18n[lang];
+    petBadge.style.setProperty("--rc", `var(${r.v})`);
+    petBadgeLabel.textContent = r[lang];
+    petName.textContent = p.name[lang];
+    petLevel.innerHTML = `${S.levelWord} <b>${p.lvl}</b>`;
+    petStats.innerHTML =
+      `<div class="stat atk"><div class="lbl">${S.atk}</div><div class="val">${fmt(p.atk)}</div></div>` +
+      `<div class="stat def"><div class="lbl">${S.def}</div><div class="val">${fmt(p.def)}</div></div>` +
+      `<div class="stat hp"><div class="lbl">${S.hp}</div><div class="val">${fmt(p.hp)}</div></div>`;
+    petBonus.textContent = p.bonus[lang];
+    const skIco = `<svg viewBox="0 0 24 24"><path d="m12 3 1.9 5.8H20l-4.9 3.6L17 18l-5-3.7L7 18l1.9-5.6L4 8.8h6.1z"/></svg>`;
+    petSkills.innerHTML = p.skills.map(s =>
+      `<div class="pet-skill"><div class="ico">${skIco}</div><div><div class="sk-nm">${s.n[lang]}</div><div class="sk-ds">${s.d[lang]}</div></div></div>`).join("");
+    cIdx.textContent = i + 1;
   }
-
   function updateActive(){
-    petList.querySelectorAll(".pet-list-item").forEach((b, i) => b.classList.toggle("active", i === idx));
-    progress.querySelectorAll(".pp-dot").forEach((d, i) => d.classList.toggle("active", i === idx));
+    petList.querySelectorAll(".pet-list-item").forEach((b, i) => b.classList.toggle("active", i === station));
+    progress.querySelectorAll(".pp-dot").forEach((d, i) => d.classList.toggle("active", i === station));
   }
 
-  /* --------------------------------------------------------
-     TRANSITION "avancer sur le chemin" (Web Animations API)
-     -------------------------------------------------------- */
-  async function anim(el, frames, dur, delay){
-    const a = el.animate(frames, { duration:dur, delay:delay || 0, easing:EASE, fill:"both" });
-    await a.finished; a.commitStyles(); a.cancel();
-  }
-
-  // Les "barreaux" du sol filent vers l'avant (une période = seamless)
-  function rush(dir){
-    if (REDUCE) return;
-    rungs.animate(
-      [{ transform:"translateY(0)" }, { transform:`translateY(${dir > 0 ? 64 : -64}px)` }],
-      { duration:EXIT_MS + ENTER_MS, easing:"cubic-bezier(.16,.8,.3,1)" });
-  }
-
-  async function transition(dir){
-    if (REDUCE){
-      await anim(petPanel, [{ opacity:1 }, { opacity:0 }], 120, 0);
-      renderStage(); rush(dir);
-      petPanel.style.opacity = "";
-      petPanel.animate([{ opacity:0 }, { opacity:1 }], { duration:120 });
-      return;
+  /* -------- Parallax (appelé à chaque frame) -------- */
+  function applyParallax(t){
+    for (const l of texLayers) l.el.style.backgroundPositionX = (-worldX * l.rate) + "px";
+    animalsLayer.style.transform = `translateX(${-worldX}px)`;
+    for (let i = 0; i < animalEls.length; i++){
+      const d = Math.abs(i * SPACING - worldX);
+      const s = Math.max(0.62, 1 - (d / SPACING) * 0.28);
+      const o = Math.max(0.10, 1 - (d / SPACING) * 0.60);
+      const a = animalEls[i];
+      a.style.transform = `translateX(-50%) scale(${s.toFixed(3)})`;
+      a.style.opacity = o.toFixed(3);
+      a.style.zIndex = String(1000 - Math.round(d));
     }
-    const exitTo    = dir > 0 ? DEPTH.near : DEPTH.far;   // avancer → passe devant ; reculer → recule à l'horizon
-    const enterFrom = dir > 0 ? DEPTH.far  : DEPTH.near;
-
-    rush(dir);
-    // SORTIE
-    await Promise.all([
-      anim(petHolder,
-        [{ transform:DEPTH.rest.t, opacity:1, filter:DEPTH.rest.f }, { transform:exitTo.t, opacity:0, filter:exitTo.f }],
-        EXIT_MS, 0),
-      anim(petPanel,
-        [{ transform:"translateY(0)", opacity:1 }, { transform:`translateY(${dir > 0 ? 18 : -18}px)`, opacity:0 }],
-        EXIT_MS - 40, 0),
-    ]);
-
-    renderStage();
-
-    // ENTRÉE
-    await Promise.all([
-      anim(petHolder,
-        [{ transform:enterFrom.t, opacity:0, filter:enterFrom.f }, { transform:DEPTH.rest.t, opacity:1, filter:DEPTH.rest.f }],
-        ENTER_MS, 0),
-      anim(petPanel,
-        [{ transform:`translateY(${dir > 0 ? -18 : 18}px)`, opacity:0 }, { transform:"translateY(0)", opacity:1 }],
-        ENTER_MS, 70),
-    ]);
-
-    // Nettoie l'inline → la lévitation idle (sur l'<img> enfant) reprend
-    petHolder.style.transform = ""; petHolder.style.opacity = ""; petHolder.style.filter = "";
-    petPanel.style.transform  = ""; petPanel.style.opacity  = "";
+    // balancement de marche (2 pas, amorti aux extrémités)
+    const bob = (t == null || REDUCE) ? 0 : Math.sin(t * Math.PI * 4) * Math.sin(t * Math.PI) * 6;
+    scene.style.transform = `translateY(${bob.toFixed(2)}px)`;
   }
 
-  /* --------------------------------------------------------
-     NAVIGATION
-     -------------------------------------------------------- */
-  function navigate(target){
-    if (locked || target === idx || target < 0 || target >= PETS.length) return;
-    const dir = target > idx ? 1 : -1;
-    idx = target;
-    locked = true; transitionDone = false;
-    transition(dir).then(() => {
-      transitionDone = true;
-      clearTimeout(settleTimer);
-      settleTimer = setTimeout(release, COOLDOWN);
-    });
+  /* -------- Marche vers un familier -------- */
+  function go(target){
+    if (locked || target < 0 || target >= PETS.length || target === station) return;
+    const delta = Math.abs(target - station);
+    station = target;
+    locked = true; walking = true; swapped = false;
+    startX = worldX; targetX = station * SPACING; startT = performance.now();
+    dur = REDUCE ? 1 : WALK_MS * Math.min(2.2, Math.max(1, Math.sqrt(delta)));
+    updateActive();
+    info.style.opacity = "0";
+    cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
   }
-  function step(dir){ navigate(idx + dir); }
-  function release(){ if (transitionDone) locked = false; else settleTimer = setTimeout(release, COOLDOWN); }
+  function tick(now){
+    let t = Math.min((now - startT) / dur, 1);
+    worldX = startX + (targetX - startX) * easeInOut(t);
+    applyParallax(t);
+    if (!swapped && t >= 0.5){ swapped = true; renderInfo(station); info.style.opacity = "1"; }
+    if (t < 1){ raf = requestAnimationFrame(tick); }
+    else { worldX = targetX; applyParallax(null); walking = false;
+           clearTimeout(settleTimer); settleTimer = setTimeout(release, COOLDOWN); }
+  }
+  function release(){ if (!walking) locked = false; else settleTimer = setTimeout(release, COOLDOWN); }
 
-  // Rebond en butée (premier / dernier)
-  let bouncing = false;
   function rubberBand(dir){
-    if (bouncing || REDUCE) return; bouncing = true;
-    petHolder.animate(
-      [{ transform:"scale(1) translateY(0)" }, { transform:`scale(1) translateY(${dir > 0 ? 3 : -3}%)` }, { transform:"scale(1) translateY(0)" }],
-      { duration:280, easing:"ease-out" }).finished.then(() => bouncing = false);
+    if (REDUCE) return;
+    scene.animate([{ transform:"translateX(0)" }, { transform:`translateX(${dir>0?-14:14}px)` }, { transform:"translateX(0)" }],
+      { duration:260, easing:"ease-out" });
   }
 
-  /* --------------------------------------------------------
-     ÉCOUTEURS
-     -------------------------------------------------------- */
+  /* -------- Écouteurs (BRANCHÉS dans init — le bug précédent) -------- */
   function attachEvents(){
-    // Molette : preventDefault + verrou + apaisement (1 familier / geste)
     petMain.addEventListener("wheel", (e) => {
       e.preventDefault();
       clearTimeout(settleTimer);
-      if (locked){ settleTimer = setTimeout(release, COOLDOWN); return; } // absorbe l'inertie
+      if (locked){ settleTimer = setTimeout(release, COOLDOWN); return; }
       if (Math.abs(e.deltaY) < 4) return;
-      const dir = e.deltaY > 0 ? 1 : -1, t = idx + dir;
-      (t < 0 || t >= PETS.length) ? rubberBand(dir) : navigate(t);
+      const dir = e.deltaY > 0 ? 1 : -1, t = station + dir;
+      (t < 0 || t >= PETS.length) ? rubberBand(dir) : go(t);
     }, { passive:false });
 
-    // Clavier
     petMain.addEventListener("keydown", (e) => {
-      if (["ArrowDown","PageDown"," "].includes(e.key)){ e.preventDefault(); step(1); }
-      else if (["ArrowUp","PageUp"].includes(e.key)){ e.preventDefault(); step(-1); }
-      else if (e.key === "Home"){ e.preventDefault(); navigate(0); }
-      else if (e.key === "End"){ e.preventDefault(); navigate(PETS.length - 1); }
+      if (["ArrowRight","ArrowDown","PageDown"," "].includes(e.key)){ e.preventDefault(); go(station + 1); }
+      else if (["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){ e.preventDefault(); go(station - 1); }
+      else if (e.key === "Home"){ e.preventDefault(); go(0); }
+      else if (e.key === "End"){ e.preventDefault(); go(PETS.length - 1); }
     });
 
-    // Tactile (swipe vertical)
-    let touchY = null;
-    petMain.addEventListener("touchstart", e => { touchY = e.touches[0].clientY; }, { passive:true });
+    let sx = null;
+    petMain.addEventListener("touchstart", e => { sx = e.touches[0].clientX; }, { passive:true });
     petMain.addEventListener("touchend", e => {
-      if (touchY === null) return;
-      const dy = touchY - e.changedTouches[0].clientY;
-      if (Math.abs(dy) > 45){ const dir = dy > 0 ? 1 : -1, t = idx + dir;
-        (t < 0 || t >= PETS.length) ? rubberBand(dir) : navigate(t); }
-      touchY = null;
+      if (sx === null) return;
+      const dx = sx - e.changedTouches[0].clientX; // swipe gauche = avancer
+      if (Math.abs(dx) > 45){ const dir = dx > 0 ? 1 : -1, t = station + dir;
+        (t < 0 || t >= PETS.length) ? rubberBand(dir) : go(t); }
+      sx = null;
     }, { passive:true });
+
+    window.addEventListener("resize", () => applyParallax(walking ? 0.5 : null));
   }
 
-  /* i18n : applique les libellés + re-render dans la langue courante */
+  /* -------- i18n -------- */
   function applyLang(){
     const lang = L();
     if (window.GlobalLang && GlobalLang.applyI18n) GlobalLang.applyI18n(i18n[lang]);
-    else document.querySelectorAll("[data-i18n]").forEach(e => {
-      const k = e.getAttribute("data-i18n"); if (i18n[lang][k] != null) e.textContent = i18n[lang][k];
-    });
-    renderSidebar(); renderStage();
+    else document.querySelectorAll("[data-i18n]").forEach(e => { const k = e.getAttribute("data-i18n"); if (i18n[lang][k] != null) e.textContent = i18n[lang][k]; });
+    refreshAlts(); renderSidebar(); renderInfo(station);
   }
   window.addEventListener("langChanged", applyLang);
 
-  /* --------------------------------------------------------
-     INIT
-     -------------------------------------------------------- */
+  /* -------- INIT -------- */
   document.addEventListener("DOMContentLoaded", () => {
-    petMain=$("#petMain"); petHolder=$("#petHolder"); petImg=$("#petImg"); petPanel=$("#petPanel");
-    rungs=$("#rungs"); petBadge=$("#petBadge"); petBadgeLabel=$("#petBadgeLabel");
-    petName=$("#petName"); petLevel=$("#petLevel"); petStats=$("#petStats"); petBonus=$("#petBonus");
-    petSkills=$("#petSkills"); petList=$("#petList"); progress=$("#progress");
-    cIdx=$("#cIdx"); cTot=$("#cTot");
+    petMain=$("#petMain"); scene=$("#scene"); animalsLayer=$("#animals");
+    info=$("#petInfo"); petBadge=$("#petBadge"); petBadgeLabel=$("#petBadgeLabel");
+    petName=$("#petName"); petLevel=$("#petLevel"); petStats=$("#petStats"); petBonus=$("#petBonus"); petSkills=$("#petSkills");
+    petList=$("#petList"); progress=$("#progress"); cIdx=$("#cIdx"); cTot=$("#cTot");
 
+    texLayers = Array.from(document.querySelectorAll("[data-rate]")).map(el => ({ el, rate:LAYER_RATES[el.dataset.rate] || 0 }));
+
+    setBackgrounds();
+    buildAnimals();
     buildProgress();
-    applyLang();          // rend sidebar + scène dans la langue courante
+    applyParallax(null);   // positionne tout au départ
+    attachEvents();        // <<< branche molette/clavier/swipe (correctif)
+    applyLang();           // sidebar + panneau info dans la langue courante
     petMain.focus();
   });
 })();
