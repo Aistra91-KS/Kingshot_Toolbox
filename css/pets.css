@@ -1,231 +1,172 @@
 /* ============================================================
-   css/pets.css — Page Familiers (scène "champ / chemin")
-   Dépend de css/style.css (variables DA + header + sidebar).
-   Ne redéfinit AUCUNE couleur : tout dérive des variables DA.
+   css/pets.css — Page Familiers · PROMENADE nature (parallax)
+   On assume une DA locale "golden hour" (verts + ciel chaud)
+   distincte du reste du site (choix validé). Le panneau info
+   garde le liseré doré pour le rattacher à l'identité.
    ============================================================ */
 
-/* Raretés → variables DA (theme-aware, aucune couleur inventée) */
+/* Raretés → variables DA (panneau info) */
 :root{
-  --r-common:var(--text-muted);
-  --r-rare:var(--success);
-  --r-epic:var(--warning);
-  --r-legendary:var(--accent);
-  --r-mythic:var(--battle-color, #e74c5c);
+  --r-common:var(--text-muted); --r-rare:var(--success);
+  --r-epic:var(--warning); --r-legendary:var(--accent); --r-mythic:var(--battle-color, #e74c5c);
 }
 
-/* Scroll-jacking : pas de scroll de page */
 body.pets-page{ overflow:hidden; }
 
-/* ============================================================
-   SIDEBAR — navigateur de familiers (réutilise .sidebar du site)
-   ============================================================ */
+/* ---------------- SIDEBAR : liste des familiers ---------------- */
 .pet-sidebar{ gap:6px; padding:16px 12px; }
-.pet-sb-title{
-  font-size:.72rem; text-transform:uppercase; letter-spacing:1.5px;
-  color:var(--text-muted); padding:4px 8px 10px;
-}
+.pet-sb-title{ font-size:.72rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); padding:4px 8px 10px; }
 .pet-list{ display:flex; flex-direction:column; gap:4px; }
 .pet-list-item{
   --rc:var(--text-muted);
-  display:flex; align-items:center; gap:10px; width:100%; text-align:left;
-  background:transparent; border:1px solid transparent; border-radius:8px;
-  padding:9px 10px; color:var(--text-light); font:inherit; font-size:.9rem; cursor:pointer;
+  display:flex; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer;
+  background:transparent; border:1px solid transparent; border-radius:8px; padding:9px 10px;
+  color:var(--text-light); font:inherit; font-size:.9rem;
   transition:background .18s, border-color .18s, transform .18s;
 }
 .pet-list-item:hover{ background:var(--control-bg); transform:translateX(2px); }
-.pet-list-item .dot{
-  width:8px; height:8px; border-radius:50%; flex:none;
-  background:var(--rc); box-shadow:0 0 8px var(--rc);
-}
+.pet-list-item .dot{ width:8px; height:8px; border-radius:50%; flex:none; background:var(--rc); box-shadow:0 0 8px var(--rc); }
 .pet-list-item .nm{ flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .pet-list-item .lv{ font-size:.72rem; color:var(--text-muted); }
-.pet-list-item.active{
-  background:var(--control-bg);
-  border-color:color-mix(in srgb, var(--accent) 45%, transparent);
-}
+.pet-list-item.active{ background:var(--control-bg); border-color:color-mix(in srgb, var(--accent) 45%, transparent); }
 .pet-list-item.active .nm{ color:var(--accent); font-weight:600; }
 
 /* ============================================================
-   BLOC PRINCIPAL — scène (overflow hidden, hauteur fixe)
+   SCÈNE (bloc principal) — overflow hidden, hauteur fixe
    ============================================================ */
 .pet-main{
-  position:relative; flex:1; overflow:hidden;
+  position:relative; flex:1; overflow:hidden; outline:none;
   height:calc(100vh - var(--header-offset) - 20px);
   border-radius:8px; box-shadow:0 4px 6px var(--shadow);
-  background:var(--bg-dark);
-  perspective:1000px; outline:none;
+  background:linear-gradient(180deg,#1f1830 0%,#3a2748 34%,#6e4453 54%,#b56a3e 63%,#e0954a 67%,#caa14e 72%,#7d6a34 100%);
 }
+.scene{ position:absolute; inset:0; will-change:transform; } /* reçoit le "bob" de marche */
+.layer{ position:absolute; left:0; right:0; background-repeat:repeat-x; will-change:background-position; }
 
-/* ---- Décor : champ + chemin qui fuit vers l'horizon ---- */
-.field{ position:absolute; inset:0; z-index:0; overflow:hidden; }
-.sky{
-  position:absolute; inset:0;
-  background:
-    radial-gradient(120% 80% at 50% 118%, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 58%),
-    linear-gradient(180deg, var(--bg-dark) 0%, color-mix(in srgb, var(--bg-panel) 55%, var(--bg-dark)) 40%, var(--bg-dark) 100%);
+/* Ciel : le fond du .pet-main sert de ciel. Soleil + nuages par-dessus. */
+.sun{
+  position:absolute; left:44%; bottom:33%; width:230px; height:230px; transform:translateX(-50%);
+  background:radial-gradient(circle at center, #ffe6ad 0%, rgba(255,210,120,.55) 32%, rgba(255,190,90,0) 70%);
+  filter:blur(2px); pointer-events:none;
 }
-.horizon{
-  position:absolute; left:0; right:0; top:38%; height:130px; transform:translateY(-50%);
-  background:radial-gradient(60% 100% at 50% 50%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 70%);
-  filter:blur(7px); opacity:.75; animation:horizonPulse 7s ease-in-out infinite;
+.cloud{
+  position:absolute; height:26px; border-radius:20px; background:rgba(255,225,190,.16); filter:blur(6px);
+  box-shadow:26px 6px 0 -4px rgba(255,225,190,.14), -30px 8px 0 -6px rgba(255,225,190,.12);
 }
-/* Sol en perspective : sillons + chemin central plus clair */
+.cloud.c1{ top:16%; width:150px; animation:drift 90s linear infinite; }
+.cloud.c2{ top:26%; width:110px; animation:drift 130s linear infinite; animation-delay:-40s; }
+
+/* Reliefs (fonds SVG injectés par JS via background-image) */
+.hills-far{ bottom:31%; height:26%; opacity:.9; background-position:bottom; }
+.hills-mid{ bottom:30%; height:30%; background-position:bottom; }
+.trees   { bottom:30%; height:22%; background-position:bottom; }
+.grass-fg{ bottom:0;   height:14%; background-position:bottom; z-index:6; }
+
+/* Sol chaud + lignes de vitesse */
 .ground{
-  position:absolute; left:-40%; right:-40%; bottom:-12%; height:68%;
-  transform:rotateX(66deg); transform-origin:bottom center;
-  background:
-    linear-gradient(90deg, transparent 41%,
-      color-mix(in srgb, var(--accent) 6%, transparent) 47%,
-      color-mix(in srgb, var(--accent) 12%, transparent) 50%,
-      color-mix(in srgb, var(--accent) 6%, transparent) 53%, transparent 59%),
-    repeating-linear-gradient(90deg,
-      color-mix(in srgb, var(--border) 65%, transparent) 0 1px, transparent 1px 54px);
-  opacity:.7;
+  bottom:0; height:35%;
+  background:linear-gradient(180deg,#7a6a38 0%,#5a4d28 30%,#3e3418 70%,#2a2410 100%);
 }
-.ground::after{ /* fond fondu vers l'horizon */
-  content:""; position:absolute; inset:0;
-  background:linear-gradient(0deg, transparent 38%, var(--bg-dark) 92%);
-}
-/* "Barreaux" de distance : glissent vers l'avant à chaque pas (sensation d'avancer) */
-.rungs{
-  position:absolute; inset:-60% -20%;
-  background:repeating-linear-gradient(0deg,
-    color-mix(in srgb, var(--text-muted) 18%, transparent) 0 2px, transparent 2px 64px);
-  opacity:.5;
-}
-.field-vignette{ position:absolute; inset:0; pointer-events:none;
-  box-shadow:inset 0 0 180px 50px var(--bg-dark); }
-
-/* ---- Familier actif (au centre, sur le chemin) ---- */
-.pet-stage{
-  position:absolute; inset:0; z-index:1;
-  display:grid; place-items:center;
-  padding:0 clamp(24px, 34%, 440px) 5% 24px; /* place à droite pour le panneau data */
-}
-.pet-holder{
-  position:relative; display:grid; place-items:center;
-  transform-origin:center bottom; will-change:transform, opacity, filter;
-}
-.pet-img{
-  max-height:min(56vh, 460px); max-width:min(46vw, 520px); object-fit:contain;
-  filter:drop-shadow(0 24px 26px rgba(0,0,0,.55));
-  animation:levitate 4s ease-in-out infinite;
-}
-.pet-shadow{
-  position:absolute; bottom:-3%; width:52%; height:30px; border-radius:50%;
-  background:radial-gradient(ellipse at center, rgba(0,0,0,.55) 0%, rgba(0,0,0,.28) 45%, transparent 72%);
-  filter:blur(4px); animation:shadowPulse 4s ease-in-out infinite;
+.ground-tex{
+  position:absolute; inset:0; background-repeat:repeat-x; will-change:background-position;
+  background-image:repeating-linear-gradient(90deg, rgba(0,0,0,.14) 0 2px, transparent 2px 58px);
+  -webkit-mask-image:linear-gradient(180deg, transparent, #000 30%);
+          mask-image:linear-gradient(180deg, transparent, #000 30%);
 }
 
-@keyframes levitate{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-15px) } }
-@keyframes shadowPulse{ 0%,100%{ transform:scaleX(1); opacity:.5 } 50%{ transform:scaleX(.8); opacity:.3 } }
-@keyframes horizonPulse{ 0%,100%{ opacity:.6 } 50%{ opacity:.85 } }
+/* Calque des animaux (translaté globalement, animaux placés au km) */
+.animals{ position:absolute; inset:0; z-index:5; will-change:transform; }
+.animal{
+  position:absolute; bottom:18%; left:50%;
+  display:grid; place-items:center; transform:translateX(-50%);
+  will-change:transform, opacity;
+}
+.animal img{
+  display:block; max-height:min(50vh, 440px); max-width:min(42vw, 460px); object-fit:contain;
+  filter:drop-shadow(0 18px 20px rgba(0,0,0,.5));
+  animation:breathe 4.5s ease-in-out infinite;
+}
+.animal .sh{
+  position:absolute; bottom:-14px; width:52%; height:26px; border-radius:50%;
+  background:radial-gradient(ellipse at center, rgba(0,0,0,.5) 0%, rgba(0,0,0,.25) 45%, transparent 72%);
+  filter:blur(4px);
+}
+
+.scene-vignette{ position:absolute; inset:0; z-index:7; pointer-events:none;
+  box-shadow:inset 0 0 200px 60px rgba(20,16,10,.7); }
+
+@keyframes breathe{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
+@keyframes drift{ from{ transform:translateX(-20vw) } to{ transform:translateX(120vw) } }
 @keyframes nudge{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(4px) } }
 
 /* ============================================================
-   PANNEAU DATA — carte glass ancrée à droite (liseré doré DA)
+   PANNEAU INFO (glass + liseré doré = rappel identité)
    ============================================================ */
-.pet-panel{
-  position:absolute; top:50%; right:clamp(16px, 3vw, 40px); transform:translateY(-50%);
-  z-index:2; width:min(380px, 38vw); will-change:transform, opacity;
+.pet-info{
+  position:absolute; left:clamp(16px,3vw,32px); bottom:clamp(16px,3vw,28px); z-index:9;
+  width:min(360px, 40vw); transition:opacity .28s ease; will-change:opacity;
 }
-.pet-panel .glass{
-  position:relative; border-radius:12px; overflow:hidden; padding:24px 26px;
-  background:color-mix(in srgb, var(--bg-panel) 62%, transparent);
+.pet-info .glass{
+  position:relative; border-radius:12px; overflow:hidden; padding:20px 22px;
+  background:color-mix(in srgb, #161616 66%, transparent);
   backdrop-filter:blur(14px) saturate(120%); -webkit-backdrop-filter:blur(14px) saturate(120%);
-  border:1px solid var(--border); border-top:3px solid var(--accent);
-  box-shadow:0 18px 50px var(--shadow);
+  border:1px solid rgba(255,255,255,.08); border-top:3px solid var(--accent);
+  box-shadow:0 18px 50px rgba(0,0,0,.5); color:#f0e8d5;
 }
 .pet-badge{
   --rc:var(--accent);
-  display:inline-flex; align-items:center; gap:8px; margin-bottom:12px;
-  padding:5px 14px; border-radius:22px; font-size:.78rem; font-weight:600; letter-spacing:.4px;
-  color:var(--rc); background:color-mix(in srgb, var(--rc) 12%, transparent);
+  display:inline-flex; align-items:center; gap:8px; margin-bottom:10px;
+  padding:5px 14px; border-radius:22px; font-size:.76rem; font-weight:600; letter-spacing:.4px;
+  color:var(--rc); background:color-mix(in srgb, var(--rc) 14%, transparent);
   border:1px solid color-mix(in srgb, var(--rc) 45%, transparent);
 }
 .pet-badge .bdot{ width:7px; height:7px; border-radius:50%; background:currentColor; box-shadow:0 0 8px currentColor; }
-.pet-name{ font-size:1.6rem; font-weight:700; line-height:1.15; margin:0; }
-.pet-level{ margin-top:4px; color:var(--text-muted); font-size:.92rem; }
+.pet-name{ font-size:1.5rem; font-weight:700; line-height:1.15; margin:0; }
+.pet-level{ margin-top:3px; color:#8a8378; font-size:.9rem; }
 .pet-level b{ color:var(--accent); }
-.pet-sec{
-  font-size:.72rem; text-transform:uppercase; letter-spacing:1.4px; color:var(--text-muted);
-  margin:20px 0 10px; display:flex; align-items:center; gap:8px;
-}
-.pet-sec::after{ content:""; flex:1; height:1px; background:var(--border); }
-.pet-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-.stat{
-  background:color-mix(in srgb, var(--control-bg) 70%, transparent);
-  border:1px solid var(--border); border-radius:8px; padding:12px 10px; text-align:center;
-}
-.stat .lbl{ font-size:.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:.6px; }
-.stat .val{ font-size:1.12rem; font-weight:700; margin-top:3px; }
-.stat.atk .val{ color:var(--battle-color, #e74c5c); }
-.stat.def .val{ color:var(--success); }
-.stat.hp  .val{ color:var(--accent); }
-.pet-bonus{
-  display:flex; align-items:center; gap:10px; font-size:.92rem;
-  background:color-mix(in srgb, var(--accent) 8%, transparent);
-  border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  border-radius:8px; padding:11px 14px;
-}
-.pet-bonus svg{ width:17px; height:17px; stroke:var(--accent); fill:none; stroke-width:2; flex:none; }
-.pet-skill{ display:flex; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); }
+.pet-sec{ font-size:.7rem; text-transform:uppercase; letter-spacing:1.4px; color:#8a8378; margin:16px 0 8px; display:flex; align-items:center; gap:8px; }
+.pet-sec::after{ content:""; flex:1; height:1px; background:rgba(255,255,255,.1); }
+.pet-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.stat{ background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:10px 8px; text-align:center; }
+.stat .lbl{ font-size:.66rem; color:#8a8378; text-transform:uppercase; letter-spacing:.6px; }
+.stat .val{ font-size:1.05rem; font-weight:700; margin-top:2px; }
+.stat.atk .val{ color:var(--battle-color, #e74c5c); } .stat.def .val{ color:var(--success); } .stat.hp .val{ color:var(--accent); }
+.pet-bonus{ display:flex; align-items:center; gap:9px; font-size:.9rem; margin-top:2px;
+  background:color-mix(in srgb, var(--accent) 9%, transparent); border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius:8px; padding:10px 12px; }
+.pet-bonus svg{ width:16px; height:16px; stroke:var(--accent); fill:none; stroke-width:2; flex:none; }
+.pet-skill{ display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); }
 .pet-skill:last-child{ border-bottom:0; }
-.pet-skill .ico{
-  width:34px; height:34px; flex:none; border-radius:8px; display:grid; place-items:center;
-  background:color-mix(in srgb, var(--accent) 12%, transparent);
-  border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-}
-.pet-skill .ico svg{ width:18px; height:18px; stroke:var(--accent); fill:none; stroke-width:2; }
-.pet-skill .sk-nm{ font-weight:600; font-size:.95rem; }
-.pet-skill .sk-ds{ font-size:.85rem; color:var(--text-muted); margin-top:2px; line-height:1.4; }
+.pet-skill .ico{ width:32px; height:32px; flex:none; border-radius:8px; display:grid; place-items:center;
+  background:color-mix(in srgb, var(--accent) 13%, transparent); border:1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+.pet-skill .ico svg{ width:17px; height:17px; stroke:var(--accent); fill:none; stroke-width:2; }
+.pet-skill .sk-nm{ font-weight:600; font-size:.92rem; }
+.pet-skill .sk-ds{ font-size:.83rem; color:#8a8378; margin-top:2px; line-height:1.4; }
 
-/* ============================================================
-   HUD — points de progression, compteur, indice
-   ============================================================ */
-.pet-progress{
-  position:absolute; left:18px; top:50%; transform:translateY(-50%); z-index:3;
-  display:flex; flex-direction:column; gap:10px;
-}
-.pp-dot{
-  width:9px; height:9px; border-radius:50%; padding:0; border:0; cursor:pointer;
-  background:var(--border); transition:transform .2s, background .2s;
-}
+/* ---------------- HUD ---------------- */
+.pet-progress{ position:absolute; right:16px; top:50%; transform:translateY(-50%); z-index:9; display:flex; flex-direction:column; gap:10px; }
+.pp-dot{ width:9px; height:9px; border-radius:50%; padding:0; border:0; cursor:pointer; background:rgba(255,255,255,.25); transition:transform .2s, background .2s; }
 .pp-dot:hover{ transform:scale(1.3); }
 .pp-dot.active{ background:var(--accent); box-shadow:0 0 10px var(--accent); transform:scale(1.35); }
-.pet-counter{
-  position:absolute; left:20px; bottom:16px; z-index:3;
-  color:var(--text-muted); font-size:.85rem; font-variant-numeric:tabular-nums;
-}
+.pet-counter{ position:absolute; right:18px; bottom:16px; z-index:9; color:#e8dcc0; font-size:.85rem; font-variant-numeric:tabular-nums; text-shadow:0 1px 4px rgba(0,0,0,.6); }
 .pet-counter b{ color:var(--accent); font-size:1.05rem; }
-.pet-hint{
-  position:absolute; left:50%; bottom:16px; transform:translateX(-50%); z-index:3;
-  display:flex; align-items:center; gap:9px; color:var(--text-muted); font-size:.82rem;
-  background:color-mix(in srgb, var(--bg-panel) 55%, transparent);
-  border:1px solid var(--border); border-radius:20px; padding:7px 14px; backdrop-filter:blur(6px);
-}
+.pet-hint{ position:absolute; left:50%; bottom:16px; transform:translateX(-50%); z-index:9;
+  display:flex; align-items:center; gap:9px; color:#e8dcc0; font-size:.82rem;
+  background:rgba(20,16,10,.4); border:1px solid rgba(255,255,255,.12); border-radius:20px; padding:7px 14px; backdrop-filter:blur(6px); }
 .pet-hint svg{ width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; animation:nudge 1.8s ease-in-out infinite; }
 
-/* ============================================================
-   Responsive
-   ============================================================ */
+/* ---------------- Responsive ---------------- */
 @media (max-width:880px){
   .pet-sidebar{ display:none; }
-  .pet-stage{ padding:16px 16px 44% 16px; align-items:start; padding-top:8%; }
-  .pet-img{ max-height:min(40vh, 320px); max-width:78vw; }
-  .pet-panel{
-    top:auto; bottom:12px; left:12px; right:12px; transform:none;
-    width:auto; max-height:46%;
-  }
-  .pet-panel .glass{ padding:18px 20px; overflow:auto; max-height:100%; }
-  .pet-name{ font-size:1.35rem; }
-  .pet-progress{ left:10px; }
+  .animal img{ max-height:min(38vh, 300px); max-width:70vw; }
+  .pet-info{ left:12px; right:12px; bottom:12px; width:auto; max-height:44%; }
+  .pet-info .glass{ overflow:auto; max-height:100%; padding:16px 18px; }
+  .pet-name{ font-size:1.3rem; }
+  .pet-progress{ right:10px; }
 }
 
-/* ============================================================
-   Accessibilité : mouvement réduit
-   ============================================================ */
+/* ---------------- Mouvement réduit ---------------- */
 @media (prefers-reduced-motion:reduce){
-  .pet-img, .pet-shadow, .horizon, .pet-hint svg{ animation:none !important; }
+  .animal img, .cloud, .pet-hint svg{ animation:none !important; }
 }
 .pet-main :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:6px; }
