@@ -6,6 +6,9 @@
     <title>Familiers — Kingshot Toolbox</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/pets.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body class="pets-page">
 
@@ -17,31 +20,32 @@
         <div id="petList" class="pet-list"></div>
     </aside>
 
-    <!-- BLOC PRINCIPAL : promenade nature (scroll-jacking horizontal) -->
+    <!-- BLOC PRINCIPAL : descente du sentier (scroll-jacking vertical) -->
     <main class="pet-main" id="petMain" tabindex="0" aria-label="Promenade des familiers">
+
+        <!-- Décor (défile en Y). Éléments [data-rate] pilotés par le JS. -->
         <div class="scene" id="scene">
-            <div class="sun"></div>
-            <div class="cloud c1"></div>
-            <div class="cloud c2"></div>
+            <div class="field-left"  data-rate="field"></div>
+            <div class="field-right" data-rate="field"></div>
+            <div class="light"></div>
 
-            <div class="layer hills-far" data-rate="hills-far" aria-hidden="true"></div>
-            <div class="layer hills-mid" data-rate="hills-mid" aria-hidden="true"></div>
-            <div class="layer trees"     data-rate="trees"     aria-hidden="true"></div>
-
-            <div class="ground" aria-hidden="true">
-                <div class="ground-tex" data-rate="ground-tex"></div>
+            <div class="path">
+                <div class="path-grain" data-rate="trail"></div>
             </div>
+            <div class="grass-l"   data-rate="trail"></div>
+            <div class="grass-r"   data-rate="trail"></div>
+            <div class="dashed"    data-rate="trail"></div>
+            <div class="footsteps" data-rate="trail"></div>
 
-            <!-- Les familiers sont injectés ici (positionnés "au km") -->
+            <!-- Familiers injectés ici (placés "au km" verticalement) -->
             <div class="animals" id="animals"></div>
 
-            <div class="layer grass-fg" data-rate="grass-fg" aria-hidden="true"></div>
-            <div class="scene-vignette" aria-hidden="true"></div>
+            <div class="scene-fade"></div>
         </div>
 
-        <!-- Panneau info du familier courant -->
+        <!-- Panneau info (carte blanche translucide) -->
         <aside class="pet-info" id="petInfo">
-            <div class="glass">
+            <div class="card">
                 <span class="pet-badge" id="petBadge"><span class="bdot"></span><span id="petBadgeLabel"></span></span>
                 <h1 class="pet-name" id="petName"></h1>
                 <div class="pet-level" id="petLevel"></div>
@@ -64,8 +68,8 @@
         <div class="pet-progress" id="progress"></div>
         <div class="pet-counter"><b id="cIdx">1</b> / <span id="cTot">14</span></div>
         <div class="pet-hint">
-            <svg viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="4"/><path d="M12 8v3"/></svg>
-            <span data-i18n="hint">Molette / flèches pour marcher</span>
+            <span data-i18n="hint">Molette pour descendre</span>
+            <svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
         </div>
     </main>
 
