@@ -1,10 +1,9 @@
 /* ============================================================
-   js/pets.js — Promenade nature (parallax scroll-jacking)
-   Le monde défile horizontalement ; la molette te fait
-   "marcher" d'un familier au suivant. Multi-couches parallax
-   + profondeur atmosphérique + léger balancement de marche.
+   js/pets.js — Promenade VERTICALE sur le sentier
+   On descend le chemin (molette/flèches) ; les familiers
+   montent à notre rencontre puis passent derrière. Le décor
+   (champs, grain, pointillés, traces de pas) défile en Y.
    Données en dur (MVP) → prod : fetch('data/pets_db.json').
-   i18n via GlobalLang + event 'langChanged'.
    ============================================================ */
 (function () {
   "use strict";
@@ -70,23 +69,21 @@
   };
   const i18n = {
     FR:{collection:"Collection",attributes:"Caractéristiques",armyBonus:"Bonus d'Armée",skills:"Compétences",
-        hint:"Molette / flèches pour marcher",levelWord:"Niveau",atk:"Attaque",def:"Défense",hp:"Vie"},
+        hint:"Molette pour descendre",levelWord:"Niveau",atk:"Attaque",def:"Défense",hp:"Vie"},
     EN:{collection:"Collection",attributes:"Attributes",armyBonus:"Army Bonus",skills:"Skills",
-        hint:"Scroll / arrows to walk",levelWord:"Level",atk:"Attack",def:"Defense",hp:"Health"},
+        hint:"Scroll to descend",levelWord:"Level",atk:"Attack",def:"Defense",hp:"Health"},
   };
 
   /* -------- ÉTAT + réglages -------- */
-  const SPACING = 640;          // distance "monde" entre 2 animaux (px)
-  const WALK_MS = 780;          // durée d'un pas
-  const COOLDOWN = 130;         // apaisement anti multi-scroll
+  const SPACING = 500;      // distance verticale (px) entre 2 familiers
+  const WALK_MS = 720;      // durée d'un pas
+  const COOLDOWN = 130;
   const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const LAYER_RATES = { field:0.9, trail:1.0 };
 
-  let station = 0, worldX = 0, startX = 0, targetX = 0, startT = 0, dur = WALK_MS;
+  let station = 0, worldY = 0, startY = 0, targetY = 0, startT = 0, dur = WALK_MS;
   let walking = false, locked = false, swapped = false, raf = 0, settleTimer = null;
 
-  const LAYER_RATES = { "hills-far":0.12, "hills-mid":0.22, "trees":0.42, "ground-tex":1.0, "grass-fg":1.55 };
-
-  /* Refs */
   let petMain, scene, animalsLayer, animalEls = [], texLayers = [],
       info, petBadge, petBadgeLabel, petName, petLevel, petStats, petBonus, petSkills,
       petList, progress, cIdx, cTot;
@@ -98,37 +95,16 @@
   const fmt = n => n.toLocaleString(L() === "FR" ? "fr-FR" : "en-US");
   const imgSrc = p => `img/pets/${slug(p.name.EN)}.webp`;
   const easeInOut = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
-  const svgURL = s => `url("data:image/svg+xml,${encodeURIComponent(s)}")`;
-
   function fallbackSVG(p){
     return "data:image/svg+xml," + encodeURIComponent(
-      `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><circle cx='120' cy='110' r='88' fill='none' stroke='#f5b840' stroke-opacity='.3' stroke-width='2'/><text x='120' y='120' text-anchor='middle' font-family='sans-serif' font-size='16' fill='#f5b840'>${p.name[L()]}</text></svg>`);
-  }
-
-  /* -------- Décor SVG (collines / arbres / herbe) -------- */
-  function setBackgrounds(){
-    const hillFar  = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='160'><path d='M0 160 V100 C90 60 180 60 250 92 C320 124 410 124 500 100 V160 Z' fill='#4a5d4a'/></svg>`;
-    const hillMid  = `<svg xmlns='http://www.w3.org/2000/svg' width='600' height='200'><path d='M0 200 V120 C110 72 230 72 300 112 C380 152 500 152 600 120 V200 Z' fill='#354a30'/></svg>`;
-    let bumps = "M0 120 V95"; for (let x=0; x<360; x+=60) bumps += ` C${x+15} 70 ${x+45} 70 ${x+60} 95`;
-    const trees = `<svg xmlns='http://www.w3.org/2000/svg' width='360' height='120'><path d='${bumps} V120 Z' fill='#20301a'/></svg>`;
-    let spikes = "M0 70 V52"; for (let x=0; x<160; x+=18) spikes += ` L${x+7} 16 L${x+18} 52`;
-    const grass = `<svg xmlns='http://www.w3.org/2000/svg' width='160' height='70'><path d='${spikes} V70 Z' fill='#16210f'/></svg>`;
-
-    $(".hills-far").style.backgroundImage = svgURL(hillFar);
-    $(".hills-mid").style.backgroundImage = svgURL(hillMid);
-    $(".trees").style.backgroundImage     = svgURL(trees);
-    $(".grass-fg").style.backgroundImage  = svgURL(grass);
-    $(".hills-far").style.backgroundSize = "500px 100%";
-    $(".hills-mid").style.backgroundSize = "600px 100%";
-    $(".trees").style.backgroundSize     = "360px 100%";
-    $(".grass-fg").style.backgroundSize  = "160px 100%";
+      `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><circle cx='120' cy='110' r='88' fill='none' stroke='#6f9152' stroke-width='2'/><text x='120' y='120' text-anchor='middle' font-family='sans-serif' font-size='16' fill='#4a6b35'>${p.name[L()]}</text></svg>`);
   }
 
   /* -------- Construction -------- */
   function buildAnimals(){
     animalsLayer.innerHTML = PETS.map((p, i) =>
-      `<div class="animal" data-i="${i}" style="left:calc(50% + ${i*SPACING}px)">` +
-      `<img loading="lazy" alt=""><div class="sh"></div></div>`).join("");
+      `<div class="animal" data-i="${i}" style="top:calc(50% + ${i*SPACING}px)">` +
+      `<img loading="lazy" alt=""><div class="sh"></div><div class="marker">${i+1}</div></div>`).join("");
     animalEls = Array.from(animalsLayer.querySelectorAll(".animal"));
     animalEls.forEach((a, i) => {
       const img = a.querySelector("img"), p = PETS[i];
@@ -174,22 +150,22 @@
     progress.querySelectorAll(".pp-dot").forEach((d, i) => d.classList.toggle("active", i === station));
   }
 
-  /* -------- Parallax (appelé à chaque frame) -------- */
+  /* -------- Défilement + profondeur (chaque frame) -------- */
   function applyParallax(t){
-    for (const l of texLayers) l.el.style.backgroundPositionX = (-worldX * l.rate) + "px";
-    animalsLayer.style.transform = `translateX(${-worldX}px)`;
+    for (const l of texLayers) l.el.style.backgroundPositionY = (-worldY * l.rate) + "px";
+    animalsLayer.style.transform = `translateY(${-worldY}px)`;
     for (let i = 0; i < animalEls.length; i++){
-      const d = Math.abs(i * SPACING - worldX);
-      const s = Math.max(0.62, 1 - (d / SPACING) * 0.28);
-      const o = Math.max(0.10, 1 - (d / SPACING) * 0.60);
+      const d = Math.abs(i * SPACING - worldY);
+      const s = Math.max(0.68, 1 - (d / SPACING) * 0.16);
+      const o = Math.max(0.12, 1 - (d / SPACING) * 0.55);
       const a = animalEls[i];
-      a.style.transform = `translateX(-50%) scale(${s.toFixed(3)})`;
+      a.style.transform = `translate(-50%, -50%) scale(${s.toFixed(3)})`;
       a.style.opacity = o.toFixed(3);
       a.style.zIndex = String(1000 - Math.round(d));
     }
-    // balancement de marche (2 pas, amorti aux extrémités)
-    const bob = (t == null || REDUCE) ? 0 : Math.sin(t * Math.PI * 4) * Math.sin(t * Math.PI) * 6;
-    scene.style.transform = `translateY(${bob.toFixed(2)}px)`;
+    // léger balancement latéral de marche (amorti)
+    const sway = (t == null || REDUCE) ? 0 : Math.sin(t * Math.PI * 4) * Math.sin(t * Math.PI) * 4;
+    scene.style.transform = `translateX(${sway.toFixed(2)}px)`;
   }
 
   /* -------- Marche vers un familier -------- */
@@ -198,7 +174,7 @@
     const delta = Math.abs(target - station);
     station = target;
     locked = true; walking = true; swapped = false;
-    startX = worldX; targetX = station * SPACING; startT = performance.now();
+    startY = worldY; targetY = station * SPACING; startT = performance.now();
     dur = REDUCE ? 1 : WALK_MS * Math.min(2.2, Math.max(1, Math.sqrt(delta)));
     updateActive();
     info.style.opacity = "0";
@@ -206,47 +182,47 @@
   }
   function tick(now){
     let t = Math.min((now - startT) / dur, 1);
-    worldX = startX + (targetX - startX) * easeInOut(t);
+    worldY = startY + (targetY - startY) * easeInOut(t);
     applyParallax(t);
     if (!swapped && t >= 0.5){ swapped = true; renderInfo(station); info.style.opacity = "1"; }
     if (t < 1){ raf = requestAnimationFrame(tick); }
-    else { worldX = targetX; applyParallax(null); walking = false;
+    else { worldY = targetY; applyParallax(null); walking = false;
            clearTimeout(settleTimer); settleTimer = setTimeout(release, COOLDOWN); }
   }
   function release(){ if (!walking) locked = false; else settleTimer = setTimeout(release, COOLDOWN); }
 
   function rubberBand(dir){
     if (REDUCE) return;
-    scene.animate([{ transform:"translateX(0)" }, { transform:`translateX(${dir>0?-14:14}px)` }, { transform:"translateX(0)" }],
+    scene.animate([{ transform:"translateY(0)" }, { transform:`translateY(${dir>0?-14:14}px)` }, { transform:"translateY(0)" }],
       { duration:260, easing:"ease-out" });
   }
 
-  /* -------- Écouteurs (BRANCHÉS dans init — le bug précédent) -------- */
+  /* -------- Écouteurs (bien branchés) -------- */
   function attachEvents(){
     petMain.addEventListener("wheel", (e) => {
       e.preventDefault();
       clearTimeout(settleTimer);
       if (locked){ settleTimer = setTimeout(release, COOLDOWN); return; }
       if (Math.abs(e.deltaY) < 4) return;
-      const dir = e.deltaY > 0 ? 1 : -1, t = station + dir;
+      const dir = e.deltaY > 0 ? 1 : -1, t = station + dir;   // molette bas = descendre = suivant
       (t < 0 || t >= PETS.length) ? rubberBand(dir) : go(t);
     }, { passive:false });
 
     petMain.addEventListener("keydown", (e) => {
-      if (["ArrowRight","ArrowDown","PageDown"," "].includes(e.key)){ e.preventDefault(); go(station + 1); }
-      else if (["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){ e.preventDefault(); go(station - 1); }
+      if (["ArrowDown","ArrowRight","PageDown"," "].includes(e.key)){ e.preventDefault(); go(station + 1); }
+      else if (["ArrowUp","ArrowLeft","PageUp"].includes(e.key)){ e.preventDefault(); go(station - 1); }
       else if (e.key === "Home"){ e.preventDefault(); go(0); }
       else if (e.key === "End"){ e.preventDefault(); go(PETS.length - 1); }
     });
 
-    let sx = null;
-    petMain.addEventListener("touchstart", e => { sx = e.touches[0].clientX; }, { passive:true });
+    let sy = null;
+    petMain.addEventListener("touchstart", e => { sy = e.touches[0].clientY; }, { passive:true });
     petMain.addEventListener("touchend", e => {
-      if (sx === null) return;
-      const dx = sx - e.changedTouches[0].clientX; // swipe gauche = avancer
-      if (Math.abs(dx) > 45){ const dir = dx > 0 ? 1 : -1, t = station + dir;
+      if (sy === null) return;
+      const dy = sy - e.changedTouches[0].clientY; // swipe vers le haut = descendre
+      if (Math.abs(dy) > 45){ const dir = dy > 0 ? 1 : -1, t = station + dir;
         (t < 0 || t >= PETS.length) ? rubberBand(dir) : go(t); }
-      sx = null;
+      sy = null;
     }, { passive:true });
 
     window.addEventListener("resize", () => applyParallax(walking ? 0.5 : null));
@@ -267,15 +243,13 @@
     info=$("#petInfo"); petBadge=$("#petBadge"); petBadgeLabel=$("#petBadgeLabel");
     petName=$("#petName"); petLevel=$("#petLevel"); petStats=$("#petStats"); petBonus=$("#petBonus"); petSkills=$("#petSkills");
     petList=$("#petList"); progress=$("#progress"); cIdx=$("#cIdx"); cTot=$("#cTot");
-
     texLayers = Array.from(document.querySelectorAll("[data-rate]")).map(el => ({ el, rate:LAYER_RATES[el.dataset.rate] || 0 }));
 
-    setBackgrounds();
     buildAnimals();
     buildProgress();
-    applyParallax(null);   // positionne tout au départ
-    attachEvents();        // <<< branche molette/clavier/swipe (correctif)
-    applyLang();           // sidebar + panneau info dans la langue courante
+    applyParallax(null);
+    attachEvents();
+    applyLang();
     petMain.focus();
   });
 })();
