@@ -1,636 +1,75 @@
 <!DOCTYPE html>
-<!--
-  ============================================================
-  KINGSHOT TOOLS HUB — Familiers / Pets  (MVP scroll-jacking)
-  ============================================================
-  Page AUTONOME pour prévisualiser la mécanique + le design.
-  Dans le repo, cette page devient `pets.html` À LA RACINE.
-
-  >>> Ce qu'il faudra brancher côté repo (voir ma réponse) :
-   1. HEADER  : ici il est MOCKÉ. Le vrai header est injecté par
-      `header.js` (socle : site-config → storage-keys → lang →
-      help → header → backup). Remplacer <header class="mock-*">
-      par le socle + <div id="header-root"></div> comme les autres
-      pages outils.
-   2. IMAGES  : mets les WebP dans  img/pets/<slug>.webp
-      (slug = nom EN en minuscules, tirets). Ex :
-      img/pets/ironclad-war-bear.webp
-      Dans renderStage(), décommente la ligne "Production".
-   3. DATA    : ici en dur (PETS[]). En prod → data/pets_db.json
-      (objets bilingues {EN,FR}) chargé via fetch(), avec
-      vérif response.ok (cf. convention MAP §9).
-   4. i18n    : ici un mini-moteur local. En prod → GlobalLang +
-      event 'langChanged' + objet i18n {FR,EN} comme les autres.
-  ============================================================
--->
 <html lang="fr" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Familiers — Kingshot Tools Hub</title>
-<style>
-  /* ---------- CHARTE (MAP §5) : variables reprises telles quelles ---------- */
-  :root{
-    --bg-dark:#0a0a0a; --bg-panel:#161616; --control-bg:#1f1f1f; --input-bg:#252525;
-    --text-light:#f0e8d5; --text-muted:#8a8378; --accent:#f5b840; --accent-hover:#d49820;
-    --border:#2a2a2a; --success:#4ecdc4; --warning:#ff8c42; --battle:#e74c5c;
-    --shadow:rgba(0,0,0,.6); --header-height:60px;
-
-    /* Raretés : MAPPING sur la palette DA (pas de couleur inventée) */
-    --r-common:var(--text-muted); --r-rare:var(--success);
-    --r-epic:var(--warning); --r-legendary:var(--accent); --r-mythic:var(--battle);
-  }
-  [data-theme="light"]{
-    --bg-dark:#f5f7fb; --bg-panel:#ffffff; --control-bg:#f0f4fa; --input-bg:#ffffff;
-    --text-light:#1a1a1a; --text-muted:#6b7280; --accent:#c89020; --accent-hover:#a07418;
-    --border:#d4dce8; --success:#00897b; --warning:#e65100; --battle:#c62828;
-    --shadow:rgba(0,0,0,.08);
-  }
-
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-    background:var(--bg-dark); color:var(--text-light);
-    overflow:hidden; /* scroll-jacking : jamais de scroll de page */
-  }
-
-  /* ---------- HEADER MOCK (à remplacer par header.js) ---------- */
-  .mock-header{
-    height:var(--header-height); display:flex; align-items:center; gap:16px;
-    padding:0 20px; border-bottom:1px solid var(--border);
-    background:var(--bg-panel); position:relative; z-index:20;
-  }
-  .mock-brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.3px}
-  .mock-brand svg{width:22px;height:22px;stroke:var(--accent)}
-  .mock-brand .sub{color:var(--text-muted);font-weight:500;font-size:.85rem}
-  .mock-spacer{flex:1}
-  .mock-btn{
-    display:inline-flex;align-items:center;gap:7px;cursor:pointer;
-    background:var(--control-bg);color:var(--text-light);
-    border:1px solid var(--border);border-radius:20px;
-    padding:7px 14px;font:inherit;font-size:.85rem;transition:.2s;
-  }
-  .mock-btn:hover{border-color:var(--accent);color:var(--accent)}
-  .mock-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-
-  /* ---------- SHELL : sidebar + bloc principal ---------- */
-  .app-shell{display:flex; height:calc(100dvh - var(--header-height))}
-
-  /* SIDEBAR (contextuelle : navigateur de familiers) */
-  .pet-sidebar{
-    width:250px; flex:none; border-right:1px solid var(--border);
-    background:var(--bg-panel); display:flex; flex-direction:column;
-    padding:16px 12px; gap:4px; overflow-y:auto;
-  }
-  .sb-back{
-    display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);
-    text-decoration:none;font-size:.85rem;padding:6px 8px;border-radius:6px;transition:.2s;
-  }
-  .sb-back:hover{color:var(--accent)}
-  .sb-back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
-  .sb-title{
-    font-size:.72rem;text-transform:uppercase;letter-spacing:1.5px;
-    color:var(--text-muted);margin:14px 8px 8px;
-  }
-  .sb-item{
-    display:flex;align-items:center;gap:10px;width:100%;text-align:left;cursor:pointer;
-    background:transparent;border:1px solid transparent;border-radius:8px;
-    padding:9px 10px;color:var(--text-light);font:inherit;font-size:.9rem;
-    transition:background .18s,border-color .18s,transform .18s;
-  }
-  .sb-item:hover{background:var(--control-bg);transform:translateX(2px)}
-  .sb-item .dot{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:0 0 8px currentColor}
-  .sb-item .nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .sb-item .rk{font-size:.72rem;color:var(--text-muted)}
-  .sb-item.active{
-    background:var(--control-bg);
-    border-color:color-mix(in srgb,var(--accent) 45%,transparent);
-  }
-  .sb-item.active .nm{color:var(--accent);font-weight:600}
-
-  /* BLOC PRINCIPAL : overflow hidden, scène de champ */
-  .pet-main{position:relative;flex:1;overflow:hidden}
-
-  /* Fond thématique "champ" (dégradés only) */
-  .fields-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
-  .fields-bg::before{ /* ciel + horizon doré */
-    content:"";position:absolute;inset:0;
-    background:
-      radial-gradient(120% 70% at 50% 118%, color-mix(in srgb,var(--accent) 16%,transparent) 0%, transparent 60%),
-      linear-gradient(180deg, var(--bg-dark) 0%, color-mix(in srgb,var(--bg-panel) 70%,var(--bg-dark)) 62%, var(--bg-dark) 100%);
-  }
-  .fields-bg::after{ /* sol / sillons */
-    content:"";position:absolute;left:-10%;right:-10%;bottom:-2%;height:46%;
-    background:
-      repeating-linear-gradient(90deg, transparent 0 38px, color-mix(in srgb,var(--border) 55%,transparent) 38px 39px),
-      linear-gradient(180deg, transparent, color-mix(in srgb,var(--bg-dark) 88%,transparent) 90%);
-    transform:perspective(520px) rotateX(60deg);transform-origin:bottom;opacity:.5;
-  }
-  .field-vignette{position:absolute;inset:0;pointer-events:none;
-    box-shadow:inset 0 0 160px 40px var(--bg-dark)}
-
-  /* Scène de l'animal actif */
-  .pet-scene{
-    position:absolute;inset:0;z-index:1;
-    display:grid;grid-template-columns:1fr 1fr;align-items:center;
-    gap:24px;padding:32px clamp(24px,5vw,72px) 48px;
-  }
-
-  /* --- Zone image (gauche) --- */
-  .pet-visual{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    will-change:transform,opacity}
-  .pet-image-wrap{position:relative;display:grid;place-items:center;height:min(52vh,440px);width:100%}
-  .pet-image{max-height:100%;max-width:82%;object-fit:contain;
-    filter:drop-shadow(0 22px 26px rgba(0,0,0,.55));
-    animation:levitate 4s ease-in-out infinite}
-  .pet-shadow{position:absolute;bottom:2%;width:56%;height:32px;border-radius:50%;
-    background:radial-gradient(ellipse at center, rgba(0,0,0,.55) 0%, rgba(0,0,0,.28) 45%, transparent 72%);
-    filter:blur(3px);animation:shadowPulse 4s ease-in-out infinite}
-  .pet-tier-badge{
-    margin-top:14px;display:inline-flex;align-items:center;gap:8px;
-    padding:6px 16px;border-radius:22px;font-size:.8rem;font-weight:600;letter-spacing:.4px;
-    color:var(--rarity);background:color-mix(in srgb,var(--rarity) 12%,transparent);
-    border:1px solid color-mix(in srgb,var(--rarity) 45%,transparent);
-  }
-  .pet-tier-badge .tdot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
-
-  @keyframes levitate{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
-  @keyframes shadowPulse{0%,100%{transform:scaleX(1);opacity:.5}50%{transform:scaleX(.8);opacity:.3}}
-
-  /* --- Zone data (droite) : carte glassmorphism + liseré doré (signature DA) --- */
-  .pet-data{will-change:transform,opacity}
-  .glass{
-    position:relative;border-radius:12px;overflow:hidden;
-    background:color-mix(in srgb,var(--bg-panel) 62%,transparent);
-    backdrop-filter:blur(14px) saturate(120%);-webkit-backdrop-filter:blur(14px) saturate(120%);
-    border:1px solid var(--border);border-top:3px solid var(--accent);
-    box-shadow:0 18px 50px var(--shadow);
-    padding:26px 28px;max-width:460px;
-  }
-  .pd-name{font-size:1.7rem;font-weight:700;line-height:1.15}
-  .pd-level{margin-top:4px;color:var(--text-muted);font-size:.92rem}
-  .pd-level b{color:var(--accent)}
-  .pd-sec-title{
-    font-size:.72rem;text-transform:uppercase;letter-spacing:1.4px;color:var(--text-muted);
-    margin:22px 0 10px;display:flex;align-items:center;gap:8px}
-  .pd-sec-title::after{content:"";flex:1;height:1px;background:var(--border)}
-
-  .pd-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .stat{background:color-mix(in srgb,var(--control-bg) 70%,transparent);
-    border:1px solid var(--border);border-radius:8px;padding:12px 10px;text-align:center}
-  .stat .lbl{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px}
-  .stat .val{font-size:1.15rem;font-weight:700;margin-top:3px}
-  .stat.atk .val{color:var(--battle)} .stat.def .val{color:var(--success)} .stat.hp .val{color:var(--accent)}
-
-  .pd-bonus{display:flex;align-items:center;gap:10px;
-    background:color-mix(in srgb,var(--accent) 8%,transparent);
-    border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
-    border-radius:8px;padding:11px 14px;font-size:.92rem}
-  .pd-bonus svg{width:17px;height:17px;stroke:var(--accent);fill:none;stroke-width:2;flex:none}
-
-  .pd-skill{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}
-  .pd-skill:last-child{border-bottom:0}
-  .pd-skill .ico{width:34px;height:34px;flex:none;border-radius:8px;display:grid;place-items:center;
-    background:color-mix(in srgb,var(--accent) 12%,transparent);
-    border:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}
-  .pd-skill .ico svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:2}
-  .pd-skill .sk-nm{font-weight:600;font-size:.95rem}
-  .pd-skill .sk-ds{font-size:.85rem;color:var(--text-muted);margin-top:2px;line-height:1.4}
-
-  /* --- Progression (points) à droite --- */
-  .pet-progress{position:absolute;right:18px;top:50%;transform:translateY(-50%);z-index:3;
-    display:flex;flex-direction:column;gap:10px}
-  .pp-dot{width:9px;height:9px;border-radius:50%;cursor:pointer;border:0;padding:0;
-    background:var(--border);transition:transform .2s,background .2s;position:relative}
-  .pp-dot:hover{transform:scale(1.3)}
-  .pp-dot.active{background:var(--accent);box-shadow:0 0 10px var(--accent);transform:scale(1.35)}
-
-  /* --- Indice scroll + compteur --- */
-  .pet-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;
-    display:flex;align-items:center;gap:9px;color:var(--text-muted);font-size:.82rem;
-    background:color-mix(in srgb,var(--bg-panel) 55%,transparent);
-    border:1px solid var(--border);border-radius:20px;padding:7px 14px;backdrop-filter:blur(6px)}
-  .pet-hint svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;animation:nudge 1.8s ease-in-out infinite}
-  .pet-counter{position:absolute;left:20px;bottom:18px;z-index:3;color:var(--text-muted);
-    font-size:.85rem;font-variant-numeric:tabular-nums}
-  .pet-counter b{color:var(--accent);font-size:1.05rem}
-  @keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
-
-  /* ---------- Responsive ---------- */
-  @media (max-width:880px){
-    .pet-sidebar{display:none}
-    .pet-scene{grid-template-columns:1fr;grid-template-rows:1fr auto;gap:12px;padding:20px 18px 64px}
-    .pet-image-wrap{height:min(38vh,300px)}
-    .glass{max-width:none;padding:20px}
-    .pd-name{font-size:1.4rem}
-    .pet-progress{right:10px}
-  }
-
-  /* ---------- Accessibilité : mouvement réduit ---------- */
-  @media (prefers-reduced-motion:reduce){
-    .pet-image,.pet-shadow,.pet-hint svg{animation:none!important}
-  }
-  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Familiers — Kingshot Toolbox</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pets.css">
 </head>
-<body>
+<body class="pets-page">
 
-  <!-- ====== HEADER MOCK (remplacer par header.js dans le repo) ====== -->
-  <header class="mock-header">
-    <div class="mock-brand">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/>
-        <path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/>
-      </svg>
-      <span data-i18n="tool">Familiers</span>
-      <span class="sub">· <span data-i18n="subtitle">Optimiseur d'Événements</span></span>
-    </div>
-    <div class="mock-spacer"></div>
-    <button class="mock-btn" id="langBtn" title="FR / EN">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-      <span id="langLabel">FR</span>
-    </button>
-    <button class="mock-btn" id="themeBtn" title="Thème">
-      <svg id="themeIcon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-    </button>
-  </header>
+    <!-- Le header fixe est injecté par header.js (comme sur toutes les pages) -->
 
-  <div class="app-shell">
-    <!-- ====== SIDEBAR (navigateur de familiers) ====== -->
-    <aside class="pet-sidebar">
-      <a href="index.html" class="sb-back">
-        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        <span data-i18n="backHub">Accueil</span>
-      </a>
-      <div class="sb-title" data-i18n="collection">Collection</div>
-      <div id="sidebarList"></div>
+    <!-- SIDEBAR : navigateur de familiers -->
+    <aside class="sidebar pet-sidebar">
+        <div class="pet-sb-title" data-i18n="collection">Collection</div>
+        <div id="petList" class="pet-list"></div>
     </aside>
 
-    <!-- ====== BLOC PRINCIPAL (scroll-jacking) ====== -->
-    <main class="pet-main" id="petMain" tabindex="0" aria-label="Carrousel de familiers">
-      <div class="fields-bg" id="fieldsBg"></div>
-      <div class="field-vignette"></div>
+    <!-- BLOC PRINCIPAL : scène "champ / chemin" (scroll-jacking) -->
+    <main class="pet-main" id="petMain" tabindex="0" aria-label="Familiers">
 
-      <div class="pet-scene">
-        <!-- Zone image -->
-        <div class="pet-visual" id="petVisual">
-          <div class="pet-image-wrap">
-            <img class="pet-image" id="petImage" alt="">
-            <div class="pet-shadow"></div>
-          </div>
-          <span class="pet-tier-badge" id="petTier"><span class="tdot"></span><span id="petTierLabel"></span></span>
+        <!-- Décor -->
+        <div class="field" aria-hidden="true">
+            <div class="sky"></div>
+            <div class="horizon"></div>
+            <div class="ground"><div class="rungs" id="rungs"></div></div>
+            <div class="field-vignette"></div>
         </div>
 
-        <!-- Zone data -->
-        <div class="pet-data" id="petData">
-          <div class="glass">
-            <div class="pd-name" id="pdName"></div>
-            <div class="pd-level" id="pdLevel"></div>
-
-            <div class="pd-sec-title" data-i18n="attributes">Caractéristiques</div>
-            <div class="pd-stats" id="pdStats"></div>
-
-            <div class="pd-sec-title" data-i18n="armyBonus">Bonus d'Armée</div>
-            <div class="pd-bonus" id="pdBonus">
-              <svg viewBox="0 0 24 24"><path d="M12 2 15 8l6 .5-4.5 4 1.4 6L12 15.5 6.1 18.5l1.4-6L3 8.5 9 8z"/></svg>
-              <span id="pdBonusText"></span>
+        <!-- Familier actif -->
+        <div class="pet-stage">
+            <div class="pet-holder" id="petHolder">
+                <img class="pet-img" id="petImg" alt="">
+                <div class="pet-shadow"></div>
             </div>
-
-            <div class="pd-sec-title" data-i18n="skills">Compétences</div>
-            <div id="pdSkills"></div>
-          </div>
         </div>
-      </div>
 
-      <div class="pet-progress" id="progress"></div>
-      <div class="pet-counter"><b id="cIdx">1</b> / <span id="cTot">14</span></div>
-      <div class="pet-hint">
-        <svg viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="4"/><path d="M12 8v3"/></svg>
-        <span data-i18n="hint">Molette pour changer de familier</span>
-      </div>
+        <!-- Panneau data (glass, ancré à droite) -->
+        <aside class="pet-panel" id="petPanel">
+            <div class="glass">
+                <span class="pet-badge" id="petBadge"><span class="bdot"></span><span id="petBadgeLabel"></span></span>
+                <h1 class="pet-name" id="petName"></h1>
+                <div class="pet-level" id="petLevel"></div>
+
+                <div class="pet-sec" data-i18n="attributes">Caractéristiques</div>
+                <div class="pet-stats" id="petStats"></div>
+
+                <div class="pet-sec" data-i18n="armyBonus">Bonus d'Armée</div>
+                <div class="pet-bonus">
+                    <svg viewBox="0 0 24 24"><path d="M12 2 15 8l6 .5-4.5 4 1.4 6L12 15.5 6.1 18.5l1.4-6L3 8.5 9 8z"/></svg>
+                    <span id="petBonus"></span>
+                </div>
+
+                <div class="pet-sec" data-i18n="skills">Compétences</div>
+                <div id="petSkills"></div>
+            </div>
+        </aside>
+
+        <!-- HUD -->
+        <div class="pet-progress" id="progress"></div>
+        <div class="pet-counter"><b id="cIdx">1</b> / <span id="cTot">14</span></div>
+        <div class="pet-hint">
+            <svg viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="4"/><path d="M12 8v3"/></svg>
+            <span data-i18n="hint">Molette / flèches pour avancer</span>
+        </div>
     </main>
-  </div>
 
-<script>
-/* ============================================================
-   DONNÉES (MVP en dur) — ordre : du + faible au + fort
-   (liste fournie inversée « du dernier au premier »).
-   Prod → data/pets_db.json via fetch().
-   ============================================================ */
-const PETS = [
-  {name:{EN:"Gray Wolf",FR:"Loup Gris"},rarity:"common",lvl:12,atk:130,def:120,hp:1500,
-   bonus:{EN:"+2% March Speed",FR:"+2% Vitesse de Marche"},
-   skills:[{n:{EN:"Pack Instinct",FR:"Instinct de Meute"},d:{EN:"Small march-speed boost when a rally starts.",FR:"Léger bonus de vitesse au lancement d'un ralliement."}}]},
-  {name:{EN:"Lynx",FR:"Lynx"},rarity:"common",lvl:13,atk:145,def:125,hp:1600,
-   bonus:{EN:"+3% Scout Speed",FR:"+3% Vitesse d'Éclaireur"},
-   skills:[{n:{EN:"Keen Eyes",FR:"Regard Perçant"},d:{EN:"Reveals enemy march size sooner.",FR:"Révèle plus tôt la taille des marches ennemies."}}]},
-  {name:{EN:"Bison",FR:"Bison"},rarity:"common",lvl:14,atk:150,def:150,hp:1700,
-   bonus:{EN:"+2% Infantry Defense",FR:"+2% Défense Infanterie"},
-   skills:[{n:{EN:"Sturdy Hide",FR:"Cuir Robuste"},d:{EN:"Minor infantry defense in the field.",FR:"Défense d'infanterie mineure sur le terrain."}}]},
-  {name:{EN:"Cheetah",FR:"Guépard"},rarity:"rare",lvl:17,atk:250,def:190,hp:2300,
-   bonus:{EN:"+4% Cavalry Attack",FR:"+4% Attaque Cavalerie"},
-   skills:[{n:{EN:"Burst Sprint",FR:"Sprint Fulgurant"},d:{EN:"Cavalry deals bonus damage on the first hit.",FR:"La cavalerie inflige un bonus au premier coup."}}]},
-  {name:{EN:"Moose",FR:"Élan"},rarity:"rare",lvl:18,atk:210,def:220,hp:2500,
-   bonus:{EN:"+3% Gathering Speed",FR:"+3% Vitesse de Collecte"},
-   skills:[{n:{EN:"Forager",FR:"Fourrageur"},d:{EN:"Increases resource gathering speed.",FR:"Augmente la vitesse de collecte des ressources."}}]},
-  {name:{EN:"Lion",FR:"Lion"},rarity:"rare",lvl:20,atk:260,def:230,hp:2700,
-   bonus:{EN:"+5% Troop Attack",FR:"+5% Attaque des Troupes"},
-   skills:[{n:{EN:"Roar",FR:"Rugissement"},d:{EN:"Briefly boosts all troops' attack.",FR:"Renforce brièvement l'attaque de toutes les troupes."}}]},
-  {name:{EN:"Grizzly Bear",FR:"Ours Grizzly"},rarity:"epic",lvl:22,atk:340,def:360,hp:3900,
-   bonus:{EN:"+6% Infantry HP",FR:"+6% PV Infanterie"},
-   skills:[{n:{EN:"Thick Fur",FR:"Fourrure Épaisse"},d:{EN:"Reduces damage taken by infantry.",FR:"Réduit les dégâts subis par l'infanterie."}},
-           {n:{EN:"Maul",FR:"Lacération"},d:{EN:"Chance to stun the enemy front line.",FR:"Chance d'étourdir la ligne de front ennemie."}}]},
-  {name:{EN:"Giant Rhino",FR:"Rhinocéros Géant"},rarity:"epic",lvl:23,atk:380,def:400,hp:4100,
-   bonus:{EN:"+7% Bear Trap Damage",FR:"+7% Dégâts Piège à Ours"},
-   skills:[{n:{EN:"Charge",FR:"Charge"},d:{EN:"Heavy opening damage against the Bear Trap.",FR:"Gros dégâts d'ouverture contre le Piège à Ours."}},
-           {n:{EN:"Iron Horn",FR:"Corne de Fer"},d:{EN:"Ignores part of enemy defense.",FR:"Ignore une partie de la défense ennemie."}}]},
-  {name:{EN:"Mighty Bison",FR:"Bison Puissant"},rarity:"epic",lvl:25,atk:400,def:420,hp:4300,
-   bonus:{EN:"+8% Infantry Defense",FR:"+8% Défense Infanterie"},
-   skills:[{n:{EN:"Stampede",FR:"Ruée"},d:{EN:"Damage scales with infantry count.",FR:"Dégâts proportionnels au nombre d'infanterie."}},
-           {n:{EN:"Bulwark",FR:"Rempart"},d:{EN:"Grants a defensive shield at battle start.",FR:"Accorde un bouclier défensif en début de combat."}}]},
-  {name:{EN:"Great Moose",FR:"Grand Élan"},rarity:"legendary",lvl:28,atk:560,def:540,hp:6200,
-   bonus:{EN:"+9% Resource Production",FR:"+9% Production de Ressources"},
-   skills:[{n:{EN:"Abundance",FR:"Abondance"},d:{EN:"Boosts hourly resource output.",FR:"Augmente la production horaire de ressources."}},
-           {n:{EN:"Guardian",FR:"Gardien"},d:{EN:"Nearby troops regenerate faster.",FR:"Les troupes proches régénèrent plus vite."}}]},
-  {name:{EN:"Alpha Black Panther",FR:"Panthère Noire Alpha"},rarity:"legendary",lvl:29,atk:620,def:560,hp:6500,
-   bonus:{EN:"+10% Cavalry Attack",FR:"+10% Attaque Cavalerie"},
-   skills:[{n:{EN:"Ambush",FR:"Embuscade"},d:{EN:"First cavalry strike is a critical hit.",FR:"La première frappe de cavalerie est critique."}},
-           {n:{EN:"Shadow Step",FR:"Pas de l'Ombre"},d:{EN:"Cavalry gains extra march speed.",FR:"La cavalerie gagne en vitesse de marche."}}]},
-  {name:{EN:"Regal White Lion",FR:"Lion Blanc Royal"},rarity:"legendary",lvl:30,atk:640,def:600,hp:6800,
-   bonus:{EN:"+12% Troop Attack",FR:"+12% Attaque des Troupes"},
-   skills:[{n:{EN:"Sovereign Roar",FR:"Rugissement Souverain"},d:{EN:"Large attack boost to all troops.",FR:"Fort bonus d'attaque à toutes les troupes."}},
-           {n:{EN:"Royal Aura",FR:"Aura Royale"},d:{EN:"Reduces enemy attack in the field.",FR:"Réduit l'attaque ennemie sur le terrain."}}]},
-  {name:{EN:"Ironclad War Elephant",FR:"Éléphant de Guerre Cuirassé"},rarity:"mythic",lvl:33,atk:870,def:900,hp:10000,
-   bonus:{EN:"+15% All Troop Defense",FR:"+15% Défense de Toutes les Troupes"},
-   skills:[{n:{EN:"Siege Charge",FR:"Charge de Siège"},d:{EN:"Massive damage and armor break.",FR:"Dégâts massifs et brise-armure."}},
-           {n:{EN:"Iron Wall",FR:"Mur de Fer"},d:{EN:"Greatly reduces damage taken by all troops.",FR:"Réduit fortement les dégâts subis par toutes les troupes."}}]},
-  {name:{EN:"Ironclad War Bear",FR:"Ours de Guerre Cuirassé"},rarity:"mythic",lvl:35,atk:950,def:920,hp:11000,
-   bonus:{EN:"+18% All Troop Attack · +10% HP",FR:"+18% Attaque de Toutes les Troupes · +10% PV"},
-   skills:[{n:{EN:"Apex Predator",FR:"Prédateur Suprême"},d:{EN:"Empowers the entire army's attack.",FR:"Renforce l'attaque de toute l'armée."}},
-           {n:{EN:"Unbreakable",FR:"Indestructible"},d:{EN:"Ignores the first lethal blow each battle.",FR:"Ignore le premier coup fatal de chaque combat."}}]},
-];
-
-/* Raretés → libellés + variable CSS (mapping DA) */
-const RARITY = {
-  common:   {var:"--r-common",   EN:"Common",   FR:"Commun"},
-  rare:     {var:"--r-rare",     EN:"Rare",     FR:"Rare"},
-  epic:     {var:"--r-epic",     EN:"Epic",     FR:"Épique"},
-  legendary:{var:"--r-legendary",EN:"Legendary",FR:"Légendaire"},
-  mythic:   {var:"--r-mythic",   EN:"Mythic",   FR:"Mythique"},
-};
-
-/* i18n statique (prod → objet i18n {FR,EN} + GlobalLang) */
-const I18N = {
-  FR:{tool:"Familiers",subtitle:"Optimiseur d'Événements",backHub:"Accueil",collection:"Collection",
-      attributes:"Caractéristiques",armyBonus:"Bonus d'Armée",skills:"Compétences",
-      hint:"Molette pour changer de familier",atk:"Attaque",def:"Défense",hp:"Vie",levelWord:"Niveau"},
-  EN:{tool:"Pets",subtitle:"Event Optimizer",backHub:"Hub",collection:"Collection",
-      attributes:"Attributes",armyBonus:"Army Bonus",skills:"Skills",
-      hint:"Scroll to switch pet",atk:"Attack",def:"Defense",hp:"Health",levelWord:"Level"},
-};
-
-/* ============================================================
-   ÉTAT + CONSTANTES
-   ============================================================ */
-let idx = 0;
-let lang = "EN";                 // défaut EN (comme le site : hub_lang par défaut EN)
-let locked = false;              // verrou anti-multi-défilement
-let transitionDone = true;
-let settleTimer = null;
-const COOLDOWN = 130;            // ms d'apaisement (absorbe l'inertie trackpad)
-const EXIT_MS = 340, ENTER_MS = 520;
-const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const EASE = "cubic-bezier(.22,.61,.36,1)";
-
-/* Refs DOM */
-const $ = s => document.querySelector(s);
-const petMain=$("#petMain"), petVisual=$("#petVisual"), petData=$("#petData"),
-      petImage=$("#petImage"), petTier=$("#petTier"), petTierLabel=$("#petTierLabel"),
-      pdName=$("#pdName"), pdLevel=$("#pdLevel"), pdStats=$("#pdStats"),
-      pdBonusText=$("#pdBonusText"), pdSkills=$("#pdSkills"),
-      progress=$("#progress"), sidebarList=$("#sidebarList"),
-      fieldsBg=$("#fieldsBg"), cIdx=$("#cIdx"), cTot=$("#cTot");
-
-/* ============================================================
-   HELPERS
-   ============================================================ */
-const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
-const rarityColor = key => getComputedStyle(document.documentElement).getPropertyValue(RARITY[key].var).trim();
-const fmt = n => n.toLocaleString(lang==="FR" ? "fr-FR" : "en-US");
-
-/* Placeholder SVG (silhouette + nom) → remplacé par la vraie image en prod */
-function placeholderSVG(p){
-  const c = rarityColor(p.rarity) || "#f5b840";
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 300'>
-    <defs><radialGradient id='g' cx='50%' cy='42%' r='60%'>
-      <stop offset='0%' stop-color='${c}' stop-opacity='.28'/><stop offset='70%' stop-color='${c}' stop-opacity='.05'/>
-      <stop offset='100%' stop-color='${c}' stop-opacity='0'/></radialGradient></defs>
-    <ellipse cx='130' cy='128' rx='110' ry='118' fill='url(#g)'/>
-    <g transform='translate(130 118) scale(4.4) translate(-12 -12)' fill='none' stroke='${c}' stroke-width='1.6' stroke-linejoin='round' opacity='.85'>
-      <circle cx='11' cy='4' r='2'/><circle cx='18' cy='8' r='2'/><circle cx='20' cy='16' r='2'/>
-      <path d='M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z'/>
-    </g>
-    <text x='130' y='276' text-anchor='middle' font-family='Segoe UI,sans-serif' font-size='16' font-weight='700' fill='${c}'>${p.name[lang]}</text>
-    <text x='130' y='294' text-anchor='middle' font-family='Segoe UI,sans-serif' font-size='10' fill='#8a8378'>img/pets/${slug(p.name.EN)}.webp</text>
-  </svg>`;
-  return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
-}
-
-/* ============================================================
-   RENDU
-   ============================================================ */
-function paintStatic(){
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    const k=el.getAttribute("data-i18n"); if(I18N[lang][k]!==undefined) el.textContent=I18N[lang][k];
-  });
-  cTot.textContent = PETS.length;
-  document.documentElement.lang = lang.toLowerCase();
-}
-
-function renderStage(){
-  const p = PETS[idx], r = RARITY[p.rarity];
-  petVisual.style.setProperty("--rarity", `var(${r.var})`);
-
-  // IMAGE — MVP : placeholder. PROD : décommente les 2 lignes ci-dessous.
-  petImage.src = placeholderSVG(p);
-  petImage.alt = p.name[lang];
-  // const real = `img/pets/${slug(p.name.EN)}.webp`;
-  // petImage.src = real; petImage.onerror = () => { petImage.onerror=null; petImage.src = placeholderSVG(p); };
-
-  petTierLabel.textContent = r[lang];
-  petTier.style.setProperty("--rarity", `var(${r.var})`);
-  petTier.style.color = `var(${r.var})`;
-
-  pdName.textContent = p.name[lang];
-  pdLevel.innerHTML = `${I18N[lang].levelWord} <b>${p.lvl}</b>`;
-
-  const S=I18N[lang];
-  pdStats.innerHTML = `
-    <div class="stat atk"><div class="lbl">${S.atk}</div><div class="val">${fmt(p.atk)}</div></div>
-    <div class="stat def"><div class="lbl">${S.def}</div><div class="val">${fmt(p.def)}</div></div>
-    <div class="stat hp"><div class="lbl">${S.hp}</div><div class="val">${fmt(p.hp)}</div></div>`;
-
-  pdBonusText.textContent = p.bonus[lang];
-
-  const skIco = `<svg viewBox="0 0 24 24"><path d="m12 3 1.9 5.8H20l-4.9 3.6L17 18l-5-3.7L7 18l1.9-5.6L4 8.8h6.1z"/></svg>`;
-  pdSkills.innerHTML = p.skills.map(s=>`
-    <div class="pd-skill"><div class="ico">${skIco}</div>
-      <div><div class="sk-nm">${s.n[lang]}</div><div class="sk-ds">${s.d[lang]}</div></div></div>`).join("");
-
-  cIdx.textContent = idx+1;
-  updateActive();
-}
-
-function renderSidebar(){
-  sidebarList.innerHTML = PETS.map((p,i)=>`
-    <button class="sb-item" data-i="${i}">
-      <span class="dot" style="color:${rarityColor(p.rarity)}"></span>
-      <span class="nm">${p.name[lang]}</span>
-      <span class="rk">${p.lvl}</span>
-    </button>`).join("");
-  sidebarList.querySelectorAll(".sb-item").forEach(b=>
-    b.addEventListener("click",()=>navigate(+b.dataset.i)));
-  updateActive();
-}
-
-function renderProgress(){
-  progress.innerHTML = PETS.map((_,i)=>`<button class="pp-dot" data-i="${i}" aria-label="Familier ${i+1}"></button>`).join("");
-  progress.querySelectorAll(".pp-dot").forEach(d=>
-    d.addEventListener("click",()=>navigate(+d.dataset.i)));
-}
-
-function updateActive(){
-  sidebarList.querySelectorAll(".sb-item").forEach((b,i)=>b.classList.toggle("active",i===idx));
-  progress.querySelectorAll(".pp-dot").forEach((d,i)=>d.classList.toggle("active",i===idx));
-}
-
-/* ============================================================
-   TRANSITION (Web Animations API)
-   Sortie → swap contenu → entrée. commitStyles évite tout flash.
-   ============================================================ */
-async function transition(dir){
-  if(REDUCE){                          // mouvement réduit : simple fondu
-    await petData.animate([{opacity:1},{opacity:0}],{duration:120,fill:"both"}).finished;
-    renderStage(); parallax(dir);
-    petData.animate([{opacity:0},{opacity:1}],{duration:120});
-    return;
-  }
-  const outV = petVisual.animate(
-    [{transform:"translateY(0)",opacity:1},{transform:`translateY(${dir>0?-60:60}px)`,opacity:0}],
-    {duration:EXIT_MS,easing:EASE,fill:"both"});
-  const outD = petData.animate(
-    [{transform:"translateX(0)",opacity:1},{transform:"translateX(26px)",opacity:0}],
-    {duration:EXIT_MS,delay:40,easing:EASE,fill:"both"});
-  await Promise.all([outV.finished,outD.finished]);
-  outV.commitStyles(); outD.commitStyles(); outV.cancel(); outD.cancel();
-
-  renderStage(); parallax(dir);
-
-  const inV = petVisual.animate(
-    [{transform:`translateY(${dir>0?56:-56}px)`,opacity:0},{transform:"translateY(0)",opacity:1}],
-    {duration:ENTER_MS,easing:EASE,fill:"both"});
-  const inD = petData.animate(
-    [{transform:"translateX(-26px)",opacity:0},{transform:"translateX(0)",opacity:1}],
-    {duration:ENTER_MS,delay:70,easing:EASE,fill:"both"});
-  await Promise.all([inV.finished,inD.finished]);
-  inV.commitStyles(); inD.commitStyles(); inV.cancel(); inD.cancel();
-  // nettoie l'inline → la lévitation idle (sur l'<img> enfant) reprend proprement
-  petVisual.style.transform=""; petVisual.style.opacity="";
-  petData.style.transform="";   petData.style.opacity="";
-}
-
-/* Parallaxe subtile du fond (profondeur) */
-function parallax(dir){
-  if(REDUCE) return;
-  fieldsBg.animate(
-    [{transform:`translateY(${dir>0?10:-10}px)`},{transform:"translateY(0)"}],
-    {duration:700,easing:EASE});
-}
-
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
-function navigate(target){
-  if(locked || target===idx || target<0 || target>=PETS.length) return;
-  const dir = target>idx ? 1 : -1;
-  idx = target;
-  locked = true; transitionDone = false;
-  transition(dir).then(()=>{
-    transitionDone = true;
-    clearTimeout(settleTimer);
-    settleTimer = setTimeout(release, COOLDOWN);
-  });
-}
-function step(dir){ navigate(idx+dir); }
-function release(){ if(transitionDone) locked=false; else settleTimer=setTimeout(release,COOLDOWN); }
-
-/* Rebond en butée (premier/dernier) */
-let bouncing=false;
-function rubberBand(dir){
-  if(bouncing||REDUCE) return; bouncing=true;
-  petVisual.animate([{transform:"translateY(0)"},{transform:`translateY(${dir>0?-14:14}px)`},{transform:"translateY(0)"}],
-    {duration:280,easing:"ease-out"}).finished.then(()=>bouncing=false);
-}
-
-/* ============================================================
-   ÉCOUTEURS
-   ============================================================ */
-// Molette : preventDefault + verrou + apaisement (une action / geste)
-petMain.addEventListener("wheel",(e)=>{
-  e.preventDefault();
-  clearTimeout(settleTimer);
-  if(locked){ settleTimer=setTimeout(release,COOLDOWN); return; } // absorbe l'inertie
-  if(Math.abs(e.deltaY) < 4) return;                              // ignore micro-scrolls
-  const dir = e.deltaY>0 ? 1 : -1;
-  const target = idx+dir;
-  if(target<0 || target>=PETS.length){ rubberBand(dir); return; }
-  navigate(target);
-},{passive:false});
-
-// Clavier
-petMain.addEventListener("keydown",(e)=>{
-  if(["ArrowDown","PageDown"," "].includes(e.key)){ e.preventDefault(); step(1); }
-  else if(["ArrowUp","PageUp"].includes(e.key)){ e.preventDefault(); step(-1); }
-  else if(e.key==="Home"){ e.preventDefault(); navigate(0); }
-  else if(e.key==="End"){ e.preventDefault(); navigate(PETS.length-1); }
-});
-
-// Tactile (swipe vertical)
-let touchY=null;
-petMain.addEventListener("touchstart",e=>{touchY=e.touches[0].clientY},{passive:true});
-petMain.addEventListener("touchend",e=>{
-  if(touchY===null) return;
-  const dy = touchY - e.changedTouches[0].clientY;
-  if(Math.abs(dy)>45){ const dir=dy>0?1:-1; const t=idx+dir;
-    (t<0||t>=PETS.length) ? rubberBand(dir) : navigate(t); }
-  touchY=null;
-},{passive:true});
-
-// Header mock : langue + thème
-$("#langBtn").addEventListener("click",()=>{
-  lang = lang==="EN" ? "FR" : "EN";
-  $("#langLabel").textContent = lang==="EN" ? "FR" : "EN"; // affiche la langue vers laquelle basculer
-  paintStatic(); renderSidebar(); renderStage();          // re-render sans transition
-});
-$("#themeBtn").addEventListener("click",()=>{
-  const dark = document.documentElement.getAttribute("data-theme")==="dark";
-  document.documentElement.setAttribute("data-theme", dark?"light":"dark");
-  renderSidebar(); renderStage(); // rafraîchit les couleurs de rareté (lues du CSS)
-});
-
-/* ============================================================
-   INIT
-   ============================================================ */
-function init(){
-  $("#langLabel").textContent = "FR";
-  paintStatic();
-  renderProgress();
-  renderSidebar();
-  renderStage();
-  petMain.focus();
-}
-init();
-</script>
+    <!-- Socle (ordre identique aux autres pages, sans help/backup : page en lecture seule) -->
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/pets.js"></script>
 </body>
 </html>
