@@ -80,12 +80,16 @@ body.pets-page{ overflow:hidden; }
 
 /* ---------------- Animaux (calque translaté en Y) ---------------- */
 .animals{ position:absolute; inset:0; z-index:5; }
-.animal{ position:absolute; left:50%; display:grid; place-items:center; }
-.animal img{ display:block; max-height:min(46vh, 400px); max-width:min(40vw, 440px); object-fit:contain;
+/* Chaque familier occupe un champ (gauche/droite), jamais le sentier */
+.animal{ position:absolute; display:grid; place-items:center; transform-origin:center; }
+.animal.left { left:4%; right:calc(50% + 90px); }
+.animal.right{ left:calc(50% + 90px); right:4%; }
+.animal img{ display:block; max-height:min(48vh, 420px); max-width:min(100%, 400px); object-fit:contain;
   filter:drop-shadow(0 16px 18px rgba(60,50,20,.35)); animation:breathe 4.5s ease-in-out infinite; }
-.animal .sh{ position:absolute; bottom:-12px; width:50%; height:24px; border-radius:50%; filter:blur(4px);
+.animal .sh{ position:absolute; bottom:-12px; width:46%; height:24px; border-radius:50%; filter:blur(4px);
   background:radial-gradient(ellipse at center, rgba(70,55,25,.4) 0%, rgba(70,55,25,.18) 50%, transparent 72%); }
-.animal .marker{ position:absolute; bottom:-42px; width:42px; height:42px; border-radius:50%; display:grid; place-items:center;
+/* Marqueur de station : reste sur le sentier, au niveau du familier */
+.marker{ position:absolute; left:50%; width:42px; height:42px; border-radius:50%; display:grid; place-items:center; cursor:pointer;
   background:rgba(255,255,255,.9); border:3px solid oklch(0.55 0.10 135);
   box-shadow:0 6px 18px rgba(60,70,40,.3), 0 0 0 8px rgba(255,255,255,.28);
   font-family:'Cormorant Garamond', serif; font-weight:600; font-size:17px; color:oklch(0.35 0.07 138); }
@@ -96,8 +100,10 @@ body.pets-page{ overflow:hidden; }
 /* ============================================================
    PANNEAU INFO — carte blanche translucide (maquette)
    ============================================================ */
-.pet-info{ position:absolute; right:clamp(20px,4vw,48px); top:50%; transform:translateY(-50%); z-index:9;
+.pet-info{ position:absolute; top:50%; transform:translateY(-50%); z-index:9;
   width:min(360px, 34vw); transition:opacity .28s ease; }
+.pet-info.on-right{ right:clamp(20px,4vw,48px); left:auto; }
+.pet-info.on-left { left:clamp(40px,5vw,64px); right:auto; }
 .pet-info .card{ background:rgba(255,255,255,.68); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
   border:1px solid rgba(255,255,255,.75); border-radius:22px; padding:26px 30px;
   box-shadow:0 24px 48px -18px rgba(60,70,40,.3), 0 4px 12px rgba(60,70,40,.08); color:var(--ink-soft); }
