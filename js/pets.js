@@ -84,7 +84,7 @@
   let station = 0, worldY = 0, startY = 0, targetY = 0, startT = 0, dur = WALK_MS;
   let walking = false, locked = false, swapped = false, raf = 0, settleTimer = null;
 
-  let petMain, scene, animalsLayer, animalEls = [], texLayers = [],
+  let petMain, scene, animalsLayer, animalEls = [], markerEls = [], texLayers = [],
       info, petBadge, petBadgeLabel, petName, petLevel, petStats, petBonus, petSkills,
       petList, progress, cIdx, cTot;
 
@@ -102,16 +102,22 @@
 
   /* -------- Construction -------- */
   function buildAnimals(){
-    animalsLayer.innerHTML = PETS.map((p, i) =>
-      `<div class="animal" data-i="${i}" style="top:calc(50% + ${i*SPACING}px)">` +
-      `<img loading="lazy" alt=""><div class="sh"></div><div class="marker">${i+1}</div></div>`).join("");
+    // Familier dans un champ (pair = gauche, impair = droite) + marqueur sur le sentier
+    animalsLayer.innerHTML = PETS.map((p, i) => {
+      const side = i % 2 === 0 ? "left" : "right";
+      const top = `calc(50% + ${i * SPACING}px)`;
+      return `<div class="animal ${side}" data-i="${i}" style="top:${top}"><img loading="lazy" alt=""><div class="sh"></div></div>` +
+             `<div class="marker" data-i="${i}" style="top:${top}">${i + 1}</div>`;
+    }).join("");
     animalEls = Array.from(animalsLayer.querySelectorAll(".animal"));
+    markerEls = Array.from(animalsLayer.querySelectorAll(".marker"));
     animalEls.forEach((a, i) => {
       const img = a.querySelector("img"), p = PETS[i];
       img.onerror = () => { img.onerror = null; img.src = fallbackSVG(p); };
       img.src = imgSrc(p);
       a.addEventListener("click", () => go(i));
     });
+    markerEls.forEach((m, i) => m.addEventListener("click", () => go(i)));
     refreshAlts();
   }
   function refreshAlts(){ animalEls.forEach((a, i) => a.querySelector("img").alt = PETS[i].name[L()]); }
@@ -144,6 +150,13 @@
     petSkills.innerHTML = p.skills.map(s =>
       `<div class="pet-skill"><div class="ico">${skIco}</div><div><div class="sk-nm">${s.n[lang]}</div><div class="sk-ds">${s.d[lang]}</div></div></div>`).join("");
     cIdx.textContent = i + 1;
+    setCardSide(i);
+  }
+  // Carte à l'opposé du familier : pair = image à gauche → carte à droite
+  function setCardSide(i){
+    const onRight = i % 2 === 0;
+    info.classList.toggle("on-right", onRight);
+    info.classList.toggle("on-left", !onRight);
   }
   function updateActive(){
     petList.querySelectorAll(".pet-list-item").forEach((b, i) => b.classList.toggle("active", i === station));
@@ -159,9 +172,13 @@
       const s = Math.max(0.68, 1 - (d / SPACING) * 0.16);
       const o = Math.max(0.12, 1 - (d / SPACING) * 0.55);
       const a = animalEls[i];
-      a.style.transform = `translate(-50%, -50%) scale(${s.toFixed(3)})`;
+      a.style.transform = `translateY(-50%) scale(${s.toFixed(3)})`;   // X géré par .left/.right
       a.style.opacity = o.toFixed(3);
       a.style.zIndex = String(1000 - Math.round(d));
+      const m = markerEls[i];
+      m.style.transform = `translate(-50%, -50%) scale(${Math.max(0.75, s).toFixed(3)})`;
+      m.style.opacity = Math.max(0.08, 1 - (d / SPACING) * 0.7).toFixed(3);
+      m.style.zIndex = String(1000 - Math.round(d));
     }
     // léger balancement latéral de marche (amorti)
     const sway = (t == null || REDUCE) ? 0 : Math.sin(t * Math.PI * 4) * Math.sin(t * Math.PI) * 4;
