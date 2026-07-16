@@ -46,21 +46,35 @@
         <!-- Panneau info (carte blanche translucide) -->
         <aside class="pet-info on-right" id="petInfo">
             <div class="card">
-                <span class="pet-badge" id="petBadge"><span class="bdot"></span><span id="petBadgeLabel"></span></span>
+                <span class="pet-badge" id="petBadge"><span id="petBadgeLabel"></span></span>
                 <h1 class="pet-name" id="petName"></h1>
-                <div class="pet-level" id="petLevel"></div>
 
-                <div class="pet-sec" data-i18n="attributes">Caractéristiques</div>
-                <div class="pet-stats" id="petStats"></div>
-
-                <div class="pet-sec" data-i18n="armyBonus">Bonus d'Armée</div>
-                <div class="pet-bonus">
-                    <svg viewBox="0 0 24 24"><path d="M12 2 15 8l6 .5-4.5 4 1.4 6L12 15.5 6.1 18.5l1.4-6L3 8.5 9 8z"/></svg>
-                    <span id="petBonus"></span>
+                <div class="pet-levelbox">
+                    <div class="pl-top">
+                        <span class="pl-label" data-i18n="yourLevel">Ton niveau</span>
+                        <span class="pl-tier" id="petTier"></span>
+                    </div>
+                    <div class="pl-row">
+                        <button type="button" class="pl-step" id="lvlMinus" aria-label="−">−</button>
+                        <input type="number" id="petLevelInput" class="pl-input" min="1" step="1" inputmode="numeric">
+                        <button type="button" class="pl-step" id="lvlPlus" aria-label="+">+</button>
+                        <span class="pl-max" id="petLevelMax"></span>
+                    </div>
+                    <div class="pl-stars" id="petStars"></div>
                 </div>
 
-                <div class="pet-sec" data-i18n="skills">Compétences</div>
-                <div id="petSkills"></div>
+                <div class="pet-sec" data-i18n="skill">Compétence</div>
+                <div class="pet-skill-main">
+                    <div class="psk-head">
+                        <img class="psk-img" id="petSkillImg" alt="">
+                        <div class="psk-name" id="petSkillName"></div>
+                    </div>
+                    <div class="psk-desc" id="petSkillDesc"></div>
+                    <div class="psk-effects" id="petSkillEffects"></div>
+                </div>
+
+                <div class="pet-sec" data-i18n="progression">Progression</div>
+                <div class="pet-cost" id="petCost"></div>
             </div>
         </aside>
 
