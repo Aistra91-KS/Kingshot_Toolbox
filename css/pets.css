@@ -9,6 +9,9 @@
   --r-common:#8a8378; --r-rare:oklch(0.55 0.10 200); --r-epic:#c07a2e;
   --r-legendary:oklch(0.55 0.12 90); --r-mythic:#b5462f;
   --ink:oklch(0.26 0.04 140); --ink-soft:oklch(0.40 0.03 135); --green:oklch(0.50 0.10 135);
+  --star:oklch(0.72 0.15 80);
+  --gen-1:#9a8f80; --gen-2:oklch(0.62 0.12 145); --gen-3:oklch(0.60 0.11 195); --gen-4:oklch(0.58 0.13 250);
+  --gen-5:oklch(0.56 0.15 300); --gen-6:oklch(0.72 0.15 80); --gen-7:oklch(0.57 0.19 25);
 }
 body.pets-page{ overflow:hidden; }
 
@@ -116,21 +119,46 @@ body.pets-page{ overflow:hidden; }
 .pet-sec{ font-size:11px; text-transform:uppercase; letter-spacing:.2em; font-weight:600; color:var(--green);
   margin:18px 0 9px; display:flex; align-items:center; gap:8px; }
 .pet-sec::after{ content:""; flex:1; height:1px; background:rgba(90,100,60,.18); }
-.pet-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-.stat{ background:rgba(255,255,255,.55); border:1px solid rgba(120,130,90,.18); border-radius:10px; padding:10px 8px; text-align:center; }
-.stat .lbl{ font-size:.66rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.5px; }
-.stat .val{ font-size:1.05rem; font-weight:700; margin-top:2px; font-family:'Cormorant Garamond',serif; }
-.stat.atk .val{ color:#b5462f; } .stat.def .val{ color:oklch(0.48 0.11 135); } .stat.hp .val{ color:#b7841f; }
-.pet-bonus{ display:flex; align-items:center; gap:9px; font-size:.9rem; margin-top:2px; color:var(--ink);
-  background:oklch(0.88 0.06 135 / .5); border:1px solid oklch(0.70 0.09 135 / .4); border-radius:10px; padding:10px 12px; }
-.pet-bonus svg{ width:16px; height:16px; stroke:var(--green); fill:none; stroke-width:2; flex:none; }
-.pet-skill{ display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(90,100,60,.15); }
-.pet-skill:last-child{ border-bottom:0; }
-.pet-skill .ico{ width:32px; height:32px; flex:none; border-radius:9px; display:grid; place-items:center;
-  background:oklch(0.85 0.07 135 / .5); border:1px solid oklch(0.68 0.09 135 / .45); }
-.pet-skill .ico svg{ width:17px; height:17px; stroke:oklch(0.42 0.10 135); fill:none; stroke-width:2; }
-.pet-skill .sk-nm{ font-weight:600; font-size:.92rem; color:var(--ink); }
-.pet-skill .sk-ds{ font-size:.83rem; color:var(--ink-soft); margin-top:2px; line-height:1.45; }
+/* Sélecteur de niveau */
+.pet-levelbox{ margin-top:14px; background:rgba(255,255,255,.5); border:1px solid rgba(120,130,90,.2); border-radius:14px; padding:12px 14px; }
+.pl-top{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+.pl-label{ font-size:11px; text-transform:uppercase; letter-spacing:.16em; font-weight:600; color:var(--green); }
+.pl-tier{ font-size:.78rem; font-weight:700; color:oklch(0.45 0.10 135); font-family:'Cormorant Garamond',serif; }
+.pl-row{ display:flex; align-items:center; gap:8px; }
+.pl-step{ width:30px; height:30px; flex:none; border-radius:8px; cursor:pointer; font-size:18px; line-height:1; color:oklch(0.40 0.10 135); background:rgba(255,255,255,.7); border:1px solid rgba(110,130,80,.35); display:grid; place-items:center; transition:background .15s, border-color .15s; }
+.pl-step:hover{ background:oklch(0.88 0.06 135 / .6); border-color:var(--green); }
+.pl-input{ width:64px; text-align:center; font-weight:700; font-size:1rem; color:var(--ink); font-family:'Cormorant Garamond',serif; background:rgba(255,255,255,.85); border:1px solid rgba(110,130,80,.4); border-radius:8px; padding:5px 4px; -moz-appearance:textfield; }
+.pl-input::-webkit-outer-spin-button, .pl-input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+.pl-max{ font-size:.8rem; color:var(--ink-soft); }
+.pl-stars{ display:flex; flex-wrap:wrap; gap:3px; margin-top:9px; }
+.pl-star{ width:9px; height:9px; border-radius:50%; background:rgba(120,120,90,.28); transition:background .15s; }
+.pl-star.on{ background:var(--star); box-shadow:0 0 6px var(--star); }
+
+/* Compétence */
+.psk-head{ display:flex; align-items:center; gap:11px; margin-bottom:8px; }
+.psk-img{ width:42px; height:42px; flex:none; border-radius:10px; object-fit:cover; background:oklch(0.85 0.07 135 / .5); border:1px solid oklch(0.68 0.09 135 / .45); padding:3px; }
+.psk-name{ font-weight:700; font-size:1rem; color:var(--ink); font-family:'Cormorant Garamond',serif; letter-spacing:.3px; }
+.psk-desc{ font-size:.84rem; color:var(--ink-soft); line-height:1.5; }
+.psk-effects{ margin-top:10px; display:flex; flex-direction:column; gap:9px; }
+.eff-label{ font-size:.72rem; font-weight:600; color:oklch(0.42 0.09 135); text-transform:uppercase; letter-spacing:.04em; display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+.eff-note{ font-size:.64rem; font-weight:500; color:var(--ink-soft); text-transform:none; letter-spacing:0; opacity:.8; }
+.pips{ display:flex; flex-wrap:wrap; gap:4px; }
+.pip{ font-size:.7rem; font-variant-numeric:tabular-nums; color:var(--ink-soft); background:rgba(255,255,255,.55); border:1px solid rgba(120,130,90,.22); border-radius:6px; padding:2px 6px; }
+.pip.on{ color:#fff; font-weight:700; background:var(--green); border-color:var(--green); box-shadow:0 2px 8px oklch(0.50 0.10 135 / .4); }
+
+/* Coûts / progression */
+.pet-cost{ display:flex; flex-direction:column; gap:8px; }
+.cost-row{ display:flex; justify-content:space-between; align-items:center; gap:10px; background:rgba(255,255,255,.5); border:1px solid rgba(120,130,90,.18); border-radius:10px; padding:8px 11px; }
+.cost-lbl{ font-size:.8rem; color:var(--ink-soft); }
+.cost-lbl b{ color:oklch(0.42 0.10 135); font-family:'Cormorant Garamond',serif; }
+.cost-capval{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+.cost-range{ font-size:.68rem; color:var(--ink-soft); opacity:.85; }
+.cost-range.ready{ color:var(--green); font-weight:700; opacity:1; }
+.cost-mats{ display:flex; flex-wrap:wrap; gap:6px; padding:2px 2px 0; }
+.mat{ display:inline-flex; align-items:center; gap:5px; font-size:.72rem; color:var(--ink-soft); background:oklch(0.88 0.05 90 / .4); border:1px solid oklch(0.72 0.08 85 / .4); border-radius:7px; padding:3px 8px; }
+.mat b{ color:var(--ink); font-variant-numeric:tabular-nums; }
+.mat-l{ text-transform:uppercase; letter-spacing:.03em; font-size:.64rem; opacity:.85; }
+.maxed{ text-align:center; font-size:.85rem; font-weight:700; color:var(--green); background:oklch(0.88 0.06 135 / .45); border:1px solid oklch(0.70 0.09 135 / .4); border-radius:10px; padding:10px; }
 
 /* ---------------- HUD ---------------- */
 .pet-progress{ position:absolute; left:16px; top:50%; transform:translateY(-50%); z-index:9; display:flex; flex-direction:column; gap:10px; }
