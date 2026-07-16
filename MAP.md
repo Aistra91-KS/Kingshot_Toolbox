@@ -120,8 +120,7 @@ hub-kingshot/
 | `database/waracademy/*.html` | Tables recherches Académie (3 arbres) | inline + `header.js`, `lang.js`, `site-config.js` | `style.css` | `truegold_war_db.json` (fetch) |
 
 **Socle chargé sur toutes les pages outils** (ordre) : `site-config.js` → `storage-keys.js` → `lang.js` → `help.js` → *(script de page)* → `header.js` → `backup.js`.
-Les pages `database/buildings/*` et `pets.html` n'incluent que `site-config.js` + `lang.js` + `header.js` (pas de help/backup). `pets.html` charge en plus `css/pets.css` et deux webfonts Google (Cormorant Garamond + Karla).
-
+Les pages `database/buildings/*` n'incluent que `site-config.js` + `lang.js` + `header.js` (pas de help/backup). `pets.html` charge `site-config.js` + `storage-keys.js` + `lang.js` + `header.js` + `pets.js` + `backup.js` (sauvegarde des niveaux via `STORAGE_KEYS.pets`), sans `help.js`, plus `css/pets.css` et deux webfonts Google (Cormorant Garamond + Karla).
 ---
 
 ## 4. Système bilingue (i18n)
@@ -221,7 +220,7 @@ Un seul workflow : **`discord-news.yml`** (notification Discord des mises à jou
 
 ## 8. Persistance (localStorage)
 
-Clés « chrome » (hors registre) : **`hub_lang`** (langue, défaut `EN`), **`hub_theme`** (thème, défaut `dark`), `help_seen_<id>` (bandeaux d'aide vus), **`pets_levels`** (niveau saisi par familier — page Familiers ; clé brute posée par `pets.js`, **à migrer dans `storage-keys.js`**, pas encore dans `backup.js`).
+Clés « chrome » (hors registre) : **`hub_lang`** (langue, défaut `EN`), **`hub_theme`** (thème, défaut `dark`), `help_seen_<id>` (bandeaux d'aide vus).
 
 Clés métier — source unique **`js/storage-keys.js`** (`window.STORAGE_KEYS`) :
 | Clé JS | Valeur localStorage |
@@ -240,6 +239,7 @@ Clés métier — source unique **`js/storage-keys.js`** (`window.STORAGE_KEYS`)
 | `shopcalcEvents` | `shopcalc_events` |
 | `shopcalcTab` | `shopcalc_tab` |
 | `shopcalcCollapsed` | `shopcalc_collapsed` |
+| `pets` | `pets_levels` |
 
 Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON corrompu). Export/import ciblé par module dans `backup.js` (`BACKUP_MODULES`).
 **Partage de données inter-outils** : `beartrap.js` lit `caserneHeroes`; `vikings.js` réutilise `beartrap` (formations/troupes).
