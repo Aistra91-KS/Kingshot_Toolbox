@@ -147,8 +147,7 @@
 
     petSkillEffects.innerHTML = p.skill.effects.map(e => {
       const pips = e.values.map((v, idx) => `<span class="pip${idx === tier-1 ? " on" : ""}">${v}</span>`).join("");
-      const note = e.note && e.note[lang] ? `<span class="eff-note">${e.note[lang]}</span>` : "";
-      return `<div class="eff"><div class="eff-label">${e.label[lang]}${note}</div><div class="pips">${pips}</div></div>`;
+      return `<div class="eff"><div class="eff-label">${e.label[lang]}</div><div class="pips">${pips}</div></div>`;
     }).join("");
 
     petCost.innerHTML = costHTML(p, lvl, S);
@@ -281,6 +280,12 @@
       (t < 0 || t >= PETS.length) ? rubberBand(dir) : go(t);
     }, { passive:false });
 
+    // Laisse la carte défiler nativement quand son contenu dépasse (sinon molette = navigation)
+    info.addEventListener("wheel", (e) => {
+      const c = info.querySelector(".card");
+      if (c && c.scrollHeight > c.clientHeight + 1) e.stopPropagation();
+    }, { passive:true });
+
     petMain.addEventListener("keydown", (e) => {
       if (e.target === petLevelInput) return;   // ne pas naviguer en éditant le niveau
       if (["ArrowDown","ArrowRight","PageDown"," "].includes(e.key)){ e.preventDefault(); go(station + 1); }
@@ -290,7 +295,7 @@
     });
 
     let sy = null;
-    petMain.addEventListener("touchstart", e => { sy = e.touches[0].clientY; }, { passive:true });
+    petMain.addEventListener("touchstart", e => { sy = e.target.closest(".pet-info") ? null : e.touches[0].clientY; }, { passive:true });
     petMain.addEventListener("touchend", e => {
       if (sy === null) return;
       const dy = sy - e.changedTouches[0].clientY;
