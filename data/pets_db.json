@@ -25,7 +25,7 @@
         },
         "desc": {
           "EN": "The wolf silently yet cleverly delivers tools to the yard, increasing Construction Speed by X% for 5 minutes. (Cooldown: 23h)",
-          "FR": "Le loup apporte discrètement mais habilement des outils au chantier, augmentant la Vitesse de Construction de X% pendant 5 minutes. (Recharge : 23h)"
+          "FR": "Le loup rusé devine quel outils livrer en premier dans la cour, augmentant la vitesse de construction et d'améliorations de X% pendant 5 minutes. (Recharge : 23h)"
         },
         "cooldown": "23h",
         "effects": [
@@ -142,7 +142,7 @@
         },
         "desc": {
           "EN": "Felines of all stripes have the ability to soothe a Governor’s mind, immediately restoring X Stamina. (Cooldown: 23h)",
-          "FR": "Les félins de toutes sortes savent apaiser l'esprit d'un Gouverneur, restaurant immédiatement X points d'Endurance. (Recharge : 23h)"
+          "FR": "Les félins de tous poils ont la capacité d'apaiser l'esprit d'un gouverneur et de restaurer immédiatement son endurance de X . (Recharge : 23h)"
         },
         "cooldown": "23h",
         "effects": [
@@ -150,10 +150,6 @@
             "label": {
               "EN": "Governor Stamina Amount",
               "FR": "Endurance du Gouverneur"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "35",
@@ -271,21 +267,17 @@
       "skill": {
         "name": {
           "EN": "Grip of the Titan",
-          "FR": "Poigne du Titan"
+          "FR": "Poignée du Titan"
         },
         "desc": {
           "EN": "Harnessing your pet’s formidable strength and endurance, instantly complete the gathering upon reaching the next wilderness resource tile. (Cooldown: X)",
-          "FR": "En exploitant la force et l'endurance formidables de votre familier, termine instantanément la collecte en atteignant la prochaine case de ressource sauvage. (Recharge : X)"
+          "FR": "Exploite la force et l'endurance du bison pour terminer instantanément la collecte de la première case de ressource nécessaire dans la nature (Temps de Recharge : X)"
         },
         "effects": [
           {
             "label": {
               "EN": "Cooldown",
               "FR": "Temps de Recharge"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "1d 11h",
@@ -403,11 +395,11 @@
       "skill": {
         "name": {
           "EN": "Scent Mastery",
-          "FR": "Maîtrise de l'Odorat"
+          "FR": "Maîtrise des odeurs"
         },
         "desc": {
           "EN": "As a natural predator, its keen sense of smell allows it to instantly locate X pet food. (Cooldown: 23h)",
-          "FR": "Prédateur né, son odorat aiguisé lui permet de localiser instantanément X nourritures pour familier. (Recharge : 23h)"
+          "FR": "En tant que prédateur naturel, son sens aigu de l'odorat lui permet de localiser instantanément X aliments pour animaux (Recharge : 23h)"
         },
         "cooldown": "23h",
         "effects": [
@@ -415,10 +407,6 @@
             "label": {
               "EN": "Pet Food",
               "FR": "Nourriture pour Familier"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "200",
@@ -552,11 +540,11 @@
       "skill": {
         "name": {
           "EN": "Horror Stare",
-          "FR": "Regard d'Effroi"
+          "FR": "Regard d'Épouvante"
         },
         "desc": {
           "EN": "The giant Moose stares the enemy before charging, reducing enemy Squad’s Health by X for 2h. (Cooldown: 20h)",
-          "FR": "L'Élan géant fixe l'ennemi avant de charger, réduisant les PV de l'Escouade ennemie de X pendant 2h. (Recharge : 20h)"
+          "FR": "L'Élan géant fixe l'ennemi avant de le charger, ce qui réduit les PV de l'escouade ennemie de X pendant 2h. (Recharge : 20h)"
         },
         "cooldown": "20h",
         "effects": [
@@ -564,10 +552,6 @@
             "label": {
               "EN": "Enemy Squad’s Health Down",
               "FR": "Réduction PV Escouade Ennemie"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "1.50%",
@@ -701,21 +685,17 @@
       "skill": {
         "name": {
           "EN": "Gift of the King",
-          "FR": "Don du Roi"
+          "FR": "Cadeau du Roi"
         },
         "desc": {
           "EN": "All animals show special deference to the King of the Jungle. Unearths an item lost on the Badland. (Cooldown: X)",
-          "FR": "Tous les animaux témoignent une déférence particulière au Roi de la Jungle. Déterre un objet perdu dans les Terres Désolées. (Recharge : X)"
+          "FR": "Tous les animaux font preuve d'une déférence particulière envers le roi de la jungle. Déniche un objet perdu dans les bas-fonds. (Recharge : X)"
         },
         "effects": [
           {
             "label": {
               "EN": "Skill Cooldown",
               "FR": "Temps de Recharge"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "2d 3h",
@@ -858,7 +838,7 @@
       "id": "grizzly-bear",
       "name": {
         "EN": "Grizzly Bear",
-        "FR": "Ours Grizzly"
+        "FR": "Grizzly"
       },
       "generation": 3,
       "maxLevel": 80,
@@ -869,7 +849,7 @@
         },
         "desc": {
           "EN": "Every hunter trembles at the charging howl of the Grizzly Bear. Increases March Speed by X and reduces enemy squads’ Lethality by X for 2h. (Cooldown: 20h)",
-          "FR": "Chaque chasseur tremble au hurlement de charge de l'Ours Grizzly. Augmente la Vitesse de Marche de X et réduit la Létalité des escouades ennemies de X pendant 2h. (Recharge : 20h)"
+          "FR": "Tous les chasseurs tremblent devant le hurlement de charge du grizzli. Augmente la vitesse de marche de X t réduit la létalité des escouades de X pendant 2h. (Recharge : 20h)"
         },
         "cooldown": "20h",
         "effects": [
@@ -877,10 +857,6 @@
             "label": {
               "EN": "March Speed Increase",
               "FR": "Augmentation Vitesse de Marche"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "15%",
@@ -897,10 +873,6 @@
             "label": {
               "EN": "Enemy Lethality Down",
               "FR": "Réduction Létalité Ennemie"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "1.50%",
@@ -1054,7 +1026,7 @@
         },
         "desc": {
           "EN": "The Giant Rhino launches a wild rampage against the enemy’s brittle lines, increasing all Squads’ Attack by X for 2 hours. (Cooldown: 20 hours)",
-          "FR": "Le Rhinocéros Géant se déchaîne contre les lignes fragiles de l'ennemi, augmentant l'Attaque de toutes les Escouades de X pendant 2 heures. (Recharge : 20 heures)"
+          "FR": "Le Rhino Géant se déchaine contre les lignes ennemies fragiles. Augmentant l'Attaque des Escouades de X pendant 2 heures. (Recharge : 20 heures)"
         },
         "cooldown": "20 hours",
         "effects": [
@@ -1062,10 +1034,6 @@
             "label": {
               "EN": "Attack Up",
               "FR": "Augmentation d'Attaque"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "2.50%",
@@ -1240,7 +1208,7 @@
       "id": "mighty-bison",
       "name": {
         "EN": "Mighty Bison",
-        "FR": "Bison Puissant"
+        "FR": "Puissant Bison"
       },
       "generation": 4,
       "maxLevel": 100,
@@ -1251,7 +1219,7 @@
         },
         "desc": {
           "EN": "The primeval roar of the bison ignites the self-assurance of your soldiers, increasing Squad Capacity by X for 2 hours. (Cooldown: 20 hours)",
-          "FR": "Le rugissement primitif du bison attise l'assurance de vos soldats, augmentant la Capacité d'Escouade de X pendant 2 heures. (Recharge : 20 heures)"
+          "FR": "Le rugissement primitif du bison stimule la confiance en soi de tes soldats, augmentant la capacité d'escouades de X pendant 2 heures. (Recharge : 20 heures)"
         },
         "cooldown": "20 hours",
         "effects": [
@@ -1259,10 +1227,6 @@
             "label": {
               "EN": "Squad Capacity Increase",
               "FR": "Augmentation Capacité d'Escouade"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "1500",
@@ -1444,11 +1408,11 @@
       "skill": {
         "name": {
           "EN": "Antler Impact",
-          "FR": "Impact de Ramure"
+          "FR": "Impact des bois"
         },
         "desc": {
           "EN": "The great moose offers you guidance, increasing Rally Capacity by X for 2 hours. (Cooldown: 20 hours)",
-          "FR": "Le grand élan vous guide, augmentant la Capacité de Ralliement de X pendant 2 heures. (Recharge : 20 heures)"
+          "FR": "L'élan géant te donne un coup de main et augmente ta capacité de ralliement de X pendant 2 heures. (Recharge : 20 heures)"
         },
         "cooldown": "20 hours",
         "effects": [
@@ -1456,10 +1420,6 @@
             "label": {
               "EN": "Rally Capacity Increase",
               "FR": "Augmentation Capacité de Ralliement"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "60000",
@@ -1645,7 +1605,7 @@
         },
         "desc": {
           "EN": "The ferocious black panther attacks its target relentlessly, increasing Troop Lethality by X for 2 hours. (Cooldown: 20 hours)",
-          "FR": "La féroce panthère noire attaque sa cible sans relâche, augmentant la Létalité des Troupes de X pendant 2 heures. (Recharge : 20 heures)"
+          "FR": "La panthère noire féroce fonce sur sa cible sans relâche, augmentant la létalité des troupes de X pendant 2 heures. (Recharge : 20 heures)"
         },
         "cooldown": "20 hours",
         "effects": [
@@ -1653,10 +1613,6 @@
             "label": {
               "EN": "Troop Lethality Increase",
               "FR": "Augmentation Létalité des Troupes"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "2.5%",
@@ -1831,7 +1787,7 @@
       "id": "regal-white-lion",
       "name": {
         "EN": "Regal White Lion",
-        "FR": "Lion Blanc Royal"
+        "FR": "Lion Blanc Imposant"
       },
       "generation": 6,
       "maxLevel": 100,
@@ -1841,18 +1797,14 @@
           "FR": "Puissance Territoriale"
         },
         "desc": {
-          "EN": "The king of beasts patrols its territory, increasing Squads’ Defense by X for 2 hours.",
-          "FR": "Le roi des bêtes patrouille son territoire, augmentant la Défense des Escouades de X pendant 2 heures."
+          "EN": "The king of beasts patrols its territory, increasing Squads’ Defense by X for 2 hours. (Cooldown: 20 hours)",
+          "FR": "Le roi des bêtes patrouille dans son territoire, augmentant la Défense des Escouades de X pendant 2 heures. (Recharge : 20 heures)"
         },
         "effects": [
           {
             "label": {
               "EN": "Troop Defense Increase",
               "FR": "Augmentation Défense des Troupes"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
             },
             "values": [
               "2.5%",
@@ -2038,17 +1990,13 @@
         },
         "desc": {
           "EN": "All creatures are safer in the Elephant’s entourage, increasing Squad Health by X for 2 hours.",
-          "FR": "Toutes les créatures sont plus en sécurité dans l'entourage de l'Éléphant, augmentant les PV d'Escouade de X pendant 2 heures."
+          "FR": "Les créatures sont plus en sécurité près de l'éléphant, augmente la santé de l'escouade de X pendant 2 heures."
         },
         "effects": [
           {
             "label": {
               "EN": "Troop Health Increase",
-              "FR": "Augmentation PV des Troupes"
-            },
-            "note": {
-              "EN": "Involve after every Advancement.",
-              "FR": "À réengager après chaque Avancement."
+              "FR": "Augmentation santé des Troupes"
             },
             "values": [
               "2.5%",
