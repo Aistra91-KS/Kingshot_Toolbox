@@ -53,7 +53,7 @@ hub-kingshot/
 │   ├── caserne.js                Logique Caserne (fetch heroes_db.json)
 │   ├── masters.js                Logique Experts (fetch masters_db.json)
 │   ├── shop_calc.js              Logique Shop Calc (fetch 4 fichiers shopcalc_*.json)
-│   └── pets.js                   Logique Familiers (promenade verticale scroll-jack ; données en dur, i18n GlobalLang)
+│   └── pets.js                   Logique Familiers (promenade verticale scroll-jack ; fetch pets_db.json ; sélecteur de niveau → palier/skill/coûts ; i18n GlobalLang)
 │
 ├── data/                         Données consommées par les calculateurs (JSON éditées à la main)
 │   ├── research_db.json          720 lignes (arbres de recherche, coûts/temps par palier)
@@ -64,7 +64,8 @@ hub-kingshot/
 │   ├── shopcalc_items.json       86 objets (valeur en gemmes) — référentiel
 │   ├── shopcalc_classic.json     Boutiques classiques (contenu + coûts)
 │   ├── shopcalc_events.json      Boutiques d'événement (avec endsAt)
-│   └── shopcalc_chests.json      Coffres personnalisés (composition)
+│   ├── shopcalc_chests.json      Coffres personnalisés (composition)
+│   └── pets_db.json              14 familiers / 7 générations : skill (nom/desc + valeurs/palier) + coûts nourriture/avancement — bilingue {EN,FR}
 │
 ├── database/
 │   └── buildings/                Base de données bâtiments (pages statiques, tables inline)
@@ -92,7 +93,7 @@ hub-kingshot/
 │   ├── Master/ + MasterSkill/    Portraits experts + icônes skills experts
 │   ├── skills/ + widgetname/ + widgetskill/  Icônes skills héros & widgets
 │   ├── Item/                     Icônes objets boutique/ressources
-│   └── pets/                     Images des familiers (.webp, 14 fichiers)
+│   └── pets/                     Familiers : portraits (.webp ×14) + sous-dossier skills/ (icônes compétence, .webp ×14)
 │
 └── .github/
     ├── workflows/discord-news.yml   Workflow : notif Discord des commits (cron 2 h)
@@ -114,7 +115,7 @@ hub-kingshot/
 | `caserne.html` | Gestion héros (beta) | `caserne.js` | `style.css` | `heroes_db.json` |
 | `masters.html` | Experts & affinités (beta) | `masters.js` | `style.css` | `masters_db.json` |
 | `shop_calc.html` | Coût boutique vs gemmes | `shop_calc.js` | `style.css` | `shopcalc_items/classic/events/chests.json` |
-| `pets.html` | Familiers : promenade verticale (fiches pets) | `pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `pets.css` (+ webfonts) | en dur dans `pets.js` (→ `pets_db.json` prévu) |
+| `pets.html` | Familiers : promenade verticale (fiches pets) | `pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `pets.css` (+ webfonts) | `pets_db.json` |
 | `database/buildings/*.html` | Tables d'amélioration bâtiments | inline + `header.js`, `lang.js`, `site-config.js` | `style.css` | données inline (HTML) |
 | `database/waracademy/*.html` | Tables recherches Académie (3 arbres) | inline + `header.js`, `lang.js`, `site-config.js` | `style.css` | `truegold_war_db.json` (fetch) |
 
@@ -183,8 +184,8 @@ Or éclatant sur noir profond, turquoise pour la validation, rubis pour l'alerte
 `.hub-card` = **liseré doré** en haut (`border-top: 3px solid var(--accent)`) + **reflet doré au survol** : pseudo-élément `::before` (dégradé `rgba(245,184,64,.08)`) qui **balaie de gauche à droite** (`left: -100% → 100%`, `transition .6s`) + `translateY(-5px)`. `overflow:hidden` obligatoire sur la carte. Ne pas réinventer d'autre effet décoratif.
 
 ### Exception assumée — page Familiers (`pets.html`)
-`pets.html` **s'écarte volontairement** de la DA Royal Gold : scène « sentier » en palette nature/jour (verts + terre, valeurs `oklch`), carte info blanche translucide, **webfonts** Cormorant Garamond + Karla. Header + sidebar restent en DA standard. Choix validé ; tout est isolé dans `css/pets.css` + `js/pets.js`.
----
+`pets.html` **s'écarte volontairement** de la DA Royal Gold : scène « sentier » en palette nature/jour (verts + terre, valeurs `oklch`), carte info blanche translucide, **webfonts** Cormorant Garamond + Karla. Pastilles de la sidebar colorées **par génération** (`--gen-1…7`), étoiles de palier (`--star`), sélecteur de niveau + pips de valeurs propres à cette page. Header reste en DA standard. Choix validé ; tout est isolé dans `css/pets.css` + `js/pets.js`.
+
 
 ## 6. Données
 
@@ -201,7 +202,7 @@ Toutes les données sont des **JSON éditées à la main** dans `data/` (pas de 
 | `shopcalc_classic.json` | **Liste** de boutiques : `{id, name, items[{itemId, qty, cost}]}`. |
 | `shopcalc_events.json` | **Liste** de boutiques d'événement : `{id, name, endsAt, resourceName, items…}`. |
 | `shopcalc_chests.json` | **Liste** de coffres : `{id, name, items[…]}`. |
-| `pets_db.json` *(prévu)* | **Liste** de familiers : `{name{EN,FR}, rarity, lvl, atk, def, hp, bonus{EN,FR}, skills[{n{EN,FR}, d{EN,FR}}]}`. Actuellement **en dur** dans `js/pets.js` (MVP). |
+| `pets_db.json` | **Objet** `{_meta, pets[]}`. Chaque pet : `{id, name{EN,FR}, generation, maxLevel, skill{name{EN,FR}, desc{EN,FR}, cooldown?, effects[{label{EN,FR}, note{EN,FR}, values[]}]}, advancements[{growthManual, nutrientPotion, promotionMedallion}], petFood[]}`. 14 pets / 7 gén. **Conventions** : palier skill = `ceil(niv/10)` ; `values[]` = 1 valeur/palier (nb = `maxLevel/10` = nb d'`advancements`) ; `desc` garde le placeholder `X`/`X%` (remplacé au palier courant) ; `petFood[i]` = coût niv (i+1)→(i+2), longueur `maxLevel-1` ; le champ `note` existe mais **n'est plus affiché**. **Provenance** : converti depuis `Pets_data.xlsx` (non commité), FR relu à la main. |
 
 **Provenance** : édition manuelle directe dans le JSON déployé. Aucune génération via GitHub Actions.
 
@@ -220,7 +221,7 @@ Un seul workflow : **`discord-news.yml`** (notification Discord des mises à jou
 
 ## 8. Persistance (localStorage)
 
-Clés « chrome » (hors registre) : **`hub_lang`** (langue, défaut `EN`), **`hub_theme`** (thème, défaut `dark`), `help_seen_<id>` (bandeaux d'aide vus).
+Clés « chrome » (hors registre) : **`hub_lang`** (langue, défaut `EN`), **`hub_theme`** (thème, défaut `dark`), `help_seen_<id>` (bandeaux d'aide vus), **`pets_levels`** (niveau saisi par familier — page Familiers ; clé brute posée par `pets.js`, **à migrer dans `storage-keys.js`**, pas encore dans `backup.js`).
 
 Clés métier — source unique **`js/storage-keys.js`** (`window.STORAGE_KEYS`) :
 | Clé JS | Valeur localStorage |
