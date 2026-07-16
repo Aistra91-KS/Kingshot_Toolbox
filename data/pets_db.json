@@ -1,0 +1,2420 @@
+{
+  "_meta": {
+    "source": "Pets_data.xlsx",
+    "materials": [
+      "petFood",
+      "growthManual",
+      "nutrientPotion",
+      "promotionMedallion"
+    ],
+    "notes": "FR = propositions à relire (Paul corrige). petFood[i] = Pet Food pour passer du niveau i+1 au niveau i+2 (length = maxLevel-1). advancements = 1 entree par avancement (= nb de paliers de skill = maxLevel/10). skill.desc conserve le placeholder X / X% du jeu ; skill.cooldown present seulement si valeur concrete (sinon recharge par palier ou absente)."
+  },
+  "pets": [
+    {
+      "id": "gray-wolf",
+      "name": {
+        "EN": "Gray Wolf",
+        "FR": "Loup Gris"
+      },
+      "generation": 1,
+      "maxLevel": 50,
+      "skill": {
+        "name": {
+          "EN": "Construction Aide",
+          "FR": "Aide à la Construction"
+        },
+        "desc": {
+          "EN": "The wolf silently yet cleverly delivers tools to the yard, increasing Construction Speed by X% for 5 minutes. (Cooldown: 23h)",
+          "FR": "Le loup apporte discrètement mais habilement des outils au chantier, augmentant la Vitesse de Construction de X% pendant 5 minutes. (Recharge : 23h)"
+        },
+        "cooldown": "23h",
+        "effects": [
+          {
+            "label": {
+              "EN": "Construction Speedup",
+              "FR": "Accélération de Construction"
+            },
+            "note": {
+              "EN": "",
+              "FR": ""
+            },
+            "values": [
+              "5.00%",
+              "7.00%",
+              "9.00%",
+              "12.00%",
+              "15.00%"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 15,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 30,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 45,
+          "nutrientPotion": 10,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 60,
+          "nutrientPotion": 20,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 90,
+          "nutrientPotion": 30,
+          "promotionMedallion": 10
+        }
+      ],
+      "petFood": [
+        150,
+        160,
+        170,
+        180,
+        190,
+        200,
+        210,
+        220,
+        235,
+        250,
+        265,
+        280,
+        295,
+        310,
+        325,
+        340,
+        355,
+        370,
+        390,
+        410,
+        430,
+        450,
+        470,
+        490,
+        510,
+        530,
+        550,
+        570,
+        600,
+        630,
+        660,
+        690,
+        720,
+        750,
+        780,
+        810,
+        840,
+        870,
+        910,
+        950,
+        990,
+        1030,
+        1070,
+        1100,
+        1150,
+        1190,
+        1230,
+        1270,
+        1320
+      ]
+    },
+    {
+      "id": "lynx",
+      "name": {
+        "EN": "Lynx",
+        "FR": "Lynx"
+      },
+      "generation": 1,
+      "maxLevel": 60,
+      "skill": {
+        "name": {
+          "EN": "Comforting Embrace",
+          "FR": "Étreinte Réconfortante"
+        },
+        "desc": {
+          "EN": "Felines of all stripes have the ability to soothe a Governor’s mind, immediately restoring X Stamina. (Cooldown: 23h)",
+          "FR": "Les félins de toutes sortes savent apaiser l'esprit d'un Gouverneur, restaurant immédiatement X points d'Endurance. (Recharge : 23h)"
+        },
+        "cooldown": "23h",
+        "effects": [
+          {
+            "label": {
+              "EN": "Governor Stamina Amount",
+              "FR": "Endurance du Gouverneur"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "35",
+              "40",
+              "45",
+              "50",
+              "55",
+              "60"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 20,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 40,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 60,
+          "nutrientPotion": 10,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 90,
+          "nutrientPotion": 20,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 130,
+          "nutrientPotion": 20,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 175,
+          "nutrientPotion": 50,
+          "promotionMedallion": 20
+        }
+      ],
+      "petFood": [
+        200,
+        220,
+        240,
+        260,
+        280,
+        300,
+        320,
+        340,
+        370,
+        400,
+        430,
+        460,
+        490,
+        520,
+        550,
+        580,
+        610,
+        640,
+        680,
+        720,
+        760,
+        800,
+        840,
+        880,
+        920,
+        960,
+        1000,
+        1040,
+        1100,
+        1160,
+        1220,
+        1280,
+        1340,
+        1400,
+        1460,
+        1520,
+        1580,
+        1640,
+        1720,
+        1800,
+        1880,
+        1960,
+        2040,
+        2120,
+        2200,
+        2280,
+        2360,
+        2440,
+        2540,
+        2640,
+        2740,
+        2840,
+        2940,
+        3040,
+        3140,
+        3240,
+        3340,
+        3440,
+        3560
+      ]
+    },
+    {
+      "id": "bison",
+      "name": {
+        "EN": "Bison",
+        "FR": "Bison"
+      },
+      "generation": 1,
+      "maxLevel": 60,
+      "skill": {
+        "name": {
+          "EN": "Grip of the Titan",
+          "FR": "Poigne du Titan"
+        },
+        "desc": {
+          "EN": "Harnessing your pet’s formidable strength and endurance, instantly complete the gathering upon reaching the next wilderness resource tile. (Cooldown: X)",
+          "FR": "En exploitant la force et l'endurance formidables de votre familier, termine instantanément la collecte en atteignant la prochaine case de ressource sauvage. (Recharge : X)"
+        },
+        "effects": [
+          {
+            "label": {
+              "EN": "Cooldown",
+              "FR": "Temps de Recharge"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "1d 11h",
+              "1d 7h",
+              "1d 3h",
+              "23h",
+              "19h",
+              "15h"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 20,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 40,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 60,
+          "nutrientPotion": 10,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 90,
+          "nutrientPotion": 20,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 130,
+          "nutrientPotion": 20,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 175,
+          "nutrientPotion": 50,
+          "promotionMedallion": 20
+        }
+      ],
+      "petFood": [
+        200,
+        220,
+        240,
+        260,
+        280,
+        300,
+        320,
+        340,
+        370,
+        400,
+        430,
+        460,
+        490,
+        520,
+        550,
+        580,
+        610,
+        640,
+        680,
+        720,
+        760,
+        800,
+        840,
+        880,
+        920,
+        960,
+        1000,
+        1040,
+        1100,
+        1160,
+        1220,
+        1280,
+        1340,
+        1400,
+        1460,
+        1520,
+        1580,
+        1640,
+        1720,
+        1800,
+        1880,
+        1960,
+        2040,
+        2120,
+        2200,
+        2280,
+        2360,
+        2440,
+        2540,
+        2640,
+        2740,
+        2840,
+        2940,
+        3040,
+        3140,
+        3240,
+        3340,
+        3440,
+        3560
+      ]
+    },
+    {
+      "id": "cheetah",
+      "name": {
+        "EN": "Cheetah",
+        "FR": "Guépard"
+      },
+      "generation": 2,
+      "maxLevel": 70,
+      "skill": {
+        "name": {
+          "EN": "Scent Mastery",
+          "FR": "Maîtrise de l'Odorat"
+        },
+        "desc": {
+          "EN": "As a natural predator, its keen sense of smell allows it to instantly locate X pet food. (Cooldown: 23h)",
+          "FR": "Prédateur né, son odorat aiguisé lui permet de localiser instantanément X nourritures pour familier. (Recharge : 23h)"
+        },
+        "cooldown": "23h",
+        "effects": [
+          {
+            "label": {
+              "EN": "Pet Food",
+              "FR": "Nourriture pour Familier"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "200",
+              "250",
+              "300",
+              "350",
+              "400",
+              "450",
+              "500"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 25,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 50,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 75,
+          "nutrientPotion": 10,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 100,
+          "nutrientPotion": 20,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 155,
+          "nutrientPotion": 30,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 200,
+          "nutrientPotion": 50,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 255,
+          "nutrientPotion": 80,
+          "promotionMedallion": 40
+        }
+      ],
+      "petFood": [
+        300,
+        330,
+        360,
+        390,
+        420,
+        450,
+        480,
+        510,
+        555,
+        600,
+        645,
+        690,
+        735,
+        780,
+        825,
+        870,
+        915,
+        960,
+        1020,
+        1080,
+        1140,
+        1200,
+        1260,
+        1320,
+        1380,
+        1440,
+        1500,
+        1560,
+        1650,
+        1740,
+        1830,
+        1920,
+        2009,
+        2100,
+        2190,
+        2280,
+        2370,
+        2460,
+        2580,
+        2700,
+        2820,
+        2940,
+        3060,
+        3180,
+        3300,
+        3420,
+        3540,
+        3660,
+        3810,
+        3960,
+        4110,
+        4260,
+        4410,
+        4560,
+        4710,
+        4860,
+        5010,
+        5160,
+        5340,
+        5520,
+        5700,
+        5880,
+        6060,
+        6240,
+        6420,
+        6600,
+        6780,
+        6960,
+        7140
+      ]
+    },
+    {
+      "id": "moose",
+      "name": {
+        "EN": "Moose",
+        "FR": "Élan"
+      },
+      "generation": 2,
+      "maxLevel": 70,
+      "skill": {
+        "name": {
+          "EN": "Horror Stare",
+          "FR": "Regard d'Effroi"
+        },
+        "desc": {
+          "EN": "The giant Moose stares the enemy before charging, reducing enemy Squad’s Health by X for 2h. (Cooldown: 20h)",
+          "FR": "L'Élan géant fixe l'ennemi avant de charger, réduisant les PV de l'Escouade ennemie de X pendant 2h. (Recharge : 20h)"
+        },
+        "cooldown": "20h",
+        "effects": [
+          {
+            "label": {
+              "EN": "Enemy Squad’s Health Down",
+              "FR": "Réduction PV Escouade Ennemie"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "1.50%",
+              "2.00%",
+              "2.50%",
+              "3.00%",
+              "3.50%",
+              "4.00%",
+              "5.00%"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 25,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 50,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 75,
+          "nutrientPotion": 10,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 100,
+          "nutrientPotion": 20,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 155,
+          "nutrientPotion": 30,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 200,
+          "nutrientPotion": 50,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 255,
+          "nutrientPotion": 80,
+          "promotionMedallion": 40
+        }
+      ],
+      "petFood": [
+        300,
+        330,
+        360,
+        390,
+        420,
+        450,
+        480,
+        510,
+        555,
+        600,
+        645,
+        690,
+        735,
+        780,
+        825,
+        870,
+        915,
+        960,
+        1020,
+        1080,
+        1140,
+        1200,
+        1260,
+        1320,
+        1380,
+        1440,
+        1500,
+        1560,
+        1650,
+        1740,
+        1830,
+        1920,
+        2009,
+        2100,
+        2190,
+        2280,
+        2370,
+        2460,
+        2580,
+        2700,
+        2820,
+        2940,
+        3060,
+        3180,
+        3300,
+        3420,
+        3540,
+        3660,
+        3810,
+        3960,
+        4110,
+        4260,
+        4410,
+        4560,
+        4710,
+        4860,
+        5010,
+        5160,
+        5340,
+        5520,
+        5700,
+        5880,
+        6060,
+        6240,
+        6420,
+        6600,
+        6780,
+        6960,
+        7140
+      ]
+    },
+    {
+      "id": "lion",
+      "name": {
+        "EN": "Lion",
+        "FR": "Lion"
+      },
+      "generation": 3,
+      "maxLevel": 80,
+      "skill": {
+        "name": {
+          "EN": "Gift of the King",
+          "FR": "Don du Roi"
+        },
+        "desc": {
+          "EN": "All animals show special deference to the King of the Jungle. Unearths an item lost on the Badland. (Cooldown: X)",
+          "FR": "Tous les animaux témoignent une déférence particulière au Roi de la Jungle. Déterre un objet perdu dans les Terres Désolées. (Recharge : X)"
+        },
+        "effects": [
+          {
+            "label": {
+              "EN": "Skill Cooldown",
+              "FR": "Temps de Recharge"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "2d 3h",
+              "1d 23h",
+              "1d 19h",
+              "1d 15h",
+              "1d 11h",
+              "1d 7h",
+              "1d 3h",
+              "23h"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 30,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 60,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 95,
+          "nutrientPotion": 10,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 125,
+          "nutrientPotion": 20,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 190,
+          "nutrientPotion": 30,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 250,
+          "nutrientPotion": 50,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 310,
+          "nutrientPotion": 80,
+          "promotionMedallion": 40
+        },
+        {
+          "growthManual": 380,
+          "nutrientPotion": 100,
+          "promotionMedallion": 60
+        }
+      ],
+      "petFood": [
+        400,
+        440,
+        480,
+        520,
+        560,
+        600,
+        640,
+        680,
+        740,
+        800,
+        860,
+        920,
+        980,
+        1040,
+        1100,
+        1160,
+        1220,
+        1280,
+        1360,
+        1440,
+        1520,
+        1600,
+        1680,
+        1760,
+        1840,
+        1920,
+        2000,
+        2080,
+        2200,
+        2320,
+        2440,
+        2560,
+        2680,
+        2800,
+        2920,
+        3040,
+        3160,
+        3280,
+        3440,
+        3600,
+        3760,
+        3920,
+        4080,
+        4240,
+        4400,
+        4560,
+        4720,
+        4880,
+        5080,
+        5280,
+        5480,
+        5680,
+        5880,
+        6080,
+        6280,
+        6480,
+        6680,
+        6880,
+        7120,
+        7360,
+        7600,
+        7840,
+        8080,
+        8320,
+        8560,
+        8800,
+        9040,
+        9280,
+        9520,
+        9760,
+        10000,
+        10240,
+        10480,
+        10720,
+        10960,
+        11200,
+        11440,
+        11680,
+        12000
+      ]
+    },
+    {
+      "id": "grizzly-bear",
+      "name": {
+        "EN": "Grizzly Bear",
+        "FR": "Ours Grizzly"
+      },
+      "generation": 3,
+      "maxLevel": 80,
+      "skill": {
+        "name": {
+          "EN": "The Howler",
+          "FR": "Le Hurleur"
+        },
+        "desc": {
+          "EN": "Every hunter trembles at the charging howl of the Grizzly Bear. Increases March Speed by X and reduces enemy squads’ Lethality by X for 2h. (Cooldown: 20h)",
+          "FR": "Chaque chasseur tremble au hurlement de charge de l'Ours Grizzly. Augmente la Vitesse de Marche de X et réduit la Létalité des escouades ennemies de X pendant 2h. (Recharge : 20h)"
+        },
+        "cooldown": "20h",
+        "effects": [
+          {
+            "label": {
+              "EN": "March Speed Increase",
+              "FR": "Augmentation Vitesse de Marche"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "15%",
+              "17%",
+              "19%",
+              "21%",
+              "23%",
+              "25%",
+              "27%",
+              "30%"
+            ]
+          },
+          {
+            "label": {
+              "EN": "Enemy Lethality Down",
+              "FR": "Réduction Létalité Ennemie"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "1.50%",
+              "2.00%",
+              "2.50%",
+              "3.00%",
+              "3.50%",
+              "4.00%",
+              "4.50%",
+              "5.00%"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 30,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 60,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 95,
+          "nutrientPotion": 10,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 125,
+          "nutrientPotion": 20,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 190,
+          "nutrientPotion": 30,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 250,
+          "nutrientPotion": 50,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 310,
+          "nutrientPotion": 80,
+          "promotionMedallion": 40
+        },
+        {
+          "growthManual": 380,
+          "nutrientPotion": 100,
+          "promotionMedallion": 60
+        }
+      ],
+      "petFood": [
+        400,
+        440,
+        480,
+        520,
+        560,
+        600,
+        640,
+        680,
+        740,
+        800,
+        860,
+        920,
+        980,
+        1040,
+        1100,
+        1160,
+        1220,
+        1280,
+        1360,
+        1440,
+        1520,
+        1600,
+        1680,
+        1760,
+        1840,
+        1920,
+        2000,
+        2080,
+        2200,
+        2320,
+        2440,
+        2560,
+        2680,
+        2800,
+        2920,
+        3040,
+        3160,
+        3280,
+        3440,
+        3600,
+        3760,
+        3920,
+        4080,
+        4240,
+        4400,
+        4560,
+        4720,
+        4880,
+        5080,
+        5280,
+        5480,
+        5680,
+        5880,
+        6080,
+        6280,
+        6480,
+        6680,
+        6880,
+        7120,
+        7360,
+        7600,
+        7840,
+        8080,
+        8320,
+        8560,
+        8800,
+        9040,
+        9280,
+        9520,
+        9760,
+        10000,
+        10240,
+        10480,
+        10720,
+        10960,
+        11200,
+        11440,
+        11680,
+        12000
+      ]
+    },
+    {
+      "id": "giant-rhino",
+      "name": {
+        "EN": "Giant Rhino",
+        "FR": "Rhinocéros Géant"
+      },
+      "generation": 4,
+      "maxLevel": 100,
+      "skill": {
+        "name": {
+          "EN": "Wild Charge",
+          "FR": "Charge Sauvage"
+        },
+        "desc": {
+          "EN": "The Giant Rhino launches a wild rampage against the enemy’s brittle lines, increasing all Squads’ Attack by X for 2 hours. (Cooldown: 20 hours)",
+          "FR": "Le Rhinocéros Géant se déchaîne contre les lignes fragiles de l'ennemi, augmentant l'Attaque de toutes les Escouades de X pendant 2 heures. (Recharge : 20 heures)"
+        },
+        "cooldown": "20 hours",
+        "effects": [
+          {
+            "label": {
+              "EN": "Attack Up",
+              "FR": "Augmentation d'Attaque"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "2.50%",
+              "3.00%",
+              "3.50%",
+              "4.00%",
+              "5.00%",
+              "6.00%",
+              "7.00%",
+              "8.00%",
+              "9.00%",
+              "10.00%"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 35,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 70,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 110,
+          "nutrientPotion": 15,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 145,
+          "nutrientPotion": 35,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 220,
+          "nutrientPotion": 50,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 290,
+          "nutrientPotion": 65,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 365,
+          "nutrientPotion": 85,
+          "promotionMedallion": 40
+        },
+        {
+          "growthManual": 440,
+          "nutrientPotion": 100,
+          "promotionMedallion": 60
+        },
+        {
+          "growthManual": 585,
+          "nutrientPotion": 115,
+          "promotionMedallion": 80
+        },
+        {
+          "growthManual": 730,
+          "nutrientPotion": 135,
+          "promotionMedallion": 100
+        }
+      ],
+      "petFood": [
+        500,
+        550,
+        600,
+        650,
+        700,
+        750,
+        800,
+        850,
+        925,
+        1000,
+        1075,
+        1150,
+        1225,
+        1300,
+        1375,
+        1450,
+        1525,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000,
+        2100,
+        2200,
+        2300,
+        2400,
+        2500,
+        2600,
+        2750,
+        2900,
+        3050,
+        3200,
+        3350,
+        3500,
+        3650,
+        3800,
+        3950,
+        4100,
+        4300,
+        4500,
+        4700,
+        4900,
+        5100,
+        5300,
+        5500,
+        5700,
+        5900,
+        6100,
+        6350,
+        6600,
+        6850,
+        7100,
+        7350,
+        7600,
+        7850,
+        8100,
+        8350,
+        8600,
+        8900,
+        9200,
+        9500,
+        9800,
+        10100,
+        10400,
+        10700,
+        11000,
+        11300,
+        11600,
+        11900,
+        12200,
+        12500,
+        12800,
+        13100,
+        13400,
+        13700,
+        14000,
+        14300,
+        14600,
+        15000,
+        15400,
+        15800,
+        16200,
+        16600,
+        17000,
+        17400,
+        17800,
+        18200,
+        18600,
+        19000,
+        19400,
+        19800,
+        20200,
+        20600,
+        21000,
+        21400,
+        21800,
+        22200,
+        22600,
+        23100
+      ]
+    },
+    {
+      "id": "mighty-bison",
+      "name": {
+        "EN": "Mighty Bison",
+        "FR": "Bison Puissant"
+      },
+      "generation": 4,
+      "maxLevel": 100,
+      "skill": {
+        "name": {
+          "EN": "Fearless Roar",
+          "FR": "Rugissement Intrépide"
+        },
+        "desc": {
+          "EN": "The primeval roar of the bison ignites the self-assurance of your soldiers, increasing Squad Capacity by X for 2 hours. (Cooldown: 20 hours)",
+          "FR": "Le rugissement primitif du bison attise l'assurance de vos soldats, augmentant la Capacité d'Escouade de X pendant 2 heures. (Recharge : 20 heures)"
+        },
+        "cooldown": "20 hours",
+        "effects": [
+          {
+            "label": {
+              "EN": "Squad Capacity Increase",
+              "FR": "Augmentation Capacité d'Escouade"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "1500",
+              "3000",
+              "4500",
+              "6000",
+              "7500",
+              "9000",
+              "10500",
+              "12000",
+              "13500",
+              "15000"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 35,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 70,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 110,
+          "nutrientPotion": 15,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 145,
+          "nutrientPotion": 35,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 220,
+          "nutrientPotion": 50,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 290,
+          "nutrientPotion": 65,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 365,
+          "nutrientPotion": 85,
+          "promotionMedallion": 40
+        },
+        {
+          "growthManual": 440,
+          "nutrientPotion": 100,
+          "promotionMedallion": 60
+        },
+        {
+          "growthManual": 585,
+          "nutrientPotion": 115,
+          "promotionMedallion": 80
+        },
+        {
+          "growthManual": 730,
+          "nutrientPotion": 135,
+          "promotionMedallion": 100
+        }
+      ],
+      "petFood": [
+        500,
+        550,
+        600,
+        650,
+        700,
+        750,
+        800,
+        850,
+        925,
+        1000,
+        1075,
+        1150,
+        1225,
+        1300,
+        1375,
+        1450,
+        1525,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000,
+        2100,
+        2200,
+        2300,
+        2400,
+        2500,
+        2600,
+        2750,
+        2900,
+        3050,
+        3200,
+        3350,
+        3500,
+        3650,
+        3800,
+        3950,
+        4100,
+        4300,
+        4500,
+        4700,
+        4900,
+        5100,
+        5300,
+        5500,
+        5700,
+        5900,
+        6100,
+        6350,
+        6600,
+        6850,
+        7100,
+        7350,
+        7600,
+        7850,
+        8100,
+        8350,
+        8600,
+        8900,
+        9200,
+        9500,
+        9800,
+        10100,
+        10400,
+        10700,
+        11000,
+        11300,
+        11600,
+        11900,
+        12200,
+        12500,
+        12800,
+        13100,
+        13400,
+        13700,
+        14000,
+        14300,
+        14600,
+        15000,
+        15400,
+        15800,
+        16200,
+        16600,
+        17000,
+        17400,
+        17800,
+        18200,
+        18600,
+        19000,
+        19400,
+        19800,
+        20200,
+        20600,
+        21000,
+        21400,
+        21800,
+        22200,
+        22600,
+        23100
+      ]
+    },
+    {
+      "id": "great-moose",
+      "name": {
+        "EN": "Great Moose",
+        "FR": "Grand Élan"
+      },
+      "generation": 5,
+      "maxLevel": 100,
+      "skill": {
+        "name": {
+          "EN": "Antler Impact",
+          "FR": "Impact de Ramure"
+        },
+        "desc": {
+          "EN": "The great moose offers you guidance, increasing Rally Capacity by X for 2 hours. (Cooldown: 20 hours)",
+          "FR": "Le grand élan vous guide, augmentant la Capacité de Ralliement de X pendant 2 heures. (Recharge : 20 heures)"
+        },
+        "cooldown": "20 hours",
+        "effects": [
+          {
+            "label": {
+              "EN": "Rally Capacity Increase",
+              "FR": "Augmentation Capacité de Ralliement"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "60000",
+              "70000",
+              "80000",
+              "90000",
+              "100000",
+              "110000",
+              "120000",
+              "130000",
+              "140000",
+              "150000"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 35,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 70,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 110,
+          "nutrientPotion": 15,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 145,
+          "nutrientPotion": 35,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 220,
+          "nutrientPotion": 50,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 290,
+          "nutrientPotion": 65,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 365,
+          "nutrientPotion": 85,
+          "promotionMedallion": 40
+        },
+        {
+          "growthManual": 440,
+          "nutrientPotion": 100,
+          "promotionMedallion": 60
+        },
+        {
+          "growthManual": 585,
+          "nutrientPotion": 115,
+          "promotionMedallion": 80
+        },
+        {
+          "growthManual": 730,
+          "nutrientPotion": 135,
+          "promotionMedallion": 100
+        }
+      ],
+      "petFood": [
+        500,
+        550,
+        600,
+        650,
+        700,
+        750,
+        800,
+        850,
+        925,
+        1000,
+        1075,
+        1150,
+        1225,
+        1300,
+        1375,
+        1450,
+        1525,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000,
+        2100,
+        2200,
+        2300,
+        2400,
+        2500,
+        2600,
+        2750,
+        2900,
+        3050,
+        3200,
+        3350,
+        3500,
+        3650,
+        3800,
+        3950,
+        4100,
+        4300,
+        4500,
+        4700,
+        4900,
+        5100,
+        5300,
+        5500,
+        5700,
+        5900,
+        6100,
+        6350,
+        6600,
+        6850,
+        7100,
+        7350,
+        7600,
+        7850,
+        8100,
+        8350,
+        8600,
+        8900,
+        9200,
+        9500,
+        9800,
+        10100,
+        10400,
+        10700,
+        11000,
+        11300,
+        11600,
+        11900,
+        12200,
+        12500,
+        12800,
+        13100,
+        13400,
+        13700,
+        14000,
+        14300,
+        14600,
+        15000,
+        15400,
+        15800,
+        16200,
+        16600,
+        17000,
+        17400,
+        17800,
+        18200,
+        18600,
+        19000,
+        19400,
+        19800,
+        20200,
+        20600,
+        21000,
+        21400,
+        21800,
+        22200,
+        22600,
+        23100
+      ]
+    },
+    {
+      "id": "alpha-black-panther",
+      "name": {
+        "EN": "Alpha Black Panther",
+        "FR": "Panthère Noire Alpha"
+      },
+      "generation": 5,
+      "maxLevel": 100,
+      "skill": {
+        "name": {
+          "EN": "Deadly Bite",
+          "FR": "Morsure Mortelle"
+        },
+        "desc": {
+          "EN": "The ferocious black panther attacks its target relentlessly, increasing Troop Lethality by X for 2 hours. (Cooldown: 20 hours)",
+          "FR": "La féroce panthère noire attaque sa cible sans relâche, augmentant la Létalité des Troupes de X pendant 2 heures. (Recharge : 20 heures)"
+        },
+        "cooldown": "20 hours",
+        "effects": [
+          {
+            "label": {
+              "EN": "Troop Lethality Increase",
+              "FR": "Augmentation Létalité des Troupes"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "2.5%",
+              "3.0%",
+              "3.5%",
+              "4.0%",
+              "5.0%",
+              "6.0%",
+              "7.0%",
+              "8.0%",
+              "9.0%",
+              "10.0%"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 35,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 70,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 110,
+          "nutrientPotion": 15,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 145,
+          "nutrientPotion": 35,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 220,
+          "nutrientPotion": 50,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 290,
+          "nutrientPotion": 65,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 365,
+          "nutrientPotion": 85,
+          "promotionMedallion": 40
+        },
+        {
+          "growthManual": 440,
+          "nutrientPotion": 100,
+          "promotionMedallion": 60
+        },
+        {
+          "growthManual": 585,
+          "nutrientPotion": 115,
+          "promotionMedallion": 80
+        },
+        {
+          "growthManual": 730,
+          "nutrientPotion": 135,
+          "promotionMedallion": 100
+        }
+      ],
+      "petFood": [
+        500,
+        550,
+        600,
+        650,
+        700,
+        750,
+        800,
+        850,
+        925,
+        1000,
+        1075,
+        1150,
+        1225,
+        1300,
+        1375,
+        1450,
+        1525,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000,
+        2100,
+        2200,
+        2300,
+        2400,
+        2500,
+        2600,
+        2750,
+        2900,
+        3050,
+        3200,
+        3350,
+        3500,
+        3650,
+        3800,
+        3950,
+        4100,
+        4300,
+        4500,
+        4700,
+        4900,
+        5100,
+        5300,
+        5500,
+        5700,
+        5900,
+        6100,
+        6350,
+        6600,
+        6850,
+        7100,
+        7350,
+        7600,
+        7850,
+        8100,
+        8350,
+        8600,
+        8900,
+        9200,
+        9500,
+        9800,
+        10100,
+        10400,
+        10700,
+        11000,
+        11300,
+        11600,
+        11900,
+        12200,
+        12500,
+        12800,
+        13100,
+        13400,
+        13700,
+        14000,
+        14300,
+        14600,
+        15000,
+        15400,
+        15800,
+        16200,
+        16600,
+        17000,
+        17400,
+        17800,
+        18200,
+        18600,
+        19000,
+        19400,
+        19800,
+        20200,
+        20600,
+        21000,
+        21400,
+        21800,
+        22200,
+        22600,
+        23100
+      ]
+    },
+    {
+      "id": "regal-white-lion",
+      "name": {
+        "EN": "Regal White Lion",
+        "FR": "Lion Blanc Royal"
+      },
+      "generation": 6,
+      "maxLevel": 100,
+      "skill": {
+        "name": {
+          "EN": "Territorial Power",
+          "FR": "Puissance Territoriale"
+        },
+        "desc": {
+          "EN": "The king of beasts patrols its territory, increasing Squads’ Defense by X for 2 hours.",
+          "FR": "Le roi des bêtes patrouille son territoire, augmentant la Défense des Escouades de X pendant 2 heures."
+        },
+        "effects": [
+          {
+            "label": {
+              "EN": "Troop Defense Increase",
+              "FR": "Augmentation Défense des Troupes"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "2.5%",
+              "3.0%",
+              "3.5%",
+              "4.0%",
+              "5.0%",
+              "6.0%",
+              "7.0%",
+              "8.0%",
+              "9.0%",
+              "10.0%"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 35,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 70,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 110,
+          "nutrientPotion": 15,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 145,
+          "nutrientPotion": 35,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 220,
+          "nutrientPotion": 50,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 290,
+          "nutrientPotion": 65,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 365,
+          "nutrientPotion": 85,
+          "promotionMedallion": 40
+        },
+        {
+          "growthManual": 440,
+          "nutrientPotion": 100,
+          "promotionMedallion": 60
+        },
+        {
+          "growthManual": 585,
+          "nutrientPotion": 115,
+          "promotionMedallion": 80
+        },
+        {
+          "growthManual": 730,
+          "nutrientPotion": 135,
+          "promotionMedallion": 100
+        }
+      ],
+      "petFood": [
+        500,
+        550,
+        600,
+        650,
+        700,
+        750,
+        800,
+        850,
+        925,
+        1000,
+        1075,
+        1150,
+        1225,
+        1300,
+        1375,
+        1450,
+        1525,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000,
+        2100,
+        2200,
+        2300,
+        2400,
+        2500,
+        2600,
+        2750,
+        2900,
+        3050,
+        3200,
+        3350,
+        3500,
+        3650,
+        3800,
+        3950,
+        4100,
+        4300,
+        4500,
+        4700,
+        4900,
+        5100,
+        5300,
+        5500,
+        5700,
+        5900,
+        6100,
+        6350,
+        6600,
+        6850,
+        7100,
+        7350,
+        7600,
+        7850,
+        8100,
+        8350,
+        8600,
+        8900,
+        9200,
+        9500,
+        9800,
+        10100,
+        10400,
+        10700,
+        11000,
+        11300,
+        11600,
+        11900,
+        12200,
+        12500,
+        12800,
+        13100,
+        13400,
+        13700,
+        14000,
+        14300,
+        14600,
+        15000,
+        15400,
+        15800,
+        16200,
+        16600,
+        17000,
+        17400,
+        17800,
+        18200,
+        18600,
+        19000,
+        19400,
+        19800,
+        20200,
+        20600,
+        21000,
+        21400,
+        21800,
+        22200,
+        22600,
+        23100
+      ]
+    },
+    {
+      "id": "ironclad-war-elephant",
+      "name": {
+        "EN": "Ironclad War Elephant",
+        "FR": "Éléphant de Guerre Cuirassé"
+      },
+      "generation": 6,
+      "maxLevel": 100,
+      "skill": {
+        "name": {
+          "EN": "Elephant’s Guard",
+          "FR": "Garde de l'Éléphant"
+        },
+        "desc": {
+          "EN": "All creatures are safer in the Elephant’s entourage, increasing Squad Health by X for 2 hours.",
+          "FR": "Toutes les créatures sont plus en sécurité dans l'entourage de l'Éléphant, augmentant les PV d'Escouade de X pendant 2 heures."
+        },
+        "effects": [
+          {
+            "label": {
+              "EN": "Troop Health Increase",
+              "FR": "Augmentation PV des Troupes"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "2.5%",
+              "3.0%",
+              "3.5%",
+              "4.0%",
+              "5.0%",
+              "6.0%",
+              "7.0%",
+              "8.0%",
+              "9.0%",
+              "10.0%"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 35,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 70,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 110,
+          "nutrientPotion": 15,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 145,
+          "nutrientPotion": 35,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 220,
+          "nutrientPotion": 50,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 290,
+          "nutrientPotion": 65,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 365,
+          "nutrientPotion": 85,
+          "promotionMedallion": 40
+        },
+        {
+          "growthManual": 440,
+          "nutrientPotion": 100,
+          "promotionMedallion": 60
+        },
+        {
+          "growthManual": 585,
+          "nutrientPotion": 115,
+          "promotionMedallion": 80
+        },
+        {
+          "growthManual": 730,
+          "nutrientPotion": 135,
+          "promotionMedallion": 100
+        }
+      ],
+      "petFood": [
+        500,
+        550,
+        600,
+        650,
+        700,
+        750,
+        800,
+        850,
+        925,
+        1000,
+        1075,
+        1150,
+        1225,
+        1300,
+        1375,
+        1450,
+        1525,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000,
+        2100,
+        2200,
+        2300,
+        2400,
+        2500,
+        2600,
+        2750,
+        2900,
+        3050,
+        3200,
+        3350,
+        3500,
+        3650,
+        3800,
+        3950,
+        4100,
+        4300,
+        4500,
+        4700,
+        4900,
+        5100,
+        5300,
+        5500,
+        5700,
+        5900,
+        6100,
+        6350,
+        6600,
+        6850,
+        7100,
+        7350,
+        7600,
+        7850,
+        8100,
+        8350,
+        8600,
+        8900,
+        9200,
+        9500,
+        9800,
+        10100,
+        10400,
+        10700,
+        11000,
+        11300,
+        11600,
+        11900,
+        12200,
+        12500,
+        12800,
+        13100,
+        13400,
+        13700,
+        14000,
+        14300,
+        14600,
+        15000,
+        15400,
+        15800,
+        16200,
+        16600,
+        17000,
+        17400,
+        17800,
+        18200,
+        18600,
+        19000,
+        19400,
+        19800,
+        20200,
+        20600,
+        21000,
+        21400,
+        21800,
+        22200,
+        22600,
+        23100
+      ]
+    },
+    {
+      "id": "ironclad-war-bear",
+      "name": {
+        "EN": "Ironclad War Bear",
+        "FR": "Ours de Guerre Cuirassé"
+      },
+      "generation": 7,
+      "maxLevel": 100,
+      "skill": {
+        "name": {
+          "EN": "Ursa’s Rage",
+          "FR": "Rage d'Ursa"
+        },
+        "desc": {
+          "EN": "The fearsome grizzly terrifies the enemy with its mighty roar, reducing Enemy Squad’s Defense by X for 2 hours. (Cooldown: 20 hours)",
+          "FR": "Le redoutable grizzly terrifie l'ennemi de son puissant rugissement, réduisant la Défense de l'Escouade ennemie de X pendant 2 heures. (Recharge : 20 heures)"
+        },
+        "cooldown": "20 hours",
+        "effects": [
+          {
+            "label": {
+              "EN": "Enemy Squad’s Defense Reduction",
+              "FR": "Réduction Défense Escouade Ennemie"
+            },
+            "note": {
+              "EN": "Involve after every Advancement.",
+              "FR": "À réengager après chaque Avancement."
+            },
+            "values": [
+              "2.5%",
+              "3.0%",
+              "3.5%",
+              "4.0%",
+              "5.0%",
+              "6.0%",
+              "7.0%",
+              "8.0%",
+              "9.0%",
+              "10.0%"
+            ]
+          }
+        ]
+      },
+      "advancements": [
+        {
+          "growthManual": 35,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 70,
+          "nutrientPotion": 0,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 110,
+          "nutrientPotion": 15,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 145,
+          "nutrientPotion": 35,
+          "promotionMedallion": 0
+        },
+        {
+          "growthManual": 220,
+          "nutrientPotion": 50,
+          "promotionMedallion": 10
+        },
+        {
+          "growthManual": 290,
+          "nutrientPotion": 65,
+          "promotionMedallion": 20
+        },
+        {
+          "growthManual": 365,
+          "nutrientPotion": 85,
+          "promotionMedallion": 40
+        },
+        {
+          "growthManual": 440,
+          "nutrientPotion": 100,
+          "promotionMedallion": 60
+        },
+        {
+          "growthManual": 585,
+          "nutrientPotion": 115,
+          "promotionMedallion": 80
+        },
+        {
+          "growthManual": 730,
+          "nutrientPotion": 135,
+          "promotionMedallion": 100
+        }
+      ],
+      "petFood": [
+        500,
+        550,
+        600,
+        650,
+        700,
+        750,
+        800,
+        850,
+        925,
+        1000,
+        1075,
+        1150,
+        1225,
+        1300,
+        1375,
+        1450,
+        1525,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000,
+        2100,
+        2200,
+        2300,
+        2400,
+        2500,
+        2600,
+        2750,
+        2900,
+        3050,
+        3200,
+        3350,
+        3500,
+        3650,
+        3800,
+        3950,
+        4100,
+        4300,
+        4500,
+        4700,
+        4900,
+        5100,
+        5300,
+        5500,
+        5700,
+        5900,
+        6100,
+        6350,
+        6600,
+        6850,
+        7100,
+        7350,
+        7600,
+        7850,
+        8100,
+        8350,
+        8600,
+        8900,
+        9200,
+        9500,
+        9800,
+        10100,
+        10400,
+        10700,
+        11000,
+        11300,
+        11600,
+        11900,
+        12200,
+        12500,
+        12800,
+        13100,
+        13400,
+        13700,
+        14000,
+        14300,
+        14600,
+        15000,
+        15400,
+        15800,
+        16200,
+        16600,
+        17000,
+        17400,
+        17800,
+        18200,
+        18600,
+        19000,
+        19400,
+        19800,
+        20200,
+        20600,
+        21000,
+        21400,
+        21800,
+        22200,
+        22600,
+        23100
+      ]
+    }
+  ]
+}
