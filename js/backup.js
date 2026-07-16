@@ -12,6 +12,7 @@ const i18nBackup = {
         modBeartrap: "Piège à Ours (Formations personnalisées & Paramètres)",
         modVikings: "Vikings (Répartition des troupes)",
         modShopcalc: "Calcul Boutique (valeurs en gemmes)",
+        modPets: "Familiers (Niveaux)",
         modTrueGold: "TrueGold (Niveaux, Stocks & Paramètres)",
         btnExport: "Exporter (.json)",
         btnImport: "Importer",
@@ -31,6 +32,7 @@ const i18nBackup = {
         modBeartrap: "Bear Trap (Custom Formations & Settings)",
         modVikings: "Vikings (Troop Distribution)",
         modShopcalc: "Shop Calc (gem values)",
+        modPets: "Pets (Levels)",
         modTrueGold: "TrueGold (Levels, Stocks & Settings)",
         btnExport: "Export (.json)",
         btnImport: "Import",
@@ -51,8 +53,10 @@ const BACKUP_MODULES = [
     { id: 'module-beartrap', labelKey: 'modBeartrap', keys: [STORAGE_KEYS.beartrap] },
     { id: 'module-truegold', labelKey: 'modTrueGold', keys: [STORAGE_KEYS.truegold] },
     { id: 'module-vikings',  labelKey: 'modVikings',  keys: [STORAGE_KEYS.vikings] },
-    { id: 'module-shopcalc', labelKey: 'modShopcalc', keys: [STORAGE_KEYS.shopcalcItems] }
+    { id: 'module-shopcalc', labelKey: 'modShopcalc', keys: [STORAGE_KEYS.shopcalcItems] },
+    { id: 'module-pets',     labelKey: 'modPets',     keys: [STORAGE_KEYS.pets] }
 ];
+
 
 function initBackupSystem() {
     // Sécurité pour ne pas injecter deux fois
