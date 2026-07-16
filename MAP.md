@@ -29,10 +29,12 @@ hub-kingshot/
 ├── caserne.html                  Outil Caserne / Héros (beta) — source des héros
 ├── masters.html                  Outil Experts / Masters (beta) — affinités & skills
 ├── shop_calc.html                Outil Shop Calc (coût boutique vs valeur gemmes)
+├── pets.html                     Outil Familiers (promenade verticale : fiches pets le long d'un sentier)
 │
 ├── css/
 │   ├── style.css                 Feuille principale (thèmes, header, hub, contrôles, tables, boutons, responsive)
-│   └── waracademy.css            Styles spécifiques Académie de Guerre (préfixe .wa-)
+│   ├── waracademy.css            Styles spécifiques Académie de Guerre (préfixe .wa-)
+│   └── pets.css                  Styles page Familiers (scène « sentier », décor CSS, DA nature distincte)
 │
 ├── js/
 │   ├── site-config.js            ★ Manifeste unique : jeux, catégories, outils, registre d'icônes Lucide
@@ -50,7 +52,8 @@ hub-kingshot/
 │   ├── vikings.js                Logique Vikings (réutilise formations Piège à Ours via localStorage)
 │   ├── caserne.js                Logique Caserne (fetch heroes_db.json)
 │   ├── masters.js                Logique Experts (fetch masters_db.json)
-│   └── shop_calc.js              Logique Shop Calc (fetch 4 fichiers shopcalc_*.json)
+│   ├── shop_calc.js              Logique Shop Calc (fetch 4 fichiers shopcalc_*.json)
+│   └── pets.js                   Logique Familiers (promenade verticale scroll-jack ; données en dur, i18n GlobalLang)
 │
 ├── data/                         Données consommées par les calculateurs (JSON éditées à la main)
 │   ├── research_db.json          720 lignes (arbres de recherche, coûts/temps par palier)
@@ -88,7 +91,8 @@ hub-kingshot/
 │   ├── heroes/                   Portraits héros (.png)
 │   ├── Master/ + MasterSkill/    Portraits experts + icônes skills experts
 │   ├── skills/ + widgetname/ + widgetskill/  Icônes skills héros & widgets
-│   └── Item/                     Icônes objets boutique/ressources
+│   ├── Item/                     Icônes objets boutique/ressources
+│   └── pets/                     Images des familiers (.webp, 14 fichiers)
 │
 └── .github/
     ├── workflows/discord-news.yml   Workflow : notif Discord des commits (cron 2 h)
@@ -110,11 +114,12 @@ hub-kingshot/
 | `caserne.html` | Gestion héros (beta) | `caserne.js` | `style.css` | `heroes_db.json` |
 | `masters.html` | Experts & affinités (beta) | `masters.js` | `style.css` | `masters_db.json` |
 | `shop_calc.html` | Coût boutique vs gemmes | `shop_calc.js` | `style.css` | `shopcalc_items/classic/events/chests.json` |
+| `pets.html` | Familiers : promenade verticale (fiches pets) | `pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `pets.css` (+ webfonts) | en dur dans `pets.js` (→ `pets_db.json` prévu) |
 | `database/buildings/*.html` | Tables d'amélioration bâtiments | inline + `header.js`, `lang.js`, `site-config.js` | `style.css` | données inline (HTML) |
 | `database/waracademy/*.html` | Tables recherches Académie (3 arbres) | inline + `header.js`, `lang.js`, `site-config.js` | `style.css` | `truegold_war_db.json` (fetch) |
 
 **Socle chargé sur toutes les pages outils** (ordre) : `site-config.js` → `storage-keys.js` → `lang.js` → `help.js` → *(script de page)* → `header.js` → `backup.js`.
-Les pages `database/buildings/*` n'incluent que `site-config.js` + `lang.js` + `header.js` (pas de help/backup).
+Les pages `database/buildings/*` et `pets.html` n'incluent que `site-config.js` + `lang.js` + `header.js` (pas de help/backup). `pets.html` charge en plus `css/pets.css` et deux webfonts Google (Cormorant Garamond + Karla).
 
 ---
 
@@ -177,6 +182,8 @@ Or éclatant sur noir profond, turquoise pour la validation, rubis pour l'alerte
 ### Convention cartes (signature visuelle)
 `.hub-card` = **liseré doré** en haut (`border-top: 3px solid var(--accent)`) + **reflet doré au survol** : pseudo-élément `::before` (dégradé `rgba(245,184,64,.08)`) qui **balaie de gauche à droite** (`left: -100% → 100%`, `transition .6s`) + `translateY(-5px)`. `overflow:hidden` obligatoire sur la carte. Ne pas réinventer d'autre effet décoratif.
 
+### Exception assumée — page Familiers (`pets.html`)
+`pets.html` **s'écarte volontairement** de la DA Royal Gold : scène « sentier » en palette nature/jour (verts + terre, valeurs `oklch`), carte info blanche translucide, **webfonts** Cormorant Garamond + Karla. Header + sidebar restent en DA standard. Choix validé ; tout est isolé dans `css/pets.css` + `js/pets.js`.
 ---
 
 ## 6. Données
@@ -194,6 +201,7 @@ Toutes les données sont des **JSON éditées à la main** dans `data/` (pas de 
 | `shopcalc_classic.json` | **Liste** de boutiques : `{id, name, items[{itemId, qty, cost}]}`. |
 | `shopcalc_events.json` | **Liste** de boutiques d'événement : `{id, name, endsAt, resourceName, items…}`. |
 | `shopcalc_chests.json` | **Liste** de coffres : `{id, name, items[…]}`. |
+| `pets_db.json` *(prévu)* | **Liste** de familiers : `{name{EN,FR}, rarity, lvl, atk, def, hp, bonus{EN,FR}, skills[{n{EN,FR}, d{EN,FR}}]}`. Actuellement **en dur** dans `js/pets.js` (MVP). |
 
 **Provenance** : édition manuelle directe dans le JSON déployé. Aucune génération via GitHub Actions.
 
@@ -205,7 +213,7 @@ Un seul workflow : **`discord-news.yml`** (notification Discord des mises à jou
 - **Déclencheurs** : cron `0 */2 * * *` (toutes les 2 h, best-effort) + `workflow_dispatch` (bouton manuel).
 - **Mécanique** : restaure le SHA du dernier commit notifié (cache `actions/cache`), collecte `git log <SINCE>..HEAD` (1er run → fenêtre « 2 hours ago »), passe la liste des commits à `.github/scripts/news.js`.
 - **`news.js`** : parse les commits, mappe chaque fichier modifié à une **page** (`fileToPage`), traduit FR↔EN (`SRC_LANG` via `vars`), et POST un message groupé sur le **`DISCORD_WEBHOOK`** (`secrets`). Le pointeur SHA n'avance **que** si l'envoi réussit (retry au run suivant).
-    - **Buckets `fileToPage`** (libellés `PAGE_LABELS`, ordre `PAGE_ORDER`) : `waracademy` (waracademy / wa_optimizer / truegold_war_db), `buildings` (database/buildings, img/buildings), `truegold`, `shop`, `beartrap`, `caserne`, `research`, `masters` (masters / heroes_db), `vikings`, `home` (index.html / hub.js), `multi` (>2 pages touchées), `general` (défaut). ⚠️ Ordre des tests : `waracademy` avant `truegold`, `buildings` avant la règle `index.html`→`home`.
+    - **Buckets `fileToPage`** (libellés `PAGE_LABELS`, ordre `PAGE_ORDER`) : `waracademy` (waracademy / wa_optimizer / truegold_war_db), `buildings` (database/buildings, img/buildings), `truegold`, `shop`, `beartrap`, `caserne`, `research`, `masters` (masters / heroes_db),`vikings`, `pets` (pets / img/pets), `home` (index.html / hub.js), `multi` (>2 pages touchées), `general` (défaut). ⚠️ Ordre des tests : `waracademy` avant `truegold`, `buildings` avant la règle `index.html`→`home`.
 - **Secrets/vars** : `secrets.DISCORD_WEBHOOK`, `vars.SRC_LANG`.
 
 ---
