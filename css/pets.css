@@ -6,8 +6,6 @@
    ============================================================ */
 
 :root{
-  --r-common:#8a8378; --r-rare:oklch(0.55 0.10 200); --r-epic:#c07a2e;
-  --r-legendary:oklch(0.55 0.12 90); --r-mythic:#b5462f;
   --ink:oklch(0.26 0.04 140); --ink-soft:oklch(0.40 0.03 135); --green:oklch(0.50 0.10 135);
   --star:oklch(0.72 0.15 80);
   --gen-1:#9a8f80; --gen-2:oklch(0.62 0.12 145); --gen-3:oklch(0.60 0.11 195); --gen-4:oklch(0.58 0.13 250);
@@ -112,11 +110,8 @@ body.pets-page{ overflow:hidden; }
   box-shadow:0 24px 48px -18px rgba(60,70,40,.3), 0 4px 12px rgba(60,70,40,.08); color:var(--ink-soft); }
 .pet-badge{ --rc:var(--green); display:inline-block; margin-bottom:10px; font-size:11px; font-weight:700;
   letter-spacing:.22em; text-transform:uppercase; color:var(--rc); }
-.pet-badge .bdot{ display:none; }
 .pet-name{ margin:0; font-family:'Cormorant Garamond', serif; font-weight:600; font-size:2rem; line-height:1.1; color:var(--ink); }
-.pet-level{ margin-top:4px; color:var(--green); font-size:.9rem; }
-.pet-level b{ color:oklch(0.42 0.10 135); }
-.pet-sec{ font-size:11px; text-transform:uppercase; letter-spacing:.2em; font-weight:600; color:var(--green);
+.pet-sec{ font-size:11px;
   margin:18px 0 9px; display:flex; align-items:center; gap:8px; }
 .pet-sec::after{ content:""; flex:1; height:1px; background:rgba(90,100,60,.18); }
 /* Sélecteur de niveau */
