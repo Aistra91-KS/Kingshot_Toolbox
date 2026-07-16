@@ -90,10 +90,20 @@ body.pets-page{ overflow:hidden; }
 .animal .sh{ position:absolute; bottom:-12px; width:46%; height:24px; border-radius:50%; filter:blur(4px);
   background:radial-gradient(ellipse at center, rgba(70,55,25,.4) 0%, rgba(70,55,25,.18) 50%, transparent 72%); }
 /* Marqueur de station : reste sur le sentier, au niveau du familier */
-.marker{ position:absolute; left:50%; width:42px; height:42px; border-radius:50%; display:grid; place-items:center; cursor:pointer;
-  background:rgba(255,255,255,.9); border:3px solid oklch(0.55 0.10 135);
-  box-shadow:0 6px 18px rgba(60,70,40,.3), 0 0 0 8px rgba(255,255,255,.28);
-  font-family:'Cormorant Garamond', serif; font-weight:600; font-size:17px; color:oklch(0.35 0.07 138); }
+.marker{ position:absolute; left:50%; width:44px; height:44px; border-radius:50%; display:grid; place-items:center; cursor:pointer;
+  border:2.5px solid oklch(0.54 0.11 136);
+  background:radial-gradient(circle at 33% 27%, oklch(0.99 0.012 118), oklch(0.95 0.03 128) 46%, oklch(0.895 0.052 133) 100%);
+  box-shadow:inset 0 2px 3px rgba(255,255,255,.85), inset 0 -3px 5px rgba(95,72,36,.16), inset 0 0 0 2px rgba(255,255,255,.5),
+    0 0 0 6px oklch(0.62 0.10 135 / .16), 0 0 20px oklch(0.60 0.13 135 / .32), 0 8px 18px rgba(50,60,30,.3);
+  font-family:'Cormorant Garamond', serif; font-weight:600; font-size:18.5px; line-height:1; letter-spacing:.5px;
+  color:oklch(0.34 0.09 140); text-shadow:0 1px 0 rgba(255,255,255,.7);
+  transition:box-shadow .22s ease, border-color .22s ease, background .22s ease; }
+.marker::after{ content:""; position:absolute; inset:-6px; border-radius:50%; pointer-events:none;
+  border:1.5px dashed oklch(0.55 0.10 135 / .32); }
+.marker:hover{ border-color:oklch(0.60 0.14 135);
+  background:radial-gradient(circle at 33% 27%, oklch(1 0.01 118), oklch(0.96 0.035 130) 46%, oklch(0.90 0.06 134) 100%);
+  box-shadow:inset 0 2px 3px rgba(255,255,255,.9), inset 0 -3px 5px rgba(95,72,36,.18), inset 0 0 0 2px rgba(255,255,255,.6),
+    0 0 0 7px oklch(0.63 0.12 135 / .22), 0 0 26px oklch(0.60 0.15 135 / .45), 0 10px 22px rgba(50,60,30,.34); }
 
 @keyframes breathe{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } }
 @keyframes nudge{ 0%,100%{ transform:translateY(0); opacity:.7 } 50%{ transform:translateY(6px); opacity:1 } }
