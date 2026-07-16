@@ -14,6 +14,7 @@ const STORAGE_KEYS = {
     shopcalcEvents: 'shopcalc_events',
     shopcalcTab:    'shopcalc_tab',
     shopcalcCollapsed: 'shopcalc_collapsed',
+    pets:              'pets_levels',
 };
 
 function safeParse(key, fallback) {
