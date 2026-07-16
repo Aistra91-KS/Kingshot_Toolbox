@@ -4,7 +4,13 @@
    montent à notre rencontre puis passent derrière. Le décor
    (champs, grain, pointillés, traces de pas) défile en Y.
    Données : fetch('data/pets_db.json').
-   Carte : sélecteur de niveau → palier, X du skill, coûts.
+   Carte : niveau + avancement par cap -> palier, X du skill, coûts.
+
+   Modèle (miroir des Masters) : 2 statuts indépendants.
+   - Niveau (1..maxLevel).
+   - Avancement par cap (10,20,..,maxLevel), coûte manuel/potion/médaille.
+   Un cap sous le niveau = forcément fait ; au-dessus = impossible ;
+   pile au niveau = choix (toggle). Palier skill = nb d'avancements faits.
    ============================================================ */
 (function () {
   "use strict";
@@ -12,25 +18,38 @@
   /* -------- État données -------- */
   let PETS = [];
   const LS_KEY = (window.STORAGE_KEYS && STORAGE_KEYS.pets) || "pets_levels";
-  let LEVELS = loadLevels();      // { [petId]: niveau }
+  let DATA = loadData();      // { [petId]: { lvl:Number, adv:{ [cap]:true } } }
 
-  function loadLevels(){
-    if (window.safeParse) return safeParse(LS_KEY, {});
-    try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch(e){ return {}; }
+  function loadData(){
+    const raw = window.safeParse
+      ? safeParse(LS_KEY, {})
+      : (() => { try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch(e){ return {}; } })();
+    // Migration : ancien format { petId: number } -> { petId: {lvl, adv} }
+    let changed = false;
+    for (const id in raw){
+      if (typeof raw[id] === "number"){ raw[id] = { lvl: raw[id], adv: {} }; changed = true; }
+      else if (raw[id] && typeof raw[id] === "object"){ if (!raw[id].adv){ raw[id].adv = {}; changed = true; } }
+    }
+    if (changed) try { localStorage.setItem(LS_KEY, JSON.stringify(raw)); } catch(e){}
+    return raw;
   }
-  function saveLevels(){ try { localStorage.setItem(LS_KEY, JSON.stringify(LEVELS)); } catch(e){} }
+  function saveData(){ try { localStorage.setItem(LS_KEY, JSON.stringify(DATA)); } catch(e){} }
 
   const i18n = {
     FR:{ collection:"Collection", genWord:"Génération", yourLevel:"Ton niveau", levelWord:"Niveau",
          tierWord:"Palier", skill:"Compétence", progression:"Progression",
          nextLevel:"Prochain niveau", nextCap:"Prochain cap", levelsRange:"niv.",
          maxReached:"Niveau maximum atteint", readyAdvance:"Prêt à avancer",
+         advance:"Avancement", advDone:"Avancement effectué",
+         skillLocked:"Compétence verrouillée — débloquée au 1er avancement (niv. 10)",
          matFood:"Nourriture", matManual:"Manuel", matPotion:"Potion", matMedallion:"Médaille",
          hint:"Molette pour descendre" },
     EN:{ collection:"Collection", genWord:"Generation", yourLevel:"Your level", levelWord:"Level",
          tierWord:"Tier", skill:"Skill", progression:"Progression",
          nextLevel:"Next level", nextCap:"Next cap", levelsRange:"lvl",
          maxReached:"Max level reached", readyAdvance:"Ready to advance",
+         advance:"Advancement", advDone:"Advancement done",
+         skillLocked:"Skill locked — unlocks at the 1st advancement (lvl 10)",
          matFood:"Pet Food", matManual:"Manual", matPotion:"Potion", matMedallion:"Medallion",
          hint:"Scroll to descend" },
   };
@@ -45,8 +64,8 @@
 
   let petMain, scene, animalsLayer, animalEls = [], markerEls = [], texLayers = [],
       info, petBadge, petBadgeLabel, petName, petTier, petLevelInput, lvlMinus, lvlPlus,
-      petLevelMax, petStars, petSkillImg, petSkillName, petSkillDesc, petSkillEffects, petCost,
-      petList, progress, cIdx, cTot;
+      petLevelMax, petStars, petAdv, petSkillMain, petSkillLock, petSkillImg, petSkillName,
+      petSkillDesc, petSkillEffects, petCost, petList, progress, cIdx, cTot;
 
   /* -------- Helpers -------- */
   const $ = s => document.querySelector(s);
@@ -58,11 +77,36 @@
   const skillSrc = p => `img/pets/skills/${p.id}.webp`;
 
   const tiersOf = p => (p.skill.effects[0] ? p.skill.effects[0].values.length : 0);
-  const tierAt = (lvl, T) => clamp(Math.ceil(lvl/10), 1, T);
-  // caps aux multiples de 10 ; si on est pile sur un cap (<max) on peut avancer maintenant
-  function capAt(lvl, max){ if (lvl % 10 === 0 && lvl < max) return lvl; return Math.min((Math.floor(lvl/10)+1)*10, max); }
+  // caps aux multiples de 10, jusqu'à maxLevel inclus
+  const capsOf = p => { const c = []; for (let g = 10; g <= p.maxLevel; g += 10) c.push(g); return c; };
   // coût nourriture pour passer du niveau (m-1) au niveau m : petFood[m-2]
   const foodTo = (p, m) => p.petFood[m-2];
+
+  // entrée sûre d'un pet (structure garantie, sans forcer le niveau)
+  function entry(p){
+    let e = DATA[p.id];
+    if (!e || typeof e !== "object"){ e = { lvl: 1, adv: {} }; DATA[p.id] = e; }
+    if (!e.adv) e.adv = {};
+    return e;
+  }
+  // aligne les avancements sur le niveau : > niveau -> forcé ; < niveau -> impossible ; == niveau -> choix
+  function normalizeAdv(p, lvl, adv){
+    for (const g of capsOf(p)){
+      if (lvl > g) adv[g] = true;
+      else if (lvl < g) delete adv[g];
+    }
+    return adv;
+  }
+  // palier = nb d'avancements faits
+  function tierOf(p, e){ let t = 0; for (const g of capsOf(p)) if (e.adv[g]) t++; return t; }
+  // fixe le niveau (clamp) puis réaligne les avancements
+  function setLevel(p, v){
+    const e = entry(p);
+    e.lvl = clamp(v, 1, p.maxLevel);
+    normalizeAdv(p, e.lvl, e.adv);
+    saveData();
+    return e.lvl;
+  }
 
   function fallbackSVG(p){
     return "data:image/svg+xml," + encodeURIComponent(
@@ -120,9 +164,8 @@
     petBadgeLabel.textContent = `${S.genWord} ${p.generation}`;
     petName.textContent = p.name[lang];
 
-    // niveau (sauvegardé ou 1)
-    const lvl = clamp(LEVELS[p.id] ?? 1, 1, p.maxLevel);
-    LEVELS[p.id] = lvl;
+    // niveau (sauvegardé ou 1) — clamp + réaligne les avancements
+    const lvl = setLevel(p, entry(p).lvl ?? 1);
     petLevelInput.value = lvl;
     petLevelInput.min = 1; petLevelInput.max = p.maxLevel;
     petLevelMax.textContent = `/ ${p.maxLevel}`;
@@ -137,52 +180,98 @@
     setCardSide(i);
   }
 
-  // parties dynamiques (palier, X, effets, coûts) — sans reconstruire l'input
+  // parties dynamiques (palier, avancement, X, effets, coûts) — sans reconstruire l'input
   function updateDerived(p){
     const lang = L(), S = i18n[lang], T = tiersOf(p);
-    const lvl = clamp(LEVELS[p.id] ?? 1, 1, p.maxLevel);
-    const tier = tierAt(lvl, T);
+    const e = entry(p);
+    e.lvl = clamp(e.lvl ?? 1, 1, p.maxLevel);
+    normalizeAdv(p, e.lvl, e.adv);
+    const lvl = e.lvl, tier = tierOf(p, e), atCap = (lvl % 10 === 0);
 
     petTier.textContent = `${S.tierWord} ${tier}/${T}`;
     petStars.innerHTML = Array.from({length:T}, (_,k) => `<span class="pl-star${k < tier ? " on" : ""}"></span>`).join("");
 
+    // Toggle d'avancement : uniquement quand on est pile sur un cap
+    renderAdvToggle(p, e, lvl, atCap, S);
+
+    // Compétence : verrouillée tant qu'aucun avancement (palier 0)
+    petSkillMain.classList.toggle("locked", tier === 0);
+    petSkillLock.hidden = tier !== 0;
+    petSkillLock.textContent = S.skillLocked;
     petSkillDesc.textContent = subX(p.skill.desc[lang], p.skill.effects, tier);
 
-    petSkillEffects.innerHTML = p.skill.effects.map(e => {
-      const pips = e.values.map((v, idx) => `<span class="pip${idx === tier-1 ? " on" : ""}">${v}</span>`).join("");
-      return `<div class="eff"><div class="eff-label">${e.label[lang]}</div><div class="pips">${pips}</div></div>`;
+    petSkillEffects.innerHTML = p.skill.effects.map(ef => {
+      const pips = ef.values.map((v, idx) => `<span class="pip${idx === tier-1 ? " on" : ""}">${v}</span>`).join("");
+      return `<div class="eff"><div class="eff-label">${ef.label[lang]}</div><div class="pips">${pips}</div></div>`;
     }).join("");
 
-    petCost.innerHTML = costHTML(p, lvl, S);
+    petCost.innerHTML = costHTML(p, e, S);
+  }
+
+  function renderAdvToggle(p, e, lvl, atCap, S){
+    if (!petAdv) return;
+    if (!atCap){ petAdv.hidden = true; petAdv.innerHTML = ""; return; }
+    const done = !!e.adv[lvl], unlockTier = lvl / 10;
+    petAdv.hidden = false;
+    petAdv.innerHTML =
+      `<label class="pl-adv-pill${done ? " on" : ""}">` +
+      `<input type="checkbox" ${done ? "checked" : ""}>` +
+      `<span class="pl-adv-txt">${S.advDone}</span>` +
+      `<span class="pl-adv-tier">${S.tierWord} ${unlockTier}</span>` +
+      `</label>`;
+  }
+  function toggleAdv(p){
+    const e = entry(p), lvl = clamp(e.lvl ?? 1, 1, p.maxLevel);
+    if (lvl % 10 !== 0) return;              // avancement seulement à un cap
+    if (e.adv[lvl]) delete e.adv[lvl]; else e.adv[lvl] = true;
+    saveData();
+    updateDerived(p);
   }
 
   function matChip(type, n, S){
     const key = { food:"matFood", manual:"matManual", potion:"matPotion", medallion:"matMedallion" }[type];
     return `<span class="mat mat-${type}"><span class="mat-l">${S[key]}</span><b>${fmt(n)}</b></span>`;
   }
+  function advMats(a, S){
+    if (!a) return "";
+    const mats = [];
+    if (a.growthManual)       mats.push(matChip("manual", a.growthManual, S));
+    if (a.nutrientPotion)     mats.push(matChip("potion", a.nutrientPotion, S));
+    if (a.promotionMedallion) mats.push(matChip("medallion", a.promotionMedallion, S));
+    return mats.join("");
+  }
 
-  function costHTML(p, lvl, S){
-    if (lvl >= p.maxLevel) return `<div class="maxed">${S.maxReached} (${p.maxLevel})</div>`;
-    const nl = lvl + 1, nlCost = foodTo(p, nl);
-    const cap = capAt(lvl, p.maxLevel);
-    let cumul = 0; for (let m = lvl + 1; m <= cap; m++) cumul += foodTo(p, m);
-    const adv = p.advancements[cap/10 - 1];
-
+  function costHTML(p, e, S){
+    const lvl = e.lvl, atCap = (lvl % 10 === 0);
+    const advPending = atCap && !e.adv[lvl];      // pile sur un cap, avancement pas encore fait
     const rows = [];
-    rows.push(`<div class="cost-row"><span class="cost-lbl">${S.nextLevel} <b>${nl}</b></span>${matChip("food", nlCost, S)}</div>`);
 
-    const capVal = cumul > 0
-      ? `${matChip("food", cumul, S)}<span class="cost-range">${S.levelsRange} ${lvl+1}–${cap}</span>`
-      : `<span class="cost-range ready">${S.readyAdvance}</span>`;
-    rows.push(`<div class="cost-row"><span class="cost-lbl">${S.nextCap} <b>${cap}</b></span><span class="cost-capval">${capVal}</span></div>`);
-
-    if (adv){
-      const mats = [];
-      if (adv.growthManual)      mats.push(matChip("manual", adv.growthManual, S));
-      if (adv.nutrientPotion)    mats.push(matChip("potion", adv.nutrientPotion, S));
-      if (adv.promotionMedallion)mats.push(matChip("medallion", adv.promotionMedallion, S));
-      if (mats.length) rows.push(`<div class="cost-mats">${mats.join("")}</div>`);
+    // 1) Avancement en attente au cap courant -> action immédiate (débloque le palier lvl/10)
+    if (advPending){
+      const mats = advMats(p.advancements[lvl/10 - 1], S);
+      rows.push(
+        `<div class="cost-row cost-adv"><span class="cost-lbl">${S.advance} <b>${S.tierWord} ${lvl/10}</b></span>` +
+        `<span class="cost-range ready">${S.readyAdvance}</span></div>`
+      );
+      if (mats) rows.push(`<div class="cost-mats">${mats}</div>`);
     }
+
+    // 2) Montée de niveau vers le prochain cap (si non bloqué par un avancement en attente et pas au max)
+    if (!advPending && lvl < p.maxLevel){
+      const nl = lvl + 1, nlCost = foodTo(p, nl);
+      const cap = Math.min((Math.floor(lvl/10) + 1) * 10, p.maxLevel);
+      let cumul = 0; for (let m = lvl + 1; m <= cap; m++) cumul += foodTo(p, m);
+      rows.push(`<div class="cost-row"><span class="cost-lbl">${S.nextLevel} <b>${nl}</b></span>${matChip("food", nlCost, S)}</div>`);
+      rows.push(
+        `<div class="cost-row"><span class="cost-lbl">${S.nextCap} <b>${cap}</b></span>` +
+        `<span class="cost-capval">${matChip("food", cumul, S)}<span class="cost-range">${S.levelsRange} ${lvl+1}–${cap}</span></span></div>`
+      );
+      const mats = advMats(p.advancements[cap/10 - 1], S);
+      if (mats) rows.push(`<div class="cost-mats">${mats}</div>`);
+    }
+
+    // 3) Tout est fait : niveau max ET dernier avancement fait
+    if (!rows.length) return `<div class="maxed">${S.maxReached} (${p.maxLevel})</div>`;
     return rows.join("");
   }
 
@@ -201,24 +290,19 @@
     const p = PETS[station];
     let v = parseInt(petLevelInput.value, 10);
     if (isNaN(v)) return;                 // laisse taper (clamp au blur)
-    v = clamp(v, 1, p.maxLevel);
-    LEVELS[p.id] = v; saveLevels();
+    setLevel(p, v);
     updateDerived(p);
   }
   function onLevelCommit(){
     const p = PETS[station];
     let v = parseInt(petLevelInput.value, 10);
     if (isNaN(v)) v = 1;
-    v = clamp(v, 1, p.maxLevel);
-    LEVELS[p.id] = v; saveLevels();
-    petLevelInput.value = v;
+    petLevelInput.value = setLevel(p, v);
     updateDerived(p);
   }
   function stepLevel(d){
     const p = PETS[station];
-    const v = clamp((LEVELS[p.id] ?? 1) + d, 1, p.maxLevel);
-    LEVELS[p.id] = v; saveLevels();
-    petLevelInput.value = v;
+    petLevelInput.value = setLevel(p, (entry(p).lvl ?? 1) + d);
     updateDerived(p);
   }
 
@@ -316,6 +400,11 @@
     petLevelInput.addEventListener("wheel", e => e.stopPropagation(), { passive:true });
     lvlMinus.addEventListener("click", () => stepLevel(-1));
     lvlPlus.addEventListener("click", () => stepLevel(+1));
+
+    // Avancement (délégation : le contenu de #petAdv est recréé à chaque rendu)
+    petAdv.addEventListener("change", (e) => {
+      if (e.target && e.target.matches('input[type="checkbox"]')) toggleAdv(PETS[station]);
+    });
   }
 
   /* -------- i18n -------- */
@@ -333,7 +422,8 @@
     petMain=$("#petMain"); scene=$("#scene"); animalsLayer=$("#animals");
     info=$("#petInfo"); petBadge=$("#petBadge"); petBadgeLabel=$("#petBadgeLabel"); petName=$("#petName");
     petTier=$("#petTier"); petLevelInput=$("#petLevelInput"); lvlMinus=$("#lvlMinus"); lvlPlus=$("#lvlPlus");
-    petLevelMax=$("#petLevelMax"); petStars=$("#petStars");
+    petLevelMax=$("#petLevelMax"); petStars=$("#petStars"); petAdv=$("#petAdv");
+    petSkillMain=$("#petSkillMain"); petSkillLock=$("#petSkillLock");
     petSkillImg=$("#petSkillImg"); petSkillName=$("#petSkillName"); petSkillDesc=$("#petSkillDesc"); petSkillEffects=$("#petSkillEffects");
     petCost=$("#petCost");
     petList=$("#petList"); progress=$("#progress"); cIdx=$("#cIdx"); cTot=$("#cTot");

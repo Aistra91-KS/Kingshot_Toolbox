@@ -183,3 +183,22 @@ body.pets-page{ overflow:hidden; }
   .animal img, .pet-hint .chev{ animation:none !important; }
 }
 .pet-main :focus-visible{ outline:2px solid oklch(0.52 0.11 135); outline-offset:2px; border-radius:6px; }
+
+
+/* Avancement (toggle, visible seulement à un cap) */
+.pl-adv{ margin-top:11px; }
+.pl-adv-pill{ display:flex; align-items:center; gap:8px; cursor:pointer; user-select:none;
+  background:rgba(255,255,255,.55); border:1px solid rgba(110,130,80,.35); border-radius:10px; padding:7px 11px;
+  transition:background .15s, border-color .15s; }
+.pl-adv-pill:hover{ border-color:var(--green); }
+.pl-adv-pill input{ width:15px; height:15px; flex:none; accent-color:var(--green); cursor:pointer; margin:0; }
+.pl-adv-txt{ flex:1; font-size:.78rem; font-weight:600; color:var(--ink-soft); }
+.pl-adv-tier{ font-size:.7rem; font-weight:700; color:var(--green); font-family:'Cormorant Garamond',serif; }
+.pl-adv-pill.on{ background:oklch(0.88 0.06 135 / .5); border-color:var(--green); }
+.pl-adv-pill.on .pl-adv-txt{ color:oklch(0.40 0.10 135); }
+
+/* Compétence verrouillée (aucun avancement fait) */
+.psk-lock{ margin-bottom:8px; padding:7px 10px; font-size:.74rem; font-weight:600; line-height:1.35;
+  color:oklch(0.52 0.09 60); background:oklch(0.90 0.05 85 / .5); border:1px solid oklch(0.75 0.08 80 / .45); border-radius:9px; }
+.pet-skill-main.locked .psk-desc,
+.pet-skill-main.locked .psk-effects{ opacity:.5; }
