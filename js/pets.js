@@ -11,10 +11,13 @@
 
   /* -------- État données -------- */
   let PETS = [];
-  const LS_KEY = "pets_levels";   // TODO: centraliser dans storage-keys.js plus tard
+  const LS_KEY = (window.STORAGE_KEYS && STORAGE_KEYS.pets) || "pets_levels";
   let LEVELS = loadLevels();      // { [petId]: niveau }
 
-  function loadLevels(){ try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch(e){ return {}; } }
+  function loadLevels(){
+    if (window.safeParse) return safeParse(LS_KEY, {});
+    try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch(e){ return {}; }
+  }
   function saveLevels(){ try { localStorage.setItem(LS_KEY, JSON.stringify(LEVELS)); } catch(e){} }
 
   const i18n = {
