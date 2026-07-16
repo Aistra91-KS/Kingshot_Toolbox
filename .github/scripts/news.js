@@ -16,11 +16,12 @@ const PAGE_LABELS = {
   research: { fr: 'Recherche',           en: 'Research' },
   masters:  { fr: 'Conseil des Experts', en: 'Experts Council' },
   vikings:  { fr: 'Vikings',             en: 'Vikings' },
+  pets:     { fr: 'Familiers',           en: 'Pets' },
   home:     { fr: 'Accueil',             en: 'Home' },
   multi:    { fr: 'Plusieurs pages',     en: 'Multiple pages' },
   general:  { fr: 'Général',             en: 'General' }
 };
-const PAGE_ORDER = ['truegold', 'waracademy', 'shop', 'beartrap', 'caserne', 'research', 'masters', 'vikings', 'buildings', 'home', 'multi', 'general'];
+const PAGE_ORDER = ['truegold', 'waracademy', 'shop', 'beartrap', 'caserne', 'research', 'masters', 'vikings', 'pets', 'buildings', 'home', 'multi', 'general'];
 
 function fileToPage(path) {
   const p = String(path).toLowerCase();
@@ -33,6 +34,7 @@ function fileToPage(path) {
   if (p.includes('research')) return 'research';
   if (p.includes('masters') || p.includes('heroes_db')) return 'masters';
   if (p.includes('vikings')) return 'vikings';
+  if (p.includes('pets')) return 'pets';
   if (p.includes('index.html') || p.includes('js/hub.js')) return 'home';
   return 'general';
 }
