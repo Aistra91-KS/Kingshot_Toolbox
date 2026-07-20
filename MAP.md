@@ -60,7 +60,7 @@ hub-kingshot/
 │   ├── truegold_db.json          Bâtiments TrueGold (rangeData, bldgMap, config, référence paliers)
 │   ├── truegold_war_db.json      Académie de Guerre : {meta, scoring, trees} — généré depuis un CSV
 │   ├── heroes_db.json            34 héros (génération, rareté, type, skills bilingues)
-│   ├── masters_db.json           4 experts (paliers d'affinité, passif, skills)
+│   ├── masters_db.json           6 experts (paliers d'affinité, passif, skills)
 │   ├── shopcalc_items.json       86 objets (valeur en gemmes) — référentiel
 │   ├── shopcalc_classic.json     Boutiques classiques (contenu + coûts)
 │   ├── shopcalc_events.json      Boutiques d'événement (avec endsAt)
@@ -196,7 +196,7 @@ Toutes les données sont des **JSON éditées à la main** dans `data/` (pas de 
 | `truegold_db.json` | **Objet** : `rangeDataTTG`, `bldgMap`, `defaultBuildings`, `dbDataRaw`, `levelsReference`, `buildingsConfig`. |
 | `truegold_war_db.json` | **Objet** `{meta, scoring, trees}`. `meta.warAcademyMaxLevel`; `scoring = {pointsPerDust:1000, pointsPerSpeedupMinute:60}`; `trees` = 3 arbres × recherches × niveaux (`req` = prérequis même arbre, `reqWA` = palier bâtiment requis). Note meta : « généré depuis `tools/data-src/war_academy.csv` » (CSV **non** commité). |
 | `heroes_db.json` | **Liste** de 34 héros : `{id, name{EN,FR}, generation, rarity, troopType, goodJoinerBear, skills[]}`. |
-| `masters_db.json` | **Liste** de 4 experts : `{id, name, title, affinityBonus, affinityMilestones[{level,affinity,emblems,bonus}], passive, skills[], affinity}`. |
+| `masters_db.json` | **Liste** de 6 experts : `{id, name, title, affinityBonus, affinityMilestones[{level,affinity,emblems,bonus}], passive, skills[], affinity}`. |
 | `shopcalc_items.json` | **Liste** de 86 objets : `{id, name{EN,FR}, category, gemValue}` (référentiel de valeur). |
 | `shopcalc_classic.json` | **Liste** de boutiques : `{id, name, items[{itemId, qty, cost}]}`. |
 | `shopcalc_events.json` | **Liste** de boutiques d'événement : `{id, name, endsAt, resourceName, items…}`. |
