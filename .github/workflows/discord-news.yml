@@ -30,10 +30,10 @@ jobs:
           SINCE=""
           [ -f .last_notified_sha ] && SINCE=$(cat .last_notified_sha)
           if [ -n "$SINCE" ] && git cat-file -e "${SINCE}^{commit}" 2>/dev/null; then
-            LOG=$(git log "${SINCE}..HEAD" --no-merges --name-only --pretty=format:'@@@C@@@%s@@@F@@@%b@@@N@@@')
+            LOG=$(git log "${SINCE}..HEAD" --no-merges --name-status --pretty=format:'@@@C@@@%s@@@F@@@%b@@@N@@@')
           else
             # 1er run (ou cache expiré) : on retombe sur la fenêtre 2 h pour ne pas tout renvoyer
-            LOG=$(git log --since="2 hours ago" --no-merges --name-only --pretty=format:'@@@C@@@%s@@@F@@@%b@@@N@@@')
+            LOG=$(git log --since="2 hours ago" --no-merges --name-status --pretty=format:'@@@C@@@%s@@@F@@@%b@@@N@@@')
           fi
           if [ -z "$LOG" ]; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"

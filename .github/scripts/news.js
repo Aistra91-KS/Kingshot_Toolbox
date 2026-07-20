@@ -42,7 +42,7 @@ function fileToPage(path) {
 // Parse : chaque commit = "@@@C@@@sujet@@@F@@@corps@@@N@@@\nfichier1\nfichier2...".
 // Dédoublonnage sur (sujet + corps) identiques.
 const seen = new Set();
-const entries = [];
+let entries = [];
 for (const rec of commits.split('@@@C@@@')) {
   const r = rec.trim();
   if (!r) continue;
@@ -52,8 +52,21 @@ for (const rec of commits.split('@@@C@@@')) {
   const rest = fIdx === -1 ? '' : r.slice(fIdx + 7);
   const nIdx = rest.indexOf('@@@N@@@');
   const body = (nIdx === -1 ? rest : rest.slice(0, nIdx)).replace(/\s+/g, ' ').trim();
+
+  // Marqueur manuel : "[skip news]" dans le titre ou le corps -> commit ignoré.
+  if (/\[\s*(skip|no)[\s-]?news\s*\]/i.test(subject + ' ' + body)) continue;
   const filesBlock = nIdx === -1 ? '' : rest.slice(nIdx + 7);
-  const files = filesBlock.split('\n').map(f => f.trim()).filter(Boolean);
+  // Lignes "--name-status" : "M<TAB>chemin" ou "R100<TAB>ancien<TAB>nouveau".
+  // Ignorés : les renommages purs (R, contenu inchangé) et MAP.md (doc interne).
+  const rawFiles = filesBlock.split('\n').map(f => f.trim()).filter(Boolean);
+  const files = rawFiles
+    .map(l => l.split('\t').map(c => c.trim()))
+    .filter(c => c.length > 1 && !/^R\d*$/.test(c[0]))
+    .map(c => c[c.length - 1])
+    .filter(Boolean)
+    .filter(p => !/(^|\/)map\.md$/i.test(p));
+  // Commit composé uniquement de renommages -> aucune news.
+  if (rawFiles.length && !files.length) continue;
 
   const key = subject + '||' + body;
   if (seen.has(key)) continue;
@@ -70,6 +83,10 @@ for (const rec of commits.split('@@@C@@@')) {
 }
 
 if (!entries.length) { console.log('Aucun commit.'); process.exit(0); }
+
+// git log liste du plus récent au plus ancien : on garde les 15 derniers commits,
+// puis on inverse pour afficher du plus ancien au plus récent.
+entries = entries.slice(0, 15).reverse();
 
 // Traduction 100% gratuite via MyMemory (aucune clé). Repli : texte original.
 async function translate(text, from, to) {

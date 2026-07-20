@@ -214,6 +214,8 @@ Un seul workflow : **`discord-news.yml`** (notification Discord des mises à jou
 - **Mécanique** : restaure le SHA du dernier commit notifié (cache `actions/cache`), collecte `git log <SINCE>..HEAD` (1er run → fenêtre « 2 hours ago »), passe la liste des commits à `.github/scripts/news.js`.
 - **`news.js`** : parse les commits, mappe chaque fichier modifié à une **page** (`fileToPage`), traduit FR↔EN (`SRC_LANG` via `vars`), et POST un message groupé sur le **`DISCORD_WEBHOOK`** (`secrets`). Le pointeur SHA n'avance **que** si l'envoi réussit (retry au run suivant).
     - **Buckets `fileToPage`** (libellés `PAGE_LABELS`, ordre `PAGE_ORDER`) : `waracademy` (waracademy / wa_optimizer / truegold_war_db), `buildings` (database/buildings, img/buildings), `truegold`, `shop`, `beartrap`, `caserne`, `research`, `masters` (masters / heroes_db),`vikings`, `pets` (pets / img/pets), `home` (index.html / hub.js), `multi` (>2 pages touchées), `general` (défaut). ⚠️ Ordre des tests : `waracademy` avant `truegold`, `buildings` avant la règle `index.html`→`home`.
+    - **Filtres** : sont ignorés les renommages purs (statut `R`, d'où `--name-status` dans le workflow), les modifications de `MAP.md`, et les commits contenant `[skip news]` dans le titre ou le corps. Un commit vidé de tous ses fichiers par ces filtres ne génère aucune news. ⚠️ Une conversion de format (`.png` → `.webp`) est vue par git comme `D` + `A`, pas comme un renommage : utiliser `[skip news]`.
+    - **Ordre** : les 15 derniers commits sont conservés puis inversés → affichage du plus ancien au plus récent. L'ordre des sections reste celui de `PAGE_ORDER`.
 - **Secrets/vars** : `secrets.DISCORD_WEBHOOK`, `vars.SRC_LANG`.
 
 ---
