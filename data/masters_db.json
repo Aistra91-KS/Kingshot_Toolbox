@@ -3189,99 +3189,99 @@
           {
             "level": 7,
             "effect": "10.5",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 201086,
+            "manuscripts": 1500,
             "power": 0
           },
           {
             "level": 8,
             "effect": "12",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 234600,
+            "manuscripts": 1700,
             "power": 0
           },
           {
             "level": 9,
             "effect": "13.5",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 269867,
+            "manuscripts": 2000,
             "power": 0
           },
           {
             "level": 10,
             "effect": "15",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 306480,
+            "manuscripts": 2300,
             "power": 0
           },
           {
             "level": 11,
             "effect": "16.5",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 341455,
+            "manuscripts": 2500,
             "power": 0
           },
           {
             "level": 12,
             "effect": "18",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 375200,
+            "manuscripts": 2700,
             "power": 0
           },
           {
             "level": 13,
             "effect": "19.5",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 410123,
+            "manuscripts": 3000,
             "power": 0
           },
           {
             "level": 14,
             "effect": "21",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 449914,
+            "manuscripts": 3500,
             "power": 0
           },
           {
             "level": 15,
             "effect": "22.5",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 493600,
+            "manuscripts": 4000,
             "power": 0
           },
           {
             "level": 16,
             "effect": "24",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 531825,
+            "manuscripts": 4000,
             "power": 0
           },
           {
             "level": 17,
             "effect": "25.5",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 573671,
+            "manuscripts": 4500,
             "power": 0
           },
           {
             "level": 18,
             "effect": "27",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 610867,
+            "manuscripts": 4500,
             "power": 0
           },
           {
             "level": 19,
             "effect": "28.5",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 652926,
+            "manuscripts": 5100,
             "power": 0
           },
           {
             "level": 20,
             "effect": "30",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 690780,
+            "manuscripts": 5100,
             "power": 0
           }
         ]
@@ -3300,142 +3300,142 @@
         "levels": [
           {
             "level": 1,
-            "effect": "?",
+            "effect": "7,500",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 2,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "15,000",
+            "xpCost": 46200,
+            "manuscripts": 300,
             "power": 0
           },
           {
             "level": 3,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "22,500",
+            "xpCost": 103200,
+            "manuscripts": 700,
             "power": 0
           },
           {
             "level": 4,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "30,000",
+            "xpCost": 155100,
+            "manuscripts": 1000,
             "power": 0
           },
           {
             "level": 5,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "37,500",
+            "xpCost": 210960,
+            "manuscripts": 1400,
             "power": 0
           },
           {
             "level": 6,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "45,000",
+            "xpCost": 269000,
+            "manuscripts": 1800,
             "power": 0
           },
           {
             "level": 7,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "52,500",
+            "xpCost": 323829,
+            "manuscripts": 2100,
             "power": 0
           },
           {
             "level": 8,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "60,000",
+            "xpCost": 376650,
+            "manuscripts": 2400,
             "power": 0
           },
           {
             "level": 9,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "67,500",
+            "xpCost": 431467,
+            "manuscripts": 2800,
             "power": 0
           },
           {
             "level": 10,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "75,000",
+            "xpCost": 487800,
+            "manuscripts": 3200,
             "power": 0
           },
           {
             "level": 11,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "82,500",
+            "xpCost": 542400,
+            "manuscripts": 3500,
             "power": 0
           },
           {
             "level": 12,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "90,000",
+            "xpCost": 595700,
+            "manuscripts": 3800,
             "power": 0
           },
           {
             "level": 13,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "97,500",
+            "xpCost": 650308,
+            "manuscripts": 4200,
             "power": 0
           },
           {
             "level": 14,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "105,000",
+            "xpCost": 712714,
+            "manuscripts": 4900,
             "power": 0
           },
           {
             "level": 15,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "112,500",
+            "xpCost": 783360,
+            "manuscripts": 5700,
             "power": 0
           },
           {
             "level": 16,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "120,000",
+            "xpCost": 845175,
+            "manuscripts": 5700,
             "power": 0
           },
           {
             "level": 17,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "127,500",
+            "xpCost": 912494,
+            "manuscripts": 6400,
             "power": 0
           },
           {
             "level": 18,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "135,000",
+            "xpCost": 972333,
+            "manuscripts": 6400,
             "power": 0
           },
           {
             "level": 19,
-            "effect": "?",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "effect": "142,500",
+            "xpCost": 1037368,
+            "manuscripts": 7100,
             "power": 0
           },
           {
             "level": 20,
             "effect": "150,000",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 1095900,
+            "manuscripts": 7100,
             "power": 0
           }
         ]
@@ -3663,15 +3663,15 @@
     },
     "title": {
       "EN": "Royal Herald",
-      "FR": "Héraut Royal"
+      "FR": "Héraut royal"
     },
     "affinityBonus": {
-      "EN": "Affinity Bonus",
-      "FR": "Bonus d'Affinité"
+      "EN": "Squad Attack and Defense",
+      "FR": "Attaque et défense des escouades"
     },
     "TextToInclude": {
-      "FR": "Bonus d'affinité : +X%",
-      "EN": "Affinity bonus: +X%"
+      "FR": "Bonus d'attaque et de défense des escouades : +X%",
+      "EN": "Squad Attack and Defense: +X%"
     },
     "affinityMilestones": [
       {
@@ -3747,49 +3747,49 @@
         "FR": "Décret Commercial"
       },
       "TextToInclude": {
-        "FR": "Wilson livre toujours à temps les dernières réglementations commerciales : les prix de la Boutique d'Alliance baissent de X% et les récompenses du Coffre de Triomphe d'Activité personnelle augmentent de X%.",
+        "FR": "Wilson transmet toujours les dernières réglementations commerciales, réduisant de X% le prix des articles au magasin de l'Alliance. De plus, les récompenses du coffre quotidiens d'activité personnelle sont augmentées de X%",
         "EN": "Wilson always delivers the latest trade regulations on time, reducing prices in the Alliance Shop by X%; additionally increases Personal Activity Triumph Chest rewards by X%."
       },
       "levels": [
         {
           "level": 1,
-          "effect": "?"
+          "effect": "(5;20)"
         },
         {
           "level": 2,
-          "effect": "?"
+          "effect": "(5;28)"
         },
         {
           "level": 3,
-          "effect": "?"
+          "effect": "(5;36)"
         },
         {
           "level": 4,
-          "effect": "?"
+          "effect": "(5;44)"
         },
         {
           "level": 5,
-          "effect": "?"
+          "effect": "(5;52)"
         },
         {
           "level": 6,
-          "effect": "?"
+          "effect": "(10;60)"
         },
         {
           "level": 7,
-          "effect": "?"
+          "effect": "(10;68)"
         },
         {
           "level": 8,
-          "effect": "?"
+          "effect": "(10;76)"
         },
         {
           "level": 9,
-          "effect": "?"
+          "effect": "(10;84)"
         },
         {
           "level": 10,
-          "effect": "?"
+          "effect": "(10;92)"
         },
         {
           "level": 11,
@@ -3805,70 +3805,70 @@
           "FR": "Maître de la Mobilisation"
         },
         "TextToInclude": {
-          "FR": "Les encouragements de Wilson stimulent l'ardeur de tous les alliés. Augmente les points de Mobilisation d'Alliance de X% et les paliers gagnent X niveau(x) supplémentaire(s).",
+          "FR": "Les encouragements de Wilson motivent les memnres de l'alliance. Points de Mobilisation de l'Alliance augmentés de X% et X paliers(s) supplémentaire(s) ajouté(s) aux jalons.",
           "EN": "Wilson's encouragement fuels the drive of all allies. Increases Alliance Mobilization points by X%, and Milestones gain X extra tier(s)."
         },
         "unlockRelLevel": 10,
         "levels": [
           {
             "level": 1,
-            "effect": "?",
+            "effect": "(2;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 2,
-            "effect": "?",
+            "effect": "(4;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 3,
-            "effect": "?",
+            "effect": "(6;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 4,
-            "effect": "?",
+            "effect": "(8;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 5,
-            "effect": "?",
+            "effect": "(10;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 6,
-            "effect": "?",
+            "effect": "(12;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 7,
-            "effect": "?",
+            "effect": "(14;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 8,
-            "effect": "?",
+            "effect": "(16;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 9,
-            "effect": "?",
+            "effect": "(18;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
@@ -3886,73 +3886,73 @@
         "id": "championship_publicity",
         "name": {
           "EN": "Championship Publicity",
-          "FR": "Publicité du Championnat"
+          "FR": "Propagande de Championnat"
         },
         "TextToInclude": {
-          "FR": "Wilson a fait connaître le Championnat d'Alliance dans tout le continent, attirant une nuée de sponsors. Augmente les Badges de Championnat gagnés pendant l'événement de X% et la Boutique du Championnat propose X objet(s) supplémentaire(s).",
+          "FR": "Wilson répand la nouvelle du Championnat de l'Alliance sur le tout le continent, attirant de nombreux sponsors. Au Championnat de l'Alliance, le nombre d'insignes de championnat obtenus est augmenté de X et le nombre d'articles supplémentaires au magasin du championnat est augmenté de X.",
           "EN": "Wilson has spread the word of the Alliance Championship across the continent, attracting a swarm of sponsors. Increases Championship Badges earned during the event by X%, and the Championship Shop gains X extra item(s)."
         },
         "unlockRelLevel": 20,
         "levels": [
           {
             "level": 1,
-            "effect": "?",
+            "effect": "(5;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 2,
-            "effect": "?",
+            "effect": "(10;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 3,
-            "effect": "?",
+            "effect": "(15;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 4,
-            "effect": "?",
+            "effect": "(20;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 5,
-            "effect": "?",
+            "effect": "(25;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 6,
-            "effect": "?",
+            "effect": "(30;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 7,
-            "effect": "?",
+            "effect": "(35;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 8,
-            "effect": "?",
+            "effect": "(40;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 9,
-            "effect": "?",
+            "effect": "(45;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
@@ -3973,77 +3973,77 @@
           "FR": "Prime Viking"
         },
         "TextToInclude": {
-          "FR": "Wilson a fait connaître les primes vikings à tous les foyers de la ville : les points gagnés pendant l'événement Vengeance Viking augmentent de X%. Tous les 200 000 points, vous recevez un coffre, jusqu'à 10 par événement.",
-          "EN": "Wilson spread word of the Viking bounties to every household in town, increasing points earned during the Viking Vengeance event by X%. For every 200,000 points earned, you gain one chest reward, up to 10 per event."
+          "FR": "Wilson transmet la prime sur les Vikings à chaque foyer de la ville, augmentant de X% les points gagnés lors des vengeances viking, et offrant une récompense de coffre pour 200 000 points gagnés, jusqu'à X coffres par saison.",
+          "EN": "Wilson spread word of the Viking bounties to every household in town, increasing points earned during the Viking Vengeance event by X%. For every 200,000 points earned, you gain one chest reward, up to X per event."
         },
         "unlockRelLevel": 30,
         "levels": [
           {
             "level": 1,
-            "effect": "?",
+            "effect": "(5;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 2,
-            "effect": "?",
+            "effect": "(10;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 3,
-            "effect": "?",
+            "effect": "(15;3)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 4,
-            "effect": "?",
+            "effect": "(20;4)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 5,
-            "effect": "?",
+            "effect": "(25;5)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 6,
-            "effect": "?",
+            "effect": "(30;6)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 7,
-            "effect": "?",
+            "effect": "(35;7)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 8,
-            "effect": "?",
+            "effect": "(40;8)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 9,
-            "effect": "?",
+            "effect": "(45;9)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 10,
-            "effect": "50",
+            "effect": "(50;10)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
@@ -4054,73 +4054,73 @@
         "id": "duel_sponsorship",
         "name": {
           "EN": "Duel Sponsorship",
-          "FR": "Parrainage de Duel"
+          "FR": "Parrainage de l'affrontement"
         },
         "TextToInclude": {
-          "FR": "Wilson apporte d'excellentes nouvelles concernant les parrainages d'alliance. Augmente les points gagnés par les gouverneurs dans la Mêlée d'Alliance de X% (hors événement Empire Marchand) et les récompenses de progression quotidienne gagnent X palier(s) supplémentaire(s).",
+          "FR": "Wilson apporte de bonnes nouvelles concernant les parrainages de l'Alliance. Les points que le chef gagne lors des rifs d'alliances sont augmentés de X% (hors évenement empire marchand), et les récompenses de progression quotidiennes comportent X palier(s) supplémentaire(s).",
           "EN": "Wilson brings excellent news regarding alliance sponsorships. Increases points earned by Governors in the Alliance Brawl by X% (excluding the Merchant Empire event), and daily progress rewards gain X extra tier(s)."
         },
         "unlockRelLevel": 40,
         "levels": [
           {
             "level": 1,
-            "effect": "?",
+            "effect": "(5;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 2,
-            "effect": "?",
+            "effect": "(10;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 3,
-            "effect": "?",
+            "effect": "(15;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 4,
-            "effect": "?",
+            "effect": "(20;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 5,
-            "effect": "?",
+            "effect": "(25;1)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 6,
-            "effect": "?",
+            "effect": "(30;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 7,
-            "effect": "?",
+            "effect": "(35;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 8,
-            "effect": "?",
+            "effect": "(40;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
           },
           {
             "level": 9,
-            "effect": "?",
+            "effect": "(45;2)",
             "xpCost": 0,
             "manuscripts": 0,
             "power": 0
