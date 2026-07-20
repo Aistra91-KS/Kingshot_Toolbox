@@ -779,11 +779,13 @@
     "FR": "Skin de téléportation" 
     }, 
     "category": "Cosmetic", 
-    "gemValue": 0 },
+    "gemValue": 0 
+  },
   { "id": "call_of_destiny", 
   "name": { 
     "EN": "Call of Destiny", 
     "FR": "Appel du destin" 
   }, 
-    "skin": true }
+    "skin": true 
+  }
 ]
