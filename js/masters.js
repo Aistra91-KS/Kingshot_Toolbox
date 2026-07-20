@@ -65,6 +65,11 @@ const REL_STAGES = [
   { level: 90,  FR: "Proche 3",       EN: "Close 3" },
   { level: 100, FR: "Alter Ego",      EN: "Alter Ego" }
 ];
+
+// Nom de fichier image : espaces -> underscores (img/Master, img/MasterSkill)
+function imgFileName(name) {
+  return encodeURIComponent(String(name).replace(/ /g, '_'));
+}
 function snapToStage(level) {
   let snapped = 0;
   REL_STAGES.forEach(s => { if (level >= s.level) snapped = s.level; });
@@ -216,8 +221,8 @@ function renderMastersGrid() {
         const stageLevel = computeAffinity(master, displayLevel, userData.breakthroughs || {}).tierLevel;
         const isLocked = displayLevel < 1;
         
-        // Nom sécurisé pour le chemin d'image
-        const safeImgName = encodeURIComponent(master.name['EN']);
+       // Nom sécurisé pour le chemin d'image
+        const safeImgName = imgFileName(master.name['EN']);
         const mName = master.name[lang] || master.name['EN'];
         const mTitle = master.title[lang] || master.title['EN'];
 
@@ -251,7 +256,7 @@ function openMasterModal(master, userData) {
     };
 
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
-    const safeImgName = encodeURIComponent(master.name['EN']);
+    const safeImgName = imgFileName(master.name['EN']);
 
     document.getElementById('modal-header-bg').style.backgroundImage = `url('img/Master/${safeImgName}.webp')`;
     document.getElementById('modal-master-name').textContent = master.name[lang] || master.name['EN'];
@@ -347,7 +352,7 @@ function updateMasterUI() {
     
     const passiveContainer = document.getElementById('modal-passive-display');
     const pName = master.passive.name[lang] || master.passive.name['EN'];
-    const safePassiveImg = encodeURIComponent(master.passive.name['EN']); 
+    const safePassiveImg = imgFileName(master.passive.name['EN']);
     
     if (passiveLvlIndex >= 0) {
         let rawEffect = master.passive.levels[passiveLvlIndex].effect;
@@ -384,7 +389,7 @@ function updateMasterUI() {
 
         const isUnlocked = modalState.relLevel >= requiredLevel;
         const currentSkillLevel = modalState.skills[skill.id] || 0;
-        const safeSkillImg = encodeURIComponent(skill.name['EN']); 
+        const safeSkillImg = imgFileName(skill.name['EN']);
         const sName = skill.name[lang] || skill.name['EN'];
 
         // Identifier le prochain objectif de compétence
