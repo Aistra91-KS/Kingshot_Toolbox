@@ -227,7 +227,7 @@ function renderMastersGrid() {
         const card = document.createElement('div');
         card.className = `master-card ${isLocked ? 'locked' : ''}`;
         card.innerHTML = `
-            <div class="master-portrait" style="background-image: url('img/Master/${safeImgName}.png');"></div>
+            <div class="master-portrait" style="background-image: url('img/Master/${safeImgName}.webp');"></div>
             <div class="master-info">
                 <h3 class="master-name">${mName}</h3>
                 <div class="master-title">${mTitle}</div>
@@ -253,7 +253,7 @@ function openMasterModal(master, userData) {
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
     const safeImgName = encodeURIComponent(master.name['EN']);
 
-    document.getElementById('modal-header-bg').style.backgroundImage = `url('img/Master/${safeImgName}.png')`;
+    document.getElementById('modal-header-bg').style.backgroundImage = `url('img/Master/${safeImgName}.webp')`;
     document.getElementById('modal-master-name').textContent = master.name[lang] || master.name['EN'];
     const nameInline = document.getElementById('modal-master-name-inline');
     if (nameInline) nameInline.textContent = master.name[lang] || master.name['EN'];
@@ -356,7 +356,7 @@ function updateMasterUI() {
         passiveContainer.innerHTML = `
             <div class="skill-row active" style="margin: 0; padding: 0; border: none; background: transparent;">
                 <div class="skill-header">
-                    <div class="skill-icon" style="background-image: url('img/MasterSkill/${safePassiveImg}.png');"></div>
+                    <div class="skill-icon" style="background-image: url('img/MasterSkill/${safePassiveImg}.webp');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: var(--accent); font-weight: bold;">${pName} (${dict.lvlPrefix}${passiveLvlIndex + 1})</div>
                         <div class="skill-effect" style="color: var(--text-muted);">${master.passive.TextToInclude ? injectValue(master.passive.TextToInclude, lang, pEffect) : pEffect}</div>
@@ -416,7 +416,7 @@ function updateMasterUI() {
         skillsHTML += `
             <div class="skill-row ${isUnlocked ? 'active' : 'locked'}">
                 <div class="skill-header">
-                    <div class="skill-icon" style="background-image: url('img/MasterSkill/${safeSkillImg}.png');"></div>
+                    <div class="skill-icon" style="background-image: url('img/MasterSkill/${safeSkillImg}.webp');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: ${isUnlocked ? 'var(--text-light)' : 'var(--text-muted)'};">${sName}</div>
                         <div class="skill-effect">${effectDisplay}</div>
