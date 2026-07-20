@@ -197,10 +197,10 @@ Toutes les données sont des **JSON éditées à la main** dans `data/` (pas de 
 | `truegold_war_db.json` | **Objet** `{meta, scoring, trees}`. `meta.warAcademyMaxLevel`; `scoring = {pointsPerDust:1000, pointsPerSpeedupMinute:60}`; `trees` = 3 arbres × recherches × niveaux (`req` = prérequis même arbre, `reqWA` = palier bâtiment requis). Note meta : « généré depuis `tools/data-src/war_academy.csv` » (CSV **non** commité). |
 | `heroes_db.json` | **Liste** de 34 héros : `{id, name{EN,FR}, generation, rarity, troopType, goodJoinerBear, skills[]}`. |
 | `masters_db.json` | **Liste** de 6 experts : `{id, name, title, affinityBonus, affinityMilestones[{level,affinity,emblems,bonus}], passive, skills[], affinity}`. |
-| `shopcalc_items.json` | **Liste** de 86 objets : `{id, name{EN,FR}, category, gemValue}` (référentiel de valeur). |
+| `shopcalc_items.json` | **Liste** de 86 objets : `{id, name{EN,FR}, category, gemValue, skin?:true}` (référentiel de valeur). |
 | `shopcalc_classic.json` | **Liste** de boutiques : `{id, name, items[{itemId, qty, cost}]}`. |
 | `shopcalc_events.json` | **Liste** de boutiques d'événement : `{id, name, endsAt, resourceName, items…}`. |
-| `shopcalc_chests.json` | **Liste** de coffres : `{id, name, items[…]}`. |
+| `shopcalc_chests.json` | **Liste** de coffres : `{id, name, items[… , skinId?]}`. |
 | `pets_db.json` | **Objet** `{_meta, pets[]}`. Chaque pet : `{id, name{EN,FR}, generation, maxLevel, skill{name{EN,FR}, desc{EN,FR}, cooldown?, effects[{label{EN,FR}, note{EN,FR}, values[]}]}, advancements[{growthManual, nutrientPotion, promotionMedallion}], petFood[]}`. 14 pets / 7 gén. **Conventions** : palier skill = **nb d'avancements faits** (caps aux niv. 10,20,…,`maxLevel` ; l'avancement au cap `N` débloque le palier `N/10` et **ne change pas le niveau** ; niveau `N` ≠ avancement fait → modèle à 2 statuts, cf. Masters) ; `values[]` = 1 valeur/palier (nb = `maxLevel/10` = nb d'`advancements`) ; `desc` garde le placeholder `X`/`X%` (remplacé au palier courant) ; `petFood[i]` = coût niv (i+1)→(i+2), longueur `maxLevel-1` ; le champ `note` existe mais **n'est plus affiché**. **Provenance** : converti depuis `Pets_data.xlsx` (non commité), FR relu à la main. |
 
 **Provenance** : édition manuelle directe dans le JSON déployé. Aucune génération via GitHub Actions.

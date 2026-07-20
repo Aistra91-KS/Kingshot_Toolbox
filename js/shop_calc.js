@@ -76,8 +76,11 @@ function scEscAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace
 function scName(it,lang){ if(it&&it.name&&typeof it.name==='object') return it.name[lang]||it.name.EN||it.name.FR||''; return (it&&it.name)||''; }
 function scNameEN(it){ if(it&&it.name&&typeof it.name==='object') return it.name.EN||it.name.FR||''; return (it&&it.name)||''; }
 // URL d'image sûre : encode l'apostrophe en %27 pour ne pas casser le url('...') du CSS.
-function scImg(it){ return encodeURIComponent(scNameEN(it)).replace(/'/g,'%27'); }
+// `img` (optionnel) court-circuite le nom EN quand le fichier porte un autre libellé.
+function scImg(it){ return encodeURIComponent((it&&it.img)||scNameEN(it)).replace(/'/g,'%27'); }
 function scItemById(id){ return SC_ITEMS.find(i=>i.id===id); }
+// Libellé affiché : « Objet (Skin) » quand une variante visuelle est référencée via skinId.
+function scLabel(it,skin,lang){ const b=it?scName(it,lang):'??'; return skin?`${b} (${scName(skin,lang)})`:b; }
 function scGem(id){ const it=scItemById(id); return it?Number(it.gemValue)||0:0; }
 function scShopName(shop,lang){ return (shop.name&&typeof shop.name==='object')?(shop.name[lang]||shop.name.EN):shop.name; }
 function scResName(shop,lang){ const r=shop.resourceName; if(r&&typeof r==='object') return r[lang]||r.EN||r.FR||scT('resDefault'); return r||scT('resDefault'); }
@@ -97,7 +100,12 @@ function scDaysLeft(endsAt){
 async function scLoadItems(){
   try{ SC_DEFAULTS = await (await fetch('data/shopcalc_items.json')).json(); }catch(e){ console.error('items',e); SC_DEFAULTS=[]; }
   const saved = safeParse(STORAGE_KEYS.shopcalcItems,null);
-  SC_ITEMS = (saved&&Array.isArray(saved)&&saved.length)? saved : SC_DEFAULTS.map(x=>({...x}));
+  // Le FICHIER est la liste de référence (même logique que les boutiques d'événement) : un objet
+  // ajouté au JSON apparaît toujours ; seule la valeur en gemmes éditée est réappliquée par id.
+  const savedById={}; if(Array.isArray(saved)) saved.forEach(x=>{ if(x&&x.id) savedById[x.id]=x; });
+  SC_ITEMS = SC_DEFAULTS.length
+    ? SC_DEFAULTS.map(d=>{ const x=savedById[d.id]; return (x&&x.gemValue!=null)?{...d,gemValue:x.gemValue}:{...d}; })
+    : (Array.isArray(saved)?saved.map(x=>({...x})):[]);   // secours : fichier injoignable
   SC_ITEMS.forEach(it=>{ if(typeof it.name==='string') it.name={EN:it.name,FR:it.name}; });
 }
 function scSaveItems(){ localStorage.setItem(STORAGE_KEYS.shopcalcItems, JSON.stringify(SC_ITEMS)); }
@@ -122,7 +130,7 @@ async function scLoadEvents(){
   SC_EVENTS.forEach(s=>{
     const def=SC_EVENTS_DEF.find(d=>d.id===s.id); if(!def) return;
     s.endsAt=def.endsAt; s.resourceName=def.resourceName;
-    (s.items||[]).forEach((si,i)=>{ const di=(def.items||[])[i], ok=di&&di.itemId===si.itemId; si.dailyReset=!!(ok&&di.dailyReset); si.qtyMax = ok?di.qtyMax:undefined; });
+    (s.items||[]).forEach((si,i)=>{ const di=(def.items||[])[i], ok=di&&di.itemId===si.itemId; si.dailyReset=!!(ok&&di.dailyReset); si.qtyMax = ok?di.qtyMax:undefined; si.skinId = ok?di.skinId:undefined; });
   });
   // Nettoie les fantômes du localStorage (seulement si le fichier a bien chargé, pour ne rien effacer sur une erreur réseau).
   if(SC_EVENTS_DEF.length) scSaveEvents();
@@ -132,7 +140,7 @@ function scSaveEvents(){ localStorage.setItem(STORAGE_KEYS.shopcalcEvents, JSON.
 // ---------- DATA ITEM ----------
 function scRenderCatFilter(){
   const sel=document.getElementById('item-cat-filter'); if(!sel) return;
-  const cats=[...new Set(SC_ITEMS.map(i=>i.category).filter(Boolean))].sort();
+  const cats=[...new Set(SC_ITEMS.filter(i=>!i.skin).map(i=>i.category).filter(Boolean))].sort();
   const cur=sel.value;
   sel.innerHTML=`<option value="">${scT('allCats')}</option>`+cats.map(c=>`<option value="${scEscAttr(c)}">${scEscAttr(c)}</option>`).join('');
   if(cats.includes(cur)) sel.value=cur;
@@ -143,6 +151,7 @@ function scRenderItems(){
   const q=(document.getElementById('item-search')?.value||'').trim().toLowerCase();
   const cat=document.getElementById('item-cat-filter')?.value||'';
   const rows=SC_ITEMS.map((it,idx)=>({it,idx})).filter(({it})=>{
+    if(it.skin) return false;                    // variante visuelle : aucune valeur propre à éditer
     if(cat&&it.category!==cat) return false;
     if(!q) return true;
     return scNameEN(it).toLowerCase().includes(q)||((it.name&&it.name.FR)||'').toLowerCase().includes(q);
@@ -155,7 +164,7 @@ function scRenderItems(){
       <td><span style="color:${color};font-weight:600;font-size:12px;">${scEscAttr(it.category)}</span></td>
       <td><input type="number" min="0" step="1" class="table-input" style="width:120px;text-align:right;" value="${it.gemValue}" onchange="scUpdateGem(${idx},this.value)"></td></tr>`;
   }).join('');
-  const cnt=document.getElementById('item-count'); if(cnt) cnt.textContent=`${rows.length} / ${SC_ITEMS.length} ${scT('count')}`;
+  const cnt=document.getElementById('item-count'); if(cnt) cnt.textContent=`${rows.length} / ${SC_ITEMS.filter(i=>!i.skin).length} ${scT('count')}`;
 }
 window.scUpdateGem=function(idx,val){ if(!SC_ITEMS[idx])return; let n=parseFloat(String(val).replace(',','.')); SC_ITEMS[idx].gemValue=isNaN(n)?0:n; scSaveItems(); scRenderClassic(); scRenderEvents(); scRenderChests(); };
 window.scToggleCollapse=function(scope,id){ const k=scope+':'+id; if(SC_COLLAPSED[k]) delete SC_COLLAPSED[k]; else SC_COLLAPSED[k]=true; try{ localStorage.setItem(STORAGE_KEYS.shopcalcCollapsed, JSON.stringify(SC_COLLAPSED)); }catch(e){} const el=document.querySelector('.sc-shop[data-shop="'+k+'"]'); if(el){ const c=!!SC_COLLAPSED[k]; el.classList.toggle('collapsed',c); const ch=el.querySelector('.sc-collapse'); if(ch) ch.textContent=c?'\u25B8':'\u25BE'; } };
@@ -170,6 +179,7 @@ function scComputeRows(shop){
   const jours=scDaysLeft(shop.endsAt);
   const rows=(shop.items||[]).map((si,i)=>{
     const it=scItemById(si.itemId);
+    const skin=si.skinId?scItemById(si.skinId):null;   // variante visuelle : nom + image, jamais la valeur
     const qty=Math.max(1,Number(si.qty)||1), cost=Math.max(0,Number(si.cost)||0);
     const gem=scGem(si.itemId)*qty;
     const qtyMax=Math.max(0,Number(si.qtyMax)||0);
@@ -178,7 +188,7 @@ function scComputeRows(shop){
     const maxfin = daily ? restant*jours : restant;
     const obtenable = cost>0 ? Math.min(maxfin, Math.floor(resources/cost)) : 0;
     const coutobt = obtenable*cost;
-    return { i, si, it, qty, cost, gem, ratio: cost>0?gem/cost:0, restant, daily, maxfin, obtenable, coutobt, nameTxt: it?scName(it,lang):'' };
+    return { i, si, it, skin, qty, cost, gem, ratio: cost>0?gem/cost:0, restant, daily, maxfin, obtenable, coutobt, nameTxt: scLabel(it,skin,lang), img: scImg(skin||it) };
   });
   // Top = meilleur ratio (basé sur le ratio, indépendant du tri d'affichage).
   const maxRatio=rows.length?Math.max(...rows.map(r=>r.ratio)):0;
@@ -198,7 +208,7 @@ function scComputeRows(shop){
 }
 
 function scItemDatalist(lang){
-  return SC_ITEMS.slice().sort((a,b)=>scName(a,lang).localeCompare(scName(b,lang)))
+  return SC_ITEMS.filter(it=>!it.skin).sort((a,b)=>scName(a,lang).localeCompare(scName(b,lang)))
     .map(it=>`<option value="${scEscAttr(scName(it,lang))}"></option>`).join('');
 }
 function scTh(scope,shop,col,label,align){
@@ -231,8 +241,8 @@ function scRenderShopCard(scope,shop){
   // ---------- Shop Classique : grille de cartes (lecture seule) ----------
   if(scope==='classic'){
     const cards = rows.map(r=>{
-      const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=scImg(r.it);
-      const nameTxt=r.it?scName(r.it,lang):'??'; const top=r.isTop;
+      const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=r.img;
+      const nameTxt=r.nameTxt; const top=r.isTop;
       return `<div class="shop-item-card${top?' is-top':''}" style="--cat:${color};">
         <div class="sic-visual" style="background:${color}14;">
           <div class="sic-img" style="background-image:url('img/Item/${img}.png');"></div>
@@ -254,8 +264,8 @@ function scRenderShopCard(scope,shop){
   }
 
   const body = rows.map(r=>{
-    const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=scImg(r.it);
-    const nameTxt=r.it?scName(r.it,lang):'??';
+    const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=r.img;
+    const nameTxt=r.nameTxt;
     const top=r.isTop;
     const qtyCell = editable
       ? `<td style="text-align:center;"><input type="number" min="1" step="1" class="table-input" style="width:58px;text-align:center;" value="${r.qty}" onchange="scEditQty('${scope}','${shop.id}',${r.i},this.value)"></td>`
@@ -311,8 +321,8 @@ function scRenderShopCard(scope,shop){
 
   if(scope==='event'){
     const cards = rows.map(r=>{
-      const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=scImg(r.it);
-      const nameTxt=r.it?scName(r.it,lang):'??'; const top=r.isTop;
+      const cat=r.it?r.it.category:'Other', color=scCatColor(cat), img=r.img;
+      const nameTxt=r.nameTxt; const top=r.isTop;
       const resetTxt = r.daily ? `↻ ${scT('daily')}` : `🔒 ${scT('stock')}`;
       return `<div class="shop-item-card event-card${top?' is-top':''}" style="--cat:${color};">
         <div class="sic-visual" style="background:${color}14;">
@@ -458,13 +468,13 @@ function scRenderChests(){
   if(!SC_CHESTS.length){ panel.innerHTML=`<div class="panel" style="padding:20px;text-align:center;color:var(--text-muted);">${scT('noChest')}</div>`; return; }
   panel.innerHTML = SC_CHESTS.map(chest=>{
     const opts=(chest.items||[]).map(ci=>{
-      const it=scItemById(ci.itemId), qty=Number(ci.qty)||0;
-      return { it, itemId:ci.itemId, qty, gem: scGem(ci.itemId)*qty };
+      const it=scItemById(ci.itemId), skin=ci.skinId?scItemById(ci.skinId):null, qty=Number(ci.qty)||0;
+      return { it, skin, itemId:ci.itemId, qty, gem: scGem(ci.itemId)*qty };
     }).sort((a,b)=>b.gem-a.gem);
     const best = opts.length ? opts[0].gem : 0;
     const cards = opts.map(o=>{
-      const cat=o.it?o.it.category:'Other', color=scCatColor(cat), img=o.it?scImg(o.it):'';
-      const name=o.it?scName(o.it,lang):o.itemId, isBest=(o.gem===best && best>0);
+      const cat=o.it?o.it.category:'Other', color=scCatColor(cat), img=scImg(o.skin||o.it);
+      const name=o.it?scLabel(o.it,o.skin,lang):o.itemId, isBest=(o.gem===best && best>0);
       return `<div class="shop-item-card chest-card${isBest?' is-top':''}" style="--cat:${color};">
         <div class="sic-visual" style="background:${color}14;">
           <div class="sic-img" style="background-image:url('img/Item/${img}.png');"></div>

@@ -772,5 +772,18 @@
     },
     "category": "Master/Expert",
     "gemValue": 750
-  }
+  },
+  { "id": "teleport_skin", 
+  "name": { 
+    "EN": "Teleport Skin", 
+    "FR": "Skin de téléportation" 
+    }, 
+    "category": "Cosmetic", 
+    "gemValue": 0 },
+  { "id": "call_of_destiny", 
+  "name": { 
+    "EN": "Call of Destiny", 
+    "FR": "Appel du destin" 
+  }, 
+    "skin": true }
 ]

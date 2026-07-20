@@ -10,7 +10,7 @@
     },
     "items": [
       {
-        "itemId": "reloc","qty": 1,"cost": 10000, "qtyMax": 1},
+        "itemId": "teleport_skin", "qty": 1, "cost": 10000, "qtyMax": 1, "skinId": "call_of_destiny"},
       {"itemId": "mythic_general_decoration_component","qty": 10,"cost": 1000,"qtyMax": 1},
       {"itemId": "mithril","qty": 1,"cost": 400,"qtyMax": 3},
       {"itemId": "mythic_general_hero_shard","qty": 1,"cost": 50,"qtyMax": 20},
