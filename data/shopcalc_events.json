@@ -1,5 +1,58 @@
 [
   {
+    "id": "Summit_Contest_Champion_store",
+    "name": {
+      "EN": "Summit Contest Champion Shop",
+      "FR": "Magasin Champion de la Ligue Suprême"
+    },
+    "endsAt": "2026-08-25T00:00:00Z",
+    "resourceName": {"EN": "Jeton de Champion","FR": "Champion token"
+    },
+    "items": [
+      {
+        "itemId": "reloc","qty": 1,"cost": 10000, "qtyMax": 1},
+      {"itemId": "mythic_general_decoration_component","qty": 10,"cost": 1000,"qtyMax": 1},
+      {"itemId": "mithril","qty": 1,"cost": 400,"qtyMax": 3},
+      {"itemId": "mythic_general_hero_shard","qty": 1,"cost": 50,"qtyMax": 20},
+      {"itemId": "truegold","qty": 10,"cost": 60,"qtyMax": 20},
+      {"itemId": "lucky_hero_gear_chest","qty": 6,"cost": 100,"qtyMax": 10},
+      {"itemId": "forgehammers","qty": 6,"cost": 100,"qtyMax": 10},
+      {"itemId": "artisan_s_vision","qty": 10,"cost": 70,"qtyMax": 20},
+      {"itemId": "gilded_threads","qty": 50,"cost": 70,"qtyMax": 20},
+      {"itemId": "satin","qty": 5000,"cost": 70,"qtyMax": 20},
+      {"itemId": "charm_design","qty": 10,"cost": 80,"qtyMax": 20},
+      {"itemId": "charm_guide","qty": 10,"cost": 80,"qtyMax": 20},
+      {"itemId": "pet_advancement_materials_custom_chest","qty": 3,"cost": 100,"qtyMax": 20},
+      {"itemId": "advanced_taming_mark","qty": 1,"cost": 100,"qtyMax": 20},
+      {"itemId": "1h_general_speedup","qty": 8,"cost": 100,"qtyMax": 15},
+      {"itemId": "1h_general_speedup","qty": 8,"cost": 100,"qtyMax": 15},
+      {"itemId": "1h_general_speedup","qty": 8,"cost": 100,"qtyMax": 15},
+      {"itemId": "lv3_custom_resource_chest","qty": 1,"cost": 5,"qtyMax": 20}
+    ]
+  },
+  {
+    "id": "Summit_Contest_Ordinary_Shop",
+    "name": {
+      "EN": "Summit Contest Ordinary Shop",
+      "FR": "Magasin Ordinaire de la Ligue Suprême"
+    },
+    "endsAt": "2026-08-25T00:00:00Z",
+    "resourceName": {"EN": "Jeton de Ligue","FR": "League token"
+    },
+    "items": [
+      {
+        "itemId": "custom_mythic_hero_gear_chest","qty": 1,"cost": 10000, "qtyMax": 2},
+      {"itemId": "mithril","qty": 1,"cost": 12500,"qtyMax": 3},
+      {"itemId": "mythic_general_hero_shard","qty": 1,"cost": 1000,"qtyMax": 20},
+      {"itemId": "truegold","qty": 1,"cost": 160,"qtyMax": 200},
+      {"itemId": "forgehammers","qty": 1,"cost": 400,"qtyMax": 60},
+      {"itemId": "artisan_s_vision","qty": 1,"cost": 180,"qtyMax": 150},
+      {"itemId": "gilded_threads","qty": 5,"cost": 180,"qtyMax": 150},
+      {"itemId": "satin","qty": 500,"cost": 180,"qtyMax": 150},
+      {"itemId": "1h_general_speedup","qty": 1,"cost": 300,"qtyMax": 300}
+    ]
+  },
+  {
     "id": "Golden_Ball_Shop",
     "name": {
       "EN": "Golden Ball Shop",
@@ -23,73 +76,6 @@
       {"itemId": "charm_guide","qty": 70,"cost": 100,"qtyMax": 30},
       {"itemId": "1h_general_speedup","qty": 56,"cost": 100,"qtyMax": 30},
       {"itemId": "5m_general_speedup","qty": 22,"cost": 5,"qtyMax": 1000}
-    ]
-  },
-  {
-    "id": "Stand_adv",
-    "name": {
-      "EN": "Adventure Stall",
-      "FR": "Stand d'Aventure"
-    },
-    "endsAt": "2026-06-28T00:00:00Z",
-    "resourceName": {"EN": "Adventure Coin","FR": "Pièce d'aventure"
-    },
-    "items": [
-      {
-        "itemId": "truegold","qty": 58,"cost": 30,"dailyReset": true, "qtyMax": 2},
-      {"itemId": "mythic_general_hero_shard","qty": 10,"cost": 50,"dailyReset": true,"qtyMax": 2},
-      {"itemId": "forgehammers","qty": 75,"cost": 100,"dailyReset": true,"qtyMax": 2},
-      {"itemId": "mithril","qty": 1,"cost": 40,"qtyMax": 25},
-      {"itemId": "custom_mythic_hero_gear_chest","qty": 1,"cost": 120,"qtyMax": 9},
-      {"itemId": "mythic_general_decoration_component","qty": 1,"cost": 10,"qtyMax": 300},
-      {"itemId": "lucky_hero_gear_chest","qty": 30,"cost": 50,"qtyMax": 30},
-      {"itemId": "forgehammers","qty": 30,"cost": 50,"qtyMax": 30},
-      {"itemId": "truegold","qty": 15,"cost": 10,"qtyMax": 50},
-      {"itemId": "artisan_s_vision","qty": 22,"cost": 20,"qtyMax": 100},
-      {"itemId": "gilded_threads","qty": 110,"cost": 20,"qtyMax": 100},
-      {"itemId": "satin","qty": 11000,"cost": 20,"qtyMax": 100},
-      {"itemId": "charm_design","qty": 19,"cost": 20,"qtyMax": 100},
-      {"itemId": "charm_guide","qty": 19,"cost": 20,"qtyMax": 100},
-      {"itemId": "pet_food_x1","qty": 3900,"cost": 20,"qtyMax": 50},
-      {"itemId": "pet_advancement_materials_custom_chest","qty": 6,"cost": 25,"qtyMax": 50},
-      {"itemId": "advanced_taming_mark","qty": 8,"cost": 100,"qtyMax": 50},
-      {"itemId": "1h_general_speedup","qty": 6,"cost": 10,"qtyMax": 200},
-      {"itemId": "1h_general_speedup","qty": 6,"cost": 10,"qtyMax": 200},
-      {"itemId": "1h_general_speedup","qty": 6,"cost": 10,"qtyMax": 200},
-      {"itemId": "5m_general_speedup","qty": 5,"cost": 1,"qtyMax": 9999}
-    ]
-  },
-  {
-    "id": "Caravane_Daron",
-    "name": {
-      "EN": "Dragon's Caravan",
-      "FR": "Caravane du Dragon"
-    },
-    "endsAt": "2026-07-06T00:00:00Z",
-    "resourceName": {"EN": "Dragon Essence","FR": "Essence Draconique"
-    },
-    "items": [
-      {
-        "itemId": "fragment_of_a_specific_mythical_hero","qty": 1,"cost": 20, "qtyMax": 1075},
-      {"itemId": "fragment_of_a_specific_mythical_hero","qty": 1,"cost": 20, "qtyMax": 1075},
-      {"itemId": "fragment_of_a_specific_mythical_hero","qty": 1,"cost": 20, "qtyMax": 1075},
-      {"itemId": "custom_mythic_hero_gear_chest","qty": 1,"cost": 1000,"qtyMax": 2},
-      {"itemId": "lucky_hero_gear_chest","qty": 24,"cost": 200,"qtyMax": 100},
-      {"itemId": "forgehammers","qty": 24 ,"cost": 200,"qtyMax": 40},
-      {"itemId": "mithril","qty": 1,"cost": 160,"qtyMax": 25},
-      {"itemId": "artisan_s_vision","qty": 18,"cost": 40,"qtyMax": 100},
-      {"itemId": "gilded_threads","qty": 90,"cost": 40,"qtyMax": 100},
-      {"itemId": "satin","qty": 9000,"cost": 40,"qtyMax": 100},
-      {"itemId": "charm_design","qty": 28,"cost": 80,"qtyMax": 100},
-      {"itemId": "charm_guide","qty": 28,"cost": 80,"qtyMax": 100},
-      {"itemId": "pet_food_x1","qty": 3000,"cost": 40,"qtyMax": 50},
-      {"itemId": "pet_advancement_materials_custom_chest","qty": 4,"cost": 80,"qtyMax": 50},
-      {"itemId": "advanced_taming_mark","qty": 1,"cost": 80,"qtyMax": 50},
-      {"itemId": "truegold","qty": 16,"cost": 40,"qtyMax": 50},
-      {"itemId": "1h_general_speedup","qty": 8,"cost": 40,"qtyMax": 100},
-      {"itemId": "1h_general_speedup","qty": 8,"cost": 40,"qtyMax": 100},
-      {"itemId": "1h_general_speedup","qty": 8,"cost": 40,"qtyMax": 100},
-      {"itemId": "lv3_custom_resource_chest","qty": 1,"cost": 5,"qtyMax": 9999}
     ]
   }
 ]
