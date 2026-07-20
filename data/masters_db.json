@@ -2832,12 +2832,12 @@
       "FR": "Reine de l'Épée Sacrée"
     },
     "affinityBonus": {
-      "EN": "Affinity Bonus",
-      "FR": "Bonus d'Affinité"
+      "EN": "Squad Lethality & Health Bonus",
+      "FR": "Bonus Létalité & Santé d'Escouade"
     },
     "TextToInclude": {
-      "FR": "Bonus d'affinité : +X%",
-      "EN": "Affinity bonus: +X%"
+      "FR": "Létalité des escouades : +X%<br>Santé des escouades +X%",
+      "EN": "Squads' Lethality and Health, up to +X%"
     },
     "affinityMilestones": [
       {
@@ -2913,7 +2913,7 @@
         "FR": "Domaine de l'Épée Sacrée"
       },
       "TextToInclude": {
-        "FR": "À proximité de l'Épée Sacrée, Guinevere canalise une puissance immense : les escouades gagnent +X% d'Attaque et +X% de Défense pendant le Swordland Showdown et la Swordland Summit League.",
+        "FR": "Guinevere peut utiliser une puissance accrue à proximité de l'Épée scrée, augmentant l'Attaque des troupes de +X% et la Défense de +X% lors du Choc du Glaive sacré et de la Ligue d'élite de l'Épée sacrée.",
         "EN": "When near the Holy Sword, Guinevere channels immense power, granting Squads +X% Attack and +X% Defense during the Swordland Showdown and Swordland Summit League."
       },
       "levels": [
@@ -2968,10 +2968,10 @@
         "id": "max_efficiency",
         "name": {
           "EN": "Max Efficiency",
-          "FR": "Efficacité Maximale"
+          "FR": "Efficacité décuplée"
         },
         "TextToInclude": {
-          "FR": "Guinevere fait toujours le bon choix. Les gains de Pièces de Relique augmentent de X%.",
+          "FR": "Guinevere prend toujours les meilleurs décisions. Quantité de pièces de relique obtenue +X%.",
           "EN": "Guinevere always makes the right choice. Relic Coins gains are increased by X%."
         },
         "unlockRelLevel": 10,
@@ -3055,7 +3055,7 @@
           "FR": "Cœur Miséricordieux"
         },
         "TextToInclude": {
-          "FR": "Guinevere ne peut ignorer les blessés. Elle soigne instantanément et gratuitement X soldats à chaque Swordland Showdown et Swordland Summit League.",
+          "FR": "Guinevere ne peut ignorer les blessés. A chaque Choc du Glaive sacré et Ligue d'élite de l'Épée sacrée, X soldats peuvent être soignés gratuitement immédiatement.",
           "EN": "Guinevere cannot turn a blind eye to the wounded. She instantly heals X soldiers for free in every Swordland Showdown and Swordland Summit League."
         },
         "unlockRelLevel": 20,
@@ -3136,10 +3136,10 @@
         "id": "royal_guidance",
         "name": {
           "EN": "Royal Guidance",
-          "FR": "Conseil Royal"
+          "FR": "Guidance de l'autorité royale"
         },
         "TextToInclude": {
-          "FR": "Guinevere donne des ordres de combat précis : les escouades engagées dans le Swordland Showdown et la Swordland Summit League gagnent +X% de Létalité et +X% de Santé.",
+          "FR": "Guinevere donne les ordres de combats les plus clairs à ses troupes, augemenant la Létalité des troupes de +X% et leurs PV de +X% lors du Choc du Glaive sacré et de la ligue d'élite de l'Épée sacrée.",
           "EN": "Guinevere issues precise combat orders, granting Squads participating in Swordland Showdown and Swordland Summit League +X% Lethality and +X% Health."
         },
         "unlockRelLevel": 30,
@@ -3293,7 +3293,7 @@
           "FR": "Appel de la Table Ronde"
         },
         "TextToInclude": {
-          "FR": "Déterminée à s'emparer de l'Épée Sacrée, Guinevere rallie davantage d'escouades à sa cause. Augmente la capacité de rassemblement de X pendant le Swordland Showdown et la Swordland Summit League.",
+          "FR": "Guinevere est determinée à obtenir l'Épée sacrée et rassemblera plus de troupes pour la conquérir. Ralliement Max augmentée de X lors du Choc du Glaive et de la Ligue d'élite de l'Épée sacrée.",
           "EN": "Guinevere is determined to secure the Holy Sword and rallies more Squads to her cause. Increases Rally Capacity by X during Swordland Showdown and Swordland Summit League."
         },
         "unlockRelLevel": 40,
