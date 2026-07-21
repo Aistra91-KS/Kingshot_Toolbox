@@ -217,6 +217,7 @@ Un seul workflow : **`discord-news.yml`** (notification Discord des mises à jou
     - **Filtres** : sont ignorés les renommages purs (statut `R`, d'où `--name-status` dans le workflow), les modifications de `MAP.md`, et les commits contenant `[skip news]` dans le titre ou le corps. Un commit vidé de tous ses fichiers par ces filtres ne génère aucune news. ⚠️ Une conversion de format (`.png` → `.webp`) est vue par git comme `D` + `A`, pas comme un renommage : utiliser `[skip news]`.
     - **Ordre** : les 15 derniers commits sont conservés puis inversés → affichage du plus ancien au plus récent. L'ordre des sections reste celui de `PAGE_ORDER`.
 - **Secrets/vars** : `secrets.DISCORD_WEBHOOK`, `vars.SRC_LANG`.
+- **Longueur des messages de commit** : la traduction FR↔EN passe par **MyMemory**, plafonnée à **500 caractères par requête** ; au-delà elle renvoie `QUERY LENGTH LIMIT EXCEEDED…` **en HTTP 200** (invisible pour `!r.ok`). `translate()` découpe donc par phrases (`TR_MAX = 450`) et `translateChunk()` rejette toute réponse dont `responseStatus !== 200` (repli : texte source). Restent ensuite `packChunks` (1000 car./langue → messages multiples) et `clip` (1024 car., troncature sèche). **Cible : titre ≤ 70 car., corps ≤ 450 car.**
 
 ---
 
@@ -260,6 +261,7 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 - **Header actif dans un sous-dossier** : définir `window.HDR_ACTIVE_HREF = '<href du manifeste>'` **avant** `header.js` (utilisé par toutes les pages `database/buildings/*`).
 - **Modales** : utiliser `showAppAlert` / `showAppConfirm` (header.js), pas `alert()`/`confirm()`.
 - **DA** : respecter les variables CSS ; cartes = liseré doré + reflet au survol (cf. §5).
+- **Commits** : toute modification touchant **plusieurs fichiers** se fait via **`github.dev`** et part en **un seul commit final** — jamais d'états intermédiaires cassés en ligne. Message **en anglais** : titre en langage courant + corps compréhensible par un joueur non développeur, dans le budget de longueur du §7.Dans `github.dev`, la boîte de message est multiligne (**Shift+Entrée**) : ligne 1 = titre, ligne vide, puis le corps. Tout mettre sur une seule ligne rend l'intégralité de la news **en gras** sur Discord (le corps devient partie du `subject`).
 
 **Pièges déjà rencontrés**
 - **Dépendance `GlobalLang` non définie** : `lang.js` doit être chargé **avant** tout script qui appelle `GlobalLang` ; toujours garder le fallback `window.GlobalLang ? GlobalLang.get() : 'FR'` (déjà en place dans header/help/backup). Ordre de chargement critique.
