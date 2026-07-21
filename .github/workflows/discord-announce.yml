@@ -1,0 +1,32 @@
+name: Discord Announce
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/news/announce.md'   # committer ce fichier = publier l'annonce
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Aperçu seul (n'envoie rien sur Discord)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: discord-announce
+  cancel-in-progress: false
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publier l'annonce sur Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: node .github/scripts/announce.js

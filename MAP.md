@@ -97,8 +97,9 @@ hub-kingshot/
 │   └── pets/                     Familiers : portraits (.webp ×14) + sous-dossier skills/ (icônes compétence, .webp ×14)
 │
 └── .github/
-    ├── workflows/discord-news.yml   Workflow : notif Discord des commits (cron 2 h)
-    └── scripts/news.js              Script Node : parse commits → message Discord bilingue
+    ├── workflows/discord-announce.yml  Workflow : publie l'annonce (déclenché par le commit de announce.md)
+    ├── scripts/announce.js             Script Node : lit announce.md → 2 embeds Discord (FR + EN)
+    └── news/announce.md                Annonce en attente : en-tête `covers-until` + sections `## FR` / `## EN`
 ```
 
 ---
@@ -214,15 +215,14 @@ Toutes les données sont des **JSON éditées à la main** dans `data/` (pas de 
 
 ## 7. Automatisations (GitHub Actions)
 
-Un seul workflow : **`discord-news.yml`** (notification Discord des mises à jour).
-- **Déclencheurs** : cron `0 */2 * * *` (toutes les 2 h, best-effort) + `workflow_dispatch` (bouton manuel).
-- **Mécanique** : restaure le SHA du dernier commit notifié (cache `actions/cache`), collecte `git log <SINCE>..HEAD` (1er run → fenêtre « 2 hours ago »), passe la liste des commits à `.github/scripts/news.js`.
-- **`news.js`** : parse les commits, mappe chaque fichier modifié à une **page** (`fileToPage`), traduit FR↔EN (`SRC_LANG` via `vars`), et POST un message groupé sur le **`DISCORD_WEBHOOK`** (`secrets`). Le pointeur SHA n'avance **que** si l'envoi réussit (retry au run suivant).
-    - **Buckets `fileToPage`** (libellés `PAGE_LABELS`, ordre `PAGE_ORDER`) : `waracademy` (waracademy / wa_optimizer / truegold_war_db), `buildings` (database/buildings, img/buildings), `truegold`, `shop`, `beartrap`, `caserne`, `research`, `masters` (masters / heroes_db),`vikings`, `pets` (pets / img/pets), `home` (index.html / hub.js), `multi` (>2 pages touchées), `general` (défaut). ⚠️ Ordre des tests : `waracademy` avant `truegold`, `buildings` avant la règle `index.html`→`home`.
-    - **Filtres** : sont ignorés les renommages purs (statut `R`, d'où `--name-status` dans le workflow), les modifications de `MAP.md`, et les commits contenant `[skip news]` dans le titre ou le corps. Un commit vidé de tous ses fichiers par ces filtres ne génère aucune news. ⚠️ Une conversion de format (`.png` → `.webp`) est vue par git comme `D` + `A`, pas comme un renommage : utiliser `[skip news]`.
-    - **Ordre** : les 15 derniers commits sont conservés puis inversés → affichage du plus ancien au plus récent. L'ordre des sections reste celui de `PAGE_ORDER`.
-- **Secrets/vars** : `secrets.DISCORD_WEBHOOK`, `vars.SRC_LANG`.
-- **Longueur des messages de commit** : la traduction FR↔EN passe par **MyMemory**, plafonnée à **500 caractères par requête** ; au-delà elle renvoie `QUERY LENGTH LIMIT EXCEEDED…` **en HTTP 200** (invisible pour `!r.ok`). `translate()` découpe donc par phrases (`TR_MAX = 450`) et `translateChunk()` rejette toute réponse dont `responseStatus !== 200` (repli : texte source). Restent ensuite `packChunks` (1000 car./langue → messages multiples) et `clip` (1024 car., troncature sèche). **Cible : titre ≤ 70 car., corps ≤ 450 car.**
+Un seul workflow : **`discord-announce.yml`** (annonce Discord rédigée à la main, plus aucune traduction automatique).
+- **Déclencheur** : push sur `main` touchant `.github/news/announce.md` (= committer ce fichier publie l'annonce) + `workflow_dispatch` avec entrée `dry_run` (aperçu sans envoi).
+- **Mécanique** : `announce.js` lit `.github/news/announce.md`, extrait l'en-tête `<!-- kshub-news … -->` et les sections `## FR` / `## EN`, et POST un message à 2 embeds sur le `DISCORD_WEBHOOK` (`secrets`). Les commentaires HTML ne sont jamais publiés → gabarit vide = aucun envoi.
+- **Pointeur** : la clé `covers-until` (SHA) de l'en-tête indique jusqu'où portait l'annonce précédente. Elle sert à lister les commits à couvrir au moment de rédiger la suivante. Aucun cache Actions, aucun commit de bot.
+- **Clés d'en-tête** : `covers-until`, `generated`, `ping` (mention, optionnel), `color` (hexa, défaut `F5B840`), `title-fr`, `title-en`.
+- **Limites Discord** : 4096 car./embed, 6000 car. cumulés → au-delà de 5200 car. (FR+EN), le script scinde en deux messages au lieu de tronquer.
+- **Convention** : committer `announce.md` **seul**. S'il part avec des modifs de site, celles-ci glissent simplement sur l'annonce suivante.
+- **Secrets** : `secrets.DISCORD_WEBHOOK`. `vars.SRC_LANG` n'est plus utilisé.
 
 ---
 
@@ -258,7 +258,7 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 
 **Conventions**
 - **Manifeste unique** : ajouter une catégorie / un outil = éditer **uniquement site-config.js**. SITE.nameetSITE.home alimentent le logo du header. (jamais coder la nav en dur).
-- **Notifications Discord** : tout nouvel outil/page doit aussi être ajouté à `.github/scripts/news.js` (`fileToPage` + `PAGE_LABELS` + `PAGE_ORDER`), sinon ses commits tombent dans `general`. Respecter l'ordre des tests (règles spécifiques avant `truegold` / `index.html`).
+- **Notifications Discord** : plus aucun mapping à maintenir. Un nouvel outil n'exige aucune modification de `.github/` — il apparaîtra dans la prochaine annonce rédigée.
 - **Clés localStorage** : toujours passer par `STORAGE_KEYS` + `safeParse` (jamais de chaîne littérale).
 - **i18n** : toute chaîne visible passe par un dictionnaire `{FR,EN}` + `data-i18n` (ou `data-en`/`data-fr` sur les pages bâtiments). Réagir à `langChanged`.
 - **Icônes** : SVG Lucide **inline** (offline) via `SITE_ICONS`/`iconSvg()` (site-config) et `HEADER_ICONS`/`hdrSvg()` (header). Ajouter une nouvelle icône dans **les deux** registres si utilisée dans le header.
