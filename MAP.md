@@ -42,6 +42,7 @@ hub-kingshot/
 │   ├── lang.js                   ★ GlobalLang : get/set langue, applyI18n(dict), event 'langChanged'
 │   ├── header.js                 ★ Header contextuel généré depuis SITE + thème + modales globales
 │   ├── help.js                   Module d'aide générique (bouton "?", modale, bandeau, tooltips)
+│   ├── modal-tabs.js             Onglets mobiles des modales Caserne/Experts (panneaux [data-mtab], < 820px)
 │   ├── backup.js                 Sauvegarde globale (export/import .json par module)
 │   ├── hub.js                    Rendu de la grille du hub depuis SITE
 │   ├── research_script.js        Logique Recherches (fetch research_db.json)
@@ -112,8 +113,8 @@ hub-kingshot/
 | `waracademy.html` | Planif. recherches troupes TG | `wa_optimizer.js`, `waracademy.js` | `style.css`, `waracademy.css` | `truegold_war_db.json` |
 | `beartrap_calc.html` | Répartition marches Piège à Ours | `beartrap.js` | `style.css` | `heroes_db.json` + caserne (localStorage) |
 | `vikings.html` | Répartition troupes Vikings | `vikings.js` | `style.css` | formations Piège à Ours (localStorage) |
-| `caserne.html` | Gestion héros (beta) | `caserne.js` | `style.css` | `heroes_db.json` |
-| `masters.html` | Experts & affinités (beta) | `masters.js` | `style.css` | `masters_db.json` |
+| `caserne.html` | Gestion héros (beta) | `caserne.js`, `modal-tabs.js` | `style.css` | `heroes_db.json` |
+| `masters.html` | Experts & affinités (beta) | `masters.js`, `modal-tabs.js` | `style.css` | `masters_db.json` |
 | `shop_calc.html` | Coût boutique vs gemmes | `shop_calc.js` | `style.css` | `shopcalc_items/classic/events/chests.json` |
 | `pets.html` | Familiers : promenade verticale (fiches pets) | `pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `pets.css` (+ webfonts) | `pets_db.json` |
 | `database/buildings/*.html` | Tables d'amélioration bâtiments | inline + `header.js`, `lang.js`, `site-config.js` | `style.css` | données inline (HTML) |
@@ -184,6 +185,9 @@ Or éclatant sur noir profond, turquoise pour la validation, rubis pour l'alerte
 
 ### Exception assumée — page Familiers (`pets.html`)
 `pets.html` **s'écarte volontairement** de la DA Royal Gold : scène « sentier » en palette nature/jour (verts + terre, valeurs `oklch`), carte info blanche translucide, **webfonts** Cormorant Garamond + Karla. Pastilles de la sidebar colorées **par génération** (`--gen-1…7`), étoiles de palier (`--star`), sélecteur de niveau + pips de valeurs propres à cette page. Header reste en DA standard. Choix validé ; tout est isolé dans `css/pets.css` + `js/pets.js`.
+
+
+**Modales de détail (Caserne / Experts)** : tiroir latéral 400px sur desktop, plein écran + onglets sous 820px. Les sections de `#modal-body` portent `data-mtab="<clé>"` ; `js/modal-tabs.js` génère la barre `.mtabs` et n'affiche qu'un panneau à la fois (classe `.mtab-on`). Un panneau vide masque son onglet. Ajouter une section = poser `data-mtab` + déclarer la clé dans `PAGES` du module.
 
 
 ## 6. Données
