@@ -47,12 +47,14 @@ const titleEn = meta['title-en'] || "📰 What's new on the site";
 const stamp = new Date().toISOString();
 
 const clip = (s, n) => (s.length <= n ? s : s.slice(0, n - 1).trimEnd() + '…');
+// Pas de `url` sur l'embed : Discord fusionne en un seul bloc tous les embeds d'un
+// même message qui partagent la même `url`, et la description du second est perdue.
+// Le lien vers le site passe donc par `author`, qui n'a pas cet effet.
 const embed = (title, desc) => ({
   title,
-  url: SITE,
   color: COLOR,
   description: clip(desc || '—', 4000),
-  footer: { text: 'Kingshot Toolbox' },
+  author: { name: 'Kingshot Toolbox', url: SITE },
   timestamp: stamp
 });
 
