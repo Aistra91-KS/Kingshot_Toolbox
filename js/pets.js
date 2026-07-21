@@ -58,6 +58,8 @@
   const SPACING = 500, WALK_MS = 720, COOLDOWN = 130;
   const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const LAYER_RATES = { field:0.9, trail:1.0 };
+  const NARROW = matchMedia("(max-width: 880px)");   // mobile : colonne défilante + frise en bas
+  const isNarrow = () => NARROW.matches;
 
   let station = 0, worldY = 0, startY = 0, targetY = 0, startT = 0, dur = WALK_MS;
   let walking = false, locked = false, swapped = false, raf = 0, settleTimer = null;
@@ -65,7 +67,7 @@
   let petMain, scene, animalsLayer, animalEls = [], markerEls = [], texLayers = [],
       info, petBadge, petBadgeLabel, petName, petTier, petLevelInput, lvlMinus, lvlPlus,
       petLevelMax, petStars, petAdv, petSkillMain, petSkillLock, petSkillImg, petSkillName,
-      petSkillDesc, petSkillEffects, petCost, petList, progress, cIdx, cTot;
+      petSkillDesc, petSkillEffects, petCost, petList, progress, cIdx, cTot, petFlow, petFlowImg;
 
   /* -------- Helpers -------- */
   const $ = s => document.querySelector(s);
@@ -144,7 +146,7 @@
 
   function buildProgress(){
     cTot.textContent = PETS.length;
-    progress.innerHTML = PETS.map((_, i) => `<button class="pp-dot" data-i="${i}" aria-label="Familier ${i+1}"></button>`).join("");
+    progress.innerHTML = PETS.map((_, i) => `<button class="pp-dot" data-i="${i}" aria-label="Familier ${i+1}"><span class="pp-n">${i+1}</span></button>`).join("");
     progress.querySelectorAll(".pp-dot").forEach(d => d.addEventListener("click", () => go(+d.dataset.i)));
   }
 
@@ -178,6 +180,15 @@
     updateDerived(p);
     cIdx.textContent = i + 1;
     setCardSide(i);
+
+    // Colonne mobile : image au-dessus de la carte
+    if (petFlowImg){
+      petFlowImg.onerror = () => { petFlowImg.onerror = null; petFlowImg.src = fallbackSVG(p); };
+      petFlowImg.src = imgSrc(p);
+      petFlowImg.alt = p.name[lang];
+      petFlowImg.style.opacity = "1";
+    }
+    if (petFlow) petFlow.scrollTop = 0;
   }
 
   // parties dynamiques (palier, avancement, X, effets, coûts) — sans reconstruire l'input
@@ -283,6 +294,8 @@
   function updateActive(){
     petList.querySelectorAll(".pet-list-item").forEach((b, i) => b.classList.toggle("active", i === station));
     progress.querySelectorAll(".pp-dot").forEach((d, i) => d.classList.toggle("active", i === station));
+    const dot = progress.querySelector(".pp-dot.active");
+    if (dot && isNarrow()) progress.scrollTo({ left: dot.offsetLeft - progress.clientWidth / 2 + dot.offsetWidth / 2, behavior: REDUCE ? "auto" : "smooth" });
   }
 
   /* -------- Niveau : saisie -------- */
@@ -308,6 +321,7 @@
 
   /* -------- Défilement + profondeur -------- */
   function applyParallax(t){
+    if (isNarrow()) return;                 // mobile : pas de sentier vertical à animer
     for (const l of texLayers) l.el.style.backgroundPositionY = (-worldY * l.rate) + "px";
     animalsLayer.style.transform = `translateY(${-worldY}px)`;
     for (let i = 0; i < animalEls.length; i++){
@@ -334,9 +348,10 @@
     station = target;
     locked = true; walking = true; swapped = false;
     startY = worldY; targetY = station * SPACING; startT = performance.now();
-    dur = REDUCE ? 1 : WALK_MS * Math.min(2.2, Math.max(1, Math.sqrt(delta)));
+    dur = REDUCE ? 1 : (isNarrow() ? 240 : WALK_MS * Math.min(2.2, Math.max(1, Math.sqrt(delta))));
     updateActive();
     info.style.opacity = "0";
+    if (petFlowImg) petFlowImg.style.opacity = "0";
     cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
   }
   function tick(now){
@@ -359,6 +374,7 @@
   /* -------- Écouteurs -------- */
   function attachEvents(){
     petMain.addEventListener("wheel", (e) => {
+      if (isNarrow()) return;               // mobile : la colonne défile nativement
       e.preventDefault();
       clearTimeout(settleTimer);
       if (locked){ settleTimer = setTimeout(release, COOLDOWN); return; }
@@ -381,12 +397,26 @@
       else if (e.key === "End"){ e.preventDefault(); go(PETS.length - 1); }
     });
 
-    let sy = null;
-    petMain.addEventListener("touchstart", e => { sy = e.target.closest(".pet-info") ? null : e.touches[0].clientY; }, { passive:true });
+    let sy = null, sx = null;
+    petMain.addEventListener("touchstart", e => {
+      const t = e.touches[0];
+      if (isNarrow()){ sx = t.clientX; sy = t.clientY; return; }   // mobile : balayage horizontal
+      sx = null; sy = e.target.closest(".pet-info") ? null : t.clientY;
+    }, { passive:true });
     petMain.addEventListener("touchend", e => {
+      const c = e.changedTouches[0];
+      if (isNarrow()){
+        if (sx === null) return;
+        const dx = sx - c.clientX, dy = Math.abs(sy - c.clientY);
+        if (Math.abs(dx) > 55 && Math.abs(dx) > dy * 1.4){
+          const dir = dx > 0 ? 1 : -1, t = station + dir;
+          (t < 0 || t >= PETS.length) ? rubberBand(dir) : go(t);
+        }
+        sx = sy = null; return;
+      }
       if (sy === null) return;
-      const dy = sy - e.changedTouches[0].clientY;
-      if (Math.abs(dy) > 45){ const dir = dy > 0 ? 1 : -1, t = station + dir;
+      const d = sy - c.clientY;
+      if (Math.abs(d) > 45){ const dir = d > 0 ? 1 : -1, t = station + dir;
         (t < 0 || t >= PETS.length) ? rubberBand(dir) : go(t); }
       sy = null;
     }, { passive:true });
@@ -427,6 +457,7 @@
     petSkillImg=$("#petSkillImg"); petSkillName=$("#petSkillName"); petSkillDesc=$("#petSkillDesc"); petSkillEffects=$("#petSkillEffects");
     petCost=$("#petCost");
     petList=$("#petList"); progress=$("#progress"); cIdx=$("#cIdx"); cTot=$("#cTot");
+    petFlow=$("#petFlow"); petFlowImg=$("#petFlowImg");
     texLayers = Array.from(document.querySelectorAll("[data-rate]")).map(el => ({ el, rate:LAYER_RATES[el.dataset.rate] || 0 }));
 
     fetch("data/pets_db.json")

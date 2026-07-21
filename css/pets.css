@@ -182,13 +182,63 @@ body.pets-page{ overflow:hidden; }
 .pet-hint svg{ width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; }
 
 /* ---------------- Responsive ---------------- */
+/* Colonne mobile — neutre sur desktop : display:contents supprime la boîte,
+   donc .pet-info reste positionnée par rapport à .pet-main comme avant. */
+.pet-flow{ display:contents; }
+.pet-flow-img{ display:none; }
+.pp-dot .pp-n{ display:none; }
+
 @media (max-width:880px){
   .pet-sidebar{ display:none; }
-  .animal img{ max-height:min(34vh, 280px); max-width:62vw; }
-  .pet-info{ right:12px; left:12px; top:auto; bottom:12px; transform:none; width:auto; max-height:42%; }
-  .pet-info .card{ overflow:auto; max-height:100%; padding:18px 20px; }
+
+  /* Hauteur fiable malgré la barre d'URL mobile */
+  .pet-main{ height:calc(100dvh - var(--header-offset) - 20px); }
+
+  /* Décor conservé et resserré : il reste hors de la zone qui défile, donc immobile */
+  .field-left{ right:calc(50% + 44px); }
+  .field-right{ left:calc(50% + 44px); }
+  .path{ width:88px; }
+  .grass-l{ left:calc(50% - 48px); }
+  .grass-r{ left:calc(50% + 42px); }
+  .footsteps{ opacity:.6; }
+  .animals{ display:none; }
+  .scene-fade{ display:none; }
+
+  /* Colonne défilante : l'image monte quand on descend dans la fiche */
+  .pet-flow{ display:block; position:absolute; inset:0; z-index:8;
+    overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;
+    padding:14px 12px 68px; box-sizing:border-box; }
+  .pet-flow-img{ display:block; margin:0 auto 14px; max-height:32vh; max-width:min(76%, 300px);
+    object-fit:contain; filter:drop-shadow(0 14px 16px rgba(60,50,20,.32));
+    transition:opacity .28s ease; }
+
+  /* La carte quitte le flottement et s'empile sous l'image */
+  .pet-info{ position:static; width:auto; display:block; }
+  .pet-info.on-left, .pet-info.on-right{ left:auto; right:auto; }
+  .pet-info .card{ max-height:none; overflow:visible; padding:18px 20px; }
   .pet-name{ font-size:1.6rem; }
-  .pet-progress{ left:10px; }
+
+  /* Sentier en frise : pastilles numérotées ancrées en bas */
+  .pet-progress{ left:0; right:0; bottom:0; top:auto; transform:none;
+    flex-direction:row; align-items:center; gap:8px;
+    padding:9px 12px; overflow-x:auto; scrollbar-width:none;
+    background:oklch(0.84 0.045 78 / .92); border-top:1px solid oklch(0.68 0.05 74 / .55); }
+  .pet-progress::-webkit-scrollbar{ display:none; }
+  .pp-dot{ width:28px; height:28px; flex:none; border-radius:50%;
+    background:oklch(0.96 0.02 118 / .9); border:1px solid oklch(0.62 0.08 135 / .45);
+    color:oklch(0.38 0.09 140); font-family:'Cormorant Garamond', serif; font-weight:600; font-size:14px;
+    font-variant-numeric:lining-nums tabular-nums; font-feature-settings:"lnum" 1, "tnum" 1;
+    display:grid; place-items:center; }
+  .pp-dot .pp-n{ display:block; }
+  .pp-dot:hover{ transform:none; }
+  .pp-dot.active{ background:oklch(0.90 0.06 133); border-color:var(--green); transform:scale(1.1);
+    box-shadow:0 0 0 4px oklch(0.62 0.10 135 / .18); }
+
+  /* Compteur : pastille flottante, jamais emportée par le défilement */
+  .pet-counter{ left:auto; right:10px; top:10px; z-index:10;
+    background:rgba(255,255,255,.72); border:1px solid rgba(255,255,255,.8);
+    border-radius:20px; padding:3px 10px; font-size:.78rem; }
+  .pet-hint{ display:none; }
 }
 @media (prefers-reduced-motion:reduce){
   .animal img, .pet-hint .chev{ animation:none !important; }

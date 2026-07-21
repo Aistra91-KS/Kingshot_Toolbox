@@ -185,6 +185,7 @@ Or éclatant sur noir profond, turquoise pour la validation, rubis pour l'alerte
 
 ### Exception assumée — page Familiers (`pets.html`)
 `pets.html` **s'écarte volontairement** de la DA Royal Gold : scène « sentier » en palette nature/jour (verts + terre, valeurs `oklch`), carte info blanche translucide, **webfonts** Cormorant Garamond + Karla. Pastilles de la sidebar colorées **par génération** (`--gen-1…7`), étoiles de palier (`--star`), sélecteur de niveau + pips de valeurs propres à cette page. Header reste en DA standard. Choix validé ; tout est isolé dans `css/pets.css` + `js/pets.js`.
+**Mobile (< 880px)** : la promenade laisse place à une colonne centrée qui défile — image (`.pet-flow-img`) au-dessus de la carte, toutes deux dans `#petFlow` (`display:contents` sur desktop, donc sans effet hors mobile). Le décor reste fixe derrière ; `.animals` et la parallaxe sont hors circuit. Le sentier devient une frise de pastilles numérotées (`.pp-dot .pp-n`) ancrée en bas ; navigation par balayage **horizontal** (le vertical est rendu au défilement de la fiche).
 
 
 **Modales de détail (Caserne / Experts)** : tiroir latéral 400px sur desktop, plein écran + onglets sous 820px. Les sections de `#modal-body` portent `data-mtab="<clé>"` ; `js/modal-tabs.js` génère la barre `.mtabs` et n'affiche qu'un panneau à la fois (classe `.mtab-on`). Un panneau vide masque son onglet. Ajouter une section = poser `data-mtab` + déclarer la clé dans `PAGES` du module.
