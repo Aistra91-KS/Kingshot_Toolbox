@@ -273,6 +273,7 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 - **Fonction `getRawNumber` manquante** : helper local à `beartrap.js` (nettoie espaces + `parseInt`). N'existe **pas** globalement — ne pas l'appeler depuis un autre script sans la (re)définir.
 - **Formatage des nombres dépendant de la locale** : l'UI formate les milliers via `toLocaleString('fr-FR')` (espaces). Les inputs numériques FR **refusent le `.`** ; côté saisie, nettoyer (`replace(/\D/g,'')` / strip espaces) **avant** `parseInt`/`parseFloat`. Ne pas parser directement `el.value` formaté.
 - **Gestion d'erreurs des `fetch`** : tous les chargements de données sont des `fetch('data/….json')` relatifs (sensibles au chemin de déploiement Pages). Toujours vérifier `response.ok` et prévoir un message clair (ex. TrueGold affiche un diagnostic « le fichier existe-t-il ? »). Un `data/` mal résolu casse silencieusement l'outil.
+- **Embeds Discord fusionnés** : deux embeds d'un même message qui portent la **même `url`** sont regroupés par Discord en un seul bloc, et la description du second est perdue (c'est le mécanisme d'affichage multi-images). Ne jamais mettre `url` sur les embeds FR/EN de `announce.js` — le lien vers le site passe par `author`.
 
 ---
 
