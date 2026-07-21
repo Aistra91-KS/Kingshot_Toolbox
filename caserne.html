@@ -113,7 +113,7 @@
 
             <div id="modal-body" style="padding: 20px;">
                 
-                <div class="progression-section" style="margin-bottom: 25px;">
+                <div data-mtab="level" class="progression-section" style="margin-bottom: 25px;">
                     <div class="control-row" style="justify-content: space-between; margin-bottom: 15px;">
                         <label style="font-weight: bold;" data-i18n="modalLvl">Niveau du Héros</label>
                         <input type="number" id="modal-level" min="1" max="80" value="1" class="table-input" style="width: 80px; text-align: center;">
@@ -125,20 +125,20 @@
                         <input type="range" id="modal-shards" min="0" max="30" value="0" style="width: 100%; cursor: pointer;">
                         <div style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">
                             <span data-i18n="modalShards">Fragments d'étoiles :</span> <span id="modal-shards-count" style="color: var(--text-light); font-weight: bold;">0</span>/30
+                        </div>
                     </div>
                 </div>
 
-                <div class="skills-section">
+                <div data-mtab="skills" class="skills-section">
                     <h4 style="margin: 0 0 15px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="modalSkills">Compétences</h4>
                     <div id="modal-skills-list" style="display: flex; flex-direction: column; gap: 15px;">
                         </div>
                 </div>
 
-                <!-- NOUVEAU CONTENEUR WIDGET -->
-                <div id="hero-widget-container" style="display: none; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px;">
+                <div data-mtab="widget">
+                    <div id="hero-widget-container" style="display: none; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px;">
+                    </div>
                 </div>
-
-            </div>
 
             </div>
 
@@ -155,6 +155,7 @@
     <script src="js/lang.js"></script>
     <script src="js/help.js"></script>
     <script src="js/caserne.js"></script>
+    <script src="js/modal-tabs.js"></script>
     <script src="js/header.js"></script>
     <script src="js/backup.js"></script>
 </body>

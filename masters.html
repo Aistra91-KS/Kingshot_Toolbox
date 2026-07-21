@@ -68,6 +68,7 @@
 
             <div id="modal-body" style="padding: 20px; flex: 1;">
                 
+                <div data-mtab="relation">
                 <!-- RELATION & STATUT -->
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: var(--control-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
                     <div>
@@ -84,6 +85,9 @@
                     </div>
                 </div>
 
+                </div>
+
+                <div data-mtab="break">
                 <!-- PALIERS DE PERCÉE -->
                 <div class="skills-section" style="margin-bottom: 15px;">
                     <h4 style="margin: 0 0 6px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="lblBreakthroughs">Paliers de percée</h4>
@@ -99,6 +103,9 @@
                     <!-- Injecté par JS -->
                 </div>
 
+                </div>
+
+                <div data-mtab="skills">
                 <div class="skills-section" style="margin-bottom: 25px;">
                     <h4 style="margin: 0 0 10px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="lblPassive">Expertise Passive</h4>
                     <div id="modal-passive-display" style="background: rgba(245, 184, 64, 0.05); border: 1px solid rgba(245, 184, 64, 0.3); padding: 15px; border-radius: 8px;">
@@ -110,10 +117,11 @@
                     <div id="modal-skills-list" style="display: flex; flex-direction: column; gap: 15px;">
                         </div>
                 </div>
+                </div>
 
             </div>
 
-            <div style="padding: 15px; text-align: right; border-top: 1px solid var(--border); background: var(--bg-color);">
+            <div class="modal-actions" style="padding: 15px; text-align: right; border-top: 1px solid var(--border); background: var(--bg-color);">
                 <button onclick="closeMasterModal()" class="btn-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); margin-right: 10px;" data-i18n="btnCancel">Annuler</button>
                 <button onclick="saveMasterSettings()" class="btn-reset" style="background: var(--accent); color: #000; font-weight: bold;" data-i18n="btnSave">Enregistrer</button>
             </div>
@@ -126,6 +134,7 @@
     <script src="js/help.js"></script>
     <script src="js/header.js"></script>
     <script src="js/masters.js"></script>
+    <script src="js/modal-tabs.js"></script>
     <script src="js/backup.js"></script>
 </body>
 </html>

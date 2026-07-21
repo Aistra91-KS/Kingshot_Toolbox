@@ -1336,8 +1336,10 @@ tbody tr:hover {
    ============================================================================ */
 
 /* 1. La zone principale (la grille) s'adapte INSTANTANÉMENT pour éviter les saccades */
-body.modal-active .main-content {
-    padding-right: 440px !important; 
+@media (min-width: 821px) {
+    body.modal-active .main-content {
+        padding-right: 440px !important;
+    }
 }
 
 /* 2. Le panneau latéral (Hors de l'écran par défaut) */
@@ -2101,3 +2103,89 @@ body.drawer-locked { overflow: hidden; }
 .sc-shop.collapsed .shop-card-grid,
 .sc-shop.collapsed table { display: none; }
 .sc-shop.collapsed { padding-bottom: 10px; }
+
+/* ============================================================================
+   MODALES MOBILES — Plein écran + onglets (Caserne & Experts)
+   Barre d'onglets générée par js/modal-tabs.js, masquée sur desktop.
+   ============================================================================ */
+
+.mtabs {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    flex: none;
+    padding: 10px 14px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+}
+.mtab {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 8px 6px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--control-bg);
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.mtab.active { background: var(--accent); border-color: var(--accent); color: #0a0a0a; }
+.mtab-close {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--control-bg);
+    color: var(--text-muted);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+.mtab-close:hover { border-color: var(--accent); color: var(--accent); }
+
+@media (max-width: 820px) {
+    #hero-modal, #master-modal {
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: auto !important;
+        transform: translateY(100%);
+    }
+    #hero-modal.show, #master-modal.show { transform: translateY(0); }
+
+    #hero-modal .modal-content, #master-modal .modal-content {
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+    #hero-modal #modal-body, #master-modal #modal-body {
+        flex: 1 1 auto !important;
+        overflow-y: auto !important;
+        padding: 14px !important;
+    }
+    #hero-modal .modal-header { padding: 14px !important; }
+    #master-modal #modal-header-bg { height: 96px !important; }
+    #hero-modal .modal-actions, #master-modal .modal-actions {
+        flex: none;
+        padding: 10px 14px !important;
+    }
+
+    /* Un seul panneau visible à la fois */
+    .mtabs { display: flex; }
+    #modal-body [data-mtab] { display: none !important; }
+    #modal-body [data-mtab].mtab-on { display: block !important; }
+    #hero-widget-container {
+        margin-top: 0 !important;
+        border-top: 0 !important;
+        padding-top: 0 !important;
+    }
+}
