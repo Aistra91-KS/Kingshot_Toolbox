@@ -34,11 +34,9 @@ function renderHub() {
     const lang = GlobalLang.get();
     const t = (o) => o ? (o[lang] || o.EN || o.FR || '') : '';
 
-    // Jeu actif (Kingshot pour l'instant)
-    const game = S.games.find(g => g.status === 'active') || S.games[0];
     let html = '';
 
-    (game.categories || []).forEach(cat => {
+    (S.categories || []).forEach(cat => {
         const soonCat = cat.status !== 'active';
         html += `<section class="hub-section">
             <h2 class="hub-section-title">${t(cat.name)}${soonCat ? ` <span class="hub-section-soon">${t(S.ui.soon)}</span>` : ''}</h2>

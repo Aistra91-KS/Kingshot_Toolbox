@@ -1,6 +1,6 @@
 // ============================================================
 //  HEADER CONTEXTUEL — généré depuis window.SITE (site-config.js)
-//  Desktop : logo · jeu · catégorie · outils · langue · thème
+//  Desktop : logo · catégorie · outils · langue · thème
 //  Mobile  : logo + bouton ☰ → drawer (toute la nav depuis SITE)
 //  Icônes SVG inline (offline)
 // ============================================================
@@ -25,7 +25,7 @@ function hdrSvg(name, size = 18) {
 
 // --- État global ---
 let HDR_CURRENT_PAGE = window.HDR_ACTIVE_HREF || (window.location.pathname.split('/').pop() || 'index.html');
-let HDR_CTX = { gameId: null, catId: null, toolId: null };
+let HDR_CTX = { catId: null, toolId: null };
 let HDR_SELECTED_CAT = null;
 
 function hdrLang() { return window.GlobalLang ? window.GlobalLang.get() : 'FR'; }
@@ -33,25 +33,20 @@ function hdrT(obj) { return obj ? (obj[hdrLang()] || obj.EN || obj.FR || '') : '
 
 function hdrResolveContext(page) {
   const S = window.SITE;
-  for (const game of S.games) {
-    for (const cat of (game.categories || [])) {
-      for (const toolId of (cat.tools || [])) {
-        const tool = S.tools[toolId];
-        if (tool && tool.href === page) {
-          return { gameId: game.id, catId: cat.id, toolId: toolId };
-        }
+  for (const cat of (S.categories || [])) {
+    for (const toolId of (cat.tools || [])) {
+      const tool = S.tools[toolId];
+      if (tool && tool.href === page) {
+        return { catId: cat.id, toolId: toolId };
       }
     }
   }
-  const firstGame = S.games.find(g => g.status === 'active') || S.games[0];
-  const firstCat  = (firstGame.categories || []).find(c => c.status === 'active');
-  return { gameId: firstGame.id, catId: firstCat ? firstCat.id : null, toolId: null };
+  const firstCat = (S.categories || []).find(c => c.status === 'active');
+  return { catId: firstCat ? firstCat.id : null, toolId: null };
 }
 
-function hdrGetGame(id) { return window.SITE.games.find(g => g.id === id); }
-function hdrGetCat(gameId, catId) {
-  const g = hdrGetGame(gameId);
-  return g ? (g.categories || []).find(c => c.id === catId) : null;
+function hdrGetCat(catId) {
+  return (window.SITE.categories || []).find(c => c.id === catId) || null;
 }
 
 // ---------- Dropdown custom (desktop) ----------
@@ -102,23 +97,9 @@ if (!window.__hdrDDInit) {
 }
 
 // ---------- Rendus desktop ----------
-function hdrRenderGames() {
-  const S = window.SITE;
-  const items = S.games.map(g => ({
-    value: g.id,
-    label: hdrT(g.name) + (g.status !== 'active' ? ' — ' + hdrT(S.ui.soon) : ''),
-    disabled: g.status !== 'active'
-  }));
-  hdrBuildDropdown('hdr-game', items, HDR_CTX.gameId, (val) => {
-    const g = hdrGetGame(val);
-    if (g && g.status === 'active' && g.hub) window.location.href = g.hub;
-  });
-}
-
 function hdrRenderCategories() {
   const S = window.SITE;
-  const game = hdrGetGame(HDR_CTX.gameId);
-  const cats = (game && game.categories) || [];
+  const cats = S.categories || [];
   const items = cats.map(c => ({
     value: c.id,
     label: hdrT(c.name) + (c.status !== 'active' ? ' — ' + hdrT(S.ui.soon) : ''),
@@ -135,7 +116,7 @@ function hdrRenderTools() {
   const box = document.getElementById('hdr-tools');
   if (!box) return;
   const S = window.SITE;
-  const cat = hdrGetCat(HDR_CTX.gameId, HDR_SELECTED_CAT);
+  const cat = hdrGetCat(HDR_SELECTED_CAT);
   if (!cat || !(cat.tools || []).length) {
     box.innerHTML = `<span class="hdr-soon">${hdrT(S.ui.soon)}</span>`;
     return;
@@ -159,12 +140,11 @@ function hdrBuildDrawer() {
   const drawer = document.getElementById('hdr-drawer');
   if (!drawer || !window.SITE) return;
   const S = window.SITE;
-  const game = hdrGetGame(HDR_CTX.gameId);
   const lang = hdrLang();
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
   let nav = '';
-  (game.categories || []).forEach(cat => {
+  (S.categories || []).forEach(cat => {
     const soon = cat.status !== 'active';
     nav += `<div class="drawer-cat">${hdrT(cat.name)}${soon ? ` <span class="drawer-soon">${hdrT(S.ui.soon)}</span>` : ''}</div>`;
     if (!soon) {
@@ -180,7 +160,7 @@ function hdrBuildDrawer() {
 
   drawer.innerHTML = `
     <div class="drawer-head">
-      <span class="drawer-game">${hdrT(game.name)}</span>
+      <span class="drawer-game">${S.name}</span>
       <button class="drawer-close" id="hdr-drawer-close" aria-label="Fermer">✕</button>
     </div>
     <nav class="drawer-nav">${nav}</nav>
@@ -217,6 +197,7 @@ function hdrCloseDrawer() {
 // ---------- Construction + injection ----------
 (function buildHeader() {
   if (!window.SITE) { console.error('site-config.js manquant — header non généré.'); return; }
+  const S = window.SITE;
 
   // Favicon (injecté une seule fois, vaut pour toutes les pages)
   if (!document.querySelector('link[rel="icon"]')) {
@@ -229,16 +210,15 @@ function hdrCloseDrawer() {
   HDR_CTX = hdrResolveContext(HDR_CURRENT_PAGE);
   HDR_SELECTED_CAT = HDR_CTX.catId;
 
-  const portalHref = 'index.html';
+  const homeHref = S.home || 'index.html';
 
   const headerHTML = `
     <header class="app-header">
       <div class="hdr-zone hdr-left">
-        <a href="${portalHref}" class="app-header-logo" title="Accueil">
+        <a href="${homeHref}" class="app-header-logo" title="Accueil">
           <img class="logo-icon" src="img/logo/favicon.svg" alt="" width="24" height="24">
-          <span class="logo-text">KvkGame Toolbox</span>
+          <span class="logo-text">${S.name}</span>
         </a>
-        <div id="hdr-game" class="hdr-dd" title="Jeu"></div>
       </div>
 
       <nav class="hdr-zone hdr-center">
@@ -271,7 +251,6 @@ function hdrCloseDrawer() {
     '<div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>' +
     '<aside class="hdr-drawer" id="hdr-drawer" aria-hidden="true"></aside>');
 
-  hdrRenderGames();
   hdrRenderCategories();
   hdrRenderTools();
   hdrBuildDrawer();

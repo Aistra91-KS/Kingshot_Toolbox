@@ -185,7 +185,7 @@ function packChunks(sections, limit = 1000) {
           { name: '🇫🇷 Nouveautés', value: clip(fr) },
           { name: "🇬🇧 What's new", value: clip(en) }
         ],
-        footer: { text: 'KVK Game Optimizer' },
+        footer: { text: 'Kingshot Toolbox' },
         timestamp: new Date().toISOString()
       }]
     };

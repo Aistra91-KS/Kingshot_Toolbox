@@ -11,7 +11,7 @@
 - **Type** : site statique hébergé sur **GitHub Pages** (pas de backend, pas de build).
 - **Stack** : HTML / CSS / JS **vanilla** (aucun framework, aucun bundler) + **GitHub Actions** (notif Discord).
 - **Langues** : **FR / EN**, bascule à chaud (aucun rechargement).
-- **Architecture** : Portail → Hub (catégories) → Outils. Toute la navigation est pilotée par un manifeste unique `js/site-config.js`.
+- **Architecture** : Hub (catégories) → Outils. Site mono-jeu (Kingshot). Toute la navigation est pilotée par un manifeste unique `js/site-config.js`.
 - **Persistance** : `localStorage` uniquement (clés centralisées dans `js/storage-keys.js`), export/import JSON via `js/backup.js`.
 
 ---
@@ -37,7 +37,7 @@ hub-kingshot/
 │   └── pets.css                  Styles page Familiers (scène « sentier », décor CSS, DA nature distincte)
 │
 ├── js/
-│   ├── site-config.js            ★ Manifeste unique : jeux, catégories, outils, registre d'icônes Lucide
+│   ├── site-config.js            ★ Manifeste unique : identité (name/home), catégories, outils, registre d'icônes Lucide
 │   ├── storage-keys.js           ★ Source unique des clés localStorage + safeParse()
 │   ├── lang.js                   ★ GlobalLang : get/set langue, applyI18n(dict), event 'langChanged'
 │   ├── header.js                 ★ Header contextuel généré depuis SITE + thème + modales globales
@@ -251,7 +251,7 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 ## 9. Conventions & pièges connus
 
 **Conventions**
-- **Manifeste unique** : ajouter un jeu / une catégorie / un outil = éditer **uniquement `site-config.js`** (jamais coder la nav en dur).
+- **Manifeste unique** : ajouter une catégorie / un outil = éditer **uniquement site-config.js**. SITE.nameetSITE.home alimentent le logo du header. (jamais coder la nav en dur).
 - **Notifications Discord** : tout nouvel outil/page doit aussi être ajouté à `.github/scripts/news.js` (`fileToPage` + `PAGE_LABELS` + `PAGE_ORDER`), sinon ses commits tombent dans `general`. Respecter l'ordre des tests (règles spécifiques avant `truegold` / `index.html`).
 - **Clés localStorage** : toujours passer par `STORAGE_KEYS` + `safeParse` (jamais de chaîne littérale).
 - **i18n** : toute chaîne visible passe par un dictionnaire `{FR,EN}` + `data-i18n` (ou `data-en`/`data-fr` sur les pages bâtiments). Réagir à `langChanged`.

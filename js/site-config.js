@@ -1,63 +1,56 @@
 // ============================================================
 //  SITE CONFIG — Source unique de la navigation
-//  Portail (jeux) -> Hub (catégories) -> Outils + Header contextuel
-//  KVK Game Optimizer · vanilla · statique · bilingue FR/EN
+//  Hub (catégories) -> Outils + Header contextuel
+//  Kingshot Toolbox · vanilla · statique · bilingue FR/EN
 //
-//  >>> Ajouter un jeu / une catégorie / un outil = éditer CE fichier uniquement. <<<
+//  >>> Ajouter une catégorie / un outil = éditer CE fichier uniquement. <
 //
 //  - icon  : nom d'icône Lucide (https://lucide.dev) — ex. "coins", "axe"
 //  - status: "active" | "soon"
-//  - href  : chemin ACTUEL (plat). Deviendra "kingshot/..." à la restructuration.
+//  - href  : chemin du fichier de l'outil (arborescence plate)
 //  - badge : optionnel ("beta", ...)
 // ============================================================
 
 const SITE = {
 
   // ---------------------------------------------------------
-  //  JEUX (niveau Portail)
+  //  IDENTITÉ DU SITE
   // ---------------------------------------------------------
-  games: [
-    {
-      id: "kingshot",
-      name: { EN: "Kingshot", FR: "Kingshot" },
-      status: "active",
-      icon: "swords",          // logo provisoire : deux épées croisées
-      hub: "index.html",       // page hub du jeu (Phase 1 : séparer portail / hub)
-      categories: [
-        {
-          id: "kvk-guide",
-          name: { EN: "KVK Guide", FR: "Guide KVK" },
-          icon: "book-open",
-          status: "active",
-          tools: ["research", "truegold", "waracademy"]
-        },
-        {
-          id: "event-optimizer",
-          name: { EN: "Event Optimizer", FR: "Optimiseur d'Événements" },
-          icon: "swords",
-          status: "active",
-          tools: ["beartrap", "vikings", "heroes", "masters", "pets"]
-        },
-        {
-          id: "pack-shop",
-          name: { EN: "Pack / Shop Calculation", FR: "Calcul Packs / Boutique" },
-          icon: "shopping-cart",
-          status: "active",
-          tools: ["shopcalc"]
-        },
-        {
-          id: "database",
-          name: { EN: "Database", FR: "Base de Données" },
-          icon: "database",
-          status: "active",
-          tools: ["buildings", "waresearch"]
-        }
-      ]
-    },
+  name: "Kingshot Toolbox",
+  home: "index.html",
 
-    // Jeux futurs (coquille multi-jeux) — remplis plus tard
-    { id: "dws", name: { EN: "DWS", FR: "DWS" }, status: "soon", icon: "gamepad-2", categories: [] },
-    { id: "wos", name: { EN: "WOS", FR: "WOS" }, status: "soon", icon: "gamepad-2", categories: [] }
+  // ---------------------------------------------------------
+  //  CATÉGORIES (niveau Hub)
+  // ---------------------------------------------------------
+  categories: [
+    {
+      id: "kvk-guide",
+      name: { EN: "KVK Guide", FR: "Guide KVK" },
+      icon: "book-open",
+      status: "active",
+      tools: ["research", "truegold", "waracademy"]
+    },
+    {
+      id: "event-optimizer",
+      name: { EN: "Event Optimizer", FR: "Optimiseur d'Événements" },
+      icon: "swords",
+      status: "active",
+      tools: ["beartrap", "vikings", "heroes", "masters", "pets"]
+    },
+    {
+      id: "pack-shop",
+      name: { EN: "Pack / Shop Calculation", FR: "Calcul Packs / Boutique" },
+      icon: "shopping-cart",
+      status: "active",
+      tools: ["shopcalc"]
+    },
+    {
+      id: "database",
+      name: { EN: "Database", FR: "Base de Données" },
+      icon: "database",
+      status: "active",
+      tools: ["buildings", "waresearch"]
+    }
   ],
 
   // ---------------------------------------------------------
