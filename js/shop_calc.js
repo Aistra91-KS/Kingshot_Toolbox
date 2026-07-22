@@ -159,7 +159,7 @@ function scRenderItems(){
   tb.innerHTML=rows.map(({it,idx})=>{
     const color=scCatColor(it.category), img=scImg(it);
     return `<tr style="border-left:4px solid ${color};background:${color}14;">
-      <td style="width:46px;"><div class="sc-item-img" style="background-image:url('img/Item/${img}.png');background-color:${color}33;"></div></td>
+      <td style="width:46px;"><div class="sc-item-img" style="background-image:url('img/Item/${img}.webp');background-color:${color}33;"></div></td>
       <td style="font-weight:600;">${scEscAttr(scName(it,lang))}</td>
       <td><span style="color:${color};font-weight:600;font-size:12px;">${scEscAttr(it.category)}</span></td>
       <td><input type="number" min="0" step="1" class="table-input" style="width:120px;text-align:right;" value="${it.gemValue}" onchange="scUpdateGem(${idx},this.value)"></td></tr>`;
@@ -245,7 +245,7 @@ function scRenderShopCard(scope,shop){
       const nameTxt=r.nameTxt; const top=r.isTop;
       return `<div class="shop-item-card${top?' is-top':''}" style="--cat:${color};">
         <div class="sic-visual" style="background:${color}14;">
-          <div class="sic-img" style="background-image:url('img/Item/${img}.png');"></div>
+          <div class="sic-img" style="background-image:url('img/Item/${img}.webp');"></div>
           <span class="sic-qty">×${r.qty}</span>
           ${top?`<span class="sic-top">${scT('best')}</span>`:''}
         </div>
@@ -292,7 +292,7 @@ function scRenderShopCard(scope,shop){
       ? `<td style="text-align:center;"><button class="btn-reset" style="padding:2px 8px;font-size:13px;" onclick="scRemoveShopItem('${scope}','${shop.id}',${r.i})">✕</button></td>`
       : '';
     return `<tr style="border-left:4px solid ${top?'#3B82F6':color};background:${color}${top?'26':'14'};${top?'box-shadow: inset 0 0 0 1px #3B82F64d;':''}">
-      <td style="width:42px;"><div class="sc-item-img" style="width:30px;height:30px;background-image:url('img/Item/${img}.png');background-color:${color}33;"></div></td>
+      <td style="width:42px;"><div class="sc-item-img" style="width:30px;height:30px;background-image:url('img/Item/${img}.webp');background-color:${color}33;"></div></td>
       <td>${scEscAttr(nameTxt)} ${top?`<span style="background:#3B82F6;color:#fff;font-size:10px;font-weight:bold;padding:1px 6px;border-radius:8px;">${scT('best')}</span>`:''}</td>
       ${qtyCell}
       ${costCell}
@@ -326,7 +326,7 @@ function scRenderShopCard(scope,shop){
       const resetTxt = r.daily ? `↻ ${scT('daily')}` : `🔒 ${scT('stock')}`;
       return `<div class="shop-item-card event-card${top?' is-top':''}" style="--cat:${color};">
         <div class="sic-visual" style="background:${color}14;">
-          <div class="sic-img" style="background-image:url('img/Item/${img}.png');"></div>
+          <div class="sic-img" style="background-image:url('img/Item/${img}.webp');"></div>
           <span class="sic-reset" title="${scEscAttr(r.daily?scT('daily'):scT('stock'))}">${r.daily?'↻':'🔒'}</span>
           ${top?`<span class="sic-top">${scT('best')}</span>`:''}
         </div>
@@ -477,7 +477,7 @@ function scRenderChests(){
       const name=o.it?scLabel(o.it,o.skin,lang):o.itemId, isBest=(o.gem===best && best>0);
       return `<div class="shop-item-card chest-card${isBest?' is-top':''}" style="--cat:${color};">
         <div class="sic-visual" style="background:${color}14;">
-          <div class="sic-img" style="background-image:url('img/Item/${img}.png');"></div>
+          <div class="sic-img" style="background-image:url('img/Item/${img}.webp');"></div>
           <span class="sic-qty">×${o.qty}</span>
           ${isBest?`<span class="sic-top">${scT('bestPick')}</span>`:''}
         </div>

@@ -403,7 +403,7 @@ function renderHeroes() {
         card.className = `hero-card ${hero.rarity.toLowerCase()} ${isLocked ? 'locked' : ''}`;
 
         card.innerHTML = `
-            <div class="hero-image" style="background-image: url('img/heroes/${encodeURIComponent(hero.name)}.png');"></div>
+            <div class="hero-image" style="background-image: url('img/heroes/${encodeURIComponent(hero.name)}.webp');"></div>
             <div class="hero-gradient"></div>
             
             <div class="hero-type-badge">${getTroopEmoji(hero.troopType)}</div>
@@ -562,7 +562,7 @@ function renderModalSkills(fullStars) {
         skillsContainer.innerHTML += `
             <div class="skill-row ${isLocked ? 'locked' : ''}">
                 <div class="skill-header">
-                    <div class="skill-icon" style="background-image: url('img/skills/${safeImageName}.png');"></div>
+                    <div class="skill-icon" style="background-image: url('img/skills/${safeImageName}.webp');"></div>
                     <div class="skill-info">
                         <div class="skill-name">${localizedName}</div>
                         <div class="skill-effect">${effectText}</div>
@@ -612,7 +612,7 @@ function renderModalWidget() {
             <h4 style="margin: 0 0 15px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;">${dict.modalWidgetTitle || 'Équipement Exclusif'}</h4>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <div class="skill-icon" style="background-image: url('img/widgetname/${safeWidgetImg}.png'); border: 1px solid #f5b840; width: 34px; height: 34px; border-radius: 6px;"></div>
+                    <div class="skill-icon" style="background-image: url('img/widgetname/${safeWidgetImg}.webp'); border: 1px solid #f5b840; width: 34px; height: 34px; border-radius: 6px;"></div>
                     <h4 style="margin: 0; font-size: 14px; color: #f5b840; text-transform: uppercase;">${widgetName}</h4>
                 </div>
                 <div style="display: flex; align-items: center; gap: 5px;">
@@ -667,7 +667,7 @@ function renderModalWidget() {
         document.getElementById('widget-effects-display').innerHTML = `
             <div class="skill-row ${isConquestLocked ? 'locked' : 'active'}">
                 <div class="skill-header">
-                    <div class="skill-icon" style="background-image: url('img/widgetskill/${safeConquestImg}.png');"></div>
+                    <div class="skill-icon" style="background-image: url('img/widgetskill/${safeConquestImg}.webp');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: ${isConquestLocked ? 'var(--text-muted)' : '#e74c5c'};"> ${nameConquest}</div>
                         <div class="skill-effect">${descConquest}</div>
@@ -676,7 +676,7 @@ function renderModalWidget() {
             </div>
             <div class="skill-row ${isExpeLocked ? 'locked' : 'active'}">
                 <div class="skill-header">
-                    <div class="skill-icon" style="background-image: url('img/widgetskill/${safeExpeImg}.png');"></div>
+                    <div class="skill-icon" style="background-image: url('img/widgetskill/${safeExpeImg}.webp');"></div>
                     <div class="skill-info">
                         <div class="skill-name" style="color: ${isExpeLocked ? 'var(--text-muted)' : '#3498db'};"> ${nameExpe}</div>
                         <div class="skill-effect">${descExpe}</div>

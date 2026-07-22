@@ -87,14 +87,14 @@ Kingshot_Toolbox/
 │       ├── archer.html           Table recherches Archers
 │       └── cavalry.html          Table recherches Cavalerie
 │
-├── img/                          Assets (WebP jeu, PNG items/héros, SVG icônes)
-│   ├── logo/                     favicon.svg, favicon-32.png, apple-touch-icon.png
+├── img/                          Assets (WebP partout, sauf favicons logo/ en PNG, SVG icônes)
+│   ├── logo/                     favicon.svg, favicon-32.png, apple-touch-icon.png (PNG conservés : fallback favicon + icône iOS non compatibles WebP)
 │   ├── buildings/                Vignettes bâtiments (.webp)
 │   ├── WarAcademy/               Icônes recherches Académie de Guerre (.webp)
-│   ├── heroes/                   Portraits héros (.png)
-│   ├── Master/ + MasterSkill/    Portraits experts + icônes skills experts
-│   ├── skills/ + widgetname/ + widgetskill/  Icônes skills héros & widgets
-│   ├── Item/                     Icônes objets boutique/ressources
+│   ├── heroes/                   Portraits héros (.webp)
+│   ├── Master/ + MasterSkill/    Portraits experts + icônes skills experts (.webp)
+│   ├── skills/ + widgetname/ + widgetskill/  Icônes skills héros & widgets (.webp)
+│   ├── Item/                     Icônes objets boutique/ressources (.webp)
 │   └── pets/                     Familiers : portraits (.webp ×14) + sous-dossier skills/ (icônes compétence, .webp ×14)
 │
 └── .github/
