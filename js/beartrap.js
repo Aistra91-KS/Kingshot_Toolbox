@@ -75,7 +75,7 @@ const i18nBearTrap = {
         srcBison: "Puissant Bison",
         joinerAuthBtn: "🛡️ Héros autorisés",
         joinerAuthTitle: "Héros joiners autorisés",
-        joinerAuthDesc: "Coche les héros que ton alliance autorise en renfort. La liste s'adapte à la génération de serveur choisie. Les héros classés C et D sont décochés par défaut.",
+        joinerAuthDesc: "Coche les héros que ton alliance autorise comme CAPITAINE de marche (le seul à porter l'effet du rally). La liste s'adapte à la génération de serveur choisie. Les héros classés C et D sont décochés par défaut.",
         joinerReset: "Recommandés par défaut",
         joinerNotRec: "Non recommandé",
         joinerLocked: "non débloqué",
@@ -154,7 +154,7 @@ const i18nBearTrap = {
         srcBison: "Mighty Bison",
         joinerAuthBtn: "🛡️ Allowed heroes",
         joinerAuthTitle: "Allowed joiner heroes",
-        joinerAuthDesc: "Tick the heroes your alliance allows as rally joiners. The list follows the server generation you selected. Heroes ranked C and D are unchecked by default.",
+        joinerAuthDesc: "Tick the heroes your alliance allows as march CAPTAIN (the only one carrying the rally effect). The list follows the server generation you selected. Heroes ranked C and D are unchecked by default.",
         joinerReset: "Reset to recommended",
         joinerNotRec: "Not recommended",
         joinerLocked: "locked",
@@ -454,7 +454,7 @@ function btInitHelp(){
                 "Héros : chaque marche est menée par des héros. Le niveau du héros CAPITAINE détermine la capacité (taille) de la marche ; son type 🛡️/🐎/🏹 oriente la composition. Certains héros sont de meilleurs capitaines/renforts pour le Piège à Ours.",
                 "⚠️ Les niveaux de tes héros proviennent de la page « Ma Caserne ». Configure-les là-bas d'abord — sinon ils sont considérés au niveau 1 et les capacités calculées seront fausses.",
                 "Crée une marche via « + Nouvelle marche », choisis ses héros, ou clique « 🪄 Suggérer » pour piocher automatiquement tes meilleurs héros (depuis Ma Caserne) adaptés au Piège à Ours.",
-                "🛡️ « Héros autorisés » : ouvre le menu des joiners permis par ton alliance (liste selon la génération de serveur). Les héros classés C et D y sont décochés par défaut (« Non recommandé »). La suggestion ne pioche que les héros cochés, puis départage à niveau/compétences égales par le rang de la tier-list.",
+                "🛡️ « Héros autorisés » : ouvre le menu des joiners permis par ton alliance (liste selon la génération de serveur). Les héros classés C et D y sont décochés par défaut (« Non recommandé »). Ce menu et la tier-list ne concernent que le CAPITAINE de chaque marche (le seul à porter l'effet du rally) : le capitaine est choisi parmi les héros cochés, puis départagé à niveau/compétences égales par le rang. Les 2 renforts sont pris au plus haut niveau (pour la capacité de la marche), quel que soit leur rang.",
                 "Choisis le mode d'optimisation (seuils mini Infanterie/Cavalerie) puis « Générer le reste des marches » : tes troupes restantes sont réparties automatiquement.",
                 "Lis le plan de déploiement : composition, capacité et total de chaque marche. Survole les « i » pour le détail des champs."],
             EN:["Enter your troops (Infantry 🛡️, Archers 🏹, Cavalry 🐎) and your march capacity (base + Expert bonus + Animal bonus), plus the max number of marches.",
@@ -462,7 +462,7 @@ function btInitHelp(){
                 "Heroes: each march is led by heroes. The CAPTAIN hero's level sets the march capacity (size); its type 🛡️/🐎/🏹 drives the composition. Some heroes make better captains/joiners for the Bear Trap.",
                 "⚠️ Your heroes' levels come from the “My Barracks” page. Set them there first — otherwise they count as level 1 and the computed capacities will be wrong.",
                 "Create a march via “+ New march”, pick its heroes, or click “🪄 Suggest” to auto-pick your best heroes (from My Barracks) suited to the Bear Trap.",
-                "🛡️ “Allowed heroes”: opens the menu of joiners your alliance permits (listed by server generation). Heroes ranked C and D are unchecked by default (“Not recommended”). Suggestions only draw from the checked heroes, then break level/skill ties by the tier-list rank.",
+                "🛡️ “Allowed heroes”: opens the menu of joiners your alliance permits (listed by server generation). Heroes ranked C and D are unchecked by default (“Not recommended”). This menu and the tier-list only apply to each march's CAPTAIN (the only one carrying the rally effect): the captain is picked from the checked heroes, then level/skill ties are broken by rank. The 2 backup heroes are taken at the highest level (for march capacity), regardless of their rank.",
                 "Pick the optimization mode (min Infantry/Cavalry thresholds) then “Generate the rest”: your remaining troops are split automatically.",
                 "Read the deployment plan: composition, capacity and total of each march. Hover the “i” icons for field details."]
         },
@@ -792,17 +792,21 @@ function suggestHeroesForModal() {
             return getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType);
         });
     } else {
-        // --- Chemin JOINER : filtré par le menu d'autorisation, affiné par le rang tier-list ---
+        // --- Chemin JOINER ---
+        // La tier-list + le menu d'autorisation ne concernent QUE le capitaine (slot 1),
+        // seul héros qui porte l'effet du rally. Les renforts (slots 2 & 3) n'influencent
+        // que la CAPACITÉ de la marche (via leur niveau) : on prend n'importe quel héros
+        // débloqué, un par autre type, au plus haut niveau — en réservant toutefois les
+        // capitaines potentiels (héros autorisés) pour les autres marches.
         const gen = maxGen;
-        const isPremium = h => tierScoreOf(h.id, gen) <= RANK_ORDER.A;   // S / A = capitaines à préserver
-        // On ne garde QUE les héros autorisés par l'alliance
-        ['inf', 'cav', 'arc'].forEach(c => { classes[c] = classes[c].filter(h => isHeroAuthorized(h.id, gen)); });
+        const isAuth = h => isHeroAuthorized(h.id, gen);
 
-        let possibleCaptains = [];
-        ['inf', 'cav', 'arc'].forEach(c => classes[c].forEach(h => possibleCaptains.push({ cls: c, hero: h })));
+        // Capitaine : uniquement parmi les héros autorisés
+        let captainCandidates = [];
+        ['inf', 'cav', 'arc'].forEach(c => classes[c].forEach(h => { if (isAuth(h)) captainCandidates.push({ cls: c, hero: h }); }));
 
-        if (possibleCaptains.length > 0) {
-            possibleCaptains.sort((a, b) => {
+        if (captainCandidates.length > 0) {
+            captainCandidates.sort((a, b) => {
                 // 1. Base : 1ère compétence
                 let skillA = a.hero.skills[0] || 0, skillB = b.hero.skills[0] || 0;
                 if (skillB !== skillA) return skillB - skillA;
@@ -811,24 +815,25 @@ function suggestHeroesForModal() {
                 // 3. Affinage final : rang tier-list (S avant D)
                 return tierScoreOf(a.hero.id, gen) - tierScoreOf(b.hero.id, gen);
             });
-            let selectedCaptain = possibleCaptains[0];
+            let selectedCaptain = captainCandidates[0];
             team.push(selectedCaptain.hero);
             classes[selectedCaptain.cls] = classes[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
 
-            // Héros secondaires : on privilégie les rangs faibles comme "remplisseurs"
-            // et on réserve les capitaines premium (S/A) pour les autres marches.
+            // Renforts : un héros par AUTRE type, choisi au plus haut niveau (capacité).
+            // On privilégie les héros non-capitaines et on ne « sacrifie » un héros
+            // autorisé en renfort que s'il en reste assez pour les autres marches.
             ['inf', 'cav', 'arc'].forEach(c => {
                 if (selectedCaptain.cls !== c && classes[c].length > 0) {
-                    let regulars = classes[c].filter(h => !isPremium(h)).sort((a, b) => b.level - a.level);
-                    let premiums = classes[c].filter(h => isPremium(h)).sort((a, b) => b.level - a.level);
+                    let free = classes[c].filter(h => !isAuth(h)).sort((a, b) => b.level - a.level);
+                    let reserved = classes[c].filter(h => isAuth(h)).sort((a, b) => b.level - a.level);
 
                     let filler = null;
-                    if (regulars.length > 0) {
-                        filler = regulars[0];
-                    } else if (premiums.length > 0) {
+                    if (free.length > 0) {
+                        filler = free[0];
+                    } else if (reserved.length > 0) {
                         let autoMarchesLeft = Math.max(0, getTotalMarchesAllowed() - customMarchesList.length - 1);
-                        let totalRemainingPremiums = ['inf', 'cav', 'arc'].reduce((sum, cls) => sum + classes[cls].filter(isPremium).length, 0);
-                        if (totalRemainingPremiums > autoMarchesLeft) filler = premiums[0];
+                        let totalRemainingCaptains = ['inf', 'cav', 'arc'].reduce((sum, cls) => sum + classes[cls].filter(isAuth).length, 0);
+                        if (totalRemainingCaptains > autoMarchesLeft) filler = reserved[0];
                     }
                     if (filler) {
                         team.push(filler);
@@ -1350,20 +1355,18 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                 team[0].isCaptain = true;
             }
         } else {
-            // --- Chemin JOINER : filtré par le menu d'autorisation, affiné par le rang tier-list ---
+            // --- Chemin JOINER ---
+            // Tier-list + autorisation = capitaine (slot 1) uniquement. Renforts (slots 2 & 3) :
+            // un héros par autre type, au plus haut niveau (capacité), parmi n'importe quel héros
+            // débloqué, en réservant les capitaines potentiels (autorisés) pour les autres marches.
             const gen = generation;
-            const isPremium = h => tierScoreOf(h.id, gen) <= RANK_ORDER.A;   // S / A = capitaines à préserver
-            const authClasses = {
-                inf: classes.inf.filter(h => isHeroAuthorized(h.id, gen)),
-                cav: classes.cav.filter(h => isHeroAuthorized(h.id, gen)),
-                arc: classes.arc.filter(h => isHeroAuthorized(h.id, gen))
-            };
+            const isAuth = h => isHeroAuthorized(h.id, gen);
 
-            let possibleCaptains = [];
-            ['inf', 'cav', 'arc'].forEach(c => authClasses[c].forEach(h => possibleCaptains.push({ cls: c, hero: h })));
+            let captainCandidates = [];
+            ['inf', 'cav', 'arc'].forEach(c => classes[c].forEach(h => { if (isAuth(h)) captainCandidates.push({ cls: c, hero: h }); }));
 
-            if (possibleCaptains.length > 0) {
-                possibleCaptains.sort((a, b) => {
+            if (captainCandidates.length > 0) {
+                captainCandidates.sort((a, b) => {
                     // 1. Base : 1ère compétence
                     let skillA = a.hero.skills[0] || 0, skillB = b.hero.skills[0] || 0;
                     if (skillB !== skillA) return skillB - skillA;
@@ -1372,33 +1375,29 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                     // 3. Affinage final : rang tier-list (S avant D)
                     return tierScoreOf(a.hero.id, gen) - tierScoreOf(b.hero.id, gen);
                 });
-                let selectedCaptain = possibleCaptains[0];
+                let selectedCaptain = captainCandidates[0];
                 selectedCaptain.hero.isCaptain = true;
                 team.push(selectedCaptain.hero);
                 classes[selectedCaptain.cls] = classes[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
-                authClasses[selectedCaptain.cls] = authClasses[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
 
-                // Héros secondaires : remplisseurs de rang faible d'abord ; on réserve les
-                // capitaines premium (S/A) pour les marches restantes.
                 ['inf', 'cav', 'arc'].forEach(c => {
-                    if (selectedCaptain.cls !== c && authClasses[c].length > 0) {
-                        let regulars = authClasses[c].filter(h => !isPremium(h)).sort((a, b) => b.level - a.level);
-                        let premiums = authClasses[c].filter(h => isPremium(h)).sort((a, b) => b.level - a.level);
+                    if (selectedCaptain.cls !== c && classes[c].length > 0) {
+                        let free = classes[c].filter(h => !isAuth(h)).sort((a, b) => b.level - a.level);
+                        let reserved = classes[c].filter(h => isAuth(h)).sort((a, b) => b.level - a.level);
 
                         let filler = null;
-                        if (regulars.length > 0) {
-                            filler = regulars[0];
-                        } else if (premiums.length > 0) {
+                        if (free.length > 0) {
+                            filler = free[0];
+                        } else if (reserved.length > 0) {
                             let marchesLeftToProcess = marchesCount - i - 1;
-                            let totalRemainingPremiums = ['inf', 'cav', 'arc'].reduce((sum, cls) => sum + authClasses[cls].filter(isPremium).length, 0);
-                            if (totalRemainingPremiums > marchesLeftToProcess) filler = premiums[0];
+                            let totalRemainingCaptains = ['inf', 'cav', 'arc'].reduce((sum, cls) => sum + classes[cls].filter(isAuth).length, 0);
+                            if (totalRemainingCaptains > marchesLeftToProcess) filler = reserved[0];
                         }
 
                         if (filler) {
                             filler.isCaptain = false;
                             team.push(filler);
                             classes[c] = classes[c].filter(h => h.id !== filler.id);
-                            authClasses[c] = authClasses[c].filter(h => h.id !== filler.id);
                         }
                     }
                 });
