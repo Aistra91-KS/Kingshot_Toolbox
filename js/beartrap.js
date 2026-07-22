@@ -72,7 +72,15 @@ const i18nBearTrap = {
         linkNoSource: "Auto (non configuré)",
         linkSync: "Resynchroniser sur la compétence",
         srcValora: "Valora — Avantage primitif",
-        srcBison: "Puissant Bison"
+        srcBison: "Puissant Bison",
+        joinerAuthBtn: "🛡️ Héros autorisés",
+        joinerAuthTitle: "Héros joiners autorisés",
+        joinerAuthDesc: "Coche les héros que ton alliance autorise en renfort. La liste s'adapte à la génération de serveur choisie. Les héros classés C et D sont décochés par défaut.",
+        joinerReset: "Recommandés par défaut",
+        joinerNotRec: "Non recommandé",
+        joinerLocked: "non débloqué",
+        joinerEmpty: "Aucun héros joiner pour cette génération.",
+        btnClose: "Fermer"
     },
     EN: {
         titleParams: "Settings",
@@ -143,13 +151,119 @@ const i18nBearTrap = {
         linkNoSource: "Auto (not set)",
         linkSync: "Re-sync from the skill",
         srcValora: "Valora — Savage Advantage",
-        srcBison: "Mighty Bison"
+        srcBison: "Mighty Bison",
+        joinerAuthBtn: "🛡️ Allowed heroes",
+        joinerAuthTitle: "Allowed joiner heroes",
+        joinerAuthDesc: "Tick the heroes your alliance allows as rally joiners. The list follows the server generation you selected. Heroes ranked C and D are unchecked by default.",
+        joinerReset: "Reset to recommended",
+        joinerNotRec: "Not recommended",
+        joinerLocked: "locked",
+        joinerEmpty: "No joiner hero for this generation.",
+        btnClose: "Close"
     }
 };
 
 let customMarchesList = [];
 let editingMarchId = null;
 let heroesDB = [];
+
+// ========================================
+// TIER-LIST DES HÉROS JOINERS (rang par génération) + AUTORISATIONS ALLIANCE
+// ----------------------------------------
+// Référence : data/beartrap_joiners_db.json (tier-list communautaire : par
+// génération de serveur puis rang S>A>B>C>D, IDs = heroes_db.json).
+// - Le rang affine la recommandation (départage final, APRÈS niveau + compétences).
+// - Le menu « Héros autorisés » laisse l'utilisateur choisir quels joiners son
+//   alliance permet ; C et D sont décochés par défaut. Persisté par génération.
+// ========================================
+let joinersTierDB = null;              // { byGeneration: { "6": {S:[ids], ...} } }
+let joinerAuth = {};                   // { [gen]: { [heroId]: true|false } } (choix explicites)
+const RANK_ORDER = { S: 0, A: 1, B: 2, C: 3, D: 4 };
+
+function currentGen() {
+    const el = document.getElementById('server-generation');
+    return el ? (parseInt(el.value, 10) || 6) : 6;
+}
+// rang 'S'..'D' d'un héros pour une génération, ou null si absent de la tier-list
+function tierRankOf(heroId, gen) {
+    const g = joinersTierDB && joinersTierDB.byGeneration && joinersTierDB.byGeneration[String(gen)];
+    if (!g) return null;
+    for (const rk of ['S', 'A', 'B', 'C', 'D']) if (g[rk] && g[rk].indexOf(heroId) !== -1) return rk;
+    return null;
+}
+function tierScoreOf(heroId, gen) { const r = tierRankOf(heroId, gen); return r ? RANK_ORDER[r] : 99; }
+// recommandé par défaut = S / A / B (C et D décochés)
+function isRecommended(rank) { return rank === 'S' || rank === 'A' || rank === 'B'; }
+// état d'autorisation résolu (choix explicite sinon défaut selon le rang)
+function isHeroAuthorized(heroId, gen) {
+    const rank = tierRankOf(heroId, gen);
+    if (!rank) return false;                       // hors tier-list de cette gen = pas un joiner
+    const g = joinerAuth[String(gen)] || {};
+    if (Object.prototype.hasOwnProperty.call(g, heroId)) return !!g[heroId];
+    return isRecommended(rank);
+}
+function setHeroAuthorized(heroId, gen, allowed) {
+    const key = String(gen);
+    if (!joinerAuth[key]) joinerAuth[key] = {};
+    joinerAuth[key][heroId] = allowed;
+    saveJoinerAuth();
+}
+function resetJoinerAuth(gen) { delete joinerAuth[String(gen)]; saveJoinerAuth(); }
+function saveJoinerAuth() {
+    try { localStorage.setItem(STORAGE_KEYS.beartrapJoiners, JSON.stringify(joinerAuth)); } catch (e) {}
+}
+
+// ---- Menu d'autorisation (modale) ----
+function renderJoinerAuthModal() {
+    const listEl = document.getElementById('joiner-auth-list');
+    if (!listEl) return;
+    const dict = i18nBearTrap[window.GlobalLang ? GlobalLang.get() : 'EN'] || i18nBearTrap.EN;
+    const gen = currentGen();
+    const g = joinersTierDB && joinersTierDB.byGeneration && joinersTierDB.byGeneration[String(gen)];
+    const userHeroes = safeParse(STORAGE_KEYS.caserneHeroes, {});
+
+    if (!g) { listEl.innerHTML = `<div class="ja-empty">${dict.joinerEmpty}</div>`; return; }
+
+    let html = '';
+    for (const rank of ['S', 'A', 'B', 'C', 'D']) {
+        const ids = g[rank];
+        if (!ids || !ids.length) continue;
+        html += `<div class="ja-group"><div class="ja-group-head"><span class="ja-rank ${rank}">${rank}</span></div>`;
+        ids.forEach(id => {
+            const dbHero = heroesDB.find(h => h.id === id);
+            const name = dbHero ? dbHero.name : id;
+            const emoji = dbHero ? (classEmojis[dbHero.troopType.toLowerCase()] || '') : '';
+            const unlocked = !!(userHeroes[id] && userHeroes[id].unlocked);
+            const checked = isHeroAuthorized(id, gen);
+            const notRec = !isRecommended(rank);
+            html +=
+                `<label class="ja-row${unlocked ? '' : ' ja-locked'}">` +
+                `<input type="checkbox" data-hero="${id}" ${checked ? 'checked' : ''}>` +
+                `<span class="ja-name">${emoji} ${escapeHTML(name)}</span>` +
+                (unlocked ? '' : `<span class="ja-lockmark">🔒 ${dict.joinerLocked}</span>`) +
+                (notRec ? `<span class="ja-badge-nr">${dict.joinerNotRec}</span>` : '') +
+                `</label>`;
+        });
+        html += `</div>`;
+    }
+    listEl.innerHTML = html;
+
+    listEl.querySelectorAll('input[data-hero]').forEach(cb => {
+        cb.addEventListener('change', () => {
+            setHeroAuthorized(cb.getAttribute('data-hero'), gen, cb.checked);
+            calculateBearTrap();
+        });
+    });
+}
+function openJoinerAuthModal() {
+    renderJoinerAuthModal();
+    const m = document.getElementById('joiner-auth-modal');
+    if (m) m.classList.add('active');
+}
+function closeJoinerAuthModal() {
+    const m = document.getElementById('joiner-auth-modal');
+    if (m) m.classList.remove('active');
+}
 
 // ========================================
 // LIAISON COMPÉTENCES (Expert + Animal)
@@ -340,6 +454,7 @@ function btInitHelp(){
                 "Héros : chaque marche est menée par des héros. Le niveau du héros CAPITAINE détermine la capacité (taille) de la marche ; son type 🛡️/🐎/🏹 oriente la composition. Certains héros sont de meilleurs capitaines/renforts pour le Piège à Ours.",
                 "⚠️ Les niveaux de tes héros proviennent de la page « Ma Caserne ». Configure-les là-bas d'abord — sinon ils sont considérés au niveau 1 et les capacités calculées seront fausses.",
                 "Crée une marche via « + Nouvelle marche », choisis ses héros, ou clique « 🪄 Suggérer » pour piocher automatiquement tes meilleurs héros (depuis Ma Caserne) adaptés au Piège à Ours.",
+                "🛡️ « Héros autorisés » : ouvre le menu des joiners permis par ton alliance (liste selon la génération de serveur). Les héros classés C et D y sont décochés par défaut (« Non recommandé »). La suggestion ne pioche que les héros cochés, puis départage à niveau/compétences égales par le rang de la tier-list.",
                 "Choisis le mode d'optimisation (seuils mini Infanterie/Cavalerie) puis « Générer le reste des marches » : tes troupes restantes sont réparties automatiquement.",
                 "Lis le plan de déploiement : composition, capacité et total de chaque marche. Survole les « i » pour le détail des champs."],
             EN:["Enter your troops (Infantry 🛡️, Archers 🏹, Cavalry 🐎) and your march capacity (base + Expert bonus + Animal bonus), plus the max number of marches.",
@@ -347,6 +462,7 @@ function btInitHelp(){
                 "Heroes: each march is led by heroes. The CAPTAIN hero's level sets the march capacity (size); its type 🛡️/🐎/🏹 drives the composition. Some heroes make better captains/joiners for the Bear Trap.",
                 "⚠️ Your heroes' levels come from the “My Barracks” page. Set them there first — otherwise they count as level 1 and the computed capacities will be wrong.",
                 "Create a march via “+ New march”, pick its heroes, or click “🪄 Suggest” to auto-pick your best heroes (from My Barracks) suited to the Bear Trap.",
+                "🛡️ “Allowed heroes”: opens the menu of joiners your alliance permits (listed by server generation). Heroes ranked C and D are unchecked by default (“Not recommended”). Suggestions only draw from the checked heroes, then break level/skill ties by the tier-list rank.",
                 "Pick the optimization mode (min Infantry/Cavalry thresholds) then “Generate the rest”: your remaining troops are split automatically.",
                 "Read the deployment plan: composition, capacity and total of each march. Hover the “i” icons for field details."]
         },
@@ -370,6 +486,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     applyBonusLink('expert');
     applyBonusLink('animal');
 
+    // Tier-list des joiners + autorisations d'alliance
+    joinerAuth = safeParse(STORAGE_KEYS.beartrapJoiners, {}) || {};
+    try {
+        const rj = await fetch('data/beartrap_joiners_db.json');
+        if (rj.ok) joinersTierDB = await rj.json();
+    } catch (e) { console.error('Tier-list joiners load failed', e); }
+
     if (window.GlobalLang) {
         applyTranslations(window.GlobalLang.get());
         btInitHelp();
@@ -379,6 +502,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btMountTips();
             applyBonusLink('expert');
             applyBonusLink('animal');
+            renderJoinerAuthModal();
             renderCustomMarches();
             calculateBearTrap();
         });
@@ -412,11 +536,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnCalculate = document.getElementById('btn-calculate');
     if (btnCalculate) btnCalculate.addEventListener('click', () => { saveBearTrapData(); calculateBearTrap(); });
 
+    // Menu d'autorisation des héros joiners
+    const btnJoinerAuth = document.getElementById('btn-joiner-auth');
+    if (btnJoinerAuth) btnJoinerAuth.addEventListener('click', openJoinerAuthModal);
+    const btnJoinerClose = document.getElementById('btn-joiner-close');
+    if (btnJoinerClose) btnJoinerClose.addEventListener('click', closeJoinerAuthModal);
+    const btnJoinerReset = document.getElementById('btn-joiner-reset');
+    if (btnJoinerReset) btnJoinerReset.addEventListener('click', () => { resetJoinerAuth(currentGen()); renderJoinerAuthModal(); calculateBearTrap(); });
+    const joinerModal = document.getElementById('joiner-auth-modal');
+    if (joinerModal) joinerModal.addEventListener('click', (e) => { if (e.target === joinerModal) closeJoinerAuthModal(); });
+
     document.getElementById('player-role').addEventListener('change', () => { saveBearTrapData(); updateStudioBadge(); });
-    document.getElementById('server-generation').addEventListener('change', () => { 
-        saveBearTrapData(); 
+    document.getElementById('server-generation').addEventListener('change', () => {
+        saveBearTrapData();
         populateHeroDropdowns(); // On met à jour les listes déroulantes immédiatement !
-        calculateBearTrap(); 
+        renderJoinerAuthModal(); // la liste des joiners autorisés dépend de la génération
+        calculateBearTrap();
     });
     document.getElementById('optim-mode').addEventListener('change', saveBearTrapData);
 
@@ -657,51 +792,44 @@ function suggestHeroesForModal() {
             return getTierScore(a.name, a.troopType) - getTierScore(b.name, b.troopType);
         });
     } else {
+        // --- Chemin JOINER : filtré par le menu d'autorisation, affiné par le rang tier-list ---
+        const gen = maxGen;
+        const isPremium = h => tierScoreOf(h.id, gen) <= RANK_ORDER.A;   // S / A = capitaines à préserver
+        // On ne garde QUE les héros autorisés par l'alliance
+        ['inf', 'cav', 'arc'].forEach(c => { classes[c] = classes[c].filter(h => isHeroAuthorized(h.id, gen)); });
+
         let possibleCaptains = [];
-        ['inf', 'cav', 'arc'].forEach(c => {
-            let validCaps = classes[c].filter(h => h.goodJoinerBear === true);
-            validCaps.forEach(h => possibleCaptains.push({ cls: c, hero: h }));
-        });
+        ['inf', 'cav', 'arc'].forEach(c => classes[c].forEach(h => possibleCaptains.push({ cls: c, hero: h })));
 
         if (possibleCaptains.length > 0) {
             possibleCaptains.sort((a, b) => {
-                // 1. D'abord on compare la 1ère compétence
-                let skillA = a.hero.skills[0] || 0;
-                let skillB = b.hero.skills[0] || 0;
+                // 1. Base : 1ère compétence
+                let skillA = a.hero.skills[0] || 0, skillB = b.hero.skills[0] || 0;
                 if (skillB !== skillA) return skillB - skillA;
-                
-                // 2. En cas d'égalité, on regarde le niveau d'XP
+                // 2. Base : niveau d'XP
                 if (b.hero.level !== a.hero.level) return b.hero.level - a.hero.level;
-                
-                // 3. En cas d'égalité parfaite, le Rank tranche
-                let rankA = a.hero.GoodJoinerBearRank || 99;
-                let rankB = b.hero.GoodJoinerBearRank || 99;
-                return rankA - rankB;
+                // 3. Affinage final : rang tier-list (S avant D)
+                return tierScoreOf(a.hero.id, gen) - tierScoreOf(b.hero.id, gen);
             });
             let selectedCaptain = possibleCaptains[0];
             team.push(selectedCaptain.hero);
             classes[selectedCaptain.cls] = classes[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
 
-            // On ajoute les héros secondaires UNIQUEMENT si on a un capitaine
+            // Héros secondaires : on privilégie les rangs faibles comme "remplisseurs"
+            // et on réserve les capitaines premium (S/A) pour les autres marches.
             ['inf', 'cav', 'arc'].forEach(c => {
                 if (selectedCaptain.cls !== c && classes[c].length > 0) {
-                    let nonCaptains = classes[c].filter(h => !h.goodJoinerBear).sort((a, b) => b.level - a.level);
-                    let captains = classes[c].filter(h => h.goodJoinerBear).sort((a, b) => b.level - a.level);
-                    
-                    let filler = null;
-                    
-                    if (nonCaptains.length > 0) {
-                        filler = nonCaptains[0];
-                    } else if (captains.length > 0) {
-                        // Combien de marches auto restera-t-il après avoir créé celle-ci ?
-                        let autoMarchesLeft = Math.max(0, getTotalMarchesAllowed() - customMarchesList.length - 1);
-                        let totalRemainingCaptains = ['inf', 'cav', 'arc'].reduce((sum, cls) => sum + classes[cls].filter(h => h.goodJoinerBear).length, 0);
-                        
-                        if (totalRemainingCaptains > autoMarchesLeft) {
-                            filler = captains[0];
-                        }
-                    }
+                    let regulars = classes[c].filter(h => !isPremium(h)).sort((a, b) => b.level - a.level);
+                    let premiums = classes[c].filter(h => isPremium(h)).sort((a, b) => b.level - a.level);
 
+                    let filler = null;
+                    if (regulars.length > 0) {
+                        filler = regulars[0];
+                    } else if (premiums.length > 0) {
+                        let autoMarchesLeft = Math.max(0, getTotalMarchesAllowed() - customMarchesList.length - 1);
+                        let totalRemainingPremiums = ['inf', 'cav', 'arc'].reduce((sum, cls) => sum + classes[cls].filter(isPremium).length, 0);
+                        if (totalRemainingPremiums > autoMarchesLeft) filler = premiums[0];
+                    }
                     if (filler) {
                         team.push(filler);
                         classes[c] = classes[c].filter(h => h.id !== filler.id);
@@ -709,7 +837,7 @@ function suggestHeroesForModal() {
                 }
             });
         }
-        // Si aucun capitaine n'est trouvé, 'team' reste un tableau vide [].
+        // Si aucun héros autorisé n'est trouvé, 'team' reste un tableau vide [].
     }
 
     if (team.length === 0) {
@@ -1222,61 +1350,55 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                 team[0].isCaptain = true;
             }
         } else {
+            // --- Chemin JOINER : filtré par le menu d'autorisation, affiné par le rang tier-list ---
+            const gen = generation;
+            const isPremium = h => tierScoreOf(h.id, gen) <= RANK_ORDER.A;   // S / A = capitaines à préserver
+            const authClasses = {
+                inf: classes.inf.filter(h => isHeroAuthorized(h.id, gen)),
+                cav: classes.cav.filter(h => isHeroAuthorized(h.id, gen)),
+                arc: classes.arc.filter(h => isHeroAuthorized(h.id, gen))
+            };
+
             let possibleCaptains = [];
-            ['inf', 'cav', 'arc'].forEach(c => {
-                let validCaps = classes[c].filter(h => h.goodJoinerBear === true);
-                validCaps.forEach(h => possibleCaptains.push({ cls: c, hero: h }));
-            });
+            ['inf', 'cav', 'arc'].forEach(c => authClasses[c].forEach(h => possibleCaptains.push({ cls: c, hero: h })));
 
             if (possibleCaptains.length > 0) {
                 possibleCaptains.sort((a, b) => {
-                    // 1. D'abord on compare la 1ère compétence (la plus grande en premier)
-                    let skillA = a.hero.skills[0] || 0;
-                    let skillB = b.hero.skills[0] || 0;
+                    // 1. Base : 1ère compétence
+                    let skillA = a.hero.skills[0] || 0, skillB = b.hero.skills[0] || 0;
                     if (skillB !== skillA) return skillB - skillA;
-                    
-                    // 2. En cas d'égalité, on regarde le niveau d'XP
+                    // 2. Base : niveau d'XP
                     if (b.hero.level !== a.hero.level) return b.hero.level - a.hero.level;
-                    
-                    // 3. En cas d'égalité parfaite, on utilise ton GoodJoinerBearRank (1 passe avant 2)
-                    let rankA = a.hero.GoodJoinerBearRank || 99; // 99 par défaut si non défini
-                    let rankB = b.hero.GoodJoinerBearRank || 99;
-                    return rankA - rankB; 
+                    // 3. Affinage final : rang tier-list (S avant D)
+                    return tierScoreOf(a.hero.id, gen) - tierScoreOf(b.hero.id, gen);
                 });
                 let selectedCaptain = possibleCaptains[0];
                 selectedCaptain.hero.isCaptain = true;
                 team.push(selectedCaptain.hero);
                 classes[selectedCaptain.cls] = classes[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
+                authClasses[selectedCaptain.cls] = authClasses[selectedCaptain.cls].filter(h => h.id !== selectedCaptain.hero.id);
 
-                // On ajoute les héros secondaires UNIQUEMENT si on a un capitaine valide
-                // On ajoute les héros secondaires UNIQUEMENT si on a un capitaine valide
+                // Héros secondaires : remplisseurs de rang faible d'abord ; on réserve les
+                // capitaines premium (S/A) pour les marches restantes.
                 ['inf', 'cav', 'arc'].forEach(c => {
-                    if (selectedCaptain.cls !== c && classes[c].length > 0) {
-                        // On sépare les vraies poubelles des potentiels capitaines
-                        let nonCaptains = classes[c].filter(h => !h.goodJoinerBear).sort((a, b) => b.level - a.level);
-                        let captains = classes[c].filter(h => h.goodJoinerBear).sort((a, b) => b.level - a.level);
-                        
+                    if (selectedCaptain.cls !== c && authClasses[c].length > 0) {
+                        let regulars = authClasses[c].filter(h => !isPremium(h)).sort((a, b) => b.level - a.level);
+                        let premiums = authClasses[c].filter(h => isPremium(h)).sort((a, b) => b.level - a.level);
+
                         let filler = null;
-                        
-                        if (nonCaptains.length > 0) {
-                            // On prend la meilleure vraie poubelle
-                            filler = nonCaptains[0];
-                        } else if (captains.length > 0) {
-                            // Plus de poubelle dispo ! Peut-on sacrifier un capitaine ?
-                            let marchesLeftToProcess = marchesCount - i - 1; // Nombre de marches restantes APRES celle-ci
-                            let totalRemainingCaptains = ['inf', 'cav', 'arc'].reduce((sum, cls) => sum + classes[cls].filter(h => h.goodJoinerBear).length, 0);
-                            
-                            // On ne sacrifie un capitaine QUE si on en a plus que le nombre de marches restantes
-                            if (totalRemainingCaptains > marchesLeftToProcess) {
-                                filler = captains[0];
-                            }
+                        if (regulars.length > 0) {
+                            filler = regulars[0];
+                        } else if (premiums.length > 0) {
+                            let marchesLeftToProcess = marchesCount - i - 1;
+                            let totalRemainingPremiums = ['inf', 'cav', 'arc'].reduce((sum, cls) => sum + authClasses[cls].filter(isPremium).length, 0);
+                            if (totalRemainingPremiums > marchesLeftToProcess) filler = premiums[0];
                         }
-                        
+
                         if (filler) {
                             filler.isCaptain = false;
                             team.push(filler);
-                            // On le retire de la liste globale pour ne pas le piocher en double
                             classes[c] = classes[c].filter(h => h.id !== filler.id);
+                            authClasses[c] = authClasses[c].filter(h => h.id !== filler.id);
                         }
                     }
                 });

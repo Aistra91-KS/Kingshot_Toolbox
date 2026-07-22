@@ -6,6 +6,7 @@ const STORAGE_KEYS = {
     researchDb:     'research_calc_db_v9',
     researchInputs: 'research_calc_inputs_v9',
     beartrap:       'beartrap_data',
+    beartrapJoiners: 'beartrap_joiners',
     truegold:       'tg_calc_data_v3',
     waracademy:     'wa_calc_data_v1',
     vikings:        'vikings_data',
