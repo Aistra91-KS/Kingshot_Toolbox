@@ -184,7 +184,7 @@ function executeExport() {
     }
 
     let backupData = {
-        app: "Hub-Kingshot",
+        app: "Kingshot_Toolbox",
         timestamp: new Date().toISOString(),
         data: {}
     };
@@ -229,7 +229,8 @@ function executeImport(event) {
         try {
             const importedData = JSON.parse(e.target.result);
             
-            if (importedData.app !== "Hub-Kingshot" || !importedData.data) {
+            // On accepte l'ancien nom ("Hub-Kingshot") pour ne pas casser les sauvegardes existantes.
+            if (!["Kingshot_Toolbox", "Hub-Kingshot"].includes(importedData.app) || !importedData.data) {
                 throw new Error("Invalid format");
             }
 

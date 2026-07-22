@@ -1,4 +1,4 @@
-# MAP — hub-kingshot
+# MAP — Kingshot_Toolbox
 
 > Cartographie du projet. **Point d'entrée avant toute tâche** : lis ce fichier, puis n'ouvre que les fichiers concernés.
 
@@ -6,8 +6,8 @@
 
 ## 1. Vue d'ensemble
 
-- **Live** : https://aistra91-ks.github.io/hub-kingshot/
-- **Repo** : `Aistra91-KS/hub-kingshot`
+- **Live** : https://aistra91-ks.github.io/Kingshot_Toolbox/
+- **Repo** : `Aistra91-KS/Kingshot_Toolbox` (anciennement `Hub-Kingshot` — le chemin GitHub Pages est passé de `/hub-kingshot/` à `/Kingshot_Toolbox/`, cf. `<base href>` des pages `database/*`).
 - **Type** : site statique hébergé sur **GitHub Pages** (pas de backend, pas de build).
 - **Stack** : HTML / CSS / JS **vanilla** (aucun framework, aucun bundler) + **GitHub Actions** (notif Discord).
 - **Langues** : **FR / EN**, bascule à chaud (aucun rechargement).
@@ -19,7 +19,7 @@
 ## 2. Arborescence
 
 ```
-hub-kingshot/
+Kingshot_Toolbox/
 ├── index.html                    Hub (page d'accueil) : grille de cartes par catégorie
 ├── research_calc.html            Outil Recherches (arbres Croissance/Éco/Combat)
 ├── truegold_calc.html            Outil TrueGold (planif. amélioration bâtiments)

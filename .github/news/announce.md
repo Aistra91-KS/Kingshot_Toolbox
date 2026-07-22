@@ -1,10 +1,10 @@
 <!-- kshub-news
 version: 1
-covers-until: 822f540c54793a5bba97960b5ffb706ae085c1ab
-generated: 2026-07-21
+covers-until: 83ba9800f62c72f1b3b52d27d85cb240678ad086
+generated: 2026-07-22
 ping:
-title-fr: 📰 Mises à jour du site — 21 juillet
-title-en: 📰 Site updates — July 21
+title-fr: 🔗 Le site a une nouvelle adresse
+title-en: 🔗 The site has a new address
 -->
 
 <!--
@@ -29,56 +29,24 @@ Clés facultatives de l'en-tête :
 
 ## FR
 
-### 📱 Le site s'utilise enfin au téléphone
+### 🔗 Une nouvelle adresse à retenir
 
-**Familiers** — la page ne garde plus la mise en page bureau. Sur petit écran, l'image du familier passe au-dessus et sa fiche juste en dessous, en une seule colonne qui défile : l'image s'efface d'elle-même quand tu descends dans la fiche. Le sentier devient une frise de pastilles numérotées en bas de l'écran — touche une pastille pour sauter à un familier, ou balaie vers la gauche et la droite n'importe où sur la page. Sur ordinateur, rien ne bouge.
+Le site s'appelle désormais **Kingshot Toolbox**, et son adresse suit le mouvement. Nouvelle adresse à mettre en favori :
 
-**Héros et Experts** — la fiche de détail dépassait de l'écran : l'interrupteur de déblocage et les boutons de compétences étaient tout simplement hors d'atteinte. Elle s'ouvre maintenant en plein écran, remonte par le bas, et se répartit en trois onglets : Niveau / Compétences / Équipement pour les héros, Relation / Percées / Compétences pour les experts. L'onglet Équipement n'apparaît que pour les héros qui en ont un.
+**https://aistra91-ks.github.io/Kingshot_Toolbox/**
 
-### 🛒 Boutique
+Les anciens liens vers `.../hub-kingshot/` peuvent encore rediriger un temps, mais mieux vaut mettre à jour tes favoris et les liens que tu as pu partager. Toutes les pages — calculateurs, base de données des bâtiments, recherches d'académie, familiers — ont été recalées sur la nouvelle adresse, donc plus aucun style ni aucune image ne se perd en route.
 
-Les objets réhabillés pour un événement s'affichent enfin sous leur vraie identité : « Nom d'origine (Nom du skin) » avec l'icône du skin. Le prix, la valeur en gemmes et le ratio restent ceux de l'objet d'origine, donc le classement des meilleures affaires ne change pas. Valable dans les boutiques classiques, les boutiques d'événement et les coffres.
-
-Nouveautés : les deux boutiques **Summit Contest** (Champion et Ordinaire), le skin de Téléportation et sa variante Call of Destiny. Deux anciennes boutiques ont été retirées.
-
-Correction : les objets ajoutés à la liste apparaissent désormais tout de suite. Jusqu'ici, si tu avais déjà ouvert la boutique une fois, tu gardais une vieille copie de la liste et ne voyais jamais les ajouts.
-
-### 🏛️ Conseil des Experts
-
-Les traductions françaises des bonus d'affinité et des compétences ont été reprises.
-
-### 🏰 Le site s'appelle Kingshot Toolbox
-
-Nouveau nom partout : onglet du navigateur, logo, annonces Discord. Le site ne cherche plus à couvrir plusieurs jeux, donc le sélecteur de jeu disparaît du menu, ainsi que les deux entrées « bientôt disponible ». On passe directement du nom du site aux catégories d'outils. Les outils, eux, ne changent pas.
-
-### 💬 Ces annonces changent de forme
-
-Fini le message automatique toutes les deux heures et sa traduction approximative. Les annonces sont désormais écrites à la main dans les deux langues et publiées quand il y a vraiment quelque chose à raconter : moins souvent, mais lisible.
+Rien ne change dans les outils, et tes sauvegardes restent valables : un ancien fichier de sauvegarde s'importe toujours sans problème.
 
 ## EN
 
-### 📱 The site finally works on a phone
+### 🔗 A new address to remember
 
-**Pets** — the page no longer keeps the desktop layout on a small screen. The pet's picture now sits on top and its card right underneath, in a single scrolling column, so the picture slides out of the way as you read further down. The trail becomes a row of numbered stops along the bottom — tap one to jump to a pet, or swipe left and right anywhere on the page. Nothing changes on a computer.
+The site is now called **Kingshot Toolbox**, and its address moved with it. New address to bookmark:
 
-**Heroes and Experts** — the detail panel used to be wider than the screen: the unlock switch and the skill buttons simply could not be reached. It now covers the whole screen, slides up from the bottom, and splits into three tabs: Level / Skills / Gear for heroes, Relationship / Breakthroughs / Skills for experts. The Gear tab only shows up for heroes that actually have exclusive gear.
+**https://aistra91-ks.github.io/Kingshot_Toolbox/**
 
-### 🛒 Shop
+Old `.../hub-kingshot/` links may still redirect for a while, but it's worth updating your bookmarks and any links you've shared. Every page — calculators, the buildings database, war academy research, pets — has been repointed at the new address, so nothing loads half-broken anymore.
 
-Items re-skinned for an event finally show their real identity: "Original name (Skin name)" with the skin's own icon. Price, gem value and ratio still come from the original item, so the best-deal ranking is unaffected. Works in classic shops, event shops and chests.
-
-New: both **Summit Contest** shops (Champion and Ordinary), the Teleport Skin and its Call of Destiny variant. Two old shops have been removed.
-
-Fixed: items added to the list now show up straight away. Until now, if you had opened the shop even once, you kept an old copy of the list and never saw anything new.
-
-### 🏛️ Experts Council
-
-French translations for affinity bonuses and skills have been reworked.
-
-### 🏰 The site is now Kingshot Toolbox
-
-New name everywhere: browser tab, logo, Discord updates. It no longer tries to cover several games, so the game selector is gone from the menu, along with the two "coming soon" entries. You now go straight from the site name to the tool categories. The tools themselves are unchanged.
-
-### 💬 These announcements are changing
-
-No more automatic message every two hours with its rough machine translation. Updates are now written by hand in both languages and posted when there is something worth telling: less often, but actually readable.
+Nothing changes inside the tools, and your saved data is safe: an old backup file still imports without any trouble.

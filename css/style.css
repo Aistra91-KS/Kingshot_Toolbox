@@ -1,5 +1,5 @@
 /* ============================================================================
-   HUB-KINGSHOT - FEUILLE DE STYLE PRINCIPALE
+   KINGSHOT TOOLBOX - FEUILLE DE STYLE PRINCIPALE
    ============================================================================
    
    Structure :
@@ -164,7 +164,7 @@ body.has-app-header {
     backdrop-filter: blur(10px);
 }
 
-/* Logo Hub-Kingshot */
+/* Logo Kingshot Toolbox */
 .app-header-logo {
     display: flex;
     align-items: center;
