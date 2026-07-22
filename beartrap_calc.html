@@ -28,6 +28,12 @@
             opacity: 0.7;
         }
 
+        /* Badge de liaison compétence (Expert / Animal) sous le champ */
+        .link-row { display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-top: -4px; margin-bottom: 6px; min-height: 16px; font-size: 11px; }
+        .link-badge { font-weight: bold; }
+        .link-sync { background: transparent; border: 1px solid var(--border); color: var(--accent); border-radius: 4px; cursor: pointer; padding: 0 6px; font-size: 12px; line-height: 1.5; display: none; align-items: center; transition: background 0.2s; }
+        .link-sync:hover { background: rgba(245, 184, 64, 0.12); }
+
         /* --- NOUVEAU : Styles pour le Studio de Déploiement --- */
         .studio-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px; }
         .custom-march-card { background: var(--control-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 10px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
@@ -82,9 +88,17 @@
                 <label data-i18n="lblExp">Bonus Expert</label>
                 <input type="text" id="cap-expert" class="formatted-number" value="0">
             </div>
+            <div class="link-row">
+                <span id="expert-source-badge" class="link-badge"></span>
+                <button type="button" id="expert-sync-btn" class="link-sync" title="Resynchroniser">↺</button>
+            </div>
             <div class="control-row">
                 <label data-i18n="lblAni">Bonus Animal</label>
                 <input type="text" id="cap-animal" class="formatted-number" value="0">
+            </div>
+            <div class="link-row">
+                <span id="animal-source-badge" class="link-badge"></span>
+                <button type="button" id="animal-sync-btn" class="link-sync" title="Resynchroniser">↺</button>
             </div>
             <div class="control-row">
                 <label data-i18n="lblMaxM">Nb de marches max</label>

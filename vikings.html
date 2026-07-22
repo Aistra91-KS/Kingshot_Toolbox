@@ -23,6 +23,12 @@
         input[type="text"].formatted-number:focus { border-color: var(--accent); }
         input[type="text"].formatted-number::placeholder { color: var(--text-muted); opacity: 0.7; }
 
+        /* Badge de liaison compétence (Bonus animal ← Puissant Bison) */
+        .link-row { display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-top: -4px; margin-bottom: 6px; min-height: 16px; font-size: 11px; }
+        .link-badge { font-weight: bold; }
+        .link-sync { background: transparent; border: 1px solid var(--border); color: var(--accent); border-radius: 4px; cursor: pointer; padding: 0 6px; font-size: 12px; line-height: 1.5; display: none; align-items: center; transition: background 0.2s; }
+        .link-sync:hover { background: rgba(245, 184, 64, 0.12); }
+
         /* Bandeau de synthèse */
         .vk-summary { display: flex; flex-wrap: wrap; gap: 20px; padding: 15px;
             background: rgba(255,255,255,0.02); border: 1px solid var(--border);
@@ -77,6 +83,10 @@
             <div class="control-row">
                 <label data-i18n="lblAnimal">Bonus animal</label>
                 <input type="text" id="vk-animal" class="formatted-number" value="0">
+            </div>
+            <div class="link-row">
+                <span id="vk-animal-badge" class="link-badge"></span>
+                <button type="button" id="vk-animal-sync" class="link-sync" title="Resynchroniser">↺</button>
             </div>
             <div class="control-row">
                 <label data-i18n="lblPet">Pet activé 🐾</label>
