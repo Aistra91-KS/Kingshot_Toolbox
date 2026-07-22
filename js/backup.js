@@ -50,7 +50,7 @@ const BACKUP_MODULES = [
     { id: 'module-caserne',  labelKey: 'modCaserne',  keys: [STORAGE_KEYS.caserneHeroes, STORAGE_KEYS.caserneFilters] },
     { id: 'module-masters',  labelKey: 'modMasters',  keys: [STORAGE_KEYS.masters] },
     { id: 'module-research', labelKey: 'modResearch', keys: [STORAGE_KEYS.researchDb, STORAGE_KEYS.researchInputs] },
-    { id: 'module-beartrap', labelKey: 'modBeartrap', keys: [STORAGE_KEYS.beartrap] },
+    { id: 'module-beartrap', labelKey: 'modBeartrap', keys: [STORAGE_KEYS.beartrap, STORAGE_KEYS.beartrapJoiners] },
     { id: 'module-truegold', labelKey: 'modTrueGold', keys: [STORAGE_KEYS.truegold] },
     { id: 'module-vikings',  labelKey: 'modVikings',  keys: [STORAGE_KEYS.vikings] },
     { id: 'module-shopcalc', labelKey: 'modShopcalc', keys: [STORAGE_KEYS.shopcalcItems] },

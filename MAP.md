@@ -61,6 +61,7 @@ Kingshot_Toolbox/
 │   ├── truegold_db.json          Bâtiments TrueGold (rangeData, bldgMap, config, référence paliers)
 │   ├── truegold_war_db.json      Académie de Guerre : {meta, scoring, trees} — généré depuis un CSV
 │   ├── heroes_db.json            34 héros (génération, rareté, type, skills bilingues)
+│   ├── beartrap_joiners_db.json  Tier-list joiners Piège à Ours : rang (S>A>B>C>D) par génération de serveur (IDs héros)
 │   ├── masters_db.json           6 experts (paliers d'affinité, passif, skills)
 │   ├── shopcalc_items.json       86 objets (valeur en gemmes) — référentiel
 │   ├── shopcalc_classic.json     Boutiques classiques (contenu + coûts)
@@ -112,7 +113,7 @@ Kingshot_Toolbox/
 | `research_calc.html` | Optimiseur de recherches | `research_script.js` | `style.css` | `research_db.json` |
 | `truegold_calc.html` | Planif. bâtiments TrueGold | `truegold_script.js` | `style.css` | `truegold_db.json`, `masters_db.json` (affinité) |
 | `waracademy.html` | Planif. recherches troupes TG | `wa_optimizer.js`, `waracademy.js` | `style.css`, `waracademy.css` | `truegold_war_db.json` |
-| `beartrap_calc.html` | Répartition marches Piège à Ours | `beartrap.js` | `style.css` | `heroes_db.json` + caserne (localStorage) |
+| `beartrap_calc.html` | Répartition marches Piège à Ours | `beartrap.js` | `style.css` | `heroes_db.json`, `beartrap_joiners_db.json` (tier-list) + caserne (localStorage) |
 | `vikings.html` | Répartition troupes Vikings | `vikings.js` | `style.css` | formations Piège à Ours (localStorage) |
 | `caserne.html` | Gestion héros (beta) | `caserne.js`, `modal-tabs.js` | `style.css` | `heroes_db.json` |
 | `masters.html` | Experts & affinités (beta) | `masters.js`, `modal-tabs.js` | `style.css` | `masters_db.json` |
@@ -202,6 +203,7 @@ Toutes les données sont des **JSON éditées à la main** dans `data/` (pas de 
 | `truegold_db.json` | **Objet** : `rangeDataTTG`, `bldgMap`, `defaultBuildings`, `dbDataRaw`, `levelsReference`, `buildingsConfig`. |
 | `truegold_war_db.json` | **Objet** `{meta, scoring, trees}`. `meta.warAcademyMaxLevel`; `scoring = {pointsPerDust:1000, pointsPerSpeedupMinute:60}`; `trees` = 3 arbres × recherches × niveaux (`req` = prérequis même arbre, `reqWA` = palier bâtiment requis). Note meta : « généré depuis `tools/data-src/war_academy.csv` » (CSV **non** commité). |
 | `heroes_db.json` | **Liste** de 34 héros : `{id, name{EN,FR}, generation, rarity, troopType, goodJoinerBear, skills[]}`. |
+| `beartrap_joiners_db.json` | **Objet** `{_meta, byGeneration}`. `byGeneration[gen]` = `{S:[ids], A:[…], B, C, D}` (rang du héros-joiner à cette génération de serveur, IDs = `heroes_db.json`). Cumulatif et sujet au power-creep (un même héros change de rang selon la gen). En cas de doublon d'id, le **meilleur** rang prime. Converti depuis une tier-list communautaire (xlsx non commité). |
 | `masters_db.json` | **Liste** de 6 experts : `{id, name, title, affinityBonus, affinityMilestones[{level,affinity,emblems,bonus}], passive, skills[], affinity}`. |
 | `shopcalc_items.json` | **Liste** de 86 objets : `{id, name{EN,FR}, category, gemValue, skin?:true}` (référentiel de valeur). |
 | `shopcalc_classic.json` | **Liste** de boutiques : `{id, name, items[{itemId, qty, cost}]}`. |
@@ -239,6 +241,7 @@ Clés métier — source unique **`js/storage-keys.js`** (`window.STORAGE_KEYS`)
 | `researchDb` | `research_calc_db_v9` |
 | `researchInputs` | `research_calc_inputs_v9` |
 | `beartrap` | `beartrap_data` |
+| `beartrapJoiners` | `beartrap_joiners` |
 | `truegold` | `tg_calc_data_v3` |
 | `waracademy` | `wa_calc_data_v1` |
 | `vikings` | `vikings_data` |
@@ -255,6 +258,9 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 - **Bonus Expert** (Bear Trap) ← compétence « Avantage primitif » (`savage_advantage`) de **Valora** : `masters_db.json` (valeur/niveau) + `masters` localStorage (niveau saisi page Experts).
 - **Bonus Animal** (Bear Trap **et** Vikings) ← compétence du **Puissant Bison** (`mighty-bison`) : `pets_db.json` (valeur/palier) + `pets` localStorage (palier atteint page Familiers).
 - Le champ se remplit tout seul (badge 🟢 Auto). Dès que l'utilisateur l'édite il passe en ✏️ Manuel ; le bouton ↺ resynchronise sur la compétence. Le mode auto/manuel est persisté (`cap-expert-auto`/`cap-animal-auto` dans `beartrap`, `animalAuto` dans `vikings`).
+
+**Héros joiners autorisés (Bear Trap)** : le bouton « 🛡️ Héros autorisés » ouvre une modale (`#joiner-auth-modal`) listant les joiners de la **génération de serveur** sélectionnée, groupés par rang (`beartrap_joiners_db.json`). L'utilisateur coche ceux que son alliance permet ; **C et D décochés par défaut** + badge « Non recommandé ». Choix persistés **par génération** dans `beartrapJoiners`.
+**Portée (important)** : la tier-list + l'autorisation ne s'appliquent qu'au **capitaine** de chaque marche *joiner* (slot 1, seul héros portant l'effet du rally) — capitaine choisi parmi les héros autorisés, base niveau+compétences puis **rang** (S→D) en départage. Les **renforts** (slots 2 & 3) n'influencent que la **capacité** de la marche (via leur niveau : `penalty = 13470 − capacité(niveau)`, cumulée sur les 3 héros) : on prend **n'importe quel héros débloqué**, **un par autre type** (composition imposée inf/cav/arc), au plus haut niveau, en **réservant** les capitaines potentiels (autorisés) pour les autres marches. Le mode **Hôte/organisateur** garde son ancienne logique (`organizerTierList`).
 
 ---
 
