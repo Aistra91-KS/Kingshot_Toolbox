@@ -1947,26 +1947,20 @@ body.drawer-locked { overflow: hidden; }
   cursor:help; position:relative; vertical-align:middle; user-select:none;
 }
 .help-i:hover, .help-i:focus{ color:var(--accent); border-color:var(--accent); outline:none; }
-.help-i::after{
-  content:attr(data-tip);
-  position:absolute; top:calc(100% + 8px); left:50%;
-  width:max-content; max-width:240px; white-space:normal; text-align:left;
+
+/* Bulle unique positionnée en JS (js/help.js) et contrainte dans la fenêtre :
+   remplace l'ancien tooltip ::after centré qui débordait hors écran dans la sidebar. */
+#help-tip{
+  position:fixed; z-index:3000; box-sizing:border-box;
+  width:max-content; max-width:280px; white-space:normal; text-align:left;
   background:var(--bg-panel); color:var(--text-light);
   border:1px solid var(--border); border-radius:8px;
   box-shadow:0 6px 18px var(--shadow);
   padding:8px 10px; font:400 12px/1.4 sans-serif;
-  opacity:0; visibility:hidden;
-  transform:translateX(-50%) translateY(-4px);
-  transition:opacity .15s, transform .15s; z-index:50; pointer-events:none;
+  opacity:0; visibility:hidden; transform:translateY(-4px);
+  transition:opacity .15s, transform .15s; pointer-events:none;
 }
-.help-i::before{
-  content:""; position:absolute; top:calc(100% + 3px); left:50%;
-  transform:translateX(-50%); border:5px solid transparent;
-  border-bottom-color:var(--border);
-  opacity:0; visibility:hidden; transition:opacity .15s; z-index:51;
-}
-.help-i:hover::after, .help-i:focus::after{ opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); }
-.help-i:hover::before, .help-i:focus::before{ opacity:1; visibility:visible; }
+#help-tip.show{ opacity:1; visibility:visible; transform:none; }
 
 /* Modale */
 .help-overlay{
@@ -2022,7 +2016,7 @@ body.drawer-locked { overflow: hidden; }
 
 @media (max-width:600px){
   .help-btn{ margin-left:0; }
-  .help-i::after{ max-width:200px; }
+  #help-tip{ max-width:220px; }
 }
 
 /* ============================================================
