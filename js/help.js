@@ -37,10 +37,56 @@
         || document.querySelector('.main-content h1, .shop-wrap h1, .hub-header h1, h1');
   }
 
-  // ---------- Tooltip inline (CSS pur, hover + focus clavier) ----------
+  // ---------- Tooltip inline (hover + focus clavier) ----------
+  // Le texte est porté par data-tip ; la bulle est un élément unique #help-tip
+  // positionné en JS et CONTRAINT dans la fenêtre (évite les débordements hors écran,
+  // ex. les "i" de la sidebar dont une bulle centrée sortait par la gauche).
   function tip(textObj) {
     return `<span class="help-i" tabindex="0" role="note" aria-label="${esc(pick(textObj))}" data-tip="${esc(pick(textObj))}">i</span>`;
   }
+
+  let tipEl = null;
+  function ensureTipEl() {
+    if (tipEl && document.body.contains(tipEl)) return tipEl;
+    tipEl = document.createElement('div');
+    tipEl.id = 'help-tip';
+    tipEl.setAttribute('role', 'tooltip');
+    document.body.appendChild(tipEl);
+    return tipEl;
+  }
+  function hideTip() { if (tipEl) tipEl.classList.remove('show'); }
+  function showTip(el) {
+    const txt = el.getAttribute('data-tip');
+    if (!txt) return;
+    const bubble = ensureTipEl();
+    bubble.textContent = txt;
+    const margin = 8;
+    bubble.style.maxWidth = Math.min(280, window.innerWidth - margin * 2) + 'px';
+    // Rendre mesurable avant de calculer la position
+    bubble.style.left = '0px';
+    bubble.style.top = '0px';
+    bubble.classList.add('show');
+    const r = el.getBoundingClientRect();
+    const b = bubble.getBoundingClientRect();
+    // Horizontal : centré sur l'icône puis borné à la fenêtre
+    let left = r.left + r.width / 2 - b.width / 2;
+    left = Math.max(margin, Math.min(left, window.innerWidth - b.width - margin));
+    // Vertical : sous l'icône ; au-dessus s'il n'y a pas la place
+    let top = r.bottom + 8;
+    if (top + b.height > window.innerHeight - margin && r.top - 8 - b.height > margin) {
+      top = r.top - 8 - b.height;
+    }
+    bubble.style.left = Math.round(left) + 'px';
+    bubble.style.top = Math.round(top) + 'px';
+  }
+
+  // Délégation : gère les "i" insérés après coup (tips montés au chargement / changement de langue)
+  document.addEventListener('mouseover', (e) => { const el = e.target.closest && e.target.closest('.help-i'); if (el) showTip(el); });
+  document.addEventListener('mouseout',  (e) => { const el = e.target.closest && e.target.closest('.help-i'); if (el) hideTip(); });
+  document.addEventListener('focusin',   (e) => { const el = e.target.closest && e.target.closest('.help-i'); if (el) showTip(el); });
+  document.addEventListener('focusout',  (e) => { const el = e.target.closest && e.target.closest('.help-i'); if (el) hideTip(); });
+  window.addEventListener('scroll', hideTip, true);
+  window.addEventListener('resize', hideTip);
 
   // ---------- Modale ----------
   function closeModal() {
