@@ -40,7 +40,7 @@ if (!fr && !en) { console.log('Annonce vide (gabarit non rempli) : rien à publi
 if (!fr || !en) console.warn('⚠️  Une seule langue est renseignée.');
 
 // ---- Mise en forme Discord ----
-const SITE = 'https://aistra91-ks.github.io/hub-kingshot/';
+const SITE = 'https://aistra91-ks.github.io/Kingshot_Toolbox/';
 const COLOR = parseInt((meta.color || 'F5B840').replace(/^#/, ''), 16) || 0xF5B840; // --accent (DA)
 const titleFr = meta['title-fr'] || '📰 Mises à jour du site';
 const titleEn = meta['title-en'] || "📰 What's new on the site";
