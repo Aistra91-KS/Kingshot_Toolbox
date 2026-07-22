@@ -251,6 +251,10 @@ Clés métier — source unique **`js/storage-keys.js`** (`window.STORAGE_KEYS`)
 
 Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON corrompu). Export/import ciblé par module dans `backup.js` (`BACKUP_MODULES`).
 **Partage de données inter-outils** : `beartrap.js` lit `caserneHeroes`; `vikings.js` réutilise `beartrap` (formations/troupes).
+**Bonus de capacité liés à une compétence** (auto, mais toujours modifiables — même principe que le bonus PAN de TrueGold) :
+- **Bonus Expert** (Bear Trap) ← compétence « Avantage primitif » (`savage_advantage`) de **Valora** : `masters_db.json` (valeur/niveau) + `masters` localStorage (niveau saisi page Experts).
+- **Bonus Animal** (Bear Trap **et** Vikings) ← compétence du **Puissant Bison** (`mighty-bison`) : `pets_db.json` (valeur/palier) + `pets` localStorage (palier atteint page Familiers).
+- Le champ se remplit tout seul (badge 🟢 Auto). Dès que l'utilisateur l'édite il passe en ✏️ Manuel ; le bouton ↺ resynchronise sur la compétence. Le mode auto/manuel est persisté (`cap-expert-auto`/`cap-animal-auto` dans `beartrap`, `animalAuto` dans `vikings`).
 
 ---
 

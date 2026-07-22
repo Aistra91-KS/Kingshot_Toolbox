@@ -6,8 +6,8 @@ const i18nBearTrap = {
     FR: {
         titleParams: "Paramètres",
         tipBase: "Capacité de marche de base, AVANT bonus (troupes envoyées par marche).",
-        tipExp: "Bonus de capacité (%) apporté par ton expert / héros.",
-        tipAni: "Bonus de capacité (%) apporté par l'animal (pet).",
+        tipExp: "Bonus de capacité d'escouade apporté par la compétence « Avantage primitif » de Valora. Rempli automatiquement depuis la page Experts, mais tu peux toujours modifier la valeur.",
+        tipAni: "Bonus de capacité d'escouade apporté par la compétence du Puissant Bison. Rempli automatiquement depuis la page Familiers, mais tu peux toujours modifier la valeur.",
         tipGen: "Génération de ton serveur : influence les paliers de troupes pris en compte.",
         tipLimit: "Nombre max de troupes envoyables par marche (limite imposée par l'alliance).",
         tipMinInf: "Part minimale d'infanterie imposée dans chaque marche générée (mode Seuils Mini).",
@@ -66,13 +66,19 @@ const i18nBearTrap = {
         btnSuggest: "🪄 Suggérer",
         optNone: "Aucun",
         txtAvailable: "Disponibles :",
-        errDuplicateHero: "Un héros ne peut être sélectionné qu'une seule fois dans la même marche."
+        errDuplicateHero: "Un héros ne peut être sélectionné qu'une seule fois dans la même marche.",
+        linkAuto: "Auto",
+        linkManual: "Manuel",
+        linkNoSource: "Auto (non configuré)",
+        linkSync: "Resynchroniser sur la compétence",
+        srcValora: "Valora — Avantage primitif",
+        srcBison: "Puissant Bison"
     },
     EN: {
         titleParams: "Settings",
         tipBase: "Base march capacity, BEFORE bonuses (troops sent per march).",
-        tipExp: "Capacity bonus (%) from your expert / hero.",
-        tipAni: "Capacity bonus (%) from the animal (pet).",
+        tipExp: "Squad capacity bonus from Valora's “Savage Advantage” skill. Auto-filled from the Masters page, but you can always edit the value.",
+        tipAni: "Squad capacity bonus from the Mighty Bison's skill. Auto-filled from the Pets page, but you can always edit the value.",
         tipGen: "Your server generation: affects which troop tiers are considered.",
         tipLimit: "Max troops sendable per march (cap set by your alliance).",
         tipMinInf: "Minimum infantry share enforced in each generated march (Min Thresholds mode).",
@@ -131,13 +137,119 @@ const i18nBearTrap = {
         btnSuggest: "🪄 Suggest",
         optNone: "None",
         txtAvailable: "Available:",
-        errDuplicateHero: "A hero can only be selected once in the same march."
+        errDuplicateHero: "A hero can only be selected once in the same march.",
+        linkAuto: "Auto",
+        linkManual: "Manual",
+        linkNoSource: "Auto (not set)",
+        linkSync: "Re-sync from the skill",
+        srcValora: "Valora — Savage Advantage",
+        srcBison: "Mighty Bison"
     }
 };
 
 let customMarchesList = [];
 let editingMarchId = null;
 let heroesDB = [];
+
+// ========================================
+// LIAISON COMPÉTENCES (Expert + Animal)
+// ----------------------------------------
+// Bonus Expert  = compétence « Avantage primitif » de Valora (data/masters_db.json,
+//                 niveau saisi sur la page Experts → localStorage `masters`).
+// Bonus Animal  = compétence du Puissant Bison (data/pets_db.json,
+//                 palier atteint sur la page Familiers → localStorage `pets`).
+// La valeur est remplie automatiquement mais RESTE modifiable : dès que l'utilisateur
+// édite le champ il passe en « manuel » ; le bouton ↺ resynchronise sur la compétence.
+// ========================================
+let expertAutoVal = null;   // valeur auto (Valora)  ou null si non configurée
+let animalAutoVal = null;   // valeur auto (Bison)   ou null si non configurée
+let expertAutoMode = true;  // true = suit la compétence ; false = valeur manuelle
+let animalAutoMode = true;
+
+// "+3,000" / "1 500" / "1500" -> 3000
+function parseBonusValue(v) {
+    if (v == null) return 0;
+    return parseInt(String(v).replace(/[^\d]/g, ''), 10) || 0;
+}
+
+async function loadExpertBonus() {
+    try {
+        const res = await fetch('data/masters_db.json');
+        const db = await res.json();
+        const valora = db.find(m => m.id === 'valora');
+        const skill = valora && valora.skills.find(s => s.id === 'savage_advantage');
+        const userMasters = safeParse(STORAGE_KEYS.masters, {});
+        const lvl = (userMasters.valora && userMasters.valora.skills)
+            ? (userMasters.valora.skills.savage_advantage || 0) : 0;
+        const lvlObj = skill && lvl >= 1 ? skill.levels.find(l => l.level === lvl) : null;
+        expertAutoVal = lvlObj ? parseBonusValue(lvlObj.effect) : null;
+    } catch (e) {
+        console.error('Expert (Valora) bonus load failed', e);
+        expertAutoVal = null;
+    }
+}
+
+async function loadAnimalBonus() {
+    try {
+        const res = await fetch('data/pets_db.json');
+        const db = await res.json();
+        const bison = (db.pets || []).find(p => p.id === 'mighty-bison');
+        const petData = safeParse(STORAGE_KEYS.pets, {});
+        const entry = petData['mighty-bison'];
+        let tier = 0;
+        if (bison && entry && entry.adv) {
+            for (let cap = 10; cap <= bison.maxLevel; cap += 10) if (entry.adv[cap]) tier++;
+        }
+        const values = (bison && bison.skill.effects[0]) ? bison.skill.effects[0].values : [];
+        animalAutoVal = (tier >= 1 && values[tier - 1] !== undefined)
+            ? parseBonusValue(values[tier - 1]) : null;
+    } catch (e) {
+        console.error('Animal (Bison) bonus load failed', e);
+        animalAutoVal = null;
+    }
+}
+
+// Applique l'état d'un champ lié (valeur + badge + bouton de resync)
+function applyBonusLink(field) {
+    const cfg = field === 'expert'
+        ? { inputId:'cap-expert', badgeId:'expert-source-badge', syncId:'expert-sync-btn', auto:expertAutoMode, val:expertAutoVal, srcKey:'srcValora' }
+        : { inputId:'cap-animal', badgeId:'animal-source-badge', syncId:'animal-sync-btn', auto:animalAutoMode, val:animalAutoVal, srcKey:'srcBison' };
+    const input = document.getElementById(cfg.inputId);
+    const badge = document.getElementById(cfg.badgeId);
+    const sync  = document.getElementById(cfg.syncId);
+    if (!input || !badge) return;
+    const dict = i18nBearTrap[window.GlobalLang ? GlobalLang.get() : 'EN'] || i18nBearTrap.EN;
+
+    if (cfg.auto && cfg.val !== null) {
+        input.value = cfg.val.toLocaleString('fr-FR');
+        badge.innerHTML = '🟢 ' + dict.linkAuto + ' · ' + dict[cfg.srcKey];
+        badge.style.color = 'var(--success)';
+        if (sync) sync.style.display = 'none';
+    } else if (cfg.auto && cfg.val === null) {
+        badge.innerHTML = '🔗 ' + dict.linkNoSource + ' · ' + dict[cfg.srcKey];
+        badge.style.color = 'var(--text-muted)';
+        if (sync) sync.style.display = 'none';
+    } else {
+        badge.innerHTML = '✏️ ' + dict.linkManual;
+        badge.style.color = 'var(--text-muted)';
+        if (sync) { sync.title = dict.linkSync; sync.style.display = (cfg.val !== null) ? 'inline-flex' : 'none'; }
+    }
+}
+
+// Bascule en manuel dès que l'utilisateur édite le champ
+function onBonusManualEdit(field) {
+    if (field === 'expert') expertAutoMode = false; else animalAutoMode = false;
+    applyBonusLink(field);
+    saveBearTrapData();
+}
+
+// Resynchronise le champ sur la valeur de la compétence
+function resyncBonus(field) {
+    if (field === 'expert') expertAutoMode = true; else animalAutoMode = true;
+    applyBonusLink(field);
+    saveBearTrapData();
+    calculateBearTrap();
+}
 
 // ========================================
 // DONNÉES DES HÉROS (Tier Lists & Capacités)
@@ -253,6 +365,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } catch (e) { console.error("Erreur DB", e); }
 
+    // Liaison des bonus Expert (Valora) & Animal (Puissant Bison)
+    await Promise.all([loadExpertBonus(), loadAnimalBonus()]);
+    applyBonusLink('expert');
+    applyBonusLink('animal');
+
     if (window.GlobalLang) {
         applyTranslations(window.GlobalLang.get());
         btInitHelp();
@@ -260,8 +377,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.addEventListener('langChanged', (e) => {
             applyTranslations(e.detail.lang);
             btMountTips();
+            applyBonusLink('expert');
+            applyBonusLink('animal');
             renderCustomMarches();
-            calculateBearTrap(); 
+            calculateBearTrap();
         });
     }
 
@@ -279,6 +398,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
     });
+
+    // Liaison Expert/Animal : édition manuelle -> mode manuel ; bouton ↺ -> resync
+    const expertInput = document.getElementById('cap-expert');
+    if (expertInput) expertInput.addEventListener('input', () => onBonusManualEdit('expert'));
+    const animalInput = document.getElementById('cap-animal');
+    if (animalInput) animalInput.addEventListener('input', () => onBonusManualEdit('animal'));
+    const expertSync = document.getElementById('expert-sync-btn');
+    if (expertSync) expertSync.addEventListener('click', () => resyncBonus('expert'));
+    const animalSync = document.getElementById('animal-sync-btn');
+    if (animalSync) animalSync.addEventListener('click', () => resyncBonus('animal'));
 
     const btnCalculate = document.getElementById('btn-calculate');
     if (btnCalculate) btnCalculate.addEventListener('click', () => { saveBearTrapData(); calculateBearTrap(); });
@@ -338,8 +467,10 @@ function saveBearTrapData() {
     });
     data['player-role'] = document.getElementById('player-role').value;
     data['optim-mode'] = document.getElementById('optim-mode').value;
-    data['server-generation'] = document.getElementById('server-generation').value; 
+    data['server-generation'] = document.getElementById('server-generation').value;
     data['custom-marches'] = customMarchesList;
+    data['cap-expert-auto'] = expertAutoMode;
+    data['cap-animal-auto'] = animalAutoMode;
 
     localStorage.setItem(STORAGE_KEYS.beartrap, JSON.stringify(data));
 }
@@ -356,6 +487,9 @@ function loadBearTrapData() {
         if (data['custom-marches']) {
             customMarchesList = data['custom-marches'];
         }
+        // Modes de liaison (défaut : auto) — booléens hors champ de saisie
+        expertAutoMode = data['cap-expert-auto'] !== false;
+        animalAutoMode = data['cap-animal-auto'] !== false;
         if (data['server-generation']) {
             const genEl = document.getElementById('server-generation');
             if (genEl) genEl.value = data['server-generation'];

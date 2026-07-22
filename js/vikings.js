@@ -29,7 +29,12 @@ const i18nVikings = {
         impCapacity: "Capacité + bonus animal",
         impMarches: "Nombre de marches",
         btnDoImport: "Importer",
-        btnCancel: "Annuler"
+        btnCancel: "Annuler",
+        linkAuto: "Auto",
+        linkManual: "Manuel",
+        linkNoSource: "Auto (non configuré)",
+        linkSync: "Resynchroniser sur la compétence",
+        srcBison: "Puissant Bison"
     },
     EN: {
         titleParams: "Parameters",
@@ -54,7 +59,12 @@ const i18nVikings = {
         impCapacity: "Capacity + pet bonus",
         impMarches: "Number of marches",
         btnDoImport: "Import",
-        btnCancel: "Cancel"
+        btnCancel: "Cancel",
+        linkAuto: "Auto",
+        linkManual: "Manual",
+        linkNoSource: "Auto (not set)",
+        linkSync: "Re-sync from the skill",
+        srcBison: "Mighty Bison"
     }
 };
 
@@ -84,6 +94,60 @@ function formatInputNumber(e) {
 const fmt = (n) => Math.round(n).toLocaleString('fr-FR');
 const pct = (part, total) => total > 0 ? Math.round((part / total) * 100) : 0;
 
+// ---------- Liaison compétence du familier (Puissant Bison) ----------
+// Le « Bonus animal » reflète la compétence du Puissant Bison (data/pets_db.json,
+// palier atteint sur la page Familiers → localStorage `pets`). Rempli automatiquement
+// mais toujours modifiable : édition -> mode manuel ; bouton ↺ -> resync.
+let animalAutoVal = null;
+let animalAutoMode = true;
+
+function parseBonusValue(v) {
+    if (v == null) return 0;
+    return parseInt(String(v).replace(/[^\d]/g, ''), 10) || 0;
+}
+
+async function loadAnimalBonus() {
+    try {
+        const res = await fetch('data/pets_db.json');
+        const db = await res.json();
+        const bison = (db.pets || []).find(p => p.id === 'mighty-bison');
+        const petData = safeParse(STORAGE_KEYS.pets, {});
+        const entry = petData['mighty-bison'];
+        let tier = 0;
+        if (bison && entry && entry.adv) {
+            for (let cap = 10; cap <= bison.maxLevel; cap += 10) if (entry.adv[cap]) tier++;
+        }
+        const values = (bison && bison.skill.effects[0]) ? bison.skill.effects[0].values : [];
+        animalAutoVal = (tier >= 1 && values[tier - 1] !== undefined)
+            ? parseBonusValue(values[tier - 1]) : null;
+    } catch (e) {
+        console.error('Animal (Bison) bonus load failed', e);
+        animalAutoVal = null;
+    }
+}
+
+function applyAnimalLink() {
+    const input = document.getElementById('vk-animal');
+    const badge = document.getElementById('vk-animal-badge');
+    const sync  = document.getElementById('vk-animal-sync');
+    if (!input || !badge) return;
+
+    if (animalAutoMode && animalAutoVal !== null) {
+        input.value = animalAutoVal.toLocaleString('fr-FR');
+        badge.innerHTML = '🟢 ' + tr('linkAuto') + ' · ' + tr('srcBison');
+        badge.style.color = 'var(--success)';
+        if (sync) sync.style.display = 'none';
+    } else if (animalAutoMode && animalAutoVal === null) {
+        badge.innerHTML = '🔗 ' + tr('linkNoSource') + ' · ' + tr('srcBison');
+        badge.style.color = 'var(--text-muted)';
+        if (sync) sync.style.display = 'none';
+    } else {
+        badge.innerHTML = '✏️ ' + tr('linkManual');
+        badge.style.color = 'var(--text-muted)';
+        if (sync) { sync.title = tr('linkSync'); sync.style.display = (animalAutoVal !== null) ? 'inline-flex' : 'none'; }
+    }
+}
+
 // ---------- Persistance ----------
 function saveData() {
     const data = {
@@ -92,6 +156,7 @@ function saveData() {
         arc: getRawNumber('vk-arc'),
         cap: getRawNumber('vk-cap'),
         animal: getRawNumber('vk-animal'),
+        animalAuto: animalAutoMode,
         pet: document.getElementById('vk-pet').checked,
         marches: getRawNumber('vk-marches')
     };
@@ -106,6 +171,7 @@ function loadData() {
     setNum('vk-cap', data.cap); setNum('vk-animal', data.animal);
     setNum('vk-marches', data.marches);
     document.getElementById('vk-pet').checked = !!data.pet;
+    animalAutoMode = data.animalAuto !== false;   // défaut : auto
 }
 
 // ---------- Moteur de calcul ----------
@@ -253,6 +319,8 @@ function applyImport(bt, sel) {
         setNum('vk-cap', num(bt['cap-base']));
         setNum('vk-animal', num(bt['cap-animal']));
         document.getElementById('vk-pet').checked = num(bt['cap-animal']) > 0;
+        animalAutoMode = false;   // valeur importée -> saisie manuelle
+        applyAnimalLink();
     }
     if (sel.includes('marches')) {
         setNum('vk-marches', num(bt['marches-count']));
@@ -262,7 +330,7 @@ function applyImport(bt, sel) {
 }
 
 // ---------- Init ----------
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     loadData();
 
     document.getElementById('vk-import-bt').addEventListener('click', importFromBearTrap);
@@ -271,6 +339,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.formatted-number').forEach(input => {
         input.addEventListener('input', (e) => { formatInputNumber(e); triggerUpdate(); });
     });
+
+    // Liaison du bonus animal sur la compétence du Puissant Bison
+    await loadAnimalBonus();
+    applyAnimalLink();
+    const vkAnimal = document.getElementById('vk-animal');
+    if (vkAnimal) vkAnimal.addEventListener('input', () => { animalAutoMode = false; applyAnimalLink(); });
+    const vkAnimalSync = document.getElementById('vk-animal-sync');
+    if (vkAnimalSync) vkAnimalSync.addEventListener('click', () => {
+        animalAutoMode = true;
+        applyAnimalLink();
+        // resync = intention d'utiliser le familier -> on active le Pet si un bonus existe
+        if (animalAutoVal) document.getElementById('vk-pet').checked = true;
+        triggerUpdate();
+    });
+
     // Toggle pet
     document.getElementById('vk-pet').addEventListener('change', triggerUpdate);
 
@@ -317,8 +400,9 @@ function vkInitHelp() {
     });
 }
 
-window.addEventListener('langChanged', () => { 
+window.addEventListener('langChanged', () => {
     applyTranslations();
+    applyAnimalLink();
     render();
     vkInitHelp();
 });
