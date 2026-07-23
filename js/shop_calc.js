@@ -5,7 +5,7 @@
 
 const i18nShop = {
   FR: {
-    scTitle:"Shop Calculation", scDesc:"Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires.",
+    scTitle:"Valeur Boutique", scDesc:"Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires.",
     tabData:"Data Item", tabClassic:"Shop Classique", tabEvent:"Shop d'Événement", tabChest:"Coffres",
     bestPick:"Meilleur choix", chestPickHint:"Choisis un seul objet — le plus rentable est mis en avant.", noChest:"Aucun coffre pour le moment.", collapseShop:"Replier / déplier la boutique",
     colName:"Nom", colCat:"Catégorie", colGem:"Valeur (gemmes)", resetItems:"Réinitialiser les valeurs",
@@ -28,7 +28,7 @@ const i18nShop = {
     confirmResetEvent:"Réinitialiser cette boutique à sa version d'origine ? Tes modifications (quantités, coûts, suppressions) seront perdues."
   },
   EN: {
-    scTitle:"Shop Calculation", scDesc:"Compare in-shop cost to gem value to spot the best deals.",
+    scTitle:"Shop Value", scDesc:"Compare in-shop cost to gem value to spot the best deals.",
     tabData:"Data Item", tabClassic:"Classic Shop", tabEvent:"Event Shop", tabChest:"Chests",
     bestPick:"Best pick", chestPickHint:"Pick a single item — the best value is highlighted.", noChest:"No chest yet.", collapseShop:"Collapse / expand shop",
     colName:"Name", colCat:"Category", colGem:"Value (gems)", resetItems:"Reset values",
@@ -509,7 +509,7 @@ function scRenderChests(){
   const c=document.getElementById('item-cat-filter'); if(c) c.addEventListener('change',scRenderItems);
   if (window.HelpSystem) HelpSystem.init({
     id:'shop', banner:true,
-    title:{FR:'Shop Calculation — Aide', EN:'Shop Calculation — Help'},
+    title:{FR:'Valeur Boutique — Aide', EN:'Shop Value — Help'},
     summary:{FR:"Compare le coût en boutique de chaque objet à sa valeur en gemmes pour repérer les meilleures affaires : plus le ratio est élevé, plus l'achat est rentable.",
              EN:"Compares each shop item's cost to its gem value to spot the best deals: the higher the ratio, the better the buy."},
     steps:{

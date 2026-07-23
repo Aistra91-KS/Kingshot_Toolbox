@@ -31,7 +31,7 @@ const i18nBackup = {
         modResearch: "Research (Technologies)",
         modBeartrap: "Bear Trap (Custom Formations & Settings)",
         modVikings: "Vikings (Troop Distribution)",
-        modShopcalc: "Shop Calc (gem values)",
+        modShopcalc: "Shop Value (gem values)",
         modPets: "Pets (Levels)",
         modTrueGold: "TrueGold (Levels, Stocks & Settings)",
         btnExport: "Export (.json)",
