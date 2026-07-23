@@ -2183,3 +2183,10 @@ body.drawer-locked { overflow: hidden; }
         padding-top: 0 !important;
     }
 }
+/* Base de Données (Experts / Familiers) — mise en valeur du placeholder « X »
+   des descriptions de compétences (la valeur qui change selon le palier). */
+.hl-x {
+    color: var(--accent);
+    font-weight: 700;
+    padding: 0 1px;
+}

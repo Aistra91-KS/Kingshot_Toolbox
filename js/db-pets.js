@@ -30,6 +30,9 @@
   };
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  // Met en valeur le placeholder « X » / « X% » (la valeur qui change au palier).
+  // X isolé uniquement : « XP », « max »… ne sont pas touchés.
+  function highlightX(raw) { return esc(raw).replace(/(^|[^A-Za-z0-9À-ÿ])X(%?)(?![A-Za-z0-9À-ÿ])/g, '$1<span class="hl-x">X$2</span>'); }
   function fmt(n, L) { if (n == null || n === '' || n === '—') return '—'; const v = +n; if (!isFinite(v)) return esc(n); return v.toLocaleString(L === 'FR' ? 'fr-FR' : 'en-US'); }
   const L0 = () => (window.GlobalLang && GlobalLang.get && GlobalLang.get()) || 'FR';
 
@@ -115,7 +118,12 @@
   function apply() {
     const lang = L0();
     if (window.GlobalLang && GlobalLang.applyI18n) GlobalLang.applyI18n(dict[lang] || dict.FR);
-    document.querySelectorAll('[data-en][data-fr]').forEach(function (el) { el.textContent = el.getAttribute('data-' + lang.toLowerCase()) || el.textContent; });
+    document.querySelectorAll('[data-en][data-fr]').forEach(function (el) {
+      const val = el.getAttribute('data-' + lang.toLowerCase());
+      if (val == null) return;
+      if (el.classList.contains('m-block-desc')) el.innerHTML = highlightX(val);
+      else el.textContent = val;
+    });
     const n = document.getElementById('pet-name'), c = document.getElementById('crumb-name');
     if (n && c) c.textContent = n.textContent;
     document.documentElement.lang = lang.toLowerCase();
