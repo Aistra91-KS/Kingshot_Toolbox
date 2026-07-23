@@ -91,7 +91,7 @@
         "FR": "Instinct de Chasseur"
       },
       "TextToInclude": {
-        "FR": "Valora est dotée de l'instinct d'une vrai guerrière. Inflige X points de dégâts supplémentaires en chasse à l'ours (valabre uniquement pour elle-même)",
+        "FR": "Valora est dotée de l'instinct d'une vraie guerrière. Inflige X points de dégâts supplémentaires en chasse à l'ours (valable uniquement pour elle-même)",
         "EN": "Valora was born with the instincts of a true warrior and so inflicts X additional Bear Hunt Damage Points (effective for herself only)."
       },
       "levels": [
@@ -283,7 +283,7 @@
         },
         "unlockRelLevel": 30,
         "TextToInclude": {
-          "FR": "\" Un chasseur doit connaître ses armes sur le bout des doigts.\" L'attetnion constante que Valora porte à son équipements permet d'obtenir X marteaux de forge bonus par chasse à l'ours.",
+          "FR": "\" Un chasseur doit connaître ses armes sur le bout des doigts.\" L'attention constante que Valora porte à son équipement permet d'obtenir X marteaux de forge bonus par chasse à l'ours.",
           "EN": "\"A hunter must know their weapons like the back of their hand.\" Valora's constant focus on gear provides X additional Forgehammer rewards per Bear Hunt."
         },
         "levels": [
@@ -715,7 +715,7 @@
         "FR": "Réserves Efficaces"
       },
       "TextToInclude": {
-        "FR": "En tant que ceuilleur vétéran, Pan accomplit ces tâches plus efficacement. Gagne X coffres de réserves toutes les 120 minutes de collecte. Limite quotidienne : X",
+        "FR": "En tant que cueilleur vétéran, Pan accomplit ces tâches plus efficacement. Gagne X coffres de réserves toutes les 120 minutes de collecte. Limite quotidienne : X",
         "EN": "As a crafty veteran gatherer, Pan handles such tasks more efficiently, gaining X Reserve Chests every 120 total gathering mins. Daily limits : X"
       },
       "levels": [
@@ -774,7 +774,7 @@
         },
         "TextToInclude": {
           "EN": "Pan' skilled falconry gives them grater range, increasing the number of daily Watchtower inter missions found by X",
-          "FR": "les talents de fauconnier de Pan lui confèrent une plus grande portée. Augmente de X le nombre de missions de rensignements de l'observatoire quotidiennes trouvées."
+          "FR": "les talents de fauconnier de Pan lui confèrent une plus grande portée. Augmente de X le nombre de missions de renseignements de l'observatoire quotidiennes trouvées."
         },
         "unlockRelLevel": 10,
         "levels": [
@@ -823,7 +823,7 @@
         },
         "TextToInclude": {
           "EN": "A good steward must be responsible for their master's needs. Pan increases the Storehouse's Governor Stamina replenishment by X",
-          "FR": "En tant que bon intendant, les besoins de son maitre font partie de ses responsabilités. Pan augmente de X la récupération d'endurance du gouverneur de l'entrepôt."
+          "FR": "En tant que bon intendant, les besoins de son maître font partie de ses responsabilités. Pan augmente de X la récupération d'endurance du gouverneur de l'entrepôt."
         },
         "unlockRelLevel": 20,
         "levels": [
@@ -921,7 +921,7 @@
         },
         "TextToInclude": {
           "EN": "An experienced manager sees opportunities others don't. Pan gains X additional Mystery Badge(s) upon daily mission completion and X more free refreshes at the Mystery Shop.",
-          "FR": "Un administrateur expérimenté voit des opportunités la où d'autres n'en voient pas. Pan gagne X insignes mystères bonus en terminant des missions quotidiennes et X actualisations gratuites dans le magasin mystère."
+          "FR": "Un administrateur expérimenté voit des opportunités là où d'autres n'en voient pas. Pan gagne X insignes mystères bonus en terminant des missions quotidiennes et X actualisations gratuites dans le magasin mystère."
         },
         "unlockRelLevel": 40,
         "levels": [
@@ -1207,7 +1207,7 @@
         {
           "min": 100,
           "FR": "Alter ego",
-          "EN": "kindred Soul"
+          "EN": "Kindred Soul"
         }
       ]
     }
@@ -1373,7 +1373,7 @@
           "FR": "Formateur de Champions"
         },
         "TextToInclude": {
-          "FR": "Roman forme les candidats à des compétences qui ne seront pas oubliées de sitôt. Augment de X l'attaque et la santé des escortes en combat d'arène.",
+          "FR": "Roman forme les candidats à des compétences qui ne seront pas oubliées de sitôt. Augmente de X l'attaque et la santé des escortes en combat d'arène.",
           "EN": "Roman trains candidates in skills that will not soon be forgot, increasing Escorts' Arena Battle Attack and Health by X."
         },
         "unlockRelLevel": 10,
@@ -1457,7 +1457,7 @@
           "FR": "Le Gagnant Rafle Tout"
         },
         "TextToInclude": {
-          "FR": "\"il ne peut en rester qu'un !\" déclare souvent Roman. Fidèle à lui-même, il augmente de X les récompenses quotidienne et hebdomadaires en jetons d'arène.",
+          "FR": "\"il ne peut en rester qu'un !\" déclare souvent Roman. Fidèle à lui-même, il augmente de X les récompenses quotidiennes et hebdomadaires en jetons d'arène.",
           "EN": "\"There can be only one!\" Roman often declares. True to form, he increases the Daily and Weekly Arena Token rewards by X."
         },
         "unlockRelLevel": 20,
@@ -1912,7 +1912,7 @@
         {
           "min": 100,
           "FR": "Alter ego",
-          "EN": "kindred Soul"
+          "EN": "Kindred Soul"
         }
       ]
     }
@@ -2151,7 +2151,7 @@
           "FR": "La puissance pour gagner"
         },
         "TextToInclude": {
-          "FR": "Cassia a acquis beaucoup d'experience sur le terrain au cours de sa longue carrière. Augmente de X l'attaque et la défense de l'escouade.",
+          "FR": "Cassia a acquis beaucoup d'expérience sur le terrain au cours de sa longue carrière. Augmente de X l'attaque et la défense de l'escouade.",
           "EN": "Cassia's lifetime of battlefield experience equates to X increased Squad Attack and Defense."
         },
         "unlockRelLevel": 20,
@@ -2816,7 +2816,7 @@
         {
           "min": 100,
           "FR": "Alter ego",
-          "EN": "kindred Soul"
+          "EN": "Kindred Soul"
         }
       ]
     }
@@ -2913,7 +2913,7 @@
         "FR": "Domaine de l'Épée Sacrée"
       },
       "TextToInclude": {
-        "FR": "Guinevere peut utiliser une puissance accrue à proximité de l'Épée scrée, augmentant l'Attaque des troupes de +X% et la Défense de +X% lors du Choc du Glaive sacré et de la Ligue d'élite de l'Épée sacrée.",
+        "FR": "Guinevere peut utiliser une puissance accrue à proximité de l'Épée sacrée, augmentant l'Attaque des troupes de +X% et la Défense de +X% lors du Choc du Glaive sacré et de la Ligue d'élite de l'Épée sacrée.",
         "EN": "When near the Holy Sword, Guinevere channels immense power, granting Squads +X% Attack and +X% Defense during the Swordland Showdown and Swordland Summit League."
       },
       "levels": [
@@ -2971,7 +2971,7 @@
           "FR": "Efficacité décuplée"
         },
         "TextToInclude": {
-          "FR": "Guinevere prend toujours les meilleurs décisions. Quantité de pièces de relique obtenue +X%.",
+          "FR": "Guinevere prend toujours les meilleures décisions. Quantité de pièces de relique obtenue +X%.",
           "EN": "Guinevere always makes the right choice. Relic Coins gains are increased by X%."
         },
         "unlockRelLevel": 10,
@@ -3139,7 +3139,7 @@
           "FR": "Guidance de l'autorité royale"
         },
         "TextToInclude": {
-          "FR": "Guinevere donne les ordres de combats les plus clairs à ses troupes, augemenant la Létalité des troupes de +X% et leurs PV de +X% lors du Choc du Glaive sacré et de la ligue d'élite de l'Épée sacrée.",
+          "FR": "Guinevere donne les ordres de combats les plus clairs à ses troupes, augmentant la Létalité des troupes de +X% et leurs PV de +X% lors du Choc du Glaive sacré et de la ligue d'élite de l'Épée sacrée.",
           "EN": "Guinevere issues precise combat orders, granting Squads participating in Swordland Showdown and Swordland Summit League +X% Lethality and +X% Health."
         },
         "unlockRelLevel": 30,
@@ -3293,7 +3293,7 @@
           "FR": "Appel de la Table Ronde"
         },
         "TextToInclude": {
-          "FR": "Guinevere est determinée à obtenir l'Épée sacrée et rassemblera plus de troupes pour la conquérir. Ralliement Max augmentée de X lors du Choc du Glaive et de la Ligue d'élite de l'Épée sacrée.",
+          "FR": "Guinevere est déterminée à obtenir l'Épée sacrée et rassemblera plus de troupes pour la conquérir. Ralliement Max augmenté de X lors du Choc du Glaive et de la Ligue d'élite de l'Épée sacrée.",
           "EN": "Guinevere is determined to secure the Holy Sword and rallies more Squads to her cause. Increases Rally Capacity by X during Swordland Showdown and Swordland Summit League."
         },
         "unlockRelLevel": 40,
@@ -3650,7 +3650,7 @@
         {
           "min": 100,
           "FR": "Alter ego",
-          "EN": "kindred Soul"
+          "EN": "Kindred Soul"
         }
       ]
     }
@@ -3747,7 +3747,7 @@
         "FR": "Décret Commercial"
       },
       "TextToInclude": {
-        "FR": "Wilson transmet toujours les dernières réglementations commerciales, réduisant de X% le prix des articles au magasin de l'Alliance. De plus, les récompenses du coffre quotidiens d'activité personnelle sont augmentées de X%",
+        "FR": "Wilson transmet toujours les dernières réglementations commerciales, réduisant de X% le prix des articles au magasin de l'Alliance. De plus, les récompenses du coffre quotidien d'activité personnelle sont augmentées de X%",
         "EN": "Wilson always delivers the latest trade regulations on time, reducing prices in the Alliance Shop by X%; additionally increases Personal Activity Triumph Chest rewards by X%."
       },
       "levels": [
@@ -3805,7 +3805,7 @@
           "FR": "Maître de la Mobilisation"
         },
         "TextToInclude": {
-          "FR": "Les encouragements de Wilson motivent les memnres de l'alliance. Points de Mobilisation de l'Alliance augmentés de X% et X paliers(s) supplémentaire(s) ajouté(s) aux jalons.",
+          "FR": "Les encouragements de Wilson motivent les membres de l'alliance. Points de Mobilisation de l'Alliance augmentés de X% et X palier(s) supplémentaire(s) ajouté(s) aux jalons.",
           "EN": "Wilson's encouragement fuels the drive of all allies. Increases Alliance Mobilization points by X%, and Milestones gain X extra tier(s)."
         },
         "unlockRelLevel": 10,
@@ -3889,7 +3889,7 @@
           "FR": "Propagande de Championnat"
         },
         "TextToInclude": {
-          "FR": "Wilson répand la nouvelle du Championnat de l'Alliance sur le tout le continent, attirant de nombreux sponsors. Au Championnat de l'Alliance, le nombre d'insignes de championnat obtenus est augmenté de X et le nombre d'articles supplémentaires au magasin du championnat est augmenté de X.",
+          "FR": "Wilson répand la nouvelle du Championnat de l'Alliance sur tout le continent, attirant de nombreux sponsors. Au Championnat de l'Alliance, le nombre d'insignes de championnat obtenus est augmenté de X et le nombre d'articles supplémentaires au magasin du championnat est augmenté de X.",
           "EN": "Wilson has spread the word of the Alliance Championship across the continent, attracting a swarm of sponsors. Increases Championship Badges earned during the event by X%, and the Championship Shop gains X extra item(s)."
         },
         "unlockRelLevel": 20,
@@ -4057,7 +4057,7 @@
           "FR": "Parrainage de l'affrontement"
         },
         "TextToInclude": {
-          "FR": "Wilson apporte de bonnes nouvelles concernant les parrainages de l'Alliance. Les points que le chef gagne lors des rifs d'alliances sont augmentés de X% (hors évenement empire marchand), et les récompenses de progression quotidiennes comportent X palier(s) supplémentaire(s).",
+          "FR": "Wilson apporte de bonnes nouvelles concernant les parrainages de l'Alliance. Les points que le chef gagne lors des rifs d'alliances sont augmentés de X% (hors événement empire marchand), et les récompenses de progression quotidiennes comportent X palier(s) supplémentaire(s).",
           "EN": "Wilson brings excellent news regarding alliance sponsorships. Increases points earned by Governors in the Alliance Brawl by X% (excluding the Merchant Empire event), and daily progress rewards gain X extra tier(s)."
         },
         "unlockRelLevel": 40,
@@ -4344,7 +4344,7 @@
         {
           "min": 100,
           "FR": "Alter ego",
-          "EN": "kindred Soul"
+          "EN": "Kindred Soul"
         }
       ]
     }
