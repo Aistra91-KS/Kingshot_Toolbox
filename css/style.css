@@ -197,46 +197,6 @@ body.has-app-header {
     text-shadow: 0 0 20px rgba(245, 184, 64, 0.15);
 }
 
-/* Navigation centrale */
-.app-header-nav {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.nav-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    color: var(--text-muted);
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s;
-    border: 1px solid transparent;
-}
-
-.nav-link:hover {
-    background: var(--control-bg);
-    color: var(--text-light);
-}
-
-.nav-link.active {
-    background: linear-gradient(135deg, var(--accent-hover), var(--accent), #ffd76b);
-    color: #0a0a0a;                 /* Texte noir sur or = très luxe */
-    border-color: var(--accent);
-    font-weight: bold;
-    box-shadow: 
-        0 2px 12px rgba(245, 184, 64, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.nav-link .nav-icon {
-    font-size: 16px;
-}
-
 /* Bouton thème dans le header */
 .app-header-theme {
     background: var(--control-bg);
@@ -522,12 +482,6 @@ body.has-app-header.hub-body {
     opacity: 0.6;
     cursor: not-allowed;
     border-top-color: var(--text-muted);
-}
-
-.hub-card-cta-disabled {
-    color: var(--text-muted);
-    font-style: italic;
-    align-self: flex-start;
 }
 
 .hub-footer {
@@ -1083,21 +1037,9 @@ tbody tr:hover {
     .app-header {
         padding: 0 10px;
     }
-    
+
     .app-header-logo .logo-text {
         display: none;
-    }
-    
-    .nav-link .nav-label {
-        display: none;
-    }
-    
-    .nav-link {
-        padding: 8px 12px;
-    }
-    
-    .nav-link .nav-icon {
-        font-size: 20px;
     }
 }
 
@@ -1606,36 +1548,6 @@ tbody tr:hover {
     image-rendering: smooth;
     filter: blur(0.8px) contrast(1.1);
     transform: translateZ(0); 
-}
-
-/* Design des carrés (Pips) de compétences (Style Caserne) */
-.master-skill-pips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 8px;
-}
-.master-pip {
-    width: 14px;
-    height: 14px;
-    background: var(--control-bg);
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.master-pip:hover {
-    border-color: var(--text-light);
-}
-.master-pip.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    box-shadow: 0 0 5px rgba(245, 184, 64, 0.4);
-}
-.master-pip.locked {
-    background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(150, 150, 150, 0.2);
-    cursor: not-allowed;
 }
 
 .master-portrait::after {

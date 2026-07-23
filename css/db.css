@@ -1,0 +1,81 @@
+/* ============================================================
+   css/db.css — styles partagés des pages « Base de Données »
+   (database/buildings, database/waracademy, database/masters,
+    database/pets — index + fiches).
+
+   Extrait des <style> inline autrefois dupliqués dans 35 pages.
+   Rendu identique à l'existant : les quelques différences
+   historiques entre catégories sont préservées via des classes
+   sur .db-page (db-index / db-wide / db-cards-sm) et un scoping
+   par ancêtre (.table-container vs .db-section), pas par
+   uniformisation.
+   ============================================================ */
+
+/* ---- Page ---- */
+.db-page { max-width: 1120px; margin: 0 auto; padding: 20px 16px 60px; }
+.db-page.db-index { max-width: 1000px; }   /* sommaires (index) */
+.db-page.db-wide  { max-width: 1180px; }   /* fiches Académie (11 colonnes) */
+
+.db-breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+.db-breadcrumb a { color: var(--accent); text-decoration: none; }
+.db-page h1 { color: var(--accent); margin: 0 0 6px; }
+.db-intro { color: var(--text-muted); font-size: 14px; margin: 0 0 22px; line-height: 1.5; }
+
+/* ---- Index : grille de cartes ---- */
+.db-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 12px; }
+.db-card { display: flex; flex-direction: row; align-items: center; gap: 14px; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-weight: 600; transition: border-color .15s, transform .1s; }
+.db-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.db-card-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+.db-card-img { width: 92px; height: 92px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(0,0,0,.45)); }
+.db-page.db-cards-sm .db-card-img { width: 84px; height: 84px; }   /* experts / familiers */
+.db-card-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.db-card-name { font-weight: 600; }
+
+/* ---- Fiches : tableaux ---- */
+.db-page .table-container { max-height: 72vh; overflow: auto; }
+table.db-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.db-table th, table.db-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+table.db-table thead th { background: var(--control-bg); color: var(--text-muted); text-transform: uppercase; font-size: 11px; letter-spacing: .04em; }
+/* En-tête figé : les fiches Experts/Familiers héritent déjà de `th { position:sticky }`
+   (règle globale de style.css, z-index 10). Ici on ne (re)cadre que les tables à
+   conteneur scrollable (bâtiments / académie) qui redéfinissaient le z-index. */
+.db-page .table-container table.db-table thead th { position: sticky; top: 0; z-index: 1; }
+.db-page.db-wide .table-container table.db-table thead th { z-index: 2; }
+table.db-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+table.db-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.db-table td.tg { color: var(--accent); font-weight: 600; }
+table.db-table td.ttg { color: #c58cff; font-weight: 600; }
+table.db-table td.c-lbl { font-weight: 700; color: var(--text-light); }
+table.db-table td.c-req { white-space: normal; color: var(--text-muted); font-size: 12px; min-width: 160px; }
+table.db-table td.c-wa { color: var(--text-muted); font-size: 12px; }
+/* c-eff : Académie (190px, 12px) vs Experts/Familiers (150px, taille héritée) */
+.db-page .table-container table.db-table td.c-eff { white-space: normal; color: var(--text-light); font-size: 12px; min-width: 190px; }
+.db-section table.db-table td.c-eff { white-space: normal; color: var(--text-light); min-width: 150px; }
+/* Regroupements Académie */
+table.db-table tr.wa-group:hover { background: var(--table-header); }
+table.db-table tr.wa-group td { background: var(--table-header); color: var(--accent); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+
+/* ---- Fiches Experts / Familiers : sections & blocs compétence ---- */
+.db-section { margin: 30px 0 0; }
+.db-section > h2 { color: var(--accent); font-size: 16px; text-transform: uppercase; letter-spacing: .03em; margin: 0 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+.db-section table.db-table { margin-bottom: 4px; }
+.table-wrap, .m-block { overflow-x: auto; }
+.m-block { margin-bottom: 26px; }
+.m-block-head { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+.m-ico { width: 48px; height: 48px; object-fit: contain; flex-shrink: 0; border-radius: 8px; background: var(--control-bg); border: 1px solid var(--border); padding: 4px; }
+.m-block-name { color: var(--accent); font-weight: 700; font-size: 15px; }
+.m-block-tag { font-size: 11px; color: var(--success); text-transform: uppercase; letter-spacing: .03em; margin-top: 2px; }
+.m-block-desc { font-size: 12px; color: var(--text-muted); line-height: 1.45; margin-top: 3px; max-width: 720px; white-space: normal; }
+
+/* ---- Navigation entre entités (switch) ---- */
+.db-switch { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.db-switch-item { padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-size: 13px; font-weight: 600; transition: border-color .15s, background .15s; }
+a.db-switch-item:hover { border-color: var(--accent); }
+.db-switch-item.active { border-color: var(--accent); background: rgba(245,184,64,0.15); color: var(--accent); cursor: default; }
+.db-switch.footer { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 18px; }
+
+/* ---- En-tête de fiche (portrait + titre) ---- */
+.db-head { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+.db-hero { width: 84px; height: 84px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 3px 8px rgba(0,0,0,.45)); }
+.db-head h1 { margin: 0; }
+@media (max-width: 520px){ .db-hero { width: 60px; height: 60px; } }

@@ -269,11 +269,13 @@ function hdrCloseDrawer() {
 })();
 
 // Re-rendu au changement de langue
+// (NB : un appel résiduel à hdrRenderGames() — fonction jamais définie, reliquat
+// de l'ère multi-jeux — levait ici une ReferenceError qui court-circuitait les
+// trois re-rendus ci-dessous : le header ne se retraduisait jamais.)
 window.addEventListener('langChanged', (e) => {
   const select = document.getElementById('global-lang-select');
   if (select && e.detail) select.value = e.detail.lang;
   if (e.detail) document.documentElement.lang = (e.detail.lang || 'en').toLowerCase();
-  hdrRenderGames();
   hdrRenderCategories();
   hdrRenderTools();
   hdrBuildDrawer();
