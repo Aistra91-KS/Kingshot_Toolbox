@@ -14,6 +14,7 @@
       crumb: "Experts", cReset: "",
       secAffinity: "Paliers d'affinité", secPassive: "Expertise passive", secSkills: "Compétences actives",
       cLevel: "Niveau", cAffinity: "Affinité", cEmblems: "Emblèmes", cBonus: "Bonus", cEffect: "Effet",
+      cEffect1: "Effet 1", cEffect2: "Effet 2",
       cXp: "Coût EXP", cManu: "Manuscrits", cPower: "Puissance",
       unlockAt: "Débloquée au niveau de relation", passiveHint: "Bonus passif appliqué automatiquement selon le niveau d'expertise.",
       loading: "Chargement des données…",
@@ -23,6 +24,7 @@
       crumb: "Masters", cReset: "",
       secAffinity: "Affinity milestones", secPassive: "Passive expertise", secSkills: "Active skills",
       cLevel: "Level", cAffinity: "Affinity", cEmblems: "Emblems", cBonus: "Bonus", cEffect: "Effect",
+      cEffect1: "Effect 1", cEffect2: "Effect 2",
       cXp: "XP Cost", cManu: "Manuscripts", cPower: "Power",
       unlockAt: "Unlocked at relation level", passiveHint: "Passive bonus applied automatically based on expertise level.",
       loading: "Loading data…",
@@ -37,6 +39,23 @@
   function fmt(n, L) { if (n == null || n === '' || n === '—') return '—'; const v = +n; if (!isFinite(v)) return esc(n); return v.toLocaleString(L === 'FR' ? 'fr-FR' : 'en-US'); }
   function pct(b) { if (b == null) return '—'; return '+' + String(b) + '%'; }
   function skillImg(nameEN) { return 'img/MasterSkill/' + String(nameEN).replace(/ /g, '_') + '.webp'; }
+
+  // Effet à deux valeurs : stocké « (a;b) » dans le JSON quand la phrase a deux X.
+  // On l'éclate alors en deux colonnes (une par X). Format uniforme dans un bloc.
+  function effIsDual(levels) { const f = (levels && levels[0] && levels[0].effect) || ''; return /^\s*\([^;]*;[^;]*\)\s*$/.test(f); }
+  function effParts(eff) { return String(eff == null ? '' : eff).trim().replace(/^\(|\)$/g, '').split(';').map(function (x) { return x.trim() || '—'; }); }
+  // En-tête « Effet » : simple, ou dédoublé (Effet 1 / Effet 2) si valeurs « (a;b) ».
+  function effHead(dual) {
+    return dual
+      ? '<th class="num" data-i18n="cEffect1">Effet 1</th><th class="num" data-i18n="cEffect2">Effet 2</th>'
+      : '<th data-i18n="cEffect">Effet</th>';
+  }
+  // Cellule(s) d'effet pour une ligne. Valeurs splittées en .num (compactes) ;
+  // sinon .c-eff (texte, colonne large habituelle).
+  function effCells(dual, effect) {
+    if (dual) { const p = effParts(effect); return '<td class="num">' + esc(p[0]) + '</td><td class="num">' + esc(p[1] == null ? '—' : p[1]) + '</td>'; }
+    return '<td class="c-eff">' + esc(effect) + '</td>';
+  }
 
   const L0 = () => (window.GlobalLang && GlobalLang.get && GlobalLang.get()) || 'FR';
 
@@ -66,8 +85,9 @@
     const p = m.passive || {};
     const nameEN = (p.name && p.name.EN) || '', nameFR = (p.name && p.name.FR) || '';
     const dEN = (p.TextToInclude && p.TextToInclude.EN) || '', dFR = (p.TextToInclude && p.TextToInclude.FR) || '';
+    const dual = effIsDual(p.levels);
     const rows = (p.levels || []).map(function (lv) {
-      return '<tr><td class="c-lbl">' + esc(lv.level) + '</td><td>' + esc(lv.effect) + '</td></tr>';
+      return '<tr><td class="c-lbl">' + esc(lv.level) + '</td>' + effCells(dual, lv.effect) + '</tr>';
     }).join('');
     return ''
       + '<div class="m-block">'
@@ -76,7 +96,7 @@
       + '<div><div class="m-block-name" data-en="' + esc(nameEN) + '" data-fr="' + esc(nameFR) + '">' + esc(nameFR) + '</div>'
       + '<div class="m-block-desc" data-en="' + esc(dEN) + '" data-fr="' + esc(dFR) + '">' + esc(dFR) + '</div></div>'
       + '</div>'
-      + '<div class="tbl-scroll"><table class="db-table"><thead><tr><th data-i18n="cLevel">Niveau</th><th data-i18n="cEffect">Effet</th></tr></thead><tbody>' + rows + '</tbody></table></div>'
+      + '<div class="tbl-scroll"><table class="db-table"><thead><tr><th data-i18n="cLevel">Niveau</th>' + effHead(dual) + '</tr></thead><tbody>' + rows + '</tbody></table></div>'
       + '</div>';
   }
 
@@ -88,10 +108,11 @@
       const u = s.unlockRelLevel;
       const unlockEN = u != null ? ('Unlocked at relation level ' + u) : '';
       const unlockFR = u != null ? ('Débloquée au niveau de relation ' + u) : '';
+      const dual = effIsDual(s.levels);
       const rows = (s.levels || []).map(function (lv) {
         return '<tr>'
           + '<td class="c-lbl">' + esc(lv.level) + '</td>'
-          + '<td class="c-eff">' + esc(lv.effect) + '</td>'
+          + effCells(dual, lv.effect)
           + '<td class="num" data-en="' + esc(fmt(lv.xpCost, 'EN')) + '" data-fr="' + esc(fmt(lv.xpCost, 'FR')) + '">' + esc(fmt(lv.xpCost, 'FR')) + '</td>'
           + '<td class="num" data-en="' + esc(fmt(lv.manuscripts, 'EN')) + '" data-fr="' + esc(fmt(lv.manuscripts, 'FR')) + '">' + esc(fmt(lv.manuscripts, 'FR')) + '</td>'
           + '<td class="num" data-en="' + esc(fmt(lv.power, 'EN')) + '" data-fr="' + esc(fmt(lv.power, 'FR')) + '">' + esc(fmt(lv.power, 'FR')) + '</td>'
@@ -107,7 +128,7 @@
         + '</div>'
         + '<div class="tbl-scroll"><table class="db-table"><thead><tr>'
         + '<th data-i18n="cLevel">Niveau</th>'
-        + '<th data-i18n="cEffect">Effet</th>'
+        + effHead(dual)
         + '<th class="num" data-i18n="cXp">Coût EXP</th>'
         + '<th class="num" data-i18n="cManu">Manuscrits</th>'
         + '<th class="num" data-i18n="cPower">Puissance</th>'
