@@ -54,6 +54,8 @@ Kingshot_Toolbox/
 │   ├── caserne.js                Logique Caserne (fetch heroes_db.json)
 │   ├── masters.js                Logique Experts (fetch masters_db.json)
 │   ├── shop_calc.js              Logique Shop Calc (fetch 4 fichiers shopcalc_*.json)
+│   ├── db-masters.js             Rendu des pages BDD Experts (fetch masters_db.json ; window.MASTER_ID)
+│   ├── db-pets.js                Rendu des pages BDD Familiers (fetch pets_db.json ; window.PET_ID)
 │   └── pets.js                   Logique Familiers (promenade verticale scroll-jack ; fetch pets_db.json ; sélecteur de niveau → palier/skill/coûts ; i18n GlobalLang)
 │
 ├── data/                         Données consommées par les calculateurs (JSON éditées à la main)
@@ -86,6 +88,14 @@ Kingshot_Toolbox/
 │       ├── infantry.html         Table recherches Infanterie
 │       ├── archer.html           Table recherches Archers
 │       └── cavalry.html          Table recherches Cavalerie
+│
+│   └── masters/                  Base de données Experts (index + 1 page/expert, tables depuis JSON)
+│       ├── index.html            Sommaire des 6 experts
+│       └── <expert>.html         valora, pan, roman, cassia, guinevere, wilson (fetch masters_db.json)
+│
+│   └── pets/                     Base de données Familiers (index + 1 page/familier, tables depuis JSON)
+│       ├── index.html            Sommaire des 14 familiers
+│       └── <pet>.html            gray-wolf, lynx, bison, … (fetch pets_db.json)
 │
 ├── img/                          Assets (WebP partout, sauf favicons logo/ en PNG, SVG icônes)
 │   ├── logo/                     favicon.svg, favicon-32.png, apple-touch-icon.png (PNG conservés : fallback favicon + icône iOS non compatibles WebP)
@@ -121,9 +131,11 @@ Kingshot_Toolbox/
 | `pets.html` | Familiers : promenade verticale (fiches pets) | `pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `pets.css` (+ webfonts) | `pets_db.json` |
 | `database/buildings/*.html` | Tables d'amélioration bâtiments | inline + `header.js`, `lang.js`, `site-config.js` | `style.css` | données inline (HTML) |
 | `database/waracademy/*.html` | Tables recherches Académie (3 arbres) | inline + `header.js`, `lang.js`, `site-config.js` | `style.css` | `truegold_war_db.json` (fetch) |
+| `database/masters/*.html` | Fiches Experts : affinité, passif, compétences | `db-masters.js` + `header.js`, `lang.js`, `site-config.js` | `style.css` | `masters_db.json` (fetch) |
+| `database/pets/*.html` | Fiches Familiers : compétence/palier, avancements, nourriture | `db-pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css` | `pets_db.json` (fetch) |
 
 **Socle chargé sur toutes les pages outils** (ordre) : `site-config.js` → `storage-keys.js` → `lang.js` → `help.js` → *(script de page)* → `header.js` → `backup.js`.
-Les pages `database/buildings/*` n'incluent que `site-config.js` + `lang.js` + `header.js` (pas de help/backup). `pets.html` charge `site-config.js` + `storage-keys.js` + `lang.js` + `header.js` + `pets.js` + `backup.js` (sauvegarde des niveaux via `STORAGE_KEYS.pets`), sans `help.js`, plus `css/pets.css` et deux webfonts Google (Cormorant Garamond + Karla).
+Les pages `database/buildings/*` et `database/waracademy/*` n'incluent que `site-config.js` + `lang.js` + `header.js` (pas de help/backup) ; `database/masters/*` et `database/pets/*` ajoutent en plus leur script de rendu dédié (`db-masters.js` / `db-pets.js`), qui pose `window.MASTER_ID` / `window.PET_ID` et gère l'i18n de la page (dict + `data-en`/`data-fr`). `pets.html` charge `site-config.js` + `storage-keys.js` + `lang.js` + `header.js` + `pets.js` + `backup.js` (sauvegarde des niveaux via `STORAGE_KEYS.pets`), sans `help.js`, plus `css/pets.css` et deux webfonts Google (Cormorant Garamond + Karla).
 ---
 
 ## 4. Système bilingue (i18n)

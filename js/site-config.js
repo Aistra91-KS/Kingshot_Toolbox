@@ -49,7 +49,7 @@ const SITE = {
       name: { EN: "Database", FR: "Base de Données" },
       icon: "database",
       status: "active",
-      tools: ["buildings", "waresearch"]
+      tools: ["buildings", "waresearch", "mastersdb", "petsdb"]
     }
   ],
 
@@ -102,6 +102,24 @@ const SITE = {
       },
       icon: "flask-conical",
       href: "database/waracademy/index.html"
+    },
+    mastersdb: {
+      name: { EN: "Masters DB", FR: "Experts (BDD)" },
+      desc: {
+        EN: "Every Expert's full reference: affinity milestones and bonuses, passive expertise, and each skill's effect, EXP cost, manuscripts and power per level.",
+        FR: "La référence complète de chaque Expert : paliers d'affinité et bonus, expertise passive, et pour chaque compétence l'effet, le coût d'EXP, les manuscrits et la puissance par niveau."
+      },
+      icon: "crown",
+      href: "database/masters/index.html"
+    },
+    petsdb: {
+      name: { EN: "Pets DB", FR: "Familiers (BDD)" },
+      desc: {
+        EN: "Every pet's full reference: skill effect per tier, advancement costs and Pet Food required for each level.",
+        FR: "La référence complète de chaque familier : effet de la compétence par palier, coûts d'avancement et nourriture requise pour chaque niveau."
+      },
+      icon: "paw-print",
+      href: "database/pets/index.html"
     },
     beartrap: {
       name: { EN: "Bear Trap", FR: "Piège à Ours" },
