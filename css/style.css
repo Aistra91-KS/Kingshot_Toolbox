@@ -2190,3 +2190,53 @@ body.drawer-locked { overflow: hidden; }
     font-weight: 700;
     padding: 0 1px;
 }
+
+/* ============================================================
+   Base de Données — lisibilité des tableaux sur mobile
+   Toutes les pages DB (bâtiments, académie, experts, familiers)
+   partagent .db-table / .c-lbl. Scopé mobile : desktop inchangé.
+   Parti pris : on préfère faire défiler qu'entasser (cf. demande).
+   ============================================================ */
+/* Dans les blocs compétences (Experts/Familiers), seul le TABLEAU défile :
+   la description reste fixe et passe simplement à la ligne. On sort donc le
+   défilement de .m-block (qui contient description + tableau) vers .tbl-scroll. */
+body.has-app-header .m-block { overflow: visible; }
+body.has-app-header .tbl-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+@media (max-width: 820px) {
+  /* .db-page est un flex-item de body:not(.hub-body) (display:flex column) :
+     sans contrainte il prend la largeur de son contenu et la page déborde.
+     min-width:0 + max-width:100% le plafonnent à la largeur dispo, et le
+     tableau déborde alors DANS son conteneur overflow-x (qui défile). */
+  body.has-app-header .db-page { padding-left: 10px; padding-right: 10px; min-width: 0; max-width: 100%; }
+
+  /* Le tableau défile horizontalement dans sa boîte ; la page ne déborde pas. */
+  body.has-app-header .table-container,
+  body.has-app-header .table-wrap,
+  body.has-app-header .tbl-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Cellules aérées et lisibles. */
+  body.has-app-header table.db-table { font-size: 12.5px; }
+  body.has-app-header table.db-table th,
+  body.has-app-header table.db-table td { padding: 9px 12px; }
+
+  /* Première colonne (palier / niveau) figée : le contexte de la ligne
+     reste visible pendant qu'on fait défiler les valeurs à droite. */
+  body.has-app-header table.db-table td.c-lbl,
+  body.has-app-header table.db-table th:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--bg-dark);
+    box-shadow: 1px 0 0 var(--border);
+  }
+  body.has-app-header table.db-table td.c-lbl { z-index: 1; }
+  body.has-app-header table.db-table thead th { z-index: 2; }
+  body.has-app-header table.db-table thead th:first-child { z-index: 3; }
+
+  /* Onglets de navigation entre entités : compacts mais cliquables. */
+  body.has-app-header .db-switch-item { font-size: 12px; padding: 5px 11px; }
+}

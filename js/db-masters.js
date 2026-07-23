@@ -76,7 +76,7 @@
       + '<div><div class="m-block-name" data-en="' + esc(nameEN) + '" data-fr="' + esc(nameFR) + '">' + esc(nameFR) + '</div>'
       + '<div class="m-block-desc" data-en="' + esc(dEN) + '" data-fr="' + esc(dFR) + '">' + esc(dFR) + '</div></div>'
       + '</div>'
-      + '<table class="db-table"><thead><tr><th data-i18n="cLevel">Niveau</th><th data-i18n="cEffect">Effet</th></tr></thead><tbody>' + rows + '</tbody></table>'
+      + '<div class="tbl-scroll"><table class="db-table"><thead><tr><th data-i18n="cLevel">Niveau</th><th data-i18n="cEffect">Effet</th></tr></thead><tbody>' + rows + '</tbody></table></div>'
       + '</div>';
   }
 
@@ -105,13 +105,13 @@
         + (u != null ? '<div class="m-block-tag" data-en="' + esc(unlockEN) + '" data-fr="' + esc(unlockFR) + '">' + esc(unlockFR) + '</div>' : '')
         + '<div class="m-block-desc" data-en="' + esc(dEN) + '" data-fr="' + esc(dFR) + '">' + esc(dFR) + '</div></div>'
         + '</div>'
-        + '<table class="db-table"><thead><tr>'
+        + '<div class="tbl-scroll"><table class="db-table"><thead><tr>'
         + '<th data-i18n="cLevel">Niveau</th>'
         + '<th data-i18n="cEffect">Effet</th>'
         + '<th data-i18n="cXp">Coût EXP</th>'
         + '<th data-i18n="cManu">Manuscrits</th>'
         + '<th data-i18n="cPower">Puissance</th>'
-        + '</tr></thead><tbody>' + rows + '</tbody></table>'
+        + '</tr></thead><tbody>' + rows + '</tbody></table></div>'
         + '</div>';
     }).join('');
   }

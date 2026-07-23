@@ -70,7 +70,7 @@
       + '<div><div class="m-block-name" data-en="' + esc(nameEN) + '" data-fr="' + esc(nameFR) + '">' + esc(nameFR) + '</div>'
       + '<div class="m-block-desc" data-en="' + esc(dEN) + '" data-fr="' + esc(dFR) + '">' + esc(dFR) + '</div></div>'
       + '</div>'
-      + '<table class="db-table"><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table>'
+      + '<div class="tbl-scroll"><table class="db-table"><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>'
       + '</div>';
   }
 
