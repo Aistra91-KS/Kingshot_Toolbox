@@ -446,18 +446,6 @@ function formatMinutesCustom(minutes, lang) {
     return res.join(", ");
 }
 
-function formatMinutesShort(minutes, isEN) {
-    let j = Math.floor(minutes / 1440);
-    let h = Math.floor((minutes % 1440) / 60);
-    let m = minutes % 60;
-    let res = [];
-    let dayChar = isEN ? "d" : "j";
-    if (j > 0) res.push(j + dayChar);
-    if (h > 0) res.push(h + "h");
-    if (m > 0 || res.length === 0) res.push(m + "m");
-    return res.join(" ");
-}
-
 // ============ BONUS CALCULATION ============
 function computeTotalVitesse() {
     let base = parseFloat(document.getElementById('baseVitesse').value) || 0;

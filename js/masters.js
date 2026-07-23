@@ -70,20 +70,8 @@ const REL_STAGES = [
 function imgFileName(name) {
   return encodeURIComponent(String(name).replace(/ /g, '_'));
 }
-function snapToStage(level) {
-  let snapped = 0;
-  REL_STAGES.forEach(s => { if (level >= s.level) snapped = s.level; });
-  return snapped;
-}
 function getStageObj(level) {
   return REL_STAGES.find(s => s.level === level) || REL_STAGES[0];
-}
-function populateRelSelect(lang, current) {
-  const sel = document.getElementById('modal-rel-select');
-  if (!sel) return;
-  sel.innerHTML = REL_STAGES.map(s =>
-    `<option value="${s.level}" ${s.level === current ? 'selected' : ''}>${s[lang] || s.EN}</option>`
-  ).join('');
 }
 
 // Aligne les paliers sur le niveau : > niveau impossible, < niveau obligatoire
