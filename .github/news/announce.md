@@ -1,10 +1,10 @@
 <!-- kshub-news
 version: 1
-covers-until: 83ba9800f62c72f1b3b52d27d85cb240678ad086
-generated: 2026-07-22
+covers-until: 8125ab39e85248ea9ded8a1c893c4dbfb39c4198
+generated: 2026-07-23
 ping:
-title-fr: 🔗 Le site a une nouvelle adresse
-title-en: 🔗 The site has a new address
+title-fr: 🗂️ Nouvelles bases de données + Piège à Ours boosté
+title-en: 🗂️ New databases + upgraded Bear Trap
 -->
 
 <!--
@@ -29,24 +29,52 @@ Clés facultatives de l'en-tête :
 
 ## FR
 
-### 🔗 Une nouvelle adresse à retenir
+### 🗂️ Deux nouvelles bases de données : Experts & Familiers
 
-Le site s'appelle désormais **Kingshot Toolbox**, et son adresse suit le mouvement. Nouvelle adresse à mettre en favori :
+La section **Base de Données** s'agrandit. Chaque Expert et chaque Familier a désormais sa propre fiche, consultable depuis le hub et le menu.
 
-**https://aistra91-ks.github.io/Kingshot_Toolbox/**
+- **Experts** — une page par expert (Valora, Pan, Roman, Cassia, Guinevere, Wilson) : paliers d'affinité et bonus d'escouade, expertise passive, et pour chaque compétence l'effet, le coût d'EXP, les manuscrits et la puissance par niveau.
+- **Familiers** — une page par familier (14 familiers, 7 générations) : effet de la compétence palier par palier, coûts d'avancement (manuel de croissance, potion de nutriments, médaillon de promotion) et nourriture requise pour chaque niveau.
 
-Les anciens liens vers `.../hub-kingshot/` peuvent encore rediriger un temps, mais mieux vaut mettre à jour tes favoris et les liens que tu as pu partager. Toutes les pages — calculateurs, base de données des bâtiments, recherches d'académie, familiers — ont été recalées sur la nouvelle adresse, donc plus aucun style ni aucune image ne se perd en route.
+Tout est bilingue FR/EN, comme le reste du site.
 
-Rien ne change dans les outils, et tes sauvegardes restent valables : un ancien fichier de sauvegarde s'importe toujours sans problème.
+### 🐻 Piège à Ours : tier-list des joiners & héros autorisés
+
+Le calculateur du Piège à Ours passe un cap :
+
+- **Tier-list des joiners** par génération de serveur (rangs S → D), qui tient compte du power-creep.
+- **Menu « Héros autorisés »** : coche les joiners que ton alliance permet. Les rangs C et D sont décochés par défaut (marqués « Non recommandé »), et ton choix est mémorisé par génération.
+- La tier-list ne s'applique qu'au **capitaine** de chaque marche joiner ; les renforts, eux, ne comptent que pour la **capacité** de la marche.
+- Les **bonus de capacité se remplissent tout seuls** : le Bonus Expert vient de la compétence « Avantage primitif » de **Valora**, le Bonus Animal du **Puissant Bison**. Toujours modifiables à la main, avec un bouton pour resynchroniser.
+
+### ⚡ Chargement plus rapide
+
+Toutes les images du jeu ont été converties en **WebP** : elles pèsent environ **84 % de moins** (de 36 à 5,6 Mo au total). Les pages s'affichent nettement plus vite, surtout sur mobile.
+
+Plus quelques corrections au passage — notamment les bulles d'aide « i » qui restent bien à l'écran.
 
 ## EN
 
-### 🔗 A new address to remember
+### 🗂️ Two new databases: Masters & Pets
 
-The site is now called **Kingshot Toolbox**, and its address moved with it. New address to bookmark:
+The **Database** section is growing. Every Master and every Pet now has its own reference page, reachable from the hub and the menu.
 
-**https://aistra91-ks.github.io/Kingshot_Toolbox/**
+- **Masters** — one page per expert (Valora, Pan, Roman, Cassia, Guinevere, Wilson): affinity milestones and squad bonus, passive expertise, and every skill's effect, EXP cost, manuscripts and power per level.
+- **Pets** — one page per pet (14 pets, 7 generations): skill effect tier by tier, advancement costs (Growth Manual, Nutrient Potion, Promotion Medallion) and the Pet Food needed for each level.
 
-Old `.../hub-kingshot/` links may still redirect for a while, but it's worth updating your bookmarks and any links you've shared. Every page — calculators, the buildings database, war academy research, pets — has been repointed at the new address, so nothing loads half-broken anymore.
+Everything is bilingual EN/FR, like the rest of the site.
 
-Nothing changes inside the tools, and your saved data is safe: an old backup file still imports without any trouble.
+### 🐻 Bear Trap: joiner tier-list & allowed heroes
+
+The Bear Trap calculator levels up:
+
+- **Joiner tier-list** by server generation (ranks S → D), accounting for power-creep.
+- **"Allowed heroes" menu**: tick the joiners your alliance permits. Ranks C and D are unticked by default (flagged "Not recommended"), and your choice is remembered per generation.
+- The tier-list only applies to the **captain** of each joiner march; reinforcements only affect the march's **capacity**.
+- **Capacity bonuses fill in automatically**: the Expert bonus comes from Valora's "Savage Advantage" skill, the Animal bonus from the Mighty Bison. Both stay editable by hand, with a button to resync.
+
+### ⚡ Faster loading
+
+Every in-game image has been converted to **WebP**: about **84% smaller** (from 36 MB down to 5.6 MB total). Pages load noticeably faster, especially on mobile.
+
+Plus a few fixes along the way — including the help "i" tooltips now staying on screen.
