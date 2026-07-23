@@ -2203,6 +2203,13 @@ body.drawer-locked { overflow: hidden; }
 body.has-app-header .m-block { overflow: visible; }
 body.has-app-header .tbl-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
+/* Tables des fiches Experts/Familiers : largeur au CONTENU (pas étirées à
+   100%), pour que chaque en-tête reste proche de ses valeurs plutôt que
+   séparé par un grand vide. En-têtes numériques alignés à droite, comme
+   leurs cellules, pour tomber juste au-dessus du chiffre. */
+body.has-app-header .db-section table.db-table { width: auto; max-width: 100%; }
+body.has-app-header .db-section table.db-table thead th.num { text-align: right; }
+
 @media (max-width: 820px) {
   /* .db-page est un flex-item de body:not(.hub-body) (display:flex column) :
      sans contrainte il prend la largeur de son contenu et la page déborde.

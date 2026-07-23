@@ -87,9 +87,9 @@
     }).join('');
     return '<table class="db-table"><thead><tr>'
       + '<th data-i18n="cReach">Débloque</th>'
-      + '<th data-i18n="cGrowth">Manuel de croissance</th>'
-      + '<th data-i18n="cPotion">Potion de nutriments</th>'
-      + '<th data-i18n="cMedal">Médaillon de promotion</th>'
+      + '<th class="num" data-i18n="cGrowth">Manuel de croissance</th>'
+      + '<th class="num" data-i18n="cPotion">Potion de nutriments</th>'
+      + '<th class="num" data-i18n="cMedal">Médaillon de promotion</th>'
       + '</tr></thead><tbody>' + rows + '</tbody></table>';
   }
 
@@ -105,7 +105,7 @@
     }).join('');
     return '<table class="db-table"><thead><tr>'
       + '<th data-i18n="cLevel">Niveau</th>'
-      + '<th data-i18n="cFood">Nourriture</th>'
+      + '<th class="num" data-i18n="cFood">Nourriture</th>'
       + '</tr></thead><tbody>' + rows + '</tbody></table>';
   }
 

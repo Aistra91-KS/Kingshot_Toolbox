@@ -55,9 +55,9 @@
     return ''
       + '<table class="db-table"><thead><tr>'
       + '<th data-i18n="cLevel">Niveau</th>'
-      + '<th data-i18n="cAffinity">Affinité</th>'
-      + '<th data-i18n="cEmblems">Emblèmes</th>'
-      + '<th data-en="' + esc(bonusEN) + '" data-fr="' + esc(bonusFR) + '">' + esc(bonusFR) + '</th>'
+      + '<th class="num" data-i18n="cAffinity">Affinité</th>'
+      + '<th class="num" data-i18n="cEmblems">Emblèmes</th>'
+      + '<th class="num" data-en="' + esc(bonusEN) + '" data-fr="' + esc(bonusFR) + '">' + esc(bonusFR) + '</th>'
       + '</tr></thead><tbody>' + rows + '</tbody></table>';
   }
 
@@ -108,9 +108,9 @@
         + '<div class="tbl-scroll"><table class="db-table"><thead><tr>'
         + '<th data-i18n="cLevel">Niveau</th>'
         + '<th data-i18n="cEffect">Effet</th>'
-        + '<th data-i18n="cXp">Coût EXP</th>'
-        + '<th data-i18n="cManu">Manuscrits</th>'
-        + '<th data-i18n="cPower">Puissance</th>'
+        + '<th class="num" data-i18n="cXp">Coût EXP</th>'
+        + '<th class="num" data-i18n="cManu">Manuscrits</th>'
+        + '<th class="num" data-i18n="cPower">Puissance</th>'
         + '</tr></thead><tbody>' + rows + '</tbody></table></div>'
         + '</div>';
     }).join('');
