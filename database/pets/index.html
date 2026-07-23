@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <base href="/Kingshot_Toolbox/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingshot Pets — Skills, Advancement &amp; Food Costs Database | Kingshot Toolbox</title>
+    <meta name="description" content="Kingshot Pets (Familiers) database: skill effect per tier, advancement costs (Growth Manual, Nutrient Potion, Promotion Medallion) and Pet Food per level for all 14 pets across 7 generations.">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      .db-page { max-width: 1000px; margin: 0 auto; padding: 20px 16px 60px; }
+      .db-breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+      .db-breadcrumb a { color: var(--accent); text-decoration: none; }
+      .db-page h1 { color: var(--accent); margin: 0 0 6px; }
+      .db-intro { color: var(--text-muted); font-size: 14px; margin: 0 0 22px; line-height: 1.5; }
+      .db-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 12px; }
+      .db-card { display: flex; flex-direction: row; align-items: center; gap: 14px; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-weight: 600; transition: border-color .15s, transform .1s; }
+      .db-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+      .db-card-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+      .db-card-img { width: 84px; height: 84px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(0,0,0,.45)); }
+      .db-card-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+      .db-card-name { font-weight: 600; }
+    </style>
+</head>
+<body class="has-app-header">
+    <div class="db-page">
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <span data-i18n="crumb">Familiers</span></div>
+        <h1 data-i18n="idxTitle">Familiers — Compétences &amp; Coûts</h1>
+        <p class="db-intro" data-i18n="idxIntro">Tous les familiers de Kingshot : effet de la compétence par palier, coûts d'avancement (manuel de croissance, potion de nutriments, médaillon de promotion) et nourriture par niveau. Choisis un familier.</p>
+        <div class="db-grid">
+      <a class="db-card" href="database/pets/gray-wolf.html">
+        <img class="db-card-img" src="img/pets/gray-wolf.webp" alt="Gray Wolf" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Gray Wolf" data-fr="Loup Gris">Loup Gris</span>
+          <span class="db-card-sub" data-en="Gen 1 · Construction Aide" data-fr="Gén 1 · Aide à la Construction">Gén 1 · Aide à la Construction</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/lynx.html">
+        <img class="db-card-img" src="img/pets/lynx.webp" alt="Lynx" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Lynx" data-fr="Lynx">Lynx</span>
+          <span class="db-card-sub" data-en="Gen 1 · Comforting Embrace" data-fr="Gén 1 · Étreinte Réconfortante">Gén 1 · Étreinte Réconfortante</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/bison.html">
+        <img class="db-card-img" src="img/pets/bison.webp" alt="Bison" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Bison" data-fr="Bison">Bison</span>
+          <span class="db-card-sub" data-en="Gen 1 · Grip of the Titan" data-fr="Gén 1 · Poignée du Titan">Gén 1 · Poignée du Titan</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/cheetah.html">
+        <img class="db-card-img" src="img/pets/cheetah.webp" alt="Cheetah" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Cheetah" data-fr="Guépard">Guépard</span>
+          <span class="db-card-sub" data-en="Gen 2 · Scent Mastery" data-fr="Gén 2 · Maîtrise des odeurs">Gén 2 · Maîtrise des odeurs</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/moose.html">
+        <img class="db-card-img" src="img/pets/moose.webp" alt="Moose" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Moose" data-fr="Élan">Élan</span>
+          <span class="db-card-sub" data-en="Gen 2 · Horror Stare" data-fr="Gén 2 · Regard d'Épouvante">Gén 2 · Regard d'Épouvante</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/lion.html">
+        <img class="db-card-img" src="img/pets/lion.webp" alt="Lion" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Lion" data-fr="Lion">Lion</span>
+          <span class="db-card-sub" data-en="Gen 3 · Gift of the King" data-fr="Gén 3 · Cadeau du Roi">Gén 3 · Cadeau du Roi</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/grizzly-bear.html">
+        <img class="db-card-img" src="img/pets/grizzly-bear.webp" alt="Grizzly Bear" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Grizzly Bear" data-fr="Grizzly">Grizzly</span>
+          <span class="db-card-sub" data-en="Gen 3 · The Howler" data-fr="Gén 3 · Le Hurleur">Gén 3 · Le Hurleur</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/giant-rhino.html">
+        <img class="db-card-img" src="img/pets/giant-rhino.webp" alt="Giant Rhino" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Giant Rhino" data-fr="Rhinocéros Géant">Rhinocéros Géant</span>
+          <span class="db-card-sub" data-en="Gen 4 · Wild Charge" data-fr="Gén 4 · Charge Sauvage">Gén 4 · Charge Sauvage</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/mighty-bison.html">
+        <img class="db-card-img" src="img/pets/mighty-bison.webp" alt="Mighty Bison" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Mighty Bison" data-fr="Puissant Bison">Puissant Bison</span>
+          <span class="db-card-sub" data-en="Gen 4 · Fearless Roar" data-fr="Gén 4 · Rugissement Intrépide">Gén 4 · Rugissement Intrépide</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/great-moose.html">
+        <img class="db-card-img" src="img/pets/great-moose.webp" alt="Great Moose" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Great Moose" data-fr="Grand Élan">Grand Élan</span>
+          <span class="db-card-sub" data-en="Gen 5 · Antler Impact" data-fr="Gén 5 · Impact des bois">Gén 5 · Impact des bois</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/alpha-black-panther.html">
+        <img class="db-card-img" src="img/pets/alpha-black-panther.webp" alt="Alpha Black Panther" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Alpha Black Panther" data-fr="Panthère Noire Alpha">Panthère Noire Alpha</span>
+          <span class="db-card-sub" data-en="Gen 5 · Deadly Bite" data-fr="Gén 5 · Morsure Mortelle">Gén 5 · Morsure Mortelle</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/regal-white-lion.html">
+        <img class="db-card-img" src="img/pets/regal-white-lion.webp" alt="Regal White Lion" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Regal White Lion" data-fr="Lion Blanc Imposant">Lion Blanc Imposant</span>
+          <span class="db-card-sub" data-en="Gen 6 · Territorial Power" data-fr="Gén 6 · Puissance Territoriale">Gén 6 · Puissance Territoriale</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/ironclad-war-elephant.html">
+        <img class="db-card-img" src="img/pets/ironclad-war-elephant.webp" alt="Ironclad War Elephant" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Ironclad War Elephant" data-fr="Éléphant de Guerre Cuirassé">Éléphant de Guerre Cuirassé</span>
+          <span class="db-card-sub" data-en="Gen 6 · Elephant’s Guard" data-fr="Gén 6 · Garde de l'Éléphant">Gén 6 · Garde de l'Éléphant</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/pets/ironclad-war-bear.html">
+        <img class="db-card-img" src="img/pets/ironclad-war-bear.webp" alt="Ironclad War Bear" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Ironclad War Bear" data-fr="Ours de Guerre Cuirassé">Ours de Guerre Cuirassé</span>
+          <span class="db-card-sub" data-en="Gen 7 · Ursa’s Rage" data-fr="Gén 7 · Rage d'Ursa">Gén 7 · Rage d'Ursa</span>
+        </span>
+      </a>
+        </div>
+    </div>
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'database/pets/index.html';</script>
+    <script src="js/header.js"></script>
+    <script>
+    (function(){
+      const dict = {
+        FR: { crumb:"Familiers", idxTitle:"Familiers — Compétences & Coûts", idxIntro:"Tous les familiers de Kingshot : effet de la compétence par palier, coûts d'avancement (manuel de croissance, potion de nutriments, médaillon de promotion) et nourriture par niveau. Choisis un familier." },
+        EN: { crumb:"Pets", idxTitle:"Pets — Skills & Costs", idxIntro:"All Kingshot pets: skill effect per tier, advancement costs (Growth Manual, Nutrient Potion, Promotion Medallion) and Pet Food per level. Pick a pet." }
+      };
+      function apply(){
+        const lang=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR';
+        if(window.GlobalLang&&GlobalLang.applyI18n) GlobalLang.applyI18n(dict[lang]||dict.FR);
+        document.querySelectorAll('[data-en][data-fr]').forEach(el=>{ el.textContent = el.getAttribute('data-'+lang.toLowerCase()) || el.textContent; });
+        document.documentElement.lang=lang.toLowerCase();
+      }
+      window.addEventListener('langChanged', apply); apply();
+    })();
+    </script>
+</body>
+</html>

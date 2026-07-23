@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <base href="/Kingshot_Toolbox/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingshot Masters — Experts Skills, Affinity &amp; Costs Database | Kingshot Toolbox</title>
+    <meta name="description" content="Kingshot Masters (Experts) database: affinity milestones and bonuses, passive expertise and every active skill with effect, EXP cost, manuscripts and power per level. Valora, Pan, Roman, Cassia, Guinevere and Wilson.">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      .db-page { max-width: 1000px; margin: 0 auto; padding: 20px 16px 60px; }
+      .db-breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+      .db-breadcrumb a { color: var(--accent); text-decoration: none; }
+      .db-page h1 { color: var(--accent); margin: 0 0 6px; }
+      .db-intro { color: var(--text-muted); font-size: 14px; margin: 0 0 22px; line-height: 1.5; }
+      .db-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 12px; }
+      .db-card { display: flex; flex-direction: row; align-items: center; gap: 14px; padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-weight: 600; transition: border-color .15s, transform .1s; }
+      .db-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+      .db-card-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+      .db-card-img { width: 84px; height: 84px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(0,0,0,.45)); }
+      .db-card-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+      .db-card-name { font-weight: 600; }
+    </style>
+</head>
+<body class="has-app-header">
+    <div class="db-page">
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <span data-i18n="crumb">Experts</span></div>
+        <h1 data-i18n="idxTitle">Experts — Compétences &amp; Affinité</h1>
+        <p class="db-intro" data-i18n="idxIntro">Tous les Experts de Kingshot : paliers d'affinité et bonus, expertise passive, et pour chaque compétence l'effet, le coût d'EXP, les manuscrits et la puissance par niveau. Choisis un expert.</p>
+        <div class="db-grid">
+      <a class="db-card" href="database/masters/valora.html">
+        <img class="db-card-img" src="img/Master/Valora.webp" alt="Valora" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Valora" data-fr="Valora">Valora</span>
+          <span class="db-card-sub" data-en="Hunting Master" data-fr="Expert de Chasse">Expert de Chasse</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/masters/pan.html">
+        <img class="db-card-img" src="img/Master/Pan.webp" alt="Pan" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Pan" data-fr="Pan">Pan</span>
+          <span class="db-card-sub" data-en="Prosperity Master" data-fr="Expert de Prospérité">Expert de Prospérité</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/masters/roman.html">
+        <img class="db-card-img" src="img/Master/Roman.webp" alt="Roman" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Roman" data-fr="Roman">Roman</span>
+          <span class="db-card-sub" data-en="Arena Champion" data-fr="Champion d'Arène">Champion d'Arène</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/masters/cassia.html">
+        <img class="db-card-img" src="img/Master/Cassia.webp" alt="Cassia" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Cassia" data-fr="Cassia">Cassia</span>
+          <span class="db-card-sub" data-en="Battle Master" data-fr="Expert de Combat">Expert de Combat</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/masters/guinevere.html">
+        <img class="db-card-img" src="img/Master/Guinevere.webp" alt="Guinevere" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Guinevere" data-fr="Guinevere">Guinevere</span>
+          <span class="db-card-sub" data-en="Queen of Holy Sword" data-fr="Reine de l'Épée Sacrée">Reine de l'Épée Sacrée</span>
+        </span>
+      </a>
+      <a class="db-card" href="database/masters/wilson.html">
+        <img class="db-card-img" src="img/Master/Wilson.webp" alt="Wilson" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Wilson" data-fr="Wilson">Wilson</span>
+          <span class="db-card-sub" data-en="Royal Herald" data-fr="Héraut royal">Héraut royal</span>
+        </span>
+      </a>
+        </div>
+    </div>
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'database/masters/index.html';</script>
+    <script src="js/header.js"></script>
+    <script>
+    (function(){
+      const dict = {
+        FR: { crumb:"Experts", idxTitle:"Experts — Compétences & Affinité", idxIntro:"Tous les Experts de Kingshot : paliers d'affinité et bonus, expertise passive, et pour chaque compétence l'effet, le coût d'EXP, les manuscrits et la puissance par niveau. Choisis un expert." },
+        EN: { crumb:"Masters", idxTitle:"Masters — Skills & Affinity", idxIntro:"All Kingshot Masters: affinity milestones and bonuses, passive expertise, and every skill's effect, EXP cost, manuscripts and power per level. Pick an expert." }
+      };
+      function apply(){
+        const lang=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR';
+        if(window.GlobalLang&&GlobalLang.applyI18n) GlobalLang.applyI18n(dict[lang]||dict.FR);
+        document.querySelectorAll('[data-en][data-fr]').forEach(el=>{ el.textContent = el.getAttribute('data-'+lang.toLowerCase()) || el.textContent; });
+        document.documentElement.lang=lang.toLowerCase();
+      }
+      window.addEventListener('langChanged', apply); apply();
+    })();
+    </script>
+</body>
+</html>
