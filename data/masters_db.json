@@ -3820,64 +3820,64 @@
           {
             "level": 2,
             "effect": "(4;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 25800,
+            "manuscripts": 300,
             "power": 0
           },
           {
             "level": 3,
             "effect": "(6;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 51600,
+            "manuscripts": 600,
             "power": 0
           },
           {
             "level": 4,
             "effect": "(8;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 77400,
+            "manuscripts": 900,
             "power": 0
           },
           {
             "level": 5,
             "effect": "(10;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 103200,
+            "manuscripts": 1200,
             "power": 0
           },
           {
             "level": 6,
             "effect": "(12;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 129200,
+            "manuscripts": 1500,
             "power": 0
           },
           {
             "level": 7,
             "effect": "(14;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 155143,
+            "manuscripts": 1800,
             "power": 0
           },
           {
             "level": 8,
             "effect": "(16;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 181050,
+            "manuscripts": 2100,
             "power": 0
           },
           {
             "level": 9,
             "effect": "(18;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 206933,
+            "manuscripts": 2400,
             "power": 0
           },
           {
             "level": 10,
             "effect": "(20;3)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 232800,
+            "manuscripts": 2700,
             "power": 0
           }
         ]
@@ -3904,64 +3904,64 @@
           {
             "level": 2,
             "effect": "(10;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 25800,
+            "manuscripts": 300,
             "power": 0
           },
           {
             "level": 3,
             "effect": "(15;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 51600,
+            "manuscripts": 600,
             "power": 0
           },
           {
             "level": 4,
             "effect": "(20;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 77400,
+            "manuscripts": 900,
             "power": 0
           },
           {
             "level": 5,
             "effect": "(25;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 103200,
+            "manuscripts": 1200,
             "power": 0
           },
           {
             "level": 6,
             "effect": "(30;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 129200,
+            "manuscripts": 1500,
             "power": 0
           },
           {
             "level": 7,
             "effect": "(35;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 155143,
+            "manuscripts": 1800,
             "power": 0
           },
           {
             "level": 8,
             "effect": "(40;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 181050,
+            "manuscripts": 2100,
             "power": 0
           },
           {
             "level": 9,
             "effect": "(45;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 206933,
+            "manuscripts": 2400,
             "power": 0
           },
           {
             "level": 10,
             "effect": "(50;3)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 232800,
+            "manuscripts": 2700,
             "power": 0
           }
         ]
@@ -3988,64 +3988,64 @@
           {
             "level": 2,
             "effect": "(10;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 25800,
+            "manuscripts": 300,
             "power": 0
           },
           {
             "level": 3,
             "effect": "(15;3)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 51600,
+            "manuscripts": 600,
             "power": 0
           },
           {
             "level": 4,
             "effect": "(20;4)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 77400,
+            "manuscripts": 900,
             "power": 0
           },
           {
             "level": 5,
             "effect": "(25;5)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 103200,
+            "manuscripts": 1200,
             "power": 0
           },
           {
             "level": 6,
             "effect": "(30;6)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 129200,
+            "manuscripts": 1500,
             "power": 0
           },
           {
             "level": 7,
             "effect": "(35;7)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 155143,
+            "manuscripts": 1800,
             "power": 0
           },
           {
             "level": 8,
             "effect": "(40;8)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 181050,
+            "manuscripts": 2100,
             "power": 0
           },
           {
             "level": 9,
             "effect": "(45;9)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 206933,
+            "manuscripts": 2400,
             "power": 0
           },
           {
             "level": 10,
             "effect": "(50;10)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 232800,
+            "manuscripts": 2700,
             "power": 0
           }
         ]
@@ -4072,64 +4072,64 @@
           {
             "level": 2,
             "effect": "(10;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 51600,
+            "manuscripts": 500,
             "power": 0
           },
           {
             "level": 3,
             "effect": "(15;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 103200,
+            "manuscripts": 1000,
             "power": 0
           },
           {
             "level": 4,
             "effect": "(20;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 155100,
+            "manuscripts": 1500,
             "power": 0
           },
           {
             "level": 5,
             "effect": "(25;1)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 206880,
+            "manuscripts": 2000,
             "power": 0
           },
           {
             "level": 6,
             "effect": "(30;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 258800,
+            "manuscripts": 2500,
             "power": 0
           },
           {
             "level": 7,
             "effect": "(35;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 310629,
+            "manuscripts": 3000,
             "power": 0
           },
           {
             "level": 8,
             "effect": "(40;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 362400,
+            "manuscripts": 3500,
             "power": 0
           },
           {
             "level": 9,
             "effect": "(45;2)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 414267,
+            "manuscripts": 4000,
             "power": 0
           },
           {
             "level": 10,
             "effect": "(50;3)",
-            "xpCost": 0,
-            "manuscripts": 0,
+            "xpCost": 466080,
+            "manuscripts": 4500,
             "power": 0
           }
         ]
