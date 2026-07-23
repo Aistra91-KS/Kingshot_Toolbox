@@ -26,9 +26,9 @@ Kingshot_Toolbox/
 ├── waracademy.html               Outil Académie de Guerre (planif. recherches troupes TG)
 ├── beartrap_calc.html            Outil Piège à Ours (répartition des marches)
 ├── vikings.html                  Outil Vikings (répartition troupes/défense)
-├── caserne.html                  Outil Caserne / Héros (beta) — source des héros
+├── caserne.html                  Outil Caserne / Héros — source des héros
 ├── masters.html                  Outil Experts / Masters (beta) — affinités & skills
-├── shop_calc.html                Outil Shop Calc (coût boutique vs valeur gemmes)
+├── shop_calc.html                Outil Valeur Boutique / Shop Value (beta) — coût boutique vs valeur gemmes
 ├── pets.html                     Outil Familiers (promenade verticale : fiches pets le long d'un sentier)
 │
 ├── css/
@@ -126,9 +126,9 @@ Kingshot_Toolbox/
 | `waracademy.html` | Planif. recherches troupes TG | `wa_optimizer.js`, `waracademy.js` | `style.css`, `waracademy.css` | `truegold_war_db.json` |
 | `beartrap_calc.html` | Répartition marches Piège à Ours | `beartrap.js` | `style.css` | `heroes_db.json`, `beartrap_joiners_db.json` (tier-list) + caserne (localStorage) |
 | `vikings.html` | Répartition troupes Vikings | `vikings.js` | `style.css` | formations Piège à Ours (localStorage) |
-| `caserne.html` | Gestion héros (beta) | `caserne.js`, `modal-tabs.js` | `style.css` | `heroes_db.json` |
+| `caserne.html` | Gestion héros | `caserne.js`, `modal-tabs.js` | `style.css` | `heroes_db.json` |
 | `masters.html` | Experts & affinités (beta) | `masters.js`, `modal-tabs.js` | `style.css` | `masters_db.json` |
-| `shop_calc.html` | Coût boutique vs gemmes | `shop_calc.js` | `style.css` | `shopcalc_items/classic/events/chests.json` |
+| `shop_calc.html` | Valeur Boutique / Shop Value : coût boutique vs gemmes (beta) | `shop_calc.js` | `style.css` | `shopcalc_items/classic/events/chests.json` |
 | `pets.html` | Familiers : promenade verticale (fiches pets) | `pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `pets.css` (+ webfonts) | `pets_db.json` |
 | `database/buildings/*.html` | Tables d'amélioration bâtiments | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | données inline (HTML) |
 | `database/waracademy/*.html` | Tables recherches Académie (3 arbres) | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `truegold_war_db.json` (fetch) |

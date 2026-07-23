@@ -146,8 +146,7 @@ const SITE = {
         FR: "Gérez vos héros, définissez leurs générations et enregistrez les niveaux de leurs compétences."
       },
       icon: "users",
-      href: "caserne.html",
-      badge: "beta"
+      href: "caserne.html"
     },
     masters: {
       name: { EN: "Masters", FR: "Experts" },
@@ -169,13 +168,14 @@ const SITE = {
       href: "pets.html"
     },
     shopcalc: {
-      name: { EN: "Shop Calc", FR: "Shop Calc" },
+      name: { EN: "Shop Value", FR: "Valeur Boutique" },
       desc: {
         EN: "Compare in-shop cost to gem value to spot the best deals.",
         FR: "Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires."
       },
       icon: "shopping-cart",
-      href: "shop_calc.html"
+      href: "shop_calc.html",
+      badge: "beta"
     }
   },
   // ---------------------------------------------------------
