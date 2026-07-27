@@ -251,9 +251,11 @@
     const dustSvg = '<svg viewBox="0 0 24 24" width="13" height="13"><path d="M12 4c2.4 0 4.5 3.4 6 9H6c1.5-5.6 3.6-9 6-9z" fill="currentColor"/><path d="M3 13h18l-2 4.2c-.3.5-.8.8-1.4.8H6.4c-.6 0-1.1-.3-1.4-.8L3 13z" fill="currentColor" opacity=".5"/></svg>';
     const it = (icon, val, cls) => `<span class="wa-res__item${cls ? ' ' + cls : ''}">${window.iconSvg(icon, 13)}<b>${val}</b></span>`;
     const title = lang() === 'EN' ? 'Next level cost' : 'Coût du prochain niveau';
+    // Time shown after the speed bonus reduction (same factor used in the plan breakdown).
+    const speed = 1 + (Number(state.speedBonus) || 0) / 100;
     return `<div class="wa-res-title">${title}</div><div class="wa-res">` +
       `<span class="wa-res__item is-dust">${dustSvg}<b>${fmtNum(lv.dust)}</b></span>` +
-      it('clock', shortTime(lv.time)) +
+      it('clock', shortTime(Math.round(lv.time / speed))) +
       (lv.coin ? it('coins', abbr(lv.coin)) : '') +
       (lv.bread ? it('wheat', abbr(lv.bread)) : '') +
       (lv.wood ? it('tree-pine', abbr(lv.wood)) : '') +
