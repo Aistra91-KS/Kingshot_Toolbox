@@ -36,7 +36,7 @@
       plan: 'Research Plan:',
       costLabel: 'Cost:', dustUnit: 'dust', buffLabel: 'Buff:',
       timeMgt: 'Time Management:', totalTime: 'Total time:', speedupsAvail: 'Speedups available:',
-      bilan: 'KvK Breakdown:', dustUsed: ' dust = ', accelUsed: ' speedup min = ',
+      bilan: 'KvK Breakdown:', dustUsed: ' dust → ', accelUsed: ' of speedups → ',
       pts: ' KvK points', totalMax: 'Total:',
       modesFilters: 'Modes & Filters',
       helpTitle: 'War Academy — Help',
@@ -66,7 +66,7 @@
       plan: 'Plan de Recherche :',
       costLabel: 'Coût :', dustUnit: 'pouss.', buffLabel: 'Bonus :',
       timeMgt: 'Gestion du Temps :', totalTime: 'Temps total :', speedupsAvail: 'Accélérateurs disponibles :',
-      bilan: 'Bilan KvK :', dustUsed: ' pouss. = ', accelUsed: ' min d\'accél. = ',
+      bilan: 'Bilan KvK :', dustUsed: ' poussières → ', accelUsed: ' d\'accélérateurs → ',
       pts: ' points KvK', totalMax: 'Total :',
       modesFilters: 'Modes & Filtres',
       dbErr: '⚠️ Impossible de charger la base de recherche (data/truegold_war_db.json).',
@@ -613,8 +613,8 @@
     const totalHtml =
       `<div class="wa-out-bilan">
         <div class="wa-out-bilan-title">${t('bilan')}</div>
-        <div class="wa-out-bilan-row">🔶 <b>${fmtNum(tot.kvkFromDust)}</b>${t('pts')} — ${t('cFromDust')}</div>
-        <div class="wa-out-bilan-row">⏱️ <b>${fmtNum(tot.kvkFromTime)}</b>${t('pts')} — ${t('cFromTime')}</div>
+        <div class="wa-out-bilan-row">🔶 <b>${fmtNum(tot.effDust)}</b>${t('dustUsed')}<b>${fmtNum(tot.kvkFromDust)}</b>${t('pts')}</div>
+        <div class="wa-out-bilan-row">⏱️ <b>${fmtTime(tot.effTimeMin)}</b>${t('accelUsed')}<b>${fmtNum(tot.kvkFromTime)}</b>${t('pts')}</div>
       </div>
       <div class="wa-out-total">🚀 ${t('totalMax')} <span class="wa-out-total-num">${fmtNum(tot.kvkPoints)}</span>${t('pts')}</div>`;
 
