@@ -34,7 +34,11 @@ const i18nVikings = {
         linkManual: "Manuel",
         linkNoSource: "Auto (non configuré)",
         linkSync: "Resynchroniser sur la compétence",
-        srcBison: "Puissant Bison"
+        srcBison: "Puissant Bison",
+        tipExact: "Saisis le nombre exact, pas le pourcentage.",
+        tipWhy: "Le curseur % du jeu va plus vite, mais tombe rarement juste : il arrondit et décale ta composition.",
+        tipExample: "Ici, <strong>{pct} %</strong> donnerait <strong>{approx}</strong> {type} au lieu de <strong>{exact}</strong> ({drift}) par marche.",
+        copyTitle: "Copier le nombre exact"
     },
     EN: {
         titleParams: "Parameters",
@@ -64,7 +68,11 @@ const i18nVikings = {
         linkManual: "Manual",
         linkNoSource: "Auto (not set)",
         linkSync: "Re-sync from the skill",
-        srcBison: "Mighty Bison"
+        srcBison: "Mighty Bison",
+        tipExact: "Enter the exact number, not the percentage.",
+        tipWhy: "The game's % slider is faster, but rarely lands exactly right: it rounds and shifts your composition.",
+        tipExample: "Here, <strong>{pct}%</strong> would give <strong>{approx}</strong> {type} instead of <strong>{exact}</strong> ({drift}) per march.",
+        copyTitle: "Copy the exact number"
     }
 };
 
@@ -210,8 +218,60 @@ function computeDistribution() {
 }
 
 // ---------- Rendu ----------
-function cell(value, total) {
-    return `<td class="vk-num">${fmt(value)} <span class="vk-pct">(${pct(value, total)}%)</span></td>`;
+// Le % affiché est arrondi : on le préfixe d'un « ≈ » dès qu'il ne tombe pas juste,
+// pour signaler que la valeur à recopier dans le jeu est le NOMBRE, pas le pourcentage.
+function cell(value, total, copyable) {
+    const exactPct = total > 0 ? (value / total) * 100 : 0;
+    const approx = Math.abs(exactPct - Math.round(exactPct)) > 1e-9 ? '≈' : '';
+    const copyBtn = (copyable && value > 0)
+        ? ` <button type="button" class="vk-copy" data-copy="${Math.round(value)}" title="${tr('copyTitle')}" aria-label="${tr('copyTitle')}">📋</button>`
+        : '';
+    return `<td class="vk-num">${fmt(value)}${copyBtn} <span class="vk-pct">(${approx}${pct(value, total)}%)</span></td>`;
+}
+
+// Recopie le nombre exact (chiffres bruts) dans le presse-papiers, avec un retour visuel bref.
+function copyExactValue(btn) {
+    const val = btn.getAttribute('data-copy');
+    const done = () => {
+        const old = btn.textContent;
+        btn.textContent = '✓';
+        btn.classList.add('vk-copied');
+        setTimeout(() => { btn.textContent = old; btn.classList.remove('vk-copied'); }, 1200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(val).then(done).catch(() => {});
+    }
+}
+
+// Encart : montre concrètement l'écart entre le nombre exact et ce que donnerait le % arrondi du jeu.
+function buildTip(r) {
+    const base = r.marchTotal;
+    const types = [
+        { label: tr('thInf'), val: r.perMarch.inf },
+        { label: tr('thCav'), val: r.perMarch.cav },
+        { label: tr('thArc'), val: r.perMarch.arc }
+    ];
+    let best = null;
+    types.forEach(t => {
+        if (t.val <= 0 || base <= 0) return;
+        const p = pct(t.val, base);                 // % arrondi tel qu'affiché dans le tableau
+        const approx = Math.round(base * p / 100);  // ce que le curseur % du jeu produirait
+        const drift = approx - t.val;
+        if (!best || Math.abs(drift) > Math.abs(best.drift)) best = { label: t.label, val: t.val, p, approx, drift };
+    });
+
+    let body = `<strong>${tr('tipExact')}</strong> ${tr('tipWhy')}`;
+    if (best && best.drift !== 0) {
+        const sign = best.drift > 0 ? '+' : '−';
+        const drift = `<span class="vk-drift">${sign}${fmt(Math.abs(best.drift))}</span>`;
+        body += ' ' + tr('tipExample')
+            .replace('{pct}', best.p)
+            .replace('{approx}', fmt(best.approx))
+            .replace('{type}', best.label.toLowerCase())
+            .replace('{exact}', fmt(best.val))
+            .replace('{drift}', drift);
+    }
+    return `<span class="vk-tip-ico">⚠️</span><span>${body}</span>`;
 }
 
 function render() {
@@ -219,11 +279,13 @@ function render() {
     const summaryEl = document.getElementById('vk-summary');
     const tbody = document.getElementById('vk-tbody');
     const garrisonEl = document.getElementById('vk-garrison');
+    const tipEl = document.getElementById('vk-tip');
 
     if (!r.valid) {
         summaryEl.innerHTML = `<div class="vk-summary-item"><span class="vk-value">—</span></div>`;
         tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Renseignez une capacité et un nombre de marches valides.</td></tr>`;
         garrisonEl.innerHTML = '';
+        if (tipEl) tipEl.style.display = 'none';
         return;
     }
 
@@ -237,14 +299,18 @@ function render() {
         <div class="vk-summary-item"><span class="vk-label">${tr('sumFill')}</span><span class="vk-value">${fill}%</span></div>
     `;
 
-    // Lignes de marches (toutes identiques en mode équitable)
+    // Encart pédagogique : montrer que le nombre exact > le % arrondi
+    tipEl.innerHTML = buildTip(r);
+    tipEl.style.display = 'flex';
+
+    // Lignes de marches (toutes identiques en mode équitable) — cellules copyables
     let rows = '';
     for (let i = 1; i <= r.M; i++) {
         rows += `<tr>
             <td>${tr('thMarch')} ${i}</td>
-            ${cell(r.perMarch.inf, r.marchTotal)}
-            ${cell(r.perMarch.cav, r.marchTotal)}
-            ${cell(r.perMarch.arc, r.marchTotal)}
+            ${cell(r.perMarch.inf, r.marchTotal, true)}
+            ${cell(r.perMarch.cav, r.marchTotal, true)}
+            ${cell(r.perMarch.arc, r.marchTotal, true)}
             <td class="vk-num">${fmt(r.marchTotal)}</td>
         </tr>`;
     }
@@ -334,6 +400,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadData();
 
     document.getElementById('vk-import-bt').addEventListener('click', importFromBearTrap);
+
+    // Bouton copier (mobile) : délégation sur le tableau, valeurs re-rendues à chaque calcul
+    document.getElementById('vk-tbody').addEventListener('click', (e) => {
+        const btn = e.target.closest('.vk-copy');
+        if (btn) copyExactValue(btn);
+    });
 
     // Formatage + recalcul sur les champs numériques
     document.querySelectorAll('.formatted-number').forEach(input => {

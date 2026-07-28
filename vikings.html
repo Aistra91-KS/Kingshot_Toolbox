@@ -49,6 +49,28 @@
         td.vk-num { text-align: right; }
         tr.vk-total-row { font-weight: bold; border-top: 2px solid var(--border); }
         tr.vk-total-row td { color: var(--accent); }
+
+        /* Encart pédagogique : saisir le nombre exact plutôt que le % */
+        .vk-tip { display: flex; align-items: flex-start; gap: 8px;
+            padding: 12px 15px; margin-bottom: 20px;
+            background: rgba(255,140,66,0.06); border: 1px solid var(--warning);
+            border-left: 3px solid var(--warning); border-radius: 6px;
+            font-size: 13px; line-height: 1.5; color: var(--text-light); }
+        .vk-tip .vk-tip-ico { flex: 0 0 auto; font-size: 15px; line-height: 1.4; }
+        .vk-tip strong { color: var(--text-light); }
+        .vk-tip .vk-drift { color: var(--warning); font-weight: bold; white-space: nowrap; }
+
+        /* Bouton copier (mobile uniquement) : recopier le nombre exact dans le jeu */
+        .vk-copy { display: none; }
+        @media (max-width: 768px) {
+            .vk-copy { display: inline-flex; align-items: center; justify-content: center;
+                background: transparent; border: 1px solid var(--border); color: var(--accent);
+                border-radius: 4px; cursor: pointer; font-size: 12px; line-height: 1;
+                padding: 3px 5px; margin-left: 6px; vertical-align: middle;
+                -webkit-tap-highlight-color: transparent; }
+            .vk-copy:active { background: rgba(245,184,64,0.15); }
+            .vk-copy.vk-copied { color: var(--success); border-color: var(--success); }
+        }
     </style>
 </head>
 <body>
@@ -123,6 +145,9 @@
 
             <!-- Synthèse -->
             <div class="vk-summary" id="vk-summary"></div>
+
+            <!-- Encart : privilégier le nombre exact au pourcentage -->
+            <div class="vk-tip" id="vk-tip" style="display:none;"></div>
 
             <!-- Tableau des marches -->
             <div class="table-container">
