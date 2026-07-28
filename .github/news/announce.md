@@ -1,10 +1,10 @@
 <!-- kshub-news
 version: 1
-covers-until: 8125ab39e85248ea9ded8a1c893c4dbfb39c4198
-generated: 2026-07-23
+covers-until: f07e686ca6cca03869678c2b11a65701fa77bcd8
+generated: 2026-07-28
 ping:
-title-fr: 🗂️ Nouvelles bases de données + Piège à Ours boosté
-title-en: 🗂️ New databases + upgraded Bear Trap
+title-fr: ⚔️ Académie de Guerre : bilan KvK plus clair
+title-en: ⚔️ War Academy: clearer KvK breakdown
 -->
 
 <!--
@@ -29,52 +29,44 @@ Clés facultatives de l'en-tête :
 
 ## FR
 
-### 🗂️ Deux nouvelles bases de données : Experts & Familiers
+### ⚔️ Académie de Guerre : un bilan KvK plus clair et plus juste
 
-La section **Base de Données** s'agrandit. Chaque Expert et chaque Familier a désormais sa propre fiche, consultable depuis le hub et le menu.
+L'outil Académie de Guerre reçoit plusieurs améliorations :
 
-- **Experts** — une page par expert (Valora, Pan, Roman, Cassia, Guinevere, Wilson) : paliers d'affinité et bonus d'escouade, expertise passive, et pour chaque compétence l'effet, le coût d'EXP, les manuscrits et la puissance par niveau.
-- **Familiers** — une page par familier (14 familiers, 7 générations) : effet de la compétence palier par palier, coûts d'avancement (manuel de croissance, potion de nutriments, médaillon de promotion) et nourriture requise pour chaque niveau.
+- **Bilan KvK enrichi** : en plus des points, il affiche maintenant la **quantité de poussières** et le **temps d'accélérateurs** que ton plan consomme.
+- **Calcul des points corrigé** : les points liés aux accélérateurs tiennent enfin compte de ton **bonus de vitesse**. Plus ton bonus est élevé, moins tu brûles d'accélérateurs — et le total de points reste cohérent (1000 pts par poussière + 30 pts par minute d'accélérateur réellement utilisée).
+- **Temps d'amélioration réel** : le temps affiché sur chaque recherche est désormais celui **réduit par ton bonus de vitesse**.
+- **Icônes Archers corrigées** : les icônes arc et flèche, qui étaient inversées, sont remises dans le bon sens.
 
-Tout est bilingue FR/EN, comme le reste du site.
+### 🛒 « Shop Calc » devient « Shop Value »
 
-### 🐻 Piège à Ours : tier-list des joiners & héros autorisés
+L'outil de valeur de boutique est renommé **Shop Value** pour être plus parlant, et son badge « beta » a été repositionné.
 
-Le calculateur du Piège à Ours passe un cap :
+### 📚 Bases de données peaufinées
 
-- **Tier-list des joiners** par génération de serveur (rangs S → D), qui tient compte du power-creep.
-- **Menu « Héros autorisés »** : coche les joiners que ton alliance permet. Les rangs C et D sont décochés par défaut (marqués « Non recommandé »), et ton choix est mémorisé par génération.
-- La tier-list ne s'applique qu'au **capitaine** de chaque marche joiner ; les renforts, eux, ne comptent que pour la **capacité** de la marche.
-- Les **bonus de capacité se remplissent tout seuls** : le Bonus Expert vient de la compétence « Avantage primitif » de **Valora**, le Bonus Animal du **Puissant Bison**. Toujours modifiables à la main, avec un bouton pour resynchroniser.
-
-### ⚡ Chargement plus rapide
-
-Toutes les images du jeu ont été converties en **WebP** : elles pèsent environ **84 % de moins** (de 36 à 5,6 Mo au total). Les pages s'affichent nettement plus vite, surtout sur mobile.
-
-Plus quelques corrections au passage — notamment les bulles d'aide « i » qui restent bien à l'écran.
+- Tables **plus lisibles sur mobile** (défilement horizontal, première colonne figée).
+- Le **« X »** des descriptions de compétences est mis en valeur en doré.
+- Les effets d'Expert à deux valeurs s'affichent sur **deux colonnes** distinctes.
+- Valeurs de coût d'EXP / manuscrits de maîtrise ajustées, plus quelques coquilles FR corrigées.
 
 ## EN
 
-### 🗂️ Two new databases: Masters & Pets
+### ⚔️ War Academy: a clearer, fairer KvK breakdown
 
-The **Database** section is growing. Every Master and every Pet now has its own reference page, reachable from the hub and the menu.
+The War Academy tool gets several improvements:
 
-- **Masters** — one page per expert (Valora, Pan, Roman, Cassia, Guinevere, Wilson): affinity milestones and squad bonus, passive expertise, and every skill's effect, EXP cost, manuscripts and power per level.
-- **Pets** — one page per pet (14 pets, 7 generations): skill effect tier by tier, advancement costs (Growth Manual, Nutrient Potion, Promotion Medallion) and the Pet Food needed for each level.
+- **Richer KvK breakdown**: on top of the points, it now shows how much **dust** and how much **speedup time** your plan consumes.
+- **Fixed point maths**: speedup points finally account for your **speed bonus**. The higher your bonus, the fewer speedups you burn — and the total stays consistent (1000 pts per dust + 30 pts per speedup minute actually used).
+- **Real upgrade time**: the time shown on each research is now the one **reduced by your speed bonus**.
+- **Fixed Archer icons**: the bow and arrow icons, which were swapped, are back the right way round.
 
-Everything is bilingual EN/FR, like the rest of the site.
+### 🛒 "Shop Calc" is now "Shop Value"
 
-### 🐻 Bear Trap: joiner tier-list & allowed heroes
+The shop-value tool has been renamed **Shop Value** to be clearer, and its "beta" badge has been repositioned.
 
-The Bear Trap calculator levels up:
+### 📚 Databases polished
 
-- **Joiner tier-list** by server generation (ranks S → D), accounting for power-creep.
-- **"Allowed heroes" menu**: tick the joiners your alliance permits. Ranks C and D are unticked by default (flagged "Not recommended"), and your choice is remembered per generation.
-- The tier-list only applies to the **captain** of each joiner march; reinforcements only affect the march's **capacity**.
-- **Capacity bonuses fill in automatically**: the Expert bonus comes from Valora's "Savage Advantage" skill, the Animal bonus from the Mighty Bison. Both stay editable by hand, with a button to resync.
-
-### ⚡ Faster loading
-
-Every in-game image has been converted to **WebP**: about **84% smaller** (from 36 MB down to 5.6 MB total). Pages load noticeably faster, especially on mobile.
-
-Plus a few fixes along the way — including the help "i" tooltips now staying on screen.
+- Tables that are **easier to read on mobile** (horizontal scroll, frozen first column).
+- The **"X"** in skill descriptions is now highlighted in gold.
+- Two-value Expert effects are shown in **two separate columns**.
+- Mastery EXP-cost / manuscript values adjusted, plus a few French typo fixes.
