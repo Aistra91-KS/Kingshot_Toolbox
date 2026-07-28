@@ -15,10 +15,11 @@
 //                      to max first, which unlocks every dependent level.
 //
 //  KvK scoring (spec): 1000 pts / dust  +  30 pts / speedup-minute.
-//  Points are computed on the BASE (nominal) dust & time of each level.
-//  Cost/speed bonuses reduce what the PLAYER spends (budget + readout),
-//  not the nominal value that scores points. Flip SCORE_ON_EFFECTIVE
-//  to score on the reduced values instead.
+//  Points are computed on the EFFECTIVE dust & time actually spent by the
+//  player: the speed bonus shortens the research, so fewer speedup-minutes
+//  are consumed, which earns fewer time-based points (30 pts per speedup-
+//  minute ACTUALLY used). Flip SCORE_ON_EFFECTIVE to false to score on the
+//  nominal (base) values instead, independent of the player's bonuses.
 // ============================================================
 
 (function (root, factory) {
@@ -28,7 +29,7 @@
 
   'use strict';
 
-  const SCORE_ON_EFFECTIVE = false; // false = score nominal cost; true = score post-bonus cost
+  const SCORE_ON_EFFECTIVE = true; // true = score on what the player actually spends (post-bonus); false = nominal cost
   const PTS_PER_DUST = 1000;
   const PTS_PER_MIN  = 30;
 
