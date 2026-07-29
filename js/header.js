@@ -163,6 +163,7 @@ function hdrBuildDrawer() {
       <span class="drawer-game">${S.name}</span>
       <button class="drawer-close" id="hdr-drawer-close" aria-label="Fermer">✕</button>
     </div>
+    ${hdrDrawerProfileHTML()}
     <nav class="drawer-nav">${nav}</nav>
     <div class="drawer-foot">
       <div class="drawer-lang">
@@ -177,6 +178,7 @@ function hdrBuildDrawer() {
     b.onclick = () => { window.GlobalLang.set(b.getAttribute('data-lang')); };
   });
   document.getElementById('hdr-drawer-theme').onclick = () => { toggleHeaderTheme(); hdrBuildDrawer(); };
+  hdrWireDrawerProfile();
 }
 
 function hdrOpenDrawer() {
@@ -193,6 +195,42 @@ function hdrCloseDrawer() {
   if (o) o.classList.remove('open');
   document.body.classList.remove('drawer-locked');
 }
+
+// ---------- Profils : i18n + helpers (déclarés avant l'IIFE : const non hoistées) ----------
+const PFP_I18N = {
+  FR: {
+    accounts: 'Comptes', active: 'Actif', switchTo: 'Basculer',
+    newProfile: 'Nouveau profil', manage: 'Gérer les profils',
+    language: 'Langue', theme: 'Thème',
+    manageTitle: 'Gérer les profils',
+    manageDesc: 'Chaque profil garde ses propres données (héros, calculs, niveaux…). La langue et le thème restent communs à tous les profils.',
+    delete: 'Supprimer', switched: 'Profil actif : ',
+    confirmDelete: 'Supprimer ce profil et toutes ses données ? Cette action est irréversible.',
+    deleteActiveHint: 'Basculez sur un autre profil avant de supprimer celui-ci.',
+    backupHint: 'Astuce : exportez un profil via « Sauvegarde Globale » pour le transférer sur un autre appareil.'
+  },
+  EN: {
+    accounts: 'Accounts', active: 'Active', switchTo: 'Switch',
+    newProfile: 'New profile', manage: 'Manage profiles',
+    language: 'Language', theme: 'Theme',
+    manageTitle: 'Manage profiles',
+    manageDesc: 'Each profile keeps its own data (heroes, calculations, levels…). Language and theme stay shared across profiles.',
+    delete: 'Delete', switched: 'Active profile: ',
+    confirmDelete: 'Delete this profile and all its data? This cannot be undone.',
+    deleteActiveHint: 'Switch to another profile before deleting this one.',
+    backupHint: 'Tip: export a profile via “Global Backup” to move it to another device.'
+  }
+};
+function pfpT(key) { return (PFP_I18N[hdrLang()] || PFP_I18N.EN)[key] || key; }
+function hdrEsc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function hdrProfInitial(p) {
+  const n = ((p && p.name) || '?').trim();
+  return n ? n.charAt(0).toUpperCase() : '?';
+}
+let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+thème
 
 // ---------- Construction + injection ----------
 (function buildHeader() {
@@ -227,6 +265,7 @@ function hdrCloseDrawer() {
       </nav>
 
       <div class="hdr-zone hdr-right">
+        <div class="pfp hdr-dd" id="hdr-profile"></div>
         <div class="header-lang-wrapper">
           <select id="global-lang-select" class="header-lang-select">
             <option value="FR">FR</option>
@@ -253,6 +292,7 @@ function hdrCloseDrawer() {
 
   hdrRenderCategories();
   hdrRenderTools();
+  hdrBuildProfile();
   hdrBuildDrawer();
 
   const burger = document.getElementById('hdr-burger');
@@ -261,6 +301,8 @@ function hdrCloseDrawer() {
   if (overlay) overlay.addEventListener('click', hdrCloseDrawer);
 
   initHeaderTheme();
+  hdrInitAdaptive();
+  hdrShowSwitchToast();
 
   if (window.GlobalLang) {
     window.GlobalLang.applyToSelect('global-lang-select');
@@ -278,7 +320,9 @@ window.addEventListener('langChanged', (e) => {
   if (e.detail) document.documentElement.lang = (e.detail.lang || 'en').toLowerCase();
   hdrRenderCategories();
   hdrRenderTools();
+  hdrBuildProfile();
   hdrBuildDrawer();
+  hdrEvaluateAdaptive();
 });
 
 // ============ THEME (gestion globale) ============
@@ -341,4 +385,298 @@ function showAppConfirm(message, onConfirm, onCancel = null) {
   const close = () => { overlay.classList.remove('active'); setTimeout(() => document.body.removeChild(overlay), 300); };
   overlay.querySelector('#confirm-yes').onclick = () => { close(); onConfirm(); };
   overlay.querySelector('#confirm-no').onclick  = () => { close(); if (onCancel) onCancel(); };
+}
+
+// ============================================================
+//  PROFILS (comptes) — pastille desktop, panneau, drawer mobile,
+//  modale de gestion, header adaptatif (Option B), toast de bascule.
+//  Toutes ces fonctions sont des déclarations → hoistées, donc
+//  disponibles dès l'IIFE buildHeader ci-dessus.
+// ============================================================
+
+// ---------- Pastille profil (desktop) ----------
+function hdrBuildProfile() {
+  const box = document.getElementById('hdr-profile');
+  if (!box) return;
+  if (!window.Profiles) { box.style.display = 'none'; return; }
+  const active = Profiles.active();
+  const wasOpen = box.classList.contains('open');
+  box.innerHTML = `
+    <button type="button" class="pfp-trigger" aria-haspopup="menu" aria-expanded="${wasOpen}" title="${hdrEsc(active.name)}">
+      <span class="pfp-avatar" style="--ring:${active.color}">${hdrEsc(hdrProfInitial(active))}</span>
+      <span class="pfp-chevron" aria-hidden="true">▾</span>
+    </button>
+    <div class="pfp-panel hdr-dd-panel" role="menu">${hdrProfilePanelHTML()}</div>`;
+
+  const trigger = box.querySelector('.pfp-trigger');
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = !box.classList.contains('open');
+    hdrCloseAllDropdowns(box);
+    box.classList.toggle('open', willOpen);
+    trigger.setAttribute('aria-expanded', String(willOpen));
+  });
+  hdrWireProfilePanel(box);
+}
+
+function hdrProfilePanelHTML() {
+  const rows = Profiles.list().map((p) => {
+    const act = p.id === Profiles.activeId();
+    return `<button type="button" class="pfp-row ${act ? 'active' : ''}" data-id="${p.id}">
+      <span class="pfp-avatar sm" style="--ring:${p.color}">${hdrEsc(hdrProfInitial(p))}</span>
+      <span class="pfp-row-name">${hdrEsc(p.name)}</span>
+      ${act ? `<span class="pfp-row-badge">${hdrEsc(pfpT('active'))}</span>` : ''}
+    </button>`;
+  }).join('');
+  const lang = hdrLang();
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  return `
+    <div class="pfp-head">${hdrEsc(pfpT('accounts'))}</div>
+    <div class="pfp-list">${rows}</div>
+    <div class="pfp-sep"></div>
+    <button type="button" class="pfp-act" data-act="new"><span class="pfp-act-ic">＋</span>${hdrEsc(pfpT('newProfile'))}</button>
+    <button type="button" class="pfp-act" data-act="manage"><span class="pfp-act-ic">⚙</span>${hdrEsc(pfpT('manage'))}</button>
+    <div class="pfp-chrome">
+      <div class="pfp-chrome-row">
+        <span>${hdrEsc(pfpT('language'))}</span>
+        <div class="pfp-chrome-lang">
+          <button type="button" data-lang="FR" class="${lang === 'FR' ? 'active' : ''}">FR</button>
+          <button type="button" data-lang="EN" class="${lang === 'EN' ? 'active' : ''}">EN</button>
+        </div>
+      </div>
+      <div class="pfp-chrome-row">
+        <span>${hdrEsc(pfpT('theme'))}</span>
+        <button type="button" class="pfp-chrome-theme" data-act="theme">${isDark ? '☀️' : '🌙'}</button>
+      </div>
+    </div>`;
+}
+
+function hdrWireProfilePanel(box) {
+  const panel = box.querySelector('.pfp-panel');
+  if (panel) panel.addEventListener('click', (e) => e.stopPropagation());
+
+  box.querySelectorAll('.pfp-row').forEach((r) => {
+    r.addEventListener('click', () => {
+      const id = r.getAttribute('data-id');
+      if (id === Profiles.activeId()) { box.classList.remove('open'); return; }
+      Profiles.switch(id);
+    });
+  });
+  box.querySelectorAll('.pfp-act').forEach((a) => {
+    a.addEventListener('click', () => {
+      const act = a.getAttribute('data-act');
+      if (act === 'new') { Profiles.switch(Profiles.create().id); }
+      else if (act === 'manage') { box.classList.remove('open'); hdrOpenProfilesModal(); }
+      else if (act === 'theme') {
+        toggleHeaderTheme();
+        hdrBuildProfile();
+        const nb = document.getElementById('hdr-profile');
+        if (nb) nb.classList.add('open');
+      }
+    });
+  });
+  box.querySelectorAll('.pfp-chrome-lang button').forEach((b) => {
+    b.addEventListener('click', () => { if (window.GlobalLang) window.GlobalLang.set(b.getAttribute('data-lang')); });
+  });
+}
+
+// ---------- Bloc profil du drawer (mobile) ----------
+function hdrDrawerProfileHTML() {
+  if (!window.Profiles) return '';
+  const active = Profiles.active();
+  const rows = Profiles.list().map((p) => {
+    const act = p.id === Profiles.activeId();
+    return `<button type="button" class="drawer-profile-row ${act ? 'active' : ''}" data-id="${p.id}">
+      <span class="pfp-avatar sm" style="--ring:${p.color}">${hdrEsc(hdrProfInitial(p))}</span>
+      <span class="pfp-row-name">${hdrEsc(p.name)}</span>
+      ${act ? `<span class="pfp-row-badge">${hdrEsc(pfpT('active'))}</span>` : ''}
+    </button>`;
+  }).join('');
+  return `
+    <div class="drawer-profile" id="drawer-profile">
+      <button type="button" class="drawer-profile-card" id="drawer-profile-toggle">
+        <span class="pfp-avatar lg" style="--ring:${active.color}">${hdrEsc(hdrProfInitial(active))}</span>
+        <span class="drawer-profile-meta">
+          <span class="drawer-profile-label">${hdrEsc(pfpT('accounts'))}</span>
+          <span class="drawer-profile-name">${hdrEsc(active.name)}</span>
+        </span>
+        <span class="drawer-profile-chevron">▾</span>
+      </button>
+      <div class="drawer-profile-body">
+        ${rows}
+        <button type="button" class="drawer-profile-manage" data-act="new"><span class="pfp-act-ic">＋</span>${hdrEsc(pfpT('newProfile'))}</button>
+        <button type="button" class="drawer-profile-manage" data-act="manage"><span class="pfp-act-ic">⚙</span>${hdrEsc(pfpT('manage'))}</button>
+      </div>
+    </div>`;
+}
+
+function hdrWireDrawerProfile() {
+  const wrap = document.getElementById('drawer-profile');
+  if (!wrap || !window.Profiles) return;
+  const toggle = document.getElementById('drawer-profile-toggle');
+  if (toggle) toggle.onclick = () => wrap.classList.toggle('open');
+  wrap.querySelectorAll('.drawer-profile-row').forEach((r) => {
+    r.onclick = () => {
+      const id = r.getAttribute('data-id');
+      if (id === Profiles.activeId()) { wrap.classList.remove('open'); return; }
+      Profiles.switch(id);
+    };
+  });
+  wrap.querySelectorAll('.drawer-profile-manage').forEach((a) => {
+    a.onclick = () => {
+      const act = a.getAttribute('data-act');
+      if (act === 'new') { Profiles.switch(Profiles.create().id); }
+      else { hdrCloseDrawer(); hdrOpenProfilesModal(); }
+    };
+  });
+}
+
+// ---------- Modale de gestion des profils ----------
+function hdrOpenProfilesModal() {
+  if (!window.Profiles) return;
+  let overlay = document.getElementById('pfp-modal-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'pfp-modal-overlay';
+    overlay.className = 'backup-overlay';
+    overlay.innerHTML = `
+      <div class="backup-modal" role="dialog" aria-modal="true">
+        <div class="backup-header">
+          <h3 class="backup-title" id="pfp-modal-title"></h3>
+          <button id="pfp-modal-close" aria-label="Fermer" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:24px;line-height:1;">&times;</button>
+        </div>
+        <div class="backup-body">
+          <p class="pfp-modal-desc" id="pfp-modal-desc"></p>
+          <div class="pfp-manage-list" id="pfp-manage-list"></div>
+          <button class="btn-modern btn-modern-secondary pfp-manage-new" id="pfp-modal-new"></button>
+          <div class="pfp-manage-hint" id="pfp-modal-hint"></div>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) hdrCloseProfilesModal(); });
+    document.getElementById('pfp-modal-close').onclick = hdrCloseProfilesModal;
+    document.getElementById('pfp-modal-new').onclick = () => {
+      Profiles.create();
+      hdrRenderProfilesModal();
+      hdrBuildProfile();
+      hdrBuildDrawer();
+    };
+  }
+  hdrRenderProfilesModal();
+  requestAnimationFrame(() => overlay.classList.add('active'));
+}
+
+function hdrCloseProfilesModal() {
+  const o = document.getElementById('pfp-modal-overlay');
+  if (o) o.classList.remove('active');
+}
+
+function hdrRenderProfilesModal() {
+  const setTxt = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+  setTxt('pfp-modal-title', pfpT('manageTitle'));
+  setTxt('pfp-modal-desc', pfpT('manageDesc'));
+  setTxt('pfp-modal-hint', pfpT('backupHint'));
+  setTxt('pfp-modal-new', '＋ ' + pfpT('newProfile'));
+
+  const list = document.getElementById('pfp-manage-list');
+  if (!list) return;
+  const profiles = Profiles.list();
+  const only = profiles.length <= 1;
+  list.innerHTML = profiles.map((p) => {
+    const act = p.id === Profiles.activeId();
+    return `<div class="pfp-manage-row ${act ? 'active' : ''}">
+      <span class="pfp-avatar sm" style="--ring:${p.color}">${hdrEsc(hdrProfInitial(p))}</span>
+      <input class="pfp-manage-input" type="text" maxlength="40" value="${hdrEsc(p.name)}" data-id="${p.id}">
+      ${act ? `<span class="pfp-manage-badge">${hdrEsc(pfpT('active'))}</span>`
+             : `<button class="pfp-manage-btn" data-act="switch" data-id="${p.id}">${hdrEsc(pfpT('switchTo'))}</button>`}
+      <button class="pfp-manage-btn danger" data-act="delete" data-id="${p.id}" ${(only || act) ? 'disabled' : ''} title="${act ? hdrEsc(pfpT('deleteActiveHint')) : ''}">${hdrEsc(pfpT('delete'))}</button>
+    </div>`;
+  }).join('');
+
+  list.querySelectorAll('.pfp-manage-input').forEach((inp) => {
+    const commit = () => {
+      const ok = Profiles.rename(inp.getAttribute('data-id'), inp.value);
+      if (!ok) return;
+      hdrBuildProfile();
+      hdrBuildDrawer();
+    };
+    inp.addEventListener('change', commit);
+    inp.addEventListener('blur', commit);
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') inp.blur(); });
+  });
+  list.querySelectorAll('[data-act="switch"]').forEach((b) => {
+    b.onclick = () => Profiles.switch(b.getAttribute('data-id'));
+  });
+  list.querySelectorAll('[data-act="delete"]').forEach((b) => {
+    b.onclick = () => {
+      if (b.disabled) return;
+      showAppConfirm(pfpT('confirmDelete'), () => {
+        Profiles.remove(b.getAttribute('data-id'));
+        hdrRenderProfilesModal();
+        hdrBuildProfile();
+        hdrBuildDrawer();
+      });
+    };
+  });
+}
+
+// ---------- Header adaptatif (Option B) ----------
+// Condense langue + thème dans le panneau profil quand la rangée d'outils
+// est rognée (mesure du contenu réel, pas un seuil px fixe). Hystérésis
+// pour éviter tout clignotement au point de bascule.
+function hdrInitAdaptive() {
+  const header = document.querySelector('.app-header');
+  if (!header) return;
+  let raf = null;
+  const schedule = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => { raf = null; hdrEvaluateAdaptive(); });
+  };
+  if (window.ResizeObserver) { new ResizeObserver(schedule).observe(header); }
+  window.addEventListener('resize', schedule);
+  hdrEvaluateAdaptive();
+}
+
+function hdrEvaluateAdaptive() {
+  const header = document.querySelector('.app-header');
+  const center = document.querySelector('.hdr-center');
+  const cat = document.getElementById('hdr-cat');
+  const tools = document.getElementById('hdr-tools');
+  if (!header || !center || !tools) return;
+  // Sous 820px la nav vit dans le drawer : rien à condenser.
+  if (window.matchMedia('(max-width: 820px)').matches) { header.classList.remove('hdr-condensed'); return; }
+
+  // Place ALLOUÉE à la zone centrale (elle est flex:1 → son clientWidth
+  // reflète l'espace réel, il rétrécit quand la zone droite grandit).
+  const avail = center.clientWidth;
+  // Place NÉCESSAIRE : catégorie + outils (largeur réelle via scrollWidth,
+  // connue même quand la rangée est rognée) + le gap de la zone.
+  const need = (cat ? cat.offsetWidth : 0) + tools.scrollWidth + 12;
+  const condensed = header.classList.contains('hdr-condensed');
+  const BUFFER = 24;
+
+  if (!condensed) {
+    // Mémorise la place que langue+thème rendraient une fois condensés.
+    const langW = document.querySelector('.header-lang-wrapper');
+    const themeBtn = document.querySelector('.app-header-theme');
+    if (langW && themeBtn) hdrReclaim = Math.max(hdrReclaim, langW.offsetWidth + themeBtn.offsetWidth + 16);
+    if (need > avail + 1) header.classList.add('hdr-condensed');
+  } else {
+    // Ne ré-étend que si, une fois langue+thème réaffichés (−hdrReclaim de
+    // place au centre), tout tient encore avec une marge franche (hystérésis).
+    if (need + hdrReclaim + BUFFER <= avail) header.classList.remove('hdr-condensed');
+  }
+}
+
+// ---------- Toast de confirmation après bascule ----------
+function hdrShowSwitchToast() {
+  if (!window.Profiles || !Profiles.consumeSwitchToast) return;
+  const p = Profiles.consumeSwitchToast();
+  if (!p) return;
+  const toast = document.createElement('div');
+  toast.className = 'pfp-toast';
+  toast.innerHTML = `<span class="pfp-avatar sm" style="--ring:${p.color}">${hdrEsc(hdrProfInitial(p))}</span><span>${hdrEsc(pfpT('switched') + p.name)}</span>`;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 350); }, 2600);
 }

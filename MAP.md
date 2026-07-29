@@ -40,6 +40,7 @@ Kingshot_Toolbox/
 ├── js/
 │   ├── site-config.js            ★ Manifeste unique : identité (name/home), catégories, outils, registre d'icônes Lucide
 │   ├── storage-keys.js           ★ Source unique des clés localStorage + safeParse()
+│   ├── profiles.js               ★ Profils (comptes multiples) : registre kt_profiles + proxy transparent sur localStorage (données métier rangées par profil kt::<id>::<clé>) + migration + API window.Profiles. Chargé juste après storage-keys.js (avant tout script de page)
 │   ├── lang.js                   ★ GlobalLang : get/set langue, applyI18n(dict), event 'langChanged'
 │   ├── header.js                 ★ Header contextuel généré depuis SITE + thème + modales globales
 │   ├── help.js                   Module d'aide générique (bouton "?", modale, bandeau, tooltips)
@@ -135,8 +136,8 @@ Kingshot_Toolbox/
 | `database/masters/*.html` | Fiches Experts : affinité, passif, compétences | `db-masters.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `masters_db.json` (fetch) |
 | `database/pets/*.html` | Fiches Familiers : compétence/palier, avancements, nourriture | `db-pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `pets_db.json` (fetch) |
 
-**Socle chargé sur toutes les pages outils** (ordre) : `site-config.js` → `storage-keys.js` → `lang.js` → `help.js` → *(script de page)* → `header.js` → `backup.js`.
-Les pages `database/buildings/*` et `database/waracademy/*` n'incluent que `site-config.js` + `lang.js` + `header.js` (pas de help/backup) ; `database/masters/*` et `database/pets/*` ajoutent en plus leur script de rendu dédié (`db-masters.js` / `db-pets.js`), qui pose `window.MASTER_ID` / `window.PET_ID` et gère l'i18n de la page (dict + `data-en`/`data-fr`). **Les 35 pages `database/*` chargent `css/style.css` puis `css/db.css`** (feuille partagée extraite des anciens `<style>` inline). `pets.html` charge `site-config.js` + `storage-keys.js` + `lang.js` + `header.js` + `pets.js` + `backup.js` (sauvegarde des niveaux via `STORAGE_KEYS.pets`), sans `help.js`, plus `css/pets.css` et deux webfonts Google (Cormorant Garamond + Karla).
+**Socle chargé sur toutes les pages outils** (ordre) : `site-config.js` → `storage-keys.js` → `profiles.js` → `lang.js` → `help.js` → *(script de page)* → `header.js` → `backup.js`.
+Les pages `database/buildings/*` et `database/waracademy/*` n'incluent que `site-config.js` + `lang.js` + `profiles.js` + `header.js` (pas de help/backup ; `profiles.js` y sert uniquement l'UI de profils du header — pas de données métier à isoler) ; `database/masters/*` et `database/pets/*` ajoutent en plus leur script de rendu dédié (`db-masters.js` / `db-pets.js`), qui pose `window.MASTER_ID` / `window.PET_ID` et gère l'i18n de la page (dict + `data-en`/`data-fr`). **Les 35 pages `database/*` chargent `css/style.css` puis `css/db.css`** (feuille partagée extraite des anciens `<style>` inline). `pets.html` charge `site-config.js` + `storage-keys.js` + `lang.js` + `header.js` + `pets.js` + `backup.js` (sauvegarde des niveaux via `STORAGE_KEYS.pets`), sans `help.js`, plus `css/pets.css` et deux webfonts Google (Cormorant Garamond + Karla).
 
 **Conventions d'affichage des fiches BDD (Experts/Familiers)** — pilotées par `db-masters.js` / `db-pets.js` :
 - **Placeholder « X » doré** : le « X »/« X% » des descriptions (la valeur qui change au palier) est mis en valeur via `<span class="hl-x">` (helper `highlightX()`, X isolé seulement — « XP » n'est pas touché). Style dans `style.css`.
@@ -208,6 +209,8 @@ Or éclatant sur noir profond, turquoise pour la validation, rubis pour l'alerte
 **Mobile (< 880px)** : la promenade laisse place à une colonne centrée qui défile — image (`.pet-flow-img`) au-dessus de la carte, toutes deux dans `#petFlow` (`display:contents` sur desktop, donc sans effet hors mobile). Le décor reste fixe derrière ; `.animals` et la parallaxe sont hors circuit. Le sentier devient une frise de pastilles numérotées (`.pp-dot .pp-n`) ancrée en bas ; navigation par balayage **horizontal** (le vertical est rendu au défilement de la fiche).
 
 
+**Header — pastille profil + adaptatif (Option B)** : la zone droite du header porte une pastille profil (avatar à initiale + anneau coloré par profil, réutilise le mécanisme `.hdr-dd`). Sur desktop, quand la rangée d'outils est **rognée** (mesure : `need = cat + hdr-tools.scrollWidth` vs `hdr-center.clientWidth`, avec **hystérésis** anti-clignotement, cf. `hdrEvaluateAdaptive`), le header passe en `.hdr-condensed` : langue + thème quittent la barre et se replient dans le panneau profil (`.pfp-chrome`), rendant la place aux outils. Sous 820px la nav (dont langue/thème) vit dans le drawer, qui reçoit en tête un bloc profil. Toute l'UI profil est dans `header.js` (`hdrBuildProfile`, `hdrOpenProfilesModal`, `hdrInitAdaptive`…).
+
 **Modales de détail (Caserne / Experts)** : tiroir latéral 400px sur desktop, plein écran + onglets sous 820px. Les sections de `#modal-body` portent `data-mtab="<clé>"` ; `js/modal-tabs.js` génère la barre `.mtabs` et n'affiche qu'un panneau à la fois (classe `.mtab-on`). Un panneau vide masque son onglet. Ajouter une section = poser `data-mtab` + déclarer la clé dans `PAGES` du module.
 
 
@@ -248,7 +251,9 @@ Un seul workflow : **`discord-announce.yml`** (annonce Discord rédigée à la m
 
 ## 8. Persistance (localStorage)
 
-Clés « chrome » (hors registre) : **`hub_lang`** (langue, défaut `EN`), **`hub_theme`** (thème, défaut `dark`), `help_seen_<id>` (bandeaux d'aide vus).
+Clés « chrome » (hors registre, **globales — partagées entre profils**) : **`hub_lang`** (langue, défaut `EN`), **`hub_theme`** (thème, défaut `dark`), `help_seen_<id>` (bandeaux d'aide vus), **`kt_profiles`** (registre des profils).
+
+**Profils (comptes multiples)** — `js/profiles.js` (chargé tôt) installe un **proxy transparent sur `localStorage`** : les scripts continuent d'appeler `localStorage.getItem/setItem(STORAGE_KEYS.x)` sans modification, mais chaque **clé métier** (toute valeur de `STORAGE_KEYS`) est rangée sous `kt::<profileId>::<clé>` pour le profil actif. Les clés chrome ci-dessus restent globales. Au 1ᵉʳ chargement, les données « à plat » existantes sont **migrées** vers le 1ᵉʳ profil (aucune perte). API `window.Profiles` : `list/get/active/activeId`, `create/rename/remove/switch` (bascule = `location.reload()` + toast), `consumeSwitchToast`. Registre `kt_profiles` = `{v, activeId, profiles:[{id, name, color}]}`. UI dans `header.js` (pastille desktop + panneau, bloc drawer mobile, modale « Gérer les profils » réutilisant la DA `.backup-*`). L'export/import de `backup.js` opère automatiquement sur le profil actif (via le proxy) — pratique pour transférer un profil vers un autre appareil.
 
 Clés métier — source unique **`js/storage-keys.js`** (`window.STORAGE_KEYS`) :
 | Clé JS | Valeur localStorage |
