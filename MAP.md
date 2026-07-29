@@ -156,7 +156,7 @@ Deux mécanismes, tous deux réagissant à l'event global **`langChanged`** émi
 2. **Attributs inline `data-en` / `data-fr`** (pages `database/buildings/*`) :
    - `<td data-en="Bread" data-fr="Pain">Pain</td>` — un petit script inline applique `data-<lang>` sur `[data-en][data-fr]`.
 
-**Langue** : stockée sous `hub_lang` (clé propre à `GlobalLang`, défaut `EN`). Le `<select>` du header et les boutons `.lang-btn` du hub sont synchronisés via `GlobalLang.applyToSelect` / `applyToButtons`.
+**Langue** : stockée sous `hub_lang` (clé propre à `GlobalLang`, défaut `EN`). Sur desktop, le header expose un **bouton rond « globe + code »** (`.app-header-lang`, jumeau visuel du bouton thème) qui bascule FR⇄EN via `GlobalLang.set()` (`hdrInitLangToggle`/`hdrUpdateLangCode` dans `header.js`) ; sous 820px et en mode condensé il est masqué (langue reprise dans le drawer / le panneau profil). Les boutons `.lang-btn` du hub restent synchronisés via `GlobalLang.applyToButtons` (`applyToSelect` demeure un utilitaire générique, plus utilisé par le header).
 
 **Où ajouter une clé** :
 - Page outil → ajoute la clé dans les blocs `FR` **et** `EN` de l'objet `i18n` du script concerné, puis pose `data-i18n="clé"` dans le HTML.

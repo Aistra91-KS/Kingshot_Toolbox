@@ -15,7 +15,8 @@ const HEADER_ICONS = {
   "crown": '<path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/>',
   "shopping-cart": '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
   "building-2": '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
-  "shield": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'
+  "shield": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  "globe": '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>'
 };
 
 function hdrSvg(name, size = 18) {
@@ -267,10 +268,10 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
       <div class="hdr-zone hdr-right">
         <div class="pfp hdr-dd" id="hdr-profile"></div>
         <div class="header-lang-wrapper">
-          <select id="global-lang-select" class="header-lang-select">
-            <option value="FR">FR</option>
-            <option value="EN">EN</option>
-          </select>
+          <button type="button" class="app-header-lang" id="header-lang-toggle" title="Language / Langue" aria-label="Change language">
+            ${hdrSvg('globe', 20)}
+            <span class="hdr-lang-code" id="header-lang-code">FR</span>
+          </button>
         </div>
         <button class="app-header-theme" id="header-theme-toggle" onclick="toggleHeaderTheme()" title="Changer le thème">
           <span id="header-theme-icon">🌙</span>
@@ -305,18 +306,32 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
   hdrShowSwitchToast();
 
   if (window.GlobalLang) {
-    window.GlobalLang.applyToSelect('global-lang-select');
+    hdrInitLangToggle();
     document.documentElement.lang = hdrLang().toLowerCase();
   }
 })();
+
+// ---------- Bouton langue (bascule FR ⇄ EN, desktop) ----------
+function hdrUpdateLangCode() {
+  const code = document.getElementById('header-lang-code');
+  if (code) code.textContent = hdrLang();
+}
+function hdrInitLangToggle() {
+  const btn = document.getElementById('header-lang-toggle');
+  if (!btn) return;
+  hdrUpdateLangCode();
+  btn.addEventListener('click', () => {
+    if (!window.GlobalLang) return;
+    window.GlobalLang.set(hdrLang() === 'FR' ? 'EN' : 'FR');
+  });
+}
 
 // Re-rendu au changement de langue
 // (NB : un appel résiduel à hdrRenderGames() — fonction jamais définie, reliquat
 // de l'ère multi-jeux — levait ici une ReferenceError qui court-circuitait les
 // trois re-rendus ci-dessous : le header ne se retraduisait jamais.)
 window.addEventListener('langChanged', (e) => {
-  const select = document.getElementById('global-lang-select');
-  if (select && e.detail) select.value = e.detail.lang;
+  hdrUpdateLangCode();
   if (e.detail) document.documentElement.lang = (e.detail.lang || 'en').toLowerCase();
   hdrRenderCategories();
   hdrRenderTools();
