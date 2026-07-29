@@ -53,6 +53,10 @@ Le tableau des marches affiche déjà le **nombre exact** de troupes, avec un pe
 
 Les niveaux et réglages de l'**Académie de Guerre** font désormais partie de la Sauvegarde Globale (export / import).
 
+### 🌐 Sélecteur de langue plus net dans le bandeau
+
+Sur ordinateur, le choix **FR / EN** devient un **petit bouton rond** assorti au bouton de thème juste à côté : un clic bascule la langue, avec le code affiché dans une pastille dorée. Le bandeau du haut est ainsi plus homogène.
+
 ## EN
 
 ### 👥 Multiple profiles: manage several accounts on one site
@@ -78,3 +82,7 @@ The march table already shows the **exact** troop numbers, with a small percenta
 ### 💾 Global Backup: War Academy included
 
 War Academy levels and settings are now part of Global Backup (export / import).
+
+### 🌐 Cleaner language switch in the top bar
+
+On desktop, the **FR / EN** choice becomes a **small round button** matching the theme button right next to it: one click flips the language, with the current code shown in a golden badge. The top bar now looks tidier and more consistent.
