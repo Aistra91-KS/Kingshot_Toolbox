@@ -2159,3 +2159,168 @@ body.has-app-header .db-section table.db-table thead th.num { text-align: right;
   /* Onglets de navigation entre entités : compacts mais cliquables. */
   body.has-app-header .db-switch-item { font-size: 12px; padding: 5px 11px; }
 }
+
+/* ============================================================
+   PROFILS (comptes multiples) — pastille header, panneau,
+   drawer mobile, modale de gestion, toast de bascule.
+   Réutilise .hdr-dd (ouverture) et .backup-* (modale).
+   ============================================================ */
+
+/* --- Pastille profil (desktop, dans .hdr-right) --- */
+.pfp { position: relative; }
+.pfp-trigger {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--control-bg); border: 1px solid var(--border);
+  border-radius: 22px; padding: 4px 8px 4px 4px;
+  cursor: pointer; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.pfp-trigger:hover { border-color: var(--accent); }
+.pfp.open .pfp-trigger { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,184,64,0.12); }
+.pfp-chevron { color: var(--accent); font-size: 11px; transition: transform 0.2s ease; }
+.pfp.open .pfp-chevron { transform: rotate(180deg); }
+
+/* Avatar à initiale + anneau coloré par profil */
+.pfp-avatar {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--bg-panel); color: var(--text-light);
+  font-weight: 800; font-size: 13px; line-height: 1; text-transform: uppercase;
+  border: 2px solid var(--ring, var(--accent));
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.25) inset;
+  flex-shrink: 0;
+}
+.pfp-avatar.lg { width: 42px; height: 42px; font-size: 17px; border-width: 2.5px; }
+.pfp-avatar.sm { width: 26px; height: 26px; font-size: 12px; }
+
+/* --- Panneau (hérite .hdr-dd-panel pour l'anim/position) --- */
+.pfp-panel { padding: 8px; max-width: 300px; min-width: 240px; left: auto; right: 0; transform: translateY(-6px); }
+.pfp.open .pfp-panel { transform: translateY(0); }
+.pfp-head {
+  color: var(--text-muted); text-transform: uppercase;
+  font-size: 10px; letter-spacing: 1.2px; font-weight: 700;
+  padding: 4px 8px 8px;
+}
+.pfp-list { display: flex; flex-direction: column; gap: 3px; max-height: 240px; overflow-y: auto; }
+.pfp-row {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  background: transparent; border: 1px solid transparent; border-radius: 9px;
+  padding: 7px 9px; cursor: pointer; color: var(--text-light);
+  font-family: inherit; font-size: 13.5px; transition: background 0.15s, border-color 0.15s;
+}
+.pfp-row:hover { background: var(--control-bg); }
+.pfp-row.active { border-color: rgba(245,184,64,0.4); background: rgba(245,184,64,0.07); cursor: default; }
+.pfp-row-name { flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pfp-row-badge {
+  font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+  background: var(--accent); color: #0a0a0a; padding: 2px 7px; border-radius: 8px; flex-shrink: 0;
+}
+.pfp-sep { height: 1px; background: var(--border); margin: 7px 4px; }
+.pfp-act {
+  display: flex; align-items: center; gap: 9px; width: 100%; text-align: left;
+  background: transparent; border: none; border-radius: 9px;
+  padding: 9px; cursor: pointer; color: var(--text-light);
+  font-family: inherit; font-size: 13px; font-weight: 600; transition: background 0.15s, color 0.15s;
+}
+.pfp-act:hover { background: var(--control-bg); color: var(--accent); }
+.pfp-act .pfp-act-ic { color: var(--accent); font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+
+/* Bloc langue+thème : replié dans le panneau UNIQUEMENT en mode condensé */
+.pfp-chrome { display: none; }
+.app-header.hdr-condensed .pfp-chrome { display: block; }
+.pfp-chrome-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 8px 9px;
+}
+.pfp-chrome-row > span { color: var(--text-muted); font-size: 12px; font-weight: 600; }
+.pfp-chrome-lang { display: flex; gap: 6px; }
+.pfp-chrome-lang button {
+  background: var(--control-bg); border: 1px solid var(--border); color: var(--text-light);
+  padding: 5px 12px; border-radius: 16px; font-weight: 700; font-size: 12px; cursor: pointer;
+}
+.pfp-chrome-lang button.active { background: var(--accent); color: #0a0a0a; border-color: var(--accent); }
+.pfp-chrome-theme {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  background: var(--control-bg); border: 1px solid var(--border); font-size: 16px; line-height: 1; padding: 0;
+}
+
+/* Mode condensé : on retire langue + thème de la barre (place rendue aux outils) */
+.app-header.hdr-condensed .header-lang-wrapper,
+.app-header.hdr-condensed .app-header-theme { display: none; }
+
+/* La pastille profil n'apparaît que sur desktop (mobile → bloc dans le drawer) */
+@media (max-width: 820px) { .pfp { display: none; } }
+
+/* --- Bloc profil en haut du drawer (mobile) --- */
+.drawer-profile { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.drawer-profile-card {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  background: var(--control-bg); border: 1px solid var(--border); border-radius: 12px;
+  padding: 12px; cursor: pointer; color: var(--text-light); font-family: inherit; text-align: left;
+}
+.drawer-profile-card:hover { border-color: var(--accent); }
+.drawer-profile-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.drawer-profile-label { display: block; color: var(--text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+.drawer-profile-name { display: block; font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.drawer-profile-chevron { color: var(--accent); font-size: 12px; transition: transform 0.2s; flex-shrink: 0; }
+.drawer-profile.open .drawer-profile-chevron { transform: rotate(180deg); }
+.drawer-profile-body { display: none; margin-top: 10px; }
+.drawer-profile.open .drawer-profile-body { display: block; }
+.drawer-profile-row {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  background: transparent; border: 1px solid transparent; border-radius: 9px;
+  padding: 9px; cursor: pointer; color: var(--text-light); font-family: inherit; font-size: 14px; text-align: left;
+}
+.drawer-profile-row:hover { background: var(--control-bg); }
+.drawer-profile-row.active { border-color: rgba(245,184,64,0.4); background: rgba(245,184,64,0.07); }
+.drawer-profile-row .pfp-row-name { flex: 1; font-weight: 600; }
+.drawer-profile-manage {
+  display: flex; align-items: center; gap: 9px; width: 100%; margin-top: 4px;
+  background: transparent; border: none; border-radius: 9px; padding: 10px 9px;
+  cursor: pointer; color: var(--accent); font-family: inherit; font-size: 13.5px; font-weight: 600; text-align: left;
+}
+.drawer-profile-manage:hover { background: var(--control-bg); }
+
+/* --- Modale de gestion (réutilise .backup-overlay/.backup-modal) --- */
+.pfp-modal-desc { color: var(--text-light); font-size: 14px; line-height: 1.6; margin: 0 0 20px; }
+.pfp-manage-list { display: flex; flex-direction: column; gap: 10px; }
+.pfp-manage-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--control-bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px;
+}
+.pfp-manage-row.active { border-color: rgba(245,184,64,0.45); }
+.pfp-manage-input {
+  flex: 1; min-width: 0; background: var(--input-bg); color: var(--text-light);
+  border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px;
+  font-family: inherit; font-size: 14px; font-weight: 600; outline: none;
+}
+.pfp-manage-input:focus { border-color: var(--accent); }
+.pfp-manage-btn {
+  background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+  border-radius: 6px; padding: 7px 11px; cursor: pointer; font-size: 12px; font-weight: 700;
+  white-space: nowrap; transition: all 0.15s;
+}
+.pfp-manage-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.pfp-manage-btn.danger:hover:not(:disabled) { border-color: var(--warning); color: var(--warning); }
+.pfp-manage-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.pfp-manage-badge {
+  font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+  background: var(--accent); color: #0a0a0a; padding: 3px 8px; border-radius: 8px; white-space: nowrap;
+}
+.pfp-manage-hint {
+  margin-top: 18px; padding: 11px 13px; border-radius: 8px;
+  background: rgba(245,184,64,0.06); border: 1px solid rgba(245,184,64,0.25);
+  color: var(--text-muted); font-size: 12.5px; line-height: 1.5;
+}
+.pfp-manage-new { margin-top: 16px; }
+
+/* --- Toast de bascule --- */
+.pfp-toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(16px);
+  display: flex; align-items: center; gap: 11px;
+  background: var(--bg-panel); border: 1px solid var(--accent); border-radius: 12px;
+  padding: 12px 18px; box-shadow: 0 12px 34px rgba(0,0,0,0.5);
+  color: var(--text-light); font-size: 14px; font-weight: 600;
+  z-index: 10010; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.pfp-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
