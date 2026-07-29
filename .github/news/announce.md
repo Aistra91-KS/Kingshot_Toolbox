@@ -1,10 +1,10 @@
 <!-- kshub-news
 version: 1
-covers-until: f07e686ca6cca03869678c2b11a65701fa77bcd8
-generated: 2026-07-28
+covers-until: 783b0f154d0d33cd1a115fd50eea7ccc4d6b6c5f
+generated: 2026-07-29
 ping:
-title-fr: ⚔️ Académie de Guerre : bilan KvK plus clair
-title-en: ⚔️ War Academy: clearer KvK breakdown
+title-fr: 👥 Plusieurs profils : sépare tes comptes
+title-en: 👥 Multiple profiles: keep your accounts apart
 -->
 
 <!--
@@ -29,44 +29,60 @@ Clés facultatives de l'en-tête :
 
 ## FR
 
-### ⚔️ Académie de Guerre : un bilan KvK plus clair et plus juste
+### 👥 Plusieurs profils : gère plusieurs comptes sur un même site
 
-L'outil Académie de Guerre reçoit plusieurs améliorations :
+Tu joues sur plusieurs comptes (principal, ferme…) ? Tu peux désormais garder des **profils séparés**, chacun avec ses **propres données** : héros, niveaux, calculs, formations… Tout bascule d'un coup quand tu changes de profil.
 
-- **Bilan KvK enrichi** : en plus des points, il affiche maintenant la **quantité de poussières** et le **temps d'accélérateurs** que ton plan consomme.
-- **Calcul des points corrigé** : les points liés aux accélérateurs tiennent enfin compte de ton **bonus de vitesse**. Plus ton bonus est élevé, moins tu brûles d'accélérateurs — et le total de points reste cohérent (1000 pts par poussière + 30 pts par minute d'accélérateur réellement utilisée).
-- **Temps d'amélioration réel** : le temps affiché sur chaque recherche est désormais celui **réduit par ton bonus de vitesse**.
-- **Icônes Archers corrigées** : les icônes arc et flèche, qui étaient inversées, sont remises dans le bon sens.
+- **Pastille de profil** dans le bandeau du haut (sur ordinateur) et **bloc profil en haut du menu** (sur mobile) : change de compte, crée-en un, ou gère-les.
+- **« Gérer les profils »** pour renommer, ajouter ou supprimer un profil.
+- La **langue** et le **thème** restent communs à tous les profils.
+- **Tes données actuelles deviennent ton premier profil** — rien n'est perdu.
+- La **Sauvegarde Globale** exporte / importe le profil actif : pratique pour transférer un compte vers un autre appareil.
 
-### 🛒 « Shop Calc » devient « Shop Value »
+*Astuce : sur ordinateur, le bandeau du haut se réorganise tout seul quand la place manque — la langue et le thème se rangent dans le menu profil pour ne rien chevaucher.*
 
-L'outil de valeur de boutique est renommé **Shop Value** pour être plus parlant, et son badge « beta » a été repositionné.
+### 🛡️ Vikings : saisis tes troupes en nombres exacts, pas en pourcentages
 
-### 📚 Bases de données peaufinées
+Le tableau des marches affiche déjà le **nombre exact** de troupes, avec un petit pourcentage à côté. Beaucoup recopient le pourcentage en jeu (c'est plus rapide), mais le curseur % du jeu **arrondit** et tombe à côté de la répartition idéale.
 
-- Tables **plus lisibles sur mobile** (défilement horizontal, première colonne figée).
-- Le **« X »** des descriptions de compétences est mis en valeur en doré.
-- Les effets d'Expert à deux valeurs s'affichent sur **deux colonnes** distinctes.
-- Valeurs de coût d'EXP / manuscrits de maîtrise ajustées, plus quelques coquilles FR corrigées.
+- Un **encadré** au-dessus du tableau explique pourquoi taper le **nombre exact**, avec un exemple chiffré de l'écart (ex. 57 % donnerait 95 652 au lieu de 95 095, soit +557 par marche).
+- Les pourcentages arrondis affichent maintenant un **« ≈ »** pour ne plus passer pour des valeurs exactes.
+- Sur téléphone, un **bouton copier** à côté de chaque nombre te permet de le coller directement dans le jeu.
+
+### 💾 Sauvegarde Globale : Académie de Guerre incluse
+
+Les niveaux et réglages de l'**Académie de Guerre** font désormais partie de la Sauvegarde Globale (export / import).
+
+### 🌐 Sélecteur de langue plus net dans le bandeau
+
+Sur ordinateur, le choix **FR / EN** devient un **petit bouton rond** assorti au bouton de thème juste à côté : un clic bascule la langue, avec le code affiché dans une pastille dorée. Le bandeau du haut est ainsi plus homogène.
 
 ## EN
 
-### ⚔️ War Academy: a clearer, fairer KvK breakdown
+### 👥 Multiple profiles: manage several accounts on one site
 
-The War Academy tool gets several improvements:
+Playing on more than one account (main, farm…)? You can now keep **separate profiles**, each with its **own data**: heroes, levels, calculations, formations… Everything switches at once when you change profile.
 
-- **Richer KvK breakdown**: on top of the points, it now shows how much **dust** and how much **speedup time** your plan consumes.
-- **Fixed point maths**: speedup points finally account for your **speed bonus**. The higher your bonus, the fewer speedups you burn — and the total stays consistent (1000 pts per dust + 30 pts per speedup minute actually used).
-- **Real upgrade time**: the time shown on each research is now the one **reduced by your speed bonus**.
-- **Fixed Archer icons**: the bow and arrow icons, which were swapped, are back the right way round.
+- **Profile pill** in the top bar (on desktop) and a **profile block at the top of the menu** (on mobile): switch account, create one, or manage them.
+- **"Manage profiles"** to rename, add or delete a profile.
+- **Language** and **theme** stay shared across all profiles.
+- **Your current data becomes your first profile** — nothing is lost.
+- **Global Backup** exports / imports the active profile: handy to move an account to another device.
 
-### 🛒 "Shop Calc" is now "Shop Value"
+*Tip: on desktop, the top bar reorganises itself when space runs low — language and theme fold into the profile menu so nothing overlaps.*
 
-The shop-value tool has been renamed **Shop Value** to be clearer, and its "beta" badge has been repositioned.
+### 🛡️ Vikings: enter exact troop counts, not percentages
 
-### 📚 Databases polished
+The march table already shows the **exact** troop numbers, with a small percentage next to them. Many players just reuse that percentage in-game (it's faster), but the game's % slider **rounds** and lands off the ideal split.
 
-- Tables that are **easier to read on mobile** (horizontal scroll, frozen first column).
-- The **"X"** in skill descriptions is now highlighted in gold.
-- Two-value Expert effects are shown in **two separate columns**.
-- Mastery EXP-cost / manuscript values adjusted, plus a few French typo fixes.
+- A **callout** above the table explains why to type the **exact number**, with a worked example of the drift (e.g. 57% would give 95,652 instead of 95,095 — that's +557 per march).
+- Rounded percentages now show a **"≈"** so they no longer look exact.
+- On phones, a **copy button** next to each troop count lets you paste it straight into the game.
+
+### 💾 Global Backup: War Academy included
+
+War Academy levels and settings are now part of Global Backup (export / import).
+
+### 🌐 Cleaner language switch in the top bar
+
+On desktop, the **FR / EN** choice becomes a **small round button** matching the theme button right next to it: one click flips the language, with the current code shown in a golden badge. The top bar now looks tidier and more consistent.
