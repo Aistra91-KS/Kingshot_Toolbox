@@ -1518,33 +1518,16 @@ tbody tr:hover {
     opacity: 0.6;
 }
 
+/* Les portraits viennent de img/Master/hd/ en 600x800, exactement le ratio 3:4
+   de ce cadre (240x320) : `cover` ne recadre donc rien. Plus besoin du
+   filter: blur() qui masquait la pixellisation des anciennes vignettes 124 px
+   au prix d'une image floue. */
 .master-portrait {
     height: 320px;
     background-size: cover;
     background-position: center top;
     border-bottom: 2px solid var(--border);
     position: relative;
-    /* Astuce Anti-Pixel : un très léger flou et un boost de contraste pour lisser l'image */
-    filter: blur(0.6px) contrast(1.1);
-    transform: translateZ(0); /* Force l'accélération matérielle pour le rendu */
-}
-
-#modal-header-bg {
-    /* Lissage algorithmique puissant pour les images basse résolution */
-    image-rendering: smooth;
-    /* On augmente un peu le flou et la luminosité pour effacer les pixels carrés */
-    filter: blur(1px) contrast(1.15) brightness(1.05);
-}
-
-.master-portrait {
-    height: 320px;
-    background-size: cover;
-    background-position: center top;
-    border-bottom: 2px solid var(--border);
-    position: relative;
-    image-rendering: smooth;
-    filter: blur(0.8px) contrast(1.1);
-    transform: translateZ(0); 
 }
 
 .master-portrait::after {

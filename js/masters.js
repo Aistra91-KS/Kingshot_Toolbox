@@ -70,6 +70,16 @@ const REL_STAGES = [
 function imgFileName(name) {
   return encodeURIComponent(String(name).replace(/ /g, '_'));
 }
+
+// Portrait d'Expert pour CETTE page : version haute définition (600x800).
+// Les vignettes d'origine d'img/Master/ font 96 à 124 px ; ici elles sont
+// affichées sur 320 px de haut (carte) et 400x150 (tiroir), soit un
+// agrandissement x2,6 à x3,2 — d'où l'aspect pixélisé.
+// Les pages database/masters/* gardent img/Master/ : à 84-92 px d'affichage
+// les vignettes y sont nettes, et leur poids est bien moindre.
+function masterPortrait(nameEN) {
+  return `img/Master/hd/${imgFileName(nameEN)}.webp`;
+}
 function getStageObj(level) {
   return REL_STAGES.find(s => s.level === level) || REL_STAGES[0];
 }
@@ -208,9 +218,7 @@ function renderMastersGrid() {
         const displayLevel = userData.displayLevel || 0;
         const stageLevel = computeAffinity(master, displayLevel, userData.breakthroughs || {}).tierLevel;
         const isLocked = displayLevel < 1;
-        
-       // Nom sécurisé pour le chemin d'image
-        const safeImgName = imgFileName(master.name['EN']);
+
         const mName = master.name[lang] || master.name['EN'];
         const mTitle = master.title[lang] || master.title['EN'];
 
@@ -220,7 +228,7 @@ function renderMastersGrid() {
         const card = document.createElement('div');
         card.className = `master-card ${isLocked ? 'locked' : ''}`;
         card.innerHTML = `
-            <div class="master-portrait" style="background-image: url('img/Master/${safeImgName}.webp');"></div>
+            <div class="master-portrait" style="background-image: url('${masterPortrait(master.name['EN'])}');"></div>
             <div class="master-info">
                 <h3 class="master-name">${mName}</h3>
                 <div class="master-title">${mTitle}</div>
@@ -244,9 +252,8 @@ function openMasterModal(master, userData) {
     };
 
     let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
-    const safeImgName = imgFileName(master.name['EN']);
 
-    document.getElementById('modal-header-bg').style.backgroundImage = `url('img/Master/${safeImgName}.webp')`;
+    document.getElementById('modal-header-bg').style.backgroundImage = `url('${masterPortrait(master.name['EN'])}')`;
     document.getElementById('modal-master-name').textContent = master.name[lang] || master.name['EN'];
     const nameInline = document.getElementById('modal-master-name-inline');
     if (nameInline) nameInline.textContent = master.name[lang] || master.name['EN'];
