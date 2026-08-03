@@ -37,8 +37,8 @@
     { "name": "Town Center",    "current": 30, "target": 35 },
     { "name": "Embassy",        "current": 30, "target": 35 },
     { "name": "Barracks",       "current": 30, "target": 30 },
-    { "name": "Stable",         "current": 30, "target": 30 },
     { "name": "Range",          "current": 30, "target": 30 },
+    { "name": "Stable",         "current": 30, "target": 30 },
     { "name": "Command Center", "current": 27, "target": 30 },
     { "name": "Infirmary",      "current": 25, "target": 30 },
     { "name": "War Academy",    "current": 25, "target": 25 }

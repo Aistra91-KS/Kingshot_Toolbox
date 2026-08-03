@@ -2321,3 +2321,144 @@ body.has-app-header .db-section table.db-table thead th.num { text-align: right;
   z-index: 10010; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .pfp-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ============================================================
+   TRUEGOLD — PLAN D'AMÉLIORATION CHRONOLOGIQUE
+   Une série = des niveaux consécutifs sur un même bâtiment,
+   numérotée dans l'ordre réel d'exécution (un bâtiment peut
+   revenir plusieurs fois). Repliable : le détail niveau par
+   niveau est masqué par défaut.
+   ============================================================ */
+
+.tg-plan-hint {
+  color: var(--text-muted); font-size: 12.5px; line-height: 1.5;
+  margin: 0 0 10px; padding-left: 24px;
+}
+
+.tg-plan { display: flex; flex-direction: column; gap: 8px; }
+
+.tg-serie {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--success);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tg-serie.is-wip { border-left-color: var(--warning); }
+
+/* --- En-tête cliquable (résumé toujours visible) --- */
+.tg-serie-head {
+  list-style: none; cursor: pointer; user-select: none;
+  touch-action: manipulation;
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; min-height: 44px;
+  transition: background 0.2s;
+}
+.tg-serie-head::-webkit-details-marker { display: none; }
+.tg-serie-head:hover { background: rgba(245,184,64,0.06); }
+.tg-serie-head:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.tg-serie-num {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 24px; height: 24px; padding: 0 5px;
+  border-radius: 50%;
+  background: var(--control-bg); border: 1px solid var(--border);
+  color: var(--accent); font-size: 12px; font-weight: 800; line-height: 1;
+}
+.tg-serie.is-wip .tg-serie-num { color: var(--warning); }
+
+.tg-serie-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+
+.tg-serie-title { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; line-height: 1.4; }
+.tg-serie-icon { display: inline-flex; }
+.tg-serie-icon svg { color: var(--accent); vertical-align: middle; }
+.tg-serie-name { color: var(--text-light); font-size: 14.5px; }
+.tg-serie-from { color: var(--text-muted); font-size: 13px; }
+.tg-serie-arrow { color: var(--text-muted); font-size: 13px; }
+.tg-serie-to { color: var(--accent); font-size: 13.5px; font-weight: 700; }
+
+.tg-serie-count {
+  background: var(--control-bg); border: 1px solid var(--border); border-radius: 20px;
+  padding: 1px 8px; color: var(--text-muted); font-size: 11.5px; font-weight: 600;
+}
+.tg-serie-status {
+  border-radius: 20px; padding: 1px 8px;
+  font-size: 11.5px; font-weight: 700;
+  color: var(--success); background: rgba(78,205,196,0.12); border: 1px solid var(--success);
+}
+.tg-serie.is-wip .tg-serie-status {
+  color: var(--warning); background: rgba(255,140,66,0.12); border-color: var(--warning);
+}
+
+.tg-serie-sub { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--text-muted); font-size: 12.5px; }
+.tg-serie-sub strong { color: var(--text-light); font-weight: 700; }
+
+.tg-serie-unlock { color: var(--text-muted); font-size: 12px; }
+.tg-serie-unlock strong { color: var(--accent); font-weight: 700; }
+
+.tg-serie-chev {
+  flex: 0 0 auto; align-self: center;
+  color: var(--text-muted); font-size: 13px;
+  transition: transform 0.2s ease, color 0.2s;
+}
+.tg-serie[open] .tg-serie-chev { transform: rotate(90deg); color: var(--accent); }
+.tg-serie-head:hover .tg-serie-chev { color: var(--accent); }
+
+/* --- Détail niveau par niveau --- */
+.tg-serie-body {
+  border-top: 1px solid var(--border);
+  padding: 8px 12px 12px;
+  animation: tgReveal 0.18s ease;
+}
+@keyframes tgReveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* Le tableau défile dans sa boîte (7 colonnes ne tiennent pas sur mobile).
+   Ombres de bord en CSS pur : elles n'apparaissent que s'il reste du contenu
+   à faire défiler de ce côté (couches `local` = masque, `scroll` = ombre). */
+.tg-steps-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background:
+    linear-gradient(to right, var(--bg-panel) 30%, rgba(255,255,255,0)) left center / 22px 100% no-repeat local,
+    linear-gradient(to left,  var(--bg-panel) 30%, rgba(255,255,255,0)) right center / 22px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, var(--tg-scroll-edge), rgba(255,255,255,0)) left center / 11px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, var(--tg-scroll-edge), rgba(255,255,255,0)) right center / 11px 100% no-repeat scroll;
+}
+:root { --tg-scroll-edge: rgba(255,255,255,0.18); }          /* sombre : bord clair */
+[data-theme="light"] { --tg-scroll-edge: rgba(0,0,0,0.20); } /* clair  : bord sombre */
+
+/* Largeur au contenu (même convention que les tables des pages Base de Données) :
+   chaque en-tête reste collé à ses valeurs au lieu d'être écarté par un grand vide. */
+.tg-steps { width: auto; margin: 0; font-size: 13px; border-collapse: collapse; }
+.tg-steps th {
+  background: transparent; color: var(--text-muted);
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+  padding: 5px 8px; border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.tg-steps td {
+  padding: 6px 8px; border-bottom: 1px solid var(--border);
+  color: var(--text-light); white-space: nowrap;
+}
+.tg-steps tbody tr:last-child td { border-bottom: none; }
+.tg-steps tbody tr:hover td { background: var(--table-row-alt); }
+.tg-steps th.num, .tg-steps td.num { text-align: right; }
+.tg-steps td.num { font-variant-numeric: tabular-nums; }
+.tg-steps th:not(.num), .tg-steps td:not(.num) { padding-right: 18px; }
+
+.tg-steps .tg-ord { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.tg-steps .tg-tier { color: var(--accent); font-weight: 700; }
+.tg-steps .tg-pts { color: var(--success); font-weight: 600; }
+.tg-steps .tg-none { color: var(--text-muted); }
+.tg-steps .tg-left { display: block; color: var(--warning); font-size: 11px; }
+.tg-steps tr.is-wip td { background: rgba(255,140,66,0.07); }
+
+/* --- Mobile : on empile le résumé, le détail garde son scroll horizontal --- */
+@media (max-width: 600px) {
+  .tg-plan-hint { padding-left: 0; }
+  .tg-serie-head { padding: 10px; gap: 8px; }
+  .tg-serie-name { font-size: 14px; }
+  .tg-serie-sub { gap: 3px 10px; font-size: 12px; }
+  .tg-steps { font-size: 12.5px; }
+  .tg-steps th, .tg-steps td { padding: 5px 6px; }
+}
