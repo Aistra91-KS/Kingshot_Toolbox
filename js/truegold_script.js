@@ -8,6 +8,23 @@ let dbDataRaw = [];
 let levelsByBuilding = {};
 let bldgMap = {};
 let buildingsState = [];
+let defaultBuildingsRef = [];   // sert d'ordre d'affichage canonique (cf. normalizeBuildingOrder)
+
+// Icônes Lucide par bâtiment — partagées entre le tableau et le plan d'amélioration
+const BLDG_ICONS = {
+    "Town Center":    () => iconSvg('landmark', 16),
+    "Embassy":        () => iconSvg('handshake', 16),
+    "Infirmary":      () => iconSvg('heart-pulse', 16),
+    "Command Center": () => iconSvg('star', 16),
+    "War Academy":    () => iconSvg('swords', 16),
+    "Barracks":       () => iconSvg('shield', 16),
+    "Range":          () => iconSvg('target', 16),
+    "Stable":         () => '<svg class="ic" width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.42 11.256a.97.97 0 0 1 .92-.662h7.321c.417 0 .787.267.92.662l.747 2.244H1.672z"/><path d="M3.572 10.594c.158-.83 1.306-1.783 2.117-2.418c1.945-1.522 1.765-2.824 1.447-3.177L5.193 6.11a1.23 1.23 0 0 1-1.437-.154v0a1.23 1.23 0 0 1-.237-1.543L4.983 1.93L4.42.658c.93-.33 3.501-.155 4.518.635c1.27.989 2.894 2.489 1.553 9.3"/><path d="M7.773 3.971a1.9 1.9 0 0 1-.631 1.03"/></svg>'
+};
+
+function bldgIcon(nom) {
+    return BLDG_ICONS[nom] ? BLDG_ICONS[nom]() : iconSvg('building-2', 16);
+}
 
 // Index des colonnes — dbDataRaw (bâtiments) et rangeDataTTG (transformations)
 const COL     = { NAME: 0, LEVEL: 1, LABEL: 2, TG: 4, TTG: 5, TIME: 11 };
@@ -65,11 +82,18 @@ const i18n = {
         'newStocks': "💰 New Stocks:",
         'tgRemaining': "Remaining TG: ",
         'ttgRemaining': "Remaining TTG: ",
-        'plan': "🏗️ Improvement Plan:",
-        'step': " ➡️ step ",
-        'inProgress': "(Left in construction)",
-        'completed': "(Completed)",
-        'costCum': "Cumulated cost:",
+        'plan': "🏗️ Improvement Plan (in order):",
+        'planHint': "Follow the steps top to bottom: this is the order the prerequisites unlock in. Click a step to see the cost of each level.",
+        'levelsShort': "lvl",
+        'unlocks': "unlocks",
+        'colStep': "#",
+        'colTier': "Tier",
+        'colDuration': "Build time",
+        'colSpeedup': "Speedups",
+        'colPoints': "KVK points",
+        'remaining': "left",
+        'inProgress': "Left in construction",
+        'completed': "Completed",
         'timeMgt': "⚡ Time Management:",
         'timeCons': "Speedups time consumed: ",
         'bilan': "📊 KVK Breakdown:",
@@ -78,8 +102,6 @@ const i18n = {
         'pts': " KVK points",
         'accelUsed': " speedups used =",
         'totalMax': "🚀 Maximum total to obtain : ",
-        'tgAnd': " TG and ",
-        'ttgClose': " TTG.",
         'panTitle': "Construction Bonus (PAN)",
         'panSource': "Source",
         'panReduc': "Reduction (hours)",
@@ -137,11 +159,18 @@ const i18n = {
         'newStocks': "💰 Nouveaux Stocks :",
         'tgRemaining': "TG Restants : ",
         'ttgRemaining': "TTG Restants : ",
-        'plan': "🏗️ Plan d'Amélioration :",
-        'step': " ➡️ étape ",
-        'inProgress': "(Laissé en construction)",
-        'completed': "(Terminé)",
-        'costCum': "Coût cumulé :",
+        'plan': "🏗️ Plan d'Amélioration (dans l'ordre) :",
+        'planHint': "Suis les étapes de haut en bas : c'est l'ordre dans lequel les prérequis se débloquent. Clique sur une étape pour voir le coût de chaque niveau.",
+        'levelsShort': "niv.",
+        'unlocks': "débloque",
+        'colStep': "N°",
+        'colTier': "Palier",
+        'colDuration': "Construction",
+        'colSpeedup': "Accélérateurs",
+        'colPoints': "Points KVK",
+        'remaining': "restant",
+        'inProgress': "Laissé en construction",
+        'completed': "Terminé",
         'timeMgt': "⚡ Gestion du Temps :",
         'timeCons': "Temps d'accélérateurs consommé : ",
         'bilan': "📊 Bilan KVK :",
@@ -150,8 +179,6 @@ const i18n = {
         'pts': " points KVK",
         'accelUsed': " d'accélérateurs utilisés = ",
         'totalMax': "🚀 Total maximal à obtenir : ",
-        'tgAnd': " TG et ",
-        'ttgClose': " TTG.",
         'panTitle': "Bonus de construction (PAN)",
         'panSource': "Source",
         'panReduc': "Réduction (heures)",
@@ -220,10 +247,11 @@ async function loadDatabase() {
         }
         
         // Tout est OK, on assigne les données
-        rangeDataTTG     = data.rangeDataTTG;
-        dbDataRaw        = data.dbDataRaw;
-        levelsByBuilding = buildLevelsByBuilding(data.levelsReference, data.buildingsConfig); // Générer levelsByBuilding dynamiquement à partir de la référence
-        bldgMap          = data.bldgMap;
+        rangeDataTTG        = data.rangeDataTTG;
+        dbDataRaw           = data.dbDataRaw;
+        levelsByBuilding    = buildLevelsByBuilding(data.levelsReference, data.buildingsConfig); // Générer levelsByBuilding dynamiquement à partir de la référence
+        bldgMap             = data.bldgMap;
+        defaultBuildingsRef = data.defaultBuildings;
         
         // Si pas de buildings sauvegardés, on prend les defaults du JSON
         const saved = localStorage.getItem(STORAGE_KEYS.truegold);
@@ -263,17 +291,21 @@ function getLocName(enName) {
     return bldgMap[enName] ? bldgMap[enName][lang] : enName;
 }
 
+// Remet buildingsState dans l'ordre d'affichage canonique du JSON (defaultBuildings).
+// Nécessaire car l'ordre est figé dans les sauvegardes locales : sans ça, un changement
+// d'ordre côté données ne serait visible que par les nouveaux joueurs.
+function normalizeBuildingOrder() {
+    if (!Array.isArray(defaultBuildingsRef) || defaultBuildingsRef.length === 0) return;
+    const rank = {};
+    defaultBuildingsRef.forEach((b, i) => { rank[b.name] = i; });
+    buildingsState.sort((a, b) => (rank[a.name] ?? 99) - (rank[b.name] ?? 99));
+}
+
 // ============ RENDER BUILDINGS ============
 function renderBuildings() {
     const container = document.getElementById('buildings-container');
     container.innerHTML = '';
     const tx = i18n[GlobalLang.get()];
-    
-    const emojis = {
-        "Town Center": iconSvg('landmark',16), "Embassy": iconSvg('handshake',16), "Infirmary": iconSvg('heart-pulse',16),
-        "Command Center": iconSvg('star',16), "War Academy": iconSvg('swords',16),
-        "Barracks": iconSvg('shield',16), "Stable": '<svg class="ic" width="16" height="16" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.42 11.256a.97.97 0 0 1 .92-.662h7.321c.417 0 .787.267.92.662l.747 2.244H1.672z"/><path d="M3.572 10.594c.158-.83 1.306-1.783 2.117-2.418c1.945-1.522 1.765-2.824 1.447-3.177L5.193 6.11a1.23 1.23 0 0 1-1.437-.154v0a1.23 1.23 0 0 1-.237-1.543L4.983 1.93L4.42.658c.93-.33 3.501-.155 4.518.635c1.27.989 2.894 2.489 1.553 9.3"/><path d="M7.773 3.971a1.9 1.9 0 0 1-.631 1.03"/></svg>', "Range": iconSvg('target',16)
-    };
 
     buildingsState.forEach((b, index) => {
         let nom = b.name;
@@ -297,7 +329,7 @@ function renderBuildings() {
 
         let tr = document.createElement('tr');
         tr.innerHTML = `
-            <td class="bldg-name"><input type="checkbox" class="bldg-toggle" title="${tx.inclSuggest}" style="vertical-align:middle; margin-right:6px;" ${b.enabled !== false ? 'checked' : ''} onchange="toggleBuildingEnabled(${index}, this.checked)"><span class="bldg-icon">${emojis[nom] || iconSvg('building-2',16)}</span> ${getLocName(nom)}</td>
+            <td class="bldg-name"><input type="checkbox" class="bldg-toggle" title="${tx.inclSuggest}" style="vertical-align:middle; margin-right:6px;" ${b.enabled !== false ? 'checked' : ''} onchange="toggleBuildingEnabled(${index}, this.checked)"><span class="bldg-icon">${bldgIcon(nom)}</span> ${getLocName(nom)}</td>
             <td><select class="table-select" onchange="updateBuildingLvl(${index}, this.value, 'current')">${curOptions}</select></td>
             <td><select class="table-select" onchange="updateBuildingLvl(${index}, this.value, 'target')">${tgtOptions}</select></td>
             <td id="tg-cost-${index}">0</td>
@@ -607,6 +639,17 @@ function runCalculator() {
 }
 
 // ============ STRATEGIC OPTIMIZER ============
+
+// Le plan est re-généré à chaque saisie (innerHTML) : on mémorise les séries dépliées
+// pour ne pas les refermer sous les doigts du joueur. Clé stable = bâtiment + palier
+// de départ/arrivée, donc insensible aux changements qui ne touchent pas cette série.
+const TG_OPEN_SERIES = new Set();
+function tgRememberOpen(el) {
+    const cle = el.getAttribute('data-key');
+    if (!cle) return;
+    if (el.open) TG_OPEN_SERIES.add(cle); else TG_OPEN_SERIES.delete(cle);
+}
+
 function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, accelJours, accelHeures, accelMinutes, mode, scoreCible, tx, rangeTableur, rangeDatabase, rangeDataTTG, lang) {
     const modeKVK = (mode === 'kvk');
     const modeTarget = (mode === 'target');
@@ -680,25 +723,34 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     // Mapping des noms raccourcis dans les prérequis vers les noms DB
     const prereqNameMap = { 'academy': 'War Academy' };
 
-    // Vérifie les prérequis TG d'une amélioration à partir du texte DB (col 3).
-    // Retourne false si un prérequis n'est pas rempli.
-    function checkPrereqsTG(prereqText, etatBats) {
-        if (!prereqText) return true;
+    // Extrait les prérequis TG du texte DB (col 3) → [{nom, major}].
+    function parsePrereqTG(prereqText) {
+        if (!prereqText) return [];
+        const reqs = [];
         const lines = prereqText.split(/[,\n]+/).map(l => l.trim()).filter(Boolean);
         for (const line of lines) {
             const m = line.match(/^(.+?)\s+TG\s*(?:Lv\.\s*)?([\d]+)/i);
             if (!m) continue; // prérequis non-TG (ex: "Embassy Lv. 30") → toujours rempli dans le tier TG
             let reqName = m[1].trim();
-            const reqTGMajor = parseInt(m[2]);
             const mapped = prereqNameMap[reqName.toLowerCase()];
             if (mapped) reqName = mapped;
-            const bState = etatBats.find(b => b.nom === reqName);
+            reqs.push({ nom: reqName, major: parseInt(m[2]) });
+        }
+        return reqs;
+    }
+
+    // Vérifie les prérequis TG d'une amélioration.
+    // Retourne false si un prérequis n'est pas rempli.
+    function checkPrereqsTG(prereqText, etatBats) {
+        const reqs = parsePrereqTG(prereqText);
+        for (const req of reqs) {
+            const bState = etatBats.find(b => b.nom === req.nom);
             if (!bState) continue; // bâtiment non suivi
             const effLvl = bState.enCours ? bState.lvl - 1 : bState.lvl;
             const bDB = db[bState.nom] && db[bState.nom][effLvl];
             if (!bDB) return false;
             const bTG = parseTG(bDB.label);
-            if (!bTG.isTG || bTG.major < reqTGMajor) return false;
+            if (!bTG.isTG || bTG.major < req.major) return false;
         }
         return true;
     }
@@ -731,21 +783,33 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         let stockAccelSimule = stockAccelMinutesTotal;
         let filesAttenteDisponibles = 2;
 
+        const pointsCourants = () => (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+
+        // Mode cible uniquement : achève avec des accélérateurs la construction en cours
+        // la plus courte. Ça libère une file ET fait vraiment monter le bâtiment d'un
+        // palier — donc ça débloque les bâtiments qui attendaient ce palier.
+        // Retourne false s'il n'y a rien à finir ou pas assez d'accélérateurs.
+        function finirUneConstruction() {
+            const restant = a => a.tempsReel - a.minutesAccelerables;
+            const finissables = ameliorationsFaites.filter(a => a.estEnCours && restant(a) <= stockAccelSimule);
+            if (finissables.length === 0) return false;
+            finissables.sort((a, b) => restant(a) - restant(b));
+            const aFinir = finissables[0];
+            const aAjouter = restant(aFinir);
+            stockAccelSimule -= aAjouter;
+            accelMinutesUtilisees += aAjouter;
+            aFinir.minutesAccelerables = aFinir.tempsReel;
+            aFinir.estEnCours = false;
+            etatBatiments[aFinir.index].enCours = false;
+            filesAttenteDisponibles++;
+            return true;
+        }
+
         while (true) {
             if (filesAttenteDisponibles === 0) {
                 if (!modeTarget) break;
-                const ptsCourantsQ = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
-                if (ptsCourantsQ >= scoreCible) break;
-                const finissables = ameliorationsFaites.filter(a => a.estEnCours && a.tempsReel <= stockAccelSimule);
-                if (finissables.length === 0) break;
-                finissables.sort((a, b) => a.tempsReel - b.tempsReel);
-                const aFinir = finissables[0];
-                stockAccelSimule -= aFinir.tempsReel;
-                accelMinutesUtilisees += aFinir.tempsReel;
-                aFinir.minutesAccelerables = aFinir.tempsReel;
-                aFinir.estEnCours = false;
-                etatBatiments[aFinir.index].enCours = false;
-                filesAttenteDisponibles++;
+                if (pointsCourants() >= scoreCible) break;
+                if (!finirUneConstruction()) break;
                 continue;
             }
 
@@ -774,6 +838,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                             ttg: couts.ttg,
                             tempsReel: tempsReelMinutes,
                             minutesAccelerables: minutesAAccelerer,
+                            prereq: couts.prereq,
                             poidsKVK: gainKVKRessources + gainKVKAccel,
                             poidsCout: couts.tg + (couts.ttg * 15)
                         });
@@ -781,11 +846,19 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                 }
             }
 
-            if (ameliorationsDisponibles.length === 0) break;
+            if (ameliorationsDisponibles.length === 0) {
+                // En mode cible, les améliorations ne sont jamais accélérées à la sélection :
+                // la première reste « en construction » et son bâtiment est gelé. Comme tout
+                // l'arbre dépend du palier TG du Centre-ville, plus rien n'était disponible et
+                // le plan s'arrêtait après une seule étape. On termine donc la construction la
+                // plus courte pour rouvrir l'arbre, tant que la cible n'est pas atteinte.
+                if (modeTarget && pointsCourants() < scoreCible && finirUneConstruction()) continue;
+                break;
+            }
 
             let meilleurChoix;
             if (modeTarget) {
-                const ptsCourants = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                const ptsCourants = pointsCourants();
                 const ecart = scoreCible - ptsCourants;
                 const franchisseurs = ameliorationsDisponibles.filter(a => a.poidsKVK >= ecart);
                 if (franchisseurs.length > 0) {
@@ -823,7 +896,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             ameliorationsFaites.push(meilleurChoix);
 
             if (modeTarget) {
-                const ptsCourants = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                const ptsCourants = pointsCourants();
                 if (ptsCourants >= scoreCible) {
                     break;
                 } else {
@@ -837,24 +910,25 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             }
         }
 
-        // Mode cible : combler un éventuel petit manque avec un minimum d'accélérateurs
-        if (modeTarget && ameliorationsFaites.length > 0) {
-            const ptsApresGreedy = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
-            if (ptsApresGreedy < scoreCible && stockAccelSimule > 0) {
-                const minutesManquantes = Math.ceil((scoreCible - ptsApresGreedy) / 30);
-                const enCours = ameliorationsFaites.filter(a => a.estEnCours && a.minutesAccelerables < a.tempsReel);
-                if (enCours.length > 0) {
-                    const build = enCours[0];
-                    const maxAjout = Math.min(minutesManquantes, stockAccelSimule, build.tempsReel - build.minutesAccelerables);
-                    if (maxAjout > 0) {
-                        build.minutesAccelerables += maxAjout;
-                        accelMinutesUtilisees += maxAjout;
-                        stockAccelSimule -= maxAjout;
-                        if (build.minutesAccelerables >= build.tempsReel) {
-                            build.estEnCours = false;
-                            etatBatiments[build.index].enCours = false;
-                        }
-                    }
+        // Mode cible : combler un éventuel manque avec un minimum d'accélérateurs.
+        // On passe sur TOUTES les constructions en cours : chacune est plafonnée par son
+        // propre temps restant, donc une seule ne suffit pas toujours à couvrir l'écart
+        // (le plan tombait alors à quelques centaines de points de la cible).
+        if (modeTarget) {
+            for (const build of ameliorationsFaites) {
+                const manque = scoreCible - pointsCourants();
+                if (manque <= 0 || stockAccelSimule <= 0) break;
+                if (!build.estEnCours) continue;
+                const restant = build.tempsReel - build.minutesAccelerables;
+                if (restant <= 0) continue;
+                const ajout = Math.min(Math.ceil(manque / 30), stockAccelSimule, restant);
+                if (ajout <= 0) continue;
+                build.minutesAccelerables += ajout;
+                accelMinutesUtilisees += ajout;
+                stockAccelSimule -= ajout;
+                if (build.minutesAccelerables >= build.tempsReel) {
+                    build.estEnCours = false;
+                    etatBatiments[build.index].enCours = false;
                 }
             }
         }
@@ -1023,29 +1097,56 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         }
     }
 
-    // ============ GROUPEMENT DES AMÉLIORATIONS PAR BÂTIMENT ============
-    const batimentsGroupes = {};
+    // ============ SÉRIES CHRONOLOGIQUES ============
+    // Le plan se lit de haut en bas dans l'ordre réel d'exécution : on regroupe seulement
+    // les niveaux consécutifs d'un même bâtiment. Un bâtiment peut donc revenir plusieurs
+    // fois — c'est l'escalier imposé par les prérequis croisés (Centre-ville ⇄ Ambassade
+    // et bâtiments de troupes). Regrouper par bâtiment, comme avant, donnait une liste
+    // impossible à appliquer telle quelle en jeu.
+    const series = [];
     for (let i = 0; i < meilleurScenario.ameliorations.length; i++) {
         const amelio = meilleurScenario.ameliorations[i];
-        if (!batimentsGroupes[amelio.nom]) {
-            batimentsGroupes[amelio.nom] = { labelFinal: "", totalTG: 0, totalTTG: 0, totalTempsReel: 0, estEnCours: false };
+        amelio.ordre = i + 1;
+        amelio.points = (amelio.tg * 2000) + (amelio.ttg * 30000) + (amelio.minutesAccelerables * 30);
+        const derniere = series[series.length - 1];
+        if (derniere && derniere.nom === amelio.nom) {
+            derniere.etapes.push(amelio);
+        } else {
+            const niveauPrecedent = db[amelio.nom] && db[amelio.nom][amelio.niveauCible - 1];
+            series.push({
+                nom: amelio.nom,
+                labelDepart: niveauPrecedent ? niveauPrecedent.label : '',
+                etapes: [amelio]
+            });
         }
-        batimentsGroupes[amelio.nom].labelFinal = amelio.labelCible;
-        batimentsGroupes[amelio.nom].totalTG += amelio.tg;
-        batimentsGroupes[amelio.nom].totalTTG += amelio.ttg;
-        batimentsGroupes[amelio.nom].totalTempsReel += amelio.tempsReel;
-        batimentsGroupes[amelio.nom].estEnCours = amelio.estEnCours;
     }
 
-    // Tri : terminés en premier, en cours en dernier
-    const listeAffichage = [];
-    for (const [nomBatiment, data] of Object.entries(batimentsGroupes)) {
-        listeAffichage.push({ nom: nomBatiment, data: data });
+    for (const s of series) {
+        s.labelFin    = s.etapes[s.etapes.length - 1].labelCible;
+        s.totalTG     = s.etapes.reduce((n, e) => n + e.tg, 0);
+        s.totalTTG    = s.etapes.reduce((n, e) => n + e.ttg, 0);
+        s.totalTemps  = s.etapes.reduce((n, e) => n + e.tempsReel, 0);
+        s.totalPoints = s.etapes.reduce((n, e) => n + e.points, 0);
+        s.estEnCours  = s.etapes.some(e => e.estEnCours);
+        s.majorDepart = parseTG(s.labelDepart).major;
+        s.majorFin    = parseTG(s.labelFin).major;
     }
-    listeAffichage.sort((a, b) => {
-        if (a.data.estEnCours === b.data.estEnCours) return 0;
-        return a.data.estEnCours ? 1 : -1;
-    });
+
+    // Quelle série débloque quelle autre : la première série suivante dont le 1er niveau
+    // exige ce bâtiment à un palier TG que seule cette série vient d'atteindre.
+    for (let i = 0; i < series.length; i++) {
+        const s = series[i];
+        if (s.majorFin <= s.majorDepart) continue;
+        for (let j = i + 1; j < series.length; j++) {
+            const suivante = series[j];
+            const req = parsePrereqTG(suivante.etapes[0].prereq)
+                .find(r => r.nom === s.nom && r.major > s.majorDepart && r.major <= s.majorFin);
+            if (req) {
+                s.debloque = { ordre: j + 1, nom: suivante.nom, label: suivante.etapes[0].labelCible };
+                break;
+            }
+        }
+    }
 
     // ============ GÉNÉRATION DU HTML FINAL ============
     const titreMode = modeKVK ? tx.optKVK : (modeTarget ? tx.optTarget : tx.optQty);
@@ -1089,22 +1190,71 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     html += `<div style="padding-left:24px;">${tx.ttgRemaining}<strong style="color:${c_or};">${fmt(meilleurScenario.nouveauStockTTG)}</strong></div>`;
     html += `</div>`;
 
-    // Plan d'amélioration
+    // Plan d'amélioration — séries chronologiques repliables
     html += `<div style="margin-bottom:15px;">`;
     html += `<div style="font-size:15px; font-weight:bold; margin-bottom:6px;">${tx.plan}</div>`;
-    for (let i = 0; i < listeAffichage.length; i++) {
-        const nom = listeAffichage[i].nom;
-        const data = listeAffichage[i].data;
-        const statutColor = data.estEnCours ? c_rubis : c_turquoise;
-        const statut = data.estEnCours ? tx.inProgress : tx.completed;
-        const nomLoc = (typeof getLocName === 'function') ? getLocName(nom) : nom;
-        html += `<div style="padding-left:24px; margin-bottom:4px;">`;
-        html += `• <strong>${nomLoc}</strong>${tx.step}<strong style="color:${c_or};">${data.labelFinal}</strong> `;
-        html += `<span style="color:${statutColor}; font-weight:bold;">${statut}</span> `;
-        html += `<span style="color:var(--text-muted); font-size:13px;">${tx.costCum}<strong>${fmt(data.totalTG)}</strong>${tx.tgAnd}<strong>${fmt(data.totalTTG)}</strong>${tx.ttgClose}</span>`;
-        html += `</div>`;
+    html += `<div class="tg-plan-hint">${tx.planHint}</div>`;
+    html += `<div class="tg-plan">`;
+
+    for (let i = 0; i < series.length; i++) {
+        const s = series[i];
+        const nomLoc = (typeof getLocName === 'function') ? getLocName(s.nom) : s.nom;
+        const icone = (typeof bldgIcon === 'function') ? bldgIcon(s.nom) : '';
+        const statut = s.estEnCours ? tx.inProgress : tx.completed;
+        const cle = `${s.nom}|${s.labelDepart}>${s.labelFin}`;
+        const ouvert = TG_OPEN_SERIES.has(cle) ? ' open' : '';
+
+        html += `<details class="tg-serie${s.estEnCours ? ' is-wip' : ''}"${ouvert} data-key="${cle}" ontoggle="tgRememberOpen(this)">`;
+        html += `<summary class="tg-serie-head">`;
+        html += `<span class="tg-serie-num">${i + 1}</span>`;
+        html += `<span class="tg-serie-main">`;
+        html += `<span class="tg-serie-title">`;
+        html += `<span class="tg-serie-icon">${icone}</span>`;
+        html += `<strong class="tg-serie-name">${nomLoc}</strong>`;
+        if (s.labelDepart) html += `<span class="tg-serie-from">${s.labelDepart}</span><span class="tg-serie-arrow">→</span>`;
+        html += `<span class="tg-serie-to">${s.labelFin}</span>`;
+        html += `<span class="tg-serie-count">${s.etapes.length} ${tx.levelsShort}</span>`;
+        html += `<span class="tg-serie-status">${statut}</span>`;
+        html += `</span>`;
+        html += `<span class="tg-serie-sub">`;
+        html += `<span><strong>${fmt(s.totalTG)}</strong> TG</span><span><strong>${fmt(s.totalTTG)}</strong> TTG</span>`;
+        html += `<span>⏱️ <strong>${formatMinutes(s.totalTemps)}</strong></span>`;
+        html += `<span>🏆 <strong>+${fmt(s.totalPoints)}</strong></span>`;
+        html += `</span>`;
+        if (s.debloque) {
+            const nomDeb = (typeof getLocName === 'function') ? getLocName(s.debloque.nom) : s.debloque.nom;
+            html += `<span class="tg-serie-unlock">🔓 ${tx.unlocks} <strong>#${s.debloque.ordre} ${nomDeb} ${s.debloque.label}</strong></span>`;
+        }
+        html += `</span>`;
+        html += `<span class="tg-serie-chev" aria-hidden="true">▸</span>`;
+        html += `</summary>`;
+
+        html += `<div class="tg-serie-body"><div class="tg-steps-scroll"><table class="tg-steps">`;
+        html += `<thead><tr><th>${tx.colStep}</th><th>${tx.colTier}</th><th class="num">TG</th><th class="num">TTG</th><th class="num">${tx.colDuration}</th><th class="num">${tx.colSpeedup}</th><th class="num">${tx.colPoints}</th></tr></thead><tbody>`;
+        for (const e of s.etapes) {
+            const reste = e.tempsReel - e.minutesAccelerables;
+            let cellAccel;
+            if (e.minutesAccelerables <= 0) {
+                cellAccel = `<span class="tg-none">—</span>`;
+            } else {
+                cellAccel = formatMinutes(e.minutesAccelerables);
+            }
+            if (reste > 0) cellAccel += `<span class="tg-left">${formatMinutes(reste)} ${tx.remaining}</span>`;
+            html += `<tr${e.estEnCours ? ' class="is-wip"' : ''}>`;
+            html += `<td class="tg-ord">${e.ordre}</td>`;
+            html += `<td class="tg-tier">${e.labelCible}</td>`;
+            html += `<td class="num">${fmt(e.tg)}</td>`;
+            html += `<td class="num">${e.ttg > 0 ? fmt(e.ttg) : '<span class="tg-none">—</span>'}</td>`;
+            html += `<td class="num">${formatMinutes(e.tempsReel)}</td>`;
+            html += `<td class="num">${cellAccel}</td>`;
+            html += `<td class="num tg-pts">+${fmt(e.points)}</td>`;
+            html += `</tr>`;
+        }
+        html += `</tbody></table></div></div>`;
+        html += `</details>`;
     }
-    html += `</div>`;
+
+    html += `</div></div>`;
 
     // Gestion du temps
     html += `<div style="margin-bottom:15px;">`;
@@ -1149,7 +1299,8 @@ function tgInitHelp() {
                 "Décoche la case devant un bâtiment pour l'exclure des suggestions (quel que soit le mode) : il reste figé à son niveau actuel et sert toujours de prérequis aux autres.",
                 "Choisis le mode : « Max points KVK » (rentabilité maximale en points), « Max bâtiments » (en monter le plus possible), ou « Score cible » (atteindre un score précis au coût le plus bas).",
                 "En mode « Score cible », saisis le score visé : l'outil trouve la combinaison la moins chère (bâtiments + transformations + accélérateurs) pour l'atteindre.",
-                "Lis la « Stratégie » : les bâtiments à améliorer et le total de TG, TTG et accélérateurs nécessaires."
+                "Lis le « Plan d'Amélioration » de haut en bas : les étapes sont numérotées dans l'ordre où il faut les faire en jeu. Un bâtiment revient plusieurs fois, c'est normal : le Centre-ville et l'Ambassade/les bâtiments de troupes se débloquent mutuellement, palier après palier (la mention 🔓 indique quelle étape est débloquée).",
+                "Clique sur une étape pour déplier le détail niveau par niveau : coût en TG et TTG, temps de construction, accélérateurs consommés et points KVK gagnés."
             ],
             EN: [
                 "Enter your TrueGold (TG) and Tempered TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
@@ -1158,7 +1309,8 @@ function tgInitHelp() {
                 "Uncheck the box next to a building to exclude it from the suggestions (in any mode): it stays frozen at its current level and still counts as a prerequisite for the others.",
                 "Pick a mode: “Max KVK points” (best points value), “Max buildings” (upgrade as many as possible), or “Target score” (reach a specific score at the lowest cost).",
                 "In “Target score” mode, type the score you aim for: the tool finds the cheapest combination (buildings + transformations + speedups) to reach it.",
-                "Read the “Strategy”: which buildings to upgrade and the total TG, TTG and speedups required."
+                "Read the “Improvement Plan” top to bottom: steps are numbered in the order you should do them in game. A building coming back several times is normal — the Town Center and the Embassy/troop buildings unlock each other, tier after tier (the 🔓 note tells you which step gets unlocked).",
+                "Click a step to unfold the level-by-level detail: TG and TTG cost, build time, speedups used and KVK points earned."
             ]
         }
     });
@@ -1168,6 +1320,7 @@ function tgInitHelp() {
 (async function startup() {
     await loadDatabase();
     loadData();
+    normalizeBuildingOrder();
     await loadPanBonus();
     triggerUpdate();
     tgInitHelp();
