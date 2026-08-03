@@ -105,6 +105,7 @@ Kingshot_Toolbox/
 │   ├── WarAcademy/               Icônes recherches Académie de Guerre (.webp)
 │   ├── heroes/                   Portraits héros (.webp)
 │   ├── Master/ + MasterSkill/    Portraits experts + icônes skills experts (.webp)
+│   │   └── Master/hd/            Portraits pleine page 600×800 pour `masters.html` uniquement (cf. §5)
 │   ├── skills/ + widgetname/ + widgetskill/  Icônes skills héros & widgets (.webp)
 │   ├── Item/                     Icônes objets boutique/ressources (.webp)
 │   └── pets/                     Familiers : portraits (.webp ×14) + sous-dossier skills/ (icônes compétence, .webp ×14)
@@ -212,6 +213,11 @@ Or éclatant sur noir profond, turquoise pour la validation, rubis pour l'alerte
 **Header — pastille profil + adaptatif (Option B)** : la zone droite du header porte une pastille profil (avatar à initiale + anneau coloré par profil, réutilise le mécanisme `.hdr-dd`). Sur desktop, quand la rangée d'outils est **rognée** (mesure : `need = cat + hdr-tools.scrollWidth` vs `hdr-center.clientWidth`, avec **hystérésis** anti-clignotement, cf. `hdrEvaluateAdaptive`), le header passe en `.hdr-condensed` : langue + thème quittent la barre et se replient dans le panneau profil (`.pfp-chrome`), rendant la place aux outils. Sous 820px la nav (dont langue/thème) vit dans le drawer, qui reçoit en tête un bloc profil. Toute l'UI profil est dans `header.js` (`hdrBuildProfile`, `hdrOpenProfilesModal`, `hdrInitAdaptive`…).
 
 **Plan d'amélioration TrueGold (`.tg-plan`)** : le résultat de l'optimiseur est affiché en **séries chronologiques** — des niveaux consécutifs d'un même bâtiment, numérotées dans l'ordre réel d'exécution. Un bâtiment **réapparaît** autant de fois que l'escalier des prérequis l'impose (Centre-ville ⇄ Ambassade + bâtiments de troupes) ; ne jamais regrouper par bâtiment, la liste deviendrait inapplicable en jeu. Chaque série est un `<details>` (`.tg-serie`) : l'en-tête donne totaux TG/TTG, durée, points KVK, statut et la mention `🔓 débloque #n …` (calculée en croisant les prérequis TG de la série suivante) ; le corps déplié contient le tableau niveau par niveau (`.tg-steps`, largeur au contenu, colonnes num. à droite, ombres de bord CSS pour le scroll mobile). L'état déplié survit aux re-rendus via `TG_OPEN_SERIES` (clé `bâtiment|départ>arrivée`).
+
+**Portraits d'Experts — deux jeux d'images selon la taille d'affichage** :
+- `img/Master/<Nom>.webp` (96–124 px) : vignettes d'origine, utilisées par les pages `database/masters/*` qui les affichent en 84–92 px. Nettes à cette taille, et légères. **Ne pas les remplacer.**
+- `img/Master/hd/<Nom>.webp` (600×800) : portraits pleine page pour `masters.html` seul, servis par le helper `masterPortrait()` de `js/masters.js`. Le cadre `.master-portrait` fait 320 px de haut (et `#modal-header-bg` 400×150) : les vignettes d'origine y subissaient un agrandissement ×2,6 à ×3,2, d'où la pixellisation — que des `filter: blur()` masquaient au prix d'une image floue (supprimés).
+- **Ratio 3:4 imposé** : `.master-portrait` fait 240×320, donc une source 600×800 n'est pas recadrée par `background-size: cover`. Les captures de jeu n'ont pas ce ratio ; elles sont calées en *contain* puis les bandes manquantes sont comblées en moyennant les pixels du bord (le fond doré est un dégradé lisse, la jointure est invisible). Rogner quelques pixels de bordure sur la source est nécessaire : les captures portent des salissures collées au cadre qui ressortiraient à la jointure.
 
 **Modales de détail (Caserne / Experts)** : tiroir latéral 400px sur desktop, plein écran + onglets sous 820px. Les sections de `#modal-body` portent `data-mtab="<clé>"` ; `js/modal-tabs.js` génère la barre `.mtabs` et n'affiche qu'un panneau à la fois (classe `.mtab-on`). Un panneau vide masque son onglet. Ajouter une section = poser `data-mtab` + déclarer la clé dans `PAGES` du module.
 
