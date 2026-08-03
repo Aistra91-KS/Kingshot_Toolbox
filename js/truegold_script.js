@@ -783,21 +783,33 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         let stockAccelSimule = stockAccelMinutesTotal;
         let filesAttenteDisponibles = 2;
 
+        const pointsCourants = () => (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+
+        // Mode cible uniquement : achève avec des accélérateurs la construction en cours
+        // la plus courte. Ça libère une file ET fait vraiment monter le bâtiment d'un
+        // palier — donc ça débloque les bâtiments qui attendaient ce palier.
+        // Retourne false s'il n'y a rien à finir ou pas assez d'accélérateurs.
+        function finirUneConstruction() {
+            const restant = a => a.tempsReel - a.minutesAccelerables;
+            const finissables = ameliorationsFaites.filter(a => a.estEnCours && restant(a) <= stockAccelSimule);
+            if (finissables.length === 0) return false;
+            finissables.sort((a, b) => restant(a) - restant(b));
+            const aFinir = finissables[0];
+            const aAjouter = restant(aFinir);
+            stockAccelSimule -= aAjouter;
+            accelMinutesUtilisees += aAjouter;
+            aFinir.minutesAccelerables = aFinir.tempsReel;
+            aFinir.estEnCours = false;
+            etatBatiments[aFinir.index].enCours = false;
+            filesAttenteDisponibles++;
+            return true;
+        }
+
         while (true) {
             if (filesAttenteDisponibles === 0) {
                 if (!modeTarget) break;
-                const ptsCourantsQ = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
-                if (ptsCourantsQ >= scoreCible) break;
-                const finissables = ameliorationsFaites.filter(a => a.estEnCours && a.tempsReel <= stockAccelSimule);
-                if (finissables.length === 0) break;
-                finissables.sort((a, b) => a.tempsReel - b.tempsReel);
-                const aFinir = finissables[0];
-                stockAccelSimule -= aFinir.tempsReel;
-                accelMinutesUtilisees += aFinir.tempsReel;
-                aFinir.minutesAccelerables = aFinir.tempsReel;
-                aFinir.estEnCours = false;
-                etatBatiments[aFinir.index].enCours = false;
-                filesAttenteDisponibles++;
+                if (pointsCourants() >= scoreCible) break;
+                if (!finirUneConstruction()) break;
                 continue;
             }
 
@@ -834,11 +846,19 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                 }
             }
 
-            if (ameliorationsDisponibles.length === 0) break;
+            if (ameliorationsDisponibles.length === 0) {
+                // En mode cible, les améliorations ne sont jamais accélérées à la sélection :
+                // la première reste « en construction » et son bâtiment est gelé. Comme tout
+                // l'arbre dépend du palier TG du Centre-ville, plus rien n'était disponible et
+                // le plan s'arrêtait après une seule étape. On termine donc la construction la
+                // plus courte pour rouvrir l'arbre, tant que la cible n'est pas atteinte.
+                if (modeTarget && pointsCourants() < scoreCible && finirUneConstruction()) continue;
+                break;
+            }
 
             let meilleurChoix;
             if (modeTarget) {
-                const ptsCourants = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                const ptsCourants = pointsCourants();
                 const ecart = scoreCible - ptsCourants;
                 const franchisseurs = ameliorationsDisponibles.filter(a => a.poidsKVK >= ecart);
                 if (franchisseurs.length > 0) {
@@ -876,7 +896,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             ameliorationsFaites.push(meilleurChoix);
 
             if (modeTarget) {
-                const ptsCourants = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
+                const ptsCourants = pointsCourants();
                 if (ptsCourants >= scoreCible) {
                     break;
                 } else {
@@ -890,24 +910,25 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             }
         }
 
-        // Mode cible : combler un éventuel petit manque avec un minimum d'accélérateurs
-        if (modeTarget && ameliorationsFaites.length > 0) {
-            const ptsApresGreedy = (tgDepenseAmelio * 2000) + (ttgDepenseAmelio * 30000) + (accelMinutesUtilisees * 30);
-            if (ptsApresGreedy < scoreCible && stockAccelSimule > 0) {
-                const minutesManquantes = Math.ceil((scoreCible - ptsApresGreedy) / 30);
-                const enCours = ameliorationsFaites.filter(a => a.estEnCours && a.minutesAccelerables < a.tempsReel);
-                if (enCours.length > 0) {
-                    const build = enCours[0];
-                    const maxAjout = Math.min(minutesManquantes, stockAccelSimule, build.tempsReel - build.minutesAccelerables);
-                    if (maxAjout > 0) {
-                        build.minutesAccelerables += maxAjout;
-                        accelMinutesUtilisees += maxAjout;
-                        stockAccelSimule -= maxAjout;
-                        if (build.minutesAccelerables >= build.tempsReel) {
-                            build.estEnCours = false;
-                            etatBatiments[build.index].enCours = false;
-                        }
-                    }
+        // Mode cible : combler un éventuel manque avec un minimum d'accélérateurs.
+        // On passe sur TOUTES les constructions en cours : chacune est plafonnée par son
+        // propre temps restant, donc une seule ne suffit pas toujours à couvrir l'écart
+        // (le plan tombait alors à quelques centaines de points de la cible).
+        if (modeTarget) {
+            for (const build of ameliorationsFaites) {
+                const manque = scoreCible - pointsCourants();
+                if (manque <= 0 || stockAccelSimule <= 0) break;
+                if (!build.estEnCours) continue;
+                const restant = build.tempsReel - build.minutesAccelerables;
+                if (restant <= 0) continue;
+                const ajout = Math.min(Math.ceil(manque / 30), stockAccelSimule, restant);
+                if (ajout <= 0) continue;
+                build.minutesAccelerables += ajout;
+                accelMinutesUtilisees += ajout;
+                stockAccelSimule -= ajout;
+                if (build.minutesAccelerables >= build.tempsReel) {
+                    build.estEnCours = false;
+                    etatBatiments[build.index].enCours = false;
                 }
             }
         }
