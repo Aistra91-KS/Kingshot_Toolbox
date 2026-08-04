@@ -1,5 +1,32 @@
 [
   {
+    "id": "Polar_Shop",
+    "name": {
+      "EN": "Polar Shop",
+      "FR": "Magasin Polaire"
+    },
+    "endsAt": "2026-08-13T00:00:00Z",
+    "resourceName": {"EN": "Jeton de Champion","FR": "Pièces des Étoiles Jumelles"
+    },
+    "items": [
+      {
+        "itemId": "mythic_general_decoration_component","qty": 1,"cost": 60,"qtyMax": 2, "dailyReset": true},
+      {"itemId": "town_skin", "qty": 1, "cost": 45000, "qtyMax": 1, "skinId": "Nanook_Sphere"},
+      {"itemId": "town_skin", "qty": 1, "cost": 45000, "qtyMax": 1, "skinId": "Emperor_Penguin_Slopes"},
+      {"itemId": "custom_nameplate", "qty": 1, "cost": 1500, "qtyMax": 1, "skinId": "Frostcrown"},
+      {"itemId": "mithril","qty": 1,"cost": 750,"qtyMax": 40},
+      {"itemId": "forgehammers","qty": 1,"cost": 30,"qtyMax": 600},
+      {"itemId": "lucky_hero_gear_chest","qty": 1,"cost": 30,"qtyMax": 600},
+      {"itemId": "truegold","qty": 1,"cost": 12,"qtyMax": 1600},
+      {"itemId": "governor_gear_material_chest","qty": 1,"cost": 30,"qtyMax": 600},
+      {"itemId": "artisan_s_vision","qty": 1,"cost": 12,"qtyMax": 1600},
+      {"itemId": "charm_design","qty": 1,"cost": 13,"qtyMax": 1300},
+      {"itemId": "charm_guide","qty": 1,"cost": 13,"qtyMax": 1300},
+      {"itemId": "1h_general_speedup","qty": 1,"cost": 14,"qtyMax": 1200},
+      {"itemId": "1h_general_speedup","qty": 1,"cost": 14,"qtyMax": 9999}
+    ]
+  },
+  {
     "id": "Summit_Contest_Champion_store",
     "name": {
       "EN": "Summit Contest Champion Shop",
