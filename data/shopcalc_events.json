@@ -6,7 +6,7 @@
       "FR": "Magasin Polaire"
     },
     "endsAt": "2026-08-12T00:00:00Z",
-    "resourceName": {"EN": "Jeton de Champion","FR": "Pièces des Étoiles Jumelles"
+    "resourceName": {"EN": "Twinstar Coin","FR": "Pièces des Étoiles Jumelles"
     },
     "items": [
       {
@@ -33,7 +33,7 @@
       "FR": "Magasin Champion de la Ligue Suprême"
     },
     "endsAt": "2026-08-25T00:00:00Z",
-    "resourceName": {"EN": "Jeton de Champion","FR": "Champion token"
+    "resourceName": {"FR": "Jeton de Champion","EN": "Champion token"
     },
     "items": [
       {
@@ -64,7 +64,7 @@
       "FR": "Magasin Ordinaire de la Ligue Suprême"
     },
     "endsAt": "2026-08-25T00:00:00Z",
-    "resourceName": {"EN": "Jeton de Ligue","FR": "League token"
+    "resourceName": {"FR": "Jeton de Ligue","EN": "League token"
     },
     "items": [
       {
