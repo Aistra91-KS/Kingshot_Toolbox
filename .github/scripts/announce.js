@@ -60,15 +60,26 @@ const embed = (title, desc) => ({
 
 // Discord plafonne à 6000 caractères l'ensemble des embeds d'un même message :
 // au-delà, on scinde en deux messages (FR puis EN) plutôt que de tronquer.
+// Une mention par langue impose aussi la scission : le `content` qui la porte
+// appartient au message, pas à l'embed — un message unique ne peut donc pinguer
+// qu'un seul rôle pour les deux langues.
 const frEmbed = embed(titleFr, fr);
 const enEmbed = embed(titleEn, en);
-const messages = (fr.length + en.length) <= 5200
+const pingFr = meta['ping-fr'] || '';
+const pingEn = meta['ping-en'] || '';
+const perLangPing = !!(pingFr || pingEn);
+const messages = (!perLangPing && (fr.length + en.length) <= 5200)
   ? [{ embeds: [frEmbed, enEmbed] }]
   : [{ embeds: [frEmbed] }, { embeds: [enEmbed] }];
 
-if (meta.ping) {
+// Rappel : une mention placée dans un embed s'affiche mais ne notifie jamais.
+const MENTIONS = { parse: ['everyone', 'roles', 'users'] };
+if (perLangPing) {
+  if (pingFr) { messages[0].content = pingFr; messages[0].allowed_mentions = MENTIONS; }
+  if (pingEn) { messages[1].content = pingEn; messages[1].allowed_mentions = MENTIONS; }
+} else if (meta.ping) {
   messages[0].content = meta.ping;
-  messages[0].allowed_mentions = { parse: ['everyone', 'roles', 'users'] };
+  messages[0].allowed_mentions = MENTIONS;
 }
 
 (async () => {

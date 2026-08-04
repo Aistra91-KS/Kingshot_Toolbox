@@ -250,7 +250,8 @@ Un seul workflow : **`discord-announce.yml`** (annonce Discord rédigée à la m
 - **Déclencheur** : push sur `main` touchant `.github/news/announce.md` (= committer ce fichier publie l'annonce) + `workflow_dispatch` avec entrée `dry_run` (aperçu sans envoi).
 - **Mécanique** : `announce.js` lit `.github/news/announce.md`, extrait l'en-tête `<!-- kshub-news … -->` et les sections `## FR` / `## EN`, et POST un message à 2 embeds sur le `DISCORD_WEBHOOK` (`secrets`). Les commentaires HTML ne sont jamais publiés → gabarit vide = aucun envoi.
 - **Pointeur** : la clé `covers-until` (SHA) de l'en-tête indique jusqu'où portait l'annonce précédente. Elle sert à lister les commits à couvrir au moment de rédiger la suivante. Aucun cache Actions, aucun commit de bot.
-- **Clés d'en-tête** : `covers-until`, `generated`, `ping` (mention, optionnel), `color` (hexa, défaut `F5B840`), `title-fr`, `title-en`.
+- **Clés d'en-tête** : `covers-until`, `generated`, `ping` (mention, optionnel), **`ping-fr` / `ping-en`** (mention propre à chaque langue), `color` (hexa, défaut `F5B840`), `title-fr`, `title-en`.
+- **Mentions** : la mention vit dans le `content` du **message**, jamais dans l'embed (une mention écrite dans un embed s'affiche mais **ne notifie personne**). Un message ne portant qu'un seul `content`, renseigner `ping-fr` et/ou `ping-en` **force l'envoi en deux messages** (FR puis EN), chacun avec sa mention. La clé `ping` seule garde l'ancien comportement (mention sur le premier message). Une mention de rôle ne notifie que sous la forme `<@&ID>` — en clair (`@MonRôle`) elle reste du texte mort.
 - **Limites Discord** : 4096 car./embed, 6000 car. cumulés → au-delà de 5200 car. (FR+EN), le script scinde en deux messages au lieu de tronquer.
 - **Convention** : committer `announce.md` **seul**. S'il part avec des modifs de site, celles-ci glissent simplement sur l'annonce suivante.
 - **Secrets** : `secrets.DISCORD_WEBHOOK`. `vars.SRC_LANG` n'est plus utilisé.
