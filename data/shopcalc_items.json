@@ -787,5 +787,19 @@
     "FR": "Appel du destin" 
   }, 
     "skin": true 
+  },
+  { "id": "Nanook_Sphere", 
+  "name": { 
+    "EN": "Nanook Sphere", 
+    "FR": "Sphère de Nanook" 
+  }, 
+    "skin": true 
+  },
+  { "id": "Emperor_Penguin_Slopes", 
+  "name": { 
+    "EN": "Emperor Penguin Slopes", 
+    "FR": "Manchot Empereur Glissant" 
+  }, 
+    "skin": true 
   }
 ]
