@@ -795,11 +795,18 @@
   }, 
     "skin": true 
   },
-  { "id": "Emperor_Penguin_Slopes", 
-  "name": { 
-    "EN": "Emperor Penguin Slopes", 
-    "FR": "Manchot Empereur Glissant" 
-  }, 
-    "skin": true 
+  { "id": "Emperor_Penguin_Slopes",
+  "name": {
+    "EN": "Emperor Penguin Slopes",
+    "FR": "Manchot Empereur Glissant"
+  },
+    "skin": true
+  },
+  { "id": "Frostcrown",
+  "name": {
+    "EN": "Frostcrown",
+    "FR": "Couronne de Givre"
+  },
+    "skin": true
   }
 ]

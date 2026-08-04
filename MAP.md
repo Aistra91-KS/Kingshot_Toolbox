@@ -67,7 +67,7 @@ Kingshot_Toolbox/
 │   ├── heroes_db.json            34 héros (génération, rareté, type, skills bilingues)
 │   ├── beartrap_joiners_db.json  Tier-list joiners Piège à Ours : rang (S>A>B>C>D) par génération de serveur (IDs héros)
 │   ├── masters_db.json           6 experts (paliers d'affinité, passif, skills)
-│   ├── shopcalc_items.json       86 objets (valeur en gemmes) — référentiel
+│   ├── shopcalc_items.json       91 objets (valeur en gemmes) — référentiel
 │   ├── shopcalc_classic.json     Boutiques classiques (contenu + coûts)
 │   ├── shopcalc_events.json      Boutiques d'événement (avec endsAt)
 │   ├── shopcalc_chests.json      Coffres personnalisés (composition)
@@ -107,7 +107,7 @@ Kingshot_Toolbox/
 │   ├── Master/ + MasterSkill/    Portraits experts + icônes skills experts (.webp)
 │   │   └── Master/hd/            Portraits pleine page 600×800 pour `masters.html` uniquement (cf. §5)
 │   ├── skills/ + widgetname/ + widgetskill/  Icônes skills héros & widgets (.webp)
-│   ├── Item/                     Icônes objets boutique/ressources (.webp)
+│   ├── Item/                     Icônes objets boutique/ressources (.webp) — **nom de fichier = `name.EN` de l'objet** (`scImg()`), carré ~100–200 px, fond transparent
 │   └── pets/                     Familiers : portraits (.webp ×14) + sous-dossier skills/ (icônes compétence, .webp ×14)
 │
 └── .github/
@@ -234,7 +234,7 @@ Toutes les données sont des **JSON éditées à la main** dans `data/` (pas de 
 | `heroes_db.json` | **Liste** de 34 héros : `{id, name{EN,FR}, generation, rarity, troopType, goodJoinerBear, skills[]}`. |
 | `beartrap_joiners_db.json` | **Objet** `{_meta, byGeneration}`. `byGeneration[gen]` = `{S:[ids], A:[…], B, C, D}` (rang du héros-joiner à cette génération de serveur, IDs = `heroes_db.json`). Cumulatif et sujet au power-creep (un même héros change de rang selon la gen). En cas de doublon d'id, le **meilleur** rang prime. Converti depuis une tier-list communautaire (xlsx non commité). |
 | `masters_db.json` | **Liste** de 6 experts : `{id, name, title, affinityBonus, affinityMilestones[{level,affinity,emblems,bonus}], passive, skills[], affinity}`. **Convention `effect`** (passif & skills) : chaîne remplaçant le(s) « X » de la phrase. Une seule valeur → ex. `"+27%"`. **Deux valeurs** (phrase à deux X) → format `"(a;b)"` (ex. `"(5;20)"`) : la BDD l'éclate en deux colonnes « Effet 1 »/« Effet 2 » (cf. §3). |
-| `shopcalc_items.json` | **Liste** de 86 objets : `{id, name{EN,FR}, category, gemValue, skin?:true}` (référentiel de valeur). |
+| `shopcalc_items.json` | **Liste** de 91 objets : `{id, name{EN,FR}, category, gemValue, skin?:true}` (référentiel de valeur). Les entrées **`skin: true`** (4 à ce jour) sont des *variantes visuelles* référencées par `skinId` dans les boutiques/coffres : elles n'ont ni `category` ni `gemValue` (la valeur reste celle de l'objet porteur, ex. `town_skin`), et fournissent le nom affiché entre parenthèses + l'image de la carte. Un `skinId` qui ne correspond à aucun id **échoue en silence** (parenthèse absente, image de l'objet porteur) — vérifier le référencement croisé après ajout. |
 | `shopcalc_classic.json` | **Liste** de boutiques : `{id, name, items[{itemId, qty, cost}]}`. |
 | `shopcalc_events.json` | **Liste** de boutiques d'événement : `{id, name, endsAt, resourceName, items…}`. |
 | `shopcalc_chests.json` | **Liste** de coffres : `{id, name, items[… , skinId?]}`. |
