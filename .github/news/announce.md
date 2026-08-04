@@ -1,10 +1,11 @@
 <!-- kshub-news
 version: 1
-covers-until: 783b0f154d0d33cd1a115fd50eea7ccc4d6b6c5f
-generated: 2026-07-29
-ping:
-title-fr: 👥 Plusieurs profils : sépare tes comptes
-title-en: 👥 Multiple profiles: keep your accounts apart
+covers-until: 3ef1da5413ffaef8d8320cade2d393b1bb9d0d8e
+generated: 2026-08-04
+ping-fr: <@&1458880135208894721>
+ping-en: <@&1458880409764102267>
+title-fr: ❄️ Magasin Polaire : quels achats valent vraiment le coup
+title-en: ❄️ Polar Shop: which buys are actually worth it
 -->
 
 <!--
@@ -22,67 +23,87 @@ ci-dessous restent vides, aucun message n'est envoyé.
 
 Clés facultatives de l'en-tête :
   ping       mention ajoutée au message (ex. @here ou <@&123456789012345678>)
+  ping-fr    mention réservée au message français
+  ping-en    mention réservée au message anglais
   color      couleur de l'embed en hexa (défaut F5B840, l'or de la charte)
   title-fr   titre de l'embed français
   title-en   titre de l'embed anglais
+
+Mentionner un rôle : une mention ne notifie QUE sous la forme <@&IDENTIFIANT>.
+Écrite en clair (@MonRole), elle s'affiche mais ne prévient personne.
+Relever l'identifiant : Discord -> Paramètres du serveur -> Rôles -> clic droit
+sur le rôle -> « Copier l'identifiant » (mode développeur activé).
+
+Un ping par langue force l'envoi en DEUX messages (français puis anglais) :
+la mention vit dans le message, pas dans l'embed, donc un message unique ne
+peut pinguer qu'un seul rôle. Avec la clé `ping` seule, tout tient en un seul
+message tant que les deux textes cumulés restent sous 5 200 caractères.
 -->
 
 ## FR
 
-### 👥 Plusieurs profils : gère plusieurs comptes sur un même site
+### ❄️ Magasin Polaire : la boutique de l'événement est dans l'outil
 
-Tu joues sur plusieurs comptes (principal, ferme…) ? Tu peux désormais garder des **profils séparés**, chacun avec ses **propres données** : héros, niveaux, calculs, formations… Tout bascule d'un coup quand tu changes de profil.
+Le **Magasin Polaire** (fin le **12 août**) est chargé dans **Valeur Boutique** → onglet *Shop d'Événement*, avec ses plafonds d'achat, sa réinitialisation quotidienne et son compte à rebours.
 
-- **Pastille de profil** dans le bandeau du haut (sur ordinateur) et **bloc profil en haut du menu** (sur mobile) : change de compte, crée-en un, ou gère-les.
-- **« Gérer les profils »** pour renommer, ajouter ou supprimer un profil.
-- La **langue** et le **thème** restent communs à tous les profils.
-- **Tes données actuelles deviennent ton premier profil** — rien n'est perdu.
-- La **Sauvegarde Globale** exporte / importe le profil actif : pratique pour transférer un compte vers un autre appareil.
+**Le classement au rapport valeur / prix** (gemmes obtenues pour 1 pièce dépensée) :
 
-*Astuce : sur ordinateur, le bandeau du haut se réorganise tout seul quand la place manque — la langue et le thème se rangent dans le menu profil pour ne rien chevaucher.*
+🥇 **Caisse de Matériaux d'Équipement du Chef** — 30 pièces → 2 600 gemmes, soit **×86,7**
+🥈 **Vision de l'Artisan** (12 → 1 000), **Marteau de Forge** (30 → 2 500) et **Fragment Universel de Héros Mythique** (60 → 5 000) — **×83,3**
+🥉 **Plans** et **Guide de Talisman** — 13 → 1 000, **×76,9**
 
-### 🛡️ Vikings : saisis tes troupes en nombres exacts, pas en pourcentages
+Ensuite **Mithril** et **Caisse d'Équipement de Héros Chanceux** (×66,7), les **Accélérateurs 1h** (×57,1), et en dernier l'**Or Véritable** (×41,7) — deux fois moins rentable que le haut du classement.
 
-Le tableau des marches affiche déjà le **nombre exact** de troupes, avec un petit pourcentage à côté. Beaucoup recopient le pourcentage en jeu (c'est plus rapide), mais le curseur % du jeu **arrondit** et tombe à côté de la répartition idéale.
+⏳ **À reprendre chaque jour** : le Fragment Universel de Héros Mythique est limité à **2 par jour**. C'est la seule ligne qui se recharge — ne la loupe pas.
 
-- Un **encadré** au-dessus du tableau explique pourquoi taper le **nombre exact**, avec un exemple chiffré de l'écart (ex. 57 % donnerait 95 652 au lieu de 95 095, soit +557 par marche).
-- Les pourcentages arrondis affichent maintenant un **« ≈ »** pour ne plus passer pour des valeurs exactes.
-- Sur téléphone, un **bouton copier** à côté de chaque nombre te permet de le coller directement dans le jeu.
+💰 **Tout rafler** (hors ligne d'accélérateurs illimitée) coûte **173 120 pièces** pour **12,23 M de gemmes** de valeur, soit **×70,6** en moyenne.
 
-### 💾 Sauvegarde Globale : Académie de Guerre incluse
+🎨 **Et les cosmétiques ?** Les deux skins de ville coûtent **45 000 pièces chacun**, la plaque *Couronne de Givre* 1 500. Ils ne rapportent aucune ressource : les 45 000 pièces d'un seul skin, placées sur les meilleures lignes, rapporteraient environ **3,8 M de gemmes**. À toi de voir si le look vaut le prix 😄
 
-Les niveaux et réglages de l'**Académie de Guerre** font désormais partie de la Sauvegarde Globale (export / import).
+*Les valeurs en gemmes viennent de l'onglet « Data Item » : si ton estimation diffère, change-la et tous les ratios se recalculent.*
 
-### 🌐 Sélecteur de langue plus net dans le bandeau
+### 🏙️ Les skins du Magasin Polaire s'affichent
 
-Sur ordinateur, le choix **FR / EN** devient un **petit bouton rond** assorti au bouton de thème juste à côté : un clic bascule la langue, avec le code affiché dans une pastille dorée. Le bandeau du haut est ainsi plus homogène.
+**Sphère de Nanook** et **Manchot Empereur Glissant** ont désormais leur image sur leur carte, au lieu d'un cadre vide. Le skin de plaque **Couronne de Givre** manquait au catalogue : son nom s'affiche à nouveau correctement.
+
+### 🏗️ TrueGold : le plan dans l'ordre où tu construis vraiment
+
+Le plan d'amélioration se lit maintenant comme une **suite d'étapes numérotées** : chaque étape regroupe les niveaux consécutifs d'un même bâtiment, et un bâtiment **revient plusieurs fois** quand les prérequis l'imposent — exactement comme en jeu. Chaque étape indique ce qu'elle **débloque** ensuite, avec ses totaux TG/TTG, sa durée et ses points KVK. Le mode **score cible** est aussi réparé : il s'arrêtait après une seule amélioration.
+
+### 🖼️ Experts : portraits nets
+
+Les portraits de la page **Experts** ne sont plus pixelisés — ils utilisent des images pleine taille. Deux icônes de compétences qui ne s'affichaient pas sont revenues.
 
 ## EN
 
-### 👥 Multiple profiles: manage several accounts on one site
+### ❄️ Polar Shop: the event store is in the tool
 
-Playing on more than one account (main, farm…)? You can now keep **separate profiles**, each with its **own data**: heroes, levels, calculations, formations… Everything switches at once when you change profile.
+The **Polar Shop** (ends **12 August**) is loaded into **Shop Value** → *Event Shop* tab, with its purchase caps, daily reset and countdown.
 
-- **Profile pill** in the top bar (on desktop) and a **profile block at the top of the menu** (on mobile): switch account, create one, or manage them.
-- **"Manage profiles"** to rename, add or delete a profile.
-- **Language** and **theme** stay shared across all profiles.
-- **Your current data becomes your first profile** — nothing is lost.
-- **Global Backup** exports / imports the active profile: handy to move an account to another device.
+**Ranked by value for money** (gems per coin spent):
 
-*Tip: on desktop, the top bar reorganises itself when space runs low — language and theme fold into the profile menu so nothing overlaps.*
+🥇 **Governor Gear Material Chest** — 30 coins → 2,600 gems, that's **×86.7**
+🥈 **Artisan's Vision** (12 → 1,000), **Forgehammers** (30 → 2,500) and **Mythic General Hero Shard** (60 → 5,000) — **×83.3**
+🥉 **Charm Design** and **Charm Guide** — 13 → 1,000, **×76.9**
 
-### 🛡️ Vikings: enter exact troop counts, not percentages
+Then **Mithril** and **Lucky Hero Gear Chest** (×66.7), the **1h Speedups** (×57.1), and last **TrueGold** (×41.7) — half as efficient as the top of the list.
 
-The march table already shows the **exact** troop numbers, with a small percentage next to them. Many players just reuse that percentage in-game (it's faster), but the game's % slider **rounds** and lands off the ideal split.
+⏳ **Grab it daily**: the Mythic General Hero Shard is capped at **2 per day**. It's the only line that refills — don't miss it.
 
-- A **callout** above the table explains why to type the **exact number**, with a worked example of the drift (e.g. 57% would give 95,652 instead of 95,095 — that's +557 per march).
-- Rounded percentages now show a **"≈"** so they no longer look exact.
-- On phones, a **copy button** next to each troop count lets you paste it straight into the game.
+💰 **Buying everything** (excluding the uncapped speedup line) costs **173,120 coins** for **12.23M gems** of value — **×70.6** on average.
 
-### 💾 Global Backup: War Academy included
+🎨 **What about cosmetics?** Both town skins cost **45,000 coins each**, the *Frostcrown* nameplate 1,500. They bring no resources: the 45,000 coins of a single skin, spent on the best lines, would return about **3.8M gems**. Your call on whether the look is worth it 😄
 
-War Academy levels and settings are now part of Global Backup (export / import).
+*Gem values come from the "Data Item" tab: if your estimate differs, change it and every ratio updates.*
 
-### 🌐 Cleaner language switch in the top bar
+### 🏙️ Polar Shop skins now show up
 
-On desktop, the **FR / EN** choice becomes a **small round button** matching the theme button right next to it: one click flips the language, with the current code shown in a golden badge. The top bar now looks tidier and more consistent.
+**Nanook Sphere** and **Emperor Penguin Slopes** now display their own picture on their card instead of an empty frame. The **Frostcrown** nameplate skin was missing from the catalogue: its name shows correctly again.
+
+### 🏗️ TrueGold: the plan in the order you actually build
+
+The upgrade plan now reads as a **numbered sequence of steps**: each step groups the consecutive levels of one building, and a building **comes back several times** when prerequisites demand it — exactly like in game. Each step shows what it **unlocks** next, with its TG/TTG totals, duration and KVK points. **Target score** mode is fixed too: it used to stop after a single upgrade.
+
+### 🖼️ Experts: sharp portraits
+
+Portraits on the **Experts** page are no longer pixelated — they use full-size images. Two skill icons that failed to show are back.
