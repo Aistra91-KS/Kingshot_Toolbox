@@ -35,6 +35,12 @@ const i18n = {
     'EN': {
         'ctrlPanel': 'Control Panel',
         'config': 'Configuration',
+        'serverTier': 'Server tier',
+        'serverTierHint': 'Highest tier open on your server',
+        'tierOverOne': " building is already past tier ",
+        'tierOverMany': " buildings are already past tier ",
+        'tierOverEndOne': " — it is left out of the suggestions.",
+        'tierOverEndMany': " — they are left out of the suggestions.",
         'lang': 'Language',
         'currentStocks': "💰 Current Stocks:",
         'baseBonus': 'Bonus Speed (%)',
@@ -112,6 +118,12 @@ const i18n = {
     'FR': {
         'ctrlPanel': 'Panneau de Contrôle',
         'config': 'Configuration',
+        'serverTier': 'Palier serveur',
+        'serverTierHint': 'Palier le plus haut ouvert sur ton serveur',
+        'tierOverOne': " bâtiment dépasse déjà le palier ",
+        'tierOverMany': " bâtiments dépassent déjà le palier ",
+        'tierOverEndOne': " — il est ignoré par les suggestions.",
+        'tierOverEndMany': " — ils sont ignorés par les suggestions.",
         'lang': 'Langue',
         'baseBonus': 'Bonus Vitesse (%)',
         'groundWorks': '1er Ministre (+10%)',
@@ -406,6 +418,30 @@ function applyPanUI() {
     }
 }
 
+// ============ PALIER SERVEUR ============
+// L'âge du serveur ouvre les paliers TG par crans (TG3, TG5, TG8, TG10). Au palier N,
+// le dernier niveau disponible en jeu est TGN-0 : TGN-1 et au-delà n'existent pas encore.
+// Ne concerne QUE l'optimiseur (le tableau garde tous les niveaux sélectionnables).
+function getServerTier() {
+    const el = document.getElementById('serverTier');
+    return Number(el && el.value) || 8;
+}
+
+// Décompose un libellé de palier : "TG8-3" → {major:8, minor:3}, "TG10" → {major:10, minor:0}.
+// Renvoie null pour les libellés d'avant les paliers TG (ex. "TC30-2").
+function parseTierLabel(label) {
+    const m = String(label || '').match(/TG\s*(\d+)(?:-(\d+))?/i);
+    if (!m) return null;
+    return { major: Number(m[1]), minor: m[2] ? Number(m[2]) : 0 };
+}
+
+// Ce niveau est-il ouvert au palier serveur donné ?
+function niveauOuvert(label, tierMax) {
+    const t = parseTierLabel(label);
+    if (!t) return true;                  // paliers pré-TG : toujours ouverts
+    return t.major < tierMax || (t.major === tierMax && t.minor === 0);
+}
+
 function getPanReductionMinutes() {
     let hours;
     if (panAutoHours !== null) {
@@ -514,6 +550,7 @@ function saveData() {
         bonusWolfCheck: document.getElementById('bonusWolfCheck').checked,
         bonusWolfVal: document.getElementById('bonusWolfVal').value,
         bonusDouble: document.getElementById('bonusDouble').checked,
+        serverTier: document.getElementById('serverTier').value,
         stockTG: document.getElementById('stockTG').value,
         stockTTG: document.getElementById('stockTTG').value,
         transfoUtilisees: document.getElementById('transfoUtilisees').value,
@@ -539,6 +576,7 @@ function loadData() {
             if (data.bonusWolfCheck !== undefined) document.getElementById('bonusWolfCheck').checked = data.bonusWolfCheck;
             if (data.bonusWolfVal !== undefined) document.getElementById('bonusWolfVal').value = data.bonusWolfVal;
             if (data.bonusDouble !== undefined) document.getElementById('bonusDouble').checked = data.bonusDouble;
+            if (data.serverTier !== undefined) document.getElementById('serverTier').value = data.serverTier;
             if (data.stockTG !== undefined) document.getElementById('stockTG').value = data.stockTG;
             if (data.stockTTG !== undefined) document.getElementById('stockTTG').value = data.stockTTG;
             if (data.transfoUtilisees !== undefined) document.getElementById('transfoUtilisees').value = data.transfoUtilisees;
@@ -630,7 +668,7 @@ function runCalculator() {
         let resultText = SUGGERER_KINGSHOT(
             stockTG, stockTTG, transfoUtilisees, vitesseAmelio,
             accelJours, accelHeures, accelMinutes, mode, scoreCible, tx,
-            formattedTableur, dbDataRaw, rangeDataTTG, lang
+            formattedTableur, dbDataRaw, rangeDataTTG, lang, getServerTier()
         );
         document.getElementById('output').innerHTML = resultText;
     } catch(e) {
@@ -650,7 +688,8 @@ function tgRememberOpen(el) {
     if (el.open) TG_OPEN_SERIES.add(cle); else TG_OPEN_SERIES.delete(cle);
 }
 
-function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, accelJours, accelHeures, accelMinutes, mode, scoreCible, tx, rangeTableur, rangeDatabase, rangeDataTTG, lang) {
+function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, accelJours, accelHeures, accelMinutes, mode, scoreCible, tx, rangeTableur, rangeDatabase, rangeDataTTG, lang, serverTier) {
+    const palierMax = Number(serverTier) || 8;
     const modeKVK = (mode === 'kvk');
     const modeTarget = (mode === 'target');
     scoreCible = Math.max(0, Number(scoreCible) || 0);
@@ -766,6 +805,23 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         }
     }
 
+    // Bâtiments déjà au-delà du palier serveur : plus rien ne peut leur être proposé
+    // (ils restent comptés comme prérequis pour les autres). On le signale au joueur.
+    const horsPalier = batimentsInitiaux
+        .filter(b => !b.exclu && !niveauOuvert((db[b.nom][b.lvl] || {}).label, palierMax))
+        .map(b => (typeof getLocName === 'function') ? getLocName(b.nom) : b.nom);
+    let bandeauPalier = '';
+    if (horsPalier.length > 0) {
+        const n = horsPalier.length;
+        const phrase = (n === 1)
+            ? `${n}${tx.tierOverOne}TG${palierMax}${tx.tierOverEndOne}`
+            : `${n}${tx.tierOverMany}TG${palierMax}${tx.tierOverEndMany}`;
+        bandeauPalier = `<div style="margin-bottom:15px; padding:10px; border-radius:6px; background:rgba(255,140,66,0.12); border:1px solid var(--warning); color:var(--warning); text-align:center;">`
+            + `<strong>⚠️ ${phrase}</strong>`
+            + `<div style="font-size:13px; opacity:.85;">${horsPalier.join(', ')}</div>`
+            + `</div>`;
+    }
+
     // ============ SIMULATION : TROUVER LE MEILLEUR SCÉNARIO ============
     let meilleurScenario = null;
 
@@ -821,6 +877,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                 const niveauCible = bState.lvl + 1;
                 if (db[bState.nom] && db[bState.nom][niveauCible]) {
                     const couts = db[bState.nom][niveauCible];
+                    if (!niveauOuvert(couts.label, palierMax)) continue;   // palier pas encore ouvert sur le serveur
                     let estValide = checkPrereqsTG(couts.prereq, etatBatiments);
                     if (estValide && tgActuel >= couts.tg && ttgActuel >= couts.ttg) {
                         let tReel = couts.tempsBase / (1 + Number(vitesseAmelio));   // vitesse (A)
@@ -1057,7 +1114,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
 
     // ============ AUCUN SCÉNARIO POSSIBLE ============
     if (!meilleurScenario || meilleurScenario.ameliorations.length === 0) {
-        return `<div style="text-align:center; padding:20px; color:var(--warning);">${tx.err}</div>`;
+        return bandeauPalier + `<div style="text-align:center; padding:20px; color:var(--warning);">${tx.err}</div>`;
     }
 
      // ============ TRIM : minimiser les transformations sans changer le plan ============
@@ -1160,6 +1217,8 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     html += `<div style="text-align:center; margin-bottom:20px; padding:12px; background:rgba(245,184,64,0.08); border-radius:6px; border:1px solid ${c_or};">`;
     html += `<strong style="font-size:16px; color:${c_or};">${titreMode}</strong>`;
     html += `</div>`;
+
+    html += bandeauPalier;
 
     // Bannière mode Score cible
     if (modeTarget) {
@@ -1293,6 +1352,7 @@ function tgInitHelp() {
         },
         steps: {
             FR: [
+                "Choisis le « Palier serveur » : c'est le palier le plus haut ouvert sur ton serveur (TG3, TG5, TG8 ou TG10). Au palier TG8, par exemple, un bâtiment peut monter au maximum en TG8-0 — le TG8-1 n'existe pas encore en jeu. Ce réglage ne limite que les suggestions, pas les niveaux que tu peux sélectionner dans le tableau.",
                 "Renseigne tes stocks de TrueGold (TG) et Or Véritable Trempé (TTG), et le nombre de transformations déjà utilisées (max 100).",
                 "Deux types de bonus : les bonus de vitesse (Bonus Vitesse, 1er Ministre, KVK) divisent le temps de base ; le Loup Gris et les Bouchées Doubles réduisent ensuite le temps restant (cumulés). Indique aussi tes accélérateurs (jours / heures / minutes).",
                 "Pour chaque bâtiment, mets son niveau actuel et le niveau cible que tu veux atteindre.",
@@ -1303,6 +1363,7 @@ function tgInitHelp() {
                 "Clique sur une étape pour déplier le détail niveau par niveau : coût en TG et TTG, temps de construction, accélérateurs consommés et points KVK gagnés."
             ],
             EN: [
+                "Pick your “Server tier”: the highest tier open on your server (TG3, TG5, TG8 or TG10). At tier TG8 for instance, a building can only go up to TG8-0 — TG8-1 isn't in the game yet. This setting only limits the suggestions, not the levels you can pick in the table.",
                 "Enter your TrueGold (TG) and Tempered TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
                 "Two kinds of bonus: speed bonuses (Speed, Ground Works, KVK) divide the base time; Grey Wolf and Double Time then cut the remaining time (cumulative). Also set your speedups (days / hours / minutes).",
                 "For each building, set its current level and the target level you want to reach.",

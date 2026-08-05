@@ -14,6 +14,17 @@
         <div class="control-group">
             <h3 data-i18n="config">Configuration</h3>
 
+            <div class="control-row">
+                <label data-i18n="serverTier">Server tier</label>
+                <select id="serverTier" onchange="triggerUpdate()">
+                    <option value="3">TG3</option>
+                    <option value="5">TG5</option>
+                    <option value="8" selected>TG8</option>
+                    <option value="10">TG10</option>
+                </select>
+            </div>
+            <div data-i18n="serverTierHint" style="color:var(--text-muted); font-size:11px; margin:-4px 0 10px;">Highest tier open on your server</div>
+
             <div data-i18n="grpSpeed" style="color:var(--text-muted); font-weight:bold; font-size:12px;">Speed bonuses (÷ base time)</div>
             <div class="control-row">
                 <label data-i18n="baseBonus">Bonus Speed (%)</label>
