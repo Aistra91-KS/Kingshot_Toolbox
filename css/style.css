@@ -552,6 +552,16 @@ input[type="checkbox"] {
     color: var(--accent);
 }
 
+/* Titre de sous-bloc dans un .control-group : même filet + même or que .total-bonus-row,
+   mais en tête de section (évite un .control-group séparé pour trois lignes). */
+.group-sep-title {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-weight: bold;
+    color: var(--accent);
+}
+
 
 /* ============================================================================
    7. PANELS & RESULT BOX (TrueGold)
