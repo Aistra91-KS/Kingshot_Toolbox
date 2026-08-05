@@ -1,6 +1,6 @@
 [
   {
-    "id": "arena",
+    "id": "arena", "slug": "arena",
     "name": {
       "EN": "Arena",
       "FR": "Arène"
@@ -112,7 +112,7 @@
     }
   },
   {
-    "id": "alliance_championship",
+    "id": "alliance_championship", "slug": "alliance-championship",
     "name": {
       "EN": "Alliance Championship",
       "FR": "Championnat d'Alliance"
@@ -189,7 +189,7 @@
     }
   },
   {
-    "id": "swordland",
+    "id": "swordland", "slug": "swordland",
     "name": {
       "EN": "Swordland",
       "FR": "Swordland"
@@ -286,7 +286,7 @@
     }
   },
   {
-    "id": "kingdom_of_power",
+    "id": "kingdom_of_power", "slug": "kingdom-of-power",
     "name": {
       "EN": "Kingdom of Power",
       "FR": "Royaume du Pouvoir"
@@ -353,7 +353,7 @@
     }
   },
   {
-    "id": "tidal_shop",
+    "id": "tidal_shop", "slug": "tidal-shop",
     "name": {
       "EN": "Tidal Shop",
       "FR": "Magasin des Marées"
@@ -450,7 +450,7 @@
     }
   },
   {
-    "id": "trial_shop",
+    "id": "trial_shop", "slug": "trial-shop",
     "name": {
       "EN": "Trial Shop",
       "FR": "Magasin du Défi"

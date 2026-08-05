@@ -1,6 +1,6 @@
 [
   {
-    "id": "Polar_Shop",
+    "id": "Polar_Shop", "slug": "polar-shop",
     "name": {
       "EN": "Polar Shop",
       "FR": "Magasin Polaire"
@@ -27,7 +27,7 @@
     ]
   },
   {
-    "id": "Summit_Contest_Champion_store",
+    "id": "Summit_Contest_Champion_store", "slug": "summit-contest-champion",
     "name": {
       "EN": "Summit Contest Champion Shop",
       "FR": "Magasin Champion de la Ligue Suprême"
@@ -58,7 +58,7 @@
     ]
   },
   {
-    "id": "Summit_Contest_Ordinary_Shop",
+    "id": "Summit_Contest_Ordinary_Shop", "slug": "summit-contest-ordinary",
     "name": {
       "EN": "Summit Contest Ordinary Shop",
       "FR": "Magasin Ordinaire de la Ligue Suprême"
@@ -80,7 +80,7 @@
     ]
   },
   {
-    "id": "Golden_Ball_Shop",
+    "id": "Golden_Ball_Shop", "slug": "golden-ball-shop",
     "name": {
       "EN": "Golden Ball Shop",
       "FR": "Magasin du ballon d'or"

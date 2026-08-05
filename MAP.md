@@ -28,12 +28,28 @@ Kingshot_Toolbox/
 ├── vikings.html                  Outil Vikings (répartition troupes/défense)
 ├── caserne.html                  Outil Caserne / Héros — source des héros
 ├── masters.html                  Outil Experts / Masters (beta) — affinités & skills
-├── shop_calc.html                Outil Valeur Boutique / Shop Value (beta) — coût boutique vs valeur gemmes
+├── shop_calc.html                Sommaire des Boutiques (beta) — 3 familles : Événement / Permanentes / Coffres
 ├── pets.html                     Outil Familiers (promenade verticale : fiches pets le long d'un sentier)
 │
+├── shop/                         Une page par boutique (structure calquée sur database/*, cf. §5)
+│   ├── items.html                Valeur des objets : référentiel gemmes (ex-onglet « Data Item »)
+│   ├── polar-shop.html           Événement · Magasin Polaire
+│   ├── summit-contest-champion.html   Événement · Ligue Suprême (Champion)
+│   ├── summit-contest-ordinary.html   Événement · Ligue Suprême (Ordinaire)
+│   ├── golden-ball-shop.html     Événement · Ballon d'or (terminé — page conservée en archive)
+│   ├── arena.html                Permanente · Arène
+│   ├── alliance-championship.html     Permanente · Championnat d'Alliance
+│   ├── swordland.html            Permanente · Swordland
+│   ├── kingdom-of-power.html     Permanente · Royaume du Pouvoir
+│   ├── tidal-shop.html           Permanente · Magasin des Marées
+│   ├── trial-shop.html           Permanente · Magasin du Défi
+│   ├── gear-boost-chest.html     Coffre · Boost d'Équipement
+│   └── war-chant-chest.html      Coffre · Chant de Guerre
+│
 ├── css/
-│   ├── style.css                 Feuille principale (thèmes, header, hub, contrôles, tables, boutons, responsive) + surcouches BDD (mobile : scroll contenu + 1ʳᵉ colonne figée ; `.hl-x` = « X » doré ; `.db-section` tables compactes + en-têtes num. à droite)
+│   ├── style.css                 Feuille principale (thèmes, header, hub, contrôles, tables, boutons, responsive) + surcouches BDD (mobile : scroll contenu + 1ʳᵉ colonne figée ; `.hl-x` = « X » doré ; `.db-section` tables compactes + en-têtes num. à droite) + cartes objet `.shop-item-card`/`.sic-*`
 │   ├── db.css                    Styles partagés des pages Base de Données (extrait des <style> inline des 35 pages ; classes .db-index/.db-wide/.db-cards-sm + scoping .table-container vs .db-section — cf. §5)
+│   ├── shop.css                  Styles Boutiques (préfixe `.sx-`) : sommaire par famille, cartes+vignettes, badges de statut, en-tête de page boutique, podium ; plus `.sc-item-img` et `.shop-toolbar`
 │   ├── waracademy.css            Styles spécifiques Académie de Guerre (préfixe .wa-)
 │   └── pets.css                  Styles page Familiers (scène « sentier », décor CSS, DA nature distincte)
 │
@@ -55,7 +71,10 @@ Kingshot_Toolbox/
 │   ├── vikings.js                Logique Vikings (réutilise formations Piège à Ours via localStorage)
 │   ├── caserne.js                Logique Caserne (fetch heroes_db.json)
 │   ├── masters.js                Logique Experts (fetch masters_db.json)
-│   ├── shop_calc.js              Logique Shop Calc (fetch 4 fichiers shopcalc_*.json)
+│   ├── shop-core.js              ★ Socle Boutiques : i18n partagé, chargement des 4 shopcalc_*.json, helpers, vignettes, compte à rebours, calcul des lignes
+│   ├── shop_calc.js              Sommaire des boutiques : hydrate les cartes écrites en dur (vignette, statut, compteur)
+│   ├── shop-page.js              Rendu d'une page boutique (window.SHOP_SLUG) : en-tête, podium, grille, tableau
+│   ├── shop-items.js             Page « Valeur des objets » (référentiel gemmes éditable)
 │   ├── db-masters.js             Rendu des pages BDD Experts (fetch masters_db.json ; window.MASTER_ID)
 │   ├── db-pets.js                Rendu des pages BDD Familiers (fetch pets_db.json ; window.PET_ID)
 │   └── pets.js                   Logique Familiers (promenade verticale scroll-jack ; fetch pets_db.json ; sélecteur de niveau → palier/skill/coûts ; i18n GlobalLang)
@@ -107,7 +126,8 @@ Kingshot_Toolbox/
 │   ├── Master/ + MasterSkill/    Portraits experts + icônes skills experts (.webp)
 │   │   └── Master/hd/            Portraits pleine page 600×800 pour `masters.html` uniquement (cf. §5)
 │   ├── skills/ + widgetname/ + widgetskill/  Icônes skills héros & widgets (.webp)
-│   ├── Item/                     Icônes objets boutique/ressources (.webp) — **nom de fichier = `name.EN` de l'objet** (`scImg()`), carré ~100–200 px, fond transparent
+│   ├── Item/                     Icônes objets boutique/ressources (.webp) — **nom de fichier = `name.EN` de l'objet** (`scImg()`), carré ~100–200 px, fond transparent. **18 objets n'ont pas encore d'icône** (skins, VIP, emote, mégaphone…) : la case reste vide, sans erreur
+│   ├── shops/                    *(à créer)* Vignettes de boutique `<slug>.webp`, format **16:9** (~640×360). Facultatif : sans fichier, la carte affiche la mosaïque des 4 meilleurs objets
 │   └── pets/                     Familiers : portraits (.webp ×14) + sous-dossier skills/ (icônes compétence, .webp ×14)
 │
 └── .github/
@@ -130,7 +150,9 @@ Kingshot_Toolbox/
 | `vikings.html` | Répartition troupes Vikings | `vikings.js` | `style.css` | formations Piège à Ours (localStorage) |
 | `caserne.html` | Gestion héros | `caserne.js`, `modal-tabs.js` | `style.css` | `heroes_db.json` |
 | `masters.html` | Experts & affinités (beta) | `masters.js`, `modal-tabs.js` | `style.css` | `masters_db.json` |
-| `shop_calc.html` | Valeur Boutique / Shop Value : coût boutique vs gemmes (beta) | `shop_calc.js` | `style.css` | `shopcalc_items/classic/events/chests.json` |
+| `shop_calc.html` | Sommaire des boutiques : 3 familles + accès au référentiel (beta) | `shop-core.js`, `shop_calc.js` | `style.css`, `db.css`, `shop.css` | `shopcalc_items/classic/events/chests.json` |
+| `shop/<boutique>.html` | Une boutique : en-tête, podium, grille d'objets, tableau complet | `shop-core.js`, `shop-page.js` | `style.css`, `db.css`, `shop.css` | idem (via `window.SHOP_SLUG`) |
+| `shop/items.html` | Valeur des objets : référentiel gemmes éditable | `shop-core.js`, `shop-items.js` | `style.css`, `db.css`, `shop.css` | `shopcalc_items.json` |
 | `pets.html` | Familiers : promenade verticale (fiches pets) | `pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `pets.css` (+ webfonts) | `pets_db.json` |
 | `database/buildings/*.html` | Tables d'amélioration bâtiments | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | données inline (HTML) |
 | `database/waracademy/*.html` | Tables recherches Académie (3 arbres) | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `truegold_war_db.json` (fetch) |
@@ -221,6 +243,14 @@ Or éclatant sur noir profond, turquoise pour la validation, rubis pour l'alerte
 - `img/Master/hd/<Nom>.webp` (600×800) : portraits pleine page pour `masters.html` seul, servis par le helper `masterPortrait()` de `js/masters.js`. Le cadre `.master-portrait` fait 320 px de haut (et `#modal-header-bg` 400×150) : les vignettes d'origine y subissaient un agrandissement ×2,6 à ×3,2, d'où la pixellisation — que des `filter: blur()` masquaient au prix d'une image floue (supprimés).
 - **Ratio 3:4 imposé** : `.master-portrait` fait 240×320, donc une source 600×800 n'est pas recadrée par `background-size: cover`. Les captures de jeu n'ont pas ce ratio ; elles sont calées en *contain* puis les bandes manquantes sont comblées en moyennant les pixels du bord (le fond doré est un dégradé lisse, la jointure est invisible). Rogner quelques pixels de bordure sur la source est nécessaire : les captures portent des salissures collées au cadre qui ressortiraient à la jointure.
 
+**Boutiques — une page par boutique (`shop/*.html`)** : structure calquée sur `database/*` mais **hors** de `database/` — ces pages portent de l'état utilisateur (monnaie, stock restant) et chargent donc le socle complet (`storage-keys` → `profiles` → `help` → `backup`), là où les pages BDD sont en lecture pure. Conventions :
+- **`shop_calc.html` reste l'URL du sommaire** (déjà indexée, référencée par `site-config.js`) : elle a changé de rôle, pas d'adresse. Trois familles y sont listées — Événement / Permanentes / Coffres — plus un accès au référentiel `shop/items.html`.
+- **Les cartes du sommaire sont écrites en dur** (liens, noms, monnaies via `data-en`/`data-fr`), comme les sommaires `database/*/index.html` : le maillage interne doit exister sans exécuter le JS. `shop_calc.js` n'hydrate que ce qui dépend des données ou de l'heure (vignette, nombre d'objets, badge de statut) puis réordonne les événements.
+- **Une page boutique** = `<base href>`, `title`/`meta description`/`h1`/intro **en dur** (jamais reconstruits par le JS, sinon le bouton d'aide accroché après le `h1` saute au changement de langue), plus `window.SHOP_SLUG` ; tout le reste est rendu par `shop-page.js` dans des conteneurs vides (`#sp-thumb`, `#sp-facts`, `#sp-podium`, `#sp-grid`, `#sp-table`, `#sp-switch`).
+- **Événement terminé = page conservée**. Supprimer une URL indexée est le seul vrai dégât SEO possible ici, et les boutiques reviennent d'une saison à l'autre. La carte du sommaire passe en grisé (`.sx-card.is-ended`, vignette en `grayscale`) **et reste cliquable** ; la page affiche un bandeau d'archive. Ajouter une boutique = 1 entrée JSON + 1 page + 1 carte au sommaire + 1 ligne `sitemap.xml`.
+- **Vignettes** : `img/shops/<slug>.webp` si le fichier existe, sinon **mosaïque de secours** des 4 objets de plus forte valeur de la boutique (`scThumbHtml`) — l'image réelle recouvre la mosaïque, un `onerror` la retire si elle manque. Aucune image à produire pour que le sommaire soit présentable.
+- **Compte à rebours** : `scTimeLeft()`/`scTimeLeftTxt()` (affichage en J+H, rafraîchi chaque minute sur `[data-ends-at]`) est **distinct** de `scResetsLeft()` (nombre de réinitialisations 00h UTC restantes, qui multiplie le stock des objets à reset quotidien). Ne jamais fusionner les deux : l'un est cosmétique, l'autre entre dans les calculs.
+
 **Modales de détail (Caserne / Experts)** : tiroir latéral 400px sur desktop, plein écran + onglets sous 820px. Les sections de `#modal-body` portent `data-mtab="<clé>"` ; `js/modal-tabs.js` génère la barre `.mtabs` et n'affiche qu'un panneau à la fois (classe `.mtab-on`). Un panneau vide masque son onglet. Ajouter une section = poser `data-mtab` + déclarer la clé dans `PAGES` du module.
 
 
@@ -237,9 +267,11 @@ Toutes les données sont des **JSON éditées à la main** dans `data/` (pas de 
 | `beartrap_joiners_db.json` | **Objet** `{_meta, byGeneration}`. `byGeneration[gen]` = `{S:[ids], A:[…], B, C, D}` (rang du héros-joiner à cette génération de serveur, IDs = `heroes_db.json`). Cumulatif et sujet au power-creep (un même héros change de rang selon la gen). En cas de doublon d'id, le **meilleur** rang prime. Converti depuis une tier-list communautaire (xlsx non commité). |
 | `masters_db.json` | **Liste** de 6 experts : `{id, name, title, affinityBonus, affinityMilestones[{level,affinity,emblems,bonus}], passive, skills[], affinity}`. **Convention `effect`** (passif & skills) : chaîne remplaçant le(s) « X » de la phrase. Une seule valeur → ex. `"+27%"`. **Deux valeurs** (phrase à deux X) → format `"(a;b)"` (ex. `"(5;20)"`) : la BDD l'éclate en deux colonnes « Effet 1 »/« Effet 2 » (cf. §3). |
 | `shopcalc_items.json` | **Liste** de 91 objets : `{id, name{EN,FR}, category, gemValue, skin?:true}` (référentiel de valeur). Les entrées **`skin: true`** (4 à ce jour) sont des *variantes visuelles* référencées par `skinId` dans les boutiques/coffres : elles n'ont ni `category` ni `gemValue` (la valeur reste celle de l'objet porteur, ex. `town_skin`), et fournissent le nom affiché entre parenthèses + l'image de la carte. Un `skinId` qui ne correspond à aucun id **échoue en silence** (parenthèse absente, image de l'objet porteur) — vérifier le référencement croisé après ajout. |
-| `shopcalc_classic.json` | **Liste** de boutiques : `{id, name, items[{itemId, qty, cost}]}`. |
-| `shopcalc_events.json` | **Liste** de boutiques d'événement : `{id, name, endsAt, resourceName, items…}`. |
-| `shopcalc_chests.json` | **Liste** de coffres : `{id, name, items[… , skinId?]}`. |
+| `shopcalc_classic.json` | **Liste** de boutiques : `{id, slug, name, resourceName, resourceShort, items[{itemId, qty, cost}]}`. |
+| `shopcalc_events.json` | **Liste** de boutiques d'événement : `{id, slug, name, endsAt, resourceName, items…}`. |
+| `shopcalc_chests.json` | **Liste** de coffres : `{id, slug, name, items[… , skinId?]}`. |
+
+**`slug` (boutiques)** : c'est le nom de fichier de la page (`shop/<slug>.html`) et la clé de résolution de `scFindBySlug()`. Il a été **ajouté à côté de `id`, jamais à la place** : les éditions des joueurs sont persistées par `id` dans `shopcalcEvents`, renommer un `id` effacerait leurs données. Les `id` gardent donc leur casse d'origine (`Polar_Shop`, `Summit_Contest_Champion_store`) pendant que les `slug` sont en kebab-case.
 | `pets_db.json` | **Objet** `{_meta, pets[]}`. Chaque pet : `{id, name{EN,FR}, generation, maxLevel, skill{name{EN,FR}, desc{EN,FR}, cooldown?, effects[{label{EN,FR}, note{EN,FR}, values[]}]}, advancements[{growthManual, nutrientPotion, promotionMedallion}], petFood[]}`. 14 pets / 7 gén. **Conventions** : palier skill = **nb d'avancements faits** (caps aux niv. 10,20,…,`maxLevel` ; l'avancement au cap `N` débloque le palier `N/10` et **ne change pas le niveau** ; niveau `N` ≠ avancement fait → modèle à 2 statuts, cf. Masters) ; `values[]` = 1 valeur/palier (nb = `maxLevel/10` = nb d'`advancements`) ; `desc` garde le placeholder `X`/`X%` (remplacé au palier courant) ; `petFood[i]` = coût niv (i+1)→(i+2), longueur `maxLevel-1` ; le champ `note` existe mais **n'est plus affiché**. **Provenance** : converti depuis `Pets_data.xlsx` (non commité), FR relu à la main. |
 
 **Provenance** : édition manuelle directe dans le JSON déployé. Aucune génération via GitHub Actions.
