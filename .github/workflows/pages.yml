@@ -1,0 +1,53 @@
+# ============================================================
+#  Publication du site sur GitHub Pages
+#
+#  Site 100 % statique : aucun build, on publie le dépôt tel quel.
+#  Ce fichier remplace le workflow « pages build and deployment » que GitHub
+#  générait tout seul en mode « Deploy from a branch ». Ce dernier n'était pas
+#  éditable (chemin `dynamic/pages/...`), donc ni son délai d'attente ni sa
+#  politique de concurrence n'étaient réglables — d'où ce workflow explicite.
+# ============================================================
+
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:      # permet de republier à la demande, sans commit
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement à la fois, et on LAISSE FINIR celui qui tourne déjà.
+# `cancel-in-progress: true` est le réglage courant, mais c'est précisément lui
+# qui produit les « Deployment cancelled » quand deux publications se chevauchent.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .          # racine du dépôt ; .git est exclu par l'action
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          timeout: 1200000   # 20 min d'attente (défaut : 600000 ms = 10 min)
+          error_count: 20    # tolère plus d'aléas réseau avant d'abandonner
