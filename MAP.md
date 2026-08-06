@@ -47,9 +47,9 @@ Kingshot_Toolbox/
 │   └── war-chant-chest.html      Coffre · Chant de Guerre
 │
 ├── css/
-│   ├── style.css                 Feuille principale (thèmes, header, hub, contrôles, tables, boutons, responsive) + surcouches BDD (mobile : scroll contenu + 1ʳᵉ colonne figée ; `.hl-x` = « X » doré ; `.db-section` tables compactes + en-têtes num. à droite) + cartes objet `.shop-item-card`/`.sic-*`
+│   ├── style.css                 Feuille principale (thèmes, header, hub, contrôles, tables, boutons, responsive) + surcouches BDD (mobile : scroll contenu + 1ʳᵉ colonne figée ; `.hl-x` = « X » doré ; `.db-section` tables compactes + en-têtes num. à droite). NB : les styles de cartes objet `.shop-item-card`/`.sic-*`/`.shop-card-grid` (~40 lignes) ne sont plus référencés depuis le passage des boutiques au tableau
 │   ├── db.css                    Styles partagés des pages Base de Données (extrait des <style> inline des 35 pages ; classes .db-index/.db-wide/.db-cards-sm + scoping .table-container vs .db-section — cf. §5)
-│   ├── shop.css                  Styles Boutiques (préfixe `.sx-`) : sommaire par famille, cartes+vignettes, badges de statut, en-tête de page boutique, podium ; plus `.sc-item-img` et `.shop-toolbar`
+│   ├── shop.css                  Styles Boutiques (préfixe `.sx-`) : sommaire par famille, cartes+vignettes, badges de statut, en-tête de page boutique, podium, **tableau `.sx-table` + mode édition** ; plus `.sc-item-img` et `.shop-toolbar`
 │   ├── waracademy.css            Styles spécifiques Académie de Guerre (préfixe .wa-)
 │   └── pets.css                  Styles page Familiers (scène « sentier », décor CSS, DA nature distincte)
 │
@@ -73,7 +73,7 @@ Kingshot_Toolbox/
 │   ├── masters.js                Logique Experts (fetch masters_db.json)
 │   ├── shop-core.js              ★ Socle Boutiques : i18n partagé, chargement des 4 shopcalc_*.json, helpers, vignettes, compte à rebours, calcul des lignes
 │   ├── shop_calc.js              Sommaire des boutiques : hydrate les cartes écrites en dur (vignette, statut, compteur)
-│   ├── shop-page.js              Rendu d'une page boutique (window.SHOP_SLUG) : en-tête, podium, grille, tableau
+│   ├── shop-page.js              Rendu d’une page boutique (window.SHOP_SLUG) : en-tête, podium, tableau (1 ligne/objet) + mode édition (crayon)
 │   ├── shop-items.js             Page « Valeur des objets » (référentiel gemmes éditable)
 │   ├── db-masters.js             Rendu des pages BDD Experts (fetch masters_db.json ; window.MASTER_ID)
 │   ├── db-pets.js                Rendu des pages BDD Familiers (fetch pets_db.json ; window.PET_ID)
@@ -151,7 +151,7 @@ Kingshot_Toolbox/
 | `caserne.html` | Gestion héros | `caserne.js`, `modal-tabs.js` | `style.css` | `heroes_db.json` |
 | `masters.html` | Experts & affinités (beta) | `masters.js`, `modal-tabs.js` | `style.css` | `masters_db.json` |
 | `shop_calc.html` | Sommaire des boutiques : 3 familles + accès au référentiel (beta) | `shop-core.js`, `shop_calc.js` | `style.css`, `db.css`, `shop.css` | `shopcalc_items/classic/events/chests.json` |
-| `shop/<boutique>.html` | Une boutique : en-tête, podium, grille d'objets, tableau complet | `shop-core.js`, `shop-page.js` | `style.css`, `db.css`, `shop.css` | idem (via `window.SHOP_SLUG`) |
+| `shop/<boutique>.html` | Une boutique : en-tête, podium, tableau (1 ligne/objet) + mode édition | `shop-core.js`, `shop-page.js` | `style.css`, `db.css`, `shop.css` | idem (via `window.SHOP_SLUG`) |
 | `shop/items.html` | Valeur des objets : référentiel gemmes éditable | `shop-core.js`, `shop-items.js` | `style.css`, `db.css`, `shop.css` | `shopcalc_items.json` |
 | `pets.html` | Familiers : promenade verticale (fiches pets) | `pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `pets.css` (+ webfonts) | `pets_db.json` |
 | `database/buildings/*.html` | Tables d'amélioration bâtiments | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | données inline (HTML) |
@@ -246,7 +246,10 @@ Or éclatant sur noir profond, turquoise pour la validation, rubis pour l'alerte
 **Boutiques — une page par boutique (`shop/*.html`)** : structure calquée sur `database/*` mais **hors** de `database/` — ces pages portent de l'état utilisateur (monnaie, stock restant) et chargent donc le socle complet (`storage-keys` → `profiles` → `help` → `backup`), là où les pages BDD sont en lecture pure. Conventions :
 - **`shop_calc.html` reste l'URL du sommaire** (déjà indexée, référencée par `site-config.js`) : elle a changé de rôle, pas d'adresse. Trois familles y sont listées — Événement / Permanentes / Coffres — plus un accès au référentiel `shop/items.html`.
 - **Les cartes du sommaire sont écrites en dur** (liens, noms, monnaies via `data-en`/`data-fr`), comme les sommaires `database/*/index.html` : le maillage interne doit exister sans exécuter le JS. `shop_calc.js` n'hydrate que ce qui dépend des données ou de l'heure (vignette, nombre d'objets, badge de statut) puis réordonne les événements.
-- **Une page boutique** = `<base href>`, `title`/`meta description`/`h1`/intro **en dur** (jamais reconstruits par le JS, sinon le bouton d'aide accroché après le `h1` saute au changement de langue), plus `window.SHOP_SLUG` ; tout le reste est rendu par `shop-page.js` dans des conteneurs vides (`#sp-thumb`, `#sp-facts`, `#sp-podium`, `#sp-grid`, `#sp-table`, `#sp-switch`).
+- **Une page boutique** = `<base href>`, `title`/`meta description`/`h1`/intro **en dur** (jamais reconstruits par le JS, sinon le bouton d'aide accroché après le `h1` saute au changement de langue), plus `window.SHOP_SLUG` ; tout le reste est rendu par `shop-page.js` dans des conteneurs vides (`#sp-thumb`, `#sp-facts`, `#sp-actions`, `#sp-podium`, `#sp-table`, `#sp-switch`). Le bouton d'aide est ancré sur `#sp-facts`.
+- **Le contenu d'une boutique est un tableau, une ligne par objet** (`table.sx-table`) — pas une grille de cartes : à surface égale il montre 3 à 4 fois plus d'objets, et les colonnes se comparent en diagonale. Les colonnes racontent trois blocs : *ce que ça coûte* (Qté, Coût) → *ce que ça vaut* (Valeur gemmes, Ratio) → *ce que tu peux en tirer* (Restant, Max fin, Obtenable, Coût obt., événements seulement, séparés par un filet `.sep`). Seul le podium des 3 meilleures affaires garde des visuels.
+- **Mode édition (crayon)** : les boutiques d'événement restent ajustables — quantité, coût, stock restant, ajout et retrait d'objets, réinitialisation à la version du fichier. Ces champs n'apparaissent **que** dans le mode édition (`SP_EDIT`, volontairement non persisté : personne ne doit rester en édition sans le savoir), déclenché par le bouton `.sx-edit-toggle`. La colonne de suppression est `position:sticky; right:0` — une action qui sort du champ au scroll horizontal est une action perdue.
+- **Largeur des tables** : `style.css` cale les tables BDD sur leur contenu (`.db-section table.db-table { width:auto }`) ; `shop.css` rétablit `width:100%` pour `.sx-table` et laisse la colonne du nom absorber le reste, sinon une boutique à 6 colonnes laisse la moitié de la page vide.
 - **Événement terminé = page conservée**. Supprimer une URL indexée est le seul vrai dégât SEO possible ici, et les boutiques reviennent d'une saison à l'autre. La carte du sommaire passe en grisé (`.sx-card.is-ended`, vignette en `grayscale`) **et reste cliquable** ; la page affiche un bandeau d'archive. Ajouter une boutique = 1 entrée JSON + 1 page + 1 carte au sommaire + 1 ligne `sitemap.xml`.
 - **Vignettes** : `img/shops/<slug>.webp` si le fichier existe, sinon **mosaïque de secours** des 4 objets de plus forte valeur de la boutique (`scThumbHtml`) — l'image réelle recouvre la mosaïque, un `onerror` la retire si elle manque. Aucune image à produire pour que le sommaire soit présentable.
 - **Compte à rebours** : `scTimeLeft()`/`scTimeLeftTxt()` (affichage en J+H, rafraîchi chaque minute sur `[data-ends-at]`) est **distinct** de `scResetsLeft()` (nombre de réinitialisations 00h UTC restantes, qui multiplie le stock des objets à reset quotidien). Ne jamais fusionner les deux : l'un est cosmétique, l'autre entre dans les calculs.

@@ -28,9 +28,16 @@ const i18nShop = {
     // — colonnes / champs —
     colName:"Nom", colCat:"Catégorie", colGem:"Valeur (gemmes)",
     hItem:"Objet", hQty:"Qté", hCost:"Coût", hGem:"Valeur gemmes", hRatio:"Ratio",
-    hRestant:"Restant", hMaxFin:"Max fin", hObt:"Obtenable", hCostObt:"Coût obt.",
+    hRestant:"Restant", hMaxFin:"Max fin", hObt:"Obtenable", hCostObt:"Coût obt.", hShare:"Part",
     best:"Top", bestPick:"Meilleur choix",
     daily:"Réinit. quotidienne (00h UTC)", stock:"Stock (sans réinit.)",
+    // — mode édition —
+    edit:"Modifier", editDone:"Terminer", editOn:"Mode édition",
+    editHint:"Ajuste les quantités, les coûts et le stock restant pour coller à ta boutique en jeu. Tes modifications restent sur ton appareil.",
+    addItem:"Ajouter", chooseItem:"— Objet —", del:"Supprimer",
+    confirmDel:"Supprimer cet objet de la boutique ?",
+    resetShop:"Réinitialiser", resetShopTip:"Revenir à la version d'origine de la boutique (annule tes modifications)",
+    confirmResetShop:"Réinitialiser cette boutique à sa version d'origine ? Tes modifications (quantités, coûts, suppressions) seront perdues.",
     // — data item —
     resetItems:"Réinitialiser les valeurs", allCats:"Toutes les catégories",
     confirmReset:"Réinitialiser toutes les valeurs en gemmes par défaut ?", count:"objets",
@@ -60,9 +67,15 @@ const i18nShop = {
     chestPickHint:"A single item to pick — the best value is highlighted.",
     colName:"Name", colCat:"Category", colGem:"Value (gems)",
     hItem:"Item", hQty:"Qty", hCost:"Cost", hGem:"Gem value", hRatio:"Ratio",
-    hRestant:"Remaining", hMaxFin:"Max by end", hObt:"Obtainable", hCostObt:"Obt. cost",
+    hRestant:"Remaining", hMaxFin:"Max by end", hObt:"Obtainable", hCostObt:"Obt. cost", hShare:"Share",
     best:"Top", bestPick:"Best pick",
     daily:"Daily reset (00:00 UTC)", stock:"Stock (no reset)",
+    edit:"Edit", editDone:"Done", editOn:"Editing",
+    editHint:"Adjust quantities, costs and remaining stock to match your in-game shop. Your changes stay on your device.",
+    addItem:"Add", chooseItem:"— Item —", del:"Remove",
+    confirmDel:"Remove this item from the shop?",
+    resetShop:"Reset", resetShopTip:"Restore the shop's original version (discards your changes)",
+    confirmResetShop:"Reset this shop to its original version? Your changes (quantities, costs, deletions) will be lost.",
     resetItems:"Reset values", allCats:"All categories",
     confirmReset:"Reset all gem values to defaults?", count:"items",
     search:"Search…",
@@ -196,7 +209,13 @@ async function scLoadEvents(){
   SC_EVENTS.forEach(s=>{
     const def=SC_EVENTS_DEF.find(d=>d.id===s.id); if(!def) return;
     s.endsAt=def.endsAt; s.resourceName=def.resourceName; s.slug=def.slug; s.name=def.name; s.img=def.img;
-    (s.items||[]).forEach((si,i)=>{ const di=(def.items||[])[i], ok=di&&di.itemId===si.itemId; si.dailyReset=!!(ok&&di.dailyReset); si.qtyMax = ok?di.qtyMax:undefined; si.skinId = ok?di.skinId:undefined; });
+    (s.items||[]).forEach((si,i)=>{
+      const di=(def.items||[])[i];
+      // La ligne correspond à celle du fichier -> les champs admin font foi.
+      // Sinon (objet ajouté par l'utilisateur, ou décalage après une suppression), on garde
+      // ses valeurs : les écraser effaçait le « réinit. quotidienne » coché à l'ajout.
+      if(di && di.itemId===si.itemId){ si.dailyReset=!!di.dailyReset; si.qtyMax=di.qtyMax; si.skinId=di.skinId; }
+    });
   });
   // Nettoie les fantômes du localStorage (seulement si le fichier a bien chargé, pour ne rien effacer sur une erreur réseau).
   if(SC_EVENTS_DEF.length) scSaveEvents();
