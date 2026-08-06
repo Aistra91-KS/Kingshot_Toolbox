@@ -66,7 +66,7 @@ function spRenderSwitch(){
   }).join('');
 }
 
-// ---------- barre d'action : monnaie + crayon ----------
+// ---------- barre d'action : monnaie + crayon + panier ----------
 function spRenderActions(){
   const host=spEl('sp-actions'); if(!host) return;
   const lang=scLang(), shop=spShop();
@@ -81,9 +81,47 @@ function spRenderActions(){
     if(SP_EDIT && (SC_EVENTS_DEF||[]).some(d=>d.id===shop.id)){
       html+=`<button type="button" class="sx-btn" onclick="spResetShop()" title="${scEscAttr(scT('resetShopTip'))}">↺ ${scT('resetShop')}</button>`;
     }
+    // Le panier et l'édition ne cohabitent pas : l'un consomme la boutique, l'autre la corrige.
+    if(!SP_EDIT){
+      html+=`<button type="button" class="sx-btn primary" onclick="spAutoFill()" title="${scEscAttr(scT('tipAutoFill'))}">⚡ ${scT('autoFill')}</button>`;
+      const { cart } = scComputeRows(shop);
+      if(cart.lines>0) html+=`<button type="button" class="sx-btn" onclick="spClearCart()">✕ ${scT('clearCart')}</button>`;
+    }
   }
   if(SP_EDIT) html+=`<span class="sx-edit-hint">${scT('editHint')}</span>`;
   host.innerHTML=html;
+}
+
+// ---------- tuiles de bilan du panier ----------
+function spRenderCart(){
+  const host=spEl('sp-cart'); if(!host) return;
+  if(!spIsEvent() || SP_EDIT){ host.innerHTML=''; return; }
+  const lang=scLang(), shop=spShop();
+  const { cart } = scComputeRows(shop);
+  const res=scResName(shop,lang);
+  host.innerHTML=`
+    <div class="sx-kpis${cart.over?' is-over':''}">
+      <div class="sx-kpi">
+        <span class="sx-kpi-lbl">${scT('kpiCurrency')}</span>
+        <span class="sx-kpi-val">${spNum(cart.resources)}</span>
+        <span class="sx-kpi-sub">${scEscAttr(res)}</span>
+      </div>
+      <div class="sx-kpi">
+        <span class="sx-kpi-lbl">${scT('kpiSpent')}</span>
+        <span class="sx-kpi-val">${spNum(cart.spent)}</span>
+        <span class="sx-kpi-sub">${cart.lines} ${scT(cart.lines>1?'kpiLines':'kpiLine')}</span>
+      </div>
+      <div class="sx-kpi ${cart.over?'bad':'good'} sx-kpi-hero">
+        <span class="sx-kpi-lbl">${cart.over?scT('kpiOver'):scT('kpiLeft')}</span>
+        <span class="sx-kpi-val">${spNum(Math.abs(cart.left))}</span>
+        <span class="sx-kpi-sub">${cart.over?scT('overWarn'):scEscAttr(res)}</span>
+      </div>
+      <div class="sx-kpi gemtile">
+        <span class="sx-kpi-lbl">${scT('kpiValue')}</span>
+        <span class="sx-kpi-val">💎 ${spNum(cart.gems)}</span>
+        <span class="sx-kpi-sub">${cart.spent>0?`${(cart.gems/cart.spent).toFixed(2)} 💎 / ${scEscAttr(scResShort(shop,lang))}`:'—'}</span>
+      </div>
+    </div>`;
 }
 
 // ---------- podium des meilleures affaires ----------
@@ -134,9 +172,10 @@ function spRenderTable(){
     return;
   }
 
-  const { rows, maxRatio } = scComputeRows(shop, { sort: SP_SORT.cur });
-  const planning=spIsEvent();
-  const edit=SP_EDIT;
+  const { rows, maxRatio, cart, resets } = scComputeRows(shop, { sort: SP_SORT.cur });
+  const edit = SP_EDIT;
+  const shopping = spIsEvent() && !edit;   // colonnes du panier
+  const stock    = spIsEvent();            // colonnes de stock (dispo / restant)
 
   const heads = `<tr>
       <th class="c-img"></th>
@@ -145,11 +184,13 @@ function spRenderTable(){
       ${spTh('cost',scT('hCost'),'rgt','srt')}
       ${spTh('gem',scT('hGem')+scTip('tipGem'),'rgt','srt')}
       ${spTh('ratio',scT('hRatio')+scTip('tipRatio'),'','srt')}
-      ${planning?`
-      ${spTh('restant',scT('hRestant')+scTip('tipRestant'),'ctr','srt sep')}
-      ${spTh('maxfin',scT('hMaxFin')+scTip('tipMaxFin'),'ctr','srt')}
-      ${spTh('obtenable',scT('hObt')+scTip('tipObt'),'ctr','srt')}
-      ${spTh('coutobt',scT('hCostObt')+scTip('tipCostObt'),'rgt','srt')}`:''}
+      ${stock ? (edit
+        ? spTh('restant',scT('hRestant')+scTip('tipRestant'),'ctr','srt sep')
+        : spTh('maxfin',scT('hAvail')+scTip('tipAvail'),'ctr','srt sep')) : ''}
+      ${shopping?`
+      <th class="ctr c-take">${scT('hTake')}${scTip('tipTake')}</th>
+      ${spTh('takeCost',scT('hTakeCost'),'rgt','srt')}
+      ${spTh('takeGem',scT('hTakeValue'),'rgt','srt')}`:''}
       ${edit?'<th class="c-act"></th>':''}
     </tr>`;
 
@@ -160,26 +201,57 @@ function spRenderTable(){
     const costCell = edit
       ? `<td class="rgt"><input type="number" min="0" step="1" inputmode="numeric" value="${r.cost}" onchange="spEditCost(${r.i},this.value)"></td>`
       : `<td class="rgt">${spNum(r.cost)}</td>`;
-    const planCells = planning ? `
-      ${ edit
+
+    // Stock : en lecture on montre le plafond atteignable et d'où il sort ; en édition
+    // c'est le stock restant qui redevient saisissable.
+    let stockCell='';
+    if(stock){
+      stockCell = edit
         ? `<td class="ctr sep"><input type="number" min="0" step="1" inputmode="numeric" value="${r.restant}" onchange="spEditRestant(${r.i},this.value)"></td>`
-        : `<td class="ctr sep">${spNum(r.restant)}${r.daily?` <span class="sx-rst" title="${scEscAttr(scT('daily'))}">↻</span>`:''}</td>` }
-      <td class="ctr muted">${spNum(r.maxfin)}</td>
-      <td class="ctr ${r.obtenable>0?'ok':'muted'}"><b>${spNum(r.obtenable)}</b></td>
-      <td class="rgt">${spNum(r.coutobt)}</td>` : '';
-    return `<tr class="${r.isTop?'is-top':''}" style="--cat:${scCatColor(r.cat)};">
+        : `<td class="ctr sep">${spNum(r.maxfin)}${r.daily?`<span class="sx-sub">${spNum(r.restant)}${scT('perDay')} × ${resets}${scT('days')}</span>`:''}</td>`;
+    }
+
+    // Panier : stepper + ce que la ligne coûte et rapporte. Une ligne non prise affiche « — ».
+    let cartCells='';
+    if(shopping){
+      const atMax = r.take>0 && r.canTake===0;
+      cartCells = `
+      <td class="ctr c-take">
+        <span class="sx-take${r.take>0?' on':''}">
+          <button type="button" ${r.take<=0?'disabled':''} onclick="spTakeStep(${r.i},-1)" aria-label="−">−</button>
+          <input type="number" min="0" step="1" inputmode="numeric" value="${r.take}" onchange="spSetTake(${r.i},this.value)">
+          <button type="button" ${r.canTake<=0?'disabled':''} onclick="spTakeStep(${r.i},1)" aria-label="+">+</button>
+        </span>
+        <button type="button" class="sx-maxbtn" ${(r.canTake<=0&&!atMax)?'disabled':''} onclick="spTakeMax(${r.i})">MAX</button>
+      </td>
+      <td class="rgt ${r.take>0?'':'dash'}">${r.take>0?spNum(r.takeCost):'—'}</td>
+      <td class="rgt gem ${r.take>0?'':'dash'}">${r.take>0?spNum(r.takeGem):'—'}</td>`;
+    }
+
+    return `<tr class="${r.isTop?'is-top':''}${r.take>0?' in-cart':''}" style="--cat:${scCatColor(r.cat)};">
       <td class="c-img"><span class="sx-ico" style="background-image:url('img/Item/${r.img}.webp');"></span></td>
-      <td class="c-name">${scEscAttr(r.nameTxt)}${r.isTop?`<span class="sx-tag">${scT('best')}</span>`:''}${!planning&&r.daily?` <span class="sx-rst">↻</span>`:''}</td>
+      <td class="c-name">${scEscAttr(r.nameTxt)}${r.isTop?`<span class="sx-tag">${scT('best')}</span>`:''}</td>
       ${qtyCell}
       ${costCell}
       <td class="rgt gem">${spNum(r.gem)}</td>
-      <td class="c-ratio"><b>×${r.ratio.toFixed(2)}</b><span class="sx-bar"><span style="width:${maxRatio>0?(r.ratio/maxRatio*100):0}%"></span></span></td>
-      ${planCells}
+      <td class="c-ratio">${r.ratio>0?`<b>×${r.ratio.toFixed(2)}</b><span class="sx-bar"><span style="width:${maxRatio>0?(r.ratio/maxRatio*100):0}%"></span></span>`:'<span class="dash">—</span>'}</td>
+      ${stockCell}
+      ${cartCells}
       ${edit?`<td class="c-act"><button type="button" class="sx-del" title="${scEscAttr(scT('del'))}" onclick="spRemoveItem(${r.i})">✕</button></td>`:''}
     </tr>`;
   }).join('');
 
-  host.innerHTML=`<div class="table-container${edit?' is-editing':''}"><table class="db-table sx-table"><thead>${heads}</thead><tbody>${body}</tbody></table></div>`
+  // Ligne de total : seulement quand il y a quelque chose au panier.
+  const foot = (shopping && cart.lines>0) ? `<tfoot><tr class="sx-total">
+      <td class="c-img"></td>
+      <td class="c-name">${scT('cartTotal')}</td>
+      <td class="ctr"></td><td class="rgt"></td><td class="rgt"></td><td></td><td class="sep"></td>
+      <td class="ctr">${spNum(rows.reduce((s,r)=>s+r.take,0))} ${scT('lots')}</td>
+      <td class="rgt"><b>${spNum(cart.spent)}</b></td>
+      <td class="rgt gem"><b>💎 ${spNum(cart.gems)}</b></td>
+    </tr></tfoot>` : '';
+
+  host.innerHTML=`<div class="table-container${edit?' is-editing':''}"><table class="db-table sx-table"><thead>${heads}</thead><tbody>${body}</tbody>${foot}</table></div>`
     + (edit?spAddFormHtml():'');
 }
 
@@ -206,10 +278,44 @@ window.spSort=function(col){
   if(st&&st.col===col) st.dir=-st.dir; else SP_SORT.cur={col,dir:1};
   spRenderTable();
 };
-window.spToggleEdit=function(){ SP_EDIT=!SP_EDIT; spRenderActions(); spRenderTable(); };
+window.spToggleEdit=function(){ SP_EDIT=!SP_EDIT; spRenderAll(); };
 
 function spSave(){ scSaveEvents(); }
-function spAfterEdit(){ spSave(); spRenderTable(); spRenderPodium(); spRenderHero(); }
+
+// Le re-rendu remplace le tableau entier. Déclenché depuis le `change` d'un champ, il détruit
+// ce champ alors que le navigateur traite encore son `blur` — ce qui lève une DOMException.
+// On rend la main au navigateur avant de reconstruire, ce qui coalesce au passage les appels
+// rapprochés (un clic sur MAX en enchaîne plusieurs).
+let SP_PENDING = null;
+function spAfterEdit(){
+  spSave();
+  if(SP_PENDING) return;
+  SP_PENDING = setTimeout(()=>{
+    SP_PENDING = null;
+    spRenderTable(); spRenderPodium(); spRenderHero(); spRenderCart(); spRenderActions();
+  }, 0);
+}
+
+// ---------- panier ----------
+// Chaque geste est plafonné à la source : ce qu'on peut encore prendre (canTake) tient déjà
+// compte du stock ET du solde restant, donc l'utilisateur ne peut pas se mettre en dépassement
+// par les boutons — seule une saisie au clavier le permet, et elle est alors signalée.
+function spTakeSet(i, n){
+  const s=spShop(); if(!s||!s.items[i]) return;
+  s.items[i].take = Math.max(0, Math.floor(n)||0);
+  spAfterEdit();
+}
+window.spSetTake=function(i,val){ spTakeSet(i, parseInt(String(val).replace(/\s/g,''))||0); };
+window.spTakeStep=function(i,d){
+  const r=scComputeRows(spShop()).all.find(x=>x.i===i); if(!r) return;
+  spTakeSet(i, d>0 ? r.take + Math.min(1, r.canTake) : r.take - 1);
+};
+window.spTakeMax=function(i){
+  const r=scComputeRows(spShop()).all.find(x=>x.i===i); if(!r) return;
+  spTakeSet(i, r.take + r.canTake);
+};
+window.spAutoFill=function(){ scAutoFill(spShop()); spAfterEdit(); };
+window.spClearCart=function(){ scClearCart(spShop()); spAfterEdit(); };
 
 window.spEditResources=function(val){
   const s=spShop(); if(!s) return;
@@ -266,13 +372,16 @@ window.spResetShop=function(){
 // ---------- rendu global ----------
 function spRenderAll(){
   scApplyTranslations();
-  spRenderHero(); spRenderSwitch(); spRenderActions();
+  spRenderHero(); spRenderSwitch(); spRenderActions(); spRenderCart();
   spRenderPodium(); spRenderTable();
 }
 
 (async function(){
   await scLoadAll();
   SP = scFindBySlug(window.SHOP_SLUG||'');
+  // Tri par défaut : meilleures affaires en tête. C'est la question que le joueur se pose
+  // en arrivant ; l'ordre du jeu reste accessible en cliquant sur une colonne.
+  SP_SORT.cur = { col:'ratio', dir:-1 };
   if(!SP){
     const host=spEl('sp-table');
     if(host) host.innerHTML=`<p style="color:var(--text-muted);">Shop “${scEscAttr(window.SHOP_SLUG||'')}” introuvable.</p>`;
