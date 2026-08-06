@@ -1,6 +1,6 @@
 [
   {
-    "id": "boost_chest",
+    "id": "boost_chest", "slug": "gear-boost-chest",
     "name": { "EN": "Gear Boost Custom Chest", "FR": "Coffre personnalisé de Boost d'Équipement" },
     "items": [
       { "itemId": "lucky_hero_gear_chest", "qty": 10 },
@@ -10,7 +10,7 @@
     ]
   },
   {
-    "id": "war_chant_chest",
+    "id": "war_chant_chest", "slug": "war-chant-chest",
     "name": { "EN": "War Chant Custom Chest", "FR": "Coffre personnalisé Chant de Guerre" },
     "items": [
       { "itemId": "mythic_general_hero_shard", "qty": 2 },

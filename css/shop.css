@@ -1,0 +1,300 @@
+/* ============================================================
+   SHOP — sommaire des boutiques + pages boutique dédiées
+   Préfixe .sx-  ·  s'appuie sur css/db.css (.db-page, .db-section, .db-breadcrumb)
+   ============================================================ */
+
+/* ---------- sommaire : sections ---------- */
+.sx-section { margin: 34px 0 0; }
+.sx-section > h2 {
+  color: var(--accent); font-size: 16px; text-transform: uppercase; letter-spacing: .03em;
+  margin: 0 0 4px; border-bottom: 1px solid var(--border); padding-bottom: 8px;
+  display: flex; align-items: baseline; gap: 10px;
+}
+.sx-section > h2 .sx-count { font-size: 12px; color: var(--text-muted); font-weight: 400; letter-spacing: 0; text-transform: none; }
+.sx-section-sub { color: var(--text-muted); font-size: 13px; margin: 0 0 16px; line-height: 1.5; }
+
+/* ---------- sommaire : grille de cartes ---------- */
+.sx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+
+.sx-card {
+  position: relative; display: flex; flex-direction: column; overflow: hidden;
+  background: var(--bg-panel); border: 1px solid var(--border); border-top: 3px solid var(--accent);
+  border-radius: 12px; text-decoration: none; color: var(--text-light);
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+/* Signature maison : reflet doré qui balaie la carte au survol (cf. .hub-card). */
+.sx-card::before {
+  content: ""; position: absolute; inset: 0 auto 0 -100%; width: 100%; z-index: 2; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(245,184,64,.08), transparent);
+  transition: left .6s;
+}
+.sx-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px var(--shadow); }
+.sx-card:hover::before { left: 100%; }
+.sx-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- vignette : photo si elle existe, sinon mosaïque des 4 meilleurs objets ---------- */
+.sx-thumb {
+  position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden;
+  background: linear-gradient(135deg, var(--control-bg), var(--bg-panel));
+  border-bottom: 1px solid var(--border);
+}
+.sx-mosaic { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; }
+.sx-tile {
+  background-size: 54%; background-repeat: no-repeat; background-position: center;
+  background-color: color-mix(in srgb, var(--cat) 12%, transparent);
+  box-shadow: inset 0 0 0 1px rgba(127,127,127,.10);
+}
+.sx-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+
+/* ---------- badges de statut sur la vignette ---------- */
+.sx-badge {
+  position: absolute; top: 8px; right: 8px; z-index: 3;
+  font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 9px;
+  background: rgba(0,0,0,.72); color: #fff; border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(2px);
+}
+.sx-badge.live    { background: var(--success); color: #04211f; border-color: transparent; }
+.sx-badge.urgent  { background: var(--warning); color: #241000; border-color: transparent; }
+.sx-badge.ended   { background: var(--control-bg); color: var(--text-muted); border-color: var(--border); }
+[data-theme="light"] .sx-badge.live { color: #fff; }
+
+/* ---------- corps de la carte ---------- */
+.sx-body { display: flex; flex-direction: column; gap: 5px; padding: 12px 14px 14px; }
+.sx-name { font-size: 15px; font-weight: 700; line-height: 1.25; }
+.sx-meta { font-size: 12px; color: var(--text-muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.sx-meta .sx-dot { opacity: .5; }
+.sx-cur { color: var(--accent); font-weight: 600; }
+
+/* ---------- événement terminé : grisé mais toujours cliquable ---------- */
+.sx-card.is-ended { border-top-color: var(--border); }
+.sx-card.is-ended .sx-thumb { filter: grayscale(1); opacity: .55; }
+.sx-card.is-ended .sx-name { color: var(--text-muted); }
+.sx-card.is-ended:hover { border-color: var(--accent); }
+.sx-card.is-ended:hover .sx-thumb { filter: grayscale(.4); opacity: .8; }
+
+/* ---------- carte « référentiel des valeurs » ----------
+   Ce n'est pas une boutique : format bandeau compact, hors grille, pour qu'elle se lise
+   comme un accès transverse et non comme une quatrième famille. */
+.sx-card.sx-ref { flex-direction: row; align-items: stretch; border-top-color: var(--success); }
+.sx-card.sx-ref .sx-thumb {
+  width: 92px; flex: 0 0 92px; aspect-ratio: auto; align-self: stretch;
+  display: flex; align-items: center; justify-content: center;
+  border-bottom: none; border-right: 1px solid var(--border);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--success) 16%, transparent), var(--bg-panel));
+}
+.sx-card.sx-ref .sx-body { justify-content: center; }
+.sx-ref-glyph { font-size: 30px; line-height: 1; filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
+
+/* ---------- vignette d'objet en tableau (reprise de l'ancien <style> de shop_calc.html) ---------- */
+.sc-item-img {
+  width: 34px; height: 34px; border-radius: 6px;
+  background-size: contain; background-position: center; background-repeat: no-repeat;
+  border: 1px solid var(--border);
+}
+
+/* ---------- barre d'outils (recherche + filtre + action) ----------
+   Les .table-input/.table-select du site sont en width:100% : sans base flex explicite,
+   chacun réclame toute la ligne et la barre se casse en trois étages. */
+.shop-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 18px 0 12px; }
+.shop-toolbar > * { flex: 0 0 auto; width: auto; }
+.shop-toolbar > input { flex: 1 1 220px; min-width: 180px; }
+.shop-toolbar > select { flex: 0 1 200px; min-width: 160px; }
+
+/* ============================================================
+   PAGE BOUTIQUE
+   ============================================================ */
+.sx-hero { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin: 0 0 6px; }
+.sx-hero-thumb {
+  width: 132px; flex: 0 0 132px; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.sx-hero-thumb .sx-thumb { border-bottom: none; height: 100%; }
+.sx-hero-text { min-width: 0; }
+.sx-hero-text h1 { margin: 0 0 4px; }
+.sx-facts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; color: var(--text-muted); }
+.sx-fact {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--control-bg); border: 1px solid var(--border);
+  padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+}
+.sx-fact b { color: var(--text-light); font-weight: 600; }
+.sx-fact.live b   { color: var(--success); }
+.sx-fact.urgent b { color: var(--warning); }
+.sx-fact.ended    { opacity: .75; }
+
+/* Bandeau d'archive des événements terminés */
+.sx-archive {
+  display: flex; gap: 10px; align-items: flex-start;
+  margin: 16px 0 0; padding: 12px 14px; border-radius: 8px;
+  background: var(--control-bg); border: 1px solid var(--border); border-left: 3px solid var(--text-muted);
+  color: var(--text-muted); font-size: 13px; line-height: 1.5;
+}
+
+/* ============================================================
+   TABLEAU DE BOUTIQUE — une ligne par objet
+   S'appuie sur table.db-table (db.css) ; .sx-table ne pose que les spécificités.
+   ============================================================ */
+/* Les fiches BDD calent volontairement leurs tables sur le contenu
+   (style.css : `.db-section table.db-table { width:auto }`). Une liste de boutique, elle,
+   doit tenir la largeur : sinon une boutique à 6 colonnes laisse la moitié de la page vide.
+   Le nom de l'objet absorbe l'espace restant, les colonnes chiffrées restent serrées. */
+body.has-app-header .db-section table.sx-table { width: 100%; }
+.sx-table td.c-name, .sx-table th:nth-child(2) { width: 100%; }
+.sx-table th { white-space: nowrap; }
+.sx-table th.srt { cursor: pointer; user-select: none; }
+.sx-table th.srt:hover { color: var(--accent); }
+.sx-table th.ctr, .sx-table td.ctr { text-align: center; }
+.sx-table th.rgt, .sx-table td.rgt { text-align: right; }
+.sx-table td.ctr, .sx-table td.rgt { font-variant-numeric: tabular-nums; }
+
+/* Chaque ligne porte la couleur de catégorie de son objet en liseré + fond très léger. */
+.sx-table tbody tr { border-left: 4px solid var(--cat); background: color-mix(in srgb, var(--cat) 7%, transparent); }
+.sx-table tbody tr:hover { background: color-mix(in srgb, var(--cat) 14%, transparent); }
+.sx-table td.c-img { width: 40px; padding-right: 0; }
+.sx-ico {
+  display: block; width: 30px; height: 30px; border-radius: 6px;
+  background-size: contain; background-position: center; background-repeat: no-repeat;
+  background-color: color-mix(in srgb, var(--cat) 18%, transparent);
+}
+.sx-table td.c-name { white-space: normal; min-width: 190px; font-weight: 600; line-height: 1.3; }
+.sx-table td.gem { color: var(--success); font-weight: 600; }
+.sx-table td.muted { color: var(--text-muted); }
+.sx-table td.ok b { color: var(--success); }
+.sx-rst { color: var(--success); }
+
+/* Meilleur ratio de la boutique */
+.sx-table tbody tr.is-top { background: rgba(59,130,246,.14); box-shadow: inset 0 0 0 1px rgba(59,130,246,.35); border-left-color: #3B82F6; }
+.sx-table tbody tr.is-top:hover { background: rgba(59,130,246,.20); }
+.sx-table tr.is-top td.c-ratio b { color: #3B82F6; }
+.sx-table tr.is-top .sx-bar > span { background: #3B82F6; }
+.sx-tag {
+  display: inline-block; margin-left: 6px; vertical-align: 1px;
+  background: #3B82F6; color: #fff; font-size: 10px; font-weight: 700;
+  padding: 1px 6px; border-radius: 8px; letter-spacing: .02em;
+}
+
+/* Ratio : valeur + barre de comparaison à la meilleure ligne */
+.sx-table td.c-ratio { min-width: 118px; }
+.sx-table td.c-ratio b { font-variant-numeric: tabular-nums; margin-right: 7px; }
+.sx-table td.c-bar { width: 120px; }
+.sx-bar {
+  display: inline-block; vertical-align: middle; width: 62px; height: 6px;
+  background: var(--control-bg); border-radius: 3px; overflow: hidden;
+}
+.sx-bar > span { display: block; height: 100%; background: var(--accent); }
+
+/* Séparateur devant le bloc « ce que tu peux en tirer » (Restant → Coût obt.) */
+.sx-table th.sep, .sx-table td.sep { border-left: 1px solid var(--border); }
+
+/* ---------- mode édition ---------- */
+.sx-table input[type="number"] {
+  width: 64px; padding: 3px 5px; text-align: right;
+  background: var(--input-bg); color: var(--text-light);
+  border: 1px solid var(--border); border-radius: 4px; font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.sx-table td.ctr input[type="number"] { text-align: center; width: 58px; }
+.sx-table input[type="number"]:focus { outline: none; border-color: var(--accent); }
+/* La colonne de suppression reste collée au bord droit : sur un tableau large, une action
+   qui part hors champ au scroll horizontal est une action perdue. */
+.sx-table th.c-act, .sx-table td.c-act {
+  width: 42px; text-align: center; padding-left: 4px; padding-right: 8px;
+  position: sticky; right: 0; z-index: 1;
+  background: var(--bg-panel); box-shadow: -1px 0 0 var(--border);
+}
+.sx-table thead th.c-act { z-index: 3; }
+.sx-table tbody tr.is-top td.c-act { background: color-mix(in srgb, #3B82F6 16%, var(--bg-panel)); }
+.sx-del {
+  background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+  border-radius: 5px; padding: 2px 7px; cursor: pointer; font-size: 12px; line-height: 1.4;
+}
+.sx-del:hover { border-color: #e5484d; color: #e5484d; }
+.table-container.is-editing { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 8px; }
+/* En édition, les colonnes calculées passent en retrait : l'oeil doit aller aux champs. */
+.table-container.is-editing .sx-table td.muted,
+.table-container.is-editing .sx-table td.rgt:not(.gem) { opacity: .75; }
+
+/* Barre d'action (monnaie + crayon) */
+.sx-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 18px 0 0; }
+.sx-cur-field { gap: 8px; }
+.sx-cur-field input {
+  width: 110px; padding: 3px 8px; text-align: right;
+  background: var(--input-bg); color: var(--text-light);
+  border: 1px solid var(--border); border-radius: 4px; font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.sx-cur-field input:focus { outline: none; border-color: var(--accent); }
+.sx-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--control-bg); color: var(--text-light);
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: border-color .15s, background .15s, color .15s;
+}
+.sx-btn:hover { border-color: var(--accent); color: var(--accent); }
+.sx-btn.on { background: var(--accent); border-color: var(--accent); color: #000; }
+.sx-btn.on:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #000; }
+.sx-btn.primary { background: var(--accent); border-color: var(--accent); color: #000; }
+.sx-btn.primary:hover { background: var(--accent-hover); color: #000; }
+.sx-edit-hint { flex: 1 1 240px; font-size: 12px; color: var(--text-muted); line-height: 1.45; }
+
+/* Formulaire d'ajout (mode édition) */
+.sx-add {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  margin-top: 10px; padding: 12px; border-radius: 8px;
+  background: var(--control-bg); border: 1px dashed var(--border);
+}
+.sx-add input[type="text"], .sx-add input:not([type]), .sx-add input[type="number"] {
+  background: var(--input-bg); color: var(--text-light);
+  border: 1px solid var(--border); border-radius: 4px; padding: 5px 8px; font-size: 13px;
+}
+.sx-add .sx-add-item { flex: 1 1 200px; min-width: 160px; }
+.sx-add .sx-add-item.bad { border-color: #e5484d; }
+.sx-add input[type="number"] { width: 84px; text-align: right; font-variant-numeric: tabular-nums; }
+.sx-add-daily-lbl { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+
+/* Podium des meilleures affaires */
+.sx-podium { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.sx-pod {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+  background: var(--control-bg); border: 1px solid var(--border); border-radius: 10px;
+  border-left: 4px solid var(--cat);
+}
+.sx-pod-rank { font-size: 18px; font-weight: 800; color: var(--text-muted); min-width: 22px; }
+.sx-pod:first-child .sx-pod-rank { color: var(--accent); }
+.sx-pod-img { width: 44px; height: 44px; flex: 0 0 44px; background-size: contain; background-repeat: no-repeat; background-position: center; }
+.sx-pod-txt { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.sx-pod-name { font-size: 13px; font-weight: 600; line-height: 1.25; }
+.sx-pod-val { font-size: 12px; color: var(--text-muted); }
+.sx-pod-val b { color: var(--accent); font-size: 14px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 560px) {
+  .sx-grid { grid-template-columns: 1fr; }
+  .sx-hero-thumb { width: 100px; flex-basis: 100px; }
+}
+
+/* Sous 820px le tableau défile horizontalement, l'objet reste visible : la colonne du nom
+   est figée à gauche (l'icône, purement décorative, disparaît pour lui laisser la place). */
+@media (max-width: 820px) {
+  .sx-table td.c-img, .sx-table th.c-img { display: none; }
+  .sx-table td.c-name, .sx-table th:nth-child(2) {
+    position: sticky; left: 0; z-index: 1;
+    background: var(--bg-panel); box-shadow: 1px 0 0 var(--border);
+    min-width: 150px; max-width: 190px;
+  }
+  .sx-table tbody tr.is-top td.c-name { background: color-mix(in srgb, #3B82F6 16%, var(--bg-panel)); }
+  .sx-table td.c-ratio { min-width: 92px; }
+  .sx-bar { width: 40px; }
+  .sx-edit-hint { flex-basis: 100%; }
+}
+
+/* Sur un écran étroit, la colonne figée mange déjà la moitié de la largeur : on rend la place
+   en resserrant le nom et en abandonnant la barre du ratio, dont le chiffre dit la même chose. */
+@media (max-width: 560px) {
+  .sx-table td.c-name, .sx-table th:nth-child(2) { min-width: 128px; max-width: 148px; }
+  .sx-table .sx-bar { display: none; }
+  .sx-table td.c-ratio { min-width: 58px; }
+  .sx-table td.c-ratio b { margin-right: 0; }
+  .sx-table th, .sx-table td { padding-left: 8px; padding-right: 8px; }
+}
