@@ -35,11 +35,10 @@ const i18nShop = {
     kpiCurrency:"Ma monnaie", kpiSpent:"Dépensé", kpiLeft:"Restant", kpiValue:"Valeur obtenue",
     kpiLine:"objet choisi", kpiLines:"objets choisis", kpiOver:"Dépassement",
     hAvail:"Dispo", hTake:"Je prends", hTakeCost:"Coût", hTakeValue:"Valeur",
-    cartTotal:"Total du panier", autoFill:"Remplir au mieux", clearCart:"Vider",
+    cartTotal:"Total du panier", clearCart:"Vider le panier",
     perDay:"/jour", unlimited:"Illimité", lots:"lots",
     tipTake:"Nombre de lots que tu prévois d'acheter. Le solde et la valeur se recalculent aussitôt.",
     tipAvail:"Quantité maximale achetable d'ici la fin de l'événement, réinitialisations quotidiennes comprises.",
-    tipAutoFill:"Remplit le panier en partant du meilleur ratio, jusqu'à épuisement de ta monnaie.",
     overWarn:"Ton panier dépasse ta monnaie disponible.",
     // — mode édition —
     edit:"Modifier", editDone:"Terminer", editOn:"Mode édition",
@@ -83,11 +82,10 @@ const i18nShop = {
     kpiCurrency:"My currency", kpiSpent:"Spent", kpiLeft:"Remaining", kpiValue:"Value obtained",
     kpiLine:"item picked", kpiLines:"items picked", kpiOver:"Over budget",
     hAvail:"Available", hTake:"I take", hTakeCost:"Cost", hTakeValue:"Value",
-    cartTotal:"Cart total", autoFill:"Fill for best value", clearCart:"Clear",
+    cartTotal:"Cart total", clearCart:"Clear cart",
     perDay:"/day", unlimited:"Unlimited", lots:"lots",
     tipTake:"How many lots you plan to buy. The balance and value update instantly.",
     tipAvail:"Maximum buyable by the event's end, daily resets included.",
-    tipAutoFill:"Fills the cart starting from the best ratio, until your currency runs out.",
     overWarn:"Your cart costs more than the currency you have.",
     edit:"Edit", editDone:"Done", editOn:"Editing",
     editHint:"Adjust quantities, costs and remaining stock to match your in-game shop. Your changes stay on your device.",
@@ -336,22 +334,6 @@ function scComputeRows(shop, opts){
   return { rows: display, all: rows, maxRatio, resets, cart };
 }
 
-// Remplissage automatique : on parcourt les lignes du meilleur ratio au moins bon et on prend
-// tout ce que le solde permet. Glouton, donc pas optimal au sens strict (un sac à dos ne se
-// résout pas comme ça), mais les paliers de prix d'une boutique sont assez fins pour que le
-// reliquat soit négligeable — et le résultat reste explicable au joueur, ce qui compte plus.
-function scAutoFill(shop){
-  const { all } = scComputeRows(shop);
-  let left = Math.max(0, Number(shop.resources)||0);
-  const order = all.slice().sort((a,b)=>b.ratio-a.ratio);
-  order.forEach(r=>{
-    const si = shop.items[r.i];
-    if(r.ratio<=0 || r.cost<=0 || si.skipAuto){ si.take = 0; return; }
-    const n = Math.max(0, Math.min(r.maxfin, Math.floor(left/r.cost)));
-    si.take = n;
-    left -= n*r.cost;
-  });
-}
 function scClearCart(shop){ (shop.items||[]).forEach(si=>{ si.take = 0; }); }
 // Coffre : pas de coût ni de monnaie, seulement la valeur du lot. Le meilleur choix est le lot le plus cher.
 function scComputeChest(chest){

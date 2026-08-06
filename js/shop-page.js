@@ -83,7 +83,6 @@ function spRenderActions(){
     }
     // Le panier et l'édition ne cohabitent pas : l'un consomme la boutique, l'autre la corrige.
     if(!SP_EDIT){
-      html+=`<button type="button" class="sx-btn primary" onclick="spAutoFill()" title="${scEscAttr(scT('tipAutoFill'))}">⚡ ${scT('autoFill')}</button>`;
       const { cart } = scComputeRows(shop);
       if(cart.lines>0) html+=`<button type="button" class="sx-btn" onclick="spClearCart()">✕ ${scT('clearCart')}</button>`;
     }
@@ -314,7 +313,6 @@ window.spTakeMax=function(i){
   const r=scComputeRows(spShop()).all.find(x=>x.i===i); if(!r) return;
   spTakeSet(i, r.take + r.canTake);
 };
-window.spAutoFill=function(){ scAutoFill(spShop()); spAfterEdit(); };
 window.spClearCart=function(){ scClearCart(spShop()); spAfterEdit(); };
 
 window.spEditResources=function(val){
