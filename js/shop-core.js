@@ -31,6 +31,15 @@ const i18nShop = {
     hRestant:"Restant", hMaxFin:"Max fin", hObt:"Obtenable", hCostObt:"Coût obt.", hShare:"Part",
     best:"Top", bestPick:"Meilleur choix",
     daily:"Réinit. quotidienne (00h UTC)", stock:"Stock (sans réinit.)",
+    // — panier —
+    kpiCurrency:"Ma monnaie", kpiSpent:"Dépensé", kpiLeft:"Restant", kpiValue:"Valeur obtenue",
+    kpiLine:"objet choisi", kpiLines:"objets choisis", kpiOver:"Dépassement",
+    hAvail:"Dispo", hTake:"Je prends", hTakeCost:"Coût", hTakeValue:"Valeur",
+    cartTotal:"Total du panier", clearCart:"Vider le panier",
+    perDay:"/jour", unlimited:"Illimité", lots:"lots",
+    tipTake:"Nombre de lots que tu prévois d'acheter. Le solde et la valeur se recalculent aussitôt.",
+    tipAvail:"Quantité maximale achetable d'ici la fin de l'événement, réinitialisations quotidiennes comprises.",
+    overWarn:"Ton panier dépasse ta monnaie disponible.",
     // — mode édition —
     edit:"Modifier", editDone:"Terminer", editOn:"Mode édition",
     editHint:"Ajuste les quantités, les coûts et le stock restant pour coller à ta boutique en jeu. Tes modifications restent sur ton appareil.",
@@ -70,6 +79,14 @@ const i18nShop = {
     hRestant:"Remaining", hMaxFin:"Max by end", hObt:"Obtainable", hCostObt:"Obt. cost", hShare:"Share",
     best:"Top", bestPick:"Best pick",
     daily:"Daily reset (00:00 UTC)", stock:"Stock (no reset)",
+    kpiCurrency:"My currency", kpiSpent:"Spent", kpiLeft:"Remaining", kpiValue:"Value obtained",
+    kpiLine:"item picked", kpiLines:"items picked", kpiOver:"Over budget",
+    hAvail:"Available", hTake:"I take", hTakeCost:"Cost", hTakeValue:"Value",
+    cartTotal:"Cart total", clearCart:"Clear cart",
+    perDay:"/day", unlimited:"Unlimited", lots:"lots",
+    tipTake:"How many lots you plan to buy. The balance and value update instantly.",
+    tipAvail:"Maximum buyable by the event's end, daily resets included.",
+    overWarn:"Your cart costs more than the currency you have.",
     edit:"Edit", editDone:"Done", editOn:"Editing",
     editHint:"Adjust quantities, costs and remaining stock to match your in-game shop. Your changes stay on your device.",
     addItem:"Add", chooseItem:"— Item —", del:"Remove",
@@ -264,8 +281,12 @@ function scThumbHtml(shop, kind){
 }
 
 // ---------- calcul des lignes d'une boutique ----------
-// Ordre d'affichage = ordre de saisie par défaut. r.i = index réel dans shop.items
-// (les éditions et retraits doivent viser la donnée, jamais la ligne affichée).
+// r.i = index réel dans shop.items : les éditions et retraits doivent viser la donnée,
+// jamais la ligne affichée (qui peut être triée).
+//
+// PANIER — `si.take` = nombre de lots que l'utilisateur prévoit d'acheter. Le calcul se fait
+// en deux passes : d'abord ce que coûte la sélection, ensuite seulement ce qu'il reste
+// prenable sur chaque ligne (qui dépend du solde restant, donc de toutes les autres lignes).
 function scComputeRows(shop, opts){
   const lang=scLang();
   const o=opts||{};
@@ -281,10 +302,21 @@ function scComputeRows(shop, opts){
     const daily=!!si.dailyReset;
     const maxfin = daily ? restant*resets : restant;
     const obtenable = cost>0 ? Math.min(maxfin, Math.floor(resources/cost)) : 0;
+    const take = Math.max(0, Math.min(maxfin, Math.floor(Number(si.take)||0)));
     return { i, si, it, skin, qty, cost, gem, ratio: cost>0?gem/cost:0, restant, daily, maxfin,
              obtenable, coutobt: obtenable*cost, cat:(it&&it.category)||'Other',
+             take, takeCost: take*cost, takeGem: take*gem,
              nameTxt: scLabel(it,skin,lang), img: scImg(skin||it) };
   });
+
+  // Bilan du panier, puis « encore prenable » ligne par ligne sur le solde restant.
+  const spent = rows.reduce((s,r)=>s+r.takeCost, 0);
+  const gems  = rows.reduce((s,r)=>s+r.takeGem, 0);
+  const left  = resources - spent;
+  rows.forEach(r=>{
+    r.canTake = r.cost>0 ? Math.max(0, Math.min(r.maxfin-r.take, Math.floor(Math.max(0,left)/r.cost))) : 0;
+  });
+  const cart = { resources, spent, left, gems, over: spent>resources, lines: rows.filter(r=>r.take>0).length };
   // Top = meilleur ratio. Pas de Top si toutes les lignes sont à égalité (l'info n'apprendrait rien).
   const maxRatio=rows.length?Math.max(...rows.map(r=>r.ratio)):0;
   const topCount=rows.filter(r=>r.ratio===maxRatio&&r.ratio>0).length;
@@ -299,8 +331,10 @@ function scComputeRows(shop, opts){
       return ((a[st.col]||0)-(b[st.col]||0))*st.dir;
     });
   }
-  return { rows: display, all: rows, maxRatio, resets };
+  return { rows: display, all: rows, maxRatio, resets, cart };
 }
+
+function scClearCart(shop){ (shop.items||[]).forEach(si=>{ si.take = 0; }); }
 // Coffre : pas de coût ni de monnaie, seulement la valeur du lot. Le meilleur choix est le lot le plus cher.
 function scComputeChest(chest){
   const lang=scLang();
