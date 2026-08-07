@@ -240,18 +240,20 @@ function spRenderTable(){
     </tr>`;
   }).join('');
 
-  // Ligne de total : seulement quand il y a quelque chose au panier.
-  const foot = (shopping && cart.lines>0) ? `<tfoot><tr class="sx-total">
-      <td class="c-img"></td>
-      <td class="c-name">${scT('cartTotal')}</td>
-      <td class="ctr"></td><td class="rgt"></td><td class="rgt"></td><td></td><td class="sep"></td>
-      <td class="ctr">${spNum(rows.reduce((s,r)=>s+r.take,0))} ${scT('lots')}</td>
-      <td class="rgt"><b>${spNum(cart.spent)}</b></td>
-      <td class="rgt gem"><b>💎 ${spNum(cart.gems)}</b></td>
-    </tr></tfoot>` : '';
+  // Récapitulatif du panier : une barre HORS du tableau, collée en bas de l'écran.
+  // `position:sticky` sur un <tfoot> n'est pas fiable (Chromium ne le colle qu'une fois le
+  // défilement entamé) ; une div ordinaire tient toujours, et reste lisible même quand le
+  // tableau déborde horizontalement.
+  const bar = (shopping && cart.lines>0) ? `<div class="sx-cartbar${cart.over?' is-over':''}">
+      <span class="sx-cartbar-lbl">${scT('cartTotal')}</span>
+      <span class="sx-cartbar-item"><b>${spNum(rows.reduce((s,r)=>s+r.take,0))}</b> ${scT('lots')}</span>
+      <span class="sx-cartbar-item"><b>${spNum(cart.spent)}</b> ${scEscAttr(scResShort(shop,scLang()))}</span>
+      <span class="sx-cartbar-item gem"><b>💎 ${spNum(cart.gems)}</b></span>
+      <span class="sx-cartbar-left ${cart.over?'bad':''}">${cart.over?scT('kpiOver'):scT('kpiLeft')} <b>${spNum(Math.abs(cart.left))}</b></span>
+    </div>` : '';
 
-  host.innerHTML=`<div class="table-container${edit?' is-editing':''}"><table class="db-table sx-table"><thead>${heads}</thead><tbody>${body}</tbody>${foot}</table></div>`
-    + (edit?spAddFormHtml():'');
+  host.innerHTML=`<div class="table-container${edit?' is-editing':''}"><table class="db-table sx-table"><thead>${heads}</thead><tbody>${body}</tbody></table></div>`
+    + bar + (edit?spAddFormHtml():'');
 }
 
 // Formulaire d'ajout — visible en mode édition seulement.
