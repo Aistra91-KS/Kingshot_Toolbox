@@ -3,6 +3,16 @@
 //  Pure logic, NO DOM. Usable in the browser (window.WA_Optimizer)
 //  and in Node (module.exports) for the test harness.
 //
+//  What each mode is FOR (settled by Paul; do not "fix" one into the other):
+//    - Classic / max researches : get the most researches done. It naturally spreads
+//                      across trees, because cheap levels sit everywhere.
+//    - KvK / max points         : get the most KvK points, full stop. If the best plan
+//                      only ever touches ONE of the ticked trees, that is the right
+//                      answer, not a bug — concentrating is often what wins (the
+//                      troop-tier chain pays off only once it is finished). Ticking a
+//                      tree says "you may use it", never "you must".
+//    - Target score             : reach a score for the least cost.
+//
 //  Hard constraints : BOTH the Truegold Dust budget and the speedup budget, in all
 //                      three modes. (An older header said time only bound Classic mode —
 //                      that has not been true for several versions: the speedup check in
