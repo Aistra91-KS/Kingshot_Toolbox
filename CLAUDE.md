@@ -29,6 +29,7 @@
 - **Git** : brancher depuis `main` à jour → commits clairs → `git push -u origin <branche>`.
 - **PR** : ne PAS ouvrir de pull request sauf demande explicite. Une PR mergée est finie : repartir de `main` pour tout suivi (ne pas empiler sur l'historique mergé).
 - **Messages de commit / PR** : en **anglais**, langage courant compréhensible par un joueur non développeur (cf. `MAP.md` §9).
+- **Annonces Discord** (`.github/news/announce.md`) : **toujours inclure le lien direct de chaque page concernée** par l'annonce (`https://aistra91-ks.github.io/Kingshot_Toolbox/<page>`) — le lecteur doit pouvoir ouvrir la nouveauté sans avoir à la chercher. Règle systématique, à ne plus demander. Committer `announce.md` **seul** (cf. `MAP.md` §7), et mettre `covers-until` au SHA du commit qui a publié l'annonce précédente.
 - **Site statique GitHub Pages** : aucun build, aucun backend. Tester en servant le repo localement + Chromium préinstallé (`/opt/pw-browsers/chromium`, Playwright déjà configuré).
 - **Respecter les conventions du projet** (cf. `MAP.md`) : navigation via `site-config.js` uniquement, i18n (`data-i18n` / `data-en`/`data-fr` + event `langChanged`), clés `STORAGE_KEYS` + `safeParse`, charte graphique (variables CSS), styles BDD partagés dans `css/db.css`.
 - **Ne pas casser la logique existante** : lors d'un nettoyage/refactor, ne supprimer que du code prouvé non référencé et vérifier le rendu avant/après.
