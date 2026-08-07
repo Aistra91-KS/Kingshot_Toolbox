@@ -1,11 +1,11 @@
 <!-- kshub-news
 version: 1
-covers-until: 3ef1da5413ffaef8d8320cade2d393b1bb9d0d8e
-generated: 2026-08-04
+covers-until: 26472c7445d4433cfae1caba04d07cca4fa9b8bf
+generated: 2026-08-07
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: ❄️ Magasin Polaire : quels achats valent vraiment le coup
-title-en: ❄️ Polar Shop: which buys are actually worth it
+title-fr: 🛍️ La page Boutique se refait une beauté
+title-en: 🛍️ The Shop page gets a makeover
 -->
 
 <!--
@@ -20,6 +20,10 @@ GABARIT — mode d'emploi
 
 Les commentaires HTML ne sont jamais publiés : tant que les deux sections
 ci-dessous restent vides, aucun message n'est envoyé.
+
+TOUJOURS inclure le lien direct des pages concernées par l'annonce
+(https://aistra91-ks.github.io/Kingshot_Toolbox/<page>) — le lecteur doit
+pouvoir ouvrir la nouveauté sans avoir à la chercher.
 
 Clés facultatives de l'en-tête :
   ping       mention ajoutée au message (ex. @here ou <@&123456789012345678>)
@@ -42,68 +46,76 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### ❄️ Magasin Polaire : la boutique de l'événement est dans l'outil
+### 🛍️ Chaque boutique a désormais sa propre page
 
-Le **Magasin Polaire** (fin le **12 août**) est chargé dans **Valeur Boutique** → onglet *Shop d'Événement*, avec ses plafonds d'achat, sa réinitialisation quotidienne et son compte à rebours.
+Fini l'écran unique bourré d'onglets : **Valeur Boutique** est devenu un sommaire rangé en trois familles — **Boutiques d'Événement**, **Boutiques Permanentes** et **Coffres** — et chacune des 12 boutiques a sa page dédiée, avec la place qu'il faut pour tout afficher.
 
-**Le classement au rapport valeur / prix** (gemmes obtenues pour 1 pièce dépensée) :
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/shop_calc.html
 
-🥇 **Caisse de Matériaux d'Équipement du Chef** — 30 pièces → 2 600 gemmes, soit **×86,7**
-🥈 **Vision de l'Artisan** (12 → 1 000), **Marteau de Forge** (30 → 2 500) et **Fragment Universel de Héros Mythique** (60 → 5 000) — **×83,3**
-🥉 **Plans** et **Guide de Talisman** — 13 → 1 000, **×76,9**
+Les boutiques d'événement **terminées ne disparaissent plus** : leur carte passe en grisé mais reste cliquable, pour comparer une ancienne édition avec celle en cours.
 
-Ensuite **Mithril** et **Caisse d'Équipement de Héros Chanceux** (×66,7), les **Accélérateurs 1h** (×57,1), et en dernier l'**Or Véritable** (×41,7) — deux fois moins rentable que le haut du classement.
+### 🧮 Le gros morceau : le panier
 
-⏳ **À reprendre chaque jour** : le Fragment Universel de Héros Mythique est limité à **2 par jour**. C'est la seule ligne qui se recharge — ne la loupe pas.
+Tu ne te contentes plus de regarder quel objet est le plus rentable — **tu prépares tes achats**.
 
-💰 **Tout rafler** (hors ligne d'accélérateurs illimitée) coûte **173 120 pièces** pour **12,23 M de gemmes** de valeur, soit **×70,6** en moyenne.
+Renseigne ta monnaie, puis choisis tes quantités ligne par ligne avec les boutons **−** / **+** (ou **MAX**, qui prend tout ce que ton solde permet sans dépasser le stock). Quatre compteurs se mettent à jour en direct : **ta monnaie**, **le dépensé**, **le restant** et **la valeur obtenue en gemmes**.
 
-🎨 **Et les cosmétiques ?** Les deux skins de ville coûtent **45 000 pièces chacun**, la plaque *Couronne de Givre* 1 500. Ils ne rapportent aucune ressource : les 45 000 pièces d'un seul skin, placées sur les meilleures lignes, rapporteraient environ **3,8 M de gemmes**. À toi de voir si le look vaut le prix 😄
+Concrètement : 10 000 pièces, tu prends 10 Mithril à 750 → il te reste **2 500 pièces**, et tu vois immédiatement ce que tu peux encore t'offrir avec.
 
-*Les valeurs en gemmes viennent de l'onglet « Data Item » : si ton estimation diffère, change-la et tous les ratios se recalculent.*
+Un **récapitulatif reste collé en bas de l'écran** pendant que tu parcours la liste, et ton panier est conservé quand tu reviens sur la page.
 
-### 🏙️ Les skins du Magasin Polaire s'affichent
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/shop/polar-shop.html
 
-**Sphère de Nanook** et **Manchot Empereur Glissant** ont désormais leur image sur leur carte, au lieu d'un cadre vide. Le skin de plaque **Couronne de Givre** manquait au catalogue : son nom s'affiche à nouveau correctement.
+### 📊 Un tableau à la place des cartes
 
-### 🏗️ TrueGold : le plan dans l'ordre où tu construis vraiment
+Chaque boutique s'affiche en **une ligne par objet** : trois à quatre fois plus d'objets à l'écran, et des colonnes qui se comparent d'un coup d'œil. Le tri se fait **par meilleure affaire d'office**, et n'importe quelle colonne est cliquable pour changer d'ordre. Les trois meilleurs rapports valeur/prix restent mis en avant en haut de page.
 
-Le plan d'amélioration se lit maintenant comme une **suite d'étapes numérotées** : chaque étape regroupe les niveaux consécutifs d'un même bâtiment, et un bâtiment **revient plusieurs fois** quand les prérequis l'imposent — exactement comme en jeu. Chaque étape indique ce qu'elle **débloque** ensuite, avec ses totaux TG/TTG, sa durée et ses points KVK. Le mode **score cible** est aussi réparé : il s'arrêtait après une seule amélioration.
+Le **compte à rebours affiche maintenant les jours ET les heures**, et la colonne « Dispo » explique son calcul (par exemple *2/jour × 6j*).
 
-### 🖼️ Experts : portraits nets
+### ✏️ Ta boutique ne colle pas ? Corrige-la
 
-Les portraits de la page **Experts** ne sont plus pixelisés — ils utilisent des images pleine taille. Deux icônes de compétences qui ne s'affichaient pas sont revenues.
+Le bouton **crayon** ouvre un mode édition : quantités, coûts et stock restant deviennent modifiables, tu peux ajouter ou retirer des objets, et tout remettre d'origine d'un clic. Pratique quand ta boutique en jeu diffère de la version chargée.
+
+### 🏗️ TrueGold : palier de serveur
+
+Le planificateur proposait des améliorations qui n'existent pas encore sur ton serveur. Un sélecteur **Palier de serveur** (TG3 / TG5 / TG8 / TG10) en haut de la Configuration cadre désormais les suggestions. Les bâtiments déjà au-dessus du palier sont signalés et comptent toujours comme prérequis. Le **bonus de construction (PAN)** a rejoint le panneau Configuration, pour gagner de la place.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/truegold_calc.html
 
 ## EN
 
-### ❄️ Polar Shop: the event store is in the tool
+### 🛍️ Every shop now has its own page
 
-The **Polar Shop** (ends **12 August**) is loaded into **Shop Value** → *Event Shop* tab, with its purchase caps, daily reset and countdown.
+No more single screen crammed with tabs: **Shop Value** is now a summary sorted into three families — **Event Shops**, **Permanent Shops** and **Chests** — and each of the 12 shops has its own page, with the room it needs to show everything.
 
-**Ranked by value for money** (gems per coin spent):
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/shop_calc.html
 
-🥇 **Governor Gear Material Chest** — 30 coins → 2,600 gems, that's **×86.7**
-🥈 **Artisan's Vision** (12 → 1,000), **Forgehammers** (30 → 2,500) and **Mythic General Hero Shard** (60 → 5,000) — **×83.3**
-🥉 **Charm Design** and **Charm Guide** — 13 → 1,000, **×76.9**
+Finished event shops **no longer disappear**: their card turns grey but stays clickable, so you can compare a past run with the one currently live.
 
-Then **Mithril** and **Lucky Hero Gear Chest** (×66.7), the **1h Speedups** (×57.1), and last **TrueGold** (×41.7) — half as efficient as the top of the list.
+### 🧮 The big one: the shopping cart
 
-⏳ **Grab it daily**: the Mythic General Hero Shard is capped at **2 per day**. It's the only line that refills — don't miss it.
+You are no longer just looking at which item is the best value — **you plan your purchases**.
 
-💰 **Buying everything** (excluding the uncapped speedup line) costs **173,120 coins** for **12.23M gems** of value — **×70.6** on average.
+Enter how much currency you have, then pick quantities line by line with the **−** / **+** buttons (or **MAX**, which takes everything your balance allows without going over the stock). Four counters update live: **your currency**, **spent**, **remaining** and **value obtained in gems**.
 
-🎨 **What about cosmetics?** Both town skins cost **45,000 coins each**, the *Frostcrown* nameplate 1,500. They bring no resources: the 45,000 coins of a single skin, spent on the best lines, would return about **3.8M gems**. Your call on whether the look is worth it 😄
+In practice: 10,000 coins, you take 10 Mithril at 750 → you have **2,500 coins left**, and you immediately see what else you can afford with them.
 
-*Gem values come from the "Data Item" tab: if your estimate differs, change it and every ratio updates.*
+A **summary stays pinned to the bottom of the screen** while you go through the list, and your cart is kept for when you come back.
 
-### 🏙️ Polar Shop skins now show up
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/shop/polar-shop.html
 
-**Nanook Sphere** and **Emperor Penguin Slopes** now display their own picture on their card instead of an empty frame. The **Frostcrown** nameplate skin was missing from the catalogue: its name shows correctly again.
+### 📊 A table instead of cards
 
-### 🏗️ TrueGold: the plan in the order you actually build
+Each shop is now **one line per item**: three to four times more items on screen, and columns you can compare at a glance. It sorts by **best deal first** by default, and any column header can be clicked to reorder. The three best value-for-money picks still get highlighted at the top.
 
-The upgrade plan now reads as a **numbered sequence of steps**: each step groups the consecutive levels of one building, and a building **comes back several times** when prerequisites demand it — exactly like in game. Each step shows what it **unlocks** next, with its TG/TTG totals, duration and KVK points. **Target score** mode is fixed too: it used to stop after a single upgrade.
+The **countdown now shows days AND hours**, and the "Available" column explains its own maths (for example *2/day × 6d*).
 
-### 🖼️ Experts: sharp portraits
+### ✏️ Shop doesn't match? Fix it
 
-Portraits on the **Experts** page are no longer pixelated — they use full-size images. Two skill icons that failed to show are back.
+The **pencil** button opens an edit mode: quantities, costs and remaining stock become editable, you can add or remove items, and reset everything back to the original in one click. Handy when your in-game shop differs from the loaded version.
+
+### 🏗️ TrueGold: server tier
+
+The planner was suggesting upgrades that don't exist on your server yet. A **Server tier** dropdown (TG3 / TG5 / TG8 / TG10) at the top of Configuration now frames the suggestions. Buildings already past your tier are flagged and still count as prerequisites. The **construction bonus (PAN)** moved into the Configuration panel to save room.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/truegold_calc.html
