@@ -150,8 +150,34 @@ function spTh(col,label,align,extra){
 }
 function spNum(n){ return Number(n||0).toLocaleString(); }
 
+// Le rendu remplace tout le contenu de #sp-table, donc le conteneur qui défile est recréé :
+// sans ces deux relevés, chaque clic sur « + » d'une ligne du bas ramenait le tableau en haut
+// et faisait perdre le bouton sous le curseur.
+function spSnapshotTable(host){
+  const box=host.querySelector('.table-container');
+  const ae=document.activeElement;
+  const inTable = ae && ae.getAttribute && host.contains(ae) && ae.getAttribute('data-role');
+  return {
+    top: box?box.scrollTop:0,
+    left: box?box.scrollLeft:0,
+    focus: inTable ? { i:ae.getAttribute('data-i'), role:ae.getAttribute('data-role') } : null
+  };
+}
+function spRestoreTable(host, snap){
+  const box=host.querySelector('.table-container');
+  if(box){ box.scrollTop=snap.top; box.scrollLeft=snap.left; }
+  if(snap.focus){
+    const el=host.querySelector(`[data-i="${snap.focus.i}"][data-role="${snap.focus.role}"]`);
+    // Un bouton peut être devenu inactif (plus de solde, ou quantité retombée à 0) :
+    // on se rabat alors sur le champ de la même ligne pour ne pas éjecter le clavier.
+    const target = (el && !el.disabled) ? el : host.querySelector(`[data-i="${snap.focus.i}"][data-role="take"]`);
+    if(target) target.focus({ preventScroll:true });
+  }
+}
+
 function spRenderTable(){
   const host=spEl('sp-table'); if(!host) return;
+  const snap=spSnapshotTable(host);
   const shop=spShop();
 
   // ---- coffre : pas de coût, on compare les lots entre eux ----
@@ -168,6 +194,7 @@ function spRenderTable(){
           <td class="rgt gem">${spNum(r.gem)}</td>
           <td class="c-bar"><span class="sx-bar"><span style="width:${best>0?(r.gem/best*100):0}%"></span></span></td>
         </tr>`).join('')}</tbody></table></div>`;
+    spRestoreTable(host, snap);
     return;
   }
 
@@ -217,11 +244,11 @@ function spRenderTable(){
       cartCells = `
       <td class="ctr c-take">
         <span class="sx-take${r.take>0?' on':''}">
-          <button type="button" ${r.take<=0?'disabled':''} onclick="spTakeStep(${r.i},-1)" aria-label="−">−</button>
-          <input type="number" min="0" step="1" inputmode="numeric" value="${r.take}" onchange="spSetTake(${r.i},this.value)">
-          <button type="button" ${r.canTake<=0?'disabled':''} onclick="spTakeStep(${r.i},1)" aria-label="+">+</button>
+          <button type="button" data-i="${r.i}" data-role="minus" ${r.take<=0?'disabled':''} onclick="spTakeStep(${r.i},-1)" aria-label="−">−</button>
+          <input type="number" min="0" step="1" inputmode="numeric" data-i="${r.i}" data-role="take" value="${r.take}" onchange="spSetTake(${r.i},this.value)">
+          <button type="button" data-i="${r.i}" data-role="plus" ${r.canTake<=0?'disabled':''} onclick="spTakeStep(${r.i},1)" aria-label="+">+</button>
         </span>
-        <button type="button" class="sx-maxbtn" ${(r.canTake<=0&&!atMax)?'disabled':''} onclick="spTakeMax(${r.i})">MAX</button>
+        <button type="button" class="sx-maxbtn" data-i="${r.i}" data-role="max" ${(r.canTake<=0&&!atMax)?'disabled':''} onclick="spTakeMax(${r.i})">MAX</button>
       </td>
       <td class="rgt ${r.take>0?'':'dash'}">${r.take>0?spNum(r.takeCost):'—'}</td>
       <td class="rgt gem ${r.take>0?'':'dash'}">${r.take>0?spNum(r.takeGem):'—'}</td>`;
@@ -254,6 +281,7 @@ function spRenderTable(){
 
   host.innerHTML=`<div class="table-container${edit?' is-editing':''}"><table class="db-table sx-table"><thead>${heads}</thead><tbody>${body}</tbody></table></div>`
     + bar + (edit?spAddFormHtml():'');
+  spRestoreTable(host, snap);
 }
 
 // Formulaire d'ajout — visible en mode édition seulement.
