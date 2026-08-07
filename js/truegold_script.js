@@ -30,6 +30,13 @@ function bldgIcon(nom) {
 const COL     = { NAME: 0, LEVEL: 1, LABEL: 2, TG: 4, TTG: 5, TIME: 11 };
 const TTG_COL = { STEP: 0, COST: 1, GAIN: 2 };
 
+// Plafond d'états explorés par la résolution exacte du mode KVK (cf. resoudreKVKExact).
+// Mesuré sur 4 600 scénarios aléatoires : médiane 16 états, 9 cas sur 10 sous 800, 99 sur
+// 100 sous 21 000. Il faut un stock très gros (plusieurs milliers de TG et des semaines
+// d'accélérateurs) pour dépasser 60 000 — là on rend la main au glouton plutôt que de faire
+// ramer l'onglet, l'exploration abandonnée étant du travail perdu.
+const KVK_MAX_ETATS = 60000;
+
 // ============ I18N ============
 const i18n = {
     'EN': {
@@ -827,8 +834,9 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
 
     // Glouton d'améliorations pour un état de départ donné (tgDebut/ttgDebut post-transfo),
     // selon une stratégie de tri : 'kvk' = ressource max, 'cout' = moins cher, 'ratio' = rendement.
+    // batExclu écarte en plus un bâtiment (repli du mode KVK, cf. resoudreKVKExact).
     // La logique du mode Score cible (files / relance) reste pilotée par modeTarget.
-    function executerPlan(tgDebut, ttgDebut, strategie) {
+    function executerPlan(tgDebut, ttgDebut, strategie, batExclu) {
         let tgActuel = tgDebut;
         let ttgActuel = ttgDebut;
         const etatBatiments = JSON.parse(JSON.stringify(batimentsInitiaux));
@@ -874,6 +882,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                 const bState = etatBatiments[b];
                 if (bState.enCours) continue;
                 if (bState.exclu) continue;
+                if (b === batExclu) continue;
                 const niveauCible = bState.lvl + 1;
                 if (db[bState.nom] && db[bState.nom][niveauCible]) {
                     const couts = db[bState.nom][niveauCible];
@@ -998,7 +1007,317 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         };
     }
 
-    for (let transfosTest = 0; transfosTest <= 100; transfosTest++) {
+    // ============ MODE KVK : RÉSOLUTION EXACTE ============
+    // Le glouton ci-dessus ne regarde qu'un niveau à la fois. Il ne sait donc pas « investir »
+    // dans un bâtiment qui ne vaut rien en soi mais qui en débloque un bien plus rentable
+    // (l'Écurie TG7 ouvre le Centre-ville TG7-1), et deux bâtiments jumeaux au poids identique
+    // — Stand de tir et Écurie — sont départagés par le seul ordre du tableau. Résultat : le
+    // joueur pouvait gagner des points en DÉCOCHANT un bâtiment en mode « max de points ».
+    // On explore donc ici toutes les combinaisons. Trois propriétés le rendent possible :
+    //   1. l'état se résume au VECTEUR DE NIVEAUX (+ le bâtiment en construction) : TG, TTG et
+    //      accélérateurs restants s'en déduisent, donc deux ordres menant aux mêmes niveaux
+    //      sont un seul et même état → mémoïsation ;
+    //   2. le nombre de transformations n'a plus besoin de la boucle 0..100 : pour un plan
+    //      donné on calcule directement le minimum de transformations qui le finance ;
+    //   3. le plan s'arrête dès que 2 constructions tournent sans accélérateurs (règle des
+    //      files d'attente), ce qui borne naturellement la profondeur.
+    // Garde-fou : au-delà de KVK_MAX_ETATS on abandonne et on retombe sur le glouton.
+    function resoudreKVKExact() {
+        const NB = batimentsInitiaux.length;
+        if (NB === 0 || NB > 8) return null;              // clé compacte : 6 bits par bâtiment
+
+        // --- Tables pré-calculées : plus aucune regex ni parsing dans la boucle chaude ---
+        const niveaux = [];
+        for (let i = 0; i < NB; i++) {
+            const source = db[batimentsInitiaux[i].nom] || {};
+            const table = {};
+            for (const lvl in source) {
+                const c = source[lvl];
+                let tReel = c.tempsBase / (1 + Number(vitesseAmelio));
+                tReel = tReel * Math.max(0, 1 - reducRestant);
+                const tg = parseTG(c.label);
+                table[lvl] = {
+                    tg: c.tg,
+                    ttg: c.ttg,
+                    label: c.label,
+                    prereq: c.prereq,
+                    palier: tg.isTG ? tg.major : 0,
+                    temps: Math.max(0, Math.ceil(tReel) - panReductionMin),
+                    ouvert: niveauOuvert(c.label, palierMax),
+                    reqs: parsePrereqTG(c.prereq)
+                        .map(r => ({ idx: batimentsInitiaux.findIndex(b => b.nom === r.nom), major: r.major }))
+                        .filter(r => r.idx >= 0)
+                };
+            }
+            niveaux.push(table);
+        }
+
+        // --- Coût / gain cumulés des transformations (k étapes depuis transfoUtilisees) ---
+        const coutCum = [0];
+        const gainCum = [0];
+        {
+            let cout = 0, gain = 0, step = transfoUtilisees;
+            for (let k = 1; k <= 100; k++) {
+                let ligne = null;
+                for (let j = 0; j < rangeDataTTG.length; j++) {
+                    if (Number(rangeDataTTG[j][TTG_COL.STEP]) === step + 1) { ligne = rangeDataTTG[j]; break; }
+                }
+                if (!ligne) break;
+                const c = Number(ligne[TTG_COL.COST]);
+                if (stockTG - (cout + c) < 0) break;
+                cout += c;
+                gain += Number(ligne[TTG_COL.GAIN]);
+                step++;
+                coutCum[k] = cout;
+                gainCum[k] = gain;
+            }
+        }
+        const kMax = coutCum.length - 1;
+
+        // Plus petit nombre de transformations fournissant x TTG (les deux stocks étant
+        // monotones, on peut tester le financement d'un plan en O(1) au lieu de le rejouer
+        // pour chacune des 101 valeurs possibles). La table est bornée par le TTG total de
+        // la base : un stock saisi absurdement grand ne doit pas allouer un tableau géant.
+        let ttgTotalBase = 0;
+        for (let i = 0; i < NB; i++) {
+            for (const lvl in niveaux[i]) ttgTotalBase += niveaux[i][lvl].ttg;
+        }
+        const ttgPlafond = Math.max(0, Math.min(Math.floor(stockTTG + gainCum[kMax]), ttgTotalBase));
+        const kMinPourTTG = new Int32Array(ttgPlafond + 2);
+        for (let x = 0, k = 0; x <= ttgPlafond + 1; x++) {
+            while (k <= kMax && Math.floor(stockTTG + gainCum[k]) < x) k++;
+            kMinPourTTG[x] = (k <= kMax) ? k : -1;
+        }
+        // Renvoie le nb de transformations finançant (tgCum, ttgCum), ou -1 si hors budget.
+        function transfosNecessaires(ttgCum, tgCum) {
+            if (ttgCum < 0 || ttgCum > ttgPlafond) return -1;
+            const k = kMinPourTTG[ttgCum];
+            if (k < 0) return -1;
+            return (stockTG - coutCum[k] >= tgCum) ? k : -1;
+        }
+
+        // --- Exploration exhaustive mémoïsée ---
+        // La mémo ne retient PAS le chemin complet de chaque état, seulement son premier coup :
+        // le plan se relit ensuite d'état en état (reconstruire()). Garder les chemins coûtait
+        // un tableau par état — soit, sur une exploration abandonnée au plafond, des dizaines
+        // de méga-octets alloués pour rien. La valeur tient donc dans un seul nombre :
+        // points × 16 + (premier + 1), avec premier ∈ [-1, 7].
+        const memo = new Map();
+        const niveauCourant = batimentsInitiaux.map(b => b.lvl);
+        const MUL = [];
+        for (let i = 0, m = 1; i < NB; i++, m *= 64) MUL[i] = m;
+        const MUL_ENCOURS = MUL[NB - 1] * 64;
+        let etatsVus = 0;
+        let abandon = false;
+
+        function cleEtat(enCours) {
+            let cle = (enCours + 1) * MUL_ENCOURS;
+            for (let i = 0; i < NB; i++) cle += (niveauCourant[i] - batimentsInitiaux[i].lvl) * MUL[i];
+            return cle;
+        }
+
+        // Renvoie (meilleur gain additionnel depuis l'état courant) × 16 + (premier coup + 1),
+        // ou -1 si on a dépassé le plafond d'états.
+        function explorer(tgCum, ttgCum, tempsCum, enCours) {
+            const cle = cleEtat(enCours);
+            const connu = memo.get(cle);
+            if (connu !== undefined) return connu;
+            if (++etatsVus > KVK_MAX_ETATS) { abandon = true; return -1; }
+
+            const accelRestant = Math.max(0, stockAccelMinutesTotal - Math.min(tempsCum, stockAccelMinutesTotal));
+            let meilleurPts = 0;
+            let meilleurPremier = -1;
+
+            for (let i = 0; i < NB; i++) {
+                if (batimentsInitiaux[i].exclu || i === enCours) continue;
+                const c = niveaux[i][niveauCourant[i] + 1];
+                if (!c || !c.ouvert) continue;
+                const nTG = tgCum + c.tg;
+                const nTTG = ttgCum + c.ttg;
+                if (transfosNecessaires(nTTG, nTG) < 0) continue;
+
+                let prereqOk = true;
+                for (let r = 0; r < c.reqs.length; r++) {
+                    const j = c.reqs[r].idx;
+                    const effectif = niveauCourant[j] - (j === enCours ? 1 : 0);
+                    const dep = niveaux[j][effectif];
+                    if (!dep || dep.palier < c.reqs[r].major) { prereqOk = false; break; }
+                }
+                if (!prereqOk) continue;
+
+                const accel = Math.min(c.temps, accelRestant);
+                const gain = (c.tg * 2000) + (c.ttg * 30000) + (accel * 30);
+                const fini = accel >= c.temps;
+                let ptsSuite = 0;
+                if (fini || enCours < 0) {                // sinon 2ᵉ file prise : le plan s'arrête ici
+                    niveauCourant[i]++;
+                    const suite = explorer(nTG, nTTG, tempsCum + c.temps, fini ? enCours : i);
+                    niveauCourant[i]--;
+                    if (abandon) return -1;               // plafond atteint plus bas
+                    ptsSuite = Math.floor(suite / 16);
+                }
+                if (gain + ptsSuite > meilleurPts) {
+                    meilleurPts = gain + ptsSuite;
+                    meilleurPremier = i;
+                }
+            }
+
+            const res = meilleurPts * 16 + (meilleurPremier + 1);
+            memo.set(cle, res);
+            return res;
+        }
+
+        // Relit le plan optimal en suivant, d'état en état, le premier coup mémorisé.
+        function reconstruire() {
+            const chemin = [];
+            let tgCum = 0, ttgCum = 0, tempsCum = 0, enCours = -1;
+            for (let i = 0; i < NB; i++) niveauCourant[i] = batimentsInitiaux[i].lvl;
+            while (true) {
+                const connu = memo.get(cleEtat(enCours));
+                if (connu === undefined) break;
+                const premier = (connu % 16) - 1;
+                if (premier < 0) break;
+                const c = niveaux[premier][niveauCourant[premier] + 1];
+                const accelRestant = Math.max(0, stockAccelMinutesTotal - Math.min(tempsCum, stockAccelMinutesTotal));
+                const fini = Math.min(c.temps, accelRestant) >= c.temps;
+                chemin.push(premier);
+                niveauCourant[premier]++;
+                tgCum += c.tg; ttgCum += c.ttg; tempsCum += c.temps;
+                if (fini) continue;
+                if (enCours >= 0) break;                  // 2ᵉ file prise : fin du plan
+                enCours = premier;
+            }
+            return chemin;
+        }
+
+        // Rejoue un ordre sous les règles de l'appli. Renvoie null si l'ordre est illégal :
+        // c'est le filet de sécurité du regroupement d'affichage ci-dessous.
+        function rejouer(chemin) {
+            const lvls = batimentsInitiaux.map(b => b.lvl);
+            const enCours = batimentsInitiaux.map(() => false);
+            let files = 2, accelRestant = stockAccelMinutesTotal;
+            let tgTot = 0, ttgTot = 0, accelTot = 0;
+            const etapes = [];
+            for (let n = 0; n < chemin.length; n++) {
+                const i = chemin[n];
+                if (files === 0 || enCours[i] || batimentsInitiaux[i].exclu) return null;
+                const c = niveaux[i][lvls[i] + 1];
+                if (!c || !c.ouvert) return null;
+                for (let r = 0; r < c.reqs.length; r++) {
+                    const j = c.reqs[r].idx;
+                    const dep = niveaux[j][lvls[j] - (enCours[j] ? 1 : 0)];
+                    if (!dep || dep.palier < c.reqs[r].major) return null;
+                }
+                const accel = Math.min(c.temps, accelRestant);
+                const fini = accel >= c.temps;
+                accelRestant -= accel;
+                accelTot += accel;
+                tgTot += c.tg;
+                ttgTot += c.ttg;
+                lvls[i]++;
+                if (!fini) { enCours[i] = true; files--; }
+                etapes.push({
+                    index: i,
+                    nom: batimentsInitiaux[i].nom,
+                    niveauCible: lvls[i],
+                    labelCible: c.label,
+                    tg: c.tg,
+                    ttg: c.ttg,
+                    tempsReel: c.temps,
+                    minutesAccelerables: accel,
+                    prereq: c.prereq,
+                    estEnCours: !fini
+                });
+            }
+            const k = transfosNecessaires(ttgTot, tgTot);
+            if (k < 0) return null;
+            return {
+                etapes: etapes, tgTot: tgTot, ttgTot: ttgTot, accelTot: accelTot, k: k,
+                pts: (tgTot * 2000) + (ttgTot * 30000) + (accelTot * 30)
+            };
+        }
+
+        // Le score ne dépend pas de l'ordre : on regroupe les niveaux consécutifs d'un même
+        // bâtiment pour que le plan se lise en quelques séries, pas en chassé-croisé.
+        function regrouper(chemin) {
+            const reste = new Array(NB).fill(0);
+            for (let n = 0; n < chemin.length; n++) reste[chemin[n]]++;
+            const lvls = batimentsInitiaux.map(b => b.lvl);
+            const ordre = [];
+            const jouable = (i) => {
+                if (reste[i] <= 0) return false;
+                const c = niveaux[i][lvls[i] + 1];
+                if (!c) return false;
+                for (let r = 0; r < c.reqs.length; r++) {
+                    const dep = niveaux[c.reqs[r].idx][lvls[c.reqs[r].idx]];
+                    if (!dep || dep.palier < c.reqs[r].major) return false;
+                }
+                return true;
+            };
+            let precedent = -1;
+            for (let n = 0; n < chemin.length; n++) {
+                let choix = (precedent >= 0 && jouable(precedent)) ? precedent : -1;
+                if (choix < 0) {
+                    for (let i = 0; i < NB; i++) if (jouable(i)) { choix = i; break; }
+                }
+                if (choix < 0) return null;
+                reste[choix]--;
+                lvls[choix]++;
+                ordre.push(choix);
+                precedent = choix;
+            }
+            return ordre;
+        }
+
+        explorer(0, 0, 0, -1);
+        if (abandon) return null;
+        const chemin = reconstruire();
+        if (chemin.length === 0) return null;
+
+        let resultat = rejouer(chemin);
+        if (!resultat) return null;
+        const groupe = regrouper(chemin);
+        if (groupe) {
+            const variante = rejouer(groupe);
+            if (variante && variante.pts === resultat.pts) resultat = variante;
+        }
+
+        return {
+            nbTransfos: resultat.k,
+            tgInvestiTransfo: coutCum[resultat.k],
+            ttgObtenu: Math.floor(gainCum[resultat.k]),
+            nouveauStockTG: Math.floor(stockTG - coutCum[resultat.k]),
+            nouveauStockTTG: Math.floor(stockTTG + gainCum[resultat.k]),
+            ameliorations: resultat.etapes,
+            tgUtilisesAmelio: resultat.tgTot,
+            ttgUtiliseesAmelio: resultat.ttgTot,
+            accelUtilisees: resultat.accelTot,
+            pointsTG: resultat.tgTot * 2000,
+            pointsTTG: resultat.ttgTot * 30000,
+            pointsAccel: resultat.accelTot * 30,
+            pointsKVK: resultat.pts,
+            cibleAtteinte: false,
+            coutRessourcesTGeq: resultat.tgTot + (resultat.ttgTot * 15)
+        };
+    }
+
+    // Mode KVK : on tente d'abord la résolution exacte ; le glouton ne sert plus que de repli.
+    if (modeKVK) meilleurScenario = resoudreKVKExact();
+    const planExact = (meilleurScenario !== null);
+
+    // Repli (et modes Quantité / Score cible) : glouton. En KVK on rejoue en plus chaque
+    // stratégie en écartant tour à tour un bâtiment — c'est exactement ce que faisait un
+    // joueur qui décoche une ligne pour laisser le TTG aux bâtiments qui rapportent vraiment.
+    const variantes = [];
+    if (!planExact) {
+        const strategies = modeKVK ? ['kvk', 'cout', 'ratio'] : ['cout'];
+        for (let s = 0; s < strategies.length; s++) variantes.push({ strategie: strategies[s], exclu: -1 });
+        if (modeKVK) {
+            for (let b = 0; b < batimentsInitiaux.length; b++) variantes.push({ strategie: 'kvk', exclu: b });
+        }
+    }
+
+    for (let transfosTest = 0; !planExact && transfosTest <= 100; transfosTest++) {
         let tgActuel = stockTG;
         let ttgActuel = stockTTG;
         let stepActuel = transfoUtilisees;
@@ -1043,11 +1362,10 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         // --- Simulation des améliorations (glouton) ---
         // En mode KVK, on évalue plusieurs stratégies de tri et on garde le plan qui rapporte le
         // plus de points : un tri par ressource pure peut sous-utiliser le stock d'accélérateurs.
-        const strategies = modeKVK ? ['kvk', 'cout', 'ratio'] : ['cout'];
         let plan = null;
         let planPts = -Infinity;
-        for (let s = 0; s < strategies.length; s++) {
-            const p = executerPlan(tgActuel, ttgActuel, strategies[s]);
+        for (let s = 0; s < variantes.length; s++) {
+            const p = executerPlan(tgActuel, ttgActuel, variantes[s].strategie, variantes[s].exclu);
             const pts = (p.tgDepenseAmelio * 2000) + (p.ttgDepenseAmelio * 30000) + (p.accelMinutesUtilisees * 30);
             if (!plan || pts > planPts) { plan = p; planPts = pts; }
         }
@@ -1121,7 +1439,8 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     // Une transformation pouvait être suggérée comme simple artefact du glouton (appauvrir le TG
     // force un autre chemin). On garde la séquence gagnante à l'identique — donc les mêmes points —
     // et on ne conserve que le minimum de transformations qui finance encore ce plan.
-    if (meilleurScenario.nbTransfos > 0) {
+    // Inutile sur un plan exact : resoudreKVKExact() renvoie déjà le minimum.
+    if (!planExact && meilleurScenario.nbTransfos > 0) {
         const tgNeeded = meilleurScenario.tgUtilisesAmelio;
         const ttgNeeded = meilleurScenario.ttgUtiliseesAmelio;
         const simTransfos = (t) => {
