@@ -3,6 +3,17 @@
    Préfixe .sx-  ·  s'appuie sur css/db.css (.db-page, .db-section, .db-breadcrumb)
    ============================================================ */
 
+/* ============================================================
+   Largeur de page — À NE PAS RETIRER
+   `body:not(.hub-body)` est en `display:flex` (héritage des pages calculateur avec sidebar).
+   Sans largeur explicite, `.db-page` est un flex item dimensionné par son CONTENU : sa largeur
+   ne suit plus l'écran, et `repeat(auto-fill, …)` — qui a besoin d'une largeur connue — retombe
+   sur une seule colonne. Le nombre de colonnes dépendait alors des polices du système : 3 sous
+   Linux, 1 sous Windows, à code identique. On fixe la largeur, `max-width` fait le reste.
+   Portée limitée aux pages Boutique : shop.css n'est chargé que par elles.
+   ============================================================ */
+body:not(.hub-body) .db-page { width: 100%; min-width: 0; }
+
 /* ---------- sommaire : sections ---------- */
 .sx-section { margin: 34px 0 0; }
 .sx-section > h2 {
@@ -241,10 +252,33 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
 .sx-table tbody tr.in-cart:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
 .sx-table tbody tr.in-cart td.c-name { font-weight: 700; }
 
-/* Ligne de total */
-.sx-table tfoot tr.sx-total td {
-  background: var(--table-header); border-top: 2px solid var(--accent); border-bottom: none;
-  font-size: 13px; padding-top: 10px; padding-bottom: 10px;
+/* Récapitulatif du panier — collé en bas de l'écran tant qu'on est sur le tableau, pour
+   garder le solde sous les yeux pendant qu'on choisit. Hors du <table> à dessein : le sticky
+   sur un <tfoot> n'est pas fiable, et une barre reste lisible même si le tableau déborde. */
+.sx-cartbar {
+  position: sticky; bottom: 0; z-index: 4;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
+  margin-top: -1px; padding: 11px 16px;
+  background: var(--table-header); border: 1px solid var(--border); border-top: 2px solid var(--accent);
+  border-radius: 0 0 8px 8px; box-shadow: 0 -4px 14px var(--shadow);
+  font-size: 13px; color: var(--text-muted);
+}
+/* Contenu aligné à gauche : `.backup-fab` est en position:fixed à droite avec z-index 9000,
+   il passera toujours devant. On lui laisse le champ libre plutôt que de rivaliser. */
+.sx-cartbar > * { flex: 0 0 auto; }
+.sx-cartbar-lbl { color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; font-size: 12px; }
+.sx-cartbar-item { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.sx-cartbar-item b { color: var(--text-light); font-size: 14px; }
+.sx-cartbar-item.gem b { color: var(--accent); }
+.sx-cartbar-left {
+  white-space: nowrap; padding: 3px 12px; border-radius: 999px;
+  background: var(--control-bg); border: 1px solid color-mix(in srgb, var(--success) 45%, transparent);
+}
+.sx-cartbar-left b { color: var(--success); font-size: 14px; font-variant-numeric: tabular-nums; }
+.sx-cartbar-left.bad { border-color: #e5484d; }
+.sx-cartbar-left.bad b { color: #e5484d; }
+@media (max-width: 560px) {
+  .sx-cartbar { gap: 6px 12px; padding: 9px 12px; font-size: 12px; }
 }
 .sx-table tfoot tr.sx-total td.c-name { font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .03em; font-size: 12px; }
 .sx-table tfoot b { font-size: 14px; }
