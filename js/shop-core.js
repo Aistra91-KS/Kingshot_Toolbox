@@ -261,17 +261,19 @@ function scShopHref(shop){ return 'shop/'+(shop.slug||'')+'.html'; }
 function scShopImgSrc(shop){ return 'img/shops/'+(shop.img||shop.slug||'')+'.webp'; }
 
 // Mosaïque de secours : les 4 objets de plus forte valeur en gemmes de la boutique.
-function scThumbItems(shop, kind){
+// La valeur retenue est celle du LOT (valeur unitaire × quantité), coffres compris — d'où
+// l'absence de `kind` ici, contrairement au reste des helpers de boutique.
+function scThumbItems(shop){
   const seen=new Set(), out=[];
   (shop.items||[]).map(si=>{
     const it=scItemById(si.itemId), skin=si.skinId?scItemById(si.skinId):null;
     return { key:(si.skinId||si.itemId), img:scImg(skin||it), cat:(it&&it.category)||'Other',
-             gem: scGem(si.itemId)*(kind==='chest'?(Number(si.qty)||1):(Number(si.qty)||1)) };
+             gem: scGem(si.itemId)*(Number(si.qty)||1) };
   }).sort((a,b)=>b.gem-a.gem).forEach(o=>{ if(!seen.has(o.key)&&out.length<4){ seen.add(o.key); out.push(o); } });
   return out;
 }
-function scThumbHtml(shop, kind){
-  const tiles = scThumbItems(shop, kind).map(o=>
+function scThumbHtml(shop){
+  const tiles = scThumbItems(shop).map(o=>
     `<span class="sx-tile" style="--cat:${scCatColor(o.cat)};background-image:url('img/Item/${o.img}.webp');"></span>`
   ).join('');
   return `<span class="sx-thumb">

@@ -30,7 +30,7 @@ function spRenderHero(){
   const nItems=(shop.items||[]).length;
 
   const thumb=spEl('sp-thumb');
-  if(thumb && !thumb.firstElementChild) thumb.innerHTML=scThumbHtml(shop, SP.kind);
+  if(thumb && !thumb.firstElementChild) thumb.innerHTML=scThumbHtml(shop);
 
   let facts=`<span class="sx-fact"><b>${nItems}</b> ${scT(spIsChest()?'nChoices':'nItems')}</span>`;
   if(!spIsChest()){

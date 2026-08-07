@@ -14,7 +14,7 @@ function scHydrateCard(card){
   // Vignette : photo `img/shops/<slug>.webp` si elle existe, mosaïque des 4 meilleurs objets sinon.
   // Posée une seule fois — un changement de langue ne doit pas relancer le chargement des images.
   const slot=card.querySelector('.sx-thumb-slot');
-  if(slot) slot.outerHTML = scThumbHtml(shop, kind);
+  if(slot) slot.outerHTML = scThumbHtml(shop);
 
   // Nombre d'objets (un coffre propose des « choix », pas des achats).
   const cnt=card.querySelector('[data-count-slot]');
