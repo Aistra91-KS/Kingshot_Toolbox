@@ -48,7 +48,7 @@ Kingshot_Toolbox/
 │
 ├── css/
 │   ├── style.css                 Feuille principale (thèmes, header, hub, contrôles, tables, boutons, responsive) + surcouches BDD (mobile : scroll contenu + 1ʳᵉ colonne figée ; `.hl-x` = « X » doré ; `.db-section` tables compactes + en-têtes num. à droite). NB : les styles de cartes objet `.shop-item-card`/`.sic-*`/`.shop-card-grid` (~40 lignes) ne sont plus référencés depuis le passage des boutiques au tableau
-│   ├── db.css                    Styles partagés des pages Base de Données (extrait des <style> inline des 35 pages ; classes .db-index/.db-wide/.db-cards-sm + scoping .table-container vs .db-section — cf. §5)
+│   ├── db.css                    Styles partagés des pages Base de Données (extrait des <style> inline ; classes .db-index/.db-wide/.db-cards-sm + scoping .table-container vs .db-section — cf. §5) ; plus la barre de filtres `.db-toolbar`/`.db-search`/`.db-count` et les groupes `.wg-name`/`.wg-meta` de la page Recherches avancées
 │   ├── shop.css                  Styles Boutiques (préfixe `.sx-`) : sommaire par famille, cartes+vignettes, badges de statut, en-tête de page boutique, podium, **tableau `.sx-table` + mode édition** ; plus `.sc-item-img` et `.shop-toolbar`
 │   ├── waracademy.css            Styles spécifiques Académie de Guerre (préfixe .wa-)
 │   └── pets.css                  Styles page Familiers (scène « sentier », décor CSS, DA nature distincte)
@@ -106,10 +106,11 @@ Kingshot_Toolbox/
 │       └── range.html            Stand de Tir
 │
 │   └── waracademy/               Base de données recherches Académie de Guerre (pages statiques, table depuis JSON)
-│       ├── index.html            Sommaire des 3 arbres
+│       ├── index.html            Sommaire des 3 arbres + les recherches avancées
 │       ├── infantry.html         Table recherches Infanterie
 │       ├── archer.html           Table recherches Archers
-│       └── cavalry.html          Table recherches Cavalerie
+│       ├── cavalry.html          Table recherches Cavalerie
+│       └── advanced.html         Recherches avancées d'Or Véritable (92 techs, filtres + recherche)
 │
 │   └── masters/                  Base de données Experts (index + 1 page/expert, tables depuis JSON)
 │       ├── index.html            Sommaire des 6 experts
@@ -156,12 +157,13 @@ Kingshot_Toolbox/
 | `shop/items.html` | Valeur des objets : référentiel gemmes éditable | `shop-core.js`, `shop-items.js` | `style.css`, `db.css`, `shop.css` | `shopcalc_items.json` |
 | `pets.html` | Familiers : promenade verticale (fiches pets) | `pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `pets.css` (+ webfonts) | `pets_db.json` |
 | `database/buildings/*.html` | Tables d'amélioration bâtiments | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | données inline (HTML) |
-| `database/waracademy/*.html` | Tables recherches Académie (3 arbres) | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `truegold_war_db.json` (fetch) |
+| `database/waracademy/{infantry,archer,cavalry}.html` | Tables recherches Académie (3 arbres) | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `truegold_war_db.json` (fetch) |
+| `database/waracademy/advanced.html` | Recherches avancées : 92 techs / 1010 niveaux, puces de catégorie + recherche texte | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `truegold_war_advanced_db.json` (fetch) |
 | `database/masters/*.html` | Fiches Experts : affinité, passif, compétences | `db-masters.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `masters_db.json` (fetch) |
 | `database/pets/*.html` | Fiches Familiers : compétence/palier, avancements, nourriture | `db-pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `pets_db.json` (fetch) |
 
 **Socle chargé sur toutes les pages outils** (ordre) : `site-config.js` → `storage-keys.js` → `profiles.js` → `lang.js` → `help.js` → *(script de page)* → `header.js` → `backup.js`.
-Les pages `database/buildings/*` et `database/waracademy/*` n'incluent que `site-config.js` + `lang.js` + `profiles.js` + `header.js` (pas de help/backup ; `profiles.js` y sert uniquement l'UI de profils du header — pas de données métier à isoler) ; `database/masters/*` et `database/pets/*` ajoutent en plus leur script de rendu dédié (`db-masters.js` / `db-pets.js`), qui pose `window.MASTER_ID` / `window.PET_ID` et gère l'i18n de la page (dict + `data-en`/`data-fr`). **Les 35 pages `database/*` chargent `css/style.css` puis `css/db.css`** (feuille partagée extraite des anciens `<style>` inline). `pets.html` charge `site-config.js` + `storage-keys.js` + `lang.js` + `header.js` + `pets.js` + `backup.js` (sauvegarde des niveaux via `STORAGE_KEYS.pets`), sans `help.js`, plus `css/pets.css` et deux webfonts Google (Cormorant Garamond + Karla).
+Les pages `database/buildings/*` et `database/waracademy/*` n'incluent que `site-config.js` + `lang.js` + `profiles.js` + `header.js` (pas de help/backup ; `profiles.js` y sert uniquement l'UI de profils du header — pas de données métier à isoler) ; `database/masters/*` et `database/pets/*` ajoutent en plus leur script de rendu dédié (`db-masters.js` / `db-pets.js`), qui pose `window.MASTER_ID` / `window.PET_ID` et gère l'i18n de la page (dict + `data-en`/`data-fr`). **Les 36 pages `database/*` chargent `css/style.css` puis `css/db.css`** (feuille partagée extraite des anciens `<style>` inline). `pets.html` charge `site-config.js` + `storage-keys.js` + `lang.js` + `header.js` + `pets.js` + `backup.js` (sauvegarde des niveaux via `STORAGE_KEYS.pets`), sans `help.js`, plus `css/pets.css` et deux webfonts Google (Cormorant Garamond + Karla).
 
 **Conventions d'affichage des fiches BDD (Experts/Familiers)** — pilotées par `db-masters.js` / `db-pets.js` :
 - **Placeholder « X » doré** : le « X »/« X% » des descriptions (la valeur qui change au palier) est mis en valeur via `<span class="hl-x">` (helper `highlightX()`, X isolé seulement — « XP » n'est pas touché). Style dans `style.css`.

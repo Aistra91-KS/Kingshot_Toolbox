@@ -74,6 +74,32 @@ a.db-switch-item:hover { border-color: var(--accent); }
 .db-switch-item.active { border-color: var(--accent); background: rgba(245,184,64,0.15); color: var(--accent); cursor: default; }
 .db-switch.footer { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 18px; }
 
+/* ---- Barre de filtres (fiche Académie « Advanced » : 92 techs) ----
+   Les puces réutilisent .db-switch-item ; seul le <button> a besoin d'un
+   rappel de police, les navigateurs ne l'héritent pas. */
+.db-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 16px 0; }
+.db-toolbar .db-switch { margin: 0; }
+button.db-switch-item { font-family: inherit; cursor: pointer; }
+.db-search { flex: 1 1 200px; min-width: 160px; max-width: 300px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-light); font-family: inherit; font-size: 13px; padding: 6px 10px; border-radius: 6px; }
+.db-search:focus { outline: none; border-color: var(--accent); }
+.db-search::placeholder { color: var(--text-muted); }
+.db-count { font-size: 12px; color: var(--text-muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+/* En-tête de groupe enrichi : nom doré à gauche, effet/paliers en gris à droite */
+table.db-table tr.wa-group td .wg-meta { float: right; color: var(--text-muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
+/* La ligne de groupe s'étire sur toute la largeur de la table : au défilement
+   horizontal son nom sortirait de l'écran et on ne saurait plus quelle recherche
+   on lit. Il reste donc collé au bord gauche, comme la colonne des niveaux. */
+table.db-table tr.wa-group td .wg-name { display: inline-block; position: sticky; left: 0; }
+/* Sous 820px, le méta flotté à droite partirait lui aussi hors champ : on le
+   repasse sous le nom. `width: fit-content` est indispensable — un bloc pleine
+   largeur remplit la table entière et `sticky` n'a alors aucun jeu pour le
+   ramener dans le champ. */
+@media (max-width: 820px){
+  table.db-table tr.wa-group td .wg-name,
+  table.db-table tr.wa-group td .wg-meta { display: block; width: fit-content; position: sticky; left: 0; }
+  table.db-table tr.wa-group td .wg-meta { float: none; margin-top: 2px; }
+}
+
 /* ---- En-tête de fiche (portrait + titre) ---- */
 .db-head { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
 .db-hero { width: 84px; height: 84px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 3px 8px rgba(0,0,0,.45)); }
