@@ -1,0 +1,3721 @@
+{
+  "meta": {
+    "source": "https://kingshotoptimizer.com/data/advanced-truegold-research",
+    "sourceTab": "War Academy Advanced",
+    "sourceVersion": "1.13.0",
+    "sourceDate": "2026-08-08",
+    "extractedFrom": "saved HTML snapshot of the page (collapsed table view)",
+    "extractedAt": "2026-08-09",
+    "granularity": "per-tech TOTALS (level 0 -> maxLevel). NOT per-level costs.",
+    "valuesAreRounded": true,
+    "roundingNote": "The page abbreviates numbers to ~3 significant figures (1.1K, 12.1M, 26d 09h) and the snapshot captured that display. Values here are those rounded figures expanded back to integers, so they carry up to ~0.5% error. Do NOT use them as exact costs.",
+    "missing": [
+      "per-level costs (the page has them behind a per-tech expander; the snapshot only captured collapsed rows)",
+      "exact unrounded values (the page's K/M/B toggle was on)",
+      "prerequisites between techs (req)",
+      "War Academy Truegold tier gate per level (reqWA, TG1-TG8)",
+      "per-level effect/buff magnitudes",
+      "French names and effect labels"
+    ],
+    "legend": "Legend: TG1 to TG8 is your War Academy's Truegold tier. TTG: Tempered Truegold. Dust: Truegold Dust. Costs and time are per level; Power and effects are cumulative.",
+    "crossCheck": {
+      "note": "Sum of the 92 extracted rows vs the page's own Total row. Small deviations are display rounding. 'ttg' is a real MISMATCH: the 58 exact TTG cells (32/53/85/167) sum to 5,137, so the single abbreviated cell '16K' (truegold_provisions_3) must actually be ~16,863 for the page total of 22,000 to hold. That figure is a deduction, deliberately NOT written into totals.ttg.",
+      "columns": {
+        "ttg": {
+          "sumOfRows": 21137,
+          "pageTotal": 22000,
+          "deviationPct": 3.92,
+          "status": "MISMATCH"
+        },
+        "dust": {
+          "sumOfRows": 625819,
+          "pageTotal": 625000,
+          "deviationPct": 0.13,
+          "status": "ok"
+        },
+        "gold": {
+          "sumOfRows": 172391000,
+          "pageTotal": 172300000,
+          "deviationPct": 0.05,
+          "status": "ok"
+        },
+        "bread": {
+          "sumOfRows": 8635200000,
+          "pageTotal": 8600000000,
+          "deviationPct": 0.41,
+          "status": "ok"
+        },
+        "wood": {
+          "sumOfRows": 8635200000,
+          "pageTotal": 8600000000,
+          "deviationPct": 0.41,
+          "status": "ok"
+        },
+        "stone": {
+          "sumOfRows": 1686260000,
+          "pageTotal": 1700000000,
+          "deviationPct": 0.81,
+          "status": "ok"
+        },
+        "iron": {
+          "sumOfRows": 431865000,
+          "pageTotal": 430900000,
+          "deviationPct": 0.22,
+          "status": "ok"
+        },
+        "power": {
+          "sumOfRows": 76940000,
+          "pageTotal": 76900000,
+          "deviationPct": 0.05,
+          "status": "ok"
+        },
+        "timeMinutes": {
+          "sumOfRows": 21276720,
+          "pageTotal": 21276720,
+          "deviationPct": 0.0,
+          "status": "ok"
+        }
+      }
+    },
+    "techCount": 92,
+    "levelCount": 1010,
+    "note": "Companion to truegold_war_db.json (the Basic tree). Not wired into any calculator yet."
+  },
+  "categories": [
+    {
+      "id": "special",
+      "name": {
+        "EN": "Special",
+        "FR": null
+      },
+      "techCount": 9
+    },
+    {
+      "id": "economy",
+      "name": {
+        "EN": "Economy",
+        "FR": null
+      },
+      "techCount": 2
+    },
+    {
+      "id": "capacity",
+      "name": {
+        "EN": "Capacity",
+        "FR": null
+      },
+      "techCount": 7
+    },
+    {
+      "id": "combat",
+      "name": {
+        "EN": "Combat",
+        "FR": null
+      },
+      "techCount": 74
+    }
+  ],
+  "pageTotals": {
+    "note": "The page's own Total row, as displayed. Cross-check only.",
+    "ttg": 22000,
+    "dust": 625000,
+    "gold": 172300000,
+    "bread": 8600000000,
+    "wood": 8600000000,
+    "stone": 1700000000,
+    "iron": 430900000,
+    "timeMinutes": 21276720,
+    "power": 76900000,
+    "levels": 1010
+  },
+  "techs": [
+    {
+      "id": "chests_of_gold",
+      "baseId": "chests_of_gold",
+      "tier": null,
+      "tierRoman": null,
+      "name": {
+        "EN": "Chests of Gold",
+        "FR": null
+      },
+      "category": "special",
+      "effect": {
+        "EN": "6th Daily Mission Chest Truegold quantity",
+        "FR": null
+      },
+      "iconSlug": "chests-of-gold",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 258,
+        "gold": 58000,
+        "bread": 2900000,
+        "wood": 2900000,
+        "stone": 580000,
+        "iron": 145000,
+        "timeMinutes": 6900,
+        "power": 100000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "258",
+        "gold": "58K",
+        "bread": "2.9M",
+        "wood": "2.9M",
+        "stone": "580K",
+        "iron": "145K",
+        "time": "4d 19h",
+        "power": "+100K"
+      }
+    },
+    {
+      "id": "truegold_intel",
+      "baseId": "truegold_intel",
+      "tier": null,
+      "tierRoman": null,
+      "name": {
+        "EN": "Truegold Intel",
+        "FR": null
+      },
+      "category": "special",
+      "effect": {
+        "EN": "Chance of obtaining 1 extra Truegold from Beast Hunting missions.",
+        "FR": null
+      },
+      "iconSlug": "truegold-intel",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 258,
+        "gold": 58000,
+        "bread": 2900000,
+        "wood": 2900000,
+        "stone": 580000,
+        "iron": 145000,
+        "timeMinutes": 6900,
+        "power": 100000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "258",
+        "gold": "58K",
+        "bread": "2.9M",
+        "wood": "2.9M",
+        "stone": "580K",
+        "iron": "145K",
+        "time": "4d 19h",
+        "power": "+100K"
+      }
+    },
+    {
+      "id": "limited_supply",
+      "baseId": "limited_supply",
+      "tier": null,
+      "tierRoman": null,
+      "name": {
+        "EN": "Limited Supply",
+        "FR": null
+      },
+      "category": "special",
+      "effect": {
+        "EN": "Half-price Truegold Dust exchanges",
+        "FR": null
+      },
+      "iconSlug": "limited-supply",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 258,
+        "gold": 58000,
+        "bread": 2900000,
+        "wood": 2900000,
+        "stone": 580000,
+        "iron": 145000,
+        "timeMinutes": 6900,
+        "power": 100000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "258",
+        "gold": "58K",
+        "bread": "2.9M",
+        "wood": "2.9M",
+        "stone": "580K",
+        "iron": "145K",
+        "time": "4d 19h",
+        "power": "+100K"
+      }
+    },
+    {
+      "id": "auric_pauldrons_1",
+      "baseId": "auric_pauldrons",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Auric Pauldrons I",
+        "FR": null
+      },
+      "category": "special",
+      "effect": {
+        "EN": "Archer Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-pauldrons",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_pauldrons_2",
+      "baseId": "auric_pauldrons",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Auric Pauldrons II",
+        "FR": null
+      },
+      "category": "special",
+      "effect": {
+        "EN": "Archer Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-pauldrons",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_pauldrons_3",
+      "baseId": "auric_pauldrons",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Auric Pauldrons III",
+        "FR": null
+      },
+      "category": "special",
+      "effect": {
+        "EN": "Archer Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-pauldrons",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_pauldrons_4",
+      "baseId": "auric_pauldrons",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Auric Pauldrons IV",
+        "FR": null
+      },
+      "category": "special",
+      "effect": {
+        "EN": "Archer Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-pauldrons",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_pauldrons_5",
+      "baseId": "auric_pauldrons",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Auric Pauldrons V",
+        "FR": null
+      },
+      "category": "special",
+      "effect": {
+        "EN": "Archer Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-pauldrons",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_pauldrons_6",
+      "baseId": "auric_pauldrons",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Auric Pauldrons VI",
+        "FR": null
+      },
+      "category": "special",
+      "effect": {
+        "EN": "Archer Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-pauldrons",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_weaponry",
+      "baseId": "truegold_weaponry",
+      "tier": null,
+      "tierRoman": null,
+      "name": {
+        "EN": "Truegold Weaponry",
+        "FR": null
+      },
+      "category": "economy",
+      "effect": {
+        "EN": "Training Speed",
+        "FR": null
+      },
+      "iconSlug": "truegold-weaponry",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 389,
+        "gold": 58000,
+        "bread": 2900000,
+        "wood": 2900000,
+        "stone": 580000,
+        "iron": 145000,
+        "timeMinutes": 9420,
+        "power": 100000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "389",
+        "gold": "58K",
+        "bread": "2.9M",
+        "wood": "2.9M",
+        "stone": "580K",
+        "iron": "145K",
+        "time": "6d 13h",
+        "power": "+100K"
+      }
+    },
+    {
+      "id": "quick_bandage",
+      "baseId": "quick_bandage",
+      "tier": null,
+      "tierRoman": null,
+      "name": {
+        "EN": "Quick Bandage",
+        "FR": null
+      },
+      "category": "economy",
+      "effect": {
+        "EN": "Healing Speed",
+        "FR": null
+      },
+      "iconSlug": "quick-bandage",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 389,
+        "gold": 58000,
+        "bread": 2900000,
+        "wood": 2900000,
+        "stone": 580000,
+        "iron": 145000,
+        "timeMinutes": 9420,
+        "power": 100000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "389",
+        "gold": "58K",
+        "bread": "2.9M",
+        "wood": "2.9M",
+        "stone": "580K",
+        "iron": "145K",
+        "time": "6d 13h",
+        "power": "+100K"
+      }
+    },
+    {
+      "id": "truegold_barracks",
+      "baseId": "truegold_barracks",
+      "tier": null,
+      "tierRoman": null,
+      "name": {
+        "EN": "Truegold Barracks",
+        "FR": null
+      },
+      "category": "capacity",
+      "effect": {
+        "EN": "Training Capacity",
+        "FR": null
+      },
+      "iconSlug": "truegold-barracks",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 389,
+        "gold": 58000,
+        "bread": 2900000,
+        "wood": 2900000,
+        "stone": 580000,
+        "iron": 145000,
+        "timeMinutes": 9420,
+        "power": 100000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "389",
+        "gold": "58K",
+        "bread": "2.9M",
+        "wood": "2.9M",
+        "stone": "580K",
+        "iron": "145K",
+        "time": "6d 13h",
+        "power": "+100K"
+      }
+    },
+    {
+      "id": "truegold_infirmaries",
+      "baseId": "truegold_infirmaries",
+      "tier": null,
+      "tierRoman": null,
+      "name": {
+        "EN": "Truegold Infirmaries",
+        "FR": null
+      },
+      "category": "capacity",
+      "effect": {
+        "EN": "Infirmary Capacity",
+        "FR": null
+      },
+      "iconSlug": "truegold-infirmaries",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 389,
+        "gold": 58000,
+        "bread": 2900000,
+        "wood": 2900000,
+        "stone": 580000,
+        "iron": 145000,
+        "timeMinutes": 9420,
+        "power": 100000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "389",
+        "gold": "58K",
+        "bread": "2.9M",
+        "wood": "2.9M",
+        "stone": "580K",
+        "iron": "145K",
+        "time": "6d 13h",
+        "power": "+100K"
+      }
+    },
+    {
+      "id": "truegold_provisions_1",
+      "baseId": "truegold_provisions",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Truegold Provisions I",
+        "FR": null
+      },
+      "category": "capacity",
+      "effect": {
+        "EN": "Squads' Deployment Capacity",
+        "FR": null
+      },
+      "iconSlug": "truegold-provisions",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 1000000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+1M"
+      }
+    },
+    {
+      "id": "truegold_provisions_2",
+      "baseId": "truegold_provisions",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Truegold Provisions II",
+        "FR": null
+      },
+      "category": "capacity",
+      "effect": {
+        "EN": "Squads' Deployment Capacity",
+        "FR": null
+      },
+      "iconSlug": "truegold-provisions",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 1000000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+1M"
+      }
+    },
+    {
+      "id": "generation_truegold_1",
+      "baseId": "generation_truegold",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Generation Truegold I",
+        "FR": null
+      },
+      "category": "capacity",
+      "effect": {
+        "EN": "Rally Capacity",
+        "FR": null
+      },
+      "iconSlug": "generation-truegold",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 20000000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+20M"
+      }
+    },
+    {
+      "id": "generation_truegold_2",
+      "baseId": "generation_truegold",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Generation Truegold II",
+        "FR": null
+      },
+      "category": "capacity",
+      "effect": {
+        "EN": "Rally Capacity",
+        "FR": null
+      },
+      "iconSlug": "generation-truegold",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 20000000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+20M"
+      }
+    },
+    {
+      "id": "truegold_provisions_3",
+      "baseId": "truegold_provisions",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Truegold Provisions III",
+        "FR": null
+      },
+      "category": "capacity",
+      "effect": {
+        "EN": "Squads' Deployment Capacity",
+        "FR": null
+      },
+      "iconSlug": "truegold-provisions",
+      "maxLevel": 100,
+      "totals": {
+        "ttg": 16000,
+        "dust": 410000,
+        "gold": 123700000,
+        "bread": 6200000000,
+        "wood": 6200000000,
+        "stone": 1200000000,
+        "iron": 309100000,
+        "timeMinutes": 14835960,
+        "power": 4000000
+      },
+      "totalsRaw": {
+        "ttg": "16K",
+        "dust": "410K",
+        "gold": "123.7M",
+        "bread": "6.2B",
+        "wood": "6.2B",
+        "stone": "1.2B",
+        "iron": "309.1M",
+        "time": "10302d 18h",
+        "power": "+4M"
+      }
+    },
+    {
+      "id": "auric_mauls_1",
+      "baseId": "auric_mauls",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Auric Mauls I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-mauls",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_lances_1",
+      "baseId": "truegold_lances",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Truegold Lances I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Attack",
+        "FR": null
+      },
+      "iconSlug": "truegold-lances",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_arrowheads_1",
+      "baseId": "auric_arrowheads",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Auric Arrowheads I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-arrowheads",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_plating_1",
+      "baseId": "auric_plating",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Auric Plating I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-plating",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_mantle_1",
+      "baseId": "golden_mantle",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Golden Mantle I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Defense",
+        "FR": null
+      },
+      "iconSlug": "golden-mantle",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_destruction_1",
+      "baseId": "auric_destruction",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Auric Destruction I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Lethality",
+        "FR": null
+      },
+      "iconSlug": "auric-destruction",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "true_shock_1",
+      "baseId": "true_shock",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "True Shock I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Lethality",
+        "FR": null
+      },
+      "iconSlug": "true-shock",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_bows_1",
+      "baseId": "golden_bows",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Golden Bows I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Lethality",
+        "FR": null
+      },
+      "iconSlug": "golden-bows",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_shield_1",
+      "baseId": "golden_shield",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Golden Shield I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-shield",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_horseshoes_1",
+      "baseId": "golden_horseshoes",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Golden Horseshoes I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-horseshoes",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_bracers_1",
+      "baseId": "auric_bracers",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Auric Bracers I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Health",
+        "FR": null
+      },
+      "iconSlug": "auric-bracers",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 653,
+        "gold": 100000,
+        "bread": 5000000,
+        "wood": 5000000,
+        "stone": 1000000,
+        "iron": 250000,
+        "timeMinutes": 13980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "653",
+        "gold": "100K",
+        "bread": "5M",
+        "wood": "5M",
+        "stone": "1M",
+        "iron": "250K",
+        "time": "9d 17h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_mauls_2",
+      "baseId": "auric_mauls",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Auric Mauls II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-mauls",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_lances_2",
+      "baseId": "truegold_lances",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Truegold Lances II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Attack",
+        "FR": null
+      },
+      "iconSlug": "truegold-lances",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_arrowheads_2",
+      "baseId": "auric_arrowheads",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Auric Arrowheads II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-arrowheads",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_plating_2",
+      "baseId": "auric_plating",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Auric Plating II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-plating",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_mantle_2",
+      "baseId": "golden_mantle",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Golden Mantle II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Defense",
+        "FR": null
+      },
+      "iconSlug": "golden-mantle",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_destruction_2",
+      "baseId": "auric_destruction",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Auric Destruction II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Lethality",
+        "FR": null
+      },
+      "iconSlug": "auric-destruction",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "true_shock_2",
+      "baseId": "true_shock",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "True Shock II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Lethality",
+        "FR": null
+      },
+      "iconSlug": "true-shock",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_bows_2",
+      "baseId": "golden_bows",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Golden Bows II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Lethality",
+        "FR": null
+      },
+      "iconSlug": "golden-bows",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_shield_2",
+      "baseId": "golden_shield",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Golden Shield II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-shield",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_horseshoes_2",
+      "baseId": "golden_horseshoes",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Golden Horseshoes II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-horseshoes",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_bracers_2",
+      "baseId": "auric_bracers",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Auric Bracers II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Health",
+        "FR": null
+      },
+      "iconSlug": "auric-bracers",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 0,
+        "dust": 1000,
+        "gold": 118000,
+        "bread": 5900000,
+        "wood": 5900000,
+        "stone": 1200000,
+        "iron": 295000,
+        "timeMinutes": 20580,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "—",
+        "dust": "1K",
+        "gold": "118K",
+        "bread": "5.9M",
+        "wood": "5.9M",
+        "stone": "1.2M",
+        "iron": "295K",
+        "time": "14d 07h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_mauls_3",
+      "baseId": "auric_mauls",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Auric Mauls III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-mauls",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_lances_3",
+      "baseId": "truegold_lances",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Truegold Lances III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Attack",
+        "FR": null
+      },
+      "iconSlug": "truegold-lances",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_arrowheads_3",
+      "baseId": "auric_arrowheads",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Auric Arrowheads III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-arrowheads",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_plating_3",
+      "baseId": "auric_plating",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Auric Plating III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-plating",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_mantle_3",
+      "baseId": "golden_mantle",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Golden Mantle III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Defense",
+        "FR": null
+      },
+      "iconSlug": "golden-mantle",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_destruction_3",
+      "baseId": "auric_destruction",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Auric Destruction III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Lethality",
+        "FR": null
+      },
+      "iconSlug": "auric-destruction",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "true_shock_3",
+      "baseId": "true_shock",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "True Shock III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Lethality",
+        "FR": null
+      },
+      "iconSlug": "true-shock",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_bows_3",
+      "baseId": "golden_bows",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Golden Bows III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Lethality",
+        "FR": null
+      },
+      "iconSlug": "golden-bows",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_shield_3",
+      "baseId": "golden_shield",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Golden Shield III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-shield",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_horseshoes_3",
+      "baseId": "golden_horseshoes",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Golden Horseshoes III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-horseshoes",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_bracers_3",
+      "baseId": "auric_bracers",
+      "tier": 3,
+      "tierRoman": "III",
+      "name": {
+        "EN": "Auric Bracers III",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Health",
+        "FR": null
+      },
+      "iconSlug": "auric-bracers",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 32,
+        "dust": 1100,
+        "gold": 242000,
+        "bread": 12100000,
+        "wood": 12100000,
+        "stone": 2400000,
+        "iron": 605000,
+        "timeMinutes": 37980,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "32",
+        "dust": "1.1K",
+        "gold": "242K",
+        "bread": "12.1M",
+        "wood": "12.1M",
+        "stone": "2.4M",
+        "iron": "605K",
+        "time": "26d 09h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_mauls_4",
+      "baseId": "auric_mauls",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Auric Mauls IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-mauls",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_lances_4",
+      "baseId": "truegold_lances",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Truegold Lances IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Attack",
+        "FR": null
+      },
+      "iconSlug": "truegold-lances",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_arrowheads_4",
+      "baseId": "auric_arrowheads",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Auric Arrowheads IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-arrowheads",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_plating_4",
+      "baseId": "auric_plating",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Auric Plating IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-plating",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_mantle_4",
+      "baseId": "golden_mantle",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Golden Mantle IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Defense",
+        "FR": null
+      },
+      "iconSlug": "golden-mantle",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_destruction_4",
+      "baseId": "auric_destruction",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Auric Destruction IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Lethality",
+        "FR": null
+      },
+      "iconSlug": "auric-destruction",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "true_shock_4",
+      "baseId": "true_shock",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "True Shock IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Lethality",
+        "FR": null
+      },
+      "iconSlug": "true-shock",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_bows_4",
+      "baseId": "golden_bows",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Golden Bows IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Lethality",
+        "FR": null
+      },
+      "iconSlug": "golden-bows",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_shield_4",
+      "baseId": "golden_shield",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Golden Shield IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-shield",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_horseshoes_4",
+      "baseId": "golden_horseshoes",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Golden Horseshoes IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-horseshoes",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_bracers_4",
+      "baseId": "auric_bracers",
+      "tier": 4,
+      "tierRoman": "IV",
+      "name": {
+        "EN": "Auric Bracers IV",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Health",
+        "FR": null
+      },
+      "iconSlug": "auric-bracers",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 53,
+        "dust": 2100,
+        "gold": 485000,
+        "bread": 24300000,
+        "wood": 24300000,
+        "stone": 4800000,
+        "iron": 1200000,
+        "timeMinutes": 71040,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "53",
+        "dust": "2.1K",
+        "gold": "485K",
+        "bread": "24.3M",
+        "wood": "24.3M",
+        "stone": "4.8M",
+        "iron": "1.2M",
+        "time": "49d 08h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_mauls_5",
+      "baseId": "auric_mauls",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Auric Mauls V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-mauls",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_lances_5",
+      "baseId": "truegold_lances",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Truegold Lances V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Attack",
+        "FR": null
+      },
+      "iconSlug": "truegold-lances",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_arrowheads_5",
+      "baseId": "auric_arrowheads",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Auric Arrowheads V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-arrowheads",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_plating_5",
+      "baseId": "auric_plating",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Auric Plating V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-plating",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_mantle_5",
+      "baseId": "golden_mantle",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Golden Mantle V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Defense",
+        "FR": null
+      },
+      "iconSlug": "golden-mantle",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_armaments_1",
+      "baseId": "truegold_armaments",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Truegold Armaments I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Squads' Attack",
+        "FR": null
+      },
+      "iconSlug": "truegold-armaments",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 540000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+540K"
+      }
+    },
+    {
+      "id": "truegold_armor_1",
+      "baseId": "truegold_armor",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Truegold Armor I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Squads' Defense",
+        "FR": null
+      },
+      "iconSlug": "truegold-armor",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 540000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+540K"
+      }
+    },
+    {
+      "id": "auric_destruction_5",
+      "baseId": "auric_destruction",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Auric Destruction V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Lethality",
+        "FR": null
+      },
+      "iconSlug": "auric-destruction",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "true_shock_5",
+      "baseId": "true_shock",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "True Shock V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Lethality",
+        "FR": null
+      },
+      "iconSlug": "true-shock",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_bows_5",
+      "baseId": "golden_bows",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Golden Bows V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Lethality",
+        "FR": null
+      },
+      "iconSlug": "golden-bows",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_shield_5",
+      "baseId": "golden_shield",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Golden Shield V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-shield",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_horseshoes_5",
+      "baseId": "golden_horseshoes",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Golden Horseshoes V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-horseshoes",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_bracers_5",
+      "baseId": "auric_bracers",
+      "tier": 5,
+      "tierRoman": "V",
+      "name": {
+        "EN": "Auric Bracers V",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Health",
+        "FR": null
+      },
+      "iconSlug": "auric-bracers",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_bounties_1",
+      "baseId": "truegold_bounties",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Truegold Bounties I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Squads' Lethality",
+        "FR": null
+      },
+      "iconSlug": "truegold-bounties",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 540000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+540K"
+      }
+    },
+    {
+      "id": "heart_of_gold_1",
+      "baseId": "heart_of_gold",
+      "tier": 1,
+      "tierRoman": "I",
+      "name": {
+        "EN": "Heart of Gold I",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Squads' Health",
+        "FR": null
+      },
+      "iconSlug": "heart-of-gold",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 85,
+        "dust": 3100,
+        "gold": 750000,
+        "bread": 37500000,
+        "wood": 37500000,
+        "stone": 7500000,
+        "iron": 1900000,
+        "timeMinutes": 102480,
+        "power": 540000
+      },
+      "totalsRaw": {
+        "ttg": "85",
+        "dust": "3.1K",
+        "gold": "750K",
+        "bread": "37.5M",
+        "wood": "37.5M",
+        "stone": "7.5M",
+        "iron": "1.9M",
+        "time": "71d 04h",
+        "power": "+540K"
+      }
+    },
+    {
+      "id": "auric_mauls_6",
+      "baseId": "auric_mauls",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Auric Mauls VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-mauls",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_lances_6",
+      "baseId": "truegold_lances",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Truegold Lances VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Attack",
+        "FR": null
+      },
+      "iconSlug": "truegold-lances",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_arrowheads_6",
+      "baseId": "auric_arrowheads",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Auric Arrowheads VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Attack",
+        "FR": null
+      },
+      "iconSlug": "auric-arrowheads",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_plating_6",
+      "baseId": "auric_plating",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Auric Plating VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Defense",
+        "FR": null
+      },
+      "iconSlug": "auric-plating",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_mantle_6",
+      "baseId": "golden_mantle",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Golden Mantle VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Defense",
+        "FR": null
+      },
+      "iconSlug": "golden-mantle",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_armaments_2",
+      "baseId": "truegold_armaments",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Truegold Armaments II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Squads' Attack",
+        "FR": null
+      },
+      "iconSlug": "truegold-armaments",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 540000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+540K"
+      }
+    },
+    {
+      "id": "truegold_armor_2",
+      "baseId": "truegold_armor",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Truegold Armor II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Squads' Defense",
+        "FR": null
+      },
+      "iconSlug": "truegold-armor",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 540000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+540K"
+      }
+    },
+    {
+      "id": "auric_destruction_6",
+      "baseId": "auric_destruction",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Auric Destruction VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Lethality",
+        "FR": null
+      },
+      "iconSlug": "auric-destruction",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "true_shock_6",
+      "baseId": "true_shock",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "True Shock VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Lethality",
+        "FR": null
+      },
+      "iconSlug": "true-shock",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_bows_6",
+      "baseId": "golden_bows",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Golden Bows VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Lethality",
+        "FR": null
+      },
+      "iconSlug": "golden-bows",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_shield_6",
+      "baseId": "golden_shield",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Golden Shield VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Infantry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-shield",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "golden_horseshoes_6",
+      "baseId": "golden_horseshoes",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Golden Horseshoes VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Cavalry Health",
+        "FR": null
+      },
+      "iconSlug": "golden-horseshoes",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "auric_bracers_6",
+      "baseId": "auric_bracers",
+      "tier": 6,
+      "tierRoman": "VI",
+      "name": {
+        "EN": "Auric Bracers VI",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Archer Health",
+        "FR": null
+      },
+      "iconSlug": "auric-bracers",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 360000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+360K"
+      }
+    },
+    {
+      "id": "truegold_bounties_2",
+      "baseId": "truegold_bounties",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Truegold Bounties II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Squads' Lethality",
+        "FR": null
+      },
+      "iconSlug": "truegold-bounties",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 540000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+540K"
+      }
+    },
+    {
+      "id": "heart_of_gold_2",
+      "baseId": "heart_of_gold",
+      "tier": 2,
+      "tierRoman": "II",
+      "name": {
+        "EN": "Heart of Gold II",
+        "FR": null
+      },
+      "category": "combat",
+      "effect": {
+        "EN": "Squads' Health",
+        "FR": null
+      },
+      "iconSlug": "heart-of-gold",
+      "maxLevel": 10,
+      "totals": {
+        "ttg": 167,
+        "dust": 6300,
+        "gold": 1500000,
+        "bread": 75000000,
+        "wood": 75000000,
+        "stone": 15000000,
+        "iron": 3800000,
+        "timeMinutes": 179760,
+        "power": 540000
+      },
+      "totalsRaw": {
+        "ttg": "167",
+        "dust": "6.3K",
+        "gold": "1.5M",
+        "bread": "75M",
+        "wood": "75M",
+        "stone": "15M",
+        "iron": "3.8M",
+        "time": "124d 20h",
+        "power": "+540K"
+      }
+    }
+  ]
+}
