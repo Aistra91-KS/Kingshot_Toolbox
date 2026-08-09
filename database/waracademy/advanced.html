@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <base href="/Kingshot_Toolbox/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced TrueGold Research — War Academy (Dust, Tempered TrueGold, Time) | Kingshot Toolbox</title>
+    <meta name="description" content="Complete Advanced TrueGold research database for the Kingshot War Academy: all 92 techs and 1010 levels with TrueGold dust, Tempered TrueGold, resources, research time, bonuses and requirements.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/db.css">
+</head>
+<body class="has-app-header">
+    <div class="db-page db-wide">
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="database/waracademy/index.html" data-i18n="crumbWa">Académie de Guerre</a> / <span data-i18n="crumbAdv">Recherches avancées</span></div>
+        <div class="db-head">
+          <img class="db-hero" src="img/WarAcademy/tree-advanced.webp" alt="Advanced TrueGold Research" onerror="this.remove()">
+          <h1 data-i18n="advTitle">Recherches avancées d'Or Véritable</h1>
+        </div>
+        <p class="db-intro" data-i18n="advIntro">Les 92 recherches avancées de l'Académie de Guerre, niveau par niveau : poussière, Or Véritable trempé, ressources, temps, bonus cumulé et prérequis. Filtre par catégorie ou cherche une recherche par son nom.</p>
+
+        <nav class="db-switch" aria-label="War Academy research">
+          <a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infanterie</a>
+          <a class="db-switch-item" href="database/waracademy/archer.html" data-en="Archer" data-fr="Archers">Archers</a>
+          <a class="db-switch-item" href="database/waracademy/cavalry.html" data-en="Cavalry" data-fr="Cavalerie">Cavalerie</a>
+          <span class="db-switch-item active" data-en="Advanced" data-fr="Avancées">Avancées</span>
+        </nav>
+
+        <div class="db-toolbar">
+          <div class="db-switch" id="cat-filter" role="group" aria-label="Categories"></div>
+          <input type="search" class="db-search" id="tech-search" data-i18n-placeholder="searchPh" placeholder="Chercher une recherche…" autocomplete="off">
+          <span class="db-count" id="result-count"></span>
+        </div>
+
+        <div class="table-container">
+          <table class="db-table">
+            <thead><tr>
+              <th data-i18n="cLevel">Niveau</th>
+              <th data-i18n="cWA">Bâtiment</th>
+              <th data-i18n="cReq">Prérequis</th>
+              <th data-i18n="cTTG">OV trempé</th>
+              <th data-i18n="cDust">Poussière</th>
+              <th data-i18n="cBread">Pain</th>
+              <th data-i18n="cWood">Bois</th>
+              <th data-i18n="cStone">Pierre</th>
+              <th data-i18n="cIron">Fer</th>
+              <th data-i18n="cGold">Or</th>
+              <th data-i18n="cTime">Temps</th>
+              <th data-i18n="cEffect">Bonus cumulé</th>
+            </tr></thead>
+            <tbody id="wa-rows"></tbody>
+          </table>
+        </div>
+
+        <p class="db-intro" style="margin-top:14px" data-i18n="advNote">Poussière, Or Véritable trempé et temps sont exacts. Les ressources en vrac (pain, bois, pierre, fer, or) sont arrondies par la source. Les noms français arriveront quand la mise à jour sortira en jeu.</p>
+
+        <nav class="db-switch footer" aria-label="War Academy research">
+          <a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infanterie</a>
+          <a class="db-switch-item" href="database/waracademy/archer.html" data-en="Archer" data-fr="Archers">Archers</a>
+          <a class="db-switch-item" href="database/waracademy/cavalry.html" data-en="Cavalry" data-fr="Cavalerie">Cavalerie</a>
+          <span class="db-switch-item active" data-en="Advanced" data-fr="Avancées">Avancées</span>
+        </nav>
+    </div>
+
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'database/waracademy/index.html';</script>
+    <script src="js/profiles.js"></script>
+    <script src="js/header.js"></script>
+    <script>
+
+    (function(){
+      const DATA_URL = 'data/truegold_war_advanced_db.json';
+      const dict = {
+        FR: { crumbWa:"Académie de Guerre", crumbAdv:"Recherches avancées",
+              advTitle:"Recherches avancées d'Or Véritable",
+              advIntro:"Les 92 recherches avancées de l'Académie de Guerre, niveau par niveau : poussière, Or Véritable trempé, ressources, temps, bonus cumulé et prérequis. Filtre par catégorie ou cherche une recherche par son nom.",
+              advNote:"Poussière, Or Véritable trempé et temps sont exacts. Les ressources en vrac (pain, bois, pierre, fer, or) sont arrondies par la source. Les noms français arriveront quand la mise à jour sortira en jeu.",
+              cLevel:"Niveau", cWA:"Bâtiment", cReq:"Prérequis", cTTG:"OV trempé", cDust:"Poussière",
+              cBread:"Pain", cWood:"Bois", cStone:"Pierre", cIron:"Fer", cGold:"Or", cTime:"Temps", cEffect:"Bonus cumulé",
+              searchPh:"Chercher une recherche…", all:"Toutes",
+              special:"Spéciales", economy:"Économie", capacity:"Capacité", combat:"Combat",
+              maxLv:"niveaux", loading:"Chargement des données…",
+              nores:"Aucune recherche ne correspond. Essaie un autre mot, ou reviens à « Toutes ».",
+              err:"Impossible de charger les données (data/truegold_war_advanced_db.json). Le fichier existe-t-il ?",
+              count:"recherches", countLv:"niveaux" },
+        EN: { crumbWa:"War Academy", crumbAdv:"Advanced research",
+              advTitle:"Advanced TrueGold Research",
+              advIntro:"All 92 Advanced War Academy researches, level by level: dust, Tempered TrueGold, resources, time, cumulative bonus and requirements. Filter by category or search a research by name.",
+              advNote:"Dust, Tempered TrueGold and time are exact. Bulk resources (bread, wood, stone, iron, gold) are rounded by the source. French names will follow once the update ships in game.",
+              cLevel:"Level", cWA:"Building", cReq:"Requirements", cTTG:"Tempered TG", cDust:"Dust",
+              cBread:"Bread", cWood:"Wood", cStone:"Stone", cIron:"Iron", cGold:"Gold", cTime:"Time", cEffect:"Total bonus",
+              searchPh:"Search a research…", all:"All",
+              special:"Special", economy:"Economy", capacity:"Capacity", combat:"Combat",
+              maxLv:"levels", loading:"Loading data…",
+              nores:"No research matches. Try another word, or go back to “All”.",
+              err:"Could not load data (data/truegold_war_advanced_db.json). Does the file exist?",
+              count:"researches", countLv:"levels" }
+      };
+      const COLS = 12;
+
+      function L(){ return (window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR'; }
+      function T(k){ return (dict[L()]||dict.FR)[k]; }
+      function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+      function compact(n){ if(n==null||n==='') return '—'; n=+n; if(!isFinite(n)||n===0) return '—'; if(n>=1e6){ const v=Math.round(n/1e5)/10; return String(v).replace(/\.0$/,'')+'M'; } if(n>=1e3){ return Math.round(n/1e3)+'K'; } return String(n); }
+      function exact(n){ if(!n) return '—'; return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' '); }
+      function timeStr(min,lang){ min=+min||0; const d=Math.floor(min/1440), h=Math.floor(min%1440/60), m=min%60; const u=lang==='FR'?{d:'j',h:'h',m:'min'}:{d:'d',h:'h',m:'m'}; const o=[]; if(d)o.push(d+u.d); if(h)o.push(h+u.h); if(m)o.push(m+u.m); return o.join(' ')||('0'+u.m); }
+      function effStr(v,unit){ if(v==null) return '—'; return '+'+(unit==='percent'? String(v).replace(/\.0$/,'')+'%' : compact(v)); }
+      function waStr(n,lang){ return (lang==='FR'?'AG ':'WA ')+'TG'+n; }
+      function reqStr(req,nameOf,lang){ if(!req||!req.length) return '—'; const lv=lang==='FR'?'Niv.':'Lv.'; return req.map(function(x){ return (nameOf[x.techId]||x.techId)+' '+lv+' '+x.level; }).join(', '); }
+      function td(cls,en,fr){ return '<td'+(cls?' class="'+cls+'"':'')+' data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(fr)+'</td>'; }
+      function tdNum(cls,txt){ return '<td class="num'+(cls?' '+cls:'')+'">'+esc(txt)+'</td>'; }
+      function statusRow(txt){ return '<tr><td colspan="'+COLS+'" style="text-align:center;padding:22px;color:var(--text-muted)">'+esc(txt)+'</td></tr>'; }
+
+      let DB=null, nameOf={}, cat='all', term='';
+      const tbody=document.getElementById('wa-rows');
+      const countEl=document.getElementById('result-count');
+      const catBox=document.getElementById('cat-filter');
+      const searchEl=document.getElementById('tech-search');
+
+      function matches(t){
+        if(cat!=='all' && t.category!==cat) return false;
+        if(!term) return true;
+        const hay=((t.name&&t.name.EN)||'')+' '+((t.effect&&t.effect.EN)||'')+' '+t.category;
+        return hay.toLowerCase().indexOf(term)>=0;
+      }
+
+      function render(){
+        if(!DB) return;
+        const list=DB.techs.filter(matches);
+        if(!list.length){ tbody.innerHTML=statusRow(T('nores')); countEl.textContent=''; return; }
+        let html='', lv=0;
+        list.forEach(function(t){
+          const en=(t.name&&t.name.EN)||t.id, fr=(t.name&&t.name.FR)||en;
+          const eEn=(t.effect&&t.effect.EN)||'', eFr=(t.effect&&t.effect.FR)||eEn;
+          const mEn=eEn+' · '+t.maxLevel+' '+dict.EN.maxLv, mFr=eFr+' · '+t.maxLevel+' '+dict.FR.maxLv;
+          html+='<tr class="wa-group"><td colspan="'+COLS+'">'
+              +'<span class="wg-name" data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(fr)+'</span>'
+              +'<span class="wg-meta" data-en="'+esc(mEn)+'" data-fr="'+esc(mFr)+'">'+esc(mFr)+'</span>'
+              +'</td></tr>';
+          (t.levels||[]).forEach(function(l){
+            lv++;
+            html+='<tr>'
+              +'<td class="c-lbl">'+esc(l.level)+'</td>'
+              +td('c-wa', waStr(l.reqWA,'EN'), waStr(l.reqWA,'FR'))
+              +td('c-req', reqStr(l.req,nameOf,'EN'), reqStr(l.req,nameOf,'FR'))
+              +tdNum('ttg', exact(l.ttg))
+              +tdNum('tg', exact(l.dust))
+              +tdNum('', compact(l.bread))
+              +tdNum('', compact(l.wood))
+              +tdNum('', compact(l.stone))
+              +tdNum('', compact(l.iron))
+              +tdNum('', compact(l.gold))
+              +td('c-time', timeStr(l.time,'EN'), timeStr(l.time,'FR'))
+              +td('c-eff', effStr(l.effectTotal,t.effectUnit), effStr(l.effectTotal,t.effectUnit))
+              +'</tr>';
+          });
+        });
+        tbody.innerHTML=html;
+        countEl.setAttribute('data-en', list.length+' '+dict.EN.count+' · '+lv+' '+dict.EN.countLv);
+        countEl.setAttribute('data-fr', list.length+' '+dict.FR.count+' · '+lv+' '+dict.FR.countLv);
+        applyLang();
+      }
+
+      function buildChips(){
+        const cats=[{id:'all',n:DB.techs.length}].concat(DB.categories.map(function(c){ return {id:c.id,n:c.techCount}; }));
+        catBox.innerHTML=cats.map(function(c){
+          return '<button type="button" class="db-switch-item'+(c.id===cat?' active':'')+'" data-cat="'+c.id+'"'
+               +' data-en="'+esc(dict.EN[c.id]||c.id)+' ('+c.n+')" data-fr="'+esc(dict.FR[c.id]||c.id)+' ('+c.n+')">'
+               +esc(dict.FR[c.id]||c.id)+' ('+c.n+')</button>';
+        }).join('');
+        catBox.querySelectorAll('button').forEach(function(b){
+          b.addEventListener('click', function(){
+            cat=b.getAttribute('data-cat');
+            catBox.querySelectorAll('button').forEach(function(x){ x.classList.toggle('active', x===b); });
+            render();
+          });
+        });
+      }
+
+      function applyLang(){
+        const lang=L();
+        if(window.GlobalLang&&GlobalLang.applyI18n) GlobalLang.applyI18n(dict[lang]||dict.FR);
+        const suffix='data-'+lang.toLowerCase();
+        document.querySelectorAll('[data-en][data-fr]').forEach(function(el){
+          el.textContent=el.getAttribute(suffix)||el.textContent;
+        });
+        document.documentElement.lang=lang.toLowerCase();
+      }
+      window.addEventListener('langChanged', function(){ applyLang(); });
+
+      let timer=null;
+      searchEl.addEventListener('input', function(){
+        clearTimeout(timer);
+        timer=setTimeout(function(){ term=searchEl.value.trim().toLowerCase(); render(); }, 150);
+      });
+
+      tbody.innerHTML=statusRow(T('loading'));
+      fetch(DATA_URL).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+        .then(function(db){
+          DB=db;
+          db.techs.forEach(function(t){ nameOf[t.id]=(t.name&&t.name.EN)||t.id; });
+          buildChips();
+          render();
+        })
+        .catch(function(){ tbody.innerHTML=statusRow(T('err')); });
+
+      applyLang();
+    })();
+
+    </script>
+</body>
+</html>
