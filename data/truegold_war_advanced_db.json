@@ -15,7 +15,7 @@
       "prerequisites between techs (req)",
       "War Academy Truegold tier gate per level (reqWA, TG1-TG8)",
       "per-level effect/buff magnitudes",
-      "French names and effect labels"
+      "French names and effect labels — this update has not reached the player's game server yet (estimated ~50 days from 2026-08-09), so the official FR strings do not exist anywhere. Keep FR null until they can be read in-game; do NOT invent or machine-translate them."
     ],
     "legend": "Legend: TG1 to TG8 is your War Academy's Truegold tier. TTG: Tempered Truegold. Dust: Truegold Dust. Costs and time are per level; Power and effects are cumulative.",
     "crossCheck": {
