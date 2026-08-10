@@ -402,6 +402,20 @@ function showAppConfirm(message, onConfirm, onCancel = null) {
   overlay.querySelector('#confirm-no').onclick  = () => { close(); if (onCancel) onCancel(); };
 }
 
+// Retour discret après une action réussie : une modale de plus enchaînerait deux
+// fenêtres à fermer là où le joueur veut juste voir sa page mise à jour.
+// aria-live="polite" pour que les lecteurs d'écran l'annoncent sans voler le focus.
+function showAppToast(message, isSuccess = true) {
+  const toast = document.createElement('div');
+  toast.className = 'kt-toast' + (isSuccess ? ' is-ok' : '');
+  toast.setAttribute('role', 'status');
+  toast.setAttribute('aria-live', 'polite');
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 350); }, 3200);
+}
+
 // ============================================================
 //  PROFILS (comptes) — pastille desktop, panneau, drawer mobile,
 //  modale de gestion, header adaptatif (Option B), toast de bascule.

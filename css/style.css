@@ -2305,7 +2305,9 @@ body.has-app-header .db-section table.db-table thead th.num { text-align: right;
 .pfp-manage-new { margin-top: 16px; }
 
 /* --- Toast de bascule --- */
-.pfp-toast {
+/* Toast : bascule de profil (.pfp-toast) et retour d'action générique
+   (.kt-toast, cf. showAppToast dans header.js) — même gabarit visuel. */
+.pfp-toast, .kt-toast {
   position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(16px);
   display: flex; align-items: center; gap: 11px;
   background: var(--bg-panel); border: 1px solid var(--accent); border-radius: 12px;
@@ -2313,7 +2315,9 @@ body.has-app-header .db-section table.db-table thead th.num { text-align: right;
   color: var(--text-light); font-size: 14px; font-weight: 600;
   z-index: 10010; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
 }
-.pfp-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.pfp-toast.show, .kt-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.kt-toast { max-width: min(90vw, 460px); text-align: center; }
+.kt-toast.is-ok { border-color: var(--success); }
 
 /* ============================================================
    TRUEGOLD — PLAN D'AMÉLIORATION CHRONOLOGIQUE
@@ -2454,4 +2458,66 @@ body.has-app-header .db-section table.db-table thead th.num { text-align: right;
   .tg-serie-sub { gap: 3px 10px; font-size: 12px; }
   .tg-steps { font-size: 12.5px; }
   .tg-steps th, .tg-steps td { padding: 5px 6px; }
+}
+
+/* ============================================================
+   « APPLIQUER LES MODIFICATIONS » — CTA de fin de plan
+   Partagé par TrueGold et l'Académie de Guerre : le bouton clôt
+   le panneau de résultat et réécrit les saisies de la page comme
+   si le plan venait d'être réalisé en jeu. Action à conséquence :
+   CTA doré (le plus fort de la charte) + confirmation détaillée.
+   ============================================================ */
+
+.plan-apply {
+  margin-top: 20px; padding-top: 18px;
+  border-top: 1px dashed var(--border);
+  display: flex; flex-direction: column; align-items: center; gap: 9px;
+}
+
+.plan-apply-btn {
+  min-height: 44px; padding: 12px 26px;         /* 44px = cible tactile minimale */
+  border: none; border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  color: #1a1200; font-size: 14px; font-weight: 700; letter-spacing: .4px;
+  font-family: inherit; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  box-shadow: 0 4px 15px rgba(245,184,64,0.18);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.plan-apply-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,184,64,0.38); }
+.plan-apply-btn:active { transform: translateY(0); }
+.plan-apply-btn:focus-visible { outline: 2px solid var(--text-light); outline-offset: 3px; }
+.plan-apply-btn svg { flex: none; }
+
+.plan-apply-hint {
+  color: var(--text-muted); font-size: 12.5px; line-height: 1.5;
+  text-align: center; max-width: 52ch;
+}
+
+/* Récapitulatif des changements, dans la modale de confirmation.
+   .custom-alert-msg est centré et en pre-wrap : on rétablit les deux ici. */
+.apply-diff {
+  text-align: left; white-space: normal;
+  margin: 14px 0 4px; padding: 12px 14px;
+  background: var(--control-bg); border: 1px solid var(--border); border-radius: 8px;
+  max-height: 40vh; overflow-y: auto;
+}
+.apply-diff-h {
+  color: var(--accent); font-size: 11.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .8px;
+  margin: 10px 0 5px;
+}
+.apply-diff-h:first-child { margin-top: 0; }
+.apply-diff-r {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  font-size: 13px; line-height: 1.5; padding: 2px 0;
+}
+.apply-diff-r > span { color: var(--text-muted); min-width: 0; }
+.apply-diff-r > b { color: var(--text-light); font-weight: 700; text-align: right; }
+.apply-diff-r em { color: var(--text-muted); font-weight: 400; font-style: normal; font-size: 12px; }
+.apply-warn { color: var(--warning); font-size: 12.5px; line-height: 1.5; margin-top: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-apply-btn { transition: none; }
+  .plan-apply-btn:hover { transform: none; }
 }
