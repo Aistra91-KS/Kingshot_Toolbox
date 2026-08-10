@@ -1,11 +1,11 @@
 <!-- kshub-news
 version: 1
-covers-until: 26472c7445d4433cfae1caba04d07cca4fa9b8bf
-generated: 2026-08-07
+covers-until: 68e2cff86e7c820a10ae5f958a9840bb898c555f
+generated: 2026-08-10
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 🛍️ La page Boutique se refait une beauté
-title-en: 🛍️ The Shop page gets a makeover
+title-fr: ✅ Ton plan s'applique maintenant en un clic
+title-en: ✅ Your plan now applies in one click
 -->
 
 <!--
@@ -46,76 +46,78 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 🛍️ Chaque boutique a désormais sa propre page
+### ✅ Fini de tout retaper à la main
 
-Fini l'écran unique bourré d'onglets : **Valeur Boutique** est devenu un sommaire rangé en trois familles — **Boutiques d'Événement**, **Boutiques Permanentes** et **Coffres** — et chacune des 12 boutiques a sa page dédiée, avec la place qu'il faut pour tout afficher.
+Jusqu'ici, quand tu avais réalisé le plan proposé en jeu, il fallait revenir sur la page et ressaisir un par un tes niveaux, tes stocks et tes accélérateurs. Un nouveau bouton **« Appliquer les modifications »**, tout en bas du plan, le fait pour toi.
 
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/shop_calc.html
+Un clic, une fenêtre de confirmation qui te montre **exactement ce qui va changer** — chaque bâtiment ou recherche concerné, et chaque stock avant → après — et la page se met à jour :
 
-Les boutiques d'événement **terminées ne disparaissent plus** : leur carte passe en grisé mais reste cliquable, pour comparer une ancienne édition avec celle en cours.
+- tes bâtiments et tes recherches montent aux niveaux du plan
+- ton Or Véritable, ton Or Véritable Trempé, tes poussières et tes accélérateurs baissent de ce que le plan dépense
+- ton compteur de transformations grimpe du nombre de transformations utilisées
+- l'outil enchaîne aussitôt sur le plan suivant
 
-### 🧮 Le gros morceau : le panier
-
-Tu ne te contentes plus de regarder quel objet est le plus rentable — **tu prépares tes achats**.
-
-Renseigne ta monnaie, puis choisis tes quantités ligne par ligne avec les boutons **−** / **+** (ou **MAX**, qui prend tout ce que ton solde permet sans dépasser le stock). Quatre compteurs se mettent à jour en direct : **ta monnaie**, **le dépensé**, **le restant** et **la valeur obtenue en gemmes**.
-
-Concrètement : 10 000 pièces, tu prends 10 Mithril à 750 → il te reste **2 500 pièces**, et tu vois immédiatement ce que tu peux encore t'offrir avec.
-
-Un **récapitulatif reste collé en bas de l'écran** pendant que tu parcours la liste, et ton panier est conservé quand tu reviens sur la page.
-
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/shop/polar-shop.html
-
-### 📊 Un tableau à la place des cartes
-
-Chaque boutique s'affiche en **une ligne par objet** : trois à quatre fois plus d'objets à l'écran, et des colonnes qui se comparent d'un coup d'œil. Le tri se fait **par meilleure affaire d'office**, et n'importe quelle colonne est cliquable pour changer d'ordre. Les trois meilleurs rapports valeur/prix restent mis en avant en haut de page.
-
-Le **compte à rebours affiche maintenant les jours ET les heures**, et la colonne « Dispo » explique son calcul (par exemple *2/jour × 6j*).
-
-### ✏️ Ta boutique ne colle pas ? Corrige-la
-
-Le bouton **crayon** ouvre un mode édition : quantités, coûts et stock restant deviennent modifiables, tu peux ajouter ou retirer des objets, et tout remettre d'origine d'un clic. Pratique quand ta boutique en jeu diffère de la version chargée.
-
-### 🏗️ TrueGold : palier de serveur
-
-Le planificateur proposait des améliorations qui n'existent pas encore sur ton serveur. Un sélecteur **Palier de serveur** (TG3 / TG5 / TG8 / TG10) en haut de la Configuration cadre désormais les suggestions. Les bâtiments déjà au-dessus du palier sont signalés et comptent toujours comme prérequis. Le **bonus de construction (PAN)** a rejoint le panneau Configuration, pour gagner de la place.
+Deux précisions : une construction laissée en cours est comptée comme faite (tu l'as déjà payée), et l'Or Véritable Trempé issu du Creuset est la **moyenne attendue** — corrige-le à la main si tes tirages ont été plus ou moins chanceux.
 
 👉 https://aistra91-ks.github.io/Kingshot_Toolbox/truegold_calc.html
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/waracademy.html
+
+### 📚 Toutes les recherches avancées d'Or Véritable
+
+Une nouvelle page de base de données rassemble l'arbre **War Academy Advanced** en entier : **92 recherches, 1 010 niveaux**, avec le coût en poussière, en Or Véritable Trempé, en ressources et le temps de chaque niveau. Filtres par catégorie (Combat, Capacité, Économie, Spécial) et recherche par nom.
+
+Les noms français ne sont pas encore affichés : la mise à jour n'est pas sortie sur nos serveurs, donc les libellés officiels n'existent pas encore. Ils seront ajoutés dès leur parution, sans traduction inventée entre-temps.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/database/waracademy/advanced.html
+
+### 🏆 Des plans KvK plus rentables
+
+Les deux planificateurs se faisaient piéger de la même façon : ils ne savaient pas investir dans une suite de niveaux médiocres qui en débloque un excellent. Résultat, tu pouvais **gagner des points en décochant un bâtiment ou un arbre** — la preuve que la suggestion n'était pas la meilleure.
+
+- **TrueGold** explore désormais *toutes* les combinaisons possibles en mode KvK au lieu d'avancer au coup par coup : le plan rendu est le meilleur, pas juste un bon.
+- **Académie de Guerre** sait maintenant s'engager dans une chaîne de prérequis et la terminer, plutôt que d'entamer les trois arbres sans en finir aucun. Gain mesuré : **+4 à +6,5 % de points** sur les budgets concernés, sans aucun cas dégradé.
+
+### 🔧 Correction
+
+La valeur en gemmes du **Mithril** a été corrigée dans le référentiel des objets.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/shop/items.html
 
 ## EN
 
-### 🛍️ Every shop now has its own page
+### ✅ No more retyping everything by hand
 
-No more single screen crammed with tabs: **Shop Value** is now a summary sorted into three families — **Event Shops**, **Permanent Shops** and **Chests** — and each of the 12 shops has its own page, with the room it needs to show everything.
+Until now, once you had carried out the suggested plan in game, you had to come back to the page and re-enter your levels, your stocks and your speedups one by one. A new **"Apply these changes"** button, right at the bottom of the plan, does it for you.
 
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/shop_calc.html
+One click, a confirmation window showing you **exactly what will change** — every building or research concerned, and every stock before → after — and the page updates:
 
-Finished event shops **no longer disappear**: their card turns grey but stays clickable, so you can compare a past run with the one currently live.
+- your buildings and researches jump to the plan's levels
+- your TrueGold, Tempered TrueGold, dust and speedups go down by what the plan spends
+- your transformation counter goes up by the transformations used
+- the tool immediately works out the next plan from there
 
-### 🧮 The big one: the shopping cart
-
-You are no longer just looking at which item is the best value — **you plan your purchases**.
-
-Enter how much currency you have, then pick quantities line by line with the **−** / **+** buttons (or **MAX**, which takes everything your balance allows without going over the stock). Four counters update live: **your currency**, **spent**, **remaining** and **value obtained in gems**.
-
-In practice: 10,000 coins, you take 10 Mithril at 750 → you have **2,500 coins left**, and you immediately see what else you can afford with them.
-
-A **summary stays pinned to the bottom of the screen** while you go through the list, and your cart is kept for when you come back.
-
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/shop/polar-shop.html
-
-### 📊 A table instead of cards
-
-Each shop is now **one line per item**: three to four times more items on screen, and columns you can compare at a glance. It sorts by **best deal first** by default, and any column header can be clicked to reorder. The three best value-for-money picks still get highlighted at the top.
-
-The **countdown now shows days AND hours**, and the "Available" column explains its own maths (for example *2/day × 6d*).
-
-### ✏️ Shop doesn't match? Fix it
-
-The **pencil** button opens an edit mode: quantities, costs and remaining stock become editable, you can add or remove items, and reset everything back to the original in one click. Handy when your in-game shop differs from the loaded version.
-
-### 🏗️ TrueGold: server tier
-
-The planner was suggesting upgrades that don't exist on your server yet. A **Server tier** dropdown (TG3 / TG5 / TG8 / TG10) at the top of Configuration now frames the suggestions. Buildings already past your tier are flagged and still count as prerequisites. The **construction bonus (PAN)** moved into the Configuration panel to save room.
+Two things worth knowing: a build left running counts as done (you have already paid for it), and the Tempered TrueGold from the Crucible is the **expected average** — correct it by hand if your rolls were luckier or worse.
 
 👉 https://aistra91-ks.github.io/Kingshot_Toolbox/truegold_calc.html
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/waracademy.html
+
+### 📚 Every Advanced TrueGold research
+
+A new database page gathers the whole **War Academy Advanced** tree: **92 researches, 1,010 levels**, with the dust, Tempered TrueGold, resource costs and time for each level. Filter by category (Combat, Capacity, Economy, Special) and search by name.
+
+French names aren't shown yet: the update hasn't reached our servers, so the official labels don't exist anywhere. They'll be added as soon as they're out, with no made-up translation in the meantime.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/database/waracademy/advanced.html
+
+### 🏆 Better-paying KvK plans
+
+Both planners fell into the same trap: they couldn't invest in a run of poor levels that unlocks a far better one. As a result, you could **earn more points by unticking a building or a tree** — proof the suggestion wasn't the best one.
+
+- **TrueGold** now explores *every* possible combination in KvK mode instead of moving one step at a time: the plan you get is the best one, not just a good one.
+- **War Academy** now commits to a prerequisite chain and finishes it, instead of starting all three trees and completing none. Measured gain: **+4 to +6.5% points** in the affected range, with no case made worse.
+
+### 🔧 Fix
+
+The gem value of **Mithril** has been corrected in the item reference.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/shop/items.html
