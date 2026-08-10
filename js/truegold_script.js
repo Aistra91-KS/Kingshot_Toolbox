@@ -120,7 +120,18 @@ const i18n = {
         'panReduc': "Reduction (hours)",
         'panAuto': "Automatic (PAN)",
         'panManual': "Manual",
-        'ptsEnd': "points"
+        'ptsEnd': "points",
+        'applyBtn': "Apply these changes",
+        'applyHint': "Updates your levels, stocks, transformations and speedups as if you had just carried out this plan in game.",
+        'applyAsk': "Apply this plan to your page?",
+        'applyBldgs': "Buildings upgraded",
+        'applyResources': "Resources & speedups",
+        'applySpeedups': "Speedups",
+        'applyTransfos': "Transformations used",
+        'applyNone': "none left",
+        'applyWarn': "⚠️ Your current levels and stocks will be replaced.",
+        'applyWarnTransfo': "The TTG gained from transformations is the expected average — adjust it if your rolls differed.",
+        'applyDone': "✅ Plan applied — levels and stocks updated."
     },
     'FR': {
         'ctrlPanel': 'Panneau de Contrôle',
@@ -203,7 +214,18 @@ const i18n = {
         'panReduc': "Réduction (heures)",
         'panAuto': "Automatique (PAN)",
         'panManual': "Manuel",
-        'ptsEnd': "points"
+        'ptsEnd': "points",
+        'applyBtn': "Appliquer les modifications",
+        'applyHint': "Met à jour tes niveaux, tes stocks, tes transformations et tes accélérateurs comme si tu venais de réaliser ce plan en jeu.",
+        'applyAsk': "Appliquer ce plan à ta page ?",
+        'applyBldgs': "Bâtiments montés",
+        'applyResources': "Ressources & accélérateurs",
+        'applySpeedups': "Accélérateurs",
+        'applyTransfos': "Transformations utilisées",
+        'applyNone': "plus rien",
+        'applyWarn': "⚠️ Tes niveaux et tes stocks actuels seront remplacés.",
+        'applyWarnTransfo': "Le TTG gagné par les transformations est la moyenne attendue — corrige-le si tes tirages ont été différents.",
+        'applyDone': "✅ Plan appliqué — niveaux et stocks mis à jour."
     }
 };
 
@@ -503,6 +525,19 @@ function updateAllRowCosts() {
 }
 
 // ============ TIME FORMATTING ============
+// Format compact « 2j 3h 10m » — celui du plan et de la modale d'application.
+// (formatMinutesCustom ci-dessous garde le format long, utilisé par le tableau.)
+function formatMinutesShort(minutes, lang) {
+    const j = Math.floor(minutes / 1440);
+    const h = Math.floor((minutes % 1440) / 60);
+    const m = minutes % 60;
+    const res = [];
+    if (j > 0) res.push(j + (lang === 'EN' ? 'd' : 'j'));
+    if (h > 0) res.push(h + 'h');
+    if (m > 0 || res.length === 0) res.push(m + 'm');
+    return res.join(' ');
+}
+
 function formatMinutesCustom(minutes, lang) {
     let j = Math.floor(minutes / 1440);
     let h = Math.floor((minutes % 1440) / 60);
@@ -695,7 +730,14 @@ function tgRememberOpen(el) {
     if (el.open) TG_OPEN_SERIES.add(cle); else TG_OPEN_SERIES.delete(cle);
 }
 
+// Dernier plan affiché, sous une forme directement applicable à la page (cf.
+// tgApplyPlan). Rempli à la toute fin de SUGGERER_KINGSHOT — donc null tant qu'aucun
+// plan n'a été produit, ce qui suffit à garder le bouton « Appliquer » et le plan
+// affiché parfaitement synchronisés : les deux naissent du même calcul.
+let TG_LAST_PLAN = null;
+
 function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, accelJours, accelHeures, accelMinutes, mode, scoreCible, tx, rangeTableur, rangeDatabase, rangeDataTTG, lang, serverTier) {
+    TG_LAST_PLAN = null;
     const palierMax = Number(serverTier) || 8;
     const modeKVK = (mode === 'kvk');
     const modeTarget = (mode === 'target');
@@ -725,21 +767,8 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         return { major: 0, minor: 0, isTG: false };
     }
 
-    function fmt(num) {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    }
-
-    function formatMinutes(minutes) {
-        const j = Math.floor(minutes / 1440);
-        const h = Math.floor((minutes % 1440) / 60);
-        const m = minutes % 60;
-        const res = [];
-        const dayChar = isEN ? "d" : "j";
-        if (j > 0) res.push(j + dayChar);
-        if (h > 0) res.push(h + "h");
-        if (m > 0 || res.length === 0) res.push(m + "m");
-        return res.join(" ");
-    }
+    const fmt = tgFmt;
+    const formatMinutes = (minutes) => formatMinutesShort(minutes, lang);
 
     // ============ PRÉPARATION DES DONNÉES ============
     const stockAccelMinutesTotal = (Number(accelJours) * 1440) + (Number(accelHeures) * 60) + Number(accelMinutes);
@@ -1524,6 +1553,30 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         }
     }
 
+    // ============ PLAN APPLICABLE À LA PAGE ============
+    // Résumé de ce que « Appliquer les modifications » écrira dans le formulaire.
+    // Le niveau retenu est celui atteint en fin de plan, y compris pour une série
+    // laissée en construction : ses ressources sont déjà payées et le joueur finira
+    // le chantier (choix validé par Paul). Les stocks sont ceux d'APRÈS le creuset,
+    // moins ce que les améliorations consomment.
+    const parBatiment = {};
+    for (const a of meilleurScenario.ameliorations) {
+        const e = parBatiment[a.nom];
+        if (!e) {
+            parBatiment[a.nom] = { niveau: a.niveauCible, label: a.labelCible, nb: 1 };
+        } else {
+            e.nb++;
+            if (a.niveauCible > e.niveau) { e.niveau = a.niveauCible; e.label = a.labelCible; }
+        }
+    }
+    TG_LAST_PLAN = {
+        parBatiment: parBatiment,
+        nbTransfos: meilleurScenario.nbTransfos,
+        stockTGFinal: Math.max(0, meilleurScenario.nouveauStockTG - meilleurScenario.tgUtilisesAmelio),
+        stockTTGFinal: Math.max(0, meilleurScenario.nouveauStockTTG - meilleurScenario.ttgUtiliseesAmelio),
+        accelUtilisees: meilleurScenario.accelUtilisees
+    };
+
     // ============ GÉNÉRATION DU HTML FINAL ============
     const titreMode = modeKVK ? tx.optKVK : (modeTarget ? tx.optTarget : tx.optQty);
     const c_or = '#f5b840';
@@ -1655,9 +1708,84 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     html += `<strong style="font-size:16px;"> ${tx.ptsEnd}</strong>`;
     html += `</div>`;
 
+    // Appliquer le plan — clôt le panneau : on lit le plan, puis on l'applique.
+    html += `<div class="plan-apply">`;
+    html += `<button type="button" class="plan-apply-btn" onclick="tgApplyPlan()">${iconSvg('circle-check-big', 18)}${tx.applyBtn}</button>`;
+    html += `<div class="plan-apply-hint">${tx.applyHint}</div>`;
+    html += `</div>`;
+
     html += `</div>`;
 
     return html;
+}
+
+// ============ APPLIQUER LE PLAN À LA PAGE ============
+// Réécrit les saisies du joueur à partir du plan affiché : niveaux atteints, stocks
+// TG/TTG restants, transformations consommées, accélérateurs restants. Le tableau et
+// la suggestion sont ensuite recalculés, si bien que la page repart de l'état d'après.
+
+// Séparateur de milliers en espaces, partagé par le plan (`fmt`) et la modale.
+function tgFmt(n) {
+    return String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+function tgApplyPlan() {
+    const plan = TG_LAST_PLAN;
+    if (!plan) return;
+    const lang = GlobalLang.get();
+    const tx = i18n[lang];
+
+    const num = (id) => Number(document.getElementById(id).value) || 0;
+    const accelActuels = (num('accelJours') * 1440) + (num('accelHeures') * 60) + num('accelMinutes');
+    const accelRestants = Math.max(0, accelActuels - plan.accelUtilisees);
+    const transfoAvant = Math.max(0, Math.min(100, num('transfoUtilisees')));
+    const transfoApres = Math.min(100, transfoAvant + plan.nbTransfos);
+    // « plus rien » ne vaut que pour le stock d'arrivée : en écrivant « plus rien → plus rien »,
+    // un joueur sans accélérateurs lisait une phrase qui n'a aucun sens.
+    const duree = (min) => formatMinutesShort(min, lang);
+
+    // --- Récapitulatif des changements, pour que le joueur confirme en connaissance de cause ---
+    let recap = `<div class="apply-diff"><div class="apply-diff-h">${tx.applyBldgs}</div>`;
+    for (const b of buildingsState) {
+        const e = plan.parBatiment[b.name];
+        if (!e) continue;
+        recap += `<div class="apply-diff-r"><span>${getLocName(b.name)}</span>`
+              +  `<b>${e.label} <em>(+${e.nb} ${tx.levelsShort})</em></b></div>`;
+    }
+    recap += `<div class="apply-diff-h">${tx.applyResources}</div>`;
+    recap += `<div class="apply-diff-r"><span>TG</span><b>${tgFmt(num('stockTG'))} → ${tgFmt(plan.stockTGFinal)}</b></div>`;
+    recap += `<div class="apply-diff-r"><span>TTG</span><b>${tgFmt(num('stockTTG'))} → ${tgFmt(plan.stockTTGFinal)}</b></div>`;
+    if (plan.nbTransfos > 0) {
+        recap += `<div class="apply-diff-r"><span>${tx.applyTransfos}</span><b>${transfoAvant} → ${transfoApres}</b></div>`;
+    }
+    if (accelActuels > 0) {
+        const apres = accelRestants > 0 ? duree(accelRestants) : tx.applyNone;
+        recap += `<div class="apply-diff-r"><span>${tx.applySpeedups}</span><b>${duree(accelActuels)} → ${apres}</b></div>`;
+    }
+    // L'avertissement sur le TTG espéré ne concerne que les plans qui passent par le creuset.
+    const avert = tx.applyWarn + (plan.nbTransfos > 0 ? ' ' + tx.applyWarnTransfo : '');
+    recap += `</div><div class="apply-warn">${avert}</div>`;
+
+    showAppConfirm(`<strong>${tx.applyAsk}</strong>${recap}`, () => {
+        buildingsState.forEach(b => {
+            const e = plan.parBatiment[b.name];
+            if (!e || e.niveau <= b.current) return;
+            b.current = e.niveau;
+            if (b.target < b.current) b.target = b.current;   // l'objectif ne peut pas être sous le niveau atteint
+        });
+
+        document.getElementById('stockTG').value = plan.stockTGFinal;
+        document.getElementById('stockTTG').value = plan.stockTTGFinal;
+        document.getElementById('transfoUtilisees').value = transfoApres;
+        document.getElementById('accelJours').value = Math.floor(accelRestants / 1440);
+        document.getElementById('accelHeures').value = Math.floor((accelRestants % 1440) / 60);
+        document.getElementById('accelMinutes').value = accelRestants % 60;
+
+        saveData();
+        renderBuildings();      // niveaux + coûts par ligne
+        runCalculator();        // nouvelle suggestion depuis l'état d'après (sans attendre le debounce)
+        showAppToast(tx.applyDone, true);
+    });
 }
 
 function tgInitHelp() {
@@ -1679,7 +1807,8 @@ function tgInitHelp() {
                 "Choisis le mode : « Max points KVK » (rentabilité maximale en points), « Max bâtiments » (en monter le plus possible), ou « Score cible » (atteindre un score précis au coût le plus bas).",
                 "En mode « Score cible », saisis le score visé : l'outil trouve la combinaison la moins chère (bâtiments + transformations + accélérateurs) pour l'atteindre.",
                 "Lis le « Plan d'Amélioration » de haut en bas : les étapes sont numérotées dans l'ordre où il faut les faire en jeu. Un bâtiment revient plusieurs fois, c'est normal : le Centre-ville et l'Ambassade/les bâtiments de troupes se débloquent mutuellement, palier après palier (la mention 🔓 indique quelle étape est débloquée).",
-                "Clique sur une étape pour déplier le détail niveau par niveau : coût en TG et TTG, temps de construction, accélérateurs consommés et points KVK gagnés."
+                "Clique sur une étape pour déplier le détail niveau par niveau : coût en TG et TTG, temps de construction, accélérateurs consommés et points KVK gagnés.",
+                "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux passent à ceux du plan et tes stocks (TG, TTG, transformations, accélérateurs) sont réduits d'autant. L'outil enchaîne alors sur la suggestion suivante."
             ],
             EN: [
                 "Pick your “Server tier”: the highest tier open on your server (TG3, TG5, TG8 or TG10). At tier TG8 for instance, a building can only go up to TG8-0 — TG8-1 isn't in the game yet. This setting only limits the suggestions, not the levels you can pick in the table.",
@@ -1690,7 +1819,8 @@ function tgInitHelp() {
                 "Pick a mode: “Max KVK points” (best points value), “Max buildings” (upgrade as many as possible), or “Target score” (reach a specific score at the lowest cost).",
                 "In “Target score” mode, type the score you aim for: the tool finds the cheapest combination (buildings + transformations + speedups) to reach it.",
                 "Read the “Improvement Plan” top to bottom: steps are numbered in the order you should do them in game. A building coming back several times is normal — the Town Center and the Embassy/troop buildings unlock each other, tier after tier (the 🔓 note tells you which step gets unlocked).",
-                "Click a step to unfold the level-by-level detail: TG and TTG cost, build time, speedups used and KVK points earned."
+                "Click a step to unfold the level-by-level detail: TG and TTG cost, build time, speedups used and KVK points earned.",
+                "Once you've carried the plan out in game, click “Apply these changes” at the bottom of the result: after confirming, your levels jump to the plan's and your stocks (TG, TTG, transformations, speedups) go down accordingly. The tool then moves on to the next suggestion."
             ]
         }
     });

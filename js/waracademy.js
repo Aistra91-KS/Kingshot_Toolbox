@@ -39,6 +39,16 @@
       bilan: 'KvK Breakdown:', dustUsed: ' dust → ', accelUsed: ' of speedups → ',
       pts: ' KvK points', totalMax: 'Total:',
       modesFilters: 'Modes & Filters',
+      applyBtn: 'Apply these changes',
+      applyHint: 'Updates your research levels, your dust and your speedups as if you had just carried out this plan in game.',
+      applyAsk: 'Apply this plan to your page?',
+      applyResearch: 'Researches levelled',
+      applyResources: 'Dust & speedups',
+      applyDust: 'TrueGold Dust',
+      applySpeedups: 'Speedups',
+      applyNone: 'none left',
+      applyWarn: '⚠️ Your current levels, dust and speedups will be replaced.',
+      applyDone: '✅ Plan applied — levels and resources updated.',
       helpTitle: 'War Academy — Help',
       helpSummary: "Plans the optimal TrueGold research path for your goal: complete as many researches as possible, maximize KvK points, or reach a target score for the least dust.",
     },
@@ -69,6 +79,16 @@
       bilan: 'Bilan KvK :', dustUsed: ' poussières → ', accelUsed: ' d\'accélérateurs → ',
       pts: ' points KvK', totalMax: 'Total :',
       modesFilters: 'Modes & Filtres',
+      applyBtn: 'Appliquer les modifications',
+      applyHint: "Met à jour tes niveaux de recherche, tes poussières et tes accélérateurs comme si tu venais de réaliser ce plan en jeu.",
+      applyAsk: 'Appliquer ce plan à ta page ?',
+      applyResearch: 'Recherches montées',
+      applyResources: 'Poussières & accélérateurs',
+      applyDust: "Poussières d'Or Véritable",
+      applySpeedups: 'Accélérateurs',
+      applyNone: 'plus rien',
+      applyWarn: '⚠️ Tes niveaux, tes poussières et tes accélérateurs actuels seront remplacés.',
+      applyDone: '✅ Plan appliqué — niveaux et ressources mis à jour.',
       dbErr: '⚠️ Impossible de charger la base de recherche (data/truegold_war_db.json).',
       helpTitle: 'Académie de Guerre — Aide',
       helpSummary: "Calcule le chemin de recherche TrueGold optimal selon ton objectif : valider un maximum de recherches, maximiser les points KvK, ou atteindre un score cible au moindre coût en poussières.",
@@ -82,6 +102,7 @@
       "Coche les arbres (Infanterie / Archers / Cavalerie) à inclure dans la suggestion.",
       "Choisis le mode : Max recherches, KvK (max points) ou Score cible.",
       "Lis la stratégie : les recherches à monter, les poussières et le temps nécessaires, et les points KvK.",
+      "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux de recherche passent à ceux du plan et tes poussières et accélérateurs sont réduits d'autant. L'outil enchaîne alors sur la suggestion suivante.",
     ],
     EN: [
       'Set your War Academy level (1–10): it unlocks the tree tiers.',
@@ -90,6 +111,7 @@
       'Tick the trees (Infantry / Archer / Cavalry) to include in the suggestion.',
       'Pick a mode: Max researches, KvK (max points), or Target score.',
       'Read the strategy: which researches to level, the dust and time needed, and the KvK points.',
+      'Once you\'ve carried the plan out in game, click “Apply these changes” at the bottom of the result: after confirming, your research levels jump to the plan\'s and your dust and speedups go down accordingly. The tool then moves on to the next suggestion.',
     ],
   };
 
@@ -118,6 +140,7 @@
     [6, 7], [6, 8], [6, 9],
   ];
   const TREE_ORDER = ['infantry', 'archer', 'cavalry'];
+  const TREE_COLORS = { infantry: '#54c66a', archer: '#ef5a4c', cavalry: '#4d9be6' };
 
   // ---------------- state ----------------
   let DB = null;
@@ -129,11 +152,17 @@
     activeTree: 'infantry',
     levels: {}, // "treeId.researchId" -> current level
   };
+  // Dernier plan calculé, gardé pour « Appliquer les modifications » : le bouton
+  // n'est affiché que dans la sortie de ce même calcul, les deux restent donc en phase.
+  let lastPlan = null;
   const SKEY = (window.STORAGE_KEYS && window.STORAGE_KEYS.waracademy) || 'wa_calc_data_v1';
   const lang = () => (window.GlobalLang ? window.GlobalLang.get() : 'FR');
   const t = (k) => (i18n[lang()] && i18n[lang()][k]) || i18n.EN[k] || k;
   const nm = (obj) => (obj ? (obj[lang()] || obj.EN || obj.FR || '') : '');
   const rkey = (tree, res) => tree + '.' + res;
+  // Les 3 arbres partagent les mêmes noms de recherche : sans l'arbre, « Bataillon »
+  // apparaîtrait trois fois à l'identique dans les listes.
+  const treeLabel = (id) => t('tree' + id.charAt(0).toUpperCase() + id.slice(1));
 
   // ---------------- helpers ----------------
   const clampInt = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.floor(Number(v) || 0)));
@@ -476,6 +505,7 @@
       enabledTrees: enabledTrees(),
       mode: state.mode, targetScore: state.targetScore,
     });
+    lastPlan = res;
     renderOutput(res);
     // suggested set (research -> highest target level) for the ACTIVE tree highlight
     const suggested = {};
@@ -516,8 +546,7 @@
       if (s.toLevel >= a.to) a.buff = s.buff || '';
     });
 
-    const colors = { infantry: '#54c66a', archer: '#ef5a4c', cavalry: '#4d9be6' };
-    const treeLabels = { infantry: t('treeInfantry'), archer: t('treeArcher'), cavalry: t('treeCavalry') };
+    const colors = TREE_COLORS;
 
     // Keep the plan's order, but always put the single "in progress" research last.
     const sorted = order.filter(k => k !== res.inProgress);
@@ -559,7 +588,7 @@
       const statusHtml = isInProgress
         ? `<span class="wa-step__status wa-step__status--progress">${t('inProgress')}</span>`
         : `<span class="wa-step__status wa-step__status--done">${t('completed')}</span>`;
-      const treeTag = `<span class="wa-step__tree" style="color:${colors[a.treeId]}">${treeLabels[a.treeId]}</span>`;
+      const treeTag = `<span class="wa-step__tree" style="color:${colors[a.treeId]}">${treeLabel(a.treeId)}</span>`;
       const buffHtml = a.buff
         ? `<div class="wa-step__buff">${a.buff}</div>`
         : '';
@@ -616,7 +645,11 @@
         <div class="wa-out-bilan-row">🔶 <b>${fmtNum(tot.effDust)}</b>${t('dustUsed')}<b>${fmtNum(tot.kvkFromDust)}</b>${t('pts')}</div>
         <div class="wa-out-bilan-row">⏱️ <b>${fmtTime(tot.effTimeMin)}</b>${t('accelUsed')}<b>${fmtNum(tot.kvkFromTime)}</b>${t('pts')}</div>
       </div>
-      <div class="wa-out-total">🚀 ${t('totalMax')} <span class="wa-out-total-num">${fmtNum(tot.kvkPoints)}</span>${t('pts')}</div>`;
+      <div class="wa-out-total">🚀 ${t('totalMax')} <span class="wa-out-total-num">${fmtNum(tot.kvkPoints)}</span>${t('pts')}</div>
+      <div class="plan-apply">
+        <button type="button" class="plan-apply-btn" onclick="WA.applyPlan()">${window.iconSvg('circle-check-big', 18)}${t('applyBtn')}</button>
+        <div class="plan-apply-hint">${t('applyHint')}</div>
+      </div>`;
 
     box.innerHTML =
       `<div class="wa-out-head">${heads[res.mode]}</div>` +
@@ -628,12 +661,66 @@
       totalHtml;
   }
 
+  // ---------------- appliquer le plan ----------------
+  // Réécrit la page à partir du plan affiché : niveaux atteints, poussières restantes,
+  // accélérateurs restants. La recherche laissée « en cours » monte elle aussi de niveau
+  // (choix validé par Paul) — sa poussière est déjà entièrement payée.
+  function applyPlan() {
+    const res = lastPlan;
+    if (!res || !res.steps.length) return;
+
+    const finals = {};                      // clé recherche -> { to, name, treeId, n }
+    res.steps.forEach(s => {
+      const k = rkey(s.treeId, s.researchId);
+      const e = finals[k];
+      if (!e) finals[k] = { to: s.toLevel, name: s.name, treeId: s.treeId, n: 1 };
+      else { e.n++; if (s.toLevel > e.to) e.to = s.toLevel; }
+    });
+
+    const availMin = state.accDays * 1440 + state.accHours * 60 + state.accMinutes;
+    const dustLeft = Math.max(0, state.dustBudget - res.totals.effDust);
+    const timeLeft = Math.max(0, availMin - res.totals.effTimeMin);
+    let recap = `<div class="apply-diff"><div class="apply-diff-h">${t('applyResearch')}</div>`;
+    Object.keys(finals).forEach(k => {
+      const f = finals[k];
+      recap += `<div class="apply-diff-r">`
+            +  `<span>${nm(f.name)} <em style="color:${TREE_COLORS[f.treeId]}">${treeLabel(f.treeId)}</em></span>`
+            +  `<b>Lv.${f.to} <em>(+${f.n} ${t('lvls')})</em></b></div>`;
+    });
+    recap += `<div class="apply-diff-h">${t('applyResources')}</div>`;
+    recap += `<div class="apply-diff-r"><span>${t('applyDust')}</span><b>${fmtNum(state.dustBudget)} → ${fmtNum(dustLeft)}</b></div>`;
+    // « plus rien » ne vaut que pour le stock d'arrivée : « plus rien → plus rien »
+    // n'aurait aucun sens pour un joueur qui n'a pas d'accélérateurs.
+    if (availMin > 0) {
+      const apres = timeLeft > 0 ? fmtTime(timeLeft) : t('applyNone');
+      recap += `<div class="apply-diff-r"><span>${t('applySpeedups')}</span><b>${fmtTime(availMin)} → ${apres}</b></div>`;
+    }
+    recap += `</div><div class="apply-warn">${t('applyWarn')}</div>`;
+
+    window.showAppConfirm(`<strong>${t('applyAsk')}</strong>${recap}`, () => {
+      Object.keys(finals).forEach(k => {
+        state.levels[k] = Math.max(Number(state.levels[k]) || 0, finals[k].to);
+      });
+      state.dustBudget = dustLeft;
+      state.accDays = Math.floor(timeLeft / 1440);
+      state.accHours = Math.floor((timeLeft % 1440) / 60);
+      state.accMinutes = timeLeft % 60;
+
+      save();
+      syncInputs();
+      renderTree();
+      recompute();
+      window.showAppToast(t('applyDone'), true);
+    });
+  }
+
   // ---------------- inline handlers (window.WA) ----------------
   const debounce = (fn, d = 180) => { let x; return (...a) => { clearTimeout(x); x = setTimeout(() => fn(...a), d); }; };
   const doUpdate = debounce(() => { readInputs(); syncInputs(); save(); recompute(); }, 160);
 
   window.WA = {
     triggerUpdate: doUpdate,
+    applyPlan,
     onModeChange() {
       const tr = document.getElementById('targetRow');
       if (tr) tr.style.display = document.getElementById('modeSelect').value === 'target' ? '' : 'none';
