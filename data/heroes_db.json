@@ -1782,7 +1782,35 @@
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
-    ]
+    ],
+    "widget": {
+      "name": {
+        "EN": "Mortar",
+        "FR": "Mortier"
+      },
+      "effectConquest": {
+        "name": {
+          "EN": "Zero Sympathy",
+          "FR": "Aucune Pitié"
+        },
+        "description": {
+          "EN": "Truly, Wee & Woo's knowledge of modern ranged techniques has boosted morale. Wee & Woo also increase the Attack Speeds by X% for Heroes and Escorts for 5s.",
+          "FR": "La maîtrise des techniques de tir modernes de Wee & Woo a véritablement galvanisé le moral des troupes. Wee & Woo augmentent aussi la Vitesse d'Attaque des Héros et des Escortes de X% pendant 5 s."
+        },
+        "levels": ["6%", "8%", "10%", "12%", "14%"]
+      },
+      "effectExpe": {
+        "name": {
+          "EN": "Landmines",
+          "FR": "Mines Terrestres"
+        },
+        "description": {
+          "EN": "Smart artillerymen always keep mines in reserve in case of unwelcome friends. Wee & Woo increase Defender Squad's Attack by X%.",
+          "FR": "Les artilleurs avisés gardent toujours des mines en réserve au cas où des amis indésirables se présenteraient. Wee & Woo augmentent l'Attaque de l'escouade de défenseurs de X%."
+        },
+        "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+      }
+    }
   },
   {
     "id": "0033",
@@ -1825,7 +1853,35 @@
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
-    ]
+    ],
+    "widget": {
+      "name": {
+        "EN": "Justice Fist",
+        "FR": "Poing de Justice"
+      },
+      "effectConquest": {
+        "name": {
+          "EN": "Mechanic",
+          "FR": "Mécanicien"
+        },
+        "description": {
+          "EN": "Charles takes good care of Angel and restores a certain amount of health (X% of Max Health) when first under 50% Health while increasing Defense by X% until the end of battle. This skill can only be triggered once per battle.",
+          "FR": "Charles prend grand soin d'Angel et lui rend une partie de ses points de vie (X% de la Santé maximale) lorsqu'il passe pour la première fois sous 50% de Santé, tout en augmentant sa Défense de X% jusqu'à la fin du combat. Cette compétence ne peut se déclencher qu'une seule fois par combat."
+        },
+        "levels": ["(15%,10%)", "(20%,15%)", "(25%,20%)", "(30%,25%)", "(35%,30%)"]
+      },
+      "effectExpe": {
+        "name": {
+          "EN": "Shock and Awe",
+          "FR": "Choc et Effroi"
+        },
+        "description": {
+          "EN": "Charles knows how to make a roaring entrance worthy of the massive Angel of Justice mech, increasing Defender Squad's Health by X%.",
+          "FR": "Charles sait faire une entrée fracassante digne de l'imposant méca Ange de la Justice, augmentant la Santé de l'escouade de défenseurs de X%."
+        },
+        "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+      }
+    }
   },
   {
     "id": "0034",
@@ -1868,6 +1924,34 @@
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
-    ]
+    ],
+    "widget": {
+      "name": {
+        "EN": "Chameleos",
+        "FR": "Chaméléos"
+      },
+      "effectConquest": {
+        "name": {
+          "EN": "Irradiance",
+          "FR": "Irradiance"
+        },
+        "description": {
+          "EN": "Young Ava's pigment arsenal increases her damage dealt by X% and reduces the Attack of affected targets by 15%.",
+          "FR": "L'arsenal de pigments de la jeune Ava augmente les dégâts qu'elle inflige de X% et réduit l'Attaque des cibles touchées de 15%."
+        },
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      "effectExpe": {
+        "name": {
+          "EN": "Color Storm",
+          "FR": "Tempête de Couleurs"
+        },
+        "description": {
+          "EN": "Ava's unique color dispatching system increases Rally Squad's Lethality by X% when initiating a rally.",
+          "FR": "Le système unique de répartition des couleurs d'Ava augmente la Létalité de l'escouade de ralliement de X% lorsqu'elle organise un ralliement."
+        },
+        "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+      }
+    }
   }
 ]
