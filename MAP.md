@@ -31,6 +31,9 @@ Kingshot_Toolbox/
 ├── shop_calc.html                Sommaire des Boutiques (beta) — 3 familles : Événement / Permanentes / Coffres
 ├── pets.html                     Outil Familiers (promenade verticale : fiches pets le long d'un sentier)
 │
+├── sitemap.xml                   59 URLs (toutes les pages publiques) — à compléter à chaque page ajoutée
+├── google55512fe842dbeeaf.html   ⚠️ Jeton Google Search Console — NE PAS SUPPRIMER (cf. §9)
+│
 ├── shop/                         Une page par boutique (structure calquée sur database/*, cf. §5)
 │   ├── items.html                Valeur des objets : référentiel gemmes (ex-onglet « Data Item »)
 │   ├── polar-shop.html           Événement · Magasin Polaire
@@ -370,6 +373,10 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 - **Modales & retours d'action** : utiliser `showAppAlert` / `showAppConfirm` / `showAppToast` (header.js), pas `alert()`/`confirm()`. Le toast (`.kt-toast`, jumeau visuel de `.pfp-toast`) sert aux confirmations *après* une action réussie — enchaîner deux modales à fermer ferait perdre de vue la page qui vient de changer.
 - **DA** : respecter les variables CSS ; cartes = liseré doré + reflet au survol (cf. §5).
 - **Commits** : toute modification touchant **plusieurs fichiers** se fait via **`github.dev`** et part en **un seul commit final** — jamais d'états intermédiaires cassés en ligne. Message **en anglais** : titre en langage courant + corps compréhensible par un joueur non développeur, dans le budget de longueur du §7.Dans `github.dev`, la boîte de message est multiligne (**Shift+Entrée**) : ligne 1 = titre, ligne vide, puis le corps. Tout mettre sur une seule ligne rend l'intégralité de la news **en gras** sur Discord (le corps devient partie du `subject`).
+
+- **Référencement (Google Search Console)** : la propriété est un **préfixe d'URL** — `https://aistra91-ks.github.io/Kingshot_Toolbox/`. Un site *de projet* GitHub Pages vit dans un sous-dossier d'un domaine partagé (`github.io`) : une propriété « Domaine » est donc impossible, et c'est normal. Deux fichiers à la racine en dépendent :
+  - **`google55512fe842dbeeaf.html`** (contenu : une seule ligne `google-site-verification: …`) — jeton de validation de propriété, servi à `…/Kingshot_Toolbox/google55512fe842dbeeaf.html`. Il n'est référencé par **aucune** page : ne pas le supprimer lors d'une passe de nettoyage. Google revérifie périodiquement, le retirer fait perdre la propriété **et** l'historique de données associé.
+  - **`sitemap.xml`** — à compléter à chaque page ajoutée (§5). Il se soumet **à la main** dans Search Console : `robots.txt` est inexploitable ici, les robots ne le lisent qu'à `https://aistra91-ks.github.io/robots.txt`, servi par le dépôt `aistra91-ks.github.io` (pas celui-ci). On ne peut donc y déclarer ni le sitemap, ni la moindre règle d'exploration.
 
 **Pièges déjà rencontrés**
 - **Dépendance `GlobalLang` non définie** : `lang.js` doit être chargé **avant** tout script qui appelle `GlobalLang` ; toujours garder le fallback `window.GlobalLang ? GlobalLang.get() : 'FR'` (déjà en place dans header/help/backup). Ordre de chargement critique.
