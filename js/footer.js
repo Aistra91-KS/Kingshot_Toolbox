@@ -109,6 +109,29 @@ function ftrRender() {
     </div>`;
 }
 
+// ---------- La sidebar s'arrête au-dessus du pied de page ----------
+// `.sidebar` est `position:sticky` et se confine au **body**, pas à la ligne
+// flex : en bas de page elle descend donc dans le pied de page et le recouvre.
+// On publie la hauteur du pied de page déjà visible dans `--footer-overlap` ;
+// la sidebar en retranche autant de sa hauteur max (cf. style.css §4) et
+// s'arrête pile au-dessus. Son défilement interne garde tout accessible.
+function ftrTrackSidebar(footer) {
+  if (!document.querySelector('body > .sidebar')) return;
+  const root = document.documentElement;
+  let raf = null;
+  const measure = () => {
+    raf = null;
+    const overlap = Math.max(0, window.innerHeight - footer.getBoundingClientRect().top);
+    root.style.setProperty('--footer-overlap', Math.round(overlap) + 'px');
+  };
+  const schedule = () => { if (!raf) raf = requestAnimationFrame(measure); };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  // La hauteur de la page bouge à chaque calcul d'un outil : on re-mesure.
+  if (window.ResizeObserver) new ResizeObserver(schedule).observe(document.body);
+  measure();
+}
+
 // ---------- Construction + injection ----------
 (function buildFooter() {
   // pets.html : promenade plein écran au défilement piloté — un pied de
@@ -129,11 +152,7 @@ function ftrRender() {
     // Le bouton reste fixé en bas à droite sur desktop : on lui réserve
     // sa place plutôt que de le laisser recouvrir le pied de page.
     if (document.querySelector('.backup-fab')) el.classList.add('sf-has-fab');
-    // Pages à sidebar : celle-ci est `position:sticky` et descend jusqu'en
-    // bas de page. Le pied de page se range donc sous la seule colonne de
-    // contenu — sinon il recouvrirait la sidebar et rendrait ses commandes
-    // du bas (dont « Sauvegarde Globale ») impossibles à cliquer.
-    if (document.querySelector('body > .sidebar')) el.classList.add('sf-with-sidebar');
+    ftrTrackSidebar(el);
   };
 
   if (document.readyState === 'loading') {

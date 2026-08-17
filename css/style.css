@@ -304,7 +304,12 @@ body.has-app-header:not(.hub-body) {
     /* Comportement sticky : reste visible pendant le scroll */
     position: sticky;
     top: var(--header-offset);
-    max-height: calc(100vh - var(--header-offset) - 20px);
+    /* --footer-overlap : hauteur du pied de page déjà visible à l'écran,
+       tenue à jour par js/footer.js. La sidebar se raccourcit d'autant en fin
+       de page, donc elle s'arrête juste au-dessus du pied de page au lieu de
+       le recouvrir (elle est sticky et se confine au body, pas à la ligne
+       flex). Vaut 0 quand il n'y a pas de pied de page. */
+    max-height: calc(100vh - var(--header-offset) - 20px - var(--footer-overlap, 0px));
     overflow-y: auto;
     align-self: flex-start;
 }
@@ -2555,10 +2560,11 @@ body > .db-page { min-width: 0; }
     border-top: 1px solid var(--accent);           /* jumeau du liseré du header */
     box-shadow: 0 -2px 20px rgba(0, 0, 0, .5), 0 -1px 0 rgba(245, 184, 64, .2);
 }
-/* Pas de `position`/`z-index` ici, volontairement : la sidebar est sticky
-   (donc positionnée) et passe ainsi DEVANT la bande. Sans cela elle passerait
-   dessous et le pied de page bloquerait ses commandes du bas — dont le bouton
-   « Sauvegarde Globale ». Le contenu du pied de page est décalé en regard. */
+/* Pas de `position`/`z-index` ici, volontairement. Le pied de page ne doit
+   jamais se superposer à quoi que ce soit : la sidebar sticky, elle, s'arrête
+   juste au-dessus grâce à `--footer-overlap` (cf. `.sidebar` §4 et
+   `ftrTrackSidebar` dans js/footer.js). Lui donner un z-index le ferait passer
+   PAR-DESSUS la sidebar et bloquerait le bouton « Sauvegarde Globale ». */
 
 /* Le hub a un padding de 40px en bas (§5), pas 20 : sa marge négative doit
    suivre, sinon la bande flotte 20px au-dessus du bord. */
@@ -2574,16 +2580,6 @@ body > .db-page { min-width: 0; }
     .site-footer.sf-has-fab .sf-inner { padding-right: 270px; }
 }
 
-/* Pages à sidebar : le contenu du pied de page commence après elle
-   (340px + 20px de gouttière), la bande, elle, reste pleine largeur.
-   Sous 768px le body s'empile en colonne (§15) : plus rien à décaler. */
-@media (min-width: 769px) {
-    .site-footer.sf-with-sidebar .sf-inner {
-        max-width: none;          /* ces pages occupent toute la largeur */
-        margin: 0;
-        padding-left: 360px;
-    }
-}
 
 /* ---- Les trois destinations ---- */
 /* Colonnes plafonnées : sur un écran large, trois liens étirés à 1fr feraient
