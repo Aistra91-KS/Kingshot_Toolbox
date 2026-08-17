@@ -1756,18 +1756,18 @@
         },
         "effect": {
           "EN": "The inclusion of the artillerymen has an overall helpful effect of increasing Squad's total Attack by X% and total Lethality by X%.",
-          "FR": "L'inclusion d'artilleurs a pour effet global d'augmenter l'Attaque totale de l'escouade de X% et la Létalité totale de X%."
+          "FR": "L'inclusion des artilleurs a un effet globalement utile, augmentant l'Attaque totale de l'escouade de X% et la Létalité totale de X%."
         },
         "levels": ["(3%,2%)", "(6%,4%)", "(9%,6%)", "(12%,8%)", "(15%,10%)"]
       },
       {
         "name": {
           "EN": "Chain Shelling",
-          "FR": "Bombardement en Chaîne"
+          "FR": "Tirs à la Chaîne"
         },
         "effect": {
           "EN": "Wee & Woo's devastating back-to-back rounds tear shreds through the enemy lines, increasing Squad's Damage Dealt to Archer by X% and to Infantry by X%.",
-          "FR": "Les tirs dévastateurs de Wee & Woo déchiquettent les lignes ennemies, augmentant les dégâts infligés par l'escouade aux Archers de X% et à l'Infanterie de X%."
+          "FR": "Les tirs dévastateurs consécutifs de Wee & Woo détruisent les lignes ennemies, ce qui augmente les Dégâts Infligés par l'Escouade aux Archers de X% et les Dégâts Infligés à l'Infanterie de X%."
         },
         "levels": ["(6%,5%)", "(12%,10%)", "(18%,15%)", "(24%,20%)", "(30%,25%)"]
       },
@@ -1778,7 +1778,7 @@
         },
         "effect": {
           "EN": "There's always someone in every cannon duo who can aim well. Wee & Woo's presence gives Squad's Attack a X% chance of dealing 50% extra damage.",
-          "FR": "Dans chaque duo de canonniers, il y a toujours quelqu'un qui vise bien. La présence de Wee & Woo donne à l'Attaque de l'escouade X% de chances d'infliger 50% de dégâts supplémentaires."
+          "FR": "\"Dans chaque duo aux canons, il y a toujours un qui sait bien viser.\" La présence de Wee & Woo donne à l'Attaque de l'escouade X% de chances d'infliger 50% de dégâts bonus."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
@@ -1827,18 +1827,18 @@
         },
         "effect": {
           "EN": "The terrifying presence of the massive Angel of Justice on the battlefield reduces enemy Squad's Total Lethality by X%.",
-          "FR": "La présence terrifiante du massif Ange de la Justice sur le champ de bataille réduit la Létalité totale de l'escouade ennemie de X%."
+          "FR": "La présence terrifiante de l'immense Ange Justicier sur le terrain réduit la Létalité Totale de l'Escouade Ennemie de X%."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
         "name": {
           "EN": "Iron Bodies",
-          "FR": "Corps de Fer"
+          "FR": "Corps d'Acier"
         },
         "effect": {
           "EN": "Superior metal armor forging blunts the impact of conventional weapons, reducing Squad's Damage Taken by X%",
-          "FR": "La forge supérieure d'armures en métal atténue l'impact des armes conventionnelles, réduisant les dégâts subis par l'escouade de X%."
+          "FR": "L'armure métallique supérieure atténue l'impact causé par des armes conventionnelles. Réduit de X% les dégats subis par l'escouade."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
@@ -1849,7 +1849,7 @@
         },
         "effect": {
           "EN": "The Angel of Justice comes outfitted with state-of-the-art battlefield medkits, increasing Squad's total Health by X%.",
-          "FR": "L'Ange de la Justice est équipé de kits médicaux de pointe, augmentant la Santé totale de l'escouade de X%."
+          "FR": "L'Ange Justicier est équipé de kits soins ultramodernes sur le terrains, augmentant la Santé totale de l'escouade de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
@@ -1898,7 +1898,7 @@
         },
         "effect": {
           "EN": "An artist sees what others cannot. Ava's deconstructive gaze sees vulnerabilities, reducing total Enemy Squad's Defense by X%.",
-          "FR": "Un artiste voit ce que les autres ne peuvent voir. Le regard déconstructif d'Ava perçoit les vulnérabilités, réduisant la Défense totale de l'escouade ennemie de X%."
+          "FR": "Un artiste perçoit ce que les autres ne peuvent pas voir. Le regard déconstructif d'Ava détecte les faiblesses et réduit de X% la défense de l'escouade ennemie totale."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
@@ -1909,18 +1909,18 @@
         },
         "effect": {
           "EN": "Bright light and dark shadow can blind enemies who do not expect it. All enemy soldiers receive X% increased damage for 2 turns every 4 turns.",
-          "FR": "La lumière vive et l'ombre sombre peuvent aveugler les ennemis qui ne s'y attendent pas. Tous les soldats ennemis subissent X% de dégâts supplémentaires pendant 2 tours tous les 4 tours."
+          "FR": "Passer rapidement de la lumière à l'obscurité peut aveugler les ennemies qui ne s'y attendent pas. Les soldats ennemis subissent X% de dégâts en plus pendant 2 tours tous les 4 tours."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
         "name": {
           "EN": "Light and Cold",
-          "FR": "Lumière et Froid"
+          "FR": "Lumière et Gel"
         },
         "effect": {
           "EN": "Ava's weapons are like twin beacons for all to follow, increasing soldiers' Lethality by X%.",
-          "FR": "Les armes d'Ava sont comme des balises jumelles que tous suivent, augmentant la Létalité des soldats de X%."
+          "FR": "Tel un phare dans la nuit, les deux armes d'Ava guident tout le monde. Augmente de X% la létalité de l'Escouade."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
