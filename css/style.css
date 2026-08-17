@@ -304,12 +304,7 @@ body.has-app-header:not(.hub-body) {
     /* Comportement sticky : reste visible pendant le scroll */
     position: sticky;
     top: var(--header-offset);
-    /* --footer-overlap : hauteur du pied de page déjà visible à l'écran,
-       tenue à jour par js/footer.js. La sidebar se raccourcit d'autant en fin
-       de page, donc elle s'arrête juste au-dessus du pied de page au lieu de
-       le recouvrir (elle est sticky et se confine au body, pas à la ligne
-       flex). Vaut 0 quand il n'y a pas de pied de page. */
-    max-height: calc(100vh - var(--header-offset) - 20px - var(--footer-overlap, 0px));
+    max-height: calc(100vh - var(--header-offset) - 20px);
     overflow-y: auto;
     align-self: flex-start;
 }
@@ -2540,7 +2535,19 @@ body.has-app-header .db-section table.db-table thead th.num { text-align: right;
 
 body { flex-wrap: wrap; }
 body > .main-content,
-body > .db-page { min-width: 0; }
+body > .db-page,
+.page-row > * { min-width: 0; }
+
+/* Rangée de contenu des pages à sidebar (créée par js/footer.js).
+   Elle reprend la disposition que portait le body, dont elle devient
+   l'unique bloc de contenu : la sidebar y est sticky et s'y arrête, donc le
+   pied de page qui suit la rangée est toujours DESSOUS, sans que la sidebar
+   ait à rétrécir. Contenu plus court que la sidebar = vide à droite, assumé. */
+body.has-page-row:not(.hub-body) { display: block; }
+.page-row { display: flex; gap: 20px; align-items: flex-start; }
+@media (max-width: 768px) {
+    .page-row { flex-direction: column; }
+}
 
 .site-footer {
     /* Bande pleine largeur COLLÉE aux bords, en écho au header : les marges
@@ -2560,11 +2567,11 @@ body > .db-page { min-width: 0; }
     border-top: 1px solid var(--accent);           /* jumeau du liseré du header */
     box-shadow: 0 -2px 20px rgba(0, 0, 0, .5), 0 -1px 0 rgba(245, 184, 64, .2);
 }
-/* Pas de `position`/`z-index` ici, volontairement. Le pied de page ne doit
-   jamais se superposer à quoi que ce soit : la sidebar sticky, elle, s'arrête
-   juste au-dessus grâce à `--footer-overlap` (cf. `.sidebar` §4 et
-   `ftrTrackSidebar` dans js/footer.js). Lui donner un z-index le ferait passer
-   PAR-DESSUS la sidebar et bloquerait le bouton « Sauvegarde Globale ». */
+/* Pas de `position`/`z-index` ici, volontairement. Le pied de page ne se
+   superpose à rien : sur les pages à sidebar il vient APRÈS `.page-row`
+   (cf. ci-dessous et `ftrWrapPageRow` dans js/footer.js), qui borne le sticky
+   de la sidebar. Lui donner un z-index le ferait passer par-dessus la sidebar
+   et bloquerait le bouton « Sauvegarde Globale ». */
 
 /* Le hub a un padding de 40px en bas (§5), pas 20 : sa marge négative doit
    suivre, sinon la bande flotte 20px au-dessus du bord. */

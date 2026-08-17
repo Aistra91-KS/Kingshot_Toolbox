@@ -109,27 +109,31 @@ function ftrRender() {
     </div>`;
 }
 
-// ---------- La sidebar s'arrête au-dessus du pied de page ----------
-// `.sidebar` est `position:sticky` et se confine au **body**, pas à la ligne
-// flex : en bas de page elle descend donc dans le pied de page et le recouvre.
-// On publie la hauteur du pied de page déjà visible dans `--footer-overlap` ;
-// la sidebar en retranche autant de sa hauteur max (cf. style.css §4) et
-// s'arrête pile au-dessus. Son défilement interne garde tout accessible.
-function ftrTrackSidebar(footer) {
+// ---------- Rangée de contenu (pages à sidebar) ----------
+// Un élément `position:sticky` se confine à son conteneur de bloc : tant que
+// c'est le <body>, la sidebar descend jusque dans le pied de page et le
+// recouvre. On regroupe donc sidebar + contenu dans une rangée dédiée, et le
+// pied de page vient APRÈS elle : il est toujours dessous, sans que la
+// sidebar ait à rétrécir. Si le contenu est plus court que la sidebar, la
+// rangée garde la hauteur de la sidebar — le vide à droite est assumé.
+function ftrWrapPageRow() {
   if (!document.querySelector('body > .sidebar')) return;
-  const root = document.documentElement;
-  let raf = null;
-  const measure = () => {
-    raf = null;
-    const overlap = Math.max(0, window.innerHeight - footer.getBoundingClientRect().top);
-    root.style.setProperty('--footer-overlap', Math.round(overlap) + 'px');
-  };
-  const schedule = () => { if (!raf) raf = requestAnimationFrame(measure); };
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule);
-  // La hauteur de la page bouge à chaque calcul d'un outil : on re-mesure.
-  if (window.ResizeObserver) new ResizeObserver(schedule).observe(document.body);
-  measure();
+  if (document.querySelector('body > .page-row')) return;
+
+  // Seul ce qui vit dans le flux est déplacé : header, drawer, modales et
+  // bouton flottant sont en `fixed` et doivent rester enfants du <body>.
+  const inFlow = [...document.body.children].filter((el) => {
+    if (el.tagName === 'SCRIPT' || el.classList.contains('site-footer')) return false;
+    const pos = getComputedStyle(el).position;
+    return pos !== 'fixed' && pos !== 'absolute';
+  });
+  if (!inFlow.length) return;
+
+  const row = document.createElement('div');
+  row.className = 'page-row';
+  document.body.insertBefore(row, inFlow[0]);
+  inFlow.forEach((el) => row.appendChild(el));
+  document.body.classList.add('has-page-row');
 }
 
 // ---------- Construction + injection ----------
@@ -141,6 +145,7 @@ function ftrTrackSidebar(footer) {
 
   const mount = () => {
     if (document.getElementById('site-footer')) return;
+    ftrWrapPageRow();   // avant l'ajout : le pied de page se place après la rangée
     const el = document.createElement('footer');
     el.id = 'site-footer';
     el.className = 'site-footer';
@@ -152,7 +157,6 @@ function ftrTrackSidebar(footer) {
     // Le bouton reste fixé en bas à droite sur desktop : on lui réserve
     // sa place plutôt que de le laisser recouvrir le pied de page.
     if (document.querySelector('.backup-fab')) el.classList.add('sf-has-fab');
-    ftrTrackSidebar(el);
   };
 
   if (document.readyState === 'loading') {
