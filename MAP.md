@@ -30,6 +30,8 @@ Kingshot_Toolbox/
 ├── masters.html                  Outil Experts / Masters (beta) — affinités & skills
 ├── shop_calc.html                Sommaire des Boutiques (beta) — 3 familles : Événement / Permanentes / Coffres
 ├── pets.html                     Outil Familiers (promenade verticale : fiches pets le long d'un sentier)
+├── about.html                    À propos : qui est derrière l'outil, données locales, mentions (page statique bilingue)
+├── changelog.html                Nouveautés : historique des versions (rendu depuis data/changelog.json)
 │
 ├── shop/                         Une page par boutique (structure calquée sur database/*, cf. §5)
 │   ├── items.html                Valeur des objets : référentiel gemmes (ex-onglet « Data Item »)
@@ -59,6 +61,8 @@ Kingshot_Toolbox/
 │   ├── profiles.js               ★ Profils (comptes multiples) : registre kt_profiles + proxy transparent sur localStorage (données métier rangées par profil kt::<id>::<clé>) + migration + API window.Profiles. Chargé juste après storage-keys.js (avant tout script de page)
 │   ├── lang.js                   ★ GlobalLang : get/set langue, applyI18n(dict), event 'langChanged'
 │   ├── header.js                 ★ Header contextuel généré depuis SITE + thème + modales globales
+│   ├── footer.js                 ★ Pied de page global (Discord / À propos / Nouveautés + version + mention fansite) — injecté sur toutes les pages sauf pets.html
+│   ├── changelog.js              Rendu de la page Nouveautés (fetch data/changelog.json)
 │   ├── help.js                   Module d'aide générique (bouton "?", modale, bandeau, tooltips)
 │   ├── modal-tabs.js             Onglets mobiles des modales Caserne/Experts (panneaux [data-mtab], < 820px)
 │   ├── backup.js                 Sauvegarde globale (export/import .json par module)
@@ -91,7 +95,8 @@ Kingshot_Toolbox/
 │   ├── shopcalc_classic.json     Boutiques classiques (contenu + coûts)
 │   ├── shopcalc_events.json      Boutiques d'événement (avec endsAt)
 │   ├── shopcalc_chests.json      Coffres personnalisés (composition)
-│   └── pets_db.json              14 familiers / 7 générations : skill (nom/desc + valeurs/palier) + coûts nourriture/avancement — bilingue {EN,FR}
+│   ├── pets_db.json              14 familiers / 7 générations : skill (nom/desc + valeurs/palier) + coûts nourriture/avancement — bilingue {EN,FR}
+│   └── changelog.json            Historique des versions du site (rendu par changelog.html) — bilingue {EN,FR}
 │
 ├── database/
 │   └── buildings/                Base de données bâtiments (pages statiques, tables inline)
@@ -156,13 +161,15 @@ Kingshot_Toolbox/
 | `shop/<boutique>.html` | Une boutique : en-tête, podium, tableau (1 ligne/objet) + mode édition | `shop-core.js`, `shop-page.js` | `style.css`, `db.css`, `shop.css` | idem (via `window.SHOP_SLUG`) |
 | `shop/items.html` | Valeur des objets : référentiel gemmes éditable | `shop-core.js`, `shop-items.js` | `style.css`, `db.css`, `shop.css` | `shopcalc_items.json` |
 | `pets.html` | Familiers : promenade verticale (fiches pets) | `pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `pets.css` (+ webfonts) | `pets_db.json` |
+| `about.html` | À propos : présentation, données locales, mentions | inline + `header.js`, `footer.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | — (texte en dur, `data-en`/`data-fr`) |
+| `changelog.html` | Nouveautés : versions datées + étiquettes de type | `changelog.js` + `header.js`, `footer.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `changelog.json` (fetch) |
 | `database/buildings/*.html` | Tables d'amélioration bâtiments | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | données inline (HTML) |
 | `database/waracademy/{infantry,archer,cavalry}.html` | Tables recherches Académie (3 arbres) | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `truegold_war_db.json` (fetch) |
 | `database/waracademy/advanced.html` | Recherches avancées : 92 techs / 1010 niveaux, puces de catégorie + recherche texte | inline + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `truegold_war_advanced_db.json` (fetch) |
 | `database/masters/*.html` | Fiches Experts : affinité, passif, compétences | `db-masters.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `masters_db.json` (fetch) |
 | `database/pets/*.html` | Fiches Familiers : compétence/palier, avancements, nourriture | `db-pets.js` + `header.js`, `lang.js`, `site-config.js` | `style.css`, `db.css` | `pets_db.json` (fetch) |
 
-**Socle chargé sur toutes les pages outils** (ordre) : `site-config.js` → `storage-keys.js` → `profiles.js` → `lang.js` → `help.js` → *(script de page)* → `header.js` → `backup.js`.
+**Socle chargé sur toutes les pages outils** (ordre) : `site-config.js` → `storage-keys.js` → `profiles.js` → `lang.js` → `help.js` → *(script de page)* → `header.js` → `backup.js` → **`footer.js` (toujours en dernier**, cf. §5 « Pied de page »).
 Les pages `database/buildings/*` et `database/waracademy/*` n'incluent que `site-config.js` + `lang.js` + `profiles.js` + `header.js` (pas de help/backup ; `profiles.js` y sert uniquement l'UI de profils du header — pas de données métier à isoler) ; `database/masters/*` et `database/pets/*` ajoutent en plus leur script de rendu dédié (`db-masters.js` / `db-pets.js`), qui pose `window.MASTER_ID` / `window.PET_ID` et gère l'i18n de la page (dict + `data-en`/`data-fr`). **Les 36 pages `database/*` chargent `css/style.css` puis `css/db.css`** (feuille partagée extraite des anciens `<style>` inline). `pets.html` charge `site-config.js` + `storage-keys.js` + `lang.js` + `header.js` + `pets.js` + `backup.js` (sauvegarde des niveaux via `STORAGE_KEYS.pets`), sans `help.js`, plus `css/pets.css` et deux webfonts Google (Cormorant Garamond + Karla).
 
 **Conventions d'affichage des fiches BDD (Experts/Familiers)** — pilotées par `db-masters.js` / `db-pets.js` :
@@ -237,6 +244,13 @@ Or éclatant sur noir profond, turquoise pour la validation, rubis pour l'alerte
 
 **Header — pastille profil + adaptatif (Option B)** : la zone droite du header porte une pastille profil (avatar à initiale + anneau coloré par profil, réutilise le mécanisme `.hdr-dd`). Sur desktop, quand la rangée d'outils est **rognée** (mesure : `need = cat + hdr-tools.scrollWidth` vs `hdr-center.clientWidth`, avec **hystérésis** anti-clignotement, cf. `hdrEvaluateAdaptive`), le header passe en `.hdr-condensed` : langue + thème quittent la barre et se replient dans le panneau profil (`.pfp-chrome`), rendant la place aux outils. Sous 820px la nav (dont langue/thème) vit dans le drawer, qui reçoit en tête un bloc profil. Toute l'UI profil est dans `header.js` (`hdrBuildProfile`, `hdrOpenProfilesModal`, `hdrInitAdaptive`…).
 
+**Pied de page global (`.site-footer`, `js/footer.js`)** : injecté en fin de `<body>` sur **toutes les pages sauf `pets.html`** (promenade plein écran au défilement piloté — le pied de page y serait hors d'atteinte ; garde-fou `body.pets-page` dans le module, en plus de l'absence de balise `<script>`). Contenu : trois destinations (Discord · À propos · Nouveautés), la version (`SITE.version`) et la mention « fansite non officiel ». Conventions et pièges :
+- **Le lien Discord n'apparaît que si `SITE.discord` est renseigné** (chaîne vide = deux liens seulement). Même mécanisme sur `about.html`, dont le bloc « Une erreur, une idée ? » reste `hidden` tant que la clé est vide. Ouvrir le Discord = **remplir cette seule clé**.
+- **`<script src="js/footer.js">` va en DERNIER** dans la page : `backup.js` enregistre son listener `DOMContentLoaded` avant nous, donc son bouton mobile (`.backup-fab`, qui redevient `static` sous 600px) reste au-dessus du pied de page. Le module détecte ce bouton et pose `sf-has-fab` (réserve de 270px à droite, le bouton étant `fixed` en `z-index:9000` sur desktop).
+- **Piège du body en flex** : `body:not(.hub-body)` et `.hub-body` sont en `display:flex` (§4/§5) — un pied de page enfant du body s'y placerait **à côté** de la sidebar. D'où `body { flex-wrap: wrap }` + `flex: 0 0 100%` sur le pied de page, et `min-width: 0` sur `body > .main-content, body > .db-page` (sans lui, un contenu large ferait basculer la colonne de contenu **sous** la sidebar).
+- **Piège de la sidebar sticky** : `.sidebar` est `position:sticky` et se confine au **body**, pas à la ligne flex — elle descend donc jusqu'au pied de page. Un pied de page pleine largeur passait devant elle et **rendait le bouton « Sauvegarde Globale » impossible à cliquer** en bas de page. Correctif : classe `sf-with-sidebar` (posée par `footer.js` si `body > .sidebar`) → le pied de page se range sous la seule colonne de contenu (`margin-left: 360px` = sidebar 340 + gap 20), au-dessus de 768px seulement (sous ce seuil le body s'empile en colonne).
+- **Contraste** : les étiquettes de type et les pastilles de version sont du gras en 11px. En thème **clair**, l'or (`#c89020`) n'y donne que 2,6:1 — les règles `[data-theme="light"] .cl-tag/.cl-ver/.cl-latest/.sf-version` assombrissent ces teintes (or `#8a6410`, turquoise `#00695c`, orange `#b23c00`, tous ≥ 4,9:1). La charte reste inchangée ailleurs. De même, `.sf-link` a pour fond `--bg-dark` et non `--control-bg` : le sous-titre en `--text-muted` n'y tenait que 4,4:1.
+
 **Palier serveur (TrueGold)** : sélecteur `#serverTier` (TG3 / TG5 / TG8 / TG10, **défaut TG8**), 1ᵉʳ paramètre du groupe *Configuration*. L'âge du serveur ouvre les paliers par crans : au palier N, le dernier niveau existant en jeu est `TGN-0` (`TGN-1` n'est pas encore sorti). Le plafond ne s'applique **qu'à l'optimiseur** — `niveauOuvert(label, palier)` écarte les améliorations candidates dans `executerPlan()` ; le tableau garde tous les niveaux sélectionnables et les totaux par ligne sont inchangés. Les bâtiments **déjà au-dessus** du palier sont gelés (ils comptent toujours comme prérequis) et listés dans un bandeau ⚠️ en tête du plan — bandeau affiché aussi quand aucun scénario n'est possible. Persisté avec le reste sous `STORAGE_KEYS.truegold`.
 
 **Plan d'amélioration TrueGold (`.tg-plan`)** : le résultat de l'optimiseur est affiché en **séries chronologiques** — des niveaux consécutifs d'un même bâtiment, numérotées dans l'ordre réel d'exécution. Un bâtiment **réapparaît** autant de fois que l'escalier des prérequis l'impose (Centre-ville ⇄ Ambassade + bâtiments de troupes) ; ne jamais regrouper par bâtiment, la liste deviendrait inapplicable en jeu. Chaque série est un `<details>` (`.tg-serie`) : l'en-tête donne totaux TG/TTG, durée, points KVK, statut et la mention `🔓 débloque #n …` (calculée en croisant les prérequis TG de la série suivante) ; le corps déplié contient le tableau niveau par niveau (`.tg-steps`, largeur au contenu, colonnes num. à droite, ombres de bord CSS pour le scroll mobile). L'état déplié survit aux re-rendus via `TG_OPEN_SERIES` (clé `bâtiment|départ>arrivée`).
@@ -299,6 +313,7 @@ Toutes les données sont des **JSON éditées à la main** dans `data/` (pas de 
 | `shopcalc_chests.json` | **Liste** de coffres : `{id, slug, name, items[… , skinId?]}`. |
 
 **`slug` (boutiques)** : c'est le nom de fichier de la page (`shop/<slug>.html`) et la clé de résolution de `scFindBySlug()`. Il a été **ajouté à côté de `id`, jamais à la place** : les éditions des joueurs sont persistées par `id` dans `shopcalcEvents`, renommer un `id` effacerait leurs données. Les `id` gardent donc leur casse d'origine (`Polar_Shop`, `Summit_Contest_Champion_store`) pendant que les `slug` sont en kebab-case.
+| `changelog.json` | **Objet** `{_meta, releases[]}`, **la plus récente en premier**. Release : `{version, date "AAAA-MM-JJ", title{EN,FR}, changes[]}` ; change : `{type: "new"\|"improved"\|"fixed", text{EN,FR}, href?, linkLabel?{EN,FR}}`. `href` = chemin relatif à la racine ; le libellé du lien vient de `linkLabel` s'il existe, sinon du nom de l'outil dans `site-config.js`, sinon « Ouvrir la page ». Les 10 premières versions (23/07 → 17/08/2026) ont été **reconstituées a posteriori** depuis les annonces Discord archivées dans l'historique git de `.github/news/announce.md`. |
 | `pets_db.json` | **Objet** `{_meta, pets[]}`. Chaque pet : `{id, name{EN,FR}, generation, maxLevel, skill{name{EN,FR}, desc{EN,FR}, cooldown?, effects[{label{EN,FR}, note{EN,FR}, values[]}]}, advancements[{growthManual, nutrientPotion, promotionMedallion}], petFood[]}`. 14 pets / 7 gén. **Conventions** : palier skill = **nb d'avancements faits** (caps aux niv. 10,20,…,`maxLevel` ; l'avancement au cap `N` débloque le palier `N/10` et **ne change pas le niveau** ; niveau `N` ≠ avancement fait → modèle à 2 statuts, cf. Masters) ; `values[]` = 1 valeur/palier (nb = `maxLevel/10` = nb d'`advancements`) ; `desc` garde le placeholder `X`/`X%` (remplacé au palier courant) ; `petFood[i]` = coût niv (i+1)→(i+2), longueur `maxLevel-1` ; le champ `note` existe mais **n'est plus affiché**. **Provenance** : converti depuis `Pets_data.xlsx` (non commité), FR relu à la main. |
 
 **Provenance** : édition manuelle directe dans le JSON déployé. Aucune génération via GitHub Actions.
@@ -361,6 +376,8 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 
 **Conventions**
 - **Manifeste unique** : ajouter une catégorie / un outil = éditer **uniquement site-config.js**. SITE.nameetSITE.home alimentent le logo du header. (jamais coder la nav en dur).
+- **Nouvelle page = ne pas oublier `js/footer.js`** en dernière balise `<script>` (et une ligne dans `sitemap.xml`). Seule `pets.html` en est volontairement dépourvue.
+- **Publier une version** : ajouter l'entrée **en tête** de `data/changelog.json` **et** porter `SITE.version` (site-config.js) au même numéro — c'est cette clé qu'affiche le pied de page. Les deux se font dans le même commit, sinon le site annonce une version qui n'existe pas dans l'historique. Une entrée de changelog et une annonce Discord couvrent le même périmètre : rédiger l'une en s'appuyant sur l'autre.
 - **Notifications Discord** : plus aucun mapping à maintenir. Un nouvel outil n'exige aucune modification de `.github/` — il apparaîtra dans la prochaine annonce rédigée.
 - **Clés localStorage** : toujours passer par `STORAGE_KEYS` + `safeParse` (jamais de chaîne littérale).
 - **i18n** : toute chaîne visible passe par un dictionnaire `{FR,EN}` + `data-i18n` (ou `data-en`/`data-fr` sur les pages bâtiments). Réagir à `langChanged`.

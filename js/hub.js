@@ -8,16 +8,14 @@ const i18nHub = {
         soonTitle: "Bientôt disponible",
         soonDesc: "De nouveaux outils arrivent prochainement. Restez connectés !",
         open: "Ouvrir →",
-        comingSoon: "À venir...",
-        MadeBy: "Fait par"
+        comingSoon: "À venir..."
     },
     EN: {
         subtitle: "Your strategic toolbox",
         soonTitle: "Coming Soon",
         soonDesc: "New tools are coming soon. Stay tuned!",
         open: "Open →",
-        comingSoon: "Coming soon...",
-        MadeBy: "Made by"
+        comingSoon: "Coming soon..."
     }
 };
 

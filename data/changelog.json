@@ -1,0 +1,376 @@
+{
+  "_meta": {
+    "note": "Historique des mises à jour du site, rendu par changelog.html (js/changelog.js). Entrées les plus récentes EN PREMIER. Les entrées antérieures au 17/08/2026 ont été reconstituées a posteriori à partir des annonces Discord (.github/news/announce.md dans l'historique git) et des commits.",
+    "types": "new = nouveauté · improved = amélioration · fixed = correctif",
+    "howto": "Ajouter une version = 1 objet en tête de releases[] + incrémenter SITE.version dans js/site-config.js (même numéro). href est facultatif : chemin relatif à la racine du site."
+  },
+  "releases": [
+    {
+      "version": "1.9",
+      "date": "2026-08-17",
+      "title": {
+        "EN": "A footer to find your way around",
+        "FR": "Un pied de page pour s'y retrouver"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "A footer now closes the pages of the site, with direct access to the About page, this changelog, and the community Discord once it opens.",
+            "FR": "Un pied de page vient désormais clore les pages du site, avec un accès direct à la page « À propos », à cette page des nouveautés, et au Discord communautaire dès son ouverture."
+          }
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "New About page: who is behind the toolbox, and what happens to the data you enter.",
+            "FR": "Nouvelle page « À propos » : qui est derrière l'outil, et ce que deviennent les données que tu saisis."
+          },
+          "href": "about.html"
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "This page: the full update history, dated and numbered, so you can see at a glance what changed since your last visit.",
+            "FR": "Cette page : l'historique complet des mises à jour, daté et numéroté, pour voir d'un coup d'œil ce qui a changé depuis ta dernière visite."
+          },
+          "href": "changelog.html"
+        },
+        {
+          "type": "fixed",
+          "text": {
+            "EN": "Reviewed the French hero translations used by the Heroes page and the databases.",
+            "FR": "Traductions françaises des héros revues, côté Caserne comme côté base de données."
+          },
+          "href": "caserne.html"
+        }
+      ]
+    },
+    {
+      "version": "1.8",
+      "date": "2026-08-15",
+      "title": {
+        "EN": "Exclusive gear for the newest heroes",
+        "FR": "Les équipements exclusifs des derniers héros"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "The exclusive weapons of the three newest heroes are in: their Conquest and Expedition effects show up level by level, like every other hero.",
+            "FR": "Les armes exclusives des trois héros les plus récents sont là : leurs effets Conquête et Expédition s'affichent niveau par niveau, comme pour les autres héros."
+          },
+          "href": "caserne.html"
+        }
+      ]
+    },
+    {
+      "version": "1.7",
+      "date": "2026-08-10",
+      "title": {
+        "EN": "Your plan applies in one click",
+        "FR": "Ton plan s'applique en un clic"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "An “Apply these changes” button at the bottom of the TrueGold and War Academy plans: your levels go up, your stocks go down by what the plan spends, and the next plan is worked out straight away. A confirmation window shows every change before anything moves.",
+            "FR": "Un bouton « Appliquer les modifications » au bas des plans TrueGold et Académie de Guerre : tes niveaux montent, tes stocks baissent de ce que le plan dépense, et la suggestion suivante est calculée dans la foulée. Une fenêtre de confirmation détaille chaque changement avant que rien ne bouge."
+          },
+          "href": "truegold_calc.html"
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "New database page for the Advanced TrueGold research: 92 researches, 1,010 levels, with dust, Tempered TrueGold, resources and time for each level.",
+            "FR": "Nouvelle page de base de données pour les recherches avancées d'Or Véritable : 92 recherches, 1 010 niveaux, avec poussière, Or Véritable Trempé, ressources et temps pour chaque niveau."
+          },
+          "href": "database/waracademy/advanced.html",
+          "linkLabel": {
+            "EN": "Advanced research",
+            "FR": "Recherches avancées"
+          }
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "Better-paying KvK plans. Both planners used to fall into the same trap — you could earn more points by unticking a building or a tree. TrueGold now explores every combination, and the War Academy commits to a prerequisite chain and finishes it: +4 to +6.5% points, with no case made worse.",
+            "FR": "Des plans KvK plus rentables. Les deux planificateurs tombaient dans le même piège : tu pouvais gagner des points en décochant un bâtiment ou un arbre. TrueGold explore désormais toutes les combinaisons, et l'Académie sait s'engager dans une chaîne de prérequis et la terminer : +4 à +6,5 % de points, sans aucun cas dégradé."
+          },
+          "href": "waracademy.html"
+        },
+        {
+          "type": "fixed",
+          "text": {
+            "EN": "Corrected the gem value of Mithril in the item reference.",
+            "FR": "Valeur en gemmes du Mithril corrigée dans le référentiel des objets."
+          },
+          "href": "shop/items.html",
+          "linkLabel": {
+            "EN": "Item values",
+            "FR": "Valeur des objets"
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.6",
+      "date": "2026-08-07",
+      "title": {
+        "EN": "Every shop gets its own page",
+        "FR": "Chaque boutique a désormais sa page"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "Shop Value is now a summary sorted into three families — Event shops, Permanent shops and Chests — and each of the 12 shops has its own page. Finished event shops don't disappear: their card turns grey but stays clickable.",
+            "FR": "Valeur Boutique est devenu un sommaire rangé en trois familles — Boutiques d'Événement, Boutiques Permanentes et Coffres — et chacune des 12 boutiques a sa page. Les boutiques d'événement terminées ne disparaissent plus : leur carte passe en grisé mais reste cliquable."
+          },
+          "href": "shop_calc.html"
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "A shopping cart. Enter your currency, pick your quantities line by line, and four counters update live: your currency, what you've spent, what's left, and the gem value you're getting. A summary stays stuck to the bottom of the screen while you scroll.",
+            "FR": "Un panier. Renseigne ta monnaie, choisis tes quantités ligne par ligne, et quatre compteurs se mettent à jour en direct : ta monnaie, le dépensé, le restant et la valeur obtenue en gemmes. Un récapitulatif reste collé en bas de l'écran pendant que tu parcours la liste."
+          },
+          "href": "shop/polar-shop.html",
+          "linkLabel": {
+            "EN": "Polar Shop",
+            "FR": "Magasin Polaire"
+          }
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "One row per item instead of cards: three to four times more items on screen, sorted by best deal by default, and any column can be clicked to reorder. The countdown now shows days and hours.",
+            "FR": "Une ligne par objet au lieu des cartes : trois à quatre fois plus d'objets à l'écran, tri par meilleure affaire d'office, et n'importe quelle colonne est cliquable pour changer d'ordre. Le compte à rebours affiche maintenant les jours et les heures."
+          }
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "An edit mode behind the pencil button: quantities, costs and remaining stock become editable, so you can match the shop you actually see in game.",
+            "FR": "Un mode édition derrière le bouton crayon : quantités, coûts et stock restant deviennent modifiables, pour coller à la boutique que tu as réellement en jeu."
+          }
+        },
+        {
+          "type": "fixed",
+          "text": {
+            "EN": "Shops showing in a single column on some systems, and the table jumping back to the top on every click.",
+            "FR": "Boutiques qui s'affichaient sur une seule colonne selon les systèmes, et tableau qui remontait en haut à chaque clic."
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.5",
+      "date": "2026-08-05",
+      "title": {
+        "EN": "TrueGold: server tier",
+        "FR": "TrueGold : palier de serveur"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "A Server tier selector (TG3 / TG5 / TG8 / TG10) at the top of the Configuration panel. The planner no longer suggests upgrades that don't exist on your server yet; buildings already above the tier are flagged and still count as prerequisites.",
+            "FR": "Un sélecteur Palier de serveur (TG3 / TG5 / TG8 / TG10) en tête du panneau Configuration. Le planificateur ne propose plus d'améliorations qui n'existent pas encore sur ton serveur ; les bâtiments déjà au-dessus du palier sont signalés et comptent toujours comme prérequis."
+          },
+          "href": "truegold_calc.html"
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "The construction bonus (PAN) moved into the Configuration panel to save room.",
+            "FR": "Le bonus de construction (PAN) a rejoint le panneau Configuration, pour gagner de la place."
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.4",
+      "date": "2026-08-04",
+      "title": {
+        "EN": "Polar Shop",
+        "FR": "Magasin Polaire"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "The Polar Shop event store is loaded with its purchase caps, its daily reset and its countdown, so you can rank every line by gems per coin spent.",
+            "FR": "Le Magasin Polaire est chargé avec ses plafonds d'achat, sa réinitialisation quotidienne et son compte à rebours, pour classer chaque ligne au rapport gemmes par pièce dépensée."
+          },
+          "href": "shop/polar-shop.html",
+          "linkLabel": {
+            "EN": "Polar Shop",
+            "FR": "Magasin Polaire"
+          }
+        },
+        {
+          "type": "fixed",
+          "text": {
+            "EN": "The Nanook Sphere and Sliding Emperor Penguin skins now show their image instead of an empty frame, and the Frost Crown plate skin was missing from the catalogue.",
+            "FR": "Les skins Sphère de Nanook et Manchot Empereur Glissant affichent leur image au lieu d'un cadre vide, et le skin de plaque Couronne de Givre manquait au catalogue."
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.3",
+      "date": "2026-08-03",
+      "title": {
+        "EN": "The TrueGold plan in the order you actually build",
+        "FR": "Le plan TrueGold dans l'ordre où tu construis vraiment"
+      },
+      "changes": [
+        {
+          "type": "improved",
+          "text": {
+            "EN": "The upgrade plan now reads as numbered steps: each step groups consecutive levels of one building, a building comes back as many times as the prerequisites demand, and every step tells you what it unlocks next.",
+            "FR": "Le plan d'amélioration se lit en étapes numérotées : chaque étape regroupe les niveaux consécutifs d'un même bâtiment, un bâtiment revient autant de fois que les prérequis l'imposent, et chaque étape indique ce qu'elle débloque ensuite."
+          },
+          "href": "truegold_calc.html"
+        },
+        {
+          "type": "fixed",
+          "text": {
+            "EN": "Target score mode, which stopped after a single upgrade.",
+            "FR": "Le mode « score cible », qui s'arrêtait après une seule amélioration."
+          }
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "Expert portraits are no longer pixelated — they use full-size images. Two skill icons that weren't showing up are back.",
+            "FR": "Les portraits des Experts ne sont plus pixelisés : ils utilisent des images pleine taille. Deux icônes de compétences qui ne s'affichaient pas sont revenues."
+          },
+          "href": "masters.html"
+        }
+      ]
+    },
+    {
+      "version": "1.2",
+      "date": "2026-07-29",
+      "title": {
+        "EN": "Several accounts, several profiles",
+        "FR": "Plusieurs comptes, plusieurs profils"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "Multiple profiles: main account, farm account… each profile keeps its own data — heroes, levels, calculations, formations — and everything switches at once. Language and theme stay shared. Your current data becomes your first profile, nothing is lost.",
+            "FR": "Profils multiples : compte principal, ferme… chaque profil garde ses propres données — héros, niveaux, calculs, formations — et tout bascule d'un coup. La langue et le thème restent communs. Tes données actuelles deviennent ton premier profil, rien n'est perdu."
+          }
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "Vikings nudges you to enter exact troop counts rather than the game's rounded percentages, marks rounded percentages with “≈”, and adds a copy button next to each number on mobile.",
+            "FR": "Vikings t'invite à saisir des nombres exacts plutôt que les pourcentages arrondis du jeu, marque les pourcentages arrondis d'un « ≈ », et ajoute un bouton copier à côté de chaque nombre sur mobile."
+          },
+          "href": "vikings.html"
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "War Academy levels and settings are now part of the Global Backup.",
+            "FR": "Les niveaux et réglages de l'Académie de Guerre font désormais partie de la Sauvegarde Globale."
+          }
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "On desktop, the FR / EN switch became a small round button matching the theme button next to it.",
+            "FR": "Sur ordinateur, le choix FR / EN est devenu un petit bouton rond assorti au bouton de thème juste à côté."
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.1",
+      "date": "2026-07-28",
+      "title": {
+        "EN": "War Academy: a fairer KvK breakdown",
+        "FR": "Académie de Guerre : un bilan KvK plus juste"
+      },
+      "changes": [
+        {
+          "type": "improved",
+          "text": {
+            "EN": "The KvK breakdown now shows the dust and the speedup time your plan consumes, on top of the points.",
+            "FR": "Le bilan KvK affiche maintenant la quantité de poussière et le temps d'accélérateurs que ton plan consomme, en plus des points."
+          },
+          "href": "waracademy.html"
+        },
+        {
+          "type": "fixed",
+          "text": {
+            "EN": "Speedup points finally take your speed bonus into account, upgrade times are shown reduced by that bonus, and the archer bow and arrow icons were swapped.",
+            "FR": "Les points liés aux accélérateurs tiennent enfin compte de ton bonus de vitesse, les temps d'amélioration s'affichent réduits par ce bonus, et les icônes arc et flèche des Archers étaient inversées."
+          }
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "“Shop Calc” is renamed “Shop Value”, which says better what it does.",
+            "FR": "« Shop Calc » est renommé « Shop Value », plus parlant sur ce qu'il fait."
+          },
+          "href": "shop_calc.html"
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "Database tables read better on mobile (horizontal scrolling with the first column frozen), the “X” in skill descriptions is highlighted in gold, and two-value Expert effects are split into two columns.",
+            "FR": "Les tables des bases de données se lisent mieux sur mobile (défilement horizontal, première colonne figée), le « X » des descriptions de compétences est mis en valeur en doré, et les effets d'Expert à deux valeurs s'affichent sur deux colonnes."
+          }
+        }
+      ]
+    },
+    {
+      "version": "1.0",
+      "date": "2026-07-23",
+      "title": {
+        "EN": "Experts & Pets databases",
+        "FR": "Bases de données Experts & Familiers"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "One page per Expert: affinity milestones and squad bonuses, passive expertise, and for each skill its effect, EXP cost, manuscripts and power per level.",
+            "FR": "Une page par Expert : paliers d'affinité et bonus d'escouade, expertise passive, et pour chaque compétence l'effet, le coût d'EXP, les manuscrits et la puissance par niveau."
+          },
+          "href": "database/masters/index.html"
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "One page per pet (14 pets, 7 generations): skill effect tier by tier, advancement costs and the Pet Food needed for every level.",
+            "FR": "Une page par familier (14 familiers, 7 générations) : effet de la compétence palier par palier, coûts d'avancement et nourriture requise pour chaque niveau."
+          },
+          "href": "database/pets/index.html"
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "Bear Trap gets a joiner tier list per server generation (S to D) and an “Allowed heroes” menu, so the suggestion sticks to what your alliance permits. Capacity bonuses fill themselves in from Valora and the Mighty Bison.",
+            "FR": "Le Piège à Ours reçoit une tier-list des joiners par génération de serveur (S à D) et un menu « Héros autorisés », pour que la suggestion respecte ce que ton alliance permet. Les bonus de capacité se remplissent tout seuls depuis Valora et le Puissant Bison."
+          },
+          "href": "beartrap_calc.html"
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "Every game image converted to WebP: about 84% lighter (36 MB down to 5.6 MB). Pages load noticeably faster, especially on mobile.",
+            "FR": "Toutes les images du jeu converties en WebP : environ 84 % de poids en moins (de 36 à 5,6 Mo). Les pages s'affichent nettement plus vite, surtout sur mobile."
+          }
+        }
+      ]
+    }
+  ]
+}
