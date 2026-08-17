@@ -481,11 +481,8 @@ body.has-app-header.hub-body {
     border-top-color: var(--text-muted);
 }
 
-.hub-footer {
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 0.9em;
-}
+/* (.hub-footer retiré : le hub porte désormais le pied de page global
+   .site-footer, injecté par js/footer.js comme sur les autres pages.) */
 
 
 /* ============================================================================
@@ -2521,3 +2518,224 @@ body.has-app-header .db-section table.db-table thead th.num { text-align: right;
   .plan-apply-btn { transition: none; }
   .plan-apply-btn:hover { transform: none; }
 }
+
+
+/* ============================================================================
+   PIED DE PAGE GLOBAL (.site-footer — injecté par js/footer.js)
+   ============================================================================
+   Trois destinations (Discord · À propos · Nouveautés) + mention légale.
+
+   Piège du layout : le body des pages outil ET du hub est en `display:flex`
+   (§4 et §5). Un pied de page enfant du body s'y placerait donc À CÔTÉ de la
+   sidebar. D'où `flex-wrap:wrap` + `flex:0 0 100%` ci-dessous, qui lui rendent
+   sa propre ligne. Le `min-width:0` sur les blocs de contenu garantit qu'ils
+   rétrécissent au lieu de passer eux-mêmes à la ligne (sans lui, un tableau
+   large pourrait faire basculer .main-content sous la sidebar).
+   ============================================================================ */
+
+body { flex-wrap: wrap; }
+body > .main-content,
+body > .db-page { min-width: 0; }
+
+.site-footer {
+    flex: 0 0 100%;
+    width: 100%;
+    box-sizing: border-box;
+    /* La sidebar est `position:sticky` et se confine au body, pas à la ligne
+       flex : sans z-index elle recouvrirait la gauche du pied de page une
+       fois arrivé en bas. Le pied de page passe donc devant (le bouton
+       flottant de sauvegarde, en z-index 9000, reste au-dessus des deux). */
+    position: relative;
+    z-index: 1;
+    margin-top: 40px;
+    padding: 20px 22px 22px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);   /* signature dorée, cf. .hub-card */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px var(--shadow);
+}
+
+/* Le bouton « Sauvegarde Globale » reste fixé en bas à droite sur desktop
+   (z-index 9000) : on lui réserve sa place au lieu de passer dessous. */
+@media (min-width: 601px) {
+    .site-footer.sf-has-fab .sf-inner { padding-right: 270px; }
+}
+
+/* Pages à sidebar : le pied de page se range sous la colonne de contenu
+   (sidebar 340px + gap 20px). La sidebar étant sticky et confinée au body,
+   un pied de page pleine largeur passerait devant elle et bloquerait ses
+   commandes du bas — dont le bouton « Sauvegarde Globale ». Sous 768px le
+   body s'empile en colonne (§15) : la réserve n'a plus lieu d'être. */
+@media (min-width: 769px) {
+    .site-footer.sf-with-sidebar {
+        flex-basis: calc(100% - 360px);
+        width: auto;
+        margin-left: 360px;
+    }
+}
+
+.sf-inner { max-width: 1200px; margin: 0 auto; }
+
+/* ---- Les trois destinations ---- */
+.sf-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 10px;
+}
+
+.sf-link {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 44px;                      /* cible tactile */
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    /* Fond en retrait sur le panel : le sous-titre en --text-muted y tient
+       le seuil de contraste 4.5:1 dans les deux thèmes (4.4:1 sur
+       --control-bg, trop juste). */
+    background: var(--bg-dark);
+    color: var(--text-light);
+    text-decoration: none;
+    transition: border-color .15s, transform .1s, background-color .15s;
+}
+.sf-link:hover,
+.sf-link:focus-visible { border-color: var(--accent); transform: translateY(-1px); }
+.sf-link.is-here { border-color: var(--accent); background: var(--input-bg); }
+
+.sf-link .ftr-ic { flex-shrink: 0; color: var(--accent); }
+.sf-link-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.sf-link-label { font-weight: 600; font-size: 14px; }
+.sf-link-sub { color: var(--text-muted); font-size: 12.5px; line-height: 1.35; }
+.sf-ext { font-size: 11px; margin-left: 5px; color: var(--text-muted); }
+
+/* ---- Mention légale ---- */
+.sf-legal {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 12.5px;
+    line-height: 1.5;
+}
+.sf-legal-line { color: var(--text-light); }
+.sf-version {
+    display: inline-block;
+    margin: 0 2px;
+    padding: 1px 7px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--control-bg);
+    color: var(--accent);
+    font-size: 11.5px;
+    font-weight: 700;
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+}
+.sf-version:hover { border-color: var(--accent); }
+
+@media (max-width: 600px) {
+    .site-footer { margin-top: 28px; padding: 16px 16px 20px; }
+    .sf-links { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sf-link { transition: none; }
+    .sf-link:hover, .sf-link:focus-visible { transform: none; }
+}
+
+
+/* ============================================================================
+   PAGES INSTITUTIONNELLES — À propos (.ab-*) & Nouveautés (.cl-*)
+   ============================================================================
+   Les deux réutilisent le gabarit .db-page / .db-section des pages Base de
+   Données (css/db.css) ; seuls les blocs qui leur sont propres sont ici.
+   ============================================================================ */
+
+/* ---- À propos ---- */
+.ab-p { color: var(--text-light); font-size: 15px; line-height: 1.7; margin: 0 0 16px; max-width: 74ch; }
+.ab-sign { color: var(--accent); font-size: 15px; font-weight: 600; margin: 22px 0 0; }
+.ab-list { margin: 0; padding-left: 20px; max-width: 78ch; }
+.ab-list li { color: var(--text-muted); font-size: 14px; line-height: 1.65; margin-bottom: 12px; }
+.ab-list li b { color: var(--text-light); }
+.ab-cta {
+    display: inline-flex; align-items: center; min-height: 42px;
+    padding: 9px 18px; border: 1px solid var(--accent); border-radius: 22px;
+    color: var(--accent); text-decoration: none; font-weight: 600; font-size: 14px;
+    transition: background-color .15s, color .15s;
+}
+.ab-cta:hover, .ab-cta:focus-visible { background: var(--accent); color: #0a0a0a; }
+
+/* ---- Nouveautés : une version = un jalon de la frise ---- */
+.cl-count { color: var(--text-muted); font-size: 13px; margin: 0 0 22px; }
+
+.cl-list { list-style: none; margin: 0; padding: 0 0 0 26px; position: relative; }
+/* Le trait de la frise, derrière les pastilles de version. */
+.cl-list::before {
+    content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px;
+    width: 2px; background: var(--border);
+}
+
+.cl-item { position: relative; margin-bottom: 34px; }
+.cl-item::before {
+    content: ''; position: absolute; left: -26px; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--bg-dark); border: 2px solid var(--border);
+}
+.cl-item:first-child::before { border-color: var(--accent); background: var(--accent); }
+
+.cl-head { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.cl-ver {
+    padding: 2px 9px; border-radius: 20px;
+    background: var(--control-bg); border: 1px solid var(--border);
+    color: var(--accent); font-size: 12px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.cl-date { color: var(--text-muted); font-size: 12.5px; }
+.cl-latest {
+    padding: 2px 9px; border-radius: 20px;
+    background: rgba(245, 184, 64, .12); border: 1px solid var(--accent);
+    color: var(--accent); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .04em;
+}
+.cl-title { color: var(--text-light); font-size: 17px; margin: 8px 0 12px; }
+
+.cl-changes { list-style: none; margin: 0; padding: 0; }
+.cl-change {
+    display: flex; align-items: flex-start; gap: 11px;
+    padding: 9px 0; border-top: 1px solid var(--border);
+}
+.cl-tag {
+    flex-shrink: 0; min-width: 92px; text-align: center;
+    padding: 3px 9px; border-radius: 6px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em;
+}
+.cl-tag.is-new      { background: rgba(245, 184, 64, .14); color: var(--accent);  border: 1px solid var(--accent); }
+.cl-tag.is-improved { background: rgba(78, 205, 196, .12); color: var(--success); border: 1px solid var(--success); }
+.cl-tag.is-fixed    { background: rgba(255, 140, 66, .12); color: var(--warning); border: 1px solid var(--warning); }
+.cl-text { color: var(--text-muted); font-size: 14px; line-height: 1.6; min-width: 0; }
+.cl-link { color: var(--accent); text-decoration: none; white-space: nowrap; font-weight: 600; }
+.cl-link:hover { text-decoration: underline; }
+.cl-error { color: var(--warning); font-size: 14px; line-height: 1.6; }
+
+@media (max-width: 600px) {
+    .cl-list { padding-left: 20px; }
+    .cl-item::before { left: -20px; }
+    .cl-change { flex-direction: column; gap: 6px; }
+    .cl-tag { min-width: 0; align-self: flex-start; }
+}
+
+/* Thème clair : l'or et le turquoise de la charte tombent sous le seuil de
+   contraste 4.5:1 en très petit corps gras (2,6:1 pour l'or sur son fond
+   pâle). Les pastilles de version et les étiquettes de type reçoivent donc
+   des teintes assombries — uniquement là, la charte est inchangée ailleurs. */
+[data-theme="light"] .cl-ver,
+[data-theme="light"] .cl-latest,
+[data-theme="light"] .sf-version   { color: #8a6410; }
+[data-theme="light"] .cl-tag.is-new      { color: #8a6410; }
+[data-theme="light"] .cl-tag.is-improved { color: #00695c; }
+[data-theme="light"] .cl-tag.is-fixed    { color: #b23c00; }

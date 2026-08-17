@@ -19,6 +19,22 @@ const SITE = {
   name: "Kingshot Toolbox",
   home: "index.html",
 
+  // Version affichée dans le pied de page. À incrémenter EN MÊME TEMPS
+  // qu'on ajoute une entrée en tête de data/changelog.json (même numéro).
+  version: "1.9",
+
+  // Invitation Discord. Tant que la chaîne est vide, le pied de page
+  // n'affiche pas le lien du tout (rien d'inachevé à l'écran).
+  discord: "",
+
+  // ---------------------------------------------------------
+  //  PAGES INSTITUTIONNELLES (pied de page)
+  // ---------------------------------------------------------
+  pages: {
+    about:     { name: { EN: "About",     FR: "À propos" },   href: "about.html" },
+    changelog: { name: { EN: "Changelog", FR: "Nouveautés" }, href: "changelog.html" }
+  },
+
   // ---------------------------------------------------------
   //  CATÉGORIES (niveau Hub)
   // ---------------------------------------------------------
