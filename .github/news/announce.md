@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 1
+version: 1.9
 covers-until: 6a4b460b97cb9bc47c21c8ee93afa190e86c2177
-generated: 2026-08-17
+generated: 2026-08-18
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr:
-title-en:
+title-fr: 🔻 Un pied de page pour tout le site, et les équipements des derniers héros
+title-en: 🔻 A footer across the whole site, and the newest heroes' gear
 -->
 
 <!--
@@ -59,4 +59,54 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
+### ⚔️ Les équipements exclusifs des trois derniers héros
+
+**Wee & Woo**, **Charles** et **Ava** ont enfin leur Équipement Exclusif dans la Caserne : le nom de l'arme, et surtout le détail de ses deux effets — **Conquête** et **Expédition** — niveau par niveau, comme pour tous les autres héros légendaires.
+
+Jusqu'ici leur fiche n'affichait rien à cet endroit, sans le moindre message : l'onglet disparaissait, tout simplement.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/caserne.html
+
+### 🔻 Un pied de page arrive sur tout le site
+
+Toutes les pages du site se terminent désormais par un **pied de page**. Il tient sur une bande, en bas, et rassemble ce qui n'avait jusqu'ici sa place nulle part — à commencer par deux nouvelles pages.
+
+**📜 Nouveautés** — ce qui a changé sur le site, et quand. Chaque version est datée et numérotée, chaque ligne indique s'il s'agit d'une **nouveauté**, d'une **amélioration** ou d'un **correctif**, et renvoie vers la page concernée. L'historique remonte au 23 juillet : dix versions y sont déjà retracées.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/changelog.html
+
+**👋 À propos** — qui est derrière l'outil et pourquoi il existe, mais surtout ce que deviennent les données que tu saisis : **tout reste dans ton navigateur**. Aucun compte, aucun serveur, aucune publicité, aucun traceur. Le bouton « Sauvegarde Globale » reste le moyen de transférer tes données d'un appareil à l'autre.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/about.html
+
+### 🔧 Corrections
+
+- Les **traductions françaises des héros** ont été relues, dans la Caserne comme dans la base de données.
+- La carte du **Coffre personnalisé Chant de Guerre** affiche enfin son image.
+
 ## EN
+
+### ⚔️ Exclusive gear for the three newest heroes
+
+**Wee & Woo**, **Charles** and **Ava** finally have their Exclusive Gear in the Heroes page: the weapon's name, and above all the breakdown of its two effects — **Conquest** and **Expedition** — level by level, like every other legendary hero.
+
+Until now their card showed nothing there, without a word: the tab simply disappeared.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/caserne.html
+
+### 🔻 A footer arrives across the whole site
+
+Every page on the site now ends with a **footer**. It sits as a band at the bottom and gathers what had nowhere to live until now — starting with two new pages.
+
+**📜 What's new** — what changed on the site, and when. Every version is dated and numbered, every line says whether it is something **new**, an **improvement** or a **fix**, and links to the page it concerns. The history goes back to 23 July: ten versions are already listed.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/changelog.html
+
+**👋 About** — who is behind the toolbox and why it exists, but above all what happens to the data you enter: **everything stays in your browser**. No account, no server, no ads, no trackers. The "Global Backup" button remains the way to move your data from one device to another.
+
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/about.html
+
+### 🔧 Fixes
+
+- The **French hero translations** have been reviewed, on the Heroes page and in the database.
+- The **War Chant Custom Chest** card finally shows its picture.
