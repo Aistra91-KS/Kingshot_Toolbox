@@ -33,6 +33,10 @@ Kingshot_Toolbox/
 ├── about.html                    À propos : qui est derrière l'outil, données locales, mentions (page statique bilingue)
 ├── changelog.html                Nouveautés : historique des versions (rendu depuis data/changelog.json)
 │
+├── sitemap.xml                   Plan du site : 1 ligne `<url><loc>` par page publiée (61 URLs) — soumis à Google Search Console
+├── robots.txt                    Ouvre tout aux robots et déclare l'URL du sitemap (portée réelle : cf. §9)
+├── google55512fe842dbeeaf.html   Jeton de vérification Google Search Console — ne pas supprimer, ne pas ajouter au sitemap
+│
 ├── shop/                         Une page par boutique (structure calquée sur database/*, cf. §5)
 │   ├── items.html                Valeur des objets : référentiel gemmes (ex-onglet « Data Item »)
 │   ├── polar-shop.html           Événement · Magasin Polaire
@@ -380,6 +384,8 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 **Conventions**
 - **Manifeste unique** : ajouter une catégorie / un outil = éditer **uniquement site-config.js**. SITE.nameetSITE.home alimentent le logo du header. (jamais coder la nav en dur).
 - **Nouvelle page = ne pas oublier `js/footer.js`** en dernière balise `<script>` (et une ligne dans `sitemap.xml`). Seule `pets.html` en est volontairement dépourvue.
+- **URL du sitemap = celle du site publié** : `https://aistra91-ks.github.io/Kingshot_Toolbox/sitemap.xml`. Ne jamais donner à un validateur l'URL GitHub `.../blob/main/sitemap.xml` : c'est la **visionneuse de fichiers** de github.com, servie en `text/html`, d'où l'erreur *« Incorrect http header content-type: text/html (expected: application/xml) »* — le fichier, lui, est valide. GitHub Pages sert bien le `.xml` en `application/xml`.
+- **Portée de `robots.txt`** : sur un site *projet* GitHub Pages, les robots ne lisent que celui de la **racine du domaine** (`https://aistra91-ks.github.io/robots.txt`, qui appartient au dépôt `aistra91-ks.github.io`) — pas le nôtre, servi sous `/Kingshot_Toolbox/`. Il reste utile aux auditeurs SEO, documente l'URL canonique du sitemap, et deviendra la référence le jour d'un nom de domaine propre. Le sitemap se soumet donc **directement dans Google Search Console**.
 - **Publier une version** : ajouter l'entrée **en tête** de `data/changelog.json` **et** porter `SITE.version` (site-config.js) au même numéro — c'est cette clé qu'affiche le pied de page. Les deux se font dans le même commit, sinon le site annonce une version qui n'existe pas dans l'historique. Une entrée de changelog et une annonce Discord couvrent le même périmètre : rédiger l'une en s'appuyant sur l'autre.
 - **Notifications Discord** : plus aucun mapping à maintenir. Un nouvel outil n'exige aucune modification de `.github/` — il apparaîtra dans la prochaine annonce rédigée.
 - **Clés localStorage** : toujours passer par `STORAGE_KEYS` + `safeParse` (jamais de chaîne littérale).
