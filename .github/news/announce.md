@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 1.9
-covers-until: 6a4b460b97cb9bc47c21c8ee93afa190e86c2177
-generated: 2026-08-18
+version: 1.10
+covers-until: a3e4b3432623883bd827aa71ca073249a7d9f5bc
+generated: 2026-08-22
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 🔻 Un pied de page pour tout le site, et les équipements des derniers héros
-title-en: 🔻 A footer across the whole site, and the newest heroes' gear
+title-fr: ⚡ Fini de cocher les recherches une par une
+title-en: ⚡ No more ticking researches one by one
 -->
 
 <!--
@@ -59,54 +59,28 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### ⚔️ Les équipements exclusifs des trois derniers héros
+### ⚡ La Sélection rapide : dis à l'outil où tu en es en quelques clics
 
-**Wee & Woo**, **Charles** et **Ava** ont enfin leur Équipement Exclusif dans la Caserne : le nom de l'arme, et surtout le détail de ses deux effets — **Conquête** et **Expédition** — niveau par niveau, comme pour tous les autres héros légendaires.
+La première visite sur la page **Recherches** demandait de cocher des centaines de cases une par une, niveau par niveau, pour indiquer où tu en étais. C'est terminé.
 
-Jusqu'ici leur fiche n'affichait rien à cet endroit, sans le moindre message : l'onglet disparaissait, tout simplement.
+Sur les onglets d'arbre (Expansion, Économie, Combat), le panneau de gauche propose désormais **« Sélection rapide »**. Une fois l'option activée, il te suffit de cocher **le niveau le plus haut que tu as atteint** dans une recherche : tout ce qu'elle exige se coche avec elle — les niveaux inférieurs et toutes les recherches nécessaires, en remontant l'arbre jusqu'à sa racine. Sur l'arbre Combat, la recherche la plus profonde coche ainsi **102 prérequis d'un seul clic**.
 
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/caserne.html
+Le geste fonctionne aussi dans l'autre sens : **décocher** une recherche retire tout ce qui en dépend. De quoi corriger une erreur sans repasser derrière — « en fait je suis au niveau 4, pas au niveau 8 » se règle en un clic.
 
-### 🔻 Un pied de page arrive sur tout le site
+À chaque fois, un petit message t'indique combien de cases ont été mises à jour automatiquement. L'option est désactivée par défaut — rien ne change si tu n'en veux pas — et elle se souvient de ton choix d'une visite à l'autre.
 
-Toutes les pages du site se terminent désormais par un **pied de page**. Il tient sur une bande, en bas, et rassemble ce qui n'avait jusqu'ici sa place nulle part — à commencer par deux nouvelles pages.
-
-**📜 Nouveautés** — ce qui a changé sur le site, et quand. Chaque version est datée et numérotée, chaque ligne indique s'il s'agit d'une **nouveauté**, d'une **amélioration** ou d'un **correctif**, et renvoie vers la page concernée. L'historique remonte au 23 juillet : dix versions y sont déjà retracées.
-
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/changelog.html
-
-**👋 À propos** — qui est derrière l'outil et pourquoi il existe, mais surtout ce que deviennent les données que tu saisis : **tout reste dans ton navigateur**. Aucun compte, aucun serveur, aucune publicité, aucun traceur. Le bouton « Sauvegarde Globale » reste le moyen de transférer tes données d'un appareil à l'autre.
-
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/about.html
-
-### 🔧 Corrections
-
-- Les **traductions françaises des héros** ont été relues, dans la Caserne comme dans la base de données.
-- La carte du **Coffre personnalisé Chant de Guerre** affiche enfin son image.
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/research_calc.html
 
 ## EN
 
-### ⚔️ Exclusive gear for the three newest heroes
+### ⚡ Quick Select: tell the toolbox where you stand in a few clicks
 
-**Wee & Woo**, **Charles** and **Ava** finally have their Exclusive Gear in the Heroes page: the weapon's name, and above all the breakdown of its two effects — **Conquest** and **Expedition** — level by level, like every other legendary hero.
+Setting up the **Research** page for the first time meant ticking hundreds of boxes one by one, level by level, just to say how far you had got. Not any more.
 
-Until now their card showed nothing there, without a word: the tab simply disappeared.
+On the tree tabs (Growth, Economy, Battle), the side panel now offers **“Quick Select”**. Once the option is on, just tick **the highest level you have reached** in a research: everything it requires gets ticked along with it — the levels below it and every research needed, all the way up the tree to its root. On the Battle tree, the deepest research fills in **102 prerequisites in a single click**.
 
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/caserne.html
+It works the other way round too: **unticking** a research clears everything that depends on it. Fixing a mistake no longer means a cleanup pass — “actually I'm at level 4, not level 8” takes one click.
 
-### 🔻 A footer arrives across the whole site
+Each time, a short message tells you how many boxes were updated automatically. The option is off by default — nothing changes if you would rather not use it — and it remembers your choice from one visit to the next.
 
-Every page on the site now ends with a **footer**. It sits as a band at the bottom and gathers what had nowhere to live until now — starting with two new pages.
-
-**📜 What's new** — what changed on the site, and when. Every version is dated and numbered, every line says whether it is something **new**, an **improvement** or a **fix**, and links to the page it concerns. The history goes back to 23 July: ten versions are already listed.
-
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/changelog.html
-
-**👋 About** — who is behind the toolbox and why it exists, but above all what happens to the data you enter: **everything stays in your browser**. No account, no server, no ads, no trackers. The "Global Backup" button remains the way to move your data from one device to another.
-
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/about.html
-
-### 🔧 Fixes
-
-- The **French hero translations** have been reviewed, on the Heroes page and in the database.
-- The **War Chant Custom Chest** card finally shows its picture.
+👉 https://aistra91-ks.github.io/Kingshot_Toolbox/research_calc.html
