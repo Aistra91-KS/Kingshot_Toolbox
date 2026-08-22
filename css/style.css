@@ -504,6 +504,17 @@ body.has-app-header.hub-body {
     align-items: center;
 }
 
+/* Note explicative sous une option de la sidebar (ex. Sélection rapide).
+   Teintes dédiées : --text-muted ne tient que 4,4:1 sur --control-bg, trop
+   peu pour du 12px (même correctif que les étiquettes du changelog, cf. MAP §5). */
+.group-hint {
+    margin: -4px 0 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #908a7e;
+}
+[data-theme="light"] .group-hint { color: #5f6773; }
+
 input[type="number"],
 select {
     background: var(--input-bg);
