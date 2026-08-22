@@ -6,6 +6,32 @@
   },
   "releases": [
     {
+      "version": "1.10",
+      "date": "2026-08-22",
+      "title": {
+        "EN": "Tick your researches in one click",
+        "FR": "Coche tes recherches en un clic"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "New “Quick Select” option on the Research tree tabs: tick the highest level you have reached and everything it requires gets ticked with it — up to 102 boxes in a single click.",
+            "FR": "Nouvelle option « Sélection rapide » sur les onglets d'arbre des Recherches : coche le niveau le plus haut que tu as atteint et tout ce qu'il exige se coche avec lui — jusqu'à 102 cases d'un seul clic."
+          },
+          "href": "research_calc.html"
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "Unticking a research now clears everything that depends on it, so fixing a mistake takes one click instead of a cleanup pass.",
+            "FR": "Décocher une recherche retire aussi tout ce qui en dépend : corriger une erreur prend un clic au lieu d'une séance de nettoyage."
+          },
+          "href": "research_calc.html"
+        }
+      ]
+    },
+    {
       "version": "1.9",
       "date": "2026-08-17",
       "title": {
