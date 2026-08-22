@@ -24,6 +24,10 @@ const i18n = {
         'colSuggName': 'Research Name', 'colSuggStep': 'Step', 'colSuggTime': 'Time',
         'colSuggTree': 'Tree', 'colDone': 'Done', 'colName': 'Name',
         'colBaseTime': 'Base Time', 'colDiscountTime': 'Discounted Time', 'colCost': 'Cost',
+        'quickSelect': 'Quick Select', 'autoReqs': 'Auto-check prerequisites',
+        'autoReqsHint': 'Checking a research also checks everything it requires. Unchecking also clears what depends on it.',
+        'toastReqs': '{n} prerequisite(s) auto-checked',
+        'toastDeps': '{n} dependent research(es) unchecked',
         'msgNoResearch': 'No research available or insufficient time',
         'msgMore': '+ {n} other possible research(es)', 'statGlobal': 'All Researches',
         'statGrowth': 'Growth Tree', 'statEco': 'Economy Tree', 'statBattle': 'Battle Tree',
@@ -48,6 +52,10 @@ const i18n = {
         'colSuggName': 'Nom de la recherche', 'colSuggStep': 'Étape', 'colSuggTime': 'Temps',
         'colSuggTree': 'Arbre', 'colDone': 'Fait', 'colName': 'Nom',
         'colBaseTime': 'Temps de base', 'colDiscountTime': 'Temps réduit', 'colCost': 'Coût',
+        'quickSelect': 'Sélection rapide', 'autoReqs': 'Prérequis automatiques',
+        'autoReqsHint': 'Cocher une recherche coche aussi tout ce qu\'elle exige. Décocher retire aussi ce qui en dépend.',
+        'toastReqs': '{n} prérequis coché(s) automatiquement',
+        'toastDeps': '{n} recherche(s) dépendante(s) décochée(s)',
         'msgNoResearch': 'Aucune recherche disponible ou temps insuffisant',
         'msgMore': '+ {n} autre(s) recherche(s) possible(s)',
         'statGlobal': 'Toutes les recherches', 'statGrowth': 'Arbre Expansion',
@@ -71,7 +79,8 @@ const inputs = {
     treeGrowth: document.getElementById('tree-growth'),
     treeEconomy: document.getElementById('tree-economy'),
     treeBattle: document.getElementById('tree-battle'),
-    hideCompleted: document.getElementById('hide-completed')
+    hideCompleted: document.getElementById('hide-completed'),
+    autoReqs: document.getElementById('auto-reqs')
 };
 
 // ============ DATA LOADING (depuis JSON) ============
@@ -206,6 +215,61 @@ function isAvailable(item, maxLevels) {
         }
     }
     return true;
+}
+
+// ============ SÉLECTION RAPIDE (prérequis automatiques) ============
+// Mêmes règles que isAvailable : un niveau exige les niveaux inférieurs du
+// même nom + ses `reqs` (récursivement). item.Researched est déjà posé par
+// le handler ; les deux fonctions retournent le nombre de cases modifiées EN PLUS.
+
+// Coche toute la chaîne de prérequis de l'item.
+function cascadeCheckReqs(item) {
+    const need = {};   // par nom de recherche : niveau max requis
+    const queue = [];
+    const require = (name, level) => {
+        if ((need[name] || 0) < level) { need[name] = level; queue.push(name); }
+    };
+    require(item.Name, item.Level);
+    while (queue.length) {
+        const name = queue.pop();
+        const upTo = need[name];
+        db.forEach(e => {
+            if (e.Name !== name || e.Level > upTo || !e.reqs) return;
+            e.reqs.forEach(r => require(r.name, r.level));
+        });
+    }
+    let count = 0;
+    db.forEach(e => {
+        if (e.Researched || e.Level > (need[e.Name] || 0)) return;
+        e.Researched = true;
+        count++;
+    });
+    return count;
+}
+
+// Décoche tout ce qui dépend de l'item (niveaux supérieurs du même nom +
+// recherches dont un prérequis n'est plus couvert), par passes jusqu'à stabilité.
+function cascadeUncheckDeps(item) {
+    const removed = {};   // par nom : plus petit niveau devenu indisponible
+    removed[item.Name] = item.Level;
+    let count = 0;
+    let changed = true;
+    while (changed) {
+        changed = false;
+        db.forEach(e => {
+            if (!e.Researched) return;
+            let broken = removed[e.Name] !== undefined && e.Level >= removed[e.Name];
+            if (!broken && e.reqs) {
+                broken = e.reqs.some(r => removed[r.name] !== undefined && r.level >= removed[r.name]);
+            }
+            if (!broken) return;
+            e.Researched = false;
+            count++;
+            if (removed[e.Name] === undefined || e.Level < removed[e.Name]) removed[e.Name] = e.Level;
+            changed = true;
+        });
+    }
+    return count;
 }
 
 function getNextSuggestion(treeKey, lang) {
@@ -374,9 +438,18 @@ function renderTrees() {
     document.querySelectorAll('input[data-index]').forEach(cb => {
         cb.addEventListener('change', (e) => {
             let idx = parseInt(e.target.getAttribute('data-index'));
-            db[idx].Researched = e.target.checked;
+            const item = db[idx];
+            item.Researched = e.target.checked;
+            let autoCount = 0;
+            if (inputs.autoReqs.checked) {
+                autoCount = e.target.checked ? cascadeCheckReqs(item) : cascadeUncheckDeps(item);
+            }
             saveData();
             updateUI();
+            if (autoCount > 0) {
+                const key = e.target.checked ? 'toastReqs' : 'toastDeps';
+                showAppToast(i18n[GlobalLang.get()][key].replace('{n}', autoCount));
+            }
         });
     });
     const dash = document.getElementById('dashboard-container');
@@ -463,12 +536,15 @@ document.querySelectorAll('.tab').forEach(tab => {
         let targetId = e.target.getAttribute('data-target');
         document.getElementById(targetId).classList.add('active');
         let displayGroup = document.getElementById('display-options-group');
+        let selectionGroup = document.getElementById('selection-options-group');
         let optimalGroup = document.getElementById('optimal-options-group');
         if (targetId === 'tab-optimal') {
             displayGroup.style.display = 'none';
+            selectionGroup.style.display = 'none';
             optimalGroup.style.display = 'block';
         } else {
             displayGroup.style.display = 'flex';
+            selectionGroup.style.display = 'flex';
             optimalGroup.style.display = 'none';
         }
     });
@@ -519,6 +595,7 @@ function rsInitHelp() {
             FR: [
                 "Renseigne ton bonus de vitesse de recherche : bonus de base + Premier Ministre (+10%), KVK (+5%), Royaume (+10%). Le « Bonus total » s'affiche automatiquement.",
                 "Choisis l'arbre cible (Croissance, Économie ou Combat) pour filtrer les suggestions, ou consulte l'onglet de chaque arbre.",
+                "Première mise en place : sur un onglet d'arbre, active « Sélection rapide » (panneau latéral) puis coche directement le plus haut niveau atteint de chaque recherche — tous ses prérequis se cochent d'un coup. Décocher retire de même ce qui en dépend.",
                 "L'onglet « Ordre de recherche optimal » propose les prochaines recherches à faire, classées de la plus rentable à la moins rentable (temps réduit par ton bonus).",
                 "Active le « Mode KVK » et renseigne tes accélérateurs (jours / heures / minutes) pour ne voir que ce que tu peux réellement terminer avec ton stock : l'outil indique aussi combien de recherches supplémentaires seraient possibles au-delà.",
                 "Active « Masquer terminées » pour ne garder que ce qu'il te reste à faire."
@@ -526,6 +603,7 @@ function rsInitHelp() {
             EN: [
                 "Set your research speed bonus: base bonus + Chief Minister (+10%), KVK (+5%), Kingdom (+10%). The “Total Bonus” updates automatically.",
                 "Pick a target tree (Growth, Economy or Battle) to filter the suggestions, or browse each tree's tab.",
+                "First-time setup: on a tree tab, turn on “Quick Select” (side panel) then tick the highest level you've reached in each research — all its prerequisites get ticked at once. Unticking likewise clears what depends on it.",
                 "The “Optimal Search Order” tab lists the next researches to do, ranked from most to least efficient (time reduced by your bonus).",
                 "Turn on “KVK Mode” and enter your speedups (days / hours / minutes) to see only what you can actually finish within your stock: it also tells you how many more researches would be possible beyond that.",
                 "Turn on “Hide completed” to keep only what's left to do."
