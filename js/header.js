@@ -238,7 +238,9 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
   if (!window.SITE) { console.error('site-config.js manquant — header non généré.'); return; }
   const S = window.SITE;
 
-  // Favicon (injecté une seule fois, vaut pour toutes les pages)
+  // Favicon — filet de sécurité uniquement : les 3 <link> sont écrits en dur dans le <head>
+  // de chaque page (Google ne lit pas le favicon injecté en JS, cf. MAP.md §9). Ce bloc ne
+  // sert donc plus qu'à une page qui aurait oublié le bloc HTML.
   if (!document.querySelector('link[rel="icon"]')) {
     const mk = (rel, type, href, sizes) => { const l = document.createElement('link'); l.rel = rel; if (type) l.type = type; if (sizes) l.sizes = sizes; l.href = href; document.head.appendChild(l); };
     mk('icon', 'image/svg+xml', 'img/logo/favicon.svg');

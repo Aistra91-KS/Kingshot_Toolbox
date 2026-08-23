@@ -6,8 +6,8 @@
 
 ## 1. Vue d'ensemble
 
-- **Live** : https://aistra91-ks.github.io/Kingshot_Toolbox/
-- **Repo** : `Aistra91-KS/Kingshot_Toolbox` (anciennement `Hub-Kingshot` — le chemin GitHub Pages est passé de `/hub-kingshot/` à `/Kingshot_Toolbox/`, cf. `<base href>` des pages `database/*`).
+- **Live** : https://kingshottoolbox.com/
+- **Repo** : `Aistra91-KS/Kingshot_Toolbox` (anciennement `Hub-Kingshot` : `/hub-kingshot/` → `/Kingshot_Toolbox/` sur GitHub Pages, puis la **racine** de `kingshottoolbox.com`). Le site ne dépend plus de son chemin de déploiement — cf. la règle `<base href>` relatif au §9.
 - **Type** : site statique hébergé sur **GitHub Pages** (pas de backend, pas de build).
 - **Stack** : HTML / CSS / JS **vanilla** (aucun framework, aucun bundler) + **GitHub Actions** (notif Discord).
 - **Langues** : **FR / EN**, bascule à chaud (aucun rechargement).
@@ -130,7 +130,7 @@ Kingshot_Toolbox/
 │       └── <pet>.html            gray-wolf, lynx, bison, … (fetch pets_db.json)
 │
 ├── img/                          Assets (WebP partout, sauf favicons logo/ en PNG, SVG icônes)
-│   ├── logo/                     favicon.svg, favicon-32.png, apple-touch-icon.png (PNG conservés : fallback favicon + icône iOS non compatibles WebP)
+│   ├── logo/                     favicon.svg, favicon-32.png, apple-touch-icon.png (PNG conservés : fallback favicon + icône iOS non compatibles WebP) — déclarés en dur dans le `<head>` de chaque page, cf. §9
 │   ├── buildings/                Vignettes bâtiments (.webp)
 │   ├── WarAcademy/               Icônes recherches Académie de Guerre (.webp)
 │   ├── heroes/                   Portraits héros (.webp)
@@ -386,8 +386,11 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 **Conventions**
 - **Manifeste unique** : ajouter une catégorie / un outil = éditer **uniquement site-config.js**. SITE.nameetSITE.home alimentent le logo du header. (jamais coder la nav en dur).
 - **Nouvelle page = ne pas oublier `js/footer.js`** en dernière balise `<script>` (et une ligne dans `sitemap.xml`). Seule `pets.html` en est volontairement dépourvue.
-- **URL du sitemap = celle du site publié** : `https://aistra91-ks.github.io/Kingshot_Toolbox/sitemap.xml`. Ne jamais donner à un validateur l'URL GitHub `.../blob/main/sitemap.xml` : c'est la **visionneuse de fichiers** de github.com, servie en `text/html`, d'où l'erreur *« Incorrect http header content-type: text/html (expected: application/xml) »* — le fichier, lui, est valide. GitHub Pages sert bien le `.xml` en `application/xml`.
-- **Portée de `robots.txt`** : sur un site *projet* GitHub Pages, les robots ne lisent que celui de la **racine du domaine** (`https://aistra91-ks.github.io/robots.txt`, qui appartient au dépôt `aistra91-ks.github.io`) — pas le nôtre, servi sous `/Kingshot_Toolbox/`. Il reste utile aux auditeurs SEO, documente l'URL canonique du sitemap, et deviendra la référence le jour d'un nom de domaine propre. Le sitemap se soumet donc **directement dans Google Search Console**.
+- **`<base href>` relatif, jamais absolu** : les pages en sous-dossier déclarent `<base href="../">` (1 niveau, `shop/*`) ou `<base href="../../">` (2 niveaux, `database/*/*`), selon leur profondeur. Le site est ainsi **insensible à son chemin de déploiement** : il fonctionne à la racine du domaine, sous `/Kingshot_Toolbox/`, et sur un serveur local à n'importe quel préfixe. Ne jamais revenir à un chemin absolu (`/Kingshot_Toolbox/`) : c'est ce qui rendait tout changement d'URL risqué.
+- **URL du sitemap = celle du site publié** : `https://kingshottoolbox.com/sitemap.xml`. Ne jamais donner à un validateur l'URL GitHub `.../blob/main/sitemap.xml` : c'est la **visionneuse de fichiers** de github.com, servie en `text/html`, d'où l'erreur *« Incorrect http header content-type: text/html (expected: application/xml) »* — le fichier, lui, est valide. GitHub Pages sert bien le `.xml` en `application/xml`.
+- **`robots.txt` fait autorité depuis le passage au domaine propre** : le site étant servi à la **racine** de `kingshottoolbox.com`, `https://kingshottoolbox.com/robots.txt` est bien celui que lisent les robots. Ce n'était **pas** le cas sous `/Kingshot_Toolbox/`, où seul le `robots.txt` de la racine `github.io` comptait (piège historique). Le sitemap se soumet malgré tout **directement dans Google Search Console**.
+- **Favicon = 3 `<link>` en dur dans le `<head>` de chaque page** (`img/logo/favicon.svg` + `favicon-32.png` + `apple-touch-icon.png`, chemins relatifs, compatibles `<base href>`). Google lit le favicon avec un robot séparé **qui n'exécute pas le JavaScript** : tant que les balises n'étaient qu'injectées par `header.js`, l'icône affichée dans les résultats de recherche restait celle de GitHub. Le bloc de `header.js` est conservé en **filet de sécurité** (il ne s'exécute que si la page n'a aucun `link[rel=icon]`) — mais toute nouvelle page doit porter les 3 balises dans son HTML.
+- **Un seul favicon par *hostname*** : Google le lit sur la page d'accueil du domaine. Avec `kingshottoolbox.com`, le site **est** cette page d'accueil — l'icône déclarée dans le `<head>` d'`index.html` vaut donc pour tout le domaine. Sous `aistra91-ks.github.io/Kingshot_Toolbox/`, c'était la racine `github.io` qui décidait, d'où le globe GitHub longtemps affiché dans les résultats de recherche.
 - **Publier une version** : ajouter l'entrée **en tête** de `data/changelog.json` **et** porter `SITE.version` (site-config.js) au même numéro — c'est cette clé qu'affiche le pied de page. Les deux se font dans le même commit, sinon le site annonce une version qui n'existe pas dans l'historique. Une entrée de changelog et une annonce Discord couvrent le même périmètre : rédiger l'une en s'appuyant sur l'autre.
 - **Notifications Discord** : plus aucun mapping à maintenir. Un nouvel outil n'exige aucune modification de `.github/` — il apparaîtra dans la prochaine annonce rédigée.
 - **Clés localStorage** : toujours passer par `STORAGE_KEYS` + `safeParse` (jamais de chaîne littérale).

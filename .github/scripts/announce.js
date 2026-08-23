@@ -40,7 +40,7 @@ if (!fr && !en) { console.log('Annonce vide (gabarit non rempli) : rien à publi
 if (!fr || !en) console.warn('⚠️  Une seule langue est renseignée.');
 
 // ---- Mise en forme Discord ----
-const SITE = 'https://aistra91-ks.github.io/Kingshot_Toolbox/';
+const SITE = 'https://kingshottoolbox.com/';
 
 // ---- Verrou : une annonce va de pair avec une entrée dans l'historique ----
 // La page « Nouveautés » (changelog.html) et l'annonce Discord couvrent le même
