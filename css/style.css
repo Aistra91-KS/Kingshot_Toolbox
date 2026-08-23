@@ -373,6 +373,15 @@ body.has-app-header.hub-body {
     margin: 0 0 25px 0;
 }
 
+.hub-intro {
+    max-width: 720px;
+    margin: 48px auto 8px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.65;
+    text-align: center;
+}
+
 .hub-lang-switch {
     display: inline-flex;
     gap: 5px;

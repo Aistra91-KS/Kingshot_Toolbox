@@ -5,6 +5,7 @@
 const i18nHub = {
     FR: {
         subtitle: "Votre boîte à outils stratégique",
+        hubIntro: "Kingshot Toolbox réunit des outils gratuits pour Kingshot : calculateur de recherches, planificateurs TrueGold et Académie de Guerre, répartiteurs Piège à Ours et Vikings, gestion des héros et des experts, familiers, et bases de données complètes des bâtiments et boutiques. Bilingue FR/EN, sans compte : vos données restent sur votre appareil.",
         soonTitle: "Bientôt disponible",
         soonDesc: "De nouveaux outils arrivent prochainement. Restez connectés !",
         open: "Ouvrir →",
@@ -12,6 +13,7 @@ const i18nHub = {
     },
     EN: {
         subtitle: "Your strategic toolbox",
+        hubIntro: "Kingshot Toolbox gathers free tools for Kingshot: a research calculator, TrueGold and War Academy planners, Bear Trap and Vikings march splitters, hero and master management, pets, plus complete databases for buildings and shops. Bilingual EN/FR, no account needed: your data stays on your device.",
         soonTitle: "Coming Soon",
         soonDesc: "New tools are coming soon. Stay tuned!",
         open: "Open →",
