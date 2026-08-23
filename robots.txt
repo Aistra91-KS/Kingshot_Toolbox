@@ -1,4 +1,4 @@
-# Kingshot Toolbox — https://aistra91-ks.github.io/Kingshot_Toolbox/
+# Kingshot Toolbox — https://kingshottoolbox.com/
 # Static site, no private area: everything may be crawled.
 
 User-agent: *
@@ -7,4 +7,4 @@ Allow: /
 # Canonical sitemap (served by GitHub Pages as application/xml).
 # Do not point crawlers or validators at the github.com /blob/ URL:
 # that one is GitHub's HTML file viewer, not the sitemap itself.
-Sitemap: https://aistra91-ks.github.io/Kingshot_Toolbox/sitemap.xml
+Sitemap: https://kingshottoolbox.com/sitemap.xml
