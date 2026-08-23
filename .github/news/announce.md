@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 1.10
-covers-until: a3e4b3432623883bd827aa71ca073249a7d9f5bc
-generated: 2026-08-22
+version: 2.0
+covers-until: 7579338655af4e6123ea6a6c0be20af6effec242
+generated: 2026-08-23
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: ⚡ Fini de cocher les recherches une par une
-title-en: ⚡ No more ticking researches one by one
+title-fr: 🏰 Kingshot Toolbox 2.0 : une adresse à soi
+title-en: 🏰 Kingshot Toolbox 2.0: an address of its own
 -->
 
 <!--
@@ -33,8 +33,8 @@ Les commentaires HTML ne sont jamais publiés : tant que les deux sections
 ci-dessous restent vides, aucun message n'est envoyé.
 
 TOUJOURS inclure le lien direct des pages concernées par l'annonce
-(https://aistra91-ks.github.io/Kingshot_Toolbox/<page>) — le lecteur doit
-pouvoir ouvrir la nouveauté sans avoir à la chercher.
+(https://kingshottoolbox.com/<page>) — le lecteur doit pouvoir ouvrir la
+nouveauté sans avoir à la chercher.
 
 Clés de l'en-tête :
   version    OBLIGATOIRE — version annoncée (ex. 1.9), qui doit exister dans
@@ -59,28 +59,46 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### ⚡ La Sélection rapide : dis à l'outil où tu en es en quelques clics
+### 🏰 Une adresse à soi
 
-La première visite sur la page **Recherches** demandait de cocher des centaines de cases une par une, niveau par niveau, pour indiquer où tu en étais. C'est terminé.
+Jusqu'ici, la boîte à outils habitait à cette adresse : `aistra91-ks.github.io/Kingshot_Toolbox/`. Difficile à retenir, franchement pénible à dicter en vocal, et pas vraiment le genre de lien qu'on a envie de partager.
 
-Sur les onglets d'arbre (Expansion, Économie, Combat), le panneau de gauche propose désormais **« Sélection rapide »**. Une fois l'option activée, il te suffit de cocher **le niveau le plus haut que tu as atteint** dans une recherche : tout ce qu'elle exige se coche avec elle — les niveaux inférieurs et toutes les recherches nécessaires, en remontant l'arbre jusqu'à sa racine. Sur l'arbre Combat, la recherche la plus profonde coche ainsi **102 prérequis d'un seul clic**.
+C'est réglé. Le site a maintenant **son propre nom de domaine** :
 
-Le geste fonctionne aussi dans l'autre sens : **décocher** une recherche retire tout ce qui en dépend. De quoi corriger une erreur sans repasser derrière — « en fait je suis au niveau 4, pas au niveau 8 » se règle en un clic.
+👉 https://kingshottoolbox.com
 
-À chaque fois, un petit message t'indique combien de cases ont été mises à jour automatiquement. L'option est désactivée par défaut — rien ne change si tu n'en veux pas — et elle se souvient de ton choix d'une visite à l'autre.
+**Tes anciens liens continuent de fonctionner** : ils redirigent automatiquement vers la nouvelle adresse, donc rien ne casse, ni pour toi ni pour les guides qui pointent vers l'outil. Mais si tu as un lien épinglé quelque part — favoris du navigateur, salon d'alliance, message d'accueil — c'est le bon moment pour le remplacer.
 
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/research_calc.html
+Trois autres choses ont bougé au passage :
+
+**L'icône du site** s'affiche enfin dans l'onglet de ton navigateur, au lieu de la page blanche générique. Elle devrait aussi apparaître à côté du site dans les résultats Google dans les prochaines semaines.
+
+**Les liens partagés ici** ont désormais une vraie vignette illustrée au lieu d'une ligne de texte nue. Colle l'adresse dans un salon, tu verras la différence tout de suite.
+
+**Une page d'erreur maison** remplace celle de GitHub quand un lien est mort, avec les raccourcis vers l'accueil et les principaux outils.
+👉 https://kingshottoolbox.com/404.html
+
+Rien à réinstaller, rien à reconfigurer : tes données restent là où elles ont toujours été, sur ton appareil.
 
 ## EN
 
-### ⚡ Quick Select: tell the toolbox where you stand in a few clicks
+### 🏰 An address of its own
 
-Setting up the **Research** page for the first time meant ticking hundreds of boxes one by one, level by level, just to say how far you had got. Not any more.
+Until now, the toolbox lived at this address: `aistra91-ks.github.io/Kingshot_Toolbox/`. Hard to remember, genuinely painful to read out on voice chat, and not the kind of link you feel like sharing.
 
-On the tree tabs (Growth, Economy, Battle), the side panel now offers **“Quick Select”**. Once the option is on, just tick **the highest level you have reached** in a research: everything it requires gets ticked along with it — the levels below it and every research needed, all the way up the tree to its root. On the Battle tree, the deepest research fills in **102 prerequisites in a single click**.
+That's sorted. The site now has **its own domain name**:
 
-It works the other way round too: **unticking** a research clears everything that depends on it. Fixing a mistake no longer means a cleanup pass — “actually I'm at level 4, not level 8” takes one click.
+👉 https://kingshottoolbox.com
 
-Each time, a short message tells you how many boxes were updated automatically. The option is off by default — nothing changes if you would rather not use it — and it remembers your choice from one visit to the next.
+**Your old links still work**: they redirect to the new address automatically, so nothing breaks — not for you, and not for the guides pointing at the tools. But if you have a link pinned somewhere — browser bookmarks, alliance channel, welcome message — now is a good time to swap it.
 
-👉 https://aistra91-ks.github.io/Kingshot_Toolbox/research_calc.html
+Three other things changed along the way:
+
+**The site icon** finally shows up in your browser tab instead of the blank generic page. It should also appear next to the site in Google results over the coming weeks.
+
+**Links shared here** now come with a proper preview card instead of a bare line of text. Paste the address in a channel and you'll see the difference straight away.
+
+**A custom error page** replaces GitHub's default one when a link is dead, with shortcuts back to the home page and the main tools.
+👉 https://kingshottoolbox.com/404.html
+
+Nothing to reinstall, nothing to set up again: your data stays exactly where it has always been, on your own device.
