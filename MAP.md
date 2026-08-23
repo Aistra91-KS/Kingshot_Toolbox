@@ -32,6 +32,7 @@ Kingshot_Toolbox/
 ├── pets.html                     Outil Familiers (promenade verticale : fiches pets le long d'un sentier)
 ├── about.html                    À propos : qui est derrière l'outil, données locales, mentions (page statique bilingue)
 ├── changelog.html                Nouveautés : historique des versions (rendu depuis data/changelog.json)
+├── 404.html                      Page introuvable : autonome (styles inline, liens en `/` absolu — servie par Pages à n'importe quelle profondeur), `noindex`, jamais dans le sitemap
 │
 ├── favicon.ico                   Icône multi-tailles (16/32/48) à la racine — convention attendue par les robots qui ne lisent pas le HTML ; jamais dans le sitemap
 ├── sitemap.xml                   Plan du site : 1 ligne `<url><loc>` par page publiée (61 URLs) — soumis à Google Search Console
@@ -131,7 +132,7 @@ Kingshot_Toolbox/
 │       └── <pet>.html            gray-wolf, lynx, bison, … (fetch pets_db.json)
 │
 ├── img/                          Assets (WebP partout, sauf favicons logo/ en PNG, SVG icônes)
-│   ├── logo/                     favicon.svg, favicon-32.png, favicon-96.png, apple-touch-icon.png (PNG conservés : fallback favicon + icône iOS non compatibles WebP) — déclarés en dur dans le `<head>` de chaque page, cf. §9
+│   ├── logo/                     favicon.svg, favicon-32.png, favicon-96.png, apple-touch-icon.png, og-image.png (aperçu 1200×630 des partages de liens), logo-512.png (logo Organization du JSON-LD) (PNG conservés : fallback favicon + icône iOS non compatibles WebP) — déclarés en dur dans le `<head>` de chaque page, cf. §9
 │   ├── buildings/                Vignettes bâtiments (.webp)
 │   ├── WarAcademy/               Icônes recherches Académie de Guerre (.webp)
 │   ├── heroes/                   Portraits héros (.webp)
@@ -388,6 +389,11 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 - **Manifeste unique** : ajouter une catégorie / un outil = éditer **uniquement site-config.js**. SITE.nameetSITE.home alimentent le logo du header. (jamais coder la nav en dur).
 - **Nouvelle page = ne pas oublier `js/footer.js`** en dernière balise `<script>` (et une ligne dans `sitemap.xml`). Seule `pets.html` en est volontairement dépourvue.
 - **`<base href>` relatif, jamais absolu** : les pages en sous-dossier déclarent `<base href="../">` (1 niveau, `shop/*`) ou `<base href="../../">` (2 niveaux, `database/*/*`), selon leur profondeur. Le site est ainsi **insensible à son chemin de déploiement** : il fonctionne à la racine du domaine, sous `/Kingshot_Toolbox/`, et sur un serveur local à n'importe quel préfixe. Ne jamais revenir à un chemin absolu (`/Kingshot_Toolbox/`) : c'est ce qui rendait tout changement d'URL risqué.
+- **SEO du `<head>` : bloc standard sur chaque page**, dans cet ordre : `charset` → `viewport` → `theme-color #0a0a0a` → `title` → `meta description` → `canonical` → **Open Graph + `twitter:card`** (og:title = title sans le suffixe « | Kingshot Toolbox », og:description = la description, og:url = la canonique, og:image = `img/logo/og-image.png` en absolu) → favicons → CSS. Toute **nouvelle page** reproduit ce bloc **et** ajoute sa ligne `sitemap.xml`.
+- **Tirets des titres/descriptions : « - » simple, jamais « — » cadratin** (préférence de Paul pour l'affichage Google). Le cadratin reste toléré dans le corps des pages.
+- **JSON-LD** : `WebSite` + `Organization` sur l'accueil uniquement ; `WebApplication` sur les 8 pages outils ; `BreadcrumbList` sur toute page qui affiche un fil d'ariane `.db-breadcrumb` (le balisage doit refléter le fil visible — libellés EN). Blocs compacts en fin de `<head>`, à valider avec `json.loads` avant commit.
+- **Un seul `<h1>` par page** : pages BDD/boutiques = le nom visible ; Caserne/Experts = le titre de page (promu, taille figée en inline) ; les 5 outils sans titre visible portent un `h1` masqué accessible (texte = nom de l'outil, jamais du bourrage de mots-clés).
+- **Accueil : le paragraphe `.hub-intro` est le seul texte indexable du hub** (la grille est rendue en JS) — le conserver lors des refontes, clé i18n `hubIntro` dans `js/hub.js`.
 - **`<link rel="canonical">` absolu sur chaque page** : `https://kingshottoolbox.com/<chemin>`, l'accueil pointant sur la racine (sans `index.html`). C'est la **seule URL absolue** du HTML — tout le reste reste relatif. Toute nouvelle page en porte une, et son URL doit correspondre **exactement** à sa ligne de `sitemap.xml` : les deux listes se vérifient en 1:1 (61 = 61 aujourd'hui).
 - **URL du sitemap = celle du site publié** : `https://kingshottoolbox.com/sitemap.xml`. Ne jamais donner à un validateur l'URL GitHub `.../blob/main/sitemap.xml` : c'est la **visionneuse de fichiers** de github.com, servie en `text/html`, d'où l'erreur *« Incorrect http header content-type: text/html (expected: application/xml) »* — le fichier, lui, est valide. GitHub Pages sert bien le `.xml` en `application/xml`.
 - **`robots.txt` fait autorité depuis le passage au domaine propre** : le site étant servi à la **racine** de `kingshottoolbox.com`, `https://kingshottoolbox.com/robots.txt` est bien celui que lisent les robots. Ce n'était **pas** le cas sous `/Kingshot_Toolbox/`, où seul le `robots.txt` de la racine `github.io` comptait (piège historique). Le sitemap se soumet malgré tout **directement dans Google Search Console**.
