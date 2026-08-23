@@ -6,6 +6,45 @@
   },
   "releases": [
     {
+      "version": "1.11",
+      "date": "2026-08-23",
+      "title": {
+        "EN": "The toolbox has its own address",
+        "FR": "La boîte à outils a sa propre adresse"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "The site has moved to kingshottoolbox.com. Old links keep working and send you to the new address automatically, so nothing breaks — but pinned links and bookmarks are worth updating.",
+            "FR": "Le site a déménagé sur kingshottoolbox.com. Les anciens liens continuent de fonctionner et redirigent tout seuls vers la nouvelle adresse : rien ne casse, mais les liens épinglés et les favoris méritent une mise à jour."
+          }
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "Sharing a link to the toolbox now shows a proper preview card with an image, instead of a bare line of text.",
+            "FR": "Partager un lien vers la boîte à outils affiche désormais une vraie vignette avec image, au lieu d'une ligne de texte nue."
+          }
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "The site icon now shows up in your browser tab, and every page states more clearly what it does — which is what search engines display.",
+            "FR": "L'icône du site apparaît maintenant dans l'onglet du navigateur, et chaque page annonce plus clairement ce qu'elle fait — c'est ce qu'affichent les moteurs de recherche."
+          }
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "A proper error page replaces GitHub's default one when a link is dead, with shortcuts back to the home page and the main tools.",
+            "FR": "Une vraie page d'erreur remplace celle de GitHub quand un lien est mort, avec des raccourcis vers l'accueil et les principaux outils."
+          },
+          "href": "404.html"
+        }
+      ]
+    },
+    {
       "version": "1.10",
       "date": "2026-08-22",
       "title": {
