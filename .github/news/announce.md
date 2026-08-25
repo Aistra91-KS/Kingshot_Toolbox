@@ -1,11 +1,11 @@
 <!-- kshub-news
 version: 2.0
-covers-until: 7579338655af4e6123ea6a6c0be20af6effec242
-generated: 2026-08-23
+covers-until: 6fb3ad73acc71724108d870239015b4439c20332
+generated: 2026-08-25
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 🏰 Kingshot Toolbox 2.0 : une adresse à soi
-title-en: 🏰 Kingshot Toolbox 2.0: an address of its own
+title-fr: 🐉 Deux nouvelles boutiques d'événement
+title-en: 🐉 Two new event shops
 -->
 
 <!--
@@ -59,46 +59,54 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 🏰 Une adresse à soi
+### 🐉 La Caravane du Dragon et le Stand d'Aventure
 
-Jusqu'ici, la boîte à outils habitait à cette adresse : `aistra91-ks.github.io/Kingshot_Toolbox/`. Difficile à retenir, franchement pénible à dicter en vocal, et pas vraiment le genre de lien qu'on a envie de partager.
+Les deux boutiques d'événement du moment ont maintenant leur page dans la boîte à outils.
 
-C'est réglé. Le site a maintenant **son propre nom de domaine** :
+Le principe ne change pas : chaque objet est mis face à sa valeur en gemmes, pour voir d'un coup d'œil ce qui mérite vraiment ta monnaie.
 
-👉 https://kingshottoolbox.com
+**Caravane du Dragon** — 20 objets, payés en Essence Draconique, jusqu'au **31 août à 00h UTC**
+👉 https://kingshottoolbox.com/shop/dragons-caravan.html
 
-**Tes anciens liens continuent de fonctionner** : ils redirigent automatiquement vers la nouvelle adresse, donc rien ne casse, ni pour toi ni pour les guides qui pointent vers l'outil. Mais si tu as un lien épinglé quelque part — favoris du navigateur, salon d'alliance, message d'accueil — c'est le bon moment pour le remplacer.
+**Stand d'Aventure** — 21 objets, payés en Pièces d'Aventure, jusqu'au **30 août à 00h UTC**
+👉 https://kingshottoolbox.com/shop/adventure-stall.html
 
-Trois autres choses ont bougé au passage :
+Sur chaque page :
 
-**L'icône du site** s'affiche enfin dans l'onglet de ton navigateur, au lieu de la page blanche générique. Elle devrait aussi apparaître à côté du site dans les résultats Google dans les prochaines semaines.
+**Les 3 meilleures affaires** sont mises en avant tout en haut, avant même le tableau.
 
-**Les liens partagés ici** ont désormais une vraie vignette illustrée au lieu d'une ligne de texte nue. Colle l'adresse dans un salon, tu verras la différence tout de suite.
+**Un panier** : tu entres ta monnaie, tu coches les lots que tu comptes prendre, et le restant se recalcule ligne par ligne. Pas de remplissage automatique — c'est toi qui choisis.
 
-**Une page d'erreur maison** remplace celle de GitHub quand un lien est mort, avec les raccourcis vers l'accueil et les principaux outils.
-👉 https://kingshottoolbox.com/404.html
+**Le stock restant** est suivi jusqu'à la fin de l'événement. Pour les trois offres du Stand d'Aventure qui se rechargent chaque jour à 00h UTC (Or Véritable, fragments mythiques, marteaux de forge), la colonne compte toutes les recharges qu'il te reste, pas seulement celle du jour.
 
-Rien à réinstaller, rien à reconfigurer : tes données restent là où elles ont toujours été, sur ton appareil.
+**Un crayon** pour ajuster quantités, coûts et stock si ta boutique en jeu ne colle pas tout à fait. Tes corrections restent sur ton appareil.
+
+Toutes les boutiques du jeu sont regroupées ici :
+👉 https://kingshottoolbox.com/shop_calc.html
 
 ## EN
 
-### 🏰 An address of its own
+### 🐉 Dragon's Caravan and Adventure Stall
 
-Until now, the toolbox lived at this address: `aistra91-ks.github.io/Kingshot_Toolbox/`. Hard to remember, genuinely painful to read out on voice chat, and not the kind of link you feel like sharing.
+The two event shops running right now have their own page in the toolbox.
 
-That's sorted. The site now has **its own domain name**:
+Same idea as always: every item is set against its value in gems, so you can see at a glance what actually deserves your currency.
 
-👉 https://kingshottoolbox.com
+**Dragon's Caravan** — 20 items, paid in Dragon Essence, until **31 August, 00:00 UTC**
+👉 https://kingshottoolbox.com/shop/dragons-caravan.html
 
-**Your old links still work**: they redirect to the new address automatically, so nothing breaks — not for you, and not for the guides pointing at the tools. But if you have a link pinned somewhere — browser bookmarks, alliance channel, welcome message — now is a good time to swap it.
+**Adventure Stall** — 21 items, paid in Adventure Coins, until **30 August, 00:00 UTC**
+👉 https://kingshottoolbox.com/shop/adventure-stall.html
 
-Three other things changed along the way:
+On each page:
 
-**The site icon** finally shows up in your browser tab instead of the blank generic page. It should also appear next to the site in Google results over the coming weeks.
+**The three best deals** are called out at the top, before the table even starts.
 
-**Links shared here** now come with a proper preview card instead of a bare line of text. Paste the address in a channel and you'll see the difference straight away.
+**A cart**: enter your currency, tick the lots you plan to buy, and the balance updates line by line. No auto-fill — you do the picking.
 
-**A custom error page** replaces GitHub's default one when a link is dead, with shortcuts back to the home page and the main tools.
-👉 https://kingshottoolbox.com/404.html
+**Remaining stock** is tracked to the end of the event. For the three Adventure Stall offers that refill every day at 00:00 UTC (TrueGold, Mythic hero shards, Forgehammers), the column counts every refill you have left, not just today's.
 
-Nothing to reinstall, nothing to set up again: your data stays exactly where it has always been, on your own device.
+**A pencil button** to adjust quantities, costs and stock if your in-game shop doesn't quite match. Your corrections stay on your device.
+
+Every shop in the game is gathered here:
+👉 https://kingshottoolbox.com/shop_calc.html
