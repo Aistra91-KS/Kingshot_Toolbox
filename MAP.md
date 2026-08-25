@@ -361,7 +361,7 @@ Clés métier — source unique **`js/storage-keys.js`** (`window.STORAGE_KEYS`)
 | `caserneFilters` | `caserne_filters` |
 | `masters` | `masters_user_data` |
 | `researchDb` | `research_calc_db_v9` |
-| `researchInputs` | `research_calc_inputs_v9` |
+| `researchInputs` | `research_calc_inputs_v9` — porte aussi `bonusAsPercent: true`, marqueur d'unité du **Bonus de base** : il se saisissait en fraction (`0.753`), il se saisit désormais en **pourcentage** (`75.3`) comme sur TrueGold et l'Académie de Guerre. Sans le marqueur, `loadData()` convertit la valeur une fois (×100). Ne pas le retirer : un réglage relu sans lui serait multiplié une seconde fois |
 | `beartrap` | `beartrap_data` |
 | `beartrapJoiners` | `beartrap_joiners` |
 | `truegold` | `tg_calc_data_v3` |
