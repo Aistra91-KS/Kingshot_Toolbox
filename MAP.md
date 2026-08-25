@@ -42,6 +42,8 @@ Kingshot_Toolbox/
 │
 ├── shop/                         Une page par boutique (structure calquée sur database/*, cf. §5)
 │   ├── items.html                Valeur des objets : référentiel gemmes (ex-onglet « Data Item »)
+│   ├── dragons-caravan.html      Événement · Caravane du Dragon
+│   ├── adventure-stall.html      Événement · Stand d'Aventure
 │   ├── polar-shop.html           Événement · Magasin Polaire
 │   ├── summit-contest-champion.html   Événement · Ligue Suprême (Champion)
 │   ├── summit-contest-ordinary.html   Événement · Ligue Suprême (Ordinaire)
@@ -141,7 +143,7 @@ Kingshot_Toolbox/
 │   │   └── Master/hd/            Portraits pleine page 600×800 pour `masters.html` uniquement (cf. §5)
 │   ├── skills/ + widgetname/ + widgetskill/  Icônes skills héros & widgets (.webp)
 │   ├── Item/                     Icônes objets boutique/ressources (.webp) — **nom de fichier = `name.EN` de l'objet** (`scImg()`), carré ~100–200 px, fond transparent. **18 objets n'ont pas encore d'icône** (skins, VIP, emote, mégaphone…) : la case reste vide, sans erreur
-│   ├── shops/                    *(à créer)* Vignettes de boutique `<slug>.webp`, format **16:9** (~640×360). Facultatif : sans fichier, la carte affiche la mosaïque des 4 meilleurs objets
+│   ├── shops/                    Vignettes de boutique `<slug>.webp`, format **16:9** (~640×360). Facultatif : sans fichier, la carte affiche la mosaïque des 4 meilleurs objets
 │   └── pets/                     Familiers : portraits (.webp ×14) + sous-dossier skills/ (icônes compétence, .webp ×14)
 │
 └── .github/

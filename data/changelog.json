@@ -16,6 +16,14 @@
         {
           "type": "new",
           "text": {
+            "EN": "Two new event shops joined the Shops section: Dragon's Caravan and Adventure Stall. Each one lists every item with its cost, what it is worth in gems and how much stock is left, so you can see straight away what deserves your currency before the event ends.",
+            "FR": "Deux nouvelles boutiques d'événement rejoignent la section Boutiques : la Caravane du Dragon et le Stand d'Aventure. Chacune liste tous les objets avec leur coût, leur valeur en gemmes et le stock restant, pour voir tout de suite ce qui mérite ta monnaie avant la fin de l'événement."
+          },
+          "href": "shop_calc.html"
+        },
+        {
+          "type": "new",
+          "text": {
             "EN": "The site has moved to kingshottoolbox.com. Old links keep working and send you to the new address automatically, so nothing breaks — but pinned links and bookmarks are worth updating.",
             "FR": "Le site a déménagé sur kingshottoolbox.com. Les anciens liens continuent de fonctionner et redirigent tout seuls vers la nouvelle adresse : rien ne casse, mais les liens épinglés et les favoris méritent une mise à jour."
           }

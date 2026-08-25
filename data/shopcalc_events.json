@@ -1,5 +1,72 @@
 [
   {
+    "id": "Dragons_Caravan", "slug": "dragons-caravan",
+    "name": {
+      "EN": "Dragon's Caravan",
+      "FR": "Caravane du Dragon"
+    },
+    "endsAt": "2026-08-31T00:00:00Z",
+    "resourceName": {"EN": "Dragon Essence","FR": "Essence Draconique"
+    },
+    "items": [
+      {
+        "itemId": "fragment_of_a_specific_mythical_hero","qty": 1,"cost": 20,"qtyMax": 1075},
+      {"itemId": "fragment_of_a_specific_mythical_hero","qty": 1,"cost": 20,"qtyMax": 1075},
+      {"itemId": "fragment_of_a_specific_mythical_hero","qty": 1,"cost": 20,"qtyMax": 1075},
+      {"itemId": "custom_mythic_hero_gear_chest","qty": 1,"cost": 1000,"qtyMax": 2},
+      {"itemId": "lucky_hero_gear_chest","qty": 28,"cost": 200,"qtyMax": 100},
+      {"itemId": "forgehammers","qty": 28,"cost": 200,"qtyMax": 40},
+      {"itemId": "mithril","qty": 1,"cost": 160,"qtyMax": 25},
+      {"itemId": "artisan_s_vision","qty": 20,"cost": 40,"qtyMax": 100},
+      {"itemId": "gilded_threads","qty": 100,"cost": 40,"qtyMax": 100},
+      {"itemId": "satin","qty": 10000,"cost": 40,"qtyMax": 100},
+      {"itemId": "charm_design","qty": 32,"cost": 80,"qtyMax": 100},
+      {"itemId": "charm_guide","qty": 32,"cost": 80,"qtyMax": 100},
+      {"itemId": "pet_food_x1","qty": 3000,"cost": 40,"qtyMax": 50},
+      {"itemId": "pet_advancement_materials_custom_chest","qty": 4,"cost": 80,"qtyMax": 50},
+      {"itemId": "advanced_taming_mark","qty": 1,"cost": 80,"qtyMax": 50},
+      {"itemId": "truegold","qty": 20,"cost": 40,"qtyMax": 50},
+      {"itemId": "1h_general_speedup","qty": 8,"cost": 40,"qtyMax": 100},
+      {"itemId": "1h_general_speedup","qty": 9,"cost": 40,"qtyMax": 100},
+      {"itemId": "1h_general_speedup","qty": 9,"cost": 40,"qtyMax": 100},
+      {"itemId": "lv3_custom_resource_chest","qty": 1,"cost": 5,"qtyMax": 9999}
+    ]
+  },
+  {
+    "id": "Adventure_Stall", "slug": "adventure-stall",
+    "name": {
+      "EN": "Adventure Stall",
+      "FR": "Stand d'Aventure"
+    },
+    "endsAt": "2026-08-30T00:00:00Z",
+    "resourceName": {"EN": "Adventure Coin","FR": "Pièce d'Aventure"
+    },
+    "items": [
+      {
+        "itemId": "truegold","qty": 68,"cost": 30,"qtyMax": 2, "dailyReset": true},
+      {"itemId": "mythic_general_hero_shard","qty": 12,"cost": 50,"qtyMax": 2, "dailyReset": true},
+      {"itemId": "forgehammers","qty": 90,"cost": 100,"qtyMax": 2, "dailyReset": true},
+      {"itemId": "mithril","qty": 1,"cost": 40,"qtyMax": 25},
+      {"itemId": "custom_mythic_hero_gear_chest","qty": 1,"cost": 100,"qtyMax": 10},
+      {"itemId": "mythic_general_decoration_component","qty": 1,"cost": 10,"qtyMax": 300},
+      {"itemId": "lucky_hero_gear_chest","qty": 36,"cost": 50,"qtyMax": 30},
+      {"itemId": "forgehammers","qty": 36,"cost": 50,"qtyMax": 30},
+      {"itemId": "truegold","qty": 18,"cost": 10,"qtyMax": 50},
+      {"itemId": "artisan_s_vision","qty": 34,"cost": 20,"qtyMax": 100},
+      {"itemId": "gilded_threads","qty": 180,"cost": 20,"qtyMax": 100},
+      {"itemId": "satin","qty": 18000,"cost": 20,"qtyMax": 100},
+      {"itemId": "charm_design","qty": 28,"cost": 20,"qtyMax": 100},
+      {"itemId": "charm_guide","qty": 28,"cost": 20,"qtyMax": 100},
+      {"itemId": "pet_food_x1","qty": 5400,"cost": 20,"qtyMax": 50},
+      {"itemId": "pet_advancement_materials_custom_chest","qty": 8,"cost": 25,"qtyMax": 50},
+      {"itemId": "advanced_taming_mark","qty": 12,"cost": 100,"qtyMax": 50},
+      {"itemId": "1h_general_speedup","qty": 10,"cost": 10,"qtyMax": 200},
+      {"itemId": "1h_general_speedup","qty": 10,"cost": 10,"qtyMax": 200},
+      {"itemId": "1h_general_speedup","qty": 10,"cost": 10,"qtyMax": 200},
+      {"itemId": "5m_general_speedup","qty": 10,"cost": 1,"qtyMax": 9999}
+    ]
+  },
+  {
     "id": "Polar_Shop", "slug": "polar-shop",
     "name": {
       "EN": "Polar Shop",
