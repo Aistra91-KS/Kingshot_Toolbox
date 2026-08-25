@@ -10,7 +10,7 @@ let totalAccSeconds = 0;
 const i18n = {
     'EN': {
         'controlPanel': 'Control Panel', 'settings': 'Settings', 'language': 'Language',
-        'baseBonus': 'Base Research Bonus', 'chiefMinister': 'Chief Minister (+10%)',
+        'baseBonus': 'Base Research Bonus (%)', 'chiefMinister': 'Chief Minister (+10%)',
         'kvkBonus': 'KVK Bonus (+5%)', 'kingdomBonus': 'Kingdom Bonus (+10%)',
         'totalBonus': 'Total Bonus', 'displayOptions': 'Display Options',
         'hideCompleted': 'Hide completed', 'accelerators': 'Accelerators',
@@ -38,7 +38,7 @@ const i18n = {
     },
     'FR': {
         'controlPanel': 'Panneau de Contrôle', 'settings': 'Paramètres', 'language': 'Langue',
-        'baseBonus': 'Bonus de base', 'chiefMinister': 'Ministre en Chef (+10%)',
+        'baseBonus': 'Bonus de base (%)', 'chiefMinister': 'Ministre en Chef (+10%)',
         'kvkBonus': 'Bonus KVK (+5%)', 'kingdomBonus': 'Bonus Royaume (+10%)',
         'totalBonus': 'Bonus Total', 'displayOptions': 'Options d\'affichage',
         'hideCompleted': 'Masquer les terminés', 'accelerators': 'Accélérateurs',
@@ -131,6 +131,13 @@ function initData() {
     if (savedInputs) {
         try {
             const parsedInputs = JSON.parse(savedInputs);
+            // Le bonus de base se saisissait en fraction (0,753) ; il se saisit maintenant
+            // en pourcentage (75,3), comme sur TrueGold et l'Académie de Guerre. Les réglages
+            // enregistrés avant ce changement sont convertis une fois, au chargement — sans
+            // quoi un 0,753 déjà en place serait relu comme 0,753 % et fausserait tous les temps.
+            if (!parsedInputs.bonusAsPercent && parsedInputs.baseBonus !== undefined) {
+                parsedInputs.baseBonus = (parseFloat(parsedInputs.baseBonus) || 0) * 100;
+            }
             Object.keys(parsedInputs).forEach(key => {
                 if (inputs[key]) {
                     if (inputs[key].type === 'checkbox') {
@@ -146,7 +153,7 @@ function initData() {
 
 function saveData() {
     localStorage.setItem(STORAGE_KEYS.researchDb, JSON.stringify(db));
-    const inputsState = {};
+    const inputsState = { bonusAsPercent: true };
     Object.keys(inputs).forEach(key => {
         inputsState[key] = inputs[key].type === 'checkbox' ? inputs[key].checked : inputs[key].value;
     });
@@ -178,7 +185,7 @@ function formatTime(seconds) {
 function formatNumber(num) { return num.toLocaleString(); }
 
 function calculateState() {
-    let bonus = parseFloat(inputs.baseBonus.value) || 0;
+    let bonus = (parseFloat(inputs.baseBonus.value) || 0) / 100;
     if (inputs.chiefMinister.checked) bonus += 0.10;
     if (inputs.kvkBonus.checked) bonus += 0.05;
     if (inputs.kingdomBonus.checked) bonus += 0.10;
