@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
@@ -42,14 +42,14 @@
 </head>
 <body class="has-app-header">
     <div class="db-page">
-        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="shop_calc.html" data-i18n="crumbShops">Boutiques</a> / <span data-i18n="itemsRef">Valeur des objets</span></div>
-        <h1 data-i18n="itemsRef">Valeur des objets</h1>
-        <p class="db-intro" data-en="The reference value in gems of every Kingshot item. Every shop page on this site compares its prices to this table, so changing a value here recalculates all of them at once. Your edits are saved on your device only." data-fr="La valeur de référence en gemmes de chaque objet de Kingshot. Toutes les pages boutique du site comparent leurs prix à ce tableau : modifier une valeur ici recalcule toutes les boutiques d'un coup. Tes modifications sont enregistrées sur ton appareil uniquement.">La valeur de référence en gemmes de chaque objet de Kingshot. Toutes les pages boutique du site comparent leurs prix à ce tableau : modifier une valeur ici recalcule toutes les boutiques d'un coup. Tes modifications sont enregistrées sur ton appareil uniquement.</p>
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="shop_calc.html" data-i18n="crumbShops">Shops</a> / <span data-i18n="itemsRef">Item values</span></div>
+        <h1 data-i18n="itemsRef">Item values</h1>
+        <p class="db-intro" data-en="The reference value in gems of every Kingshot item. Every shop page on this site compares its prices to this table, so changing a value here recalculates all of them at once. Your edits are saved on your device only." data-fr="La valeur de référence en gemmes de chaque objet de Kingshot. Toutes les pages boutique du site comparent leurs prix à ce tableau : modifier une valeur ici recalcule toutes les boutiques d'un coup. Tes modifications sont enregistrées sur ton appareil uniquement.">The reference value in gems of every Kingshot item. Every shop page on this site compares its prices to this table, so changing a value here recalculates all of them at once. Your edits are saved on your device only.</p>
 
         <div class="shop-toolbar">
-            <input id="item-search" class="table-input" data-i18n-placeholder="search" placeholder="Rechercher…">
+            <input id="item-search" class="table-input" data-i18n-placeholder="Search…" placeholder="Search…">
             <select id="item-cat-filter" class="table-select"></select>
-            <button class="btn-reset" style="background:transparent;border:1px solid var(--text-muted);color:var(--text-muted);" onclick="scResetItems()" data-i18n="resetItems">Réinitialiser les valeurs</button>
+            <button class="btn-reset" style="background:transparent;border:1px solid var(--text-muted);color:var(--text-muted);" onclick="scResetItems()" data-i18n="resetItems">Reset values</button>
         </div>
         <div id="item-count" style="color:var(--text-muted);font-size:13px;margin-bottom:8px;"></div>
         <div class="table-container">
@@ -57,9 +57,9 @@
                 <thead>
                     <tr>
                         <th style="width:46px;"></th>
-                        <th data-i18n="colName">Nom</th>
-                        <th data-i18n="colCat">Catégorie</th>
-                        <th data-i18n="colGem">Valeur (gemmes)</th>
+                        <th data-i18n="colName">Name</th>
+                        <th data-i18n="colCat">Category</th>
+                        <th data-i18n="colGem">Value (gems)</th>
                     </tr>
                 </thead>
                 <tbody id="item-tbody"></tbody>

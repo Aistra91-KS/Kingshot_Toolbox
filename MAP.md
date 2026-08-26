@@ -20,7 +20,7 @@
 
 ```
 Kingshot_Toolbox/
-├── index.html                    Hub (page d'accueil) : grille de cartes par catégorie
+├── index.html                    Hub (page d'accueil) : grille de cartes par catégorie — **écrite en dur** dans le HTML (cf. §9), `hub.js` la re-rend ensuite depuis `SITE`
 ├── research_calc.html            Outil Recherches (arbres Croissance/Éco/Combat)
 ├── truegold_calc.html            Outil TrueGold (planif. amélioration bâtiments)
 ├── waracademy.html               Outil Académie de Guerre (planif. recherches troupes TG)
@@ -36,7 +36,7 @@ Kingshot_Toolbox/
 ├── 404.html                      Page introuvable : autonome (styles inline, liens en `/` absolu — servie par Pages à n'importe quelle profondeur), `noindex`, jamais dans le sitemap
 │
 ├── favicon.ico                   Icône multi-tailles (16/32/48) à la racine — convention attendue par les robots qui ne lisent pas le HTML ; jamais dans le sitemap
-├── sitemap.xml                   Plan du site : 1 ligne `<url><loc>` par page publiée (61 URLs) — soumis à Google Search Console
+├── sitemap.xml                   Plan du site : 1 ligne `<url><loc>` par page publiée (63 URLs) — soumis à Google Search Console
 ├── robots.txt                    Ouvre tout aux robots et déclare l'URL du sitemap (portée réelle : cf. §9)
 ├── google55512fe842dbeeaf.html   Jeton de vérification Google Search Console — ne pas supprimer, ne pas ajouter au sitemap
 │
@@ -197,6 +197,8 @@ Deux mécanismes, tous deux réagissant à l'event global **`langChanged`** émi
    - `GlobalLang.applyI18n(i18n[lang])` remplace `textContent` / `placeholder`.
 2. **Attributs inline `data-en` / `data-fr`** (pages `database/buildings/*`) :
    - `<td data-en="Bread" data-fr="Pain">Pain</td>` — un petit script inline applique `data-<lang>` sur `[data-en][data-fr]`.
+
+**Langue du HTML servi = anglais.** Le texte écrit en dur dans les fichiers `.html` (et `<html lang="en">`) est celui de la langue **par défaut**, `EN` — le français est appliqué par le JS au chargement. C'est ce qu'exige le référencement : Googlebot indexe le rendu, qui est anglais, et un HTML français sous un `<title>` anglais envoyait des signaux contradictoires. Conséquence à connaître : un visiteur ayant choisi `FR` voit brièvement l'anglais avant la bascule (~40 ms en conditions normales, jusqu'à ~3 s en 3G bridée) — c'est le même phénomène qu'avant, dans l'autre sens, quand le HTML était français et la majorité des visiteurs en anglais. Seule exception : `migrate.html`, page autonome `noindex` qui reste en français. **Toute nouvelle page s'écrit donc en anglais en dur**, avec les `data-i18n` / `data-fr` qui portent la traduction.
 
 **Langue** : stockée sous `hub_lang` (clé propre à `GlobalLang`, défaut `EN`). Sur desktop, le header expose un **bouton rond « globe + code »** (`.app-header-lang`, jumeau visuel du bouton thème) qui bascule FR⇄EN via `GlobalLang.set()` (`hdrInitLangToggle`/`hdrUpdateLangCode` dans `header.js`) ; sous 820px et en mode condensé il est masqué (langue reprise dans le drawer / le panneau profil). Les boutons `.lang-btn` du hub restent synchronisés via `GlobalLang.applyToButtons` (`applyToSelect` demeure un utilitaire générique, plus utilisé par le header).
 
@@ -401,8 +403,8 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 - **Tirets des titres/descriptions : « - » simple, jamais « — » cadratin** (préférence de Paul pour l'affichage Google). Le cadratin reste toléré dans le corps des pages.
 - **JSON-LD** : `WebSite` + `Organization` sur l'accueil uniquement ; `WebApplication` sur les 8 pages outils ; `BreadcrumbList` sur toute page qui affiche un fil d'ariane `.db-breadcrumb` (le balisage doit refléter le fil visible — libellés EN). Blocs compacts en fin de `<head>`, à valider avec `json.loads` avant commit.
 - **Un seul `<h1>` par page** : pages BDD/boutiques = le nom visible ; Caserne/Experts = le titre de page (promu, taille figée en inline) ; les 5 outils sans titre visible portent un `h1` masqué accessible (texte = nom de l'outil, jamais du bourrage de mots-clés).
-- **Accueil : le paragraphe `.hub-intro` est le seul texte indexable du hub** (la grille est rendue en JS) — le conserver lors des refontes, clé i18n `hubIntro` dans `js/hub.js`.
-- **`<link rel="canonical">` absolu sur chaque page** : `https://kingshottoolbox.com/<chemin>`, l'accueil pointant sur la racine (sans `index.html`). C'est la **seule URL absolue** du HTML — tout le reste reste relatif. Toute nouvelle page en porte une, et son URL doit correspondre **exactement** à sa ligne de `sitemap.xml` : les deux listes se vérifient en 1:1 (61 = 61 aujourd'hui).
+- **Le maillage interne doit exister sans JavaScript.** Le header et le pied de page sont injectés par `header.js`/`footer.js` : un lien qui n'existe que là est invisible pour un robot qui n'exécute pas le JS, et la page vers laquelle il pointe se retrouve orpheline. D'où **la grille du hub écrite en dur dans `index.html`** (13 liens), au même titre que les cartes de `shop_calc.html` et les `db-switch` des pages `database/*`. `hub.js` re-rend ensuite le même bloc depuis `SITE` : la **source de vérité reste `js/site-config.js`**, et l'ajout d'un outil se répercute dans `index.html` en recopiant le rendu obtenu **en anglais**. Conserver aussi `.hub-intro` (clé i18n `hubIntro` dans `js/hub.js`), seul texte suivi du hub.
+- **`<link rel="canonical">` absolu sur chaque page** : `https://kingshottoolbox.com/<chemin>`, l'accueil pointant sur la racine (sans `index.html`). C'est la **seule URL absolue** du HTML — tout le reste reste relatif. Toute nouvelle page en porte une, et son URL doit correspondre **exactement** à sa ligne de `sitemap.xml` : les deux listes se vérifient en 1:1 (63 = 63 aujourd'hui).
 - **URL du sitemap = celle du site publié** : `https://kingshottoolbox.com/sitemap.xml`. Ne jamais donner à un validateur l'URL GitHub `.../blob/main/sitemap.xml` : c'est la **visionneuse de fichiers** de github.com, servie en `text/html`, d'où l'erreur *« Incorrect http header content-type: text/html (expected: application/xml) »* — le fichier, lui, est valide. GitHub Pages sert bien le `.xml` en `application/xml`.
 - **`robots.txt` fait autorité depuis le passage au domaine propre** : le site étant servi à la **racine** de `kingshottoolbox.com`, `https://kingshottoolbox.com/robots.txt` est bien celui que lisent les robots. Ce n'était **pas** le cas sous `/Kingshot_Toolbox/`, où seul le `robots.txt` de la racine `github.io` comptait (piège historique). Le sitemap se soumet malgré tout **directement dans Google Search Console**.
 - **Favicon = 3 `<link>` en dur dans le `<head>` de chaque page** (`img/logo/favicon.svg` + `favicon-32.png` + `apple-touch-icon.png`, chemins relatifs, compatibles `<base href>`). Google lit le favicon avec un robot séparé **qui n'exécute pas le JavaScript** : tant que les balises n'étaient qu'injectées par `header.js`, l'icône affichée dans les résultats de recherche restait celle de GitHub. Le bloc de `header.js` est conservé en **filet de sécurité** (il ne s'exécute que si la page n'a aucun `link[rel=icon]`) — mais toute nouvelle page doit porter les **4** balises dans son HTML (svg + 96 + 32 + apple-touch). **Google exige un favicon d'au moins 48×48 (multiple de 48)** : c'est le rôle de `favicon-96.png` — le SVG est accepté mais le PNG 96 sécurise tous les crawlers. Les PNG se régénèrent depuis `favicon.svg` (cairosvg), y compris `favicon.ico` racine (16+32+48).

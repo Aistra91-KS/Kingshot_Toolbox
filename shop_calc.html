@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
@@ -42,64 +42,64 @@
 <body class="has-app-header">
 
     <div class="db-page">
-        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <span data-i18n="crumbShops">Boutiques</span></div>
-        <h1 data-i18n="scTitle">Valeur Boutique</h1>
-        <p class="db-intro" data-i18n="scDesc">Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires.</p>
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <span data-i18n="crumbShops">Shops</span></div>
+        <h1 data-i18n="scTitle">Shop Value</h1>
+        <p class="db-intro" data-i18n="scDesc">Compare in-shop cost to gem value to spot the best deals.</p>
 
         <!-- Référentiel de valeurs : socle de tous les calculs, donc mis en avant hors des 3 familles. -->
         <a class="sx-card sx-ref" href="shop/items.html" style="margin-bottom:8px;">
           <span class="sx-thumb"><span class="sx-ref-glyph">💎</span></span>
           <span class="sx-body">
-            <span class="sx-name" data-i18n="itemsRef">Valeur des objets</span>
-            <span class="sx-meta"><span data-i18n="itemsRefSub">Le référentiel en gemmes qui alimente tous les calculs.</span></span>
+            <span class="sx-name" data-i18n="itemsRef">Item values</span>
+            <span class="sx-meta"><span data-i18n="itemsRefSub">The gem reference table behind every calculation.</span></span>
           </span>
         </a>
 
         <!-- ===== BOUTIQUES D'ÉVÉNEMENT ===== -->
         <section class="sx-section">
-          <h2><span data-i18n="secEvent">Boutiques d'Événement</span><span class="sx-count" data-count-event></span></h2>
-          <p class="sx-section-sub" data-i18n="secEventSub">Offres limitées dans le temps : monnaie dédiée, stock plafonné et date de fin.</p>
+          <h2><span data-i18n="secEvent">Event Shops</span><span class="sx-count" data-count-event></span></h2>
+          <p class="sx-section-sub" data-i18n="secEventSub">Time-limited offers: dedicated currency, capped stock and an end date.</p>
           <div class="sx-grid" id="grid-event">
             <a class="sx-card" href="shop/dragons-caravan.html" data-shop-slug="dragons-caravan">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Dragon's Caravan" data-fr="Caravane du Dragon">Caravane du Dragon</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Dragon Essence" data-fr="Essence Draconique">Essence Draconique</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Dragon's Caravan" data-fr="Caravane du Dragon">Dragon's Caravan</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Dragon Essence" data-fr="Essence Draconique">Dragon Essence</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/adventure-stall.html" data-shop-slug="adventure-stall">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Adventure Stall" data-fr="Stand d'Aventure">Stand d'Aventure</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Adventure Coin" data-fr="Pièce d'Aventure">Pièce d'Aventure</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Adventure Stall" data-fr="Stand d'Aventure">Adventure Stall</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Adventure Coin" data-fr="Pièce d'Aventure">Adventure Coin</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/polar-shop.html" data-shop-slug="polar-shop">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Polar Shop" data-fr="Magasin Polaire">Magasin Polaire</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Twinstar Coin" data-fr="Pièces des Étoiles Jumelles">Pièces des Étoiles Jumelles</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Polar Shop" data-fr="Magasin Polaire">Polar Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Twinstar Coin" data-fr="Pièces des Étoiles Jumelles">Twinstar Coin</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/summit-contest-champion.html" data-shop-slug="summit-contest-champion">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Summit Contest Champion Shop" data-fr="Magasin Champion de la Ligue Suprême">Magasin Champion de la Ligue Suprême</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Champion token" data-fr="Jeton de Champion">Jeton de Champion</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Summit Contest Champion Shop" data-fr="Magasin Champion de la Ligue Suprême">Summit Contest Champion Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Champion token" data-fr="Jeton de Champion">Champion token</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/summit-contest-ordinary.html" data-shop-slug="summit-contest-ordinary">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Summit Contest Ordinary Shop" data-fr="Magasin Ordinaire de la Ligue Suprême">Magasin Ordinaire de la Ligue Suprême</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="League token" data-fr="Jeton de Ligue">Jeton de Ligue</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Summit Contest Ordinary Shop" data-fr="Magasin Ordinaire de la Ligue Suprême">Summit Contest Ordinary Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="League token" data-fr="Jeton de Ligue">League token</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/golden-ball-shop.html" data-shop-slug="golden-ball-shop">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Golden Ball Shop" data-fr="Magasin du ballon d'or">Magasin du ballon d'or</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Ballon d'Or brand" data-fr="Marque du ballon d'or">Marque du ballon d'or</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Golden Ball Shop" data-fr="Magasin du ballon d'or">Golden Ball Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Ballon d'Or brand" data-fr="Marque du ballon d'or">Ballon d'Or brand</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
           </div>
@@ -107,49 +107,49 @@
 
         <!-- ===== BOUTIQUES PERMANENTES ===== -->
         <section class="sx-section">
-          <h2><span data-i18n="secClassic">Boutiques Permanentes</span><span class="sx-count" data-count-classic></span></h2>
-          <p class="sx-section-sub" data-i18n="secClassicSub">Boutiques toujours disponibles, alimentées par les monnaies de leurs modes de jeu.</p>
+          <h2><span data-i18n="secClassic">Permanent Shops</span><span class="sx-count" data-count-classic></span></h2>
+          <p class="sx-section-sub" data-i18n="secClassicSub">Always-available shops, fed by their game mode's own currency.</p>
           <div class="sx-grid" id="grid-classic">
             <a class="sx-card" href="shop/arena.html" data-shop-slug="arena">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Arena" data-fr="Arène">Arène</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Arena Token" data-fr="Jeton d'Arène">Jeton d'Arène</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Arena" data-fr="Arène">Arena</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Arena Token" data-fr="Jeton d'Arène">Arena Token</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/alliance-championship.html" data-shop-slug="alliance-championship">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Alliance Championship" data-fr="Championnat d'Alliance">Championnat d'Alliance</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Championship Badge" data-fr="Badge de Championnat">Badge de Championnat</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Alliance Championship" data-fr="Championnat d'Alliance">Alliance Championship</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Championship Badge" data-fr="Badge de Championnat">Championship Badge</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/swordland.html" data-shop-slug="swordland">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
                 <span class="sx-name" data-en="Swordland" data-fr="Swordland">Swordland</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Relic Coins" data-fr="Pièces de Relique">Pièces de Relique</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Relic Coins" data-fr="Pièces de Relique">Relic Coins</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/kingdom-of-power.html" data-shop-slug="kingdom-of-power">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Kingdom of Power" data-fr="Royaume du Pouvoir">Royaume du Pouvoir</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Kingdom Coin" data-fr="Pièce du Royaume">Pièce du Royaume</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Kingdom of Power" data-fr="Royaume du Pouvoir">Kingdom of Power</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Kingdom Coin" data-fr="Pièce du Royaume">Kingdom Coin</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/tidal-shop.html" data-shop-slug="tidal-shop">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Tidal Shop" data-fr="Magasin des Marées">Magasin des Marées</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Tidal Stone" data-fr="Pierre des Marées">Pierre des Marées</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Tidal Shop" data-fr="Magasin des Marées">Tidal Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Tidal Stone" data-fr="Pierre des Marées">Tidal Stone</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/trial-shop.html" data-shop-slug="trial-shop">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Trial Shop" data-fr="Magasin du Défi">Magasin du Défi</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Trial Crystal" data-fr="Cristal du Défi">Cristal du Défi</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+                <span class="sx-name" data-en="Trial Shop" data-fr="Magasin du Défi">Trial Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Trial Crystal" data-fr="Cristal du Défi">Trial Crystal</span><span class="sx-dot">·</span><span data-count-slot></span></span>
               </span>
             </a>
           </div>
@@ -157,26 +157,26 @@
 
         <!-- ===== COFFRES ===== -->
         <section class="sx-section">
-          <h2><span data-i18n="secChest">Coffres</span><span class="sx-count" data-count-chest></span></h2>
-          <p class="sx-section-sub" data-i18n="secChestSub">Coffres au choix unique : un seul objet à prendre, autant choisir le plus rentable.</p>
+          <h2><span data-i18n="secChest">Chests</span><span class="sx-count" data-count-chest></span></h2>
+          <p class="sx-section-sub" data-i18n="secChestSub">Single-pick chests: only one item to take, so make it the most valuable one.</p>
           <div class="sx-grid" id="grid-chest">
             <a class="sx-card" href="shop/gear-boost-chest.html" data-shop-slug="gear-boost-chest">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="Gear Boost Custom Chest" data-fr="Coffre personnalisé de Boost d'Équipement">Coffre personnalisé de Boost d'Équipement</span>
+                <span class="sx-name" data-en="Gear Boost Custom Chest" data-fr="Coffre personnalisé de Boost d'Équipement">Gear Boost Custom Chest</span>
                 <span class="sx-meta"><span data-count-slot></span></span>
               </span>
             </a>
             <a class="sx-card" href="shop/war-chant-chest.html" data-shop-slug="war-chant-chest">
               <span class="sx-thumb-slot"></span>
               <span class="sx-body">
-                <span class="sx-name" data-en="War Chant Custom Chest" data-fr="Coffre personnalisé Chant de Guerre">Coffre personnalisé Chant de Guerre</span>
+                <span class="sx-name" data-en="War Chant Custom Chest" data-fr="Coffre personnalisé Chant de Guerre">War Chant Custom Chest</span>
                 <span class="sx-meta"><span data-count-slot></span></span>
               </span>
             </a>
           </div>
         </section>
-    </div>
+</div>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

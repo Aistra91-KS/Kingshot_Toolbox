@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
@@ -53,25 +53,23 @@
 <body class="has-app-header">
     
     <div class="sidebar">
-        <h1 style="font-size:1.5em;color:var(--accent);margin-top:0;" data-i18n="pageTitle">Conseil des Experts</h1>
-        <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;" data-i18n="pageDesc">
-            Gérez le niveau de relation et les compétences de vos experts.
-        </p>
+        <h1 style="font-size:1.5em;color:var(--accent);margin-top:0;" data-i18n="pageTitle">Hall of Masters</h1>
+        <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;" data-i18n="pageDesc">Manage the relationship level and skills of your experts.</p>
 
         <div class="control-group" style="margin-top: 20px;">
-            <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;" data-i18n="filterSort">Tri & Filtres</h3>
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;" data-i18n="filterSort">Sort &amp; Filters</h3>
 
             <div class="filter-group" style="margin-bottom: 15px;">
-                <label data-i18n="searchMaster" style="display:block; margin-bottom:6px;">Rechercher</label>
-                <input type="text" id="master-search" class="table-input" data-i18n-placeholder="searchMasterPh" placeholder="Nom de l'expert…" style="width: 100%;">
+                <label data-i18n="searchMaster" style="display:block; margin-bottom:6px;">Search</label>
+                <input type="text" id="master-search" class="table-input" data-i18n-placeholder="Expert name…" placeholder="Expert name…" style="width: 100%;">
             </div>
 
             <div class="control-row" style="margin-bottom: 10px;">
-                <label data-i18n="sortBy">Trier par</label>
+                <label data-i18n="sortBy">Sort by</label>
                 <select id="master-sort" class="table-select" style="width: 100%;">
-                    <option value="name" data-i18n="sortName">Nom (A-Z)</option>
-                    <option value="rel-desc" data-i18n="sortRelDesc">Relation (Décroissant)</option>
-                    <option value="rel-asc" data-i18n="sortRelAsc">Relation (Croissant)</option>
+                    <option value="name" data-i18n="sortName">Name (A-Z)</option>
+                    <option value="rel-desc" data-i18n="sortRelDesc">Relationship (Descending)</option>
+                    <option value="rel-asc" data-i18n="sortRelAsc">Relationship (Ascending)</option>
                 </select>
             </div>
 
@@ -79,7 +77,7 @@
 
             <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
                 <input type="checkbox" id="master-hide-locked">
-                <span data-i18n="hideLocked">Masquer les experts non débloqués</span>
+                <span data-i18n="hideLocked">Hide locked experts</span>
             </label>
         </div>
     </div>
@@ -87,7 +85,7 @@
     <div class="main-content">
         <div id="masters-grid" class="masters-grid">
             </div>
-    </div>
+</div>
 
     <div id="master-modal">
         <div class="modal-content" style="pointer-events: auto !important; width: 100%; height: 100%; overflow-y: auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; box-shadow: -15px 0 40px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;">
@@ -104,7 +102,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: var(--control-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
                     <div>
                         <div id="modal-master-name-inline" style="font-size: 17px; font-weight: bold; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Nom</div>
-                        <span style="font-size: 13px; color: var(--text-muted);" data-i18n="relLevel">Niv. de Relation</span>
+                        <span style="font-size: 13px; color: var(--text-muted);" data-i18n="relLevel">Level (1-100)</span>
                         <div id="modal-master-title" style="font-size: 11px; color: var(--accent); text-transform: uppercase; margin-top: 4px;">Titre</div>
                         <!-- NOUVEAU : Statut de Relation -->
                         <div id="modal-master-status" style="font-size: 14px; font-weight: bold; color: var(--success); margin-top: 6px;">Étranger</div>
@@ -121,8 +119,8 @@
                 <div data-mtab="break">
                 <!-- PALIERS DE PERCÉE -->
                 <div class="skills-section" style="margin-bottom: 15px;">
-                    <h4 style="margin: 0 0 6px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="lblBreakthroughs">Paliers de percée</h4>
-                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 10px;" data-i18n="breakthroughHint">Coche les paliers dont tu as dépensé les emblèmes.</div>
+                    <h4 style="margin: 0 0 6px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="lblBreakthroughs">Breakthroughs</h4>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 10px;" data-i18n="breakthroughHint">Tick the breakthroughs whose emblems you've spent.</div>
                     <div id="modal-breakthroughs" class="bt-grid"></div>
                 </div>
 
@@ -138,13 +136,13 @@
 
                 <div data-mtab="skills">
                 <div class="skills-section" style="margin-bottom: 25px;">
-                    <h4 style="margin: 0 0 10px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="lblPassive">Expertise Passive</h4>
+                    <h4 style="margin: 0 0 10px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="lblPassive">Passive Expertise</h4>
                     <div id="modal-passive-display" style="background: rgba(245, 184, 64, 0.05); border: 1px solid rgba(245, 184, 64, 0.3); padding: 15px; border-radius: 8px;">
                         </div>
                 </div>
 
                 <div class="skills-section">
-                    <h4 style="margin: 0 0 15px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="lblActive">Compétences Actives</h4>
+                    <h4 style="margin: 0 0 15px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="lblActive">Active Skills</h4>
                     <div id="modal-skills-list" style="display: flex; flex-direction: column; gap: 15px;">
                         </div>
                 </div>
@@ -153,8 +151,8 @@
             </div>
 
             <div class="modal-actions" style="padding: 15px; text-align: right; border-top: 1px solid var(--border); background: var(--bg-color);">
-                <button onclick="closeMasterModal()" class="btn-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); margin-right: 10px;" data-i18n="btnCancel">Annuler</button>
-                <button onclick="saveMasterSettings()" class="btn-reset" style="background: var(--accent); color: #000; font-weight: bold;" data-i18n="btnSave">Enregistrer</button>
+                <button onclick="closeMasterModal()" class="btn-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); margin-right: 10px;" data-i18n="btnCancel">Cancel</button>
+                <button onclick="saveMasterSettings()" class="btn-reset" style="background: var(--accent); color: #000; font-weight: bold;" data-i18n="btnSave">Save</button>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
@@ -88,13 +88,13 @@
                 <input type="checkbox" id="bonusDouble" onchange="triggerUpdate()">
             </div>
 
-            <div class="group-sep-title" data-i18n="panTitle">Bonus de construction (PAN)</div>
+            <div class="group-sep-title" data-i18n="panTitle">Construction Bonus (PAN)</div>
             <div class="control-row">
                 <label data-i18n="panSource">Source</label>
                 <span id="pan-source-badge" style="font-weight:bold;"></span>
             </div>
             <div class="control-row">
-                <label data-i18n="panReduc">Réduction (heures)</label>
+                <label data-i18n="panReduc">Reduction (hours)</label>
                 <input type="number" id="panReduction" value="0" min="0" max="8" oninput="triggerUpdate()" onchange="triggerUpdate()">
             </div>
         </div>
@@ -110,7 +110,7 @@
                 <input type="number" id="stockTTG" value="15" min="0" oninput="triggerUpdate()" onchange="triggerUpdate()">
             </div>
             <div class="control-row">
-                <label data-i18n="transfoUsed">Used transformation</label>
+                <label data-i18n="transfoUsed">Used transformation (max 100)</label>
                 <input type="number" id="transfoUtilisees" value="0" min="0" max="100" oninput="triggerUpdate()" onchange="triggerUpdate()">
             </div>
         </div>
@@ -120,13 +120,13 @@
             <div class="control-row">
                 <label style="color:var(--accent); font-weight:bold;" data-i18n="modeLabel">Mode</label>
                 <select id="modeSelect" onchange="onModeChange()">
-                    <option value="qty" data-i18n="modeQty">Max bâtiments</option>
+                    <option value="qty" data-i18n="modeQty">Max buildings</option>
                     <option value="kvk" data-i18n="modeKvkOpt">KVK (max points)</option>
-                    <option value="target" data-i18n="modeTarget">Score cible</option>
+                    <option value="target" data-i18n="modeTarget">Target score</option>
                 </select>
             </div>
             <div class="control-row" id="scoreCibleRow" style="display:none;">
-                <label data-i18n="scoreCible">Score cible</label>
+                <label data-i18n="scoreCible">Target score</label>
                 <input type="text" inputmode="numeric" id="scoreCible" value="1 000 000" oninput="triggerUpdate()" onchange="formatScoreInput(this)">
             </div>
             <div class="control-row">
@@ -151,12 +151,12 @@
                 <table id="buildings-table">
                     <thead>
                         <tr>
-                            <th data-i18n="bldgName">Nom Batiment</th>
-                            <th data-i18n="curLvl">Level actuel</th>
-                            <th data-i18n="targetLvl">Objectif de level</th>
-                            <th data-i18n="totalTgTarget">Total TG</th>
-                            <th data-i18n="totalTtgTarget">Total TTG</th>
-                            <th data-i18n="speedupsTarget">Accélérateurs</th>
+                            <th data-i18n="bldgName">Building Name</th>
+                            <th data-i18n="curLvl">Current Level</th>
+                            <th data-i18n="targetLvl">Target Level</th>
+                            <th data-i18n="totalTgTarget">Total TG (Goal)</th>
+                            <th data-i18n="totalTtgTarget">Total TTG (Goal)</th>
+                            <th data-i18n="speedupsTarget">Speedups needed</th>
                         </tr>
                     </thead>
                     <tbody id="buildings-container">
@@ -178,7 +178,7 @@
             <h2 data-i18n="strategyOutput">Strategy Output</h2>
             <div id="output" class="result-box" style="flex:1;"></div>
         </div>
-    </div>
+</div>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

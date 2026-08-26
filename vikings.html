@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
@@ -108,17 +108,17 @@
     <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Kingshot Vikings Calculator</h1>
     <!-- SIDEBAR : Saisies -->
     <aside class="sidebar">
-        <h2 data-i18n="titleParams" style="color: var(--accent); margin-top: 0;">Paramètres</h2>
+        <h2 data-i18n="titleParams" style="color: var(--accent); margin-top: 0;">Parameters</h2>
 
         <!-- Bloc 1 : Troupes -->
         <div class="control-group">
-            <h3 data-i18n="grpTroops" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mes Troupes</h3>
+            <h3 data-i18n="grpTroops" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">My Troops</h3>
             <div class="control-row">
-                <label data-i18n="lblInf">Infanterie 🛡️</label>
+                <label data-i18n="lblInf">Infantry 🛡️</label>
                 <input type="text" id="vk-inf" class="formatted-number" value="0">
             </div>
             <div class="control-row">
-                <label data-i18n="lblCav">Cavalerie 🐎</label>
+                <label data-i18n="lblCav">Cavalry 🐎</label>
                 <input type="text" id="vk-cav" class="formatted-number" value="0">
             </div>
             <div class="control-row">
@@ -129,13 +129,13 @@
 
         <!-- Bloc 2 : Capacité -->
         <div class="control-group">
-            <h3 data-i18n="grpCap" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Capacité</h3>
+            <h3 data-i18n="grpCap" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Capacity</h3>
             <div class="control-row">
-                <label data-i18n="lblMarchCap">Capacité de marche</label>
+                <label data-i18n="lblMarchCap">March capacity</label>
                 <input type="text" id="vk-cap" class="formatted-number" value="0">
             </div>
             <div class="control-row">
-                <label data-i18n="lblAnimal">Bonus animal</label>
+                <label data-i18n="lblAnimal">Pet bonus</label>
                 <input type="text" id="vk-animal" class="formatted-number" value="0">
             </div>
             <div class="link-row">
@@ -143,7 +143,7 @@
                 <button type="button" id="vk-animal-sync" class="link-sync" title="Resynchroniser">↺</button>
             </div>
             <div class="control-row">
-                <label data-i18n="lblPet">Pet activé 🐾</label>
+                <label data-i18n="lblPet">Pet active 🐾</label>
                 <input type="checkbox" id="vk-pet" style="width: 18px; height: 18px; cursor: pointer;">
             </div>
         </div>
@@ -152,28 +152,22 @@
         <div class="control-group">
             <h3 data-i18n="grpMarches" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Marches</h3>
             <div class="control-row">
-                <label data-i18n="lblMarchesNb">Nombre de marches</label>
+                <label data-i18n="lblMarchesNb">Number of marches</label>
                 <input type="text" id="vk-marches" class="formatted-number" value="4">
             </div>
         </div>
 
         <button id="vk-import-bt" data-i18n="btnImportBT"
-            style="width:100%; padding:10px; background:transparent; border:1px dashed var(--accent); color:var(--accent); border-radius:4px; cursor:pointer; font-weight:bold; font-size:13px; margin-top:5px;">
-            ⤵ Importer depuis Bear Trap
-        </button>
+            style="width:100%; padding:10px; background:transparent; border:1px dashed var(--accent); color:var(--accent); border-radius:4px; cursor:pointer; font-weight:bold; font-size:13px; margin-top:5px;">⤵ Import from Bear Trap</button>
 
-        <button id="vk-reset" class="btn-reset" data-i18n="btnReset" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 14px;">
-            Réinitialiser
-        </button>
+        <button id="vk-reset" class="btn-reset" data-i18n="btnReset" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 14px;">Reset</button>
     </aside>
 
     <!-- MAIN CONTENT : Résultats -->
     <main class="main-content flow">
         <div class="panel">
-            <h2 data-i18n="planTitle" style="color: var(--accent); margin-top: 0;">Répartition Vikings</h2>
-            <p data-i18n="planDesc" style="color: var(--text-muted); font-size: 14px;">
-                Renseignez vos troupes et votre capacité à gauche. La répartition se fait par priorité Infanterie → Cavalerie → Archers, dans la limite de votre capacité de marche.
-            </p>
+            <h2 data-i18n="planTitle" style="color: var(--accent); margin-top: 0;">Vikings Distribution</h2>
+            <p data-i18n="planDesc" style="color: var(--text-muted); font-size: 14px;">Enter your troops and capacity on the left. Distribution follows the Infantry → Cavalry → Archers priority, up to your march capacity.</p>
 
             <!-- Synthèse -->
             <div class="vk-summary" id="vk-summary"></div>
@@ -186,9 +180,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th data-i18n="thMarch">Marche</th>
-                            <th data-i18n="thInf" style="text-align:right;">Infanterie</th>
-                            <th data-i18n="thCav" style="text-align:right;">Cavalerie</th>
+                            <th data-i18n="thMarch">March</th>
+                            <th data-i18n="thInf" style="text-align:right;">Infantry</th>
+                            <th data-i18n="thCav" style="text-align:right;">Cavalry</th>
                             <th data-i18n="thArc" style="text-align:right;">Archers</th>
                             <th data-i18n="thTotal" style="text-align:right;">Total</th>
                         </tr>
@@ -200,7 +194,7 @@
             <!-- Garnison (reste en ville) -->
             <div class="vk-garrison" id="vk-garrison"></div>
         </div>
-    </main>
+</main>
 
     <!-- Scripts partagés -->
     <script src="js/site-config.js"></script>

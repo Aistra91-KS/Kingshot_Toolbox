@@ -41,32 +41,32 @@
 </head>
 <body class="has-app-header">
     <div class="db-page db-wide">
-        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="database/waracademy/index.html" data-i18n="crumbWa">Académie de Guerre</a> / <span id="crumb-name">Cavalerie</span></div>
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="database/waracademy/index.html" data-i18n="crumbWa">War Academy</a> / <span id="crumb-name">Cavalerie</span></div>
         <div class="db-head">
           <img class="db-hero" src="img/WarAcademy/tree-cavalry.webp" alt="Cavalry" onerror="this.remove()">
-          <h1 id="tree-name" data-en="Cavalry" data-fr="Cavalerie">Cavalerie</h1>
+          <h1 id="tree-name" data-en="Cavalry" data-fr="Cavalerie">Cavalry</h1>
         </div>
-        <p class="db-intro" data-i18n="waIntro">Coûts complets par palier : poussière d'Or Véritable, ressources, temps de recherche, effet et prérequis. 1 recherche = 1 palier.</p>
-        <nav class="db-switch" aria-label="War Academy research"><a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infanterie</a><a class="db-switch-item" href="database/waracademy/archer.html" data-en="Archer" data-fr="Archers">Archers</a><span class="db-switch-item active" data-en="Cavalry" data-fr="Cavalerie">Cavalerie</span><a class="db-switch-item" href="database/waracademy/advanced.html" data-en="Advanced" data-fr="Avancées">Avancées</a></nav>
+        <p class="db-intro" data-i18n="waIntro">Full per-level costs: TrueGold dust, resources, research time, effect and requirements. 1 research = 1 level.</p>
+        <nav class="db-switch" aria-label="War Academy research"><a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infantry</a><a class="db-switch-item" href="database/waracademy/archer.html" data-en="Archer" data-fr="Archers">Archer</a><span class="db-switch-item active" data-en="Cavalry" data-fr="Cavalerie">Cavalry</span><a class="db-switch-item" href="database/waracademy/advanced.html" data-en="Advanced" data-fr="Avancées">Advanced</a></nav>
         <div class="table-container">
           <table class="db-table">
             <thead><tr>
-              <th data-i18n="cLevel">Palier</th>
-              <th data-i18n="cWA">Bâtiment</th>
-              <th data-i18n="cReq">Prérequis</th>
-              <th data-i18n="cDust">Poussière</th>
-              <th data-i18n="cBread">Pain</th>
-              <th data-i18n="cWood">Bois</th>
-              <th data-i18n="cStone">Pierre</th>
-              <th data-i18n="cIron">Fer</th>
-              <th data-i18n="cCoin">Pièces</th>
-              <th data-i18n="cTime">Temps</th>
-              <th data-i18n="cEffect">Effet</th>
+              <th data-i18n="cLevel">Level</th>
+              <th data-i18n="cWA">Building</th>
+              <th data-i18n="cReq">Requirements</th>
+              <th data-i18n="cDust">Dust</th>
+              <th data-i18n="cBread">Bread</th>
+              <th data-i18n="cWood">Wood</th>
+              <th data-i18n="cStone">Stone</th>
+              <th data-i18n="cIron">Iron</th>
+              <th data-i18n="cCoin">Coins</th>
+              <th data-i18n="cTime">Time</th>
+              <th data-i18n="cEffect">Effect</th>
             </tr></thead>
             <tbody id="wa-rows"></tbody>
           </table>
         </div>
-        <nav class="db-switch footer" aria-label="War Academy research"><a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infanterie</a><a class="db-switch-item" href="database/waracademy/archer.html" data-en="Archer" data-fr="Archers">Archers</a><span class="db-switch-item active" data-en="Cavalry" data-fr="Cavalerie">Cavalerie</span><a class="db-switch-item" href="database/waracademy/advanced.html" data-en="Advanced" data-fr="Avancées">Avancées</a></nav>
+        <nav class="db-switch footer" aria-label="War Academy research"><a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infantry</a><a class="db-switch-item" href="database/waracademy/archer.html" data-en="Archer" data-fr="Archers">Archer</a><span class="db-switch-item active" data-en="Cavalry" data-fr="Cavalerie">Cavalry</span><a class="db-switch-item" href="database/waracademy/advanced.html" data-en="Advanced" data-fr="Avancées">Advanced</a></nav>
     </div>
 
     <script src="js/site-config.js"></script>
@@ -89,7 +89,7 @@
       function timeStr(min,L){ min=+min||0; const d=Math.floor(min/1440), h=Math.floor(min%1440/60), m=min%60; const u=L==='FR'?{d:'j',h:'h',m:'min'}:{d:'d',h:'h',m:'m'}; const o=[]; if(d)o.push(d+u.d); if(h)o.push(h+u.h); if(m)o.push(m+u.m); return o.join(' ')||('0'+u.m); }
       function reqStr(req,nameMap,L){ if(!req||!req.length) return '—'; const lv=L==='FR'?'Niv.':'Lv.'; return req.map(function(x){ const nm=(nameMap[x.r]&&nameMap[x.r][L])||x.r; return nm+' '+lv+' '+x.lvl; }).join(', '); }
       function waStr(n,L){ if(n==null) return '—'; const lv=L==='FR'?'Niv.':'Lv.'; return (L==='FR'?'AG ':'WA ')+lv+' '+n; }
-      function td(cls,en,fr){ const c=cls?(' class="'+cls+'"'):''; return '<td'+c+' data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(fr)+'</td>'; }
+      function td(cls,en,fr){ const c=cls?(' class="'+cls+'"'):''; return '<td'+c+' data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(en)+'</td>'; }
       function tdNum(cls,txt){ return '<td class="num '+(cls||'')+'">'+esc(txt)+'</td>'; }
       function statusRow(txt){ return '<tr><td colspan="11" style="text-align:center;padding:22px;color:var(--text-muted)">'+esc(txt)+'</td></tr>'; }
 
@@ -98,7 +98,7 @@
         let html='';
         tree.researches.forEach(function(r){
           const en=(r.name&&r.name.EN)||r.id, fr=(r.name&&r.name.FR)||r.id;
-          html+='<tr class="wa-group"><td colspan="11" data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(fr)+'</td></tr>';
+          html+='<tr class="wa-group"><td colspan="11" data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(en)+'</td></tr>';
           (r.levels||[]).forEach(function(lv){
             const buff=lv.buff||'';
             html+='<tr>'

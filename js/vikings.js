@@ -38,7 +38,8 @@ const i18nVikings = {
         tipExact: "Saisis le nombre exact, pas le pourcentage.",
         tipWhy: "Le curseur % du jeu va plus vite, mais tombe rarement juste : il arrondit et décale ta composition.",
         tipExample: "Ici, <strong>{pct} %</strong> donnerait <strong>{approx}</strong> {type} au lieu de <strong>{exact}</strong> ({drift}) par marche.",
-        copyTitle: "Copier le nombre exact"
+        copyTitle: "Copier le nombre exact",
+        emptyRow: "Renseignez une capacité et un nombre de marches valides."
     },
     EN: {
         titleParams: "Parameters",
@@ -72,7 +73,8 @@ const i18nVikings = {
         tipExact: "Enter the exact number, not the percentage.",
         tipWhy: "The game's % slider is faster, but rarely lands exactly right: it rounds and shifts your composition.",
         tipExample: "Here, <strong>{pct}%</strong> would give <strong>{approx}</strong> {type} instead of <strong>{exact}</strong> ({drift}) per march.",
-        copyTitle: "Copy the exact number"
+        copyTitle: "Copy the exact number",
+        emptyRow: "Enter a valid capacity and number of marches."
     }
 };
 
@@ -283,7 +285,7 @@ function render() {
 
     if (!r.valid) {
         summaryEl.innerHTML = `<div class="vk-summary-item"><span class="vk-value">—</span></div>`;
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Renseignez une capacité et un nombre de marches valides.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">${tr('emptyRow')}</td></tr>`;
         garrisonEl.innerHTML = '';
         if (tipEl) tipEl.style.display = 'none';
         return;

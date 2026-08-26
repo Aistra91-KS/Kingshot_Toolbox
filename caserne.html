@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
@@ -40,36 +40,34 @@
 <body>
     
     <div class="sidebar">
-        <h1 style="font-size:1.5em;color:var(--accent);margin-top:0;" data-i18n="pageTitle">Ma Caserne</h1>
-        <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;" data-i18n="pageDesc">
-            Cliquez sur un héros pour configurer ses compétences, son niveau et ses étoiles.
-        </p>
+        <h1 style="font-size:1.5em;color:var(--accent);margin-top:0;" data-i18n="pageTitle">My Barracks</h1>
+        <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;" data-i18n="pageDesc">Click on a hero to configure their skills, level, and stars.</p>
 
         <div class="control-group" style="margin-top: 20px;">
-            <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;" data-i18n="filterSort">Tri & Filtres</h3>
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;" data-i18n="filterSort">Sort &amp; Filters</h3>
 
             <div class="filter-group" style="margin-bottom: 15px;">
-                <label data-i18n="searchHero" style="display:block; margin-bottom:6px;">Rechercher</label>
+                <label data-i18n="searchHero" style="display:block; margin-bottom:6px;">Search</label>
                 <input type="text" id="hero-search" class="table-input"
-                    data-i18n-placeholder="searchHeroPh" placeholder="Nom du héros…"
+                    data-i18n-placeholder="Hero name…" placeholder="Hero name…"
                    style="width: 100%;">
             </div>
             
             <div class="control-row" style="margin-bottom: 10px;">
-                <label data-i18n="sortBy">Trier par</label>
+                <label data-i18n="sortBy">Sort by</label>
                 <select id="sort-by" class="table-select" style="width: 100%;">
-                    <option value="rarity-desc" data-i18n="sortRarityDesc">Rareté (Décroissant)</option>
-                    <option value="rarity-asc" data-i18n="sortRarityAsc">Rareté (Croissant)</option>
-                    <option value="gen-desc" data-i18n="sortGenDesc">Génération (Plus récente)</option>
-                    <option value="gen-asc" data-i18n="sortGenAsc">Génération (Plus ancienne)</option>
-                    <option value="name" data-i18n="sortName">Nom (A-Z)</option>
+                    <option value="rarity-desc" data-i18n="sortRarityDesc">Rarity (Descending)</option>
+                    <option value="rarity-asc" data-i18n="sortRarityAsc">Rarity (Ascending)</option>
+                    <option value="gen-desc" data-i18n="sortGenDesc">Generation (Newest first)</option>
+                    <option value="gen-asc" data-i18n="sortGenAsc">Generation (Oldest first)</option>
+                    <option value="name" data-i18n="sortName">Name (A-Z)</option>
                 </select>
             </div>
 
             <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
 
             <div class="control-row" style="margin-bottom: 15px; flex-direction: column; align-items: flex-start;">
-                <label style="margin-bottom: 8px;" data-i18n="filterGen">Générations (Multi-choix)</label>
+                <label style="margin-bottom: 8px;" data-i18n="filterGen">Generations (Multi-choice)</label>
                 <div id="filter-gen-group" style="display: flex; flex-wrap: wrap; gap: 10px;">
                     <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
                         <input type="checkbox" value="1" class="gen-checkbox" checked> Génération 1
@@ -98,19 +96,19 @@
             <div class="control-row" style="margin-bottom: 10px;">
                 <label data-i18n="filterType">Type</label>
                 <select id="filter-type" class="table-select" style="width: 120px;">
-                    <option value="all" data-i18n="typeAll">Tous les types</option>
-                    <option value="Infantry" data-i18n="typeInf">Infanterie 🛡️</option>
-                    <option value="Cavalry" data-i18n="typeCav">Cavalerie 🐎</option>
+                    <option value="all" data-i18n="typeAll">All types</option>
+                    <option value="Infantry" data-i18n="typeInf">Infantry 🛡️</option>
+                    <option value="Cavalry" data-i18n="typeCav">Cavalry 🐎</option>
                     <option value="Archer" data-i18n="typeArc">Archers 🏹</option>
                 </select>
             </div>
 
             <div class="control-row">
-                <label data-i18n="filterRarity">Rareté</label>
+                <label data-i18n="filterRarity">Rarity</label>
                 <select id="filter-rarity" class="table-select" style="width: 120px;">
-                    <option value="all" data-i18n="rarityAll">Toutes</option>
-                    <option value="legendary" data-i18n="rarityLeg">Légendaire 🟡</option>
-                    <option value="epic" data-i18n="rarityEpi">Épique 🟣</option>
+                    <option value="all" data-i18n="rarityAll">All</option>
+                    <option value="legendary" data-i18n="rarityLeg">Legendary 🟡</option>
+                    <option value="epic" data-i18n="rarityEpi">Epic 🟣</option>
                     <option value="rare" data-i18n="rarityRar">Rare 🔵</option>
                 </select>
             </div>
@@ -119,7 +117,7 @@
             <div class="control-row">
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px;">
                     <input type="checkbox" id="filter-unlocked-only" class="table-input">
-                    <span data-i18n="filterUnlocked">Uniquement les débloqués</span>
+                    <span data-i18n="filterUnlocked">Unlocked only</span>
                 </label>
             </div>
         </div>
@@ -127,7 +125,7 @@
 
     <main class="main-content flow" style="padding: 20px;">
         <div id="heroes-grid" class="heroes-grid"></div>
-    </main>
+</main>
 
     <div id="hero-modal" class="modal">
         <div class="modal-content" style="max-width: 450px; padding: 0; overflow: hidden;">
@@ -138,7 +136,7 @@
                 <label class="switch-container">
                     <input type="checkbox" id="modal-unlocked">
                     <span class="switch-slider"></span>
-                    <span style="font-size: 14px; font-weight: bold;" data-i18n="modalUnlocked">Débloqué</span>
+                    <span style="font-size: 14px; font-weight: bold;" data-i18n="modalUnlocked">Unlocked</span>
                 </label>
             </div>
 
@@ -146,7 +144,7 @@
                 
                 <div data-mtab="level" class="progression-section" style="margin-bottom: 25px;">
                     <div class="control-row" style="justify-content: space-between; margin-bottom: 15px;">
-                        <label style="font-weight: bold;" data-i18n="modalLvl">Niveau du Héros</label>
+                        <label style="font-weight: bold;" data-i18n="modalLvl">Hero Level</label>
                         <input type="number" id="modal-level" min="1" max="80" value="1" class="table-input" style="width: 80px; text-align: center;">
                     </div>
                     
@@ -155,13 +153,13 @@
                             </div>
                         <input type="range" id="modal-shards" min="0" max="30" value="0" style="width: 100%; cursor: pointer;">
                         <div style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">
-                            <span data-i18n="modalShards">Fragments d'étoiles :</span> <span id="modal-shards-count" style="color: var(--text-light); font-weight: bold;">0</span>/30
+                            <span data-i18n="modalShards">Star Shards :</span> <span id="modal-shards-count" style="color: var(--text-light); font-weight: bold;">0</span>/30
                         </div>
                     </div>
                 </div>
 
                 <div data-mtab="skills" class="skills-section">
-                    <h4 style="margin: 0 0 15px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="modalSkills">Compétences</h4>
+                    <h4 style="margin: 0 0 15px 0; color: var(--text-muted); text-transform: uppercase; font-size: 13px;" data-i18n="modalSkills">SKILLS</h4>
                     <div id="modal-skills-list" style="display: flex; flex-direction: column; gap: 15px;">
                         </div>
                 </div>
@@ -174,8 +172,8 @@
             </div>
 
             <div class="modal-actions" style="padding: 15px; text-align: right; border-top: 1px solid var(--border); background: var(--bg-color);">
-                <button id="close-modal" class="btn-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); margin-right: 10px;" data-i18n="modalCancel">Annuler</button>
-                <button id="save-modal" class="btn-reset" style="background: var(--accent); color: #000; font-weight: bold;" data-i18n="modalSave">Enregistrer</button>
+                <button id="close-modal" class="btn-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); margin-right: 10px;" data-i18n="modalCancel">Cancel</button>
+                <button id="save-modal" class="btn-reset" style="background: var(--accent); color: #000; font-weight: bold;" data-i18n="modalSave">Save</button>
             </div>
         </div>
     </div>
