@@ -41,53 +41,53 @@
 </head>
 <body class="has-app-header">
     <div class="db-page db-wide">
-        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="database/waracademy/index.html" data-i18n="crumbWa">Académie de Guerre</a> / <span data-i18n="crumbAdv">Recherches avancées</span></div>
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="database/waracademy/index.html" data-i18n="crumbWa">War Academy</a> / <span data-i18n="crumbAdv">Advanced research</span></div>
         <div class="db-head">
           <img class="db-hero" src="img/WarAcademy/tree-advanced.webp" alt="Advanced TrueGold Research" onerror="this.remove()">
-          <h1 data-i18n="advTitle">Recherches avancées d'Or Véritable</h1>
+          <h1 data-i18n="advTitle">Advanced TrueGold Research</h1>
         </div>
-        <p class="db-intro" data-i18n="advIntro">Les 92 recherches avancées de l'Académie de Guerre, niveau par niveau : poussière, Or Véritable trempé, ressources, temps, bonus cumulé et prérequis. Filtre par catégorie ou cherche une recherche par son nom.</p>
+        <p class="db-intro" data-i18n="advIntro">All 92 Advanced War Academy researches, level by level: dust, Tempered TrueGold, resources, time, cumulative bonus and requirements. Filter by category or search a research by name.</p>
 
         <nav class="db-switch" aria-label="War Academy research">
-          <a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infanterie</a>
-          <a class="db-switch-item" href="database/waracademy/archer.html" data-en="Archer" data-fr="Archers">Archers</a>
-          <a class="db-switch-item" href="database/waracademy/cavalry.html" data-en="Cavalry" data-fr="Cavalerie">Cavalerie</a>
-          <span class="db-switch-item active" data-en="Advanced" data-fr="Avancées">Avancées</span>
+          <a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infantry</a>
+          <a class="db-switch-item" href="database/waracademy/archer.html" data-en="Archer" data-fr="Archers">Archer</a>
+          <a class="db-switch-item" href="database/waracademy/cavalry.html" data-en="Cavalry" data-fr="Cavalerie">Cavalry</a>
+          <span class="db-switch-item active" data-en="Advanced" data-fr="Avancées">Advanced</span>
         </nav>
 
         <div class="db-toolbar">
           <div class="db-switch" id="cat-filter" role="group" aria-label="Categories"></div>
-          <input type="search" class="db-search" id="tech-search" data-i18n-placeholder="searchPh" placeholder="Chercher une recherche…" autocomplete="off">
+          <input type="search" class="db-search" id="tech-search" data-i18n-placeholder="Search a research…" placeholder="Search a research…" autocomplete="off">
           <span class="db-count" id="result-count"></span>
         </div>
 
         <div class="table-container">
           <table class="db-table">
             <thead><tr>
-              <th data-i18n="cLevel">Niveau</th>
-              <th data-i18n="cWA">Bâtiment</th>
-              <th data-i18n="cReq">Prérequis</th>
-              <th data-i18n="cTTG">OV trempé</th>
-              <th data-i18n="cDust">Poussière</th>
-              <th data-i18n="cBread">Pain</th>
-              <th data-i18n="cWood">Bois</th>
-              <th data-i18n="cStone">Pierre</th>
-              <th data-i18n="cIron">Fer</th>
-              <th data-i18n="cGold">Or</th>
-              <th data-i18n="cTime">Temps</th>
-              <th data-i18n="cEffect">Bonus cumulé</th>
+              <th data-i18n="cLevel">Level</th>
+              <th data-i18n="cWA">Building</th>
+              <th data-i18n="cReq">Requirements</th>
+              <th data-i18n="cTTG">Tempered TG</th>
+              <th data-i18n="cDust">Dust</th>
+              <th data-i18n="cBread">Bread</th>
+              <th data-i18n="cWood">Wood</th>
+              <th data-i18n="cStone">Stone</th>
+              <th data-i18n="cIron">Iron</th>
+              <th data-i18n="cGold">Gold</th>
+              <th data-i18n="cTime">Time</th>
+              <th data-i18n="cEffect">Total bonus</th>
             </tr></thead>
             <tbody id="wa-rows"></tbody>
           </table>
         </div>
 
-        <p class="db-intro" style="margin-top:14px" data-i18n="advNote">Poussière, Or Véritable trempé et temps sont exacts. Les ressources en vrac (pain, bois, pierre, fer, or) sont arrondies par la source. Les noms français arriveront quand la mise à jour sortira en jeu.</p>
+        <p class="db-intro" style="margin-top:14px" data-i18n="advNote">Dust, Tempered TrueGold and time are exact. Bulk resources (bread, wood, stone, iron, gold) are rounded by the source. French names will follow once the update ships in game.</p>
 
         <nav class="db-switch footer" aria-label="War Academy research">
-          <a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infanterie</a>
-          <a class="db-switch-item" href="database/waracademy/archer.html" data-en="Archer" data-fr="Archers">Archers</a>
-          <a class="db-switch-item" href="database/waracademy/cavalry.html" data-en="Cavalry" data-fr="Cavalerie">Cavalerie</a>
-          <span class="db-switch-item active" data-en="Advanced" data-fr="Avancées">Avancées</span>
+          <a class="db-switch-item" href="database/waracademy/infantry.html" data-en="Infantry" data-fr="Infanterie">Infantry</a>
+          <a class="db-switch-item" href="database/waracademy/archer.html" data-en="Archer" data-fr="Archers">Archer</a>
+          <a class="db-switch-item" href="database/waracademy/cavalry.html" data-en="Cavalry" data-fr="Cavalerie">Cavalry</a>
+          <span class="db-switch-item active" data-en="Advanced" data-fr="Avancées">Advanced</span>
         </nav>
     </div>
 
@@ -137,7 +137,7 @@
       function effStr(v,unit){ if(v==null) return '—'; return '+'+(unit==='percent'? String(v).replace(/\.0$/,'')+'%' : compact(v)); }
       function waStr(n,lang){ return (lang==='FR'?'AG ':'WA ')+'TG'+n; }
       function reqStr(req,nameOf,lang){ if(!req||!req.length) return '—'; const lv=lang==='FR'?'Niv.':'Lv.'; return req.map(function(x){ return (nameOf[x.techId]||x.techId)+' '+lv+' '+x.level; }).join(', '); }
-      function td(cls,en,fr){ return '<td'+(cls?' class="'+cls+'"':'')+' data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(fr)+'</td>'; }
+      function td(cls,en,fr){ return '<td'+(cls?' class="'+cls+'"':'')+' data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(en)+'</td>'; }
       function tdNum(cls,txt){ return '<td class="num'+(cls?' '+cls:'')+'">'+esc(txt)+'</td>'; }
       function statusRow(txt){ return '<tr><td colspan="'+COLS+'" style="text-align:center;padding:22px;color:var(--text-muted)">'+esc(txt)+'</td></tr>'; }
 
@@ -164,8 +164,8 @@
           const eEn=(t.effect&&t.effect.EN)||'', eFr=(t.effect&&t.effect.FR)||eEn;
           const mEn=eEn+' · '+t.maxLevel+' '+dict.EN.maxLv, mFr=eFr+' · '+t.maxLevel+' '+dict.FR.maxLv;
           html+='<tr class="wa-group"><td colspan="'+COLS+'">'
-              +'<span class="wg-name" data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(fr)+'</span>'
-              +'<span class="wg-meta" data-en="'+esc(mEn)+'" data-fr="'+esc(mFr)+'">'+esc(mFr)+'</span>'
+              +'<span class="wg-name" data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(en)+'</span>'
+              +'<span class="wg-meta" data-en="'+esc(mEn)+'" data-fr="'+esc(mFr)+'">'+esc(mEn)+'</span>'
               +'</td></tr>';
           (t.levels||[]).forEach(function(l){
             lv++;
@@ -195,8 +195,7 @@
         const cats=[{id:'all',n:DB.techs.length}].concat(DB.categories.map(function(c){ return {id:c.id,n:c.techCount}; }));
         catBox.innerHTML=cats.map(function(c){
           return '<button type="button" class="db-switch-item'+(c.id===cat?' active':'')+'" data-cat="'+c.id+'"'
-               +' data-en="'+esc(dict.EN[c.id]||c.id)+' ('+c.n+')" data-fr="'+esc(dict.FR[c.id]||c.id)+' ('+c.n+')">'
-               +esc(dict.FR[c.id]||c.id)+' ('+c.n+')</button>';
+               +' data-en="'+esc(dict.EN[c.id]||c.id)+' ('+c.n+')" data-fr="'+esc(dict.FR[c.id]||c.id)+' ('+c.n+')">'+esc(dict.EN[c.id]||c.id)+' ('+c.n+')</button>';
         }).join('');
         catBox.querySelectorAll('button').forEach(function(b){
           b.addEventListener('click', function(){

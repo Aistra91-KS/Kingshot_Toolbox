@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
@@ -105,34 +105,34 @@
     <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Kingshot Bear Trap Calculator</h1>
     <!-- SIDEBAR : Formulaire de saisie -->
     <aside class="sidebar">
-        <h2 data-i18n="titleParams" style="color: var(--accent); margin-top: 0;">Paramètres</h2>
+        <h2 data-i18n="titleParams" style="color: var(--accent); margin-top: 0;">Settings</h2>
         
         <!-- Bloc 1 : Troupes (Ordre modifié : Inf > Cav > Arc) -->
         <div class="control-group">
-            <h3 data-i18n="grpTroops" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mes Troupes (T10/T11...)</h3>
+            <h3 data-i18n="grpTroops" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">My Troops (T10/T11...)</h3>
             <div class="control-row">
-                <label data-i18n="lblInf">Infanterie 🛡️</label>
+                <label data-i18n="lblInf">Infantry 🛡️</label>
                 <input type="text" id="troop-inf" class="formatted-number" value="0">
             </div>
             <div class="control-row">
-                <label data-i18n="lblCav">Cavalerie 🐎</label>
+                <label data-i18n="lblCav">Cavalry 🐎</label>
                 <input type="text" id="troop-cav" class="formatted-number" value="0">
             </div>
             <div class="control-row">
-                <label data-i18n="lblArc">Archers 🏹</label>
+                <label data-i18n="lblArc">Lancers 🏹</label>
                 <input type="text" id="troop-arc" class="formatted-number" value="0">
             </div>
         </div>
 
         <!-- Bloc 2 : Capacité de marche -->
         <div class="control-group">
-            <h3 data-i18n="grpCap" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Ma Capacité</h3>
+            <h3 data-i18n="grpCap" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">My Capacity</h3>
             <div class="control-row">
-                <label data-i18n="lblBase">Capacité de base</label>
+                <label data-i18n="lblBase">Base Capacity i</label>
                 <input type="text" id="cap-base" class="formatted-number" value="120 000">
             </div>
             <div class="control-row">
-                <label data-i18n="lblExp">Bonus Expert</label>
+                <label data-i18n="lblExp">Expert Bonus i</label>
                 <input type="text" id="cap-expert" class="formatted-number" value="0">
             </div>
             <div class="link-row">
@@ -140,7 +140,7 @@
                 <button type="button" id="expert-sync-btn" class="link-sync" title="Resynchroniser">↺</button>
             </div>
             <div class="control-row">
-                <label data-i18n="lblAni">Bonus Animal</label>
+                <label data-i18n="lblAni">Animal Bonus i</label>
                 <input type="text" id="cap-animal" class="formatted-number" value="0">
             </div>
             <div class="link-row">
@@ -148,23 +148,23 @@
                 <button type="button" id="animal-sync-btn" class="link-sync" title="Resynchroniser">↺</button>
             </div>
             <div class="control-row">
-                <label data-i18n="lblMaxM">Nb de marches max</label>
+                <label data-i18n="lblMaxM">Max Marches</label>
                 <input type="text" id="marches-count" class="formatted-number" value="5">
             </div>
         </div>
 
         <!-- Bloc 3 : Statut et Limites -->
         <div class="control-group">
-            <h3 data-i18n="grpOrg" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Organisation</h3>
+            <h3 data-i18n="grpOrg" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Organization</h3>
             <div class="control-row">
-                <label data-i18n="lblRole">Rôle</label>
+                <label data-i18n="lblRole">Role</label>
                 <select id="player-role" class="table-select" style="width: 120px;">
                     <option value="participant">Participant</option>
                     <option value="organizer">Organisateur</option>
                 </select>
             </div>
             <div class="control-row" style="margin-top: 10px;">
-                <label data-i18n="lblGen">Génération du serveur</label>
+                <label data-i18n="lblGen">Server Generation i</label>
                 <select id="server-generation" class="table-select" style="width: 120px;">
                     <option value="1">Génération 1</option>
                     <option value="2">Génération 2</option>
@@ -177,17 +177,15 @@
             </div>
             <div class="control-row">
                 <!-- NOUVEAU : Ajout du placeholder dynamique -->
-                <label data-i18n="lblLimit" title="Limite imposée par l'alliance">Plafond d'envoi</label>
-                <input type="text" id="alliance-limit" class="formatted-number" data-i18n-placeholder="plcLimit" placeholder="Illimité">
+                <label data-i18n="lblLimit" title="Limite imposée par l'alliance">Sending Limit i</label>
+                <input type="text" id="alliance-limit" class="formatted-number" data-i18n-placeholder="Unlimited" placeholder="Unlimited">
             </div>
-            <button type="button" id="btn-joiner-auth" class="btn-add" style="margin-top: 12px;" data-i18n="joinerAuthBtn">
-                🛡️ Héros autorisés
-            </button>
+            <button type="button" id="btn-joiner-auth" class="btn-add" style="margin-top: 12px;" data-i18n="joinerAuthBtn">🛡️ Allowed heroes</button>
         </div>
 
         <!-- Bloc 4 : Optimisation -->
         <div class="control-group">
-            <h3 data-i18n="grpOpt" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Mode d'optimisation</h3>
+            <h3 data-i18n="grpOpt" style="margin: 0 0 10px 0; font-size: 14px; color: var(--text-muted);">Optimization Mode</h3>
             <div class="control-row">
                 <label data-i18n="lblMode">Mode</label>
                 <select id="optim-mode" class="table-select" style="width: 120px;">
@@ -197,59 +195,55 @@
             </div>
             <div id="threshold-inputs">
                 <div class="control-row" style="margin-top: 10px;">
-                    <label data-i18n="lblMinInf">Infanterie min (%)</label>
+                    <label data-i18n="lblMinInf">Min Infantry (%) i</label>
                     <input type="text" id="min-inf-percent" class="formatted-number" value="10">
                 </div>
                 <div class="control-row" style="margin-top: 10px;">
-                    <label data-i18n="lblMinCav">Cavalerie min (%)</label>
+                    <label data-i18n="lblMinCav">Min Cavalry (%) i</label>
                     <input type="text" id="min-cav-percent" class="formatted-number" value="10">
                 </div>
             </div>
         </div>
 
-        <button id="btn-calculate" class="btn-reset" data-i18n="btnCalc" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 14px;">
-            Calculer les marches
-        </button>
+        <button id="btn-calculate" class="btn-reset" data-i18n="btnCalc" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 14px;">Generate remaining marches</button>
     </aside>
 
     <!-- MAIN CONTENT : Affichage des résultats -->
     <main class="main-content flow">
         <div class="panel">
-            <h2 data-i18n="planTitle" style="color: var(--accent); margin-top: 0;">Plan de déploiement</h2>
-            <p data-i18n="planDesc" style="color: var(--text-muted); font-size: 14px;">
-                Remplissez vos paramètres à gauche et cliquez sur Calculer pour générer vos formations de marches optimales.
-            </p>
+            <h2 data-i18n="planTitle" style="color: var(--accent); margin-top: 0;">Deployment Plan</h2>
+            <p data-i18n="planDesc" style="color: var(--text-muted); font-size: 14px;">Prepare your custom marches and let the tool generate the rest automatically.</p>
             <!-- NOUVEAU : Studio de Déploiement -->
             <div id="deployment-studio" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px;">
                 <div class="studio-header">
-                    <h3 data-i18n="studioTitle" style="margin: 0; font-size: 16px; color: var(--accent);">Marches Personnalisées</h3>
+                    <h3 data-i18n="studioTitle" style="margin: 0; font-size: 16px; color: var(--accent);">Custom Marches</h3>
                     <span id="remaining-marches-badge" style="font-size: 12px; color: var(--text-muted); font-weight: bold;">0 / 5 utilisées</span>
                 </div>
                 <div id="custom-marches-list">
                     </div>
-                <button class="btn-add" id="btn-add-custom" data-i18n="btnAddCustom">+ Créer une marche</button>
+                <button class="btn-add" id="btn-add-custom" data-i18n="btnAddCustom">+ New March</button>
             </div>
             
             <div id="result-area" class="table-container" style="margin-top: 20px; display: none;"></div>
         </div>
-    </main>
+</main>
 
     <!-- NOUVEAU : Fenêtre Pop-up Création de Marche -->
     <div class="modal-overlay" id="custom-march-modal">
         <div class="modal-content">
-            <h3 data-i18n="modalTitle" style="margin-top: 0; color: var(--accent);">Nouvelle Marche</h3>
+            <h3 data-i18n="modalTitle" style="margin-top: 0; color: var(--accent);">Custom March</h3>
             
             <div class="control-row" style="margin-bottom: 15px;">
-                <label data-i18n="modalName">Nom</label>
+                <label data-i18n="modalName">March Name</label>
                 <input type="text" id="cm-name" style="background: var(--input-bg); border: 1px solid var(--border); color: var(--text-light); padding: 6px; border-radius: 4px; width: 140px; outline: none;" placeholder="Ex: Rally Zeus">
             </div>
 
             <div class="control-row" style="margin-bottom: 15px; justify-content: flex-start; gap: 15px;">
                 <label style="cursor: pointer; color: var(--text-light);">
-                    <input type="radio" name="cm-input-mode" value="number"> <span data-i18n="optNum">Nombres</span>
+                    <input type="radio" name="cm-input-mode" value="number"> <span data-i18n="optNum">Numbers</span>
                 </label>
                 <label style="cursor: pointer; color: var(--text-light);">
-                    <input type="radio" name="cm-input-mode" value="percent" checked> <span data-i18n="optPerc">Pourcentage (%)</span>
+                    <input type="radio" name="cm-input-mode" value="percent" checked> <span data-i18n="optPerc">Percentage (%)</span>
                 </label>
             </div>
             
@@ -264,21 +258,21 @@
             </div>
 
             <div class="control-row" style="margin-bottom: 10px;">
-                <label data-i18n="lblInf">Infanterie 🛡️</label>
+                <label data-i18n="lblInf">Infantry 🛡️</label>
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span id="cm-inf-conv" style="color: var(--text-muted); font-size: 13px;"></span>
                     <input type="text" id="cm-inf" class="formatted-number" value="0">
                 </div>
             </div>
             <div class="control-row" style="margin-bottom: 10px;">
-                <label data-i18n="lblCav">Cavalerie 🐎</label>
+                <label data-i18n="lblCav">Cavalry 🐎</label>
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span id="cm-cav-conv" style="color: var(--text-muted); font-size: 13px;"></span>
                     <input type="text" id="cm-cav" class="formatted-number" value="0">
                 </div>
             </div>
             <div class="control-row" style="margin-bottom: 20px;">
-                <label data-i18n="lblArc">Archers 🏹</label>
+                <label data-i18n="lblArc">Lancers 🏹</label>
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span id="cm-arc-conv" style="color: var(--text-muted); font-size: 13px;"></span>
                     <input type="text" id="cm-arc" class="formatted-number" value="0">
@@ -287,8 +281,8 @@
 
             <div class="control-group" style="margin-top: 15px; border-top: 1px solid var(--border); padding-top: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <h4 data-i18n="modalHeroes" style="margin: 0; font-size: 13px; color: var(--text-muted); text-transform: uppercase;">Héros de la marche</h4>
-                    <button type="button" id="btn-suggest-heroes" class="btn-edit" data-i18n="btnSuggest" style="font-size: 11px; padding: 3px 8px;">🪄 Suggérer</button>
+                    <h4 data-i18n="modalHeroes" style="margin: 0; font-size: 13px; color: var(--text-muted); text-transform: uppercase;">March Heroes i</h4>
+                    <button type="button" id="btn-suggest-heroes" class="btn-edit" data-i18n="btnSuggest" style="font-size: 11px; padding: 3px 8px;">🪄 Suggest</button>
                 </div>
                 <div class="control-row" style="gap: 10px; margin-bottom: 15px;">
                     <select id="cm-hero-1" class="table-select" style="flex: 1;"><option value="">Capitaine</option></select>
@@ -297,14 +291,14 @@
                 </div>
                 <div class="control-row">
                     <label style="cursor: pointer; color: var(--accent); font-weight: bold; display: flex; align-items: center; gap: 8px;">
-                        <input type="checkbox" id="cm-is-host"> <span data-i18n="modalIsHost">Je suis l'hôte du rally (Organisateur)</span>
+                        <input type="checkbox" id="cm-is-host"> <span data-i18n="modalIsHost">I am hosting the rally (Organizer)</span>
                     </label>
                 </div>
             </div>
             
             <div class="modal-actions">
-                <button class="btn-reset" id="btn-cancel-cm" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); box-shadow: none;" data-i18n="btnCancel">Annuler</button>
-                <button class="btn-reset" id="btn-save-cm" style="background: var(--accent); color: #000;" data-i18n="btnSave">Enregistrer</button>
+                <button class="btn-reset" id="btn-cancel-cm" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); box-shadow: none;" data-i18n="btnCancel">Cancel</button>
+                <button class="btn-reset" id="btn-save-cm" style="background: var(--accent); color: #000;" data-i18n="btnSave">Save</button>
             </div>
         </div>
     </div>
@@ -312,14 +306,12 @@
     <!-- NOUVEAU : Menu d'autorisation des héros joiners -->
     <div class="modal-overlay" id="joiner-auth-modal">
         <div class="modal-content" style="width: 420px; max-height: 85vh; display: flex; flex-direction: column;">
-            <h3 id="joiner-auth-title" data-i18n="joinerAuthTitle" style="margin-top: 0; color: var(--accent);">Héros joiners autorisés</h3>
-            <p id="joiner-auth-desc" data-i18n="joinerAuthDesc" style="font-size: 12px; color: var(--text-muted); margin: 0 0 12px;">
-                Coche les héros que ton alliance autorise comme capitaine de marche. La liste s'adapte à la génération de serveur choisie.
-            </p>
+            <h3 id="joiner-auth-title" data-i18n="joinerAuthTitle" style="margin-top: 0; color: var(--accent);">Allowed joiner heroes</h3>
+            <p id="joiner-auth-desc" data-i18n="joinerAuthDesc" style="font-size: 12px; color: var(--text-muted); margin: 0 0 12px;">Tick the heroes your alliance allows as march CAPTAIN (the only one carrying the rally effect). The list follows the server generation you selected. Heroes ranked C and D are unchecked by default.</p>
             <div id="joiner-auth-list" style="overflow-y: auto; flex: 1; margin: -4px -4px 0; padding: 4px;"></div>
             <div class="modal-actions" style="border-top: 1px solid var(--border); padding-top: 12px;">
-                <button class="btn-reset" id="btn-joiner-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); box-shadow: none;" data-i18n="joinerReset">Recommandés par défaut</button>
-                <button class="btn-reset" id="btn-joiner-close" style="background: var(--accent); color: #000;" data-i18n="btnClose">Fermer</button>
+                <button class="btn-reset" id="btn-joiner-reset" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); box-shadow: none;" data-i18n="joinerReset">Reset to recommended</button>
+                <button class="btn-reset" id="btn-joiner-close" style="background: var(--accent); color: #000;" data-i18n="btnClose">Close</button>
             </div>
         </div>
     </div>
