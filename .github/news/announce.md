@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 2.0
-covers-until: 6fb3ad73acc71724108d870239015b4439c20332
-generated: 2026-08-25
+version: 2.1
+covers-until: 86664619013dbe3e21c0fcec1ce5206c35b42a05
+generated: 2026-08-27
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 🐉 Deux nouvelles boutiques d'événement
-title-en: 🐉 Two new event shops
+title-fr: 💶 Ce que les boutiques coûtent vraiment
+title-en: 💶 What the shops really cost
 -->
 
 <!--
@@ -59,54 +59,62 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 🐉 La Caravane du Dragon et le Stand d'Aventure
+### 💶 Une seconde lecture des boutiques : en argent réel
 
-Les deux boutiques d'événement du moment ont maintenant leur page dans la boîte à outils.
+Jusqu'ici, chaque objet de boutique était comparé à sa valeur en gemmes. C'est utile, mais ça ne dit pas ce qu'un objet coûte **vraiment**.
 
-Le principe ne change pas : chaque objet est mis face à sa valeur en gemmes, pour voir d'un coup d'œil ce qui mérite vraiment ta monnaie.
+Deux pastilles en haut de chaque page boutique font désormais basculer entre les deux lectures :
 
-**Caravane du Dragon** — 20 objets, payés en Essence Draconique, jusqu'au **31 août à 00h UTC**
-👉 https://kingshottoolbox.com/shop/dragons-caravan.html
+**💎 Gemmes** — la lecture habituelle.
+**€ Euros** — ce que l'objet coûte réellement, calculé depuis le pack payant où il apparaît : prix du pack ÷ quantité obtenue.
 
-**Stand d'Aventure** — 21 objets, payés en Pièces d'Aventure, jusqu'au **30 août à 00h UTC**
-👉 https://kingshottoolbox.com/shop/adventure-stall.html
+Les deux lectures sont **indépendantes**. Aucun taux de change n'est calculé entre gemmes et euros : ce sont deux façons de regarder la même boutique, jamais mises en rapport. Les prix s'affichent en euros ou en dollars, au choix, et ta préférence te suit d'une boutique à l'autre.
 
-Sur chaque page :
+Tous les objets ne peuvent pas être chiffrés. Ceux qu'aucun pack ne vend affichent « — » et **sortent du classement** — ils ne sont pas comptés à zéro, ce qui les ferait passer pour la pire affaire de la boutique. Ils restent achetables, ils ne créditent simplement aucune valeur, et la tuile de bilan annonce combien de tes objets ont un prix connu.
 
-**Les 3 meilleures affaires** sont mises en avant tout en haut, avant même le tableau.
-
-**Un panier** : tu entres ta monnaie, tu coches les lots que tu comptes prendre, et le restant se recalcule ligne par ligne. Pas de remplissage automatique — c'est toi qui choisis.
-
-**Le stock restant** est suivi jusqu'à la fin de l'événement. Pour les trois offres du Stand d'Aventure qui se rechargent chaque jour à 00h UTC (Or Véritable, fragments mythiques, marteaux de forge), la colonne compte toutes les recharges qu'il te reste, pas seulement celle du jour.
-
-**Un crayon** pour ajuster quantités, coûts et stock si ta boutique en jeu ne colle pas tout à fait. Tes corrections restent sur ton appareil.
-
-Toutes les boutiques du jeu sont regroupées ici :
 👉 https://kingshottoolbox.com/shop_calc.html
+
+### 📋 Prix réel des objets
+
+Une nouvelle page liste le prix en argent réel de chaque objet qu'un pack permet de chiffrer, avec **le pack d'où vient le chiffre**. Un prix te paraît faux ? Tu peux remonter à sa source.
+
+👉 https://kingshottoolbox.com/shop/items-euro.html
+
+### 🐉 Nouvelle boutique : le Magasin de Pronostique du Tyran
+
+Neuf objets, payés en Marques Draconiques, jusqu'au **2 septembre à 00h UTC**. Six des neuf sont exactement au même tarif : les deux exceptions sont donc là où tes marques rapportent vraiment le plus.
+
+👉 https://kingshottoolbox.com/shop/flamedragon-tyrant-prediction.html
+
+Au passage : le podium des meilleures affaires n'affiche plus deux fois le même objet quand une boutique le propose sur plusieurs lignes, et le bonus du planificateur de Recherches se saisit maintenant en pourcentage, comme sur les autres planificateurs.
 
 ## EN
 
-### 🐉 Dragon's Caravan and Adventure Stall
+### 💶 A second way to read the shops: real money
 
-The two event shops running right now have their own page in the toolbox.
+Until now, every shop item was compared to its value in gems. That helps, but it does not tell you what an item **really** costs.
 
-Same idea as always: every item is set against its value in gems, so you can see at a glance what actually deserves your currency.
+Two pills at the top of every shop page now switch between the two readings:
 
-**Dragon's Caravan** — 20 items, paid in Dragon Essence, until **31 August, 00:00 UTC**
-👉 https://kingshottoolbox.com/shop/dragons-caravan.html
+**💎 Gems** — the usual reading.
+**€ Euros** — what the item really costs, worked out from the paid pack it appears in: the pack's price divided by how many you get.
 
-**Adventure Stall** — 21 items, paid in Adventure Coins, until **30 August, 00:00 UTC**
-👉 https://kingshottoolbox.com/shop/adventure-stall.html
+The two readings are **independent**. No exchange rate is ever worked out between gems and euros: they are two ways of looking at the same shop, never set against each other. Prices show in euros or dollars, as you prefer, and your choice follows you from shop to shop.
 
-On each page:
+Not every item can be priced. The ones no pack sells show a dash and are **left out of the ranking** — never counted as zero, which would wrongly make them look like the worst deal in the shop. They can still be bought; they simply add no value, and the summary tile tells you how many of your items have a known price.
 
-**The three best deals** are called out at the top, before the table even starts.
-
-**A cart**: enter your currency, tick the lots you plan to buy, and the balance updates line by line. No auto-fill — you do the picking.
-
-**Remaining stock** is tracked to the end of the event. For the three Adventure Stall offers that refill every day at 00:00 UTC (TrueGold, Mythic hero shards, Forgehammers), the column counts every refill you have left, not just today's.
-
-**A pencil button** to adjust quantities, costs and stock if your in-game shop doesn't quite match. Your corrections stay on your device.
-
-Every shop in the game is gathered here:
 👉 https://kingshottoolbox.com/shop_calc.html
+
+### 📋 Real-money item values
+
+A new page lists the real-money price of every item a pack can put a price on, along with **the pack each figure comes from**. A price looks wrong? You can trace it back to its source.
+
+👉 https://kingshottoolbox.com/shop/items-euro.html
+
+### 🐉 New shop: the Flamedragon Tyrant Prediction Shop
+
+Nine items, paid in Dragonclaw Marks, until **2 September, 00:00 UTC**. Six of the nine are priced at exactly the same rate, so the two that are not are where your marks actually go furthest.
+
+👉 https://kingshottoolbox.com/shop/flamedragon-tyrant-prediction.html
+
+Also in this update: the best-deals podium no longer shows the same item twice when a shop lists it on several lines, and the Research planner's bonus is now typed as a percentage, like the other planners.
