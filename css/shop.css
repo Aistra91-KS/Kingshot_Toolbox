@@ -395,3 +395,58 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
   .sx-table td.c-ratio b { margin-right: 0; }
   .sx-table th, .sx-table td { padding-left: 8px; padding-right: 8px; }
 }
+
+/* ============================================================
+   VALORISATION EN EUROS — seconde lecture des boutiques
+   Les deux lectures ne coexistent jamais à l'écran : la bascule SUBSTITUE
+   les colonnes (Valeur gemmes -> Valeur €, Ratio -> Ratio), elle n'en ajoute
+   aucune. Le tableau garde donc sa largeur et son comportement mobile.
+   ============================================================ */
+
+/* Bascule de lecture et sélecteur de devise : mêmes pastilles que la navigation
+   entre boutiques (.db-switch-item), pour ne pas inventer un second vocabulaire. */
+.sx-actions .db-switch { margin: 0; }
+.sx-actions .sx-cur .db-switch-item { min-width: 34px; text-align: center; }
+/* Le sélecteur de devise est un contrôle DISTINCT des onglets de lecture : sans filet,
+   les quatre pastilles se lisent comme un seul groupe de quatre choix. */
+.sx-actions .sx-cur { padding-left: 12px; border-left: 1px solid var(--border); }
+/* La note de provenance prend sa propre ligne : c'est une mention, pas un contrôle. */
+.sx-eurnote { flex: 1 1 100%; }
+
+/* Valeur en euros : l'or de la charte, distinct du turquoise des gemmes —
+   les deux lectures ne doivent jamais se confondre d'un coup d'oeil. */
+.sx-table td.eur { color: var(--accent); font-weight: 600; }
+.sx-kpi.eurtile .sx-kpi-val { color: var(--accent); font-size: 19px; }
+.sx-cartbar-item.eur b { color: var(--accent); }
+
+/* Un ratio en euros descend jusqu'à 6 décimales (Arène, Magasin des Marées) :
+   la colonne doit tenir le chiffre entier sans rejeter la barre à la ligne. */
+.sx-table.is-eur td.c-ratio { min-width: 148px; }
+@media (max-width: 820px) { .sx-table.is-eur td.c-ratio { min-width: 116px; } }
+/* Sous 560 px la barre est masquée : il ne reste que le chiffre, qui doit rester entier. */
+@media (max-width: 560px) { .sx-table.is-eur td.c-ratio { min-width: 74px; } }
+
+/* ---------- Prix réel des objets (shop/items-euro.html) ----------
+   Cette page utilise .db-table (comme le référentiel gemmes) et n'hérite donc d'aucun
+   style .sx-table : la couleur de la valeur est à redonner ici. */
+table.db-table td.eur {
+  color: var(--accent); font-weight: 600;
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+table.db-table td .dash { color: var(--text-muted); opacity: .55; font-style: italic; }
+/* Pastilles de devise dans la barre d'outils, au même niveau que la recherche et le filtre. */
+.shop-toolbar .db-switch { margin: 0; }
+.shop-toolbar .db-switch-item { min-width: 34px; text-align: center; }
+/* Point d'accroche prévu pour l'aperçu d'image du pack au survol (non implémenté) :
+   le libellé ne changera pas, seul le comportement viendra s'y greffer. */
+.ie-pack { color: var(--text-light); }
+/* Carte d'accès au prix réel : l'or de la valorisation €, face au turquoise du référentiel gemmes. */
+.sx-card.sx-ref-eur { border-top-color: var(--accent); }
+.sx-card.sx-ref-eur .sx-thumb {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, transparent), var(--bg-panel));
+  border-right-color: var(--border);
+}
+.sx-card.sx-ref-eur .sx-ref-glyph { color: var(--accent); }
+/* « Multipack » n'est pas un nom de pack mais un état : plusieurs packs à égalité,
+   donc aucune image à montrer. On le distingue visuellement des vrais noms. */
+.ie-pack.is-multi { color: var(--text-muted); font-style: italic; }

@@ -6,6 +6,63 @@
   },
   "releases": [
     {
+      "version": "2.1",
+      "date": "2026-08-27",
+      "title": {
+        "EN": "What the shops really cost, in euros",
+        "FR": "Ce que les boutiques coûtent vraiment, en euros"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "Every shop page now offers a second reading. Two pills at the top switch between the usual gem value and what the items really cost in real money, worked out from the paid packs they appear in. The two readings never mix: nothing is converted from one to the other, and no gem-to-euro rate is ever worked out. Prices show in euros or dollars, as you prefer.",
+            "FR": "Chaque page boutique propose désormais une seconde lecture. Deux pastilles en haut basculent entre la valeur en gemmes habituelle et ce que les objets coûtent vraiment en argent réel, calculé depuis les packs payants où ils apparaissent. Les deux lectures ne se mélangent jamais : rien n'est converti de l'une à l'autre, et aucun taux de change gemme/euro n'est calculé. Les prix s'affichent en euros ou en dollars, au choix."
+          },
+          "href": "shop_calc.html"
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "A new page lists the real-money price of every item that a paid pack can put a price on, along with the pack each price comes from - so any figure that looks wrong can be traced back to its source.",
+            "FR": "Une nouvelle page liste le prix en argent réel de chaque objet qu'un pack payant permet de chiffrer, avec le pack d'où vient chaque prix — pour qu'un chiffre qui paraît faux puisse être remonté à sa source."
+          },
+          "href": "shop/items-euro.html",
+          "linkLabel": {
+            "EN": "Real-money item values",
+            "FR": "Prix réel des objets"
+          }
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "The Flamedragon Tyrant Prediction Shop joined the Shops section, with its nine items, their Dragonclaw Mark price and their stock. Six of the nine are priced at exactly the same rate, so the two that are not are where the marks actually go furthest.",
+            "FR": "Le Magasin de Pronostique du Tyran rejoint la section Boutiques, avec ses neuf objets, leur prix en Marques Draconiques et leur stock. Six des neuf sont au même tarif : les deux exceptions sont donc là où les marques rapportent vraiment le plus."
+          },
+          "href": "shop/flamedragon-tyrant-prediction.html",
+          "linkLabel": {
+            "EN": "Open the shop",
+            "FR": "Ouvrir la boutique"
+          }
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "The best-deals podium no longer shows the same item twice when a shop lists it on several lines.",
+            "FR": "Le podium des meilleures affaires n'affiche plus deux fois le même objet quand une boutique le propose sur plusieurs lignes."
+          }
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "On the Research planner, the bonus is now typed as a percentage, like the other planners.",
+            "FR": "Sur le planificateur de Recherches, le bonus se saisit désormais en pourcentage, comme sur les autres planificateurs."
+          },
+          "href": "research_calc.html"
+        }
+      ]
+    },
+    {
       "version": "2.0",
       "date": "2026-08-23",
       "title": {
