@@ -11,8 +11,101 @@
 
 function ieEl(id){ return document.getElementById(id); }
 
-// Objets réellement chiffrés, dans l'ORDRE DU RÉFÉRENTIEL — même logique que la page gemmes,
-// pour que les deux tableaux se parcourent de la même façon.
+// Petite icône « image » accolée au nom : sans elle, rien n'indique qu'un aperçu existe.
+const IE_ICON_IMG = '<svg class="ic-img" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>';
+
+// ---------- aperçu du pack ----------
+// Survol MAINTENU (et non instantané) : le curseur traverse la colonne en permanence,
+// une bulle qui s'ouvre au moindre passage serait insupportable. Le clavier et le
+// toucher ouvrent immédiatement, eux — s'en remettre au seul survol exclurait le mobile.
+const IE_PV_DELAY = 320;
+let iePvBox=null, iePvTimer=null, iePvPack=null, iePvOpen=null, iePvPin=null;
+
+function iePvNode(){
+  if(iePvBox) return iePvBox;
+  iePvBox=document.createElement('div');
+  iePvBox.className='ie-preview';
+  iePvBox.setAttribute('role','tooltip');
+  iePvBox.hidden=true;
+  document.body.appendChild(iePvBox);
+  return iePvBox;
+}
+
+// Placement : sous le déclencheur, basculé au-dessus s'il déborde, et toujours ramené
+// dans la fenêtre. En `fixed`, l'aperçu échappe au conteneur qui défile horizontalement.
+function iePvPlace(btn){
+  const el=iePvNode(), r=btn.getBoundingClientRect(), M=10;
+  const w=el.offsetWidth, h=el.offsetHeight;
+  let left=Math.min(r.left, window.innerWidth-w-M);
+  let top =r.bottom+8;
+  if(top+h > window.innerHeight-M) top=r.top-h-8;
+  el.style.left=Math.max(M,left)+'px';
+  el.style.top =Math.max(M,top)+'px';
+}
+
+function iePvShow(btn){
+  const pid=btn.getAttribute('data-pack'); if(!pid) return;
+  const el=iePvNode();
+  if(iePvPack!==pid){
+    iePvPack=pid;
+    const nom=scPackName(pid);
+    el.classList.remove('is-broken');
+    el.innerHTML=`<img alt="${scEscAttr(nom)}" src="img/packs/${encodeURIComponent(pid)}.webp">`
+                +`<span class="ie-preview-cap">${scEscAttr(nom)}</span>`;
+    // L'image arrive apres coup : sa hauteur change, donc on replace une fois chargee.
+    const img=el.querySelector('img');
+    img.addEventListener('load', ()=>{ if(iePvOpen===btn) iePvPlace(btn); }, {once:true});
+    img.addEventListener('error', ()=>{ el.classList.add('is-broken'); if(iePvOpen===btn) iePvPlace(btn); }, {once:true});
+  }
+  el.hidden=false; iePvOpen=btn;
+  iePvPlace(btn);
+  requestAnimationFrame(()=>el.classList.add('on'));
+}
+function iePvHide(){
+  clearTimeout(iePvTimer); iePvOpen=null;
+  if(iePvBox){ iePvBox.classList.remove('on'); iePvBox.hidden=true; }
+}
+function iePvClose(){ iePvPin=null; iePvHide(); }
+
+// Survol MAINTENU, et non instantane : le curseur traverse la colonne en permanence,
+// une bulle qui s'ouvrirait au moindre passage serait insupportable.
+function iePvArm(btn){
+  if(iePvPin) return;                       // epingle au clic : le survol ne decide plus
+  clearTimeout(iePvTimer);
+  iePvTimer=setTimeout(()=>{ if(!iePvPin) iePvShow(btn); }, IE_PV_DELAY);
+}
+
+// Branche UNE fois sur le <tbody>, qui survit aux re-rendus (seul son innerHTML change).
+//
+// Deux modes volontairement distincts, parce qu'ils se marchaient dessus :
+//  - SURVOL / focus clavier : ouverture passive, qui se referme d'elle-meme ;
+//  - CLIC (donc le toucher, qui n'a pas de survol) : EPINGLE l'apercu.
+// Le clic ne peut pas se contenter d'inverser l'etat visible : la souris focalise aussi
+// le bouton, et ce focus ouvrait deja l'apercu avant que le clic ne soit traite — la
+// bascule lisait alors un etat qu'un autre gestionnaire venait de changer. D'ou
+// `iePvPin`, qui porte l'INTENTION de l'utilisateur plutot que l'etat de l'affichage.
+function iePvBind(tb){
+  const hit=e=>e.target.closest && e.target.closest('button.ie-pack');
+  tb.addEventListener('mouseover', e=>{ const b=hit(e); if(b) iePvArm(b); });
+  tb.addEventListener('mouseout',  e=>{ if(hit(e) && !iePvPin) iePvHide(); });
+  // `:focus-visible` : le focus pris a la souris ne compte pas, seul celui du clavier ouvre.
+  tb.addEventListener('focusin',   e=>{ const b=hit(e); if(b && b.matches(':focus-visible')) iePvShow(b); });
+  tb.addEventListener('focusout',  e=>{ if(hit(e) && !iePvPin) iePvHide(); });
+  tb.addEventListener('click', e=>{
+    const b=hit(e); if(!b) return;
+    e.preventDefault();
+    if(iePvPin===b) iePvClose(); else { iePvPin=b; iePvShow(b); }
+  });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') iePvClose(); });
+  // Un clic ailleurs referme un apercu epingle — le reflexe attendu sur mobile.
+  document.addEventListener('click', e=>{ if(iePvPin && !hit(e)) iePvClose(); });
+  // L'apercu est en `fixed` : il ne suit pas la page, donc on le referme au defilement.
+  window.addEventListener('scroll', iePvClose, true);
+  window.addEventListener('resize', iePvClose);
+}
+
+// Objets reellement chiffres, dans l'ORDRE DU REFERENTIEL — meme logique que la page
+// gemmes, pour que les deux tableaux se parcourent de la meme facon.
 function ieAll(){ return SC_ITEMS.filter(it => !it.skin && SC_EURO[it.id]); }
 
 function ieRenderCatFilter(){
@@ -70,8 +163,13 @@ function ieRender(){
     // `data-pack` porte l'ID DU PACK (pas son libellé) : c'est le point d'accroche prévu pour
     // l'aperçu d'image au survol, qui ira chercher img/packs/<id>.webp. Il n'est posé que
     // lorsqu'un seul pack atteint le maximum — un « multipack » n'a pas d'image à montrer.
+    // Un pack unique a une image : le nom devient un bouton qui l'ouvre en aperçu.
+    // L'icône signale qu'il y a quelque chose à voir — un nom seul ne s'annonce pas.
+    // Un « multipack » n'a rien à montrer : il reste du texte inerte.
     const packCell = src
-      ? `<span class="ie-pack${pimg?'':' is-multi'}"${pimg?` data-pack="${scEscAttr(pimg)}"`:''}>${scEscAttr(src)}</span>`
+      ? (pimg
+          ? `<button type="button" class="ie-pack" data-pack="${scEscAttr(pimg)}" aria-label="${scEscAttr(src)} — ${scEscAttr(scT('seePack'))}">${scEscAttr(src)}${IE_ICON_IMG}</button>`
+          : `<span class="ie-pack is-multi">${scEscAttr(src)}</span>`)
       : `<span class="dash">${scT('noPack')}</span>`;
     return `<tr style="border-left:4px solid ${color};background:${color}14;">
       <td style="width:46px;"><div class="sc-item-img" style="background-image:url('img/Item/${img}.webp');background-color:${color}33;"></div></td>
@@ -98,6 +196,7 @@ function ieRender(){
   scApplyTranslations();
   ieRenderCatFilter(); ieRender();
 
+  const tb=ieEl('ie-tbody');     if(tb) iePvBind(tb);
   const s=ieEl('ie-search');     if(s) s.addEventListener('input', ieRender);
   const c=ieEl('ie-cat-filter'); if(c) c.addEventListener('change', ieRender);
 
