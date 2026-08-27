@@ -66,11 +66,57 @@ function spRenderSwitch(){
   }).join('');
 }
 
-// ---------- barre d'action : monnaie + crayon + panier ----------
+// ---------- bascule de lecture : gemmes / euros ----------
+// Deux lectures INDÉPENDANTES de la même boutique : aucune conversion de l'une vers l'autre,
+// aucun taux de change. Les pastilles reprennent .db-switch-item, le vocabulaire de bascule
+// déjà utilisé par la navigation entre boutiques et les filtres de la base de données.
+function spViewTabsHtml(){
+  const eur=scIsEur();
+  let h=`<span class="db-switch sx-views" role="tablist" aria-label="${scEscAttr(scT('viewLabel'))}">
+      <button type="button" class="db-switch-item${eur?'':' active'}" role="tab" aria-selected="${eur?'false':'true'}" onclick="spSetView('gem')">&#128142; ${scT('viewGem')}</button>
+      <button type="button" class="db-switch-item${eur?' active':''}" role="tab" aria-selected="${eur?'true':'false'}" onclick="spSetView('eur')">&euro; ${scT('viewEur')}</button>
+    </span>`;
+  // Le sélecteur de devise n'a de sens que dans la lecture € : on ne l'affiche pas ailleurs.
+  if(eur){
+    const usd=scCur()==='USD';
+    h+=`<span class="db-switch sx-cur" role="group" aria-label="${scEscAttr(scT('curLabel'))}">
+      <button type="button" class="db-switch-item${usd?'':' active'}" onclick="spSetCur('EUR')">&euro;</button>
+      <button type="button" class="db-switch-item${usd?' active':''}" onclick="spSetCur('USD')">$</button>
+    </span>`;
+    h+=`<span class="sx-edit-hint sx-eurnote">${scTc('eurNote')}</span>`;
+  }
+  return h;
+}
+
+// Pack d'où la valeur est tirée, en info-bulle : c'est ce qui permet d'auditer une valeur
+// qui paraît fausse. Absent sur les quelques objets dont le relevé ne nomme pas sa source.
+function spSrcAttr(itemId){
+  const src=scEurSrc(itemId);
+  return src ? ` title="${scEscAttr(src)}"` : '';
+}
+
+// Couverture € : un total partiel ne doit pas se lire comme un total complet.
+function spCoverTxt(n,t){
+  return (n>=t ? scT('coveredAll') : scT('covered')).replace('{n}',n).replace('{t}',t);
+}
+
+// Changer de lecture emmène le tri avec soi : « meilleures affaires en tête » doit rester
+// vrai après la bascule, sinon le tableau reste trié sur une colonne qui a disparu.
+const SP_TWIN = { gem:'eur', eur:'gem', ratio:'ratioEur', ratioEur:'ratio', takeGem:'takeEur', takeEur:'takeGem' };
+function spSetView(v){
+  if(scView()===v) return;
+  scSetView(v);
+  const c=SP_SORT.cur && SP_SORT.cur.col;
+  if(c && SP_TWIN[c]) SP_SORT.cur.col = SP_TWIN[c];
+  spRenderAll();
+}
+function spSetCur(c){ if(scCur()===c) return; scSetCur(c); spRenderAll(); }
+
+// ---------- barre d'action : lecture + monnaie + crayon + panier ----------
 function spRenderActions(){
   const host=spEl('sp-actions'); if(!host) return;
   const lang=scLang(), shop=spShop();
-  let html='';
+  let html=spViewTabsHtml();
   if(spIsEvent()){
     html+=`<label class="sx-fact sx-cur-field">${scEscAttr(scResName(shop,lang))} :
       <input type="number" min="0" inputmode="numeric" value="${Math.max(0,Number(shop.resources)||0)}" onchange="spEditResources(this.value)"></label>`;
@@ -115,19 +161,36 @@ function spRenderCart(){
         <span class="sx-kpi-val">${spNum(Math.abs(cart.left))}</span>
         <span class="sx-kpi-sub">${cart.over?scT('overWarn'):scEscAttr(res)}</span>
       </div>
+      ${scIsEur() ? `
+      <div class="sx-kpi eurtile">
+        <span class="sx-kpi-lbl">${scT('kpiValueEur')}</span>
+        <span class="sx-kpi-val">${scFmtEur(cart.eur)}</span>
+        <span class="sx-kpi-sub">${cart.lines>0 ? spCoverTxt(cart.takeCovered, cart.takeTotal)
+                                                 : spCoverTxt(cart.eurCovered, cart.eurTotal)}</span>
+      </div>` : `
       <div class="sx-kpi gemtile">
         <span class="sx-kpi-lbl">${scT('kpiValue')}</span>
         <span class="sx-kpi-val">💎 ${spNum(cart.gems)}</span>
         <span class="sx-kpi-sub">${cart.spent>0?`${(cart.gems/cart.spent).toFixed(2)} 💎 / ${scEscAttr(scResShort(shop,lang))}`:'—'}</span>
-      </div>
+      </div>`}
     </div>`;
 }
 
 // ---------- podium des meilleures affaires ----------
 function spRenderPodium(){
   const host=spEl('sp-podium'); if(!host) return;
-  const rows = spIsChest() ? scComputeChest(spShop()).rows : scComputeRows(spShop()).all.slice().sort((a,b)=>b.ratio-a.ratio);
-  const top = rows.filter(r=> spIsChest() ? r.gem>0 : r.ratio>0).slice(0,3);
+  const eur=scIsEur(), chest=spIsChest();
+  // Les lignes d'un coffre sortent déjà triées selon la lecture active.
+  let rows = chest ? scComputeChest(spShop()).rows
+                   : scComputeRows(spShop()).all.slice()
+                       .sort((a,b)=> eur ? ((b.ratioEur||0)-(a.ratioEur||0)) : (b.ratio-a.ratio));
+  // Une boutique répète le même objet sur plusieurs lignes (3 × « Accélérateur Général 1h »
+  // au Stand d'Aventure, 2 × « Marteau de Forge ») : sans dédoublonnage, le top 3 montrerait
+  // deux fois le même objet. Ici SEULEMENT — le tableau doit garder toutes ses lignes.
+  const seen={};
+  rows = rows.filter(r=>{ const k=r.itemId||r.nameTxt; if(seen[k]) return false; seen[k]=1; return true; });
+  const top = rows.filter(r=> chest ? (eur ? r.eur!=null : r.gem>0)
+                                    : (eur ? (r.ratioEur!=null && r.ratioEur>0) : r.ratio>0)).slice(0,3);
   if(!top.length){ host.innerHTML=''; return; }
   host.innerHTML=top.map((r,i)=>`
     <div class="sx-pod" style="--cat:${scCatColor(r.cat)};">
@@ -135,9 +198,10 @@ function spRenderPodium(){
       <span class="sx-pod-img" style="background-image:url('img/Item/${r.img}.webp');"></span>
       <span class="sx-pod-txt">
         <span class="sx-pod-name">${scEscAttr(r.nameTxt)}</span>
-        <span class="sx-pod-val">${ spIsChest()
-          ? `💎 <b>${r.gem.toLocaleString()}</b>`
-          : `<b>×${r.ratio.toFixed(2)}</b> · 💎 ${r.gem.toLocaleString()}` }</span>
+        <span class="sx-pod-val">${ chest
+          ? (eur ? `<b>${scFmtEur(r.eur)}</b>` : `💎 <b>${r.gem.toLocaleString()}</b>`)
+          : (eur ? `<b>${scFmtRatio(r.ratioEur)}</b> · ${scFmtEur(r.eur)}`
+                 : `<b>×${r.ratio.toFixed(2)}</b> · 💎 ${r.gem.toLocaleString()}`) }</span>
       </span>
     </div>`).join('');
 }
@@ -182,23 +246,31 @@ function spRenderTable(){
 
   // ---- coffre : pas de coût, on compare les lots entre eux ----
   if(spIsChest()){
-    const { rows, best } = scComputeChest(shop);
+    const { rows, best, bestEur } = scComputeChest(shop);
+    const eurV=scIsEur();
     host.innerHTML=`<div class="table-container"><table class="db-table sx-table"><thead><tr>
         <th class="c-img"></th><th>${scT('hItem')}</th>
-        <th class="ctr">${scT('hQty')}</th><th class="rgt">${scT('hGem')}</th><th>${scT('hShare')}</th>
+        <th class="ctr">${scT('hQty')}</th><th class="rgt">${eurV?scTc('hEur')+scTip('tipEur'):scT('hGem')+scTip('tipGem')}</th><th>${scT('hShare')}</th>
       </tr></thead><tbody>${rows.map(r=>`
-        <tr class="${r.isTop?'is-top':''}" style="--cat:${scCatColor(r.cat)};">
+        <tr class="${(eurV?r.isTopEur:r.isTop)?'is-top':''}" style="--cat:${scCatColor(r.cat)};">
           <td class="c-img"><span class="sx-ico" style="background-image:url('img/Item/${r.img}.webp');"></span></td>
-          <td class="c-name">${scEscAttr(r.nameTxt)}${r.isTop?`<span class="sx-tag">${scT('bestPick')}</span>`:''}</td>
+          <td class="c-name">${scEscAttr(r.nameTxt)}${(eurV?r.isTopEur:r.isTop)?`<span class="sx-tag">${scT('bestPick')}</span>`:''}</td>
           <td class="ctr">${spNum(r.qty)}</td>
-          <td class="rgt gem">${spNum(r.gem)}</td>
-          <td class="c-bar"><span class="sx-bar"><span style="width:${best>0?(r.gem/best*100):0}%"></span></span></td>
+          ${eurV
+            ? (r.eur!=null ? `<td class="rgt eur"${spSrcAttr(r.itemId)}>${scFmtEur(r.eur)}</td>`
+                           : `<td class="rgt dash" title="${scEscAttr(scTc('noEur'))}">—</td>`)
+            : `<td class="rgt gem">${spNum(r.gem)}</td>`}
+          <td class="c-bar">${(eurV ? (r.eur!=null&&bestEur>0) : best>0)
+            ? `<span class="sx-bar"><span style="width:${eurV?(r.eur/bestEur*100):(r.gem/best*100)}%"></span></span>`
+            : '<span class="dash">—</span>'}</td>
         </tr>`).join('')}</tbody></table></div>`;
     spRestoreTable(host, snap);
     return;
   }
 
-  const { rows, maxRatio, cart, resets } = scComputeRows(shop, { sort: SP_SORT.cur });
+  const { rows, maxRatio, maxRatioEur, cart, resets } = scComputeRows(shop, { sort: SP_SORT.cur });
+  const eurV = scIsEur();          // lecture active : gemmes ou euros, jamais les deux
+  const rMax = eurV ? maxRatioEur : maxRatio;
   const edit = SP_EDIT;
   const shopping = spIsEvent() && !edit;   // colonnes du panier
   const stock    = spIsEvent();            // colonnes de stock (dispo / restant)
@@ -208,15 +280,18 @@ function spRenderTable(){
       ${spTh('name',scT('hItem'),'','srt')}
       ${spTh('qty',scT('hQty'),'ctr','srt')}
       ${spTh('cost',scT('hCost'),'rgt','srt')}
-      ${spTh('gem',scT('hGem')+scTip('tipGem'),'rgt','srt')}
-      ${spTh('ratio',scT('hRatio')+scTip('tipRatio'),'','srt')}
+      ${eurV ? spTh('eur',scTc('hEur')+scTip('tipEur'),'rgt','srt')
+             : spTh('gem',scT('hGem')+scTip('tipGem'),'rgt','srt')}
+      ${eurV ? spTh('ratioEur',scT('hRatio')+scTip('tipRatioEur'),'','srt')
+             : spTh('ratio',scT('hRatio')+scTip('tipRatio'),'','srt')}
       ${stock ? (edit
         ? spTh('restant',scT('hRestant')+scTip('tipRestant'),'ctr','srt sep')
         : spTh('maxfin',scT('hAvail')+scTip('tipAvail'),'ctr','srt sep')) : ''}
       ${shopping?`
       <th class="ctr c-take">${scT('hTake')}${scTip('tipTake')}</th>
       ${spTh('takeCost',scT('hTakeCost'),'rgt','srt')}
-      ${spTh('takeGem',scT('hTakeValue'),'rgt','srt')}`:''}
+      ${eurV ? spTh('takeEur',scTc('hTakeEur'),'rgt','srt')
+             : spTh('takeGem',scT('hTakeValue'),'rgt','srt')}`:''}
       ${edit?'<th class="c-act"></th>':''}
     </tr>`;
 
@@ -251,16 +326,33 @@ function spRenderTable(){
         <button type="button" class="sx-maxbtn" data-i="${r.i}" data-role="max" ${(r.canTake<=0&&!atMax)?'disabled':''} onclick="spTakeMax(${r.i})">MAX</button>
       </td>
       <td class="rgt ${r.take>0?'':'dash'}">${r.take>0?spNum(r.takeCost):'—'}</td>
-      <td class="rgt gem ${r.take>0?'':'dash'}">${r.take>0?spNum(r.takeGem):'—'}</td>`;
+      ${eurV
+        ? `<td class="rgt eur ${(r.take>0&&r.takeEur!=null)?'':'dash'}">${(r.take>0&&r.takeEur!=null)?scFmtEur(r.takeEur):'—'}</td>`
+        : `<td class="rgt gem ${r.take>0?'':'dash'}">${r.take>0?spNum(r.takeGem):'—'}</td>`}`;
     }
 
-    return `<tr class="${r.isTop?'is-top':''}${r.take>0?' in-cart':''}" style="--cat:${scCatColor(r.cat)};">
+    // Règle du « — » : une valeur € absente n'est jamais 0. Elle s'affiche « — », sort du
+    // classement (pas de barre, pas de « Top ») et ne crédite rien au panier — mais la ligne
+    // reste achetable, « Je prends » compris.
+    const valCell = eurV
+      ? (r.eur!=null ? `<td class="rgt eur"${spSrcAttr(r.itemId)}>${scFmtEur(r.eur)}</td>`
+                     : `<td class="rgt dash" title="${scEscAttr(scTc('noEur'))}">—</td>`)
+      : `<td class="rgt gem">${spNum(r.gem)}</td>`;
+    const rv = eurV ? r.ratioEur : r.ratio;
+    const ratioCell = (rv!=null && rv>0)
+      ? `<td class="c-ratio"><b>${eurV?scFmtRatio(rv):'×'+rv.toFixed(2)}</b><span class="sx-bar"><span style="width:${rMax>0?(rv/rMax*100):0}%"></span></span></td>`
+      // Un ratio vide vient soit d'une valeur € inconnue, soit d'un coût à 0 (saisissable
+      // en mode édition) : ne mettre l'info-bulle « valeur inconnue » que dans le premier cas.
+      : `<td class="c-ratio"><span class="dash"${(eurV&&r.eur==null)?` title="${scEscAttr(scTc('noEur'))}"`:''}>—</span></td>`;
+    const isTopV = eurV ? r.isTopEur : r.isTop;
+
+    return `<tr class="${isTopV?'is-top':''}${r.take>0?' in-cart':''}" style="--cat:${scCatColor(r.cat)};">
       <td class="c-img"><span class="sx-ico" style="background-image:url('img/Item/${r.img}.webp');"></span></td>
-      <td class="c-name">${scEscAttr(r.nameTxt)}${r.isTop?`<span class="sx-tag">${scT('best')}</span>`:''}</td>
+      <td class="c-name">${scEscAttr(r.nameTxt)}${isTopV?`<span class="sx-tag">${scT('best')}</span>`:''}</td>
       ${qtyCell}
       ${costCell}
-      <td class="rgt gem">${spNum(r.gem)}</td>
-      <td class="c-ratio">${r.ratio>0?`<b>×${r.ratio.toFixed(2)}</b><span class="sx-bar"><span style="width:${maxRatio>0?(r.ratio/maxRatio*100):0}%"></span></span>`:'<span class="dash">—</span>'}</td>
+      ${valCell}
+      ${ratioCell}
       ${stockCell}
       ${cartCells}
       ${edit?`<td class="c-act"><button type="button" class="sx-del" title="${scEscAttr(scT('del'))}" onclick="spRemoveItem(${r.i})">✕</button></td>`:''}
@@ -275,11 +367,11 @@ function spRenderTable(){
       <span class="sx-cartbar-lbl">${scT('cartTotal')}</span>
       <span class="sx-cartbar-item"><b>${spNum(rows.reduce((s,r)=>s+r.take,0))}</b> ${scT('lots')}</span>
       <span class="sx-cartbar-item"><b>${spNum(cart.spent)}</b> ${scEscAttr(scResShort(shop,scLang()))}</span>
-      <span class="sx-cartbar-item gem"><b>💎 ${spNum(cart.gems)}</b></span>
+      <span class="sx-cartbar-item ${eurV?'eur':'gem'}"><b>${eurV?scFmtEur(cart.eur):'💎 '+spNum(cart.gems)}</b></span>
       <span class="sx-cartbar-left ${cart.over?'bad':''}">${cart.over?scT('kpiOver'):scT('kpiLeft')} <b>${spNum(Math.abs(cart.left))}</b></span>
     </div>` : '';
 
-  host.innerHTML=`<div class="table-container${edit?' is-editing':''}"><table class="db-table sx-table"><thead>${heads}</thead><tbody>${body}</tbody></table></div>`
+  host.innerHTML=`<div class="table-container${edit?' is-editing':''}"><table class="db-table sx-table${eurV?' is-eur':''}"><thead>${heads}</thead><tbody>${body}</tbody></table></div>`
     + bar + (edit?spAddFormHtml():'');
   spRestoreTable(host, snap);
 }
@@ -409,7 +501,7 @@ function spRenderAll(){
   SP = scFindBySlug(window.SHOP_SLUG||'');
   // Tri par défaut : meilleures affaires en tête. C'est la question que le joueur se pose
   // en arrivant ; l'ordre du jeu reste accessible en cliquant sur une colonne.
-  SP_SORT.cur = { col:'ratio', dir:-1 };
+  SP_SORT.cur = { col: scIsEur()?'ratioEur':'ratio', dir:-1 };
   if(!SP){
     const host=spEl('sp-table');
     if(host) host.innerHTML=`<p style="color:var(--text-muted);">Shop “${scEscAttr(window.SHOP_SLUG||'')}” introuvable.</p>`;
@@ -429,12 +521,14 @@ function spRenderAll(){
           "Clique sur un en-tête de colonne pour trier le tableau.",
           "Sur une boutique d'événement, renseigne ta monnaie en haut de page : la colonne « Obtenable » indique ce que tu peux réellement sortir d'ici la fin.",
           "Le bouton « Modifier » (crayon) ouvre le mode édition : quantités, coûts et stock restant deviennent modifiables, et tu peux ajouter ou retirer des objets si ta boutique en jeu diffère.",
-          "Les valeurs en gemmes se modifient sur la page « Valeur des objets » — le changement se répercute sur toutes les boutiques."],
+          "Les valeurs en gemmes se modifient sur la page « Valeur des objets » — le changement se répercute sur toutes les boutiques.",
+          "Les pastilles « 💎 Gemmes » et « € Euros » ouvrent deux lectures indépendantes de la même boutique. La lecture en euros s'appuie sur le prix réel des packs payants ; un « — » signale un objet qu'aucun pack ne permet de chiffrer."],
       EN:["Ratio = gem value ÷ cost. The higher it is, the better the deal; the shop's best one is tagged “Top”.",
           "Click a column header to sort the table.",
           "On an event shop, enter your currency at the top: the “Obtainable” column shows what you can really get before it ends.",
           "The “Edit” (pencil) button opens edit mode: quantities, costs and remaining stock become editable, and you can add or remove items if your in-game shop differs.",
-          "Gem values are edited on the “Item values” page — the change applies to every shop."]
+          "Gem values are edited on the “Item values” page — the change applies to every shop.",
+          "The “💎 Gems” and “€ Euros” pills open two independent readings of the same shop. The euro reading is based on the real price of the paid packs; a “—” marks an item no pack can put a price on."]
     },
     links:[{label:{FR:'Toutes les boutiques', EN:'All shops'}, href:'shop_calc.html'},
            {label:{FR:'Valeur des objets', EN:'Item values'}, href:'shop/items.html'}]

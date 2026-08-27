@@ -57,7 +57,22 @@ const i18nShop = {
     tipRestant:"Quantité encore disponible à l'achat dans cette boutique.",
     tipMaxFin:"Quantité maximale atteignable d'ici la fin de l'événement.",
     tipObt:"Ce que tu peux réellement obtenir compte tenu de ta monnaie d'événement.",
-    tipCostObt:"Monnaie d'événement nécessaire pour la quantité « Obtenable »."
+    tipCostObt:"Monnaie d'événement nécessaire pour la quantité « Obtenable ».",
+
+    // --- valorisation € (vue séparée) ---
+    viewGem:"Gemmes", viewEur:"Euros", viewLabel:"Lecture",
+    hEur:"Valeur {c}", hTakeEur:"Valeur {c} tot.", kpiValueEur:"Valeur obtenue",
+    curLabel:"Devise", noEur:"Valeur {c} inconnue pour cet objet",
+    zoneEUR:"tarif zone euro TTC", zoneUSD:"tarif boutique en dollars",
+    itemsEur:"Prix réel des objets", itemsEurSub:"Ce que chaque objet coûte vraiment, d'après les packs payants.",
+    colPack:"Pack d'origine", noPack:"non précisé", multipack:"Multipack",
+    tipPack:"Le pack qui donne le plus de cet objet — donc le meilleur prix unitaire, puisque tous les packs coûtent le même prix. « Multipack » : plusieurs packs sont à égalité.",
+    ieNote:"{n} objets sur les {t} du référentiel apparaissent dans un pack payant ; les autres n'ont aucun prix connu et ne sont donc pas listés ici. Relevé : {z}, mis à jour le {d}.",
+    covered:"sur {n} des {t} objets valorisés", coveredAll:"tous les objets sont valorisés",
+    tipEur:"Prix réel de l'objet, déduit du pack payant où il apparaît (prix du pack ÷ quantité). Un « — » signale un objet qu'aucun pack ne permet de chiffrer.",
+    tipRatioEur:"Valeur en euros ÷ coût. Plus c'est élevé, meilleure est l'affaire.",
+    eurNote:"Relevé des packs payants, {z}. Les deux lectures sont indépendantes : aucun taux de change n'est calculé entre gemmes et argent réel."
+
   },
   EN: {
     scTitle:"Shop Value", scDesc:"Compare in-shop cost to gem value to spot the best deals.",
@@ -101,11 +116,29 @@ const i18nShop = {
     tipRestant:"Quantity still available to buy in this shop.",
     tipMaxFin:"Max quantity reachable by the event's end.",
     tipObt:"What you can actually obtain given your event currency.",
-    tipCostObt:"Event currency needed for the “Obtainable” quantity."
+    tipCostObt:"Event currency needed for the “Obtainable” quantity.",
+
+    // --- euro valuation (separate view) ---
+    viewGem:"Gems", viewEur:"Euros", viewLabel:"Reading",
+    hEur:"{c} value", hTakeEur:"{c} value tot.", kpiValueEur:"Value obtained",
+    curLabel:"Currency", noEur:"No {c} value known for this item",
+    zoneEUR:"euro-zone price incl. tax", zoneUSD:"US dollar store price",
+    itemsEur:"Real-money item values", itemsEurSub:"What each item really costs, from the paid packs.",
+    colPack:"Source pack", noPack:"not specified", multipack:"Multipack",
+    tipPack:"The pack that gives the most of this item - so the best unit price, since every pack costs the same. “Multipack”: several packs are tied.",
+    ieNote:"{n} of the {t} items in the reference table appear in a paid pack; the others have no known price and are not listed here. Survey: {z}, updated {d}.",
+    covered:"on {n} of {t} items priced", coveredAll:"all items are priced",
+    tipEur:"The item's real price, taken from the paid pack it appears in (pack price ÷ quantity). A “—” marks an item no pack can put a price on.",
+    tipRatioEur:"Euro value ÷ cost. The higher it is, the better the deal.",
+    eurNote:"Survey of the paid packs, {z}. The two readings are independent: no exchange rate is computed between gems and real money."
+
   }
 };
 function scLang(){ return window.GlobalLang ? GlobalLang.get() : 'FR'; }
 function scT(k){ return (i18nShop[scLang()]||i18nShop.FR)[k]; }
+// Libellé de la lecture € : {c} = symbole de la devise active, {z} = provenance du tarif.
+// Sans cela, passer en dollars laissait « Valeur € » au-dessus de cellules en $.
+function scTc(k){ return String(scT(k)||'').replace('{c}', scCurSym()).replace('{z}', scT('zone'+scCur())); }
 function scTip(k){ return window.HelpSystem ? HelpSystem.tip({FR:i18nShop.FR[k], EN:i18nShop.EN[k]}) : ''; }
 // Les pages boutique mêlent les deux mécanismes du site : dictionnaire + [data-i18n] pour les
 // libellés d'interface, et [data-en]/[data-fr] en dur pour les noms de boutiques et de monnaies
@@ -131,6 +164,7 @@ let SC_ITEMS=[], SC_DEFAULTS=[];
 let SC_CLASSIC=[];
 let SC_EVENTS=[], SC_EVENTS_DEF=[];
 let SC_CHESTS=[];
+let SC_EURO={}, SC_EURO_META={}, SC_EURO_PACKS={};   // relevé € : ADMIN, lecture seule (jamais d'édition joueur)
 
 // ---------- helpers d'affichage ----------
 function scEscAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
@@ -143,6 +177,105 @@ function scItemById(id){ return SC_ITEMS.find(i=>i.id===id); }
 // Libellé affiché : « Objet (Skin) » quand une variante visuelle est référencée via skinId.
 function scLabel(it,skin,lang){ const b=it?scName(it,lang):'??'; return skin?`${b} (${scName(skin,lang)})`:b; }
 function scGem(id){ const it=scItemById(id); return it?Number(it.gemValue)||0:0; }
+
+// ---------- valorisation € : vue et devise ----------
+// La VUE vit dans l'URL (?v=eur) pour qu'un lien partagé ouvre la bonne lecture, et se
+// retient d'une boutique à l'autre dans une clé « chrome » (même nature que hub_lang /
+// hub_theme, donc hors registre STORAGE_KEYS : le relevé € lui-même est en lecture seule).
+const SC_VIEW_KEY='shop_view', SC_CUR_KEY='shop_currency';
+function scChromeGet(k,def){ try{ return localStorage.getItem(k)||def; }catch(e){ return def; } }
+function scChromeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+let SC_VIEW=null, SC_CUR=null;
+function scView(){
+  if(SC_VIEW) return SC_VIEW;
+  let v=null;
+  try{ v=new URLSearchParams(location.search).get('v'); }catch(e){}
+  if(v==='eur' || v==='gem'){
+    // Lien partagé : la lecture demandée devient la préférence, sinon elle serait perdue
+    // dès la première navigation vers une autre boutique.
+    SC_VIEW = v; scChromeSet(SC_VIEW_KEY, v); return SC_VIEW;
+  }
+  v=scChromeGet(SC_VIEW_KEY,'gem');
+  SC_VIEW = (v==='eur') ? 'eur' : 'gem';
+  return SC_VIEW;
+}
+function scSetView(v){
+  SC_VIEW = (v==='eur') ? 'eur' : 'gem';
+  scChromeSet(SC_VIEW_KEY, SC_VIEW);
+  try{
+    const u=new URL(location.href);
+    if(SC_VIEW==='eur') u.searchParams.set('v','eur'); else u.searchParams.delete('v');
+    history.replaceState(null,'',u);
+  }catch(e){}
+}
+function scIsEur(){ return scView()==='eur'; }
+
+function scCur(){
+  if(SC_CUR) return SC_CUR;
+  SC_CUR = (scChromeGet(SC_CUR_KEY,'EUR')==='USD') ? 'USD' : 'EUR';
+  return SC_CUR;
+}
+function scSetCur(c){ SC_CUR = (c==='USD')?'USD':'EUR'; scChromeSet(SC_CUR_KEY, SC_CUR); }
+function scCurSym(){ return scCur()==='USD' ? '$' : '\u20AC'; }
+
+// Prix UNITAIRE dans la devise active = prix du pack / quantité obtenue.
+// CALCULÉ, jamais stocké : le relevé ne garde que ce qui a été mesuré (le prix du pack et
+// la quantité). Stocker aussi le résultat de la division en ferait une seconde vérité,
+// qui divergerait de la première dès la moindre correction de prix — et l'arrondi de la
+// valeur stockée était de toute façon moins précis que la division elle-même.
+// Renvoie null et jamais 0 quand aucun pack ne chiffre l'objet : « inconnu » n'est pas
+// « sans valeur » — un 0 placerait la ligne en pire affaire et renverserait le podium
+// des boutiques mal couvertes.
+function scEurUnit(id){
+  const r=SC_EURO[id]; if(!r) return null;
+  // Le prix du pack est le MÊME pour tous (relevé sur les packs à 6 € / 5 $) : il vit dans
+  // _meta, pas répété 55 fois. La quantité, elle, est propre à chaque objet.
+  const p = (scCur()==='USD') ? SC_EURO_META.packPriceUsd : SC_EURO_META.packPrice;
+  const q = Number(r.qty);
+  return (typeof p==='number' && isFinite(p) && q>0) ? (p/q) : null;
+}
+
+// Packs qui atteignent la quantité MAXIMALE pour cet objet. Tous les packs coûtant le même
+// prix, « le plus d'exemplaires » = « le meilleur prix unitaire » : ce sont donc les packs
+// à recommander. UN seul => son image illustre l'objet. PLUSIEURS => « multipack », sans image.
+function scEurPacks(id){ const r=SC_EURO[id]; return (r && Array.isArray(r.packs)) ? r.packs : []; }
+function scPackName(pid){
+  const p=SC_EURO_PACKS[pid];
+  return p ? (p[scLang()] || p.EN || p.FR || pid) : pid;
+}
+// Libellé de la colonne « Pack d'origine » : le nom du pack, ou « Multipack » à égalité.
+function scEurSrc(id){
+  const ps=scEurPacks(id);
+  if(!ps.length) return '';
+  return ps.length===1 ? scPackName(ps[0]) : scT('multipack');
+}
+// Id de l'image du pack — seulement quand un SEUL pack atteint le maximum.
+// (L'aperçu d'image au survol est prévu mais pas encore implémenté : img/packs/<id>.webp.)
+function scEurPackImg(id){ const ps=scEurPacks(id); return ps.length===1 ? ps[0] : null; }
+
+// ---------- formats € : décimales adaptatives ----------
+// Un nombre de décimales fixe écrase les petites valeurs : à 2 décimales, les trois lignes
+// d'Accélérateur 1h du Stand d'Aventure afficheraient toutes le même chiffre. Le ratio
+// descend jusqu'à 6 décimales (Arène, Magasin des Marées).
+function scFmtFix(v,d){
+  return Number(v).toLocaleString(scLang()==='FR'?'fr-FR':'en-US',
+    {minimumFractionDigits:d, maximumFractionDigits:d});
+}
+function scFmtEur(v){
+  if(v==null) return null;
+  const a=Math.abs(v), d = a>=100?0 : a>=1?2 : a>=0.01?3 : (a===0?2:4);
+  const n=scFmtFix(v,d);
+  // Le symbole se place selon la LANGUE, pas selon la devise : « 35,94 € » et « 2,50 $ »
+  // en francais, « EUR35.94 » et « $2.50 » en anglais. Melanger les deux conventions
+  // (« $0,882 ») se lit comme une coquille.
+  return scLang()==='FR' ? (n+'\u00A0'+scCurSym()) : (scCurSym()+n);
+}
+function scFmtRatio(v){
+  if(v==null) return null;
+  const a=Math.abs(v), d = a>=10?1 : a>=0.1?3 : a>=0.001?4 : 6;
+  return scFmtFix(v,d);
+}
 function scShopName(shop,lang){ return (shop.name&&typeof shop.name==='object')?(shop.name[lang]||shop.name.EN):shop.name; }
 function scResName(shop,lang){ const r=shop.resourceName; if(r&&typeof r==='object') return r[lang]||r.EN||r.FR||scT('currency'); return r||scT('currency'); }
 function scResShort(shop,lang){ const r=shop.resourceShort; if(r&&typeof r==='object') return r[lang]||r.EN||r.FR||scResName(shop,lang); return r||scResName(shop,lang); }
@@ -239,11 +372,21 @@ async function scLoadEvents(){
 }
 function scSaveEvents(){ localStorage.setItem(STORAGE_KEYS.shopcalcEvents, JSON.stringify(SC_EVENTS)); }
 
+// Relevé € : fichier ADMIN en lecture seule, comme les boutiques classiques.
+// Aucun localStorage : la donnée est régénérable d'un bloc depuis le relevé interne.
+async function scLoadEuro(){
+  try{
+    const d=await (await fetch('data/shopcalc_euro.json')).json();
+    SC_EURO=(d&&d.items)||{}; SC_EURO_META=(d&&d._meta)||{}; SC_EURO_PACKS=(d&&d.packs)||{};
+  }
+  catch(e){ console.error('euro',e); SC_EURO={}; SC_EURO_META={}; SC_EURO_PACKS={}; }
+}
+
 async function scLoadChests(){
   try{ SC_CHESTS = await (await fetch('data/shopcalc_chests.json')).json(); }
   catch(e){ console.error('chests',e); SC_CHESTS=[]; }
 }
-async function scLoadAll(){ await scLoadItems(); await scLoadClassic(); await scLoadEvents(); await scLoadChests(); }
+async function scLoadAll(){ await scLoadItems(); await scLoadClassic(); await scLoadEvents(); await scLoadChests(); await scLoadEuro(); }
 
 // ---------- résolution boutique <-> page ----------
 // `kind` distingue les trois familles ; il n'est PAS stocké dans les JSON (il découle du fichier d'origine).
@@ -299,41 +442,72 @@ function scComputeRows(shop, opts){
     const skin=si.skinId?scItemById(si.skinId):null;   // variante visuelle : nom + image, jamais la valeur
     const qty=Math.max(1,Number(si.qty)||1), cost=Math.max(0,Number(si.cost)||0);
     const gem=scGem(si.itemId)*qty;
+    // Valeur € du LOT (qty x prix unitaire), par parallélisme avec la colonne gemmes.
+    // null quand aucun pack ne chiffre l'objet — surtout pas 0.
+    const eu=scEurUnit(si.itemId);
+    const eur = (eu!=null) ? eu*qty : null;
     const qtyMax=Math.max(0,Number(si.qtyMax)||0);
     const restant=(si.restant==null||si.restant==='')?qtyMax:Math.max(0,Number(si.restant)||0);
     const daily=!!si.dailyReset;
     const maxfin = daily ? restant*resets : restant;
     const obtenable = cost>0 ? Math.min(maxfin, Math.floor(resources/cost)) : 0;
     const take = Math.max(0, Math.min(maxfin, Math.floor(Number(si.take)||0)));
-    return { i, si, it, skin, qty, cost, gem, ratio: cost>0?gem/cost:0, restant, daily, maxfin,
+    return { i, si, itemId: si.itemId, it, skin, qty, cost, gem, ratio: cost>0?gem/cost:0, restant, daily, maxfin,
              obtenable, coutobt: obtenable*cost, cat:(it&&it.category)||'Other',
              take, takeCost: take*cost, takeGem: take*gem,
+             eur, ratioEur: (eur!=null && cost>0) ? eur/cost : null,
+             takeEur: (eur!=null) ? take*eur : null,
              nameTxt: scLabel(it,skin,lang), img: scImg(skin||it) };
   });
 
   // Bilan du panier, puis « encore prenable » ligne par ligne sur le solde restant.
   const spent = rows.reduce((s,r)=>s+r.takeCost, 0);
   const gems  = rows.reduce((s,r)=>s+r.takeGem, 0);
+  const eurs  = rows.reduce((s,r)=>s+(r.takeEur||0), 0);
   const left  = resources - spent;
   rows.forEach(r=>{
     r.canTake = r.cost>0 ? Math.max(0, Math.min(r.maxfin-r.take, Math.floor(Math.max(0,left)/r.cost))) : 0;
   });
-  const cart = { resources, spent, left, gems, over: spent>resources, lines: rows.filter(r=>r.take>0).length };
+  const cart = { resources, spent, left, gems, eur: eurs, over: spent>resources,
+                 lines: rows.filter(r=>r.take>0).length,
+                 // Couverture € de la boutique : la tuile de bilan l'annonce, pour qu'un
+                 // total partiel ne se lise pas comme un total complet.
+                 eurCovered: rows.filter(r=>r.eur!=null).length, eurTotal: rows.length,
+                 // Couverture des seules lignes PRISES : la tuile affiche le total du
+                 // panier, sa réserve doit donc porter sur le panier, pas sur la boutique.
+                 takeCovered: rows.filter(r=>r.take>0 && r.eur!=null).length,
+                 takeTotal:   rows.filter(r=>r.take>0).length };
   // Top = meilleur ratio. Pas de Top si toutes les lignes sont à égalité (l'info n'apprendrait rien).
   const maxRatio=rows.length?Math.max(...rows.map(r=>r.ratio)):0;
   const topCount=rows.filter(r=>r.ratio===maxRatio&&r.ratio>0).length;
   const showTop = maxRatio>0 && topCount>0 && topCount<rows.length;
   rows.forEach(r=>{ r.isTop = showTop && r.ratio===maxRatio && r.ratio>0; });
+  // Classement € : seules les lignes chiffrées concourent. Une valeur absente n'est ni
+  // « Top » ni comparée a zero — sinon le podium des boutiques mal couvertes s'inverse.
+  const eurRows=rows.filter(r=>r.ratioEur!=null && r.ratioEur>0);
+  const maxRatioEur=eurRows.length?Math.max(...eurRows.map(r=>r.ratioEur)):0;
+  const topEurCount=eurRows.filter(r=>r.ratioEur===maxRatioEur).length;
+  // Comparaison à rows.length et non à eurRows.length : avec un seul objet valorisé,
+  // eurRows.length vaut 1 et la ligne n'aurait jamais son « Top » — alors que le podium
+  // la classe bien 1re. On ne retire le badge que si TOUTES les lignes sont à égalité.
+  const showTopEur = maxRatioEur>0 && topEurCount>0 && topEurCount<rows.length;
+  rows.forEach(r=>{ r.isTopEur = showTopEur && r.ratioEur===maxRatioEur; });
 
   let display=rows;
   if(o.sort&&o.sort.col){
     const st=o.sort;
     display=[...rows].sort((a,b)=>{
       if(st.col==='name'){ const x=a.nameTxt.toLowerCase(), y=b.nameTxt.toLowerCase(); return x<y?-st.dir:x>y?st.dir:0; }
-      return ((a[st.col]||0)-(b[st.col]||0))*st.dir;
+      // « Inconnu » n'est pas une petite valeur : les lignes sans valeur € restent en
+      // fin de tri quel que soit le sens.
+      const av=a[st.col], bv=b[st.col];
+      if(av==null && bv==null) return 0;
+      if(av==null) return 1;
+      if(bv==null) return -1;
+      return ((av||0)-(bv||0))*st.dir;
     });
   }
-  return { rows: display, all: rows, maxRatio, resets, cart };
+  return { rows: display, all: rows, maxRatio, maxRatioEur, resets, cart };
 }
 
 function scClearCart(shop){ (shop.items||[]).forEach(si=>{ si.take = 0; }); }
@@ -342,10 +516,20 @@ function scComputeChest(chest){
   const lang=scLang();
   const rows=(chest.items||[]).map((ci,i)=>{
     const it=scItemById(ci.itemId), skin=ci.skinId?scItemById(ci.skinId):null, qty=Number(ci.qty)||0;
-    return { i, it, skin, qty, gem:scGem(ci.itemId)*qty, cat:(it&&it.category)||'Other',
+    const eu=scEurUnit(ci.itemId);
+    return { i, itemId: ci.itemId, it, skin, qty, gem:scGem(ci.itemId)*qty, eur:(eu!=null)?eu*qty:null,
+             cat:(it&&it.category)||'Other',
              nameTxt: it?scLabel(it,skin,lang):ci.itemId, img: scImg(skin||it) };
-  }).sort((a,b)=>b.gem-a.gem);
-  const best = rows.length ? rows[0].gem : 0;
-  rows.forEach(r=>{ r.isTop = best>0 && r.gem===best; });
-  return { rows, best };
+  });
+  // Le tri suit la lecture active. En euros, un lot non chiffre part en fin de liste :
+  // il n'est pas « le moins bon », il est inconnu.
+  const eurView=scIsEur();
+  rows.sort((a,b)=> eurView
+    ? ((b.eur==null?-1:b.eur)-(a.eur==null?-1:a.eur))
+    : (b.gem-a.gem));
+  const best = rows.length ? Math.max(...rows.map(r=>r.gem)) : 0;
+  const eurVals = rows.filter(r=>r.eur!=null).map(r=>r.eur);
+  const bestEur = eurVals.length ? Math.max(...eurVals) : 0;
+  rows.forEach(r=>{ r.isTop = best>0 && r.gem===best; r.isTopEur = bestEur>0 && r.eur===bestEur; });
+  return { rows, best, bestEur };
 }

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
+    try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-M1QG4XSD3K');
+    </script>
+    <base href="../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Kingshot Item Real-Money Values - Pack Prices | Kingshot Toolbox</title>
+    <meta name="description" content="What every Kingshot item really costs in euros or dollars, worked out from the paid pack it appears in. Each price shows the pack it comes from, so any figure can be checked.">
+    <link rel="canonical" href="https://kingshottoolbox.com/shop/items-euro.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kingshot Toolbox">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:title" content="Kingshot Item Real-Money Values - Pack Prices">
+    <meta property="og:description" content="What every Kingshot item really costs in euros or dollars, worked out from the paid pack it appears in. Each price shows the pack it comes from, so any figure can be checked.">
+    <meta property="og:url" content="https://kingshottoolbox.com/shop/items-euro.html">
+    <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Kingshot Toolbox - free calculators, optimizers and databases for Kingshot">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="img/logo/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo/favicon-96.png">
+    <link rel="alternate icon" type="image/png" href="img/logo/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/db.css">
+    <link rel="stylesheet" href="css/shop.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Shops","item":"https://kingshottoolbox.com/shop_calc.html"},{"@type":"ListItem","position":3,"name":"Item Real-Money Values","item":"https://kingshottoolbox.com/shop/items-euro.html"}]}</script>
+</head>
+<body class="has-app-header">
+    <div class="db-page">
+        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="shop_calc.html" data-i18n="crumbShops">Shops</a> / <span data-i18n="itemsEur">Real-money item values</span></div>
+        <h1 data-i18n="itemsEur">Real-money item values</h1>
+        <p class="db-intro" data-en="What each item really costs, worked out from the paid pack it appears in: the pack's price divided by how many you get. Only the items a pack can put a price on are listed. This table is read-only and independent from the gem values - no exchange rate is ever worked out between the two." data-fr="Ce que chaque objet coûte réellement, calculé depuis le pack payant où il apparaît : le prix du pack divisé par la quantité obtenue. Seuls les objets qu'un pack permet de chiffrer sont listés. Ce tableau est en lecture seule et indépendant des valeurs en gemmes - aucun taux de change n'est jamais calculé entre les deux.">What each item really costs, worked out from the paid pack it appears in: the pack's price divided by how many you get. Only the items a pack can put a price on are listed. This table is read-only and independent from the gem values - no exchange rate is ever worked out between the two.</p>
+
+        <div class="shop-toolbar">
+            <input id="ie-search" class="table-input" data-i18n-placeholder="search" placeholder="Search…">
+            <select id="ie-cat-filter" class="table-select"></select>
+            <span class="db-switch sx-cur" id="ie-cur" role="group"></span>
+        </div>
+        <div id="ie-count" style="color:var(--text-muted);font-size:13px;margin-bottom:8px;"></div>
+        <div class="table-container">
+            <table class="db-table">
+                <thead>
+                    <tr>
+                        <th style="width:46px;"></th>
+                        <th data-i18n="colName">Name</th>
+                        <th data-i18n="colCat">Category</th>
+                        <th class="rgt" id="ie-th-value">Value</th>
+                        <th id="ie-th-pack">Source pack</th>
+                    </tr>
+                </thead>
+                <tbody id="ie-tbody"></tbody>
+            </table>
+        </div>
+        <p class="db-intro" id="ie-note" style="font-size:12px;"></p>
+    </div>
+
+    <script src="js/site-config.js"></script>
+    <script src="js/storage-keys.js"></script>
+    <script src="js/profiles.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'shop_calc.html';</script>
+    <script src="js/header.js"></script>
+    <script src="js/help.js"></script>
+    <script src="js/shop-core.js"></script>
+    <script src="js/shop-items-euro.js"></script>
+    <script src="js/backup.js"></script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

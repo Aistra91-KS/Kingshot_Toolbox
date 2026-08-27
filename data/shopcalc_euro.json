@@ -1,0 +1,481 @@
+{
+  "_meta": {
+    "tier": "Gen 7 / TG5+",
+    "packPrice": 6,
+    "packPriceUsd": 5,
+    "updatedAt": "2026-08-27",
+    "source": "Relevé in-game des packs récurrents (disponibles au moins une fois par mois), hors packs d'événement ponctuels. Fourni et mis à jour périodiquement par Paul (fichier Pack_ks.xlsx).",
+    "note": "Seconde valorisation, en argent réel. La clé de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantité MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coûtent le même prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocké : c'est _meta.packPrice / qty, calculé à l'affichage. Fichier ADMIN en lecture seule, régénérable d'un bloc depuis le relevé Excel."
+  },
+  "packs": {
+    "master-s-collection-charms-exquisite": {
+      "FR": "Collection principale - Charms - Exquis",
+      "EN": "Master's Collection - Charms - Exquisite"
+    },
+    "master-s-collection-charms-sublime": {
+      "FR": "Collection principale - Charms - Sublime",
+      "EN": "Master's Collection - Charms - Sublime"
+    },
+    "custom-arms-set-common-custom-chest": {
+      "FR": "Ensemble D'armes Personnalisées - Coffre Personnalisé Commun",
+      "EN": "Custom Arms Set - Common Custom Chest"
+    },
+    "custom-pet-chest-common-custom-chest": {
+      "FR": "Coffre Perso Animal - Coffre Personnalisé Commun",
+      "EN": "Custom Pet Chest - Common Custom Chest"
+    },
+    "exclusive-gear-enhancement-special": {
+      "FR": "Amélioration d'Equipement Exclusif Spécial",
+      "EN": "Exclusive Gear Enhancement Special"
+    },
+    "conqueror-pack": {
+      "FR": "Pack Conquérant",
+      "EN": "Conqueror Pack"
+    },
+    "world-traveler": {
+      "FR": "Globe-trotteur",
+      "EN": "World Traveler"
+    },
+    "weekly-deal-hero-shard": {
+      "FR": "Pack Offre Hebdo - Frag. De Héros",
+      "EN": "Weekly Deal - Hero Shard"
+    },
+    "weekly-deal-lucky-chest": {
+      "FR": "Pack Offre Hebdo - Coffre de Chance",
+      "EN": "Weekly Deal - Lucky Chest"
+    },
+    "daily-deals": {
+      "FR": "Offres Quotidiennes",
+      "EN": "Daily Deals"
+    },
+    "truegold-dust-weekly-card": {
+      "FR": "Carte Hebdo de Poussière d'Or Véritable",
+      "EN": "Truegold Dust Weekly Card"
+    },
+    "truegold-weekly-card": {
+      "FR": "Carte Hebdo D'or Véritable",
+      "EN": "Truegold Weekly Card"
+    },
+    "pet-weekly-card": {
+      "FR": "Carte Hebdo Animal",
+      "EN": "Pet Weekly Card"
+    },
+    "gear-weekly-card": {
+      "FR": "Carte hebdo Équipement",
+      "EN": "Gear Weekly Card"
+    },
+    "speedup-weekly-card": {
+      "FR": "Carte Hebdo Accélérer",
+      "EN": "Speedup Weekly Card"
+    },
+    "governor-gear-tool-pack": {
+      "FR": "Pack d'Outils pour l'Équipement du Chef",
+      "EN": "Governor Gear Tool Pack"
+    },
+    "gear-imbuement": {
+      "FR": "Equipement d'Incorporation",
+      "EN": "Gear Imbuement"
+    },
+    "growth-manual-pack": {
+      "FR": "Pack Manuel de Croissance",
+      "EN": "Growth Manual Pack"
+    },
+    "pet-energy-pack": {
+      "FR": "Pack Énergie Animal",
+      "EN": "Pet Energy Pack"
+    },
+    "promotion-medallion-pack": {
+      "FR": "Pack Médaillon de Promotion",
+      "EN": "Promotion Medallion Pack"
+    },
+    "adventure-supply-pack": {
+      "FR": "Pack Provision d'Aventure",
+      "EN": "Adventure Supply Pack"
+    },
+    "master-gift-pack": {
+      "FR": "Ensemble de cadeaux d'expert",
+      "EN": "Master Gift Pack"
+    },
+    "mystery-badge-pack": {
+      "FR": "Pack d'Insigne Mystère",
+      "EN": "Mystery Badge Pack"
+    },
+    "hero-xp-pack": {
+      "FR": "Pack d'EXP de Héros",
+      "EN": "Hero XP Pack"
+    },
+    "skill-manual-pack": {
+      "FR": "Pack Manuel de Compétences",
+      "EN": "Skill Manual Pack"
+    },
+    "transfer-pass-pack": {
+      "FR": "Pack Passe de Transfert",
+      "EN": "Transfer Pass Pack"
+    },
+    "city-lifeline-pack": {
+      "FR": "Pack Lien Vital de la Ville",
+      "EN": "City Lifeline Pack"
+    },
+    "weekly-benefits-card-governor-charm": {
+      "FR": "Carte d'Avantages Hebdo - Carte Avantages Talisman du Chef",
+      "EN": "Weekly Benefits Card - Governor Charm"
+    },
+    "weekly-benefits-card-governor-gear": {
+      "FR": "Carte d'Avantages Hebdo - Carte Avantages d'Equipement du Chef",
+      "EN": "Weekly Benefits Card - Governor Gear"
+    },
+    "weekly-benefits-card-hero-gear": {
+      "FR": "Carte d'Avantages Hebdo - Carte Avantages d'Equipement de Héros",
+      "EN": "Weekly Benefits Card - Hero Gear"
+    },
+    "weekly-benefits-card-building": {
+      "FR": "Carte d'Avantages Hebdo - Carte d'Avantages pour Bâtiments",
+      "EN": "Weekly Benefits Card - Building"
+    },
+    "intel-monthly-pass": {
+      "FR": "Carte Mens. Renseign",
+      "EN": "Intel Monthly Pass"
+    },
+    "frontier-encounter-adventurer": {
+      "FR": "Rencontre Frontalière - Aventurier",
+      "EN": "Frontier Encounter - Adventurer"
+    }
+  },
+  "items": {
+    "10000_hero_xp": {
+      "qty": 30,
+      "packs": [
+        "hero-xp-pack"
+      ]
+    },
+    "100_enhancement_xp_component": {
+      "qty": 126,
+      "packs": [
+        "gear-weekly-card"
+      ]
+    },
+    "100_exp_vip": {
+      "qty": 30,
+      "packs": [
+        "daily-deals"
+      ]
+    },
+    "10k_bread": {
+      "qty": 940,
+      "packs": [
+        "city-lifeline-pack"
+      ]
+    },
+    "10k_iron": {
+      "qty": 45,
+      "packs": [
+        "city-lifeline-pack"
+      ]
+    },
+    "10k_stone": {
+      "qty": 190,
+      "packs": [
+        "city-lifeline-pack"
+      ]
+    },
+    "10k_wood": {
+      "qty": 940,
+      "packs": [
+        "city-lifeline-pack"
+      ]
+    },
+    "1h_general_speedup": {
+      "qty": 87,
+      "packs": [
+        "weekly-benefits-card-building"
+      ]
+    },
+    "1m_general_speedup": {
+      "qty": 420,
+      "packs": [
+        "speedup-weekly-card"
+      ]
+    },
+    "3h_general_speedup": {
+      "qty": 12,
+      "packs": [
+        "daily-deals"
+      ]
+    },
+    "5m_general_speedup": {
+      "qty": 504,
+      "packs": [
+        "speedup-weekly-card"
+      ]
+    },
+    "advanced_relocation": {
+      "qty": 1,
+      "packs": [
+        "conqueror-pack",
+        "world-traveler"
+      ]
+    },
+    "advanced_taming_mark": {
+      "qty": 6,
+      "packs": [
+        "custom-pet-chest-common-custom-chest"
+      ]
+    },
+    "adventure_supply": {
+      "qty": 15,
+      "packs": [
+        "adventure-supply-pack"
+      ]
+    },
+    "artisan_s_vision": {
+      "qty": 50,
+      "packs": [
+        "weekly-benefits-card-governor-gear"
+      ]
+    },
+    "charm_design": {
+      "qty": 65,
+      "packs": [
+        "master-s-collection-charms-sublime"
+      ]
+    },
+    "charm_guide": {
+      "qty": 65,
+      "packs": [
+        "master-s-collection-charms-exquisite"
+      ]
+    },
+    "coin": {
+      "qty": 70000,
+      "packs": [
+        "truegold-dust-weekly-card"
+      ]
+    },
+    "common_taming_mark": {
+      "qty": 48,
+      "packs": [
+        "custom-pet-chest-common-custom-chest"
+      ]
+    },
+    "custome_hero_widget": {
+      "qty": 5,
+      "packs": [
+        "exclusive-gear-enhancement-special"
+      ]
+    },
+    "elite_spices": {
+      "qty": 24,
+      "packs": [
+        "frontier-encounter-adventurer"
+      ]
+    },
+    "fast_walk_1": {
+      "qty": 4,
+      "packs": [
+        "conqueror-pack"
+      ]
+    },
+    "fast_walk_2": {
+      "qty": 6,
+      "packs": [
+        "world-traveler"
+      ]
+    },
+    "forgehammers": {
+      "qty": 39,
+      "packs": [
+        "weekly-benefits-card-hero-gear"
+      ]
+    },
+    "fragment_of_a_specific_mythical_hero": {
+      "qty": 6,
+      "packs": [
+        "daily-deals"
+      ]
+    },
+    "gem": {
+      "qty": 3200,
+      "packs": [
+        "speedup-weekly-card"
+      ]
+    },
+    "general_master_emblem": {
+      "qty": 20,
+      "packs": [
+        "frontier-encounter-adventurer"
+      ]
+    },
+    "gilded_threads": {
+      "qty": 72,
+      "packs": [
+        "governor-gear-tool-pack"
+      ]
+    },
+    "gold_key": {
+      "qty": 1,
+      "packs": [
+        "custom-arms-set-common-custom-chest",
+        "custom-pet-chest-common-custom-chest"
+      ]
+    },
+    "governor_charm_material_chest": {
+      "qty": 6,
+      "packs": [
+        "weekly-benefits-card-governor-charm"
+      ]
+    },
+    "governor_gear_material_chest": {
+      "qty": 39,
+      "packs": [
+        "weekly-benefits-card-governor-gear"
+      ]
+    },
+    "governor_gear_variety_chest": {
+      "qty": 2,
+      "packs": [
+        "weekly-benefits-card-governor-gear"
+      ]
+    },
+    "growth_manual": {
+      "qty": 55,
+      "packs": [
+        "growth-manual-pack"
+      ]
+    },
+    "hero_s_luck_chest": {
+      "qty": 4,
+      "packs": [
+        "daily-deals"
+      ]
+    },
+    "lucky_hero_gear_chest": {
+      "qty": 36,
+      "packs": [
+        "custom-arms-set-common-custom-chest",
+        "weekly-deal-lucky-chest"
+      ]
+    },
+    "lv1_custom_resource_chest": {
+      "qty": 2000,
+      "packs": [
+        "custom-arms-set-common-custom-chest",
+        "custom-pet-chest-common-custom-chest"
+      ]
+    },
+    "lv2_custom_resource_chest": {
+      "qty": 350,
+      "packs": [
+        "truegold-dust-weekly-card",
+        "truegold-weekly-card"
+      ]
+    },
+    "lv3_custom_resource_chest": {
+      "qty": 50,
+      "packs": [
+        "intel-monthly-pass"
+      ]
+    },
+    "masters_manuscript": {
+      "qty": 520,
+      "packs": [
+        "frontier-encounter-adventurer"
+      ]
+    },
+    "mithril": {
+      "qty": 1,
+      "packs": [
+        "gear-imbuement"
+      ]
+    },
+    "mystery_badge": {
+      "qty": 2500,
+      "packs": [
+        "mystery-badge-pack"
+      ]
+    },
+    "mythic_conquest_skill_book": {
+      "qty": 30,
+      "packs": [
+        "skill-manual-pack"
+      ]
+    },
+    "mythic_expedition_skill_manual": {
+      "qty": 30,
+      "packs": [
+        "skill-manual-pack"
+      ]
+    },
+    "mythic_general_hero_shard": {
+      "qty": 10,
+      "packs": [
+        "weekly-deal-hero-shard"
+      ]
+    },
+    "nutrient_potion": {
+      "qty": 16,
+      "packs": [
+        "pet-energy-pack"
+      ]
+    },
+    "pet_advancement_materials_custom_chest": {
+      "qty": 18,
+      "packs": [
+        "custom-pet-chest-common-custom-chest"
+      ]
+    },
+    "pet_food_x1": {
+      "qty": 28000,
+      "packs": [
+        "pet-weekly-card"
+      ]
+    },
+    "promotion_medaillon": {
+      "qty": 8,
+      "packs": [
+        "promotion-medallion-pack"
+      ]
+    },
+    "random_relocation": {
+      "qty": 2,
+      "packs": [
+        "world-traveler"
+      ]
+    },
+    "satin": {
+      "qty": 7200,
+      "packs": [
+        "governor-gear-tool-pack"
+      ]
+    },
+    "silver_goblet": {
+      "qty": 8,
+      "packs": [
+        "master-gift-pack"
+      ]
+    },
+    "transfert_pass": {
+      "qty": 1,
+      "packs": [
+        "transfer-pass-pack"
+      ]
+    },
+    "truegold": {
+      "qty": 144,
+      "packs": [
+        "truegold-weekly-card"
+      ]
+    },
+    "truegold_dust": {
+      "qty": 204,
+      "packs": [
+        "truegold-dust-weekly-card"
+      ]
+    },
+    "truegold_weekly_card_chest": {
+      "qty": 7,
+      "packs": [
+        "truegold-weekly-card"
+      ]
+    }
+  }
+}
