@@ -251,7 +251,7 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
   HDR_CTX = hdrResolveContext(HDR_CURRENT_PAGE);
   HDR_SELECTED_CAT = HDR_CTX.catId;
 
-  const homeHref = S.home || 'index.html';
+  const homeHref = S.home || './';
 
   const headerHTML = `
     <header class="app-header">

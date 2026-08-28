@@ -17,7 +17,12 @@ const SITE = {
   //  IDENTITÉ DU SITE
   // ---------------------------------------------------------
   name: "Kingshot Toolbox",
-  home: "index.html",
+  // Accueil = "./", jamais "index.html" : les deux servent la même page, mais
+  // la canonique est la racine. Viser index.html envoyait tout le maillage
+  // interne sur l'URL qu'on demande à Google d'ignorer, et dédoublait
+  // l'accueil dans Analytics. "./" se résout via le <base href> de chaque
+  // profondeur : le site reste insensible à son chemin de déploiement (§9).
+  home: "./",
 
   // Version affichée dans le pied de page. À incrémenter EN MÊME TEMPS
   // qu'on ajoute une entrée en tête de data/changelog.json (même numéro).
