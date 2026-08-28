@@ -1759,6 +1759,11 @@ tbody tr:hover {
   z-index: 1300; display: flex; flex-direction: column; overflow-y: auto;
 }
 .hdr-drawer.open { transform: translateX(0); }
+/* Etat brut : le drawer est fige dans le HTML de chaque page (maillage sans JS).
+   Tant que header.js ne l'a pas hydrate, on coupe l'ombre portee : hors ecran,
+   elle deborde malgre tout sur le bord droit de la page (~4/255 de delta) et
+   serait le seul ecart visible pour un visiteur sans JavaScript. */
+.hdr-drawer-raw { box-shadow: none; }
 .drawer-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px; border-bottom: 1px solid var(--border);

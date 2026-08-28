@@ -1,0 +1,43 @@
+# Kingshot Toolbox
+
+> Free calculators, planners and reference databases for the mobile strategy game Kingshot. Bilingual EN/FR, no account and no sign-up: everything a player enters stays in their own browser.
+
+Kingshot Toolbox is a static site covering three needs: optimizers that answer "what should I do next" (research order, TrueGold upgrades, troop splits), databases that answer "what does this cost" (buildings, researches, masters, pets), and shop pages that answer "is this a good deal" (in-game cost compared to gem value and to real money).
+
+Every page is available in English and French; the served HTML is English and the French is applied in the browser. Player data is stored locally and is never sent anywhere.
+
+## Tools
+
+- [Research](https://kingshottoolbox.com/research_calc.html): pick the order of your scientific researches and track progress across the Growth, Economy and Battle trees.
+- [TrueGold](https://kingshottoolbox.com/truegold_calc.html): plan TrueGold building upgrades and work out the resources and speedups needed.
+- [War Academy](https://kingshottoolbox.com/waracademy.html): plan TrueGold troop research, with the optimal path to maximise researches, KvK points, or reach a target score.
+- [Bear Trap](https://kingshottoolbox.com/beartrap_calc.html): build rally marches from your own heroes and troops and get a deployment plan for the event.
+- [Vikings](https://kingshottoolbox.com/vikings.html): split your troops across marches for the Vikings event to maximise defence.
+- [Heroes](https://kingshottoolbox.com/caserne.html): manage your heroes, their generations, skill levels and exclusive gear.
+- [Masters](https://kingshottoolbox.com/masters.html): browse experts, their skills and affinity milestones to optimise bonuses.
+- [Pets](https://kingshottoolbox.com/pets.html): browse your pets tier by tier - attributes, level, army bonus and skills.
+
+## Databases
+
+- [Buildings](https://kingshottoolbox.com/database/buildings/index.html): every building's full upgrade table - TrueGold, Tempered TrueGold, resources, build time and requirements per level.
+- [War Academy Research](https://kingshottoolbox.com/database/waracademy/index.html): every troop research level by level - TrueGold dust, resources, time, effects and requirements for the Infantry, Archer and Cavalry trees.
+- [Masters DB](https://kingshottoolbox.com/database/masters/index.html): each expert's affinity milestones, passive expertise, and every skill's effect, EXP cost, manuscripts and power per level.
+- [Pets DB](https://kingshottoolbox.com/database/pets/index.html): each pet's skill effect per tier, advancement costs and Pet Food required for every level.
+
+## Shop value
+
+- [Shop Value](https://kingshottoolbox.com/shop_calc.html): index of every shop, grouped into event shops, permanent shops and custom chests.
+- [Item values](https://kingshottoolbox.com/shop/items.html): the gem-value reference used to price every shop item.
+- [Real-money item values](https://kingshottoolbox.com/shop/items-euro.html): the observed price of items in euros and dollars, with the pack each figure comes from.
+
+Event shops: [Dragon's Caravan](https://kingshottoolbox.com/shop/dragons-caravan.html), [Adventure Stall](https://kingshottoolbox.com/shop/adventure-stall.html), [Polar Shop](https://kingshottoolbox.com/shop/polar-shop.html), [Summit Contest Champion](https://kingshottoolbox.com/shop/summit-contest-champion.html), [Summit Contest Ordinary](https://kingshottoolbox.com/shop/summit-contest-ordinary.html), [Flamedragon Tyrant Prediction](https://kingshottoolbox.com/shop/flamedragon-tyrant-prediction.html), [Golden Ball](https://kingshottoolbox.com/shop/golden-ball-shop.html) (event over, page kept as an archive).
+
+Permanent shops: [Arena](https://kingshottoolbox.com/shop/arena.html), [Alliance Championship](https://kingshottoolbox.com/shop/alliance-championship.html), [Swordland](https://kingshottoolbox.com/shop/swordland.html), [Kingdom of Power](https://kingshottoolbox.com/shop/kingdom-of-power.html), [Tidal Shop](https://kingshottoolbox.com/shop/tidal-shop.html), [Trial Shop](https://kingshottoolbox.com/shop/trial-shop.html).
+
+Custom chests: [Gear Boost](https://kingshottoolbox.com/shop/gear-boost-chest.html), [War Chant](https://kingshottoolbox.com/shop/war-chant-chest.html).
+
+## About
+
+- [About](https://kingshottoolbox.com/about.html): who is behind the site, how local data works, and legal notices.
+- [Changelog](https://kingshottoolbox.com/changelog.html): version history.
+- [Sitemap](https://kingshottoolbox.com/sitemap.xml): every published URL.

@@ -41,7 +41,7 @@
 </head>
 <body class="has-app-header">
     <div class="db-page">
-        <div class="db-breadcrumb"><a href="index.html">Kingshot Toolbox</a> / <a href="database/buildings/index.html" data-i18n="crumbBuildings">Buildings</a> / <span id="crumb-name">Académie de Guerre</span></div>
+        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="database/buildings/index.html" data-i18n="crumbBuildings">Buildings</a> / <span id="crumb-name">Académie de Guerre</span></div>
         <div class="db-head">
           <img class="db-hero" src="img/buildings/war-academy.webp" alt="War Academy" onerror="this.remove()">
           <h1 id="bldg-name" data-en="War Academy" data-fr="Académie de Guerre">War Academy</h1>
@@ -573,6 +573,15 @@
         </div>
         <nav class="db-switch footer" aria-label="Buildings"><a class="db-switch-item" href="database/buildings/town-center.html" data-en="Town Center" data-fr="Centre-ville">Town Center</a><a class="db-switch-item" href="database/buildings/embassy.html" data-en="Embassy" data-fr="Ambassade">Embassy</a><a class="db-switch-item" href="database/buildings/command-center.html" data-en="Command Center" data-fr="Base de commandement">Command Center</a><span class="db-switch-item active" data-en="War Academy" data-fr="Académie de Guerre">War Academy</span><a class="db-switch-item" href="database/buildings/infirmary.html" data-en="Infirmary" data-fr="Infirmerie">Infirmary</a><a class="db-switch-item" href="database/buildings/barracks.html" data-en="Barracks" data-fr="Quartiers">Barracks</a><a class="db-switch-item" href="database/buildings/stable.html" data-en="Stable" data-fr="Ecurie">Stable</a><a class="db-switch-item" href="database/buildings/range.html" data-en="Range" data-fr="Stand de Tir">Range</a></nav>
     </div>
+
+    <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
+         etat ferme (position:fixed + translateX(100%) => hors ecran). Placee AVANT
+         les scripts : header.js la reutilise au lieu d en creer une seconde, puis
+         hdrBuildDrawer() en remplace le contenu par sa version complete. Le rendu
+         final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
+         n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
+    <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Guide</div><a href="research_calc.html" class="drawer-tool"><span>Research</span></a><a href="truegold_calc.html" class="drawer-tool"><span>TrueGold</span></a><a href="waracademy.html" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc.html" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings.html" class="drawer-tool"><span>Vikings</span></a><a href="caserne.html" class="drawer-tool"><span>Heroes</span></a><a href="masters.html" class="drawer-tool"><span>Masters</span><span class="hdr-badge">Beta</span></a><a href="pets.html" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Pack / Shop Calculation</div><a href="shop_calc.html" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><div class="drawer-cat">Database</div><a href="database/buildings/index.html" class="drawer-tool"><span>Buildings</span></a><a href="database/waracademy/index.html" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/index.html" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/index.html" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/lang.js"></script>
