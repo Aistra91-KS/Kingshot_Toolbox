@@ -140,6 +140,7 @@ function hdrRenderTools() {
 function hdrBuildDrawer() {
   const drawer = document.getElementById('hdr-drawer');
   if (!drawer || !window.SITE) return;
+  drawer.classList.remove('hdr-drawer-raw');   // fin de l'etat brut : l'ombre reprend
   const S = window.SITE;
   const lang = hdrLang();
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -288,10 +289,15 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
   document.body.insertAdjacentHTML('afterbegin', headerHTML);
   document.body.classList.add('has-app-header');
 
-  // Drawer + overlay (mobile)
-  document.body.insertAdjacentHTML('beforeend',
-    '<div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>' +
-    '<aside class="hdr-drawer" id="hdr-drawer" aria-hidden="true"></aside>');
+  // Drawer + overlay (mobile) — figés en dur en fin de <body> de chaque page,
+  // pour que la nav existe sans JavaScript (cf. §9 : le maillage interne ne doit
+  // pas dépendre du JS). On ne les crée donc que s'ils manquent ; hdrBuildDrawer()
+  // remplace ensuite le contenu du drawer par sa version complète, à l'identique.
+  if (!document.getElementById('hdr-drawer')) {
+    document.body.insertAdjacentHTML('beforeend',
+      '<div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>' +
+      '<aside class="hdr-drawer" id="hdr-drawer" aria-hidden="true"></aside>');
+  }
 
   hdrRenderCategories();
   hdrRenderTools();
