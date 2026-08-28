@@ -1,0 +1,343 @@
+{
+  "_meta": {
+    "event": "Dragons_Caravan",
+    "slug": "dragons-caravan",
+    "days": 6,
+    "tier": "Gen 7 / TG5+",
+    "updatedAt": "2026-08-27",
+    "source": "Captures in-game de Paul : Tyran des Dragons Flambés / Voie Brûlante (missions) + Pack Essence Draconique (packs).",
+    "note": "La monnaie de l'événement est l'Essence Draconique (champ `coins`), celle de la boutique. IGNORÉS à la demande de Paul : les Marques Draconiques (pièces dorées), les Célébrations Éclatantes (feux d'artifice) et la DERNIÈRE caisse de chaque pack Essence. Équivalence exacte assumée sur les ressources : « 1K pierre » = 0,1 x 10k_stone, « 1K fer » = 0,1 x 10k_iron. Seuls le pack « de Valeur » (1/jour) et la prime gratuite sont quotidiens ; les cinq autres packs ont un stock de 20 sur toute la période, librement réparti. Cet événement n'a ni monnaie secondaire ni palier : les lignes correspondantes ne s'affichent pas."
+  },
+  "missions": [
+    {
+      "id": "login",
+      "name": {
+        "EN": "Log in once today",
+        "FR": "Se connecter 1 fois aujourd’hui"
+      },
+      "coins": 5
+    },
+    {
+      "id": "alliance",
+      "name": {
+        "EN": "Make 25 Alliance Contributions",
+        "FR": "Faire 25 contributions à l’Alliance"
+      },
+      "coins": 5
+    },
+    {
+      "id": "power",
+      "name": {
+        "EN": "Raise power by 100,000 (train/promote)",
+        "FR": "Gagner 100 000 de puissance (formation/promotion)"
+      },
+      "coins": 5
+    },
+    {
+      "id": "gather",
+      "name": {
+        "EN": "Gather 10,000,000 resources",
+        "FR": "Collecter 10 000 000 de ressources"
+      },
+      "coins": 5
+    },
+    {
+      "id": "rally",
+      "name": {
+        "EN": "Rally and hunt 10 Terrors",
+        "FR": "Appel au ralliement et chasse de 10 Terreurs"
+      },
+      "coins": 5
+    },
+    {
+      "id": "beasts",
+      "name": {
+        "EN": "Defeat 10 Beasts",
+        "FR": "Éliminer 10 Bêtes"
+      },
+      "coins": 5
+    }
+  ],
+  "seasonalMissions": [
+    {
+      "id": "login5",
+      "name": {
+        "EN": "Log in on 5 days",
+        "FR": "Se connecter 5 jours"
+      },
+      "minDays": 5,
+      "coins": 30
+    },
+    {
+      "id": "nomads",
+      "name": {
+        "EN": "Trade 40 times with Nomad Merchants",
+        "FR": "Faire 40 échanges avec des Marchands Nomades"
+      },
+      "coins": 10
+    },
+    {
+      "id": "speedups",
+      "name": {
+        "EN": "Use 5,000m of any Speedup",
+        "FR": "Utiliser 5 000 m d’accélérateurs"
+      },
+      "coins": 30
+    },
+    {
+      "id": "prediction",
+      "name": {
+        "EN": "Place 1 Tyrant Prediction (day 3+)",
+        "FR": "Placer 1 pronostic du Tyran (dès le jour 3)"
+      },
+      "minDays": 3,
+      "coins": 15
+    },
+    {
+      "id": "purchase",
+      "name": {
+        "EN": "Make 1 purchase",
+        "FR": "Faire 1 achat"
+      },
+      "requiresPurchase": true,
+      "coins": 35
+    }
+  ],
+  "freeDailyPack": {
+    "name": {
+      "EN": "Ash Bounty (free)",
+      "FR": "Prime Cendrée (gratuit)"
+    },
+    "coins": 5,
+    "items": [
+      {
+        "itemId": "10k_bread",
+        "qty": 10
+      },
+      {
+        "itemId": "10k_wood",
+        "qty": 10
+      },
+      {
+        "itemId": "10k_stone",
+        "qty": 2
+      },
+      {
+        "itemId": "10k_iron",
+        "qty": 0.5
+      }
+    ]
+  },
+  "packs": [
+    {
+      "id": "essence_valuable",
+      "name": {
+        "EN": "Valuable Dragon Essence Pack",
+        "FR": "Pack Essence Draconique de Valeur"
+      },
+      "priceEur": 5.99,
+      "priceUsd": 4.99,
+      "perDay": 1,
+      "note": {
+        "EN": "One per day.",
+        "FR": "Un par jour."
+      },
+      "reward": {
+        "coins": 300,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 2500
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 25
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 200
+          }
+        ]
+      },
+      "short": {
+        "EN": "Valeur",
+        "FR": "Valeur"
+      }
+    },
+    {
+      "id": "essence_common",
+      "name": {
+        "EN": "Common Dragon Essence Pack",
+        "FR": "Pack Essence Draconique Commun"
+      },
+      "priceEur": 5.99,
+      "priceUsd": 4.99,
+      "maxTotal": 20,
+      "note": {
+        "EN": "Stock of 20 for the whole event, in any split you like - buy 2 on one day and 5 on another.",
+        "FR": "Stock de 20 pour tout l'événement, réparti comme tu veux — 2 un jour, 5 un autre."
+      },
+      "reward": {
+        "coins": 200,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 2500
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 25
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 200
+          }
+        ]
+      },
+      "short": {
+        "EN": "Commun",
+        "FR": "Commun"
+      }
+    },
+    {
+      "id": "essence_uncommon",
+      "name": {
+        "EN": "Uncommon Dragon Essence Pack",
+        "FR": "Pack Essence Draconique Peu Commun"
+      },
+      "priceEur": 11.99,
+      "priceUsd": 9.99,
+      "maxTotal": 20,
+      "note": {
+        "EN": "Stock of 20 for the whole event, in any split you like - buy 2 on one day and 5 on another.",
+        "FR": "Stock de 20 pour tout l'événement, réparti comme tu veux — 2 un jour, 5 un autre."
+      },
+      "reward": {
+        "coins": 400,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 5000
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 40
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 400
+          }
+        ]
+      },
+      "short": {
+        "EN": "Peu commun",
+        "FR": "Peu commun"
+      }
+    },
+    {
+      "id": "essence_rare",
+      "name": {
+        "EN": "Rare Dragon Essence Pack",
+        "FR": "Pack Essence Draconique Rare"
+      },
+      "priceEur": 23.99,
+      "priceUsd": 19.99,
+      "maxTotal": 20,
+      "note": {
+        "EN": "Stock of 20 for the whole event, in any split you like - buy 2 on one day and 5 on another.",
+        "FR": "Stock de 20 pour tout l'événement, réparti comme tu veux — 2 un jour, 5 un autre."
+      },
+      "reward": {
+        "coins": 800,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 10000
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 60
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 800
+          }
+        ]
+      },
+      "short": {
+        "EN": "Rare",
+        "FR": "Rare"
+      }
+    },
+    {
+      "id": "essence_epic",
+      "name": {
+        "EN": "Epic Dragon Essence Pack",
+        "FR": "Pack Essence Draconique Épique"
+      },
+      "priceEur": 59.99,
+      "priceUsd": 49.99,
+      "maxTotal": 20,
+      "note": {
+        "EN": "Stock of 20 for the whole event, in any split you like - buy 2 on one day and 5 on another.",
+        "FR": "Stock de 20 pour tout l'événement, réparti comme tu veux — 2 un jour, 5 un autre."
+      },
+      "reward": {
+        "coins": 2000,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 25000
+          },
+          {
+            "itemId": "1000_exp_vip",
+            "qty": 12
+          },
+          {
+            "itemId": "lv3_custom_resource_chest",
+            "qty": 200
+          }
+        ]
+      },
+      "short": {
+        "EN": "Épique",
+        "FR": "Épique"
+      }
+    },
+    {
+      "id": "essence_mythic",
+      "name": {
+        "EN": "Mythic Dragon Essence Pack",
+        "FR": "Pack Essence Draconique Mythique"
+      },
+      "priceEur": 119.99,
+      "priceUsd": 99.99,
+      "maxTotal": 20,
+      "note": {
+        "EN": "Stock of 20 for the whole event, in any split you like - buy 2 on one day and 5 on another.",
+        "FR": "Stock de 20 pour tout l'événement, réparti comme tu veux — 2 un jour, 5 un autre."
+      },
+      "reward": {
+        "coins": 4000,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 50000
+          },
+          {
+            "itemId": "1000_exp_vip",
+            "qty": 20
+          },
+          {
+            "itemId": "lv3_custom_resource_chest",
+            "qty": 400
+          }
+        ]
+      },
+      "short": {
+        "EN": "Mythique",
+        "FR": "Mythique"
+      }
+    }
+  ]
+}

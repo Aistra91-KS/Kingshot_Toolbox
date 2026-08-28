@@ -476,3 +476,204 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 /* « Multipack » n'est pas un nom de pack mais un état : plusieurs packs à égalité,
    donc aucune image à montrer. On le distingue visuellement des vrais noms. */
 .ie-pack.is-multi { color: var(--text-muted); font-style: italic; }
+
+/* ============================================================
+   VALORISATION D'ÉVÉNEMENT (.sxe-) — section « ce que l'événement m'a rapporté »
+   Rendue par js/shop-event.js sur les seules boutiques qui ont un
+   data/events/<slug>.json. Réutilise les tuiles .sx-kpi du panier : c'est le
+   même geste de lecture (un chiffre, son libellé, sa réserve), on n'invente
+   pas un second vocabulaire visuel.
+   ============================================================ */
+
+.sxe-section { margin-top: 30px; }
+.sxe-kpis { margin-bottom: 4px; }
+.sxe-kpis .sx-kpi-val small { font-size: 15px; font-weight: 600; margin-left: 1px; }
+
+/* Crans de valorisation. La couleur ne porte JAMAIS l'information seule : le libellé
+   sous le chiffre (« Mauvaise affaire » … « Excellent ») dit la même chose en toutes
+   lettres, pour les daltonismes comme pour une capture en noir et blanc.
+   Chaque teinte a sa variante claire : l'or et les verts vifs de la charte sombre
+   tombent sous 4,5:1 sur le fond clair (#f0f4fa). */
+/* Le rouge #e5484d du reste de la page ne tient que 4,2:1 sur le fond sombre : il passe
+   pour le chiffre (22px gras = grand texte, 3:1 suffit) mais pas pour la réserve en 11px.
+   D'où une teinte propre à ce bloc, éclaircie jusqu'à 4,9:1. */
+.sxe-t-bad   { border-color: #ec5c60; }
+.sxe-t-bad   .sx-kpi-val, .sxe-t-bad   .sx-kpi-sub { color: #ec5c60; }
+.sxe-t-warn  { border-color: var(--warning); }
+.sxe-t-warn  .sx-kpi-val, .sxe-t-warn  .sx-kpi-sub { color: var(--warning); }
+.sxe-t-mid   { border-color: var(--border); }
+.sxe-t-mid   .sx-kpi-val { color: var(--text-light); }
+.sxe-t-good  { border-color: #8fd14f; }
+.sxe-t-good  .sx-kpi-val, .sxe-t-good  .sx-kpi-sub { color: #8fd14f; }
+.sxe-t-great { border-color: #34d17a; }
+.sxe-t-great .sx-kpi-val, .sxe-t-great .sx-kpi-sub { color: #34d17a; }
+.sxe-t-f2p   { border-color: var(--success); }
+.sxe-t-f2p   .sx-kpi-val { color: var(--success); font-size: 19px; }
+[data-theme="light"] .sxe-t-bad   { border-color: #c0272d; }
+[data-theme="light"] .sxe-t-bad   .sx-kpi-val, [data-theme="light"] .sxe-t-bad .sx-kpi-sub { color: #c0272d; }
+/* Même raison en thème clair pour l'orange : --warning (#e65100) n'y vaut que 3,4:1. */
+[data-theme="light"] .sxe-t-warn  { border-color: #b23c00; }
+[data-theme="light"] .sxe-t-warn  .sx-kpi-val, [data-theme="light"] .sxe-t-warn .sx-kpi-sub { color: #b23c00; }
+[data-theme="light"] .sxe-t-good  { border-color: #4a7c14; }
+[data-theme="light"] .sxe-t-good  .sx-kpi-val, [data-theme="light"] .sxe-t-good .sx-kpi-sub { color: #4a7c14; }
+[data-theme="light"] .sxe-t-great { border-color: #0f7a3d; }
+[data-theme="light"] .sxe-t-great .sx-kpi-val, [data-theme="light"] .sxe-t-great .sx-kpi-sub { color: #0f7a3d; }
+
+/* Bouton « Utiliser comme budget » : dans la tuile, sous la réserve. Report EXPLICITE
+   vers « Ma monnaie » du tableau — jamais automatique, une saisie du joueur ne
+   s'écrase pas en silence. */
+.sxe-budget { margin-top: 8px; align-self: flex-start; font-size: 11px; padding: 4px 9px; }
+.sxe-budget.ok { border-color: color-mix(in srgb, var(--success) 55%, transparent); color: var(--success); }
+.sxe-budget:disabled { cursor: default; opacity: .85; }
+
+/* Panneau dépliable des achats : replié, la section tient en quatre tuiles. */
+.sxe-panel, .sxe-detail {
+  margin-top: 14px; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--bg-panel);
+}
+.sxe-panel > summary, .sxe-detail > summary {
+  cursor: pointer; padding: 11px 14px; font-weight: 600; font-size: 14px;
+  color: var(--accent); list-style: none; display: flex; align-items: center; gap: 8px;
+}
+.sxe-panel > summary::-webkit-details-marker, .sxe-detail > summary::-webkit-details-marker { display: none; }
+.sxe-panel > summary::before, .sxe-detail > summary::before {
+  content: '▸'; font-size: 11px; transition: transform .15s;
+}
+.sxe-panel[open] > summary::before, .sxe-detail[open] > summary::before { transform: rotate(90deg); }
+.sxe-panel > summary:focus-visible, .sxe-detail > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 10px; }
+.sxe-detail { margin: 14px; background: var(--control-bg); }
+
+.sxe-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 0 14px 12px; }
+.sxe-toolbar .sx-take input[type="text"] {
+  width: 40px; text-align: center; border: none;
+  border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+  background: var(--input-bg); color: var(--text-light); padding: 3px 2px;
+  font-variant-numeric: tabular-nums;
+}
+.sxe-toolbar .sx-take input[type="text"]:focus { outline: none; background: var(--control-bg); }
+
+/* Grille des achats : 1 ligne par pack, 1 colonne par jour. Elle défile
+   horizontalement dans sa boîte (même parti que les tableaux BDD sur mobile),
+   la colonne du pack restant figée — sans elle, on coche à l'aveugle. */
+.sxe-gridbox { overflow-x: auto; margin: 0 14px 4px; border: 1px solid var(--border); border-radius: 8px; }
+.sxe-grid { width: 100%; border-collapse: collapse; font-size: 13px; }
+.sxe-grid th, .sxe-grid td { padding: 7px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.sxe-grid thead th { background: var(--table-header); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); font-weight: 600; }
+.sxe-grid tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.sxe-grid th.ctr, .sxe-grid td.ctr { text-align: center; }
+.sxe-grid th.rgt, .sxe-grid td.rgt { text-align: right; font-variant-numeric: tabular-nums; }
+.sxe-grid td.c-pack { white-space: normal; min-width: 165px; line-height: 1.25; }
+.sxe-grid td.sxe-price { color: var(--text-muted); }
+.sxe-grid td.c-tot { color: var(--accent); font-weight: 600; }
+.sxe-grid .dash { color: var(--text-muted); opacity: .55; }
+.sxe-grid tfoot .sxe-foot { background: var(--table-header); font-size: 12px; color: var(--text-muted); }
+.sxe-grid tfoot .sxe-foot b { color: var(--accent); font-size: 14px; }
+/* Colonne du pack figée pendant le défilement horizontal. */
+.sxe-grid th.c-pack, .sxe-grid td.c-pack { position: sticky; left: 0; z-index: 1; background: var(--bg-panel); box-shadow: 1px 0 0 var(--border); }
+.sxe-grid thead th.c-pack { z-index: 3; background: var(--table-header); }
+.sxe-grid tbody tr:hover td.c-pack { background: color-mix(in srgb, var(--accent) 6%, var(--bg-panel)); }
+/* Le fond opaque de la colonne figée est à même spécificité que la bande du pied et
+   déclaré après : sans cette règle, la 1ʳᵉ cellule du pied trancherait sur le reste. */
+.sxe-grid tfoot td.c-pack { background: var(--table-header); }
+
+/* Cellule d'achat : compteur cyclique (0 → 1 → … → 0). L'état coché se lit au
+   symbole (✓ ou ×N) autant qu'à la couleur. 44 px de haut sur mobile. */
+.sxe-cell {
+  width: 34px; height: 30px; padding: 0; cursor: pointer;
+  background: var(--input-bg); color: var(--text-muted);
+  border: 1px solid var(--border); border-radius: 6px;
+  font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums;
+  transition: background .12s, color .12s, border-color .12s;
+}
+.sxe-cell:hover { border-color: var(--accent); color: var(--accent); }
+.sxe-cell.on { background: var(--accent); border-color: var(--accent); color: #000; }
+.sxe-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sxe-info { color: var(--text-muted); cursor: help; font-size: 12px; }
+
+.sxe-note { margin: 8px 14px 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+.sxe-detail > summary + .table-container { margin: 0 12px 12px; }
+/* JAMAIS de `display:flex` sur un <td> ici. Chromium enveloppe alors la cellule dans
+   une boîte anonyme : sa hauteur s'arrondit indépendamment de ses voisines, et sur les
+   lignes dont le contenu tombe sur une hauteur fractionnaire (un nom qui passe à la
+   ligne) la bordure collapsée se peint 1px plus haut que dans les autres colonnes —
+   d'où une marche visible sous la ligne. L'icône s'aligne en inline-block ; la cellule
+   reste une vraie cellule de tableau. Mesuré au pixel : 1px d'écart avant, 0 après. */
+.sxe-rewards td.c-name { vertical-align: middle; }
+/* Le flex vit sur un <span> INTÉRIEUR : icône et nom restent côte à côte (un nom sur
+   deux lignes ne repasse pas sous l'icône) sans que le <td> quitte le modèle tableau. */
+.sxe-rewards td.c-name .sxe-name { display: flex; align-items: center; gap: 8px; }
+.sxe-rewards td.c-name .sx-ico { flex: 0 0 auto; }
+/* Lignes « monnaie » et objets non valorisés : présents dans le détail, jamais chiffrés. */
+.sxe-rewards tbody tr.sxe-cur-row { background: transparent; border-left-color: var(--border); }
+.sxe-rewards tbody tr.sxe-cur-row td.c-name { color: var(--text-muted); font-weight: 600; }
+
+@media (max-width: 560px) {
+  .sxe-gridbox, .sxe-toolbar, .sxe-note { margin-left: 10px; margin-right: 10px; }
+  .sxe-detail { margin: 10px; }
+  /* Cible tactile : 44 px de haut, 8 px d'écart — un doigt ne vise pas 30 px. */
+  .sxe-cell { height: 44px; width: 42px; }
+  .sxe-grid th, .sxe-grid td { padding: 5px 7px; }
+  .sxe-grid td.c-pack { min-width: 126px; max-width: 140px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sxe-cell, .sxe-panel > summary::before, .sxe-detail > summary::before { transition: none; }
+}
+
+/* Colonne « Provenance » du détail des gains : deux pastilles au plus, le reste replié
+   dans un « +n » et le détail complet en info-bulle. Objectif explicite : expliquer une
+   quantité sans transformer la ligne en paragraphe. */
+/* PIÈGE : `.sx-table` élargit sa DEUXIÈME colonne à 100% — dans une boutique c'est le
+   nom de l'objet (la 1re est l'image). Ici la 2e colonne est « Qté » : sans ce correctif
+   elle absorbe toute la largeur, la colonne Provenance se retrouve à ~120px et ses
+   pastilles s'empilent une par ligne, triplant la hauteur de chaque ligne. C'est donc à
+   la Provenance de prendre la largeur restante. */
+.sxe-rewards td.c-name, .sxe-rewards th:nth-child(1),
+.sxe-rewards th:nth-child(2), .sxe-rewards td.ctr { width: 1%; }
+.sxe-rewards th.c-src, .sxe-rewards td.sxe-src { width: 100%; }
+.sxe-rewards th.c-src { white-space: nowrap; }
+.sxe-rewards td.sxe-src { white-space: normal; line-height: 1.6; padding-top: 5px; padding-bottom: 5px; }
+.sxe-chip {
+  display: inline-block; margin: 1px 4px 1px 0; padding: 1px 7px;
+  background: var(--control-bg); border: 1px solid var(--border); border-radius: 999px;
+  font-size: 11px; color: var(--text-muted); white-space: nowrap;
+}
+.sxe-chip b { color: var(--text-light); font-weight: 600; font-variant-numeric: tabular-nums; }
+/* Le « +n » ne se lit pas comme une source de plus : bordure tiretée, pas de chiffre gras. */
+.sxe-chip.is-more { border-style: dashed; font-style: italic; }
+.sxe-rewards td.sxe-src.dash { white-space: nowrap; }
+@media (max-width: 820px) {
+  .sxe-rewards td.sxe-src { max-width: 190px; }
+  .sxe-chip { font-size: 10px; padding: 1px 5px; }
+}
+
+/* Cases à cocher du détail : chaque objet compte, sauf si le joueur le décoche — il
+   sort alors du total ET de la valorisation. La ligne reste visible, grisée et barrée :
+   on doit voir ce qu'on a écarté pour pouvoir le reprendre d'un clic. */
+.sxe-rewards th.c-chk, .sxe-rewards td.c-chk { width: 30px; text-align: center; padding-left: 8px; padding-right: 2px; }
+.sxe-rewards .sxe-chk { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; vertical-align: middle; }
+.sxe-rewards tr.sxe-off td:not(.c-chk) { opacity: .45; }
+.sxe-rewards tr.sxe-off td.gem, .sxe-rewards tr.sxe-off td.eur { text-decoration: line-through; }
+/* Ligne de total, EN TÊTE du tableau : même bande que l'en-tête, chiffres pleins.
+   Le soulignement doré est un box-shadow INTERNE plutôt qu'un border-bottom : peint
+   dans la cellule, il ne participe pas à la résolution des bordures collapsées et
+   reste rectiligne quoi qu'il arrive aux lignes voisines. */
+.sxe-rewards tr.sxe-total-row td { background: var(--table-header); box-shadow: inset 0 -2px 0 var(--accent); }
+.sxe-rewards tr.sxe-total-row td.c-name { font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .03em; font-size: 12px; }
+.sxe-rewards tr.sxe-total-row td.c-name .sx-sub { text-transform: none; letter-spacing: 0; font-weight: 400; }
+.sxe-rewards tr.sxe-total-row td.gem, .sxe-rewards tr.sxe-total-row td.eur { font-size: 14px; font-weight: 700; }
+
+/* Pack à stock d'événement : saisie libre par jour (pas de plafond journalier), d'où un
+   champ plutôt que le compteur cyclique des packs quotidiens. */
+.sxe-num {
+  width: 40px; height: 30px; padding: 0 4px; text-align: center;
+  background: var(--input-bg); color: var(--text-light);
+  border: 1px solid var(--border); border-radius: 6px;
+  font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.sxe-num:focus { outline: none; border-color: var(--accent); }
+.sxe-num.on { border-color: var(--accent); color: var(--accent); }
+.sxe-num::placeholder { color: var(--text-muted); opacity: .5; font-weight: 400; }
+/* Case « mission validée » : une pastille de la barre d'outils, cliquable en entier. */
+.sxe-chk-fact { cursor: pointer; gap: 7px; }
+.sxe-chk-fact .sxe-chk { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; }
+@media (max-width: 560px) { .sxe-num { height: 44px; width: 44px; } }

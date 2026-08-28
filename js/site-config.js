@@ -21,7 +21,7 @@ const SITE = {
 
   // Version affichée dans le pied de page. À incrémenter EN MÊME TEMPS
   // qu'on ajoute une entrée en tête de data/changelog.json (même numéro).
-  version: "2.1",
+  version: "2.11",
 
   // Invitation Discord. Tant que la chaîne est vide, le pied de page
   // n'affiche pas le lien du tout (rien d'inachevé à l'écran).

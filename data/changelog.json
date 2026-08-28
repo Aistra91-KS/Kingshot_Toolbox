@@ -6,6 +6,59 @@
   },
   "releases": [
     {
+      "version": "2.11",
+      "date": "2026-08-28",
+      "title": {
+        "EN": "Was that event worth your money?",
+        "FR": "Cet événement valait-il ton argent ?"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "Two event shops now tell you what the whole event gave you back. Tick the packs you bought on each day - or nothing at all if you play for free - and the page adds up everything the event hands out: the daily missions, the free packs, the free tracks, the milestones and the contents of the packs themselves. It compares that to what you actually paid and shows a single percentage: 100% means you got your money back, and the colour runs from red to green as the deal gets better.",
+            "FR": "Deux boutiques d'événement te disent maintenant ce que l'événement entier t'a rapporté. Coche les packs achetés chaque jour - ou rien du tout si tu joues gratuitement - et la page additionne tout ce que l'événement distribue : les missions quotidiennes, les packs gratuits, les pistes gratuites, les paliers et le contenu des packs eux-mêmes. Elle compare le tout à ce que tu as réellement payé et affiche un seul pourcentage : 100 %, c'est ta mise récupérée, et la couleur va du rouge au vert à mesure que l'affaire s'améliore."
+          },
+          "href": "shop/adventure-stall.html",
+          "linkLabel": {
+            "EN": "Adventure Stall",
+            "FR": "Stand d'Aventure"
+          }
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "The event currency you earn is counted too. One button drops it into the shop table below, so the items you pick there feed straight back into the value you recovered.",
+            "FR": "La monnaie d'événement que tu gagnes est comptée elle aussi. Un bouton la reporte dans le tableau de la boutique en dessous, et les objets que tu y choisis reviennent aussitôt nourrir la valeur récupérée."
+          },
+          "href": "shop/dragons-caravan.html",
+          "linkLabel": {
+            "EN": "Dragon's Caravan",
+            "FR": "Caravane du Dragon"
+          }
+        },
+        {
+          "type": "new",
+          "text": {
+            "EN": "A breakdown lists every reward with its total in gems and in real money, and says where each quantity comes from - the missions, a pass, a milestone or a given pack. Untick anything you don't care about and it leaves the total, and the percentage, at once. Your answers are kept on your device, per event and per profile.",
+            "FR": "Un détail liste chaque récompense avec son total en gemmes et en argent réel, et indique d'où vient chaque quantité - les missions, un pass, un palier ou tel pack. Décoche ce qui ne t'intéresse pas : l'objet sort aussitôt du total, et du pourcentage. Tes réponses restent sur ton appareil, par événement et par profil."
+          }
+        },
+        {
+          "type": "improved",
+          "text": {
+            "EN": "The real-money prices come from a new survey: 59 paid packs instead of 33. Three items turn out to be handed out in much bigger amounts than before, so they now cost far less per unit - Gilded Threads and Satin especially.",
+            "FR": "Les prix en argent réel viennent d'un nouveau relevé : 59 packs payants au lieu de 33. Trois objets se révèlent distribués en bien plus grande quantité qu'avant, et coûtent donc bien moins cher à l'unité - les Fils Dorés et le Satin en particulier."
+          },
+          "href": "shop/items-euro.html",
+          "linkLabel": {
+            "EN": "Real-money item values",
+            "FR": "Prix réel des objets"
+          }
+        }
+      ]
+    },
+    {
       "version": "2.1",
       "date": "2026-08-27",
       "title": {

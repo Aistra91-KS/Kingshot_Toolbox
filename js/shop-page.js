@@ -414,6 +414,7 @@ function spAfterEdit(){
   SP_PENDING = setTimeout(()=>{
     SP_PENDING = null;
     spRenderTable(); spRenderPodium(); spRenderHero(); spRenderCart(); spRenderActions();
+    spNotifyEvent();
   }, 0);
 }
 
@@ -494,7 +495,14 @@ function spRenderAll(){
   scApplyTranslations();
   spRenderHero(); spRenderSwitch(); spRenderActions(); spRenderCart();
   spRenderPodium(); spRenderTable();
+  spNotifyEvent();
 }
+
+// La section « valorisation de l'événement » (shop-event.js, chargé seulement sur les
+// boutiques qui ont un data/events/<slug>.json) compte le panier dans sa valeur : tout
+// ce qui change le panier, la monnaie, la devise ou la lecture doit la rafraîchir.
+// Simple notification : la page boutique ignore tout du module et reste autonome sans lui.
+function spNotifyEvent(){ if(window.ShopEvent) ShopEvent.refresh(); }
 
 (async function(){
   await scLoadAll();

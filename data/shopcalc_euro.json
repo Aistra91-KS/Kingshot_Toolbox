@@ -3,18 +3,34 @@
     "tier": "Gen 7 / TG5+",
     "packPrice": 6,
     "packPriceUsd": 5,
-    "updatedAt": "2026-08-27",
+    "updatedAt": "2026-08-28",
     "source": "Relevé in-game des packs récurrents (disponibles au moins une fois par mois), hors packs d'événement ponctuels. Fourni et mis à jour périodiquement par Paul (fichier Pack_ks.xlsx).",
-    "note": "Seconde valorisation, en argent réel. La clé de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantité MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coûtent le même prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocké : c'est _meta.packPrice / qty, calculé à l'affichage. Fichier ADMIN en lecture seule, régénérable d'un bloc depuis le relevé Excel."
+    "note": "Seconde valorisation, en argent réel. La clé de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantité MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coûtent le même prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocké : c'est _meta.packPrice / qty, calculé à l'affichage. Fichier ADMIN en lecture seule, régénérable d'un bloc depuis le relevé Excel. Les quantités du relevé font foi, Y COMPRIS à la baisse."
   },
   "packs": {
-    "master-s-collection-charms-exquisite": {
-      "FR": "Collection principale - Charms - Exquis",
-      "EN": "Master's Collection - Charms - Exquisite"
+    "adventure-supply-pack": {
+      "FR": "Pack Provision d'Aventure",
+      "EN": "Adventure Supply Pack"
     },
-    "master-s-collection-charms-sublime": {
-      "FR": "Collection principale - Charms - Sublime",
-      "EN": "Master's Collection - Charms - Sublime"
+    "charm-craftsman-pack": {
+      "FR": "Pack Artisan de Talisman",
+      "EN": "Charm Craftsman Pack"
+    },
+    "charm-design-pack": {
+      "FR": "Pack de Plan de Talisman",
+      "EN": "Charm Design Pack"
+    },
+    "city-construction-pack": {
+      "FR": "Pack de Construction de la Ville",
+      "EN": "City Construction Pack"
+    },
+    "city-lifeline-pack": {
+      "FR": "Pack Lien Vital de la Ville",
+      "EN": "City Lifeline Pack"
+    },
+    "conqueror-pack": {
+      "FR": "Pack Conquérant",
+      "EN": "Conqueror Pack"
     },
     "custom-arms-set-common-custom-chest": {
       "FR": "Ensemble D'armes Personnalisées - Coffre Personnalisé Commun",
@@ -24,97 +40,173 @@
       "FR": "Coffre Perso Animal - Coffre Personnalisé Commun",
       "EN": "Custom Pet Chest - Common Custom Chest"
     },
-    "exclusive-gear-enhancement-special": {
-      "FR": "Amélioration d'Equipement Exclusif Spécial",
-      "EN": "Exclusive Gear Enhancement Special"
-    },
-    "conqueror-pack": {
-      "FR": "Pack Conquérant",
-      "EN": "Conqueror Pack"
-    },
-    "world-traveler": {
-      "FR": "Globe-trotteur",
-      "EN": "World Traveler"
-    },
-    "weekly-deal-hero-shard": {
-      "FR": "Pack Offre Hebdo - Frag. De Héros",
-      "EN": "Weekly Deal - Hero Shard"
-    },
-    "weekly-deal-lucky-chest": {
-      "FR": "Pack Offre Hebdo - Coffre de Chance",
-      "EN": "Weekly Deal - Lucky Chest"
-    },
     "daily-deals": {
       "FR": "Offres Quotidiennes",
       "EN": "Daily Deals"
     },
-    "truegold-dust-weekly-card": {
-      "FR": "Carte Hebdo de Poussière d'Or Véritable",
-      "EN": "Truegold Dust Weekly Card"
+    "exclusive-gear-enhancement-special": {
+      "FR": "Amélioration d'Equipement Exclusif Spécial",
+      "EN": "Exclusive Gear Enhancement Special"
     },
-    "truegold-weekly-card": {
-      "FR": "Carte Hebdo D'or Véritable",
-      "EN": "Truegold Weekly Card"
-    },
-    "pet-weekly-card": {
-      "FR": "Carte Hebdo Animal",
-      "EN": "Pet Weekly Card"
-    },
-    "gear-weekly-card": {
-      "FR": "Carte hebdo Équipement",
-      "EN": "Gear Weekly Card"
-    },
-    "speedup-weekly-card": {
-      "FR": "Carte Hebdo Accélérer",
-      "EN": "Speedup Weekly Card"
-    },
-    "governor-gear-tool-pack": {
-      "FR": "Pack d'Outils pour l'Équipement du Chef",
-      "EN": "Governor Gear Tool Pack"
+    "frontier-encounter-adventurer": {
+      "FR": "Rencontre Frontalière - Aventurier",
+      "EN": "Frontier Encounter - Adventurer"
     },
     "gear-imbuement": {
       "FR": "Equipement d'Incorporation",
       "EN": "Gear Imbuement"
     },
+    "gear-weekly-card": {
+      "FR": "Carte hebdo Équipement",
+      "EN": "Gear Weekly Card"
+    },
+    "gold-pack": {
+      "FR": "Pack Or",
+      "EN": "Gold Pack"
+    },
+    "governor-gear-enhancement": {
+      "FR": "Amélioration de l'Équipement du Chef",
+      "EN": "Governor Gear Enhancement"
+    },
+    "governor-gear-tool-pack": {
+      "FR": "Pack d'Outils pour l'Équipement du Chef",
+      "EN": "Governor Gear Tool Pack"
+    },
     "growth-manual-pack": {
       "FR": "Pack Manuel de Croissance",
       "EN": "Growth Manual Pack"
     },
-    "pet-energy-pack": {
-      "FR": "Pack Énergie Animal",
-      "EN": "Pet Energy Pack"
+    "hall-of-governors-pack": {
+      "FR": "Pack Panthéon des Chefs",
+      "EN": "Hall of Governors Pack"
     },
-    "promotion-medallion-pack": {
-      "FR": "Pack Médaillon de Promotion",
-      "EN": "Promotion Medallion Pack"
-    },
-    "adventure-supply-pack": {
-      "FR": "Pack Provision d'Aventure",
-      "EN": "Adventure Supply Pack"
-    },
-    "master-gift-pack": {
-      "FR": "Ensemble de cadeaux d'expert",
-      "EN": "Master Gift Pack"
-    },
-    "mystery-badge-pack": {
-      "FR": "Pack d'Insigne Mystère",
-      "EN": "Mystery Badge Pack"
+    "hero-gear-pack": {
+      "FR": "Pack d'Équipement de Héros",
+      "EN": "Hero Gear Pack"
     },
     "hero-xp-pack": {
       "FR": "Pack d'EXP de Héros",
       "EN": "Hero XP Pack"
     },
+    "intel-monthly-pass": {
+      "FR": "Carte Mens. Renseign",
+      "EN": "Intel Monthly Pass"
+    },
+    "master-emblem-pack": {
+      "FR": "Pack d'emblème d'expert",
+      "EN": "Master Emblem Pack"
+    },
+    "master-gift-pack": {
+      "FR": "Ensemble de cadeaux d'expert",
+      "EN": "Master Gift Pack"
+    },
+    "master-s-collection-apprentice-s-work-classic": {
+      "FR": "Collection principale - Travail de l'Apprenti - Classique",
+      "EN": "Master's Collection - Apprentice's Work - Classic"
+    },
+    "master-s-collection-apprentice-s-work-exquisite": {
+      "FR": "Collection principale - Travail de l'Apprenti - Exquis",
+      "EN": "Master's Collection - Apprentice's Work - Exquisite"
+    },
+    "master-s-collection-apprentice-s-work-sublime": {
+      "FR": "Collection principale - Travail de l'Apprenti - Sublime",
+      "EN": "Master's Collection - Apprentice's Work - Sublime"
+    },
+    "master-s-collection-charms-classic": {
+      "FR": "Collection principale - Charms - Classique",
+      "EN": "Master's Collection - Charms - Classic"
+    },
+    "master-s-collection-charms-exquisite": {
+      "FR": "Collection principale - Charms - Exquis",
+      "EN": "Master's Collection - Charms - Exquisite"
+    },
+    "master-s-collection-charms-sublime": {
+      "FR": "Collection principale - Charms - Sublime",
+      "EN": "Master's Collection - Charms - Sublime"
+    },
+    "master-skill-pack": {
+      "FR": "Pack de compétence d'expert",
+      "EN": "Master Skill Pack"
+    },
+    "mastery-forging": {
+      "FR": "Forge De Maîtrise",
+      "EN": "Mastery Forging"
+    },
+    "mystery-badge-pack": {
+      "FR": "Pack d'Insigne Mystère",
+      "EN": "Mystery Badge Pack"
+    },
+    "pet-energy-pack": {
+      "FR": "Pack Énergie Animal",
+      "EN": "Pet Energy Pack"
+    },
+    "pet-food-pack": {
+      "FR": "Pack Nourriture Animal",
+      "EN": "Pet Food Pack"
+    },
+    "pet-weekly-card": {
+      "FR": "Carte Hebdo Animal",
+      "EN": "Pet Weekly Card"
+    },
+    "promotion-medallion-pack": {
+      "FR": "Pack Médaillon de Promotion",
+      "EN": "Promotion Medallion Pack"
+    },
     "skill-manual-pack": {
       "FR": "Pack Manuel de Compétences",
       "EN": "Skill Manual Pack"
+    },
+    "speedup-weekly-card": {
+      "FR": "Carte Hebdo Accélérer",
+      "EN": "Speedup Weekly Card"
+    },
+    "taming-mark-pack": {
+      "FR": "Pack Marque de Dressage",
+      "EN": "Taming Mark Pack"
+    },
+    "tech-pack": {
+      "FR": "Pack de Technologie",
+      "EN": "Tech Pack"
+    },
+    "tech-storm-pack": {
+      "FR": "Pack Tech Tempête",
+      "EN": "Tech Storm Pack"
     },
     "transfer-pass-pack": {
       "FR": "Pack Passe de Transfert",
       "EN": "Transfer Pass Pack"
     },
-    "city-lifeline-pack": {
-      "FR": "Pack Lien Vital de la Ville",
-      "EN": "City Lifeline Pack"
+    "troops-training-pack": {
+      "FR": "Pack d'Entrainement des Troupes",
+      "EN": "Troops Training Pack"
+    },
+    "troops-training-pack-2": {
+      "FR": "Pack d'Entraînement des Troupes",
+      "EN": "Troops Training Pack"
+    },
+    "truegold-dust-pack": {
+      "FR": "Pack de Poussière d'Or Véritable",
+      "EN": "Truegold Dust Pack"
+    },
+    "truegold-dust-weekly-card": {
+      "FR": "Carte Hebdo de Poussière d'Or Véritable",
+      "EN": "Truegold Dust Weekly Card"
+    },
+    "truegold-fanatic-pack": {
+      "FR": "Pack Fanatique d'Or Véritable",
+      "EN": "Truegold Fanatic Pack"
+    },
+    "truegold-pack": {
+      "FR": "Pack d'Or Véritable",
+      "EN": "Truegold Pack"
+    },
+    "truegold-weekly-card": {
+      "FR": "Carte Hebdo D'or Véritable",
+      "EN": "Truegold Weekly Card"
+    },
+    "weekly-benefits-card-building": {
+      "FR": "Carte d'Avantages Hebdo - Carte d'Avantages pour Bâtiments",
+      "EN": "Weekly Benefits Card - Building"
     },
     "weekly-benefits-card-governor-charm": {
       "FR": "Carte d'Avantages Hebdo - Carte Avantages Talisman du Chef",
@@ -128,17 +220,29 @@
       "FR": "Carte d'Avantages Hebdo - Carte Avantages d'Equipement de Héros",
       "EN": "Weekly Benefits Card - Hero Gear"
     },
-    "weekly-benefits-card-building": {
-      "FR": "Carte d'Avantages Hebdo - Carte d'Avantages pour Bâtiments",
-      "EN": "Weekly Benefits Card - Building"
+    "weekly-benefits-card-pet": {
+      "FR": "Carte d'Avantages Hebdo - Carte d'avantages Animaux",
+      "EN": "Weekly Benefits Card - Pet"
     },
-    "intel-monthly-pass": {
-      "FR": "Carte Mens. Renseign",
-      "EN": "Intel Monthly Pass"
+    "weekly-deal-gear-enhancement": {
+      "FR": "Pack Offre Hebdo - Amélioration D'Eqpmnt",
+      "EN": "Weekly Deal - Gear Enhancement"
     },
-    "frontier-encounter-adventurer": {
-      "FR": "Rencontre Frontalière - Aventurier",
-      "EN": "Frontier Encounter - Adventurer"
+    "weekly-deal-gear-mastery": {
+      "FR": "Pack Offre Hebdo - Maitrise D'Eqpmnt",
+      "EN": "Weekly Deal - Gear Mastery"
+    },
+    "weekly-deal-hero-shard": {
+      "FR": "Pack Offre Hebdo - Frag. De Héros",
+      "EN": "Weekly Deal - Hero Shard"
+    },
+    "weekly-deal-lucky-chest": {
+      "FR": "Pack Offre Hebdo - Coffre de Chance",
+      "EN": "Weekly Deal - Lucky Chest"
+    },
+    "world-traveler": {
+      "FR": "Globe-trotteur",
+      "EN": "World Traveler"
     }
   },
   "items": {
@@ -228,9 +332,9 @@
       ]
     },
     "artisan_s_vision": {
-      "qty": 50,
+      "qty": 60,
       "packs": [
-        "weekly-benefits-card-governor-gear"
+        "master-s-collection-apprentice-s-work-classic"
       ]
     },
     "charm_design": {
@@ -306,9 +410,9 @@
       ]
     },
     "gilded_threads": {
-      "qty": 72,
+      "qty": 262,
       "packs": [
-        "governor-gear-tool-pack"
+        "master-s-collection-apprentice-s-work-sublime"
       ]
     },
     "gold_key": {
@@ -442,9 +546,9 @@
       ]
     },
     "satin": {
-      "qty": 7200,
+      "qty": 26000,
       "packs": [
-        "governor-gear-tool-pack"
+        "master-s-collection-apprentice-s-work-sublime"
       ]
     },
     "silver_goblet": {

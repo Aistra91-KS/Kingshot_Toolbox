@@ -1,0 +1,523 @@
+{
+  "_meta": {
+    "event": "Adventure_Stall",
+    "slug": "adventure-stall",
+    "days": 5,
+    "tier": "Gen 7 / TG5+",
+    "stallName": {
+      "EN": "Stall Points",
+      "FR": "Points de Vente"
+    },
+    "travelName": {
+      "EN": "Travel Points",
+      "FR": "Points de Voyage"
+    },
+    "updatedAt": "2026-08-27",
+    "source": "Adventure_Stall.xlsx (relevé in-game de Paul)",
+    "note": "Récompenses exprimées avec les itemId du référentiel (data/shopcalc_items.json). Conversions d'équivalence exacte assumées : « 10 Enhancement XP Part » = 0.1 x 100_enhancement_xp_component ; « 5000 Hero XP » x10 = 10000_hero_xp x5. Les objets absents du référentiel (Skin Token) sont listés mais jamais valorisés. Modèle recalé sur un relevé in-game du 2026-08-27 (jour 3, pass acheté J1, 2 packs a 1,19 EUR) : il rend exactement 300 pieces / 200 points / 2 paliers."
+  },
+  "missions": [
+    {
+      "id": "login",
+      "name": {
+        "EN": "Daily Login",
+        "FR": "Connexion quotidienne"
+      },
+      "travel": 200,
+      "coins": 10,
+      "stall": 10,
+      "items": [
+        {
+          "itemId": "5m_general_speedup",
+          "qty": 10
+        }
+      ]
+    },
+    {
+      "id": "beasts",
+      "name": {
+        "EN": "Defeat 10 Beasts",
+        "FR": "Vaincre 10 bêtes"
+      },
+      "travel": 200,
+      "coins": 5,
+      "stall": 5,
+      "items": [
+        {
+          "itemId": "5m_general_speedup",
+          "qty": 10
+        }
+      ]
+    },
+    {
+      "id": "recruit",
+      "name": {
+        "EN": "Use Epic Recruitment 2 times",
+        "FR": "Utiliser 2 recrutements épiques"
+      },
+      "travel": 200,
+      "items": [
+        {
+          "itemId": "5m_general_speedup",
+          "qty": 10
+        },
+        {
+          "itemId": "100_enhancement_xp_component",
+          "qty": 0.5,
+          "note": "5 × 10 Enhancement XP Part"
+        }
+      ]
+    },
+    {
+      "id": "intel",
+      "name": {
+        "EN": "Finish 5 Intel Missions",
+        "FR": "Terminer 5 missions de renseignement"
+      },
+      "travel": 200,
+      "items": [
+        {
+          "itemId": "10000_hero_xp",
+          "qty": 1
+        },
+        {
+          "itemId": "lv2_custom_resource_chest",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "id": "power",
+      "name": {
+        "EN": "Raise 30k Power by Training/Promoting",
+        "FR": "Gagner 30k de puissance (formation/promotion)"
+      },
+      "travel": 200,
+      "items": [
+        {
+          "itemId": "100_enhancement_xp_component",
+          "qty": 0.5,
+          "note": "5 × 10 Enhancement XP Part"
+        },
+        {
+          "itemId": "lv2_custom_resource_chest",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "id": "purchase",
+      "name": {
+        "EN": "Make any Purchase",
+        "FR": "Faire un achat (au moins un)"
+      },
+      "requiresPurchase": true,
+      "travel": 200,
+      "coins": 5,
+      "stall": 5,
+      "items": [
+        {
+          "itemId": "5m_general_speedup",
+          "qty": 10
+        }
+      ]
+    }
+  ],
+  "freeDailyPack": {
+    "name": {
+      "EN": "Free Adventure Coin Pack",
+      "FR": "Pack gratuit de Pièces d'Aventure"
+    },
+    "coins": 5,
+    "stall": 5,
+    "items": [
+      {
+        "itemId": "lv2_custom_resource_chest",
+        "qty": 20
+      }
+    ]
+  },
+  "waypost": {
+    "name": {
+      "EN": "Waypost Sojourner (free track)",
+      "FR": "Visiteur de Passage (piste gratuite)"
+    },
+    "coins": 25,
+    "stall": 25,
+    "items": [
+      {
+        "itemId": "epic_conquest_skill_book",
+        "qty": 3
+      },
+      {
+        "itemId": "epic_expidition_skill_manual",
+        "qty": 3
+      },
+      {
+        "itemId": "5m_general_speedup",
+        "qty": 18
+      },
+      {
+        "itemId": "10000_hero_xp",
+        "qty": 5,
+        "note": "10 × 5000 Hero XP"
+      },
+      {
+        "itemId": "mythic_general_hero_shard",
+        "qty": 1
+      }
+    ]
+  },
+  "stallMilestones": [
+    {
+      "points": 50,
+      "coins": 25
+    },
+    {
+      "points": 200,
+      "coins": 75
+    },
+    {
+      "points": 500,
+      "coins": 150
+    },
+    {
+      "points": 1000,
+      "coins": 200
+    },
+    {
+      "points": 2000,
+      "coins": 300
+    },
+    {
+      "points": 3000,
+      "coins": 400
+    },
+    {
+      "points": 5000,
+      "coins": 600
+    }
+  ],
+  "travelMilestones": {
+    "from": 4500,
+    "every": 500,
+    "note": {
+      "EN": "Beyond 4,500 Travel Points, every extra 500 grants the same reward again (4,500 / 5,000 / 5,500 ...), with no cap.",
+      "FR": "Passé 4 500 Points de Voyage, chaque tranche de 500 redonne la même récompense (4 500 / 5 000 / 5 500 ...), sans plafond."
+    },
+    "reward": {
+      "items": [
+        {
+          "itemId": "gem",
+          "qty": 100
+        },
+        {
+          "itemId": "1h_general_speedup",
+          "qty": 1
+        }
+      ]
+    }
+  },
+  "packs": [
+    {
+      "id": "minestral_legends",
+      "name": {
+        "EN": "Minstrel Legends",
+        "FR": "Légendes des Ménestrels"
+      },
+      "priceEur": 6,
+      "priceUsd": 5,
+      "once": true,
+      "note": {
+        "EN": "One purchase for the whole event. Grants the Epic reward bundle right away, then DOUBLES your daily mission rewards until the event ends - coins, Stall Points, hero XP and speedups.",
+        "FR": "Un seul achat pour tout l'événement. Donne aussitôt le lot « Epic », puis DOUBLE les récompenses de tes missions quotidiennes jusqu'à la fin - pièces, Points de Vente, XP de héros et accélérateurs."
+      },
+      "immediate": {
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 2500
+          },
+          {
+            "itemId": "lucky_hero_gear_chest",
+            "qty": 8
+          },
+          {
+            "itemId": "mythic_general_hero_shard",
+            "qty": 8
+          },
+          {
+            "itemId": "mythic_conquest_skill_book",
+            "qty": 5
+          },
+          {
+            "itemId": "mythic_expedition_skill_manual",
+            "qty": 5
+          },
+          {
+            "itemId": "10000_hero_xp",
+            "qty": 3
+          },
+          {
+            "itemId": "gold_key",
+            "qty": 4,
+            "eurExclude": true,
+            "note": "Valeur € écartée : la clé sort d'un pack à 6 € qui ne vaut pas pour elle seule"
+          },
+          {
+            "itemId": "100_enhancement_xp_component",
+            "qty": 2
+          },
+          {
+            "itemId": "stamina",
+            "qty": 10
+          },
+          {
+            "label": {
+              "EN": "Skin Token",
+              "FR": "Jeton de skin"
+            },
+            "qty": 300
+          }
+        ]
+      },
+      "doublesDailyMissions": {
+        "coins": true,
+        "stall": true,
+        "itemIds": [
+          "5m_general_speedup",
+          "10000_hero_xp"
+        ],
+        "travel": true
+      },
+      "short": {
+        "EN": "Minstrel",
+        "FR": "Ménestrels"
+      }
+    },
+    {
+      "id": "ordinary_coin_pack_1",
+      "name": {
+        "EN": "Ordinary Adventure Coin Pack 1",
+        "FR": "Pack de Pièces d'Aventure ordinaire 1"
+      },
+      "priceEur": 1.19,
+      "priceUsd": 0.99,
+      "perDay": 1,
+      "reward": {
+        "coins": 20,
+        "stall": 20,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 500
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 5
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 40
+          }
+        ]
+      },
+      "short": {
+        "EN": "Ordinary 1",
+        "FR": "Ordinaire 1"
+      }
+    },
+    {
+      "id": "ordinary_coin_pack_2",
+      "name": {
+        "EN": "Ordinary Adventure Coin Pack 2",
+        "FR": "Pack de Pièces d'Aventure ordinaire 2"
+      },
+      "priceEur": 2.49,
+      "priceUsd": 1.99,
+      "perDay": 1,
+      "reward": {
+        "coins": 40,
+        "stall": 40,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 1000
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 10
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 80
+          }
+        ]
+      },
+      "short": {
+        "EN": "Ordinary 2",
+        "FR": "Ordinaire 2"
+      }
+    },
+    {
+      "id": "ordinary_coin_pack_3",
+      "name": {
+        "EN": "Ordinary Adventure Coin Pack 3",
+        "FR": "Pack de Pièces d'Aventure ordinaire 3"
+      },
+      "priceEur": 5.99,
+      "priceUsd": 4.99,
+      "perDay": 1,
+      "reward": {
+        "coins": 80,
+        "stall": 80,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 2500
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 25
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 200
+          }
+        ]
+      },
+      "short": {
+        "EN": "Ordinary 3",
+        "FR": "Ordinaire 3"
+      }
+    },
+    {
+      "id": "uncommon_coin_pack",
+      "name": {
+        "EN": "Uncommon Adventure Coin Pack",
+        "FR": "Pack de Pièces d'Aventure inhabituel"
+      },
+      "priceEur": 11.99,
+      "priceUsd": 9.99,
+      "perDay": 1,
+      "reward": {
+        "coins": 120,
+        "stall": 120,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 5000
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 40
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 400
+          }
+        ]
+      },
+      "short": {
+        "EN": "Uncommon",
+        "FR": "Inhabituel"
+      }
+    },
+    {
+      "id": "rare_coin_pack",
+      "name": {
+        "EN": "Rare Adventure Coin Pack",
+        "FR": "Pack de Pièces d'Aventure rare"
+      },
+      "priceEur": 23.99,
+      "priceUsd": 19.99,
+      "perDay": 1,
+      "reward": {
+        "coins": 200,
+        "stall": 200,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 10000
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 60
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 800
+          }
+        ]
+      },
+      "short": {
+        "EN": "Rare",
+        "FR": "Rare"
+      }
+    },
+    {
+      "id": "epic_coin_pack",
+      "name": {
+        "EN": "Epic Adventure Coin Pack",
+        "FR": "Pack de Pièces d'Aventure épique"
+      },
+      "priceEur": 59.99,
+      "priceUsd": 49.99,
+      "perDay": 1,
+      "reward": {
+        "coins": 500,
+        "stall": 500,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 25000
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 120
+          },
+          {
+            "itemId": "lv3_custom_resource_chest",
+            "qty": 200
+          }
+        ]
+      },
+      "short": {
+        "EN": "Epic",
+        "FR": "Épique"
+      }
+    },
+    {
+      "id": "mythic_coin_pack",
+      "name": {
+        "EN": "Mythic Adventure Coin Pack",
+        "FR": "Pack de Pièces d'Aventure mythique"
+      },
+      "priceEur": 119.99,
+      "priceUsd": 99.99,
+      "perDay": 3,
+      "reward": {
+        "coins": 1000,
+        "stall": 1000,
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 50000
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 200
+          },
+          {
+            "itemId": "lv3_custom_resource_chest",
+            "qty": 400
+          }
+        ]
+      },
+      "short": {
+        "EN": "Mythic",
+        "FR": "Mythique"
+      }
+    }
+  ]
+}

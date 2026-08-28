@@ -12,7 +12,7 @@ const i18nBackup = {
         modBeartrap: "Piège à Ours (Formations personnalisées & Paramètres)",
         modVikings: "Vikings (Répartition des troupes)",
         modWaracademy: "Académie de Guerre (Niveaux & Paramètres)",
-        modShopcalc: "Calcul Boutique (valeurs en gemmes)",
+        modShopcalc: "Calcul Boutique (valeurs, boutiques modifiées, achats d'événement)",
         modPets: "Familiers (Niveaux)",
         modTrueGold: "TrueGold (Niveaux, Stocks & Paramètres)",
         btnExport: "Exporter (.json)",
@@ -33,7 +33,7 @@ const i18nBackup = {
         modBeartrap: "Bear Trap (Custom Formations & Settings)",
         modVikings: "Vikings (Troop Distribution)",
         modWaracademy: "War Academy (Levels & Settings)",
-        modShopcalc: "Shop Value (gem values)",
+        modShopcalc: "Shop Value (values, edited shops, event purchases)",
         modPets: "Pets (Levels)",
         modTrueGold: "TrueGold (Levels, Stocks & Settings)",
         btnExport: "Export (.json)",
@@ -56,7 +56,7 @@ const BACKUP_MODULES = [
     { id: 'module-truegold', labelKey: 'modTrueGold', keys: [STORAGE_KEYS.truegold] },
     { id: 'module-vikings',  labelKey: 'modVikings',  keys: [STORAGE_KEYS.vikings] },
     { id: 'module-waracademy', labelKey: 'modWaracademy', keys: [STORAGE_KEYS.waracademy] },
-    { id: 'module-shopcalc', labelKey: 'modShopcalc', keys: [STORAGE_KEYS.shopcalcItems] },
+    { id: 'module-shopcalc', labelKey: 'modShopcalc', keys: [STORAGE_KEYS.shopcalcItems, STORAGE_KEYS.shopcalcEvents, STORAGE_KEYS.shopcalcEventPlans] },
     { id: 'module-pets',     labelKey: 'modPets',     keys: [STORAGE_KEYS.pets] }
 ];
 

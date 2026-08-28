@@ -15,6 +15,7 @@ const STORAGE_KEYS = {
     shopcalcEvents: 'shopcalc_events',
     shopcalcTab:    'shopcalc_tab',
     shopcalcCollapsed: 'shopcalc_collapsed',
+    shopcalcEventPlans: 'shopcalc_event_plans',
     pets:              'pets_levels',
 };
 

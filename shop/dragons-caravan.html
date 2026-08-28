@@ -58,6 +58,10 @@
 
         <div class="db-section"><h2 data-i18n="bestDeals">Best deals</h2><div class="sx-podium" id="sp-podium"></div></div>
         <div class="db-section"><h2 data-i18n="allItems">All items</h2><div id="sp-table"></div></div>
+        <!-- Valorisation de l'événement (js/shop-event.js) : APRÈS le tableau, dont elle
+             compte le panier — on lit d'abord la boutique, on fait les comptes ensuite. -->
+        <div id="sp-event"></div>
+
         <nav class="db-switch footer" id="sp-switch" aria-label="Shops"></nav>
     </div>
 
@@ -70,6 +74,7 @@
     <script src="js/help.js"></script>
     <script src="js/shop-core.js"></script>
     <script src="js/shop-page.js"></script>
+    <script src="js/shop-event.js"></script>
     <script src="js/backup.js"></script>
     <script src="js/footer.js"></script>
 </body>
