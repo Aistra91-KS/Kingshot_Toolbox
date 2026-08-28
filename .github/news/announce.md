@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 2.1
-covers-until: 86664619013dbe3e21c0fcec1ce5206c35b42a05
-generated: 2026-08-27
+version: 2.11
+covers-until: 6941c7ddf726d5560046d738c10abb855cd7a2f6
+generated: 2026-08-28
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 💶 Ce que les boutiques coûtent vraiment
-title-en: 💶 What the shops really cost
+title-fr: 📊 Cet événement valait-il ton argent ?
+title-en: 📊 Was that event worth your money?
 -->
 
 <!--
@@ -59,62 +59,58 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 💶 Une seconde lecture des boutiques : en argent réel
+### 📊 La question qu'on se pose à la fin d'un événement
 
-Jusqu'ici, chaque objet de boutique était comparé à sa valeur en gemmes. C'est utile, mais ça ne dit pas ce qu'un objet coûte **vraiment**.
+« J'ai mis 25 € dans cet événement… est-ce que ça les valait ? » Deux boutiques d'événement répondent désormais, chiffre à l'appui.
 
-Deux pastilles en haut de chaque page boutique font désormais basculer entre les deux lectures :
+Tu coches les packs achetés **chaque jour** — ou rien du tout si tu es F2P — et la page additionne **tout** ce que l'événement distribue : missions quotidiennes, packs gratuits, pistes gratuites, paliers, et le contenu des packs eux-mêmes. Elle compare ce total à ce que tu as réellement payé et sort **un seul pourcentage**.
 
-**💎 Gemmes** — la lecture habituelle.
-**€ Euros** — ce que l'objet coûte réellement, calculé depuis le pack payant où il apparaît : prix du pack ÷ quantité obtenue.
+100 %, c'est ta mise récupérée. En dessous, c'est rouge. Au-dessus, ça vire à l'orange, puis au vert à mesure que l'affaire s'améliore.
 
-Les deux lectures sont **indépendantes**. Aucun taux de change n'est calculé entre gemmes et euros : ce sont deux façons de regarder la même boutique, jamais mises en rapport. Les prix s'affichent en euros ou en dollars, au choix, et ta préférence te suit d'une boutique à l'autre.
+👉 https://kingshottoolbox.com/shop/adventure-stall.html
+👉 https://kingshottoolbox.com/shop/dragons-caravan.html
 
-Tous les objets ne peuvent pas être chiffrés. Ceux qu'aucun pack ne vend affichent « — » et **sortent du classement** — ils ne sont pas comptés à zéro, ce qui les ferait passer pour la pire affaire de la boutique. Ils restent achetables, ils ne créditent simplement aucune valeur, et la tuile de bilan annonce combien de tes objets ont un prix connu.
+### 🪙 La monnaie d'événement compte aussi
 
-👉 https://kingshottoolbox.com/shop_calc.html
+Les pièces ou essences gagnées n'ont pas de valeur en elles-mêmes : elles valent ce que tu en tires. Un bouton les reporte donc dans le tableau de la boutique juste en dessous, et les objets que tu y choisis reviennent aussitôt nourrir ta valeur récupérée.
 
-### 📋 Prix réel des objets
+### 🔍 Et le détail, ligne par ligne
 
-Une nouvelle page liste le prix en argent réel de chaque objet qu'un pack permet de chiffrer, avec **le pack d'où vient le chiffre**. Un prix te paraît faux ? Tu peux remonter à sa source.
+Un tableau dépliable liste chaque récompense avec son total en gemmes et en argent réel, et surtout **d'où vient chaque quantité** : les missions, un pass, un palier, tel pack précis. Survole, tu as le décompte complet.
+
+Un skin qui ne t'intéresse pas ? Une endurance que tu n'utilises jamais ? **Décoche** : l'objet quitte le total et le pourcentage à l'instant. La valorisation devient la tienne, pas une théorie. Tes réponses restent sur ton appareil, par événement et par profil.
+
+### 💶 Les prix réels ont été rafraîchis
+
+Le relevé des packs payants passe de 33 à **59 packs**. Trois objets se révèlent distribués en bien plus grande quantité qu'on le croyait, et coûtent donc bien moins cher à l'unité — les **Fils Dorés** et le **Satin** en particulier.
 
 👉 https://kingshottoolbox.com/shop/items-euro.html
-
-### 🐉 Nouvelle boutique : le Magasin de Pronostique du Tyran
-
-Neuf objets, payés en Marques Draconiques, jusqu'au **2 septembre à 00h UTC**. Six des neuf sont exactement au même tarif : les deux exceptions sont donc là où tes marques rapportent vraiment le plus.
-
-👉 https://kingshottoolbox.com/shop/flamedragon-tyrant-prediction.html
-
-Au passage : le podium des meilleures affaires n'affiche plus deux fois le même objet quand une boutique le propose sur plusieurs lignes, et le bonus du planificateur de Recherches se saisit maintenant en pourcentage, comme sur les autres planificateurs.
 
 ## EN
 
-### 💶 A second way to read the shops: real money
+### 📊 The question you ask when an event ends
 
-Until now, every shop item was compared to its value in gems. That helps, but it does not tell you what an item **really** costs.
+"I put €25 into this event… was it worth it?" Two event shops now answer, with numbers.
 
-Two pills at the top of every shop page now switch between the two readings:
+Tick the packs you bought **on each day** — or nothing at all if you play for free — and the page adds up **everything** the event hands out: daily missions, free packs, free tracks, milestones, and the contents of the packs themselves. It compares that total to what you actually paid and gives you **one percentage**.
 
-**💎 Gems** — the usual reading.
-**€ Euros** — what the item really costs, worked out from the paid pack it appears in: the pack's price divided by how many you get.
+100% means you got your money back. Below that it shows red. Above, it turns orange, then green as the deal gets better.
 
-The two readings are **independent**. No exchange rate is ever worked out between gems and euros: they are two ways of looking at the same shop, never set against each other. Prices show in euros or dollars, as you prefer, and your choice follows you from shop to shop.
+👉 https://kingshottoolbox.com/shop/adventure-stall.html
+👉 https://kingshottoolbox.com/shop/dragons-caravan.html
 
-Not every item can be priced. The ones no pack sells show a dash and are **left out of the ranking** — never counted as zero, which would wrongly make them look like the worst deal in the shop. They can still be bought; they simply add no value, and the summary tile tells you how many of your items have a known price.
+### 🪙 The event currency counts too
 
-👉 https://kingshottoolbox.com/shop_calc.html
+The coins or essences you earn are worth nothing on their own — they are worth what you take with them. One button drops them into the shop table just below, and the items you pick there feed straight back into the value you recovered.
 
-### 📋 Real-money item values
+### 🔍 And the breakdown, line by line
 
-A new page lists the real-money price of every item a pack can put a price on, along with **the pack each figure comes from**. A price looks wrong? You can trace it back to its source.
+An expandable table lists every reward with its total in gems and in real money, and above all **where each quantity comes from**: the missions, a pass, a milestone, one specific pack. Hover a cell for the full count.
+
+A skin you don't care about? Stamina you never use? **Untick it** — the item leaves the total and the percentage at once. The figure becomes yours, not a theory. Your answers stay on your device, per event and per profile.
+
+### 💶 Real-money prices refreshed
+
+The paid-pack survey grows from 33 to **59 packs**. Three items turn out to be handed out in far bigger amounts than we thought, so they cost far less per unit — **Gilded Threads** and **Satin** especially.
 
 👉 https://kingshottoolbox.com/shop/items-euro.html
-
-### 🐉 New shop: the Flamedragon Tyrant Prediction Shop
-
-Nine items, paid in Dragonclaw Marks, until **2 September, 00:00 UTC**. Six of the nine are priced at exactly the same rate, so the two that are not are where your marks actually go furthest.
-
-👉 https://kingshottoolbox.com/shop/flamedragon-tyrant-prediction.html
-
-Also in this update: the best-deals podium no longer shows the same item twice when a shop lists it on several lines, and the Research planner's bonus is now typed as a percentage, like the other planners.
