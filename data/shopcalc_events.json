@@ -1,5 +1,62 @@
 [
   {
+    "id": "Blizzard_Shop",
+    "slug": "blizzard-shop",
+    "name": {
+      "EN": "Blizzard Shop",
+      "FR": "Magasin du Blizzard"
+    },
+    "endsAt": "2026-08-31T00:00:00Z",
+    "resourceName": {
+      "EN": "Brawl Emblem",
+      "FR": "Emblème de Duel"
+    },
+    "items": [
+      {
+        "itemId": "truegold",
+        "qty": 1,
+        "cost": 250,
+        "qtyMax": 60
+      },
+      {
+        "itemId": "truegold_dust",
+        "qty": 1,
+        "cost": 150,
+        "qtyMax": 100
+      },
+      {
+        "itemId": "charm_design",
+        "qty": 1,
+        "cost": 500,
+        "qtyMax": 30
+      },
+      {
+        "itemId": "charm_guide",
+        "qty": 1,
+        "cost": 500,
+        "qtyMax": 30
+      },
+      {
+        "itemId": "mythic_general_decoration_component",
+        "qty": 1,
+        "cost": 6000,
+        "qtyMax": 5
+      },
+      {
+        "itemId": "lucky_hero_gear_chest",
+        "qty": 1,
+        "cost": 1000,
+        "qtyMax": 15
+      },
+      {
+        "itemId": "100_enhancement_xp_component",
+        "qty": 1,
+        "cost": 500,
+        "qtyMax": 30
+      }
+    ]
+  },
+  {
     "id": "Flamedragon_Tyrant_Prediction_Shop",
     "slug": "flamedragon-tyrant-prediction",
     "name": {
