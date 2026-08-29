@@ -15,6 +15,7 @@ const i18nShop = {
     secClassicSub:"Boutiques toujours disponibles, alimentées par les monnaies de leurs modes de jeu.",
     secChestSub:"Coffres au choix unique : un seul objet à prendre, autant choisir le plus rentable.",
     itemsRef:"Valeur des objets", itemsRefSub:"Le référentiel en gemmes qui alimente tous les calculs.",
+    refsLead:"D'où viennent ces valeurs ?",
     nItems:"objets", nChoices:"choix", openShop:"Voir la boutique",
     // — statut / temps —
     endsIn:"Fin dans", ended:"Événement terminé", endedShort:"Terminé", permanent:"Permanente",
@@ -81,6 +82,7 @@ const i18nShop = {
     secClassicSub:"Always-available shops, fed by their game mode's own currency.",
     secChestSub:"Single-pick chests: only one item to take, so make it the most valuable one.",
     itemsRef:"Item values", itemsRefSub:"The gem reference table behind every calculation.",
+    refsLead:"Where do these values come from?",
     nItems:"items", nChoices:"choices", openShop:"Open shop",
     endsIn:"Ends in", ended:"Event ended", endedShort:"Ended", permanent:"Permanent",
     days:"d", hours:"h", minutes:"min", lastDay:"Last day",

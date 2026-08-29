@@ -58,6 +58,18 @@
 
         <div class="db-section"><h2 data-i18n="bestPick">Best pick</h2><div class="sx-podium" id="sp-podium"></div></div>
         <div class="db-section"><h2 data-i18n="chestContent">Chest contents</h2><div id="sp-table"></div></div>
+        <!-- Les deux référentiels de valeurs, à portée de clic depuis la boutique qui s'en
+             sert : le joueur qui doute d'un chiffre du tableau voit d'où il vient sans
+             partir le chercher. Écrits en dur — le maillage doit exister sans JS (MAP.md §9).
+             Le [data-i18n] est sur le <span> du libellé, jamais sur le <a> : applyI18n écrit
+             un textContent, ce qui effacerait la pastille de l'icône. -->
+        <div class="sx-reflinks">
+          <p class="sx-reflinks-lead" data-i18n="refsLead">Where do these values come from?</p>
+          <div class="sx-reflinks-row">
+            <a class="sx-reflink" href="shop/items.html"><span class="sx-reflink-glyph" aria-hidden="true">&#128142;</span><span data-i18n="itemsRef">Item values</span></a>
+            <a class="sx-reflink is-eur" href="shop/items-euro.html"><span class="sx-reflink-glyph" aria-hidden="true">&euro;</span><span data-i18n="itemsEur">Real-money item values</span></a>
+          </div>
+        </div>
         <nav class="db-switch footer" id="sp-switch" aria-label="Shops"></nav>
     </div>
 
