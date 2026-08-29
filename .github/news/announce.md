@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 2.11
-covers-until: 6941c7ddf726d5560046d738c10abb855cd7a2f6
-generated: 2026-08-28
+version: 2.12
+covers-until: 0739845889b5a0a2ddca088dc4a4d7b6469dc130
+generated: 2026-08-29
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 📊 Cet événement valait-il ton argent ?
-title-en: 📊 Was that event worth your money?
+title-fr: ❄️ Nouvelle boutique : le Magasin du Blizzard
+title-en: ❄️ New shop: the Blizzard Shop
 -->
 
 <!--
@@ -59,58 +59,20 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 📊 La question qu'on se pose à la fin d'un événement
+### ❄️ Le Magasin du Blizzard est dans l'outil
 
-« J'ai mis 25 € dans cet événement… est-ce que ça les valait ? » Deux boutiques d'événement répondent désormais, chiffre à l'appui.
+Ses 7 objets, leur prix en Emblèmes de Duel et le stock restant sur chacun sont en ligne, avec le compte à rebours jusqu'à la fermeture — le **31 août à 00h UTC**.
 
-Tu coches les packs achetés **chaque jour** — ou rien du tout si tu es F2P — et la page additionne **tout** ce que l'événement distribue : missions quotidiennes, packs gratuits, pistes gratuites, paliers, et le contenu des packs eux-mêmes. Elle compare ce total à ce que tu as réellement payé et sort **un seul pourcentage**.
+Le classement se lit vite : six lignes sur sept rendent **exactement la même valeur** par emblème. La septième, les 100 Points d'EXP d'Amélioration, en rend deux fois moins : c'est la seule à laisser de côté.
 
-100 %, c'est ta mise récupérée. En dessous, c'est rouge. Au-dessus, ça vire à l'orange, puis au vert à mesure que l'affaire s'améliore.
-
-👉 https://kingshottoolbox.com/shop/adventure-stall.html
-👉 https://kingshottoolbox.com/shop/dragons-caravan.html
-
-### 🪙 La monnaie d'événement compte aussi
-
-Les pièces ou essences gagnées n'ont pas de valeur en elles-mêmes : elles valent ce que tu en tires. Un bouton les reporte donc dans le tableau de la boutique juste en dessous, et les objets que tu y choisis reviennent aussitôt nourrir ta valeur récupérée.
-
-### 🔍 Et le détail, ligne par ligne
-
-Un tableau dépliable liste chaque récompense avec son total en gemmes et en argent réel, et surtout **d'où vient chaque quantité** : les missions, un pass, un palier, tel pack précis. Survole, tu as le décompte complet.
-
-Un skin qui ne t'intéresse pas ? Une endurance que tu n'utilises jamais ? **Décoche** : l'objet quitte le total et le pourcentage à l'instant. La valorisation devient la tienne, pas une théorie. Tes réponses restent sur ton appareil, par événement et par profil.
-
-### 💶 Les prix réels ont été rafraîchis
-
-Le relevé des packs payants passe de 33 à **59 packs**. Trois objets se révèlent distribués en bien plus grande quantité qu'on le croyait, et coûtent donc bien moins cher à l'unité — les **Fils Dorés** et le **Satin** en particulier.
-
-👉 https://kingshottoolbox.com/shop/items-euro.html
+👉 https://kingshottoolbox.com/shop/blizzard-shop.html
 
 ## EN
 
-### 📊 The question you ask when an event ends
+### ❄️ The Blizzard Shop is in the toolbox
 
-"I put €25 into this event… was it worth it?" Two event shops now answer, with numbers.
+Its 7 items, their price in Brawl Emblems and the stock left on each one are up, along with the countdown to closing time — **31 August, 00:00 UTC**.
 
-Tick the packs you bought **on each day** — or nothing at all if you play for free — and the page adds up **everything** the event hands out: daily missions, free packs, free tracks, milestones, and the contents of the packs themselves. It compares that total to what you actually paid and gives you **one percentage**.
+The ranking reads fast: six of the seven lines give back **exactly the same value** per emblem. The seventh, the 100 Enhancement XP Component, gives half as much, so it is the one to leave alone.
 
-100% means you got your money back. Below that it shows red. Above, it turns orange, then green as the deal gets better.
-
-👉 https://kingshottoolbox.com/shop/adventure-stall.html
-👉 https://kingshottoolbox.com/shop/dragons-caravan.html
-
-### 🪙 The event currency counts too
-
-The coins or essences you earn are worth nothing on their own — they are worth what you take with them. One button drops them into the shop table just below, and the items you pick there feed straight back into the value you recovered.
-
-### 🔍 And the breakdown, line by line
-
-An expandable table lists every reward with its total in gems and in real money, and above all **where each quantity comes from**: the missions, a pass, a milestone, one specific pack. Hover a cell for the full count.
-
-A skin you don't care about? Stamina you never use? **Untick it** — the item leaves the total and the percentage at once. The figure becomes yours, not a theory. Your answers stay on your device, per event and per profile.
-
-### 💶 Real-money prices refreshed
-
-The paid-pack survey grows from 33 to **59 packs**. Three items turn out to be handed out in far bigger amounts than we thought, so they cost far less per unit — **Gilded Threads** and **Satin** especially.
-
-👉 https://kingshottoolbox.com/shop/items-euro.html
+👉 https://kingshottoolbox.com/shop/blizzard-shop.html
