@@ -6,6 +6,28 @@
   },
   "releases": [
     {
+      "version": "2.12",
+      "date": "2026-08-29",
+      "title": {
+        "EN": "The Blizzard Shop joins the shops",
+        "FR": "Le Magasin du Blizzard rejoint les boutiques"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "The Blizzard Shop joined the Shops section, with its seven items, their price in Brawl Emblems and the stock left on each one, plus the countdown to closing time. Six of the seven give back exactly the same value per emblem; the seventh, the 100 Enhancement XP Component, gives half as much, so it is the one line to leave alone.",
+            "FR": "Le Magasin du Blizzard rejoint la section Boutiques, avec ses sept objets, leur prix en Emblèmes de Duel et le stock restant sur chacun, plus le compte à rebours jusqu'à la fermeture. Six des sept rapportent exactement la même valeur par emblème ; le septième, les 100 Points d'EXP d'Amélioration, en rapporte deux fois moins — c'est la seule ligne à laisser de côté."
+          },
+          "href": "shop/blizzard-shop.html",
+          "linkLabel": {
+            "EN": "Blizzard Shop",
+            "FR": "Magasin du Blizzard"
+          }
+        }
+      ]
+    },
+    {
       "version": "2.11",
       "date": "2026-08-28",
       "title": {
