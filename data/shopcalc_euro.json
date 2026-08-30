@@ -258,8 +258,8 @@
       "fromId": "fast_walk_2",
       "factor": 0.5,
       "how": {
-        "FR": "La Marche Rapide 2 enlève 50 % du temps de trajet, la Marche Rapide 1 seulement 25 % : la 1 fait donc exactement la moitié du travail de la 2. Le relevé disait l'inverse (4 dans le Pack Conquérant contre 6 dans le Globe-trotteur, soit 1,50 € contre 1,00 €) — un pack avare sur un objet ne le rend pas plus précieux.",
-        "EN": "Fast Walk 2 removes 50% of the travel time, Fast Walk 1 only 25%: the 1 does exactly half the work of the 2. The survey said the opposite (4 in the Conqueror Pack against 6 in World Traveler, so €1.50 against €1.00) — a pack being stingy with an item does not make that item more valuable."
+        "FR": "La Marche Rapide 2 enlève 50 % du temps de trajet, la Marche Rapide 1 seulement 25 % : la 1 fait donc exactement la moitié du travail de la 2.",
+        "EN": "Fast Walk 2 removes 50% of the travel time, Fast Walk 1 only 25%: the 1 does exactly half the work of the 2."
       }
     },
     "fragment_of_a_specific_mythical_hero": {
@@ -333,8 +333,8 @@
       "8h_general_speedup": 480
     },
     "how": {
-      "FR": "Un accélérateur ne vaut que le temps qu'il fait gagner : une heure doit valoir soixante minutes, sinon le classement des boutiques se décide sur le format des jetons et non sur le temps. Le pack le plus généreux en accélérateurs fixe donc le prix de LA minute, et les cinq accélérateurs s'en déduisent.",
-      "EN": "A speedup is worth exactly the time it saves: one hour has to be worth sixty minutes, otherwise the shop rankings are decided by token size rather than by time. So the pack that gives the most speedup time sets the price of ONE minute, and all five speedups follow from it."
+      "FR": "Un accélérateur ne vaut que le temps qu'il fait gagner : une heure doit valoir soixante minutes. Le pack le plus généreux en accélérateurs fixe donc le prix de LA minute, et les cinq accélérateurs s'en déduisent.",
+      "EN": "A speedup is worth exactly the time it saves: one hour has to be worth sixty minutes. So the pack that gives the most speedup time sets the price of ONE minute, and all five speedups follow from it."
     }
   },
   "weights": [
@@ -347,8 +347,8 @@
         "10k_iron"
       ],
       "how": {
-        "FR": "Bois, pain, pierre et fer ne comptent que pour un quart de leur prix relevé : ils s'accumulent tout seuls en jouant, et un pack rempli de ressources n'est pas un bon achat pour autant. C'est une pondération assumée, pas une mesure — l'or et les gemmes, eux, gardent leur prix relevé. Les caisses de ressources personnalisées en héritent, puisqu'elles sont alignées sur le pain.",
-        "EN": "Wood, bread, stone and iron only count for a quarter of their surveyed price: they pile up on their own just by playing, and a pack full of resources is not a good buy for all that. This is a deliberate weighting, not a measurement — coins and gems keep their surveyed price. The custom resource chests inherit it, since they are lined up on bread."
+        "FR": "Bois, pain, pierre et fer ne comptent que pour un quart de leur prix relevé : ils s'accumulent tout seuls en jouant, et un pack rempli de ressources n'est pas un bon achat pour autant. C'est une pondération assumée, pas une mesure.",
+        "EN": "Wood, bread, stone and iron only count for a quarter of their surveyed price: they pile up on their own just by playing, and a pack full of resources is not a good buy for all that. This is a deliberate weighting, not a measurement."
       }
     }
   ],
