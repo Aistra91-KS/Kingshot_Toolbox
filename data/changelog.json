@@ -6,6 +6,23 @@
   },
   "releases": [
     {
+      "version": "1.13",
+      "date": "2026-08-30",
+      "title": {
+        "EN": "Tell me what is wrong, from any page",
+        "FR": "Dis-moi ce qui cloche, depuis n'importe quelle page"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "A Feedback button now sits in the header of every page, and in the side menu on phones. It opens a short form: say whether it is a bug, a wrong value, an idea or something else, write your message, leave your in-game name if you want a follow-up, and send. The form tells you exactly what travels with it - the page you were on, your language and the site version, nothing more - and confirms on screen once the message has really gone through. No account, no email address to give.",
+            "FR": "Un bouton « Un retour ? » est apparu dans l'en-tête de chaque page, et dans le menu latéral sur téléphone. Il ouvre un formulaire court : dis s'il s'agit d'un bug, d'une valeur erronée, d'une idée ou d'autre chose, écris ton message, laisse ton pseudo en jeu si tu veux un suivi, et envoie. Le formulaire annonce exactement ce qui part avec lui — la page où tu étais, ta langue et la version du site, rien de plus — et confirme à l'écran une fois le message vraiment arrivé. Aucun compte, aucune adresse mail à donner."
+          }
+        }
+      ]
+    },
+    {
       "version": "1.12",
       "date": "2026-08-29",
       "title": {

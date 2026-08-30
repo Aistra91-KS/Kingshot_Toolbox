@@ -77,6 +77,7 @@ Kingshot_Toolbox/
 │   ├── help.js                   Module d'aide générique (bouton "?", modale, bandeau, tooltips)
 │   ├── modal-tabs.js             Onglets mobiles des modales Caserne/Experts (panneaux [data-mtab], < 820px)
 │   ├── backup.js                 Sauvegarde globale (export/import .json par module)
+│   ├── feedback.js               Formulaire de retour joueur — **chargé à la demande** par `header.js` au 1er clic, référencé dans AUCUNE page
 │   ├── hub.js                    Rendu de la grille du hub depuis SITE
 │   ├── research_script.js        Logique Recherches (fetch research_db.json)
 │   ├── truegold_script.js        Logique TrueGold (fetch truegold_db.json + masters_db.json)
@@ -413,6 +414,10 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 
 ---
 
+### Clés « chrome » du formulaire de retour
+
+`fb_last` (horodatage du dernier envoi réussi), `fb_day` (`AAAA-MM-JJ|n`, compteur du jour) et `fb_cid` (identifiant anonyme du navigateur, tiré au hasard) sont **hors de `STORAGE_KEYS`**, volontairement — même nature que `shop_view` / `hub_theme`. Les y mettre serait un contresens à double titre : `profiles.js` isole toute valeur du registre par profil (changer de profil remettrait le garde-fou anti-spam à zéro) et `backup.js` en ferait une donnée exportable, alors que ce n'est pas une donnée de joueur. Elles doivent rester attachées au **navigateur**, pas au profil.
+
 ## 9. Conventions & pièges connus
 
 **Conventions**
@@ -446,7 +451,9 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 - **Aperçu du pack (`shop/items-euro.html`) : trois entrées, un seul état.** Le nom d'un pack à image est un `<button>` qui ouvre sa capture. Trois chemins mènent là : **survol maintenu** (320 ms — sans délai, la bulle clignoterait à chaque traversée de la colonne), **focus clavier** (filtré par `:focus-visible`) et **clic**, qui est aussi le chemin du **toucher**, lequel n'a pas de survol. Piège rencontré : faire du clic une simple bascule de l'état visible **ne marche pas**, parce que la souris focalise aussi le bouton et que ce focus ouvrait déjà l'aperçu avant que le clic soit traité — la bascule lisait un état qu'un autre gestionnaire venait de changer. D'où `iePvPin`, qui mémorise l'**intention** (épinglé ou non) et non l'affichage. L'aperçu est en `position:fixed` attaché au `<body>` : sans cela le conteneur `overflow-x` du tableau le rognerait ; en contrepartie il ne suit pas la page, donc tout défilement le referme. Un pack en « Multipack » reste du texte inerte : plusieurs packs à égalité, aucune image à montrer.
 - **Publier une version** : ajouter l'entrée **en tête** de `data/changelog.json` **et** porter `SITE.version` (site-config.js) au même numéro — c'est cette clé qu'affiche le pied de page. Les deux se font dans le même commit, sinon le site annonce une version qui n'existe pas dans l'historique. Une entrée de changelog et une annonce Discord couvrent le même périmètre : rédiger l'une en s'appuyant sur l'autre.
 - **Notifications Discord** : plus aucun mapping à maintenir. Un nouvel outil n'exige aucune modification de `.github/` — il apparaîtra dans la prochaine annonce rédigée.
-- **Clés localStorage** : toujours passer par `STORAGE_KEYS` + `safeParse` (jamais de chaîne littérale).
+- **Clés localStorage** : toujours passer par `STORAGE_KEYS` + `safeParse` (jamais de chaîne littérale). Exception assumée : les clés « chrome » (`hub_theme`, `hub_lang`, `shop_view`, `shop_currency`, `fb_*`), qui ne sont ni de la donnée joueur ni du ressort des profils (cf. §8).
+- **Retours joueurs : le formulaire se charge au premier clic.** `js/feedback.js` n'est référencé par **aucune** page — `header.js` l'injecte à la demande (`hdrOpenFeedback()`), ce qui évite d'ajouter une balise `<script>` aux 65 pages *et* de faire télécharger un formulaire à la quasi-totalité des visiteurs, qui ne l'ouvriront jamais. La promesse de chargement est mémorisée (deux clics rapides n'injectent pas deux scripts) et remise à `null` en cas d'échec, pour qu'un nouveau clic retente. **Deux détails de transport sans lesquels rien ne part** : l'envoi se fait en `Content-Type: text/plain` — un `application/json` déclencherait un préflight `OPTIONS` qu'Apps Script ne traite pas — et Apps Script répond **toujours** en HTTP 200, donc c'est le champ `ok` du corps qui dit si l'envoi a réussi, jamais le code HTTP. `SITE.feedback` (`url` + `key`) est **public par nature** : ces deux valeurs partent dans le JS servi à tout le monde et n'ouvrent rien d'autre que l'ajout d'une ligne ; l'adresse mail et le webhook Discord vivent dans le script Google, jamais dans le dépôt. `url` vide ⇒ ni bouton ni entrée de drawer (mieux vaut rien qu'un bouton qui échoue). L'anti-spam est **doublé** : ici (délai d'une minute, 5 par jour, champ piège) contre les envois accidentels et les robots naïfs, et côté script (plafond horaire) pour ce qui compte vraiment — ne jamais compter sur le premier seul, il est contournable.
+- **Le bouton « Un retour ? » suit langue et thème dans le header adaptatif.** Il est masqué sous 820&nbsp;px et en `.hdr-condensed`, exactement comme eux : le drawer devient alors le **seul** chemin vers le formulaire, d'où l'entrée `.drawer-fb` qui n'est pas décorative. Conséquence mesurée sur `hdrEvaluateAdaptive()` : un bouton de plus dans la zone droite avance le seuil de condensation d'environ 48&nbsp;px — sans effet visible, mais à garder en tête avant d'en ajouter un quatrième.
 - **i18n** : toute chaîne visible passe par un dictionnaire `{FR,EN}` + `data-i18n` (ou `data-en`/`data-fr` sur les pages bâtiments). Réagir à `langChanged`.
 - **Icônes** : SVG Lucide **inline** (offline) via `SITE_ICONS`/`iconSvg()` (site-config) et `HEADER_ICONS`/`hdrSvg()` (header). Ajouter une nouvelle icône dans **les deux** registres si utilisée dans le header.
 - **Images jeu** : WebP ; prévoir un fallback (`onerror`).

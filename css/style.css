@@ -2779,3 +2779,115 @@ body.has-page-row:not(.hub-body) { display: block; }
 [data-theme="light"] .cl-tag.is-new      { color: #8a6410; }
 [data-theme="light"] .cl-tag.is-improved { color: #00695c; }
 [data-theme="light"] .cl-tag.is-fixed    { color: #b23c00; }
+
+/* ============================================================
+   RETOURS JOUEURS — bouton du header, entrée du drawer, formulaire
+   Le formulaire réutilise la modale de la sauvegarde (.backup-overlay /
+   .backup-modal) : même boîte, même animation, rien à réinventer.
+   ============================================================ */
+
+/* Jumeau visuel des boutons langue et thème : rond de 40px, même fond.
+   Masqué sous 820px comme eux — le drawer prend alors le relais. */
+.app-header-fb {
+  background: var(--control-bg);
+  color: var(--text-light);
+  border: 1px solid var(--border);
+  width: 40px; height: 40px; border-radius: 50%;
+  cursor: pointer; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.app-header-fb svg { color: var(--accent); }
+.app-header-fb:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(245, 184, 64, 0.2);
+}
+@media (max-width: 820px) { .app-header-fb { display: none; } }
+/* Le header condensé rend sa place au centre : le bouton suit langue et thème. */
+.app-header.hdr-condensed .app-header-fb { display: none; }
+
+/* Drawer : sur mobile c'est le SEUL chemin vers le formulaire, il doit se voir. */
+.drawer-fb {
+  display: flex; align-items: center; gap: 10px;
+  width: calc(100% - 24px); margin: 4px 12px 0;
+  padding: 11px 12px; border-radius: 10px;
+  background: var(--control-bg); border: 1px solid var(--border);
+  color: var(--text-light); font: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; text-align: left;
+  transition: border-color 0.15s, color 0.15s;
+}
+.drawer-fb svg { color: var(--accent); flex-shrink: 0; }
+.drawer-fb:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---- Formulaire ---- */
+.fb-modal { max-width: 520px; }
+.fb-x {
+  background: none; border: 0; color: var(--text-muted);
+  cursor: pointer; font-size: 24px; line-height: 1; padding: 0;
+}
+.fb-x:hover { color: var(--accent); }
+
+.fb-intro { margin: 0 0 16px; color: var(--text-muted); font-size: 13.5px; line-height: 1.5; }
+
+.fb-kinds { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+.fb-kind {
+  font: inherit; font-size: 12.5px; font-weight: 600;
+  padding: 6px 13px; border-radius: 999px; cursor: pointer;
+  background: var(--control-bg); border: 1px solid var(--border); color: var(--text-muted);
+  transition: all 0.15s;
+}
+.fb-kind:hover { border-color: var(--accent); color: var(--text-light); }
+.fb-kind.active { background: var(--accent); border-color: var(--accent); color: #0a0a0a; }
+
+.fb-label {
+  display: block; margin-bottom: 6px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.4px;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.fb-label + .fb-input, .fb-textarea + .fb-count + .fb-label { margin-top: 0; }
+.fb-opt { text-transform: none; letter-spacing: 0; font-weight: 400; opacity: 0.75; }
+
+.fb-textarea, .fb-input {
+  width: 100%; box-sizing: border-box;
+  background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text-light); font: inherit; font-size: 14px;
+  padding: 10px 12px; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.fb-textarea { resize: vertical; min-height: 120px; line-height: 1.55; }
+.fb-textarea:focus, .fb-input:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(245, 184, 64, 0.15);
+}
+/* Le compteur passe en ambre tant que le minimum n'est pas atteint : il explique
+   pourquoi le bouton « Envoyer » reste éteint, au lieu de laisser deviner. */
+.fb-count {
+  text-align: right; font-size: 11.5px; color: var(--text-muted);
+  margin: 5px 0 16px; font-variant-numeric: tabular-nums;
+}
+.fb-count.low { color: var(--warning); }
+
+/* Champ piège : hors écran plutôt que display:none — certains robots ignorent
+   les champs masqués, aucun n'ignore un champ qu'il croit visible. */
+.fb-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.fb-sends { margin: 16px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--text-muted); opacity: 0.85; }
+
+.fb-err {
+  margin-top: 14px; padding: 10px 13px; border-radius: 8px;
+  background: rgba(255, 140, 66, 0.1); border: 1px solid var(--warning);
+  color: var(--text-light); font-size: 13px; line-height: 1.45;
+}
+
+.fb-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+.fb-actions .btn-modern:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ---- Confirmation ---- */
+.fb-done { text-align: center; padding: 14px 0 6px; }
+.fb-done-mark {
+  width: 52px; height: 52px; margin: 0 auto 16px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(78, 205, 196, 0.12); border: 1px solid var(--success); color: var(--success);
+}
+.fb-done-mark svg { width: 26px; height: 26px; }
+.fb-done-title { margin: 0 0 8px; font-size: 17px; color: var(--text-light); }
+.fb-done-body { margin: 0 auto 20px; max-width: 34em; font-size: 13.5px; line-height: 1.55; color: var(--text-muted); }

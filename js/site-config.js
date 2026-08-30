@@ -26,11 +26,25 @@ const SITE = {
 
   // Version affichée dans le pied de page. À incrémenter EN MÊME TEMPS
   // qu'on ajoute une entrée en tête de data/changelog.json (même numéro).
-  version: "1.12",
+  version: "1.13",
 
   // Invitation Discord. Tant que la chaîne est vide, le pied de page
   // n'affiche pas le lien du tout (rien d'inachevé à l'écran).
   discord: "",
+
+  // ---------------------------------------------------------
+  //  RETOURS JOUEURS
+  // ---------------------------------------------------------
+  // Point d'entrée Apps Script, adossé à une feuille Google privée. Ces deux
+  // valeurs sont PUBLIQUES par nature — elles partent dans le JS servi à tout
+  // le monde — et c'est assumé : elles n'ouvrent rien d'autre que l'ajout d'une
+  // ligne, le script valide ce qu'il reçoit et plafonne le débit horaire.
+  // L'adresse mail et le webhook Discord, eux, vivent DANS le script, jamais ici.
+  // URL vide => le bouton « Un retour ? » n'est pas affiché du tout.
+  feedback: {
+    url: "https://script.google.com/macros/s/AKfycbyvTsto0-yVAM3o2fl-2NXwyElu3dDBnI_aqNL1IpKyUrTjLrt5K_X2Co764dzVNq_F/exec",
+    key: "h8ac9mx8-g6uqm3w4-2yx5fmp2-qwbfwzfp"
+  },
 
   // ---------------------------------------------------------
   //  PAGES INSTITUTIONNELLES (pied de page)
@@ -206,7 +220,8 @@ const SITE = {
     open:     { EN: "Open →",      FR: "Ouvrir →" },
     soon:     { EN: "Coming soon", FR: "Bientôt disponible" },
     soonDesc: { EN: "New tools are coming soon. Stay tuned!", FR: "De nouveaux outils arrivent prochainement. Restez connectés !" },
-    beta:     { EN: "Beta",        FR: "Bêta" }
+    beta:     { EN: "Beta",        FR: "Bêta" },
+    feedback: { EN: "Feedback",    FR: "Un retour ?" }
   }
 };
 

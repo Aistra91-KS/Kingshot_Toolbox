@@ -16,7 +16,8 @@ const HEADER_ICONS = {
   "shopping-cart": '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
   "building-2": '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
   "shield": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
-  "globe": '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>'
+  "globe": '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+  "message-square-text": '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/>'
 };
 
 function hdrSvg(name, size = 18) {
@@ -167,6 +168,7 @@ function hdrBuildDrawer() {
     </div>
     ${hdrDrawerProfileHTML()}
     <nav class="drawer-nav">${nav}</nav>
+    ${hdrFeedbackDrawerHTML()}
     <div class="drawer-foot">
       <div class="drawer-lang">
         <button class="drawer-lang-btn ${lang === 'FR' ? 'active' : ''}" data-lang="FR">FR</button>
@@ -180,7 +182,67 @@ function hdrBuildDrawer() {
     b.onclick = () => { window.GlobalLang.set(b.getAttribute('data-lang')); };
   });
   document.getElementById('hdr-drawer-theme').onclick = () => { toggleHeaderTheme(); hdrBuildDrawer(); };
+  const fbDrawer = document.getElementById('hdr-drawer-fb');
+  if (fbDrawer) fbDrawer.onclick = hdrOpenFeedback;
   hdrWireDrawerProfile();
+}
+
+// ============ RETOURS JOUEURS (bouton + chargement à la demande) ============
+// Le formulaire lui-même vit dans js/feedback.js, chargé au PREMIER CLIC et pas
+// avant : la très grande majorité des visiteurs ne l'ouvrira jamais, autant ne
+// rien leur faire télécharger. Ce chargement à la demande évite aussi d'ajouter
+// une balise <script> dans les 65 pages — header.js, lui, est déjà partout.
+// Sans URL configurée (SITE.feedback.url vide), le bouton n'existe pas : mieux
+// vaut pas de bouton du tout qu'un bouton qui échoue.
+function hdrFeedbackOn() {
+  return !!(window.SITE && SITE.feedback && SITE.feedback.url);
+}
+function hdrFeedbackText() {
+  return (window.SITE && SITE.ui && SITE.ui.feedback) ? hdrT(SITE.ui.feedback)
+       : (hdrLang() === 'FR' ? 'Un retour ?' : 'Feedback');
+}
+function hdrFeedbackBtnHTML() {
+  if (!hdrFeedbackOn()) return '';
+  return `<button type="button" class="app-header-fb" id="hdr-feedback">${hdrSvg('message-square-text', 20)}</button>`;
+}
+function hdrFeedbackDrawerHTML() {
+  if (!hdrFeedbackOn()) return '';
+  return `<button type="button" class="drawer-fb" id="hdr-drawer-fb">${hdrSvg('message-square-text', 18)}<span>${hdrFeedbackText()}</span></button>`;
+}
+// Le header n'a pas de mécanisme [data-i18n] : ses libellés se posent en JS.
+function hdrFeedbackLabel() {
+  const btn = document.getElementById('hdr-feedback');
+  if (!btn) return;
+  const t = hdrFeedbackText();
+  btn.title = t;
+  btn.setAttribute('aria-label', t);
+}
+function hdrWireFeedback() {
+  const btn = document.getElementById('hdr-feedback');
+  if (btn) btn.addEventListener('click', hdrOpenFeedback);
+  hdrFeedbackLabel();
+}
+
+// Une seule promesse de chargement, mémorisée : deux clics rapides ne doivent
+// pas injecter deux fois le script. Remise à null en cas d'échec, pour qu'un
+// nouveau clic retente au lieu de rester bloqué sur une promesse rejetée.
+let hdrFbLoad = null;
+function hdrOpenFeedback() {
+  hdrCloseDrawer();
+  if (window.Feedback) { Feedback.open(); return; }
+  if (!hdrFbLoad) {
+    hdrFbLoad = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'js/feedback.js';          // relatif : le <base href> de chaque page le résout
+      s.onload = resolve;
+      s.onerror = () => { hdrFbLoad = null; reject(new Error('feedback.js')); };
+      document.head.appendChild(s);
+    });
+  }
+  hdrFbLoad.then(() => { if (window.Feedback) Feedback.open(); })
+           .catch(() => showAppAlert(hdrLang() === 'FR'
+             ? "Le formulaire n'a pas pu se charger. Réessaie dans un instant."
+             : 'The form could not load. Please try again in a moment.'));
 }
 
 function hdrOpenDrawer() {
@@ -270,6 +332,7 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
 
       <div class="hdr-zone hdr-right">
         <div class="pfp hdr-dd" id="hdr-profile"></div>
+        ${hdrFeedbackBtnHTML()}
         <div class="header-lang-wrapper">
           <button type="button" class="app-header-lang" id="header-lang-toggle" title="Language / Langue" aria-label="Change language">
             ${hdrSvg('globe', 20)}
@@ -309,6 +372,7 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
   const overlay = document.getElementById('hdr-drawer-overlay');
   if (overlay) overlay.addEventListener('click', hdrCloseDrawer);
 
+  hdrWireFeedback();
   initHeaderTheme();
   hdrInitAdaptive();
   hdrShowSwitchToast();
@@ -345,6 +409,7 @@ window.addEventListener('langChanged', (e) => {
   hdrRenderTools();
   hdrBuildProfile();
   hdrBuildDrawer();
+  hdrFeedbackLabel();
   hdrEvaluateAdaptive();
 });
 
