@@ -65,6 +65,18 @@
                 <tbody id="item-tbody"></tbody>
             </table>
         </div>
+        <!-- L'autre valorisation, à portée de clic : les deux pages listent les mêmes objets
+             sur deux échelles indépendantes, et qui arrive sur l'une doit pouvoir passer à
+             l'autre. Écrit en dur, comme tout le maillage interne — il doit exister sans JS
+             (MAP.md §9), ce qui est justement ce que les moteurs de recherche parcourent.
+             Le [data-i18n] est sur le <span> du libellé, jamais sur le <a> : applyI18n écrit
+             un textContent, ce qui effacerait la pastille de l'icône. -->
+        <div class="sx-reflinks">
+          <p class="sx-reflinks-lead" data-i18n="refsEurLead">These same items, valued in real money:</p>
+          <div class="sx-reflinks-row">
+            <a class="sx-reflink is-eur" href="shop/items-euro.html"><span class="sx-reflink-glyph" aria-hidden="true">&euro;</span><span data-i18n="itemsEur">Real-money item values</span></a>
+          </div>
+        </div>
     </div>
 
     <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
