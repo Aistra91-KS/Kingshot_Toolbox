@@ -259,8 +259,12 @@ function ieScaleSection(){
   return ieRuleBlock(scT('scaleTitle'), scEurScaleHow()+' '+basis,
     ids.map(id => {
       const n=scEurMinutes(id);   // « 1 minutes » se lit comme une coquille
-      return ieRuleLi(id, '', scT(n===1?'scaleSum1':'scaleSum').replace('{n}', scFmtNum(n))
-                              +' → '+scFmtEur(scEurUnit(id)));
+      // Le barème dit ce que l'objet VAUT ; il ne dit pas où le trouver. On redonne donc son
+      // pack ici comme dans le tableau — sauf pour l'Accélérateur 8h, qu'aucun pack ne vend.
+      const src=scEurSrc(id);
+      return ieRuleLi(id, src ? scT('scaleFrom').replace('{pack}', src) : '',
+                      scT(n===1?'scaleSum1':'scaleSum').replace('{n}', scFmtNum(n))
+                      +' → '+scFmtEur(scEurUnit(id)));
     }));
 }
 
