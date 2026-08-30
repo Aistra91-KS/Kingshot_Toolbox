@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 2.12
-covers-until: 0739845889b5a0a2ddca088dc4a4d7b6469dc130
-generated: 2026-08-29
+version: 1.13
+covers-until: f7c893a970451647730fb1b8e96d445512d98860
+generated: 2026-08-30
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: ❄️ Nouvelle boutique : le Magasin du Blizzard
-title-en: ❄️ New shop: the Blizzard Shop
+title-fr: 💬 Un bouton pour me dire ce qui cloche
+title-en: 💬 A button to tell me what is wrong
 -->
 
 <!--
@@ -59,20 +59,24 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### ❄️ Le Magasin du Blizzard est dans l'outil
+### 💬 Dis-moi ce qui cloche, sans quitter la page
 
-Ses 7 objets, leur prix en Emblèmes de Duel et le stock restant sur chacun sont en ligne, avec le compte à rebours jusqu'à la fermeture — le **31 août à 00h UTC**.
+Une valeur qui te paraît fausse, un outil qui bloque, une idée pour en améliorer un : il y a maintenant un bouton **« Un retour ? »** dans l'en-tête de chaque page — et dans le menu latéral sur téléphone.
 
-Le classement se lit vite : six lignes sur sept rendent **exactement la même valeur** par emblème. La septième, les 100 Points d'EXP d'Amélioration, en rend deux fois moins : c'est la seule à laisser de côté.
+Tu dis de quoi il s'agit (bug, valeur erronée, idée, autre), tu écris, tu envoies. **Aucun compte, aucune adresse mail à donner.** Le formulaire t'annonce exactement ce qui part avec ton message — la page où tu étais, ta langue et la version du site, rien de plus — et te confirme à l'écran une fois qu'il est bien arrivé.
 
-👉 https://kingshottoolbox.com/shop/blizzard-shop.html
+Laisse ton pseudo en jeu si tu veux que je puisse revenir vers toi. Sinon, écris et pars : je lis tout.
+
+👉 https://kingshottoolbox.com/
 
 ## EN
 
-### ❄️ The Blizzard Shop is in the toolbox
+### 💬 Tell me what is wrong, without leaving the page
 
-Its 7 items, their price in Brawl Emblems and the stock left on each one are up, along with the countdown to closing time — **31 August, 00:00 UTC**.
+A value that looks wrong, a tool that breaks, an idea to make one better: there is now a **Feedback** button in the header of every page — and in the side menu on phones.
 
-The ranking reads fast: six of the seven lines give back **exactly the same value** per emblem. The seventh, the 100 Enhancement XP Component, gives half as much, so it is the one to leave alone.
+Say what it is about (a bug, a wrong value, an idea, something else), write, send. **No account, no email address to hand over.** The form tells you exactly what travels with your message — the page you were on, your language and the site version, nothing more — and confirms on screen once it has really arrived.
 
-👉 https://kingshottoolbox.com/shop/blizzard-shop.html
+Leave your in-game name if you want me to be able to get back to you. Otherwise write and go: I read everything.
+
+👉 https://kingshottoolbox.com/
