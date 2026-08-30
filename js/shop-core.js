@@ -67,12 +67,20 @@ const i18nShop = {
     zoneEUR:"tarif zone euro TTC", zoneUSD:"tarif boutique en dollars",
     itemsEur:"Prix réel des objets", itemsEurSub:"Ce que chaque objet coûte vraiment, d'après les packs payants.",
     colPack:"Pack d'origine", noPack:"non précisé", multipack:"Multipack", seePack:"voir le pack",
-    tipPack:"Le pack qui donne le plus de cet objet — donc le meilleur prix unitaire, puisque tous les packs coûtent le même prix. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. « Calculé » : aucun pack ne vend cet objet, sa valeur est déduite d'un autre — le calcul est détaillé sous le tableau.",
+    tipPack:"Le pack d'où vient le prix. Pour un objet relevé, c'est celui qui en donne le plus — donc le meilleur prix unitaire, puisque tous les packs coûtent le même prix. Pour les accélérateurs, c'est le pack qui fixe le prix de la minute : le même pour les cinq durées. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. Une pastille dit quelle règle a décidé du prix — « Calculé », « Barème » ou « ×0,25 » —, toutes détaillées sous le tableau.",
     ieNote:"{n} objets sur les {t} du référentiel sont chiffrés ici ; les autres n'ont aucun prix connu et ne sont donc pas listés. Relevé : {z}, mis à jour le {d}.",
     derived:"Calculé",
     derivedTitle:"Valeurs calculées",
-    derivedIntro:"Ces objets ne sont vendus dans aucun pack : leur prix ne se relève pas, il se déduit d'un objet dont le prix, lui, est relevé. La colonne « Pack d'origine » les signale par « Calculé ».",
+    derivedIntro:"Le prix de ces objets ne se relève pas dans leur propre pack : il se déduit d'un autre objet. Soit parce qu'aucun pack ne les vend, soit parce que le relevé, tout exact qu'il est, donnait un prix unitaire absurde — un pack avare sur un objet ne rend pas cet objet plus précieux.",
     derivedSum:"Soit {p} \u00F7 {q} \u00D7 {f} = {b}",
+    derivedSumAlt:"Soit la valeur de « {n} » \u00D7 {f} = {b}",
+    derivedSumSame:"Soit la valeur de « {n} », donc {b}",
+    scaled:"Barème",
+    scaleTitle:"Barème des accélérateurs",
+    scaleBasis:"Base : {p} \u00F7 {m} minutes = {u} la minute, d'après {pack}, le pack qui donne le plus de temps ({detail}).",
+    scaleSum:"{n} minutes", scaleSum1:"{n} minute",
+    weightTitle:"Pondération assumée",
+    weightSum:"Soit {p} \u00F7 {q} \u00D7 {f} = {b}",
     covered:"sur {n} des {t} objets valorisés", coveredAll:"tous les objets sont valorisés",
     tipEur:"Prix réel de l'objet, déduit du pack payant où il apparaît (prix du pack ÷ quantité). Quelques objets qu'aucun pack ne vend sont calculés depuis un objet relevé (le détail est sur la page « Prix réel des objets »). Un « — » signale un objet qu'on ne sait toujours pas chiffrer.",
     tipRatioEur:"Valeur en euros ÷ coût. Plus c'est élevé, meilleure est l'affaire.",
@@ -131,12 +139,20 @@ const i18nShop = {
     zoneEUR:"euro-zone price incl. tax", zoneUSD:"US dollar store price",
     itemsEur:"Real-money item values", itemsEurSub:"What each item really costs, from the paid packs.",
     colPack:"Source pack", noPack:"not specified", multipack:"Multipack", seePack:"see the pack",
-    tipPack:"The pack that gives the most of this item - so the best unit price, since every pack costs the same. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. “Calculated”: no pack sells this item, its value is worked out from another one - the maths is spelled out under the table.",
+    tipPack:"The pack the price comes from. For a surveyed item that is the pack giving the most of it - so the best unit price, since every pack costs the same. For speedups it is the pack that sets the price of one minute: the same one for all five lengths. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. A pill says which rule decided the price - “Calculated”, “Scale” or “×0.25” - all spelled out under the table.",
     ieNote:"{n} of the {t} items in the reference table are priced here; the others have no known price and are not listed. Survey: {z}, updated {d}.",
     derived:"Calculated",
     derivedTitle:"Calculated values",
-    derivedIntro:"These items are sold in no pack at all: their price cannot be read off a pack, it is worked out from an item whose price can. The “Source pack” column marks them “Calculated”.",
+    derivedIntro:"The price of these items cannot be read off their own pack: it is worked out from another item. Either because no pack sells them, or because the survey - accurate as it is - gave an absurd unit price: a pack being stingy with an item does not make that item more valuable.",
     derivedSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
+    derivedSumAlt:"That is the value of “{n}” \u00D7 {f} = {b}",
+    derivedSumSame:"That is the value of “{n}”, so {b}",
+    scaled:"Scale",
+    scaleTitle:"Speedup scale",
+    scaleBasis:"Basis: {p} \u00F7 {m} minutes = {u} per minute, from {pack}, the pack that gives the most time ({detail}).",
+    scaleSum:"{n} minutes", scaleSum1:"{n} minute",
+    weightTitle:"Deliberate weighting",
+    weightSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
     covered:"on {n} of {t} items priced", coveredAll:"all items are priced",
     tipEur:"The item's real price, taken from the paid pack it appears in (pack price ÷ quantity). A few items no pack sells are worked out from an item that a pack does price (the maths is on the “Real-money item values” page). A “—” marks an item still impossible to price.",
     tipRatioEur:"Euro value ÷ cost. The higher it is, the better the deal.",
@@ -175,6 +191,7 @@ let SC_CLASSIC=[];
 let SC_EVENTS=[], SC_EVENTS_DEF=[];
 let SC_CHESTS=[];
 let SC_EURO={}, SC_EURO_META={}, SC_EURO_PACKS={}, SC_EURO_DERIVED={};   // relevé € : ADMIN, lecture seule (jamais d'édition joueur)
+let SC_EURO_SPEEDUPS={}, SC_EURO_WEIGHTS=[];                             // barème accélérateurs + pondérations assumées (mêmes règles : ADMIN, lecture seule)
 
 // ---------- helpers d'affichage ----------
 function scEscAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
@@ -229,72 +246,160 @@ function scCur(){
 function scSetCur(c){ SC_CUR = (c==='USD')?'USD':'EUR'; scChromeSet(SC_CUR_KEY, SC_CUR); }
 function scCurSym(){ return scCur()==='USD' ? '$' : '\u20AC'; }
 
-// Prix UNITAIRE dans la devise active = prix du pack / quantité obtenue.
-// CALCULÉ, jamais stocké : le relevé ne garde que ce qui a été mesuré (le prix du pack et
-// la quantité). Stocker aussi le résultat de la division en ferait une seconde vérité,
-// qui divergerait de la première dès la moindre correction de prix — et l'arrondi de la
-// valeur stockée était de toute façon moins précis que la division elle-même.
-// Renvoie null et jamais 0 quand aucun pack ne chiffre l'objet : « inconnu » n'est pas
-// « sans valeur » — un 0 placerait la ligne en pire affaire et renverserait le podium
-// des boutiques mal couvertes.
-function scEurUnit(id){
-  const r=SC_EURO[id]; if(!r) return scEurDerivedUnit(id);
-  // Le prix du pack est le MÊME pour tous (relevé sur les packs à 6 € / 5 $) : il vit dans
-  // _meta, pas répété 55 fois. La quantité, elle, est propre à chaque objet.
-  const p = (scCur()==='USD') ? SC_EURO_META.packPriceUsd : SC_EURO_META.packPrice;
-  const q = Number(r.qty);
-  return (typeof p==='number' && isFinite(p) && q>0) ? (p/q) : null;
+// ---------- prix UNITAIRE : quatre couches, dans cet ordre ----------
+// Le prix affiché n'est plus toujours « prix du pack ÷ quantité obtenue » : trois blocs du JSON
+// corrigent ce que le relevé seul dit mal. Ils ne viennent PAS de l'Excel et survivent donc à
+// une régénération d'un bloc de `items` — c'est exactement leur raison d'être.
+//   1. `derived`  — la valeur est DÉDUITE d'un autre objet, et REMPLACE le relevé quand les deux
+//      existent. Un relevé peut être exact et son prix unitaire absurde : la Marche Rapide 1
+//      ressortait à 1,50 € contre 1,00 € pour la 2, alors qu'elle fait moitié moins de travail.
+//      Un pack avare sur un objet ne rend pas cet objet plus précieux.
+//   2. `speedups` — barème des accélérateurs : le pack le plus généreux en temps fixe le prix
+//      d'UNE minute, et les cinq accélérateurs s'en déduisent. Sans lui, le prix suivait le
+//      format du jeton et non le temps (le 3h sortait 6× plus cher à la minute que le 1h).
+//   3. `items`    — le relevé lui-même : prix du pack ÷ quantité obtenue.
+//   4. `weights`  — pondération ASSUMÉE appliquée au résultat (choix éditorial, pas une mesure).
+// Renvoie null et jamais 0 quand rien ne chiffre l'objet : « inconnu » n'est pas « sans
+// valeur » — un 0 placerait la ligne en pire affaire et renverserait le podium des boutiques
+// mal couvertes.
+function scEurUnit(id){ return scEurResolve(id, null); }
+
+// La résolution elle-même. `seen` porte la chaîne de dérivations déjà traversée et interdit
+// qu'elle boucle sur elle-même ; il reste privé pour qu'un scEurUnit() passé en callback
+// (.map, .filter) ne reçoive jamais un index à sa place.
+function scEurResolve(id, seen){
+  let v;
+  const d=SC_EURO_DERIVED[id];
+  if(d){
+    // Une règle de dérivation DÉCIDE : si elle ne se résout pas — base absente, facteur
+    // invalide, cycle —, l'objet vaut « — » et surtout PAS le relevé qu'elle était censée
+    // corriger. Retomber dessus afficherait la pastille « Calculé » juste à côté du chiffre
+    // qu'on voulait remplacer, ce qui est pire que pas de chiffre du tout.
+    const path = seen || new Set();
+    if(path.has(id)) return null;
+    path.add(id);
+    const base=scEurResolve(d.fromId, path), f=Number(d.factor);
+    v = (base!=null && f>0) ? base*f : null;
+  } else {
+    v = scEurScaleUnit(id);
+    if(v==null) v = scEurRawUnit(id);
+  }
+  return (v==null) ? null : v*scEurWeight(id);
 }
 
-// ---------- valeurs CALCULÉES (bloc `derived`) ----------
-// Certains objets ne sont vendus dans AUCUN pack : le relevé ne peut pas les chiffrer, et la
-// règle du « — » les laissait sans valeur. Quand un raisonnement vérifiable relie un tel objet
-// à un objet relevé, le bloc `derived` porte ce lien — {fromId, factor} — et rien d'autre : la
-// valeur elle-même n'est pas stockée, elle se recalcule comme celle d'un pack.
-// Exemple : la Caisse d'Équipement de Héros Mythique Personnalisée donne à coup sûr ce que la
-// Caisse Chanceuse donne 1 fois sur 100 — elle vaut donc 100 caisses chanceuses.
-// La base (`fromId`) doit être un objet RELEVÉ : une dérivée d'une dérivée n'est pas résolue
-// (scEurUnit() ne repasse jamais ici), ce qui interdit aussi toute boucle infinie.
-function scEurDerivedUnit(id){
-  const d=SC_EURO_DERIVED[id]; if(!d || !SC_EURO[d.fromId]) return null;
-  const u=scEurUnit(d.fromId), f=Number(d.factor);
-  return (u!=null && f>0) ? u*f : null;
+// Prix du pack dans la devise active. Le MÊME pour tous les packs relevés (6 € / 5 $) : il vit
+// dans _meta, il n'est pas répété 55 fois.
+function scEurPackPrice(){
+  const p = (scCur()==='USD') ? SC_EURO_META.packPriceUsd : SC_EURO_META.packPrice;
+  return (typeof p==='number' && isFinite(p)) ? p : null;
 }
-// Vrai quand la valeur affichée est calculée et non relevée — ce qui doit toujours se voir.
-function scEurIsDerived(id){ return !SC_EURO[id] && !!SC_EURO_DERIVED[id]; }
-// Le raisonnement en toutes lettres, dans la langue active : c'est lui qui rend la valeur auditable.
-function scEurHow(id){
-  const h=SC_EURO_DERIVED[id] && SC_EURO_DERIVED[id].how;
-  return h ? (h[scLang()] || h.EN || h.FR || '') : '';
+// Le relevé nu. CALCULÉ, jamais stocké : le relevé ne garde que ce qui a été mesuré (le prix du
+// pack et la quantité). Stocker aussi le résultat de la division en ferait une seconde vérité,
+// qui divergerait de la première dès la moindre correction de prix — et l'arrondi de la valeur
+// stockée était de toute façon moins précis que la division elle-même.
+function scEurRawUnit(id){
+  const r=SC_EURO[id]; if(!r) return null;
+  const p=scEurPackPrice(), q=Number(r.qty);
+  return (p!=null && q>0) ? (p/q) : null;
 }
-// Objets calculés, dans l'ordre du référentiel (SC_ITEMS peut ne pas être chargé : garde-fou).
-function scEurDerivedIds(){
-  const ids=Object.keys(SC_EURO_DERIVED).filter(id=>scEurDerivedUnit(id)!=null);
-  return SC_ITEMS.length ? SC_ITEMS.filter(i=>ids.includes(i.id)).map(i=>i.id) : ids;
+// Texte bilingue {FR,EN} d'une règle, dans la langue active. C'est lui qui rend un chiffre
+// auditable : une valeur qu'on ne peut pas vérifier ne vaut rien.
+function scEurRuleTxt(h){ return h ? (h[scLang()] || h.EN || h.FR || '') : ''; }
+
+// ---------- barème des accélérateurs (bloc `speedups`) ----------
+// Un accélérateur ne vaut que le temps qu'il fait gagner : une heure DOIT valoir soixante
+// minutes. Relevé jeton par jeton, chacun héritait du pack qui en donnait le plus, sans aucun
+// rapport entre eux — le 3h finissait 6× plus cher à la minute que le 1h, et le classement des
+// boutiques se décidait sur le format des jetons. Le pack le plus généreux en temps TOTAL
+// (`basis.minutes`) fixe donc le prix de LA minute, et chaque accélérateur vaut sa durée.
+function scEurMinute(){
+  const b=SC_EURO_SPEEDUPS.basis, p=scEurPackPrice(), m=b?Number(b.minutes):0;
+  return (p!=null && m>0) ? (p/m) : null;
 }
+function scEurMinutes(id){ const m=SC_EURO_SPEEDUPS.minutes; return (m && Number(m[id])) || 0; }
+function scEurScaleUnit(id){
+  const n=scEurMinutes(id), u=scEurMinute();
+  return (n>0 && u!=null) ? (u*n) : null;
+}
+// Vrai quand c'est le barème, et non le relevé, qui donne son prix à cet objet.
+function scEurIsScaled(id){ return !SC_EURO_DERIVED[id] && scEurScaleUnit(id)!=null; }
+function scEurScaleHow(){ return scEurRuleTxt(SC_EURO_SPEEDUPS.how); }
+function scEurScaledIds(){ return scEurOrder(Object.keys(SC_EURO_SPEEDUPS.minutes||{}).filter(id=>scEurIsScaled(id))); }
+
+// ---------- pondération assumée (bloc `weights`) ----------
+// Dernière couche, et la seule qui ne mesure rien : elle dit ce qu'on décide de COMPTER, pas ce
+// qu'on a relevé. Les ressources brutes s'accumulent toutes seules en jouant — un pack qui en
+// est rempli n'est pas un bon achat pour autant. Assumée, donc affichée comme telle : la page la
+// signale par une pastille et l'explique en toutes lettres sous le tableau.
+function scEurWeightRule(id){
+  return SC_EURO_WEIGHTS.find(w => Array.isArray(w.ids) && w.ids.indexOf(id)>=0) || null;
+}
+function scEurWeight(id){ const w=scEurWeightRule(id), f=w?Number(w.factor):0; return (f>0) ? f : 1; }
+function scEurIsWeighted(id){ return !!scEurWeightRule(id) && scEurUnit(id)!=null; }
+function scEurWeightHow(id){ const w=scEurWeightRule(id); return w ? scEurRuleTxt(w.how) : ''; }
+// Libellé de la pastille : « ×0,25 ». Le facteur vient du JSON, jamais écrit en dur ici.
+function scEurWeightLabel(id){ return '×'+scFmtNum(scEurWeight(id)); }
+
+// ---------- valeurs DÉDUITES (bloc `derived`) ----------
+// {fromId, factor} et rien d'autre : la valeur elle-même n'est pas stockée, elle se recalcule
+// comme celle d'un pack. Deux usages, le second ajouté après coup :
+//  · CHIFFRER un objet qu'aucun pack ne vend — la Caisse d'Équipement de Héros Mythique
+//    Personnalisée donne à coup sûr ce que la Caisse Chanceuse donne 1 fois sur 100, elle vaut
+//    donc 100 caisses chanceuses ;
+//  · CORRIGER un relevé exact mais absurde au prix unitaire — Marche Rapide 1 = 0,5 × la 2,
+//    fragment ciblé = 0,8 × le fragment universel.
+// D'où la précédence sur le relevé quand les deux existent. Une chaîne de dérivations est
+// résolue (scEurResolve() repasse par ici) mais ne peut pas boucler : `seen` la coupe.
+// Vrai quand la valeur affichée est déduite d'un autre objet — ce qui doit toujours se voir.
+function scEurIsDerived(id){ return !!SC_EURO_DERIVED[id] && scEurUnit(id)!=null; }
+// Le raisonnement en toutes lettres, dans la langue active.
+function scEurHow(id){ const d=SC_EURO_DERIVED[id]; return d ? scEurRuleTxt(d.how) : ''; }
+// Objets touchés par une règle, dans l'ORDRE DU RÉFÉRENTIEL — les trois listes de l'encadré
+// sous le tableau se parcourent donc comme le tableau lui-même.
+// (SC_ITEMS peut ne pas être chargé : garde-fou.)
+function scEurOrder(ids){
+  return SC_ITEMS.length ? SC_ITEMS.filter(i=>ids.indexOf(i.id)>=0).map(i=>i.id) : ids;
+}
+function scEurDerivedIds(){ return scEurOrder(Object.keys(SC_EURO_DERIVED).filter(id=>scEurIsDerived(id))); }
 
 // Packs qui atteignent la quantité MAXIMALE pour cet objet. Tous les packs coûtant le même
 // prix, « le plus d'exemplaires » = « le meilleur prix unitaire » : ce sont donc les packs
 // à recommander. UN seul => son image illustre l'objet. PLUSIEURS => « multipack », sans image.
-function scEurPacks(id){ const r=SC_EURO[id]; return (r && Array.isArray(r.packs)) ? r.packs : []; }
+function scEurPacks(id){
+  // Un accélérateur n'est pas chiffré par SON pack mais par celui qui fixe le prix de la
+  // minute : c'est donc ce pack-là qui justifie la valeur, pour les cinq durées à la fois.
+  // Afficher « Offres Quotidiennes » sur le 3h laisserait croire que 6 € ÷ 12 y donne 0,151 €.
+  if(scEurIsScaled(id)) return (SC_EURO_SPEEDUPS.basis && SC_EURO_SPEEDUPS.basis.packs) || [];
+  // Une valeur déduite ne vient d'AUCUN pack : c'est un calcul, pas un relevé. Sauf quand la
+  // règle en nomme un — le pack qui chiffre `fromId` vaut alors aussi pour elle (les caisses
+  // de ressources, alignées sur le pain du Pack Lien Vital de la Ville).
+  const d=SC_EURO_DERIVED[id];
+  if(d) return Array.isArray(d.packs) ? d.packs : [];
+  const r=SC_EURO[id]; return (r && Array.isArray(r.packs)) ? r.packs : [];
+}
 function scPackName(pid){
   const p=SC_EURO_PACKS[pid];
   return p ? (p[scLang()] || p.EN || p.FR || pid) : pid;
 }
 // Libellé de la colonne « Pack d'origine » : le nom du pack, ou « Multipack » à égalité.
+// Il reste celui qui donne LE PLUS de cet objet même quand une règle décide du prix : « où en
+// trouver le plus » et « ce que ça coûte » sont deux questions distinctes. C'est la pastille
+// posée à côté qui dit laquelle des deux le chiffre suit.
 function scEurSrc(id){
-  if(scEurIsDerived(id)) return scT('derived');
   const ps=scEurPacks(id);
   if(!ps.length) return '';
   return ps.length===1 ? scPackName(ps[0]) : scT('multipack');
 }
-// Texte d'audit d'une valeur € : le pack d'origine, ou le calcul en toutes lettres quand la
-// valeur est dérivée — « Calculé » tout court n'apprendrait rien à qui doute du chiffre.
+// Texte d'audit d'une valeur € : le pack d'origine, et le raisonnement de chaque règle qui a
+// pesé sur le chiffre — « Calculé » tout court n'apprendrait rien à qui doute du chiffre.
 function scEurWhy(id){
-  return scEurIsDerived(id) ? (scT('derived')+' — '+scEurHow(id)) : scEurSrc(id);
+  const bits=[scEurSrc(id)];
+  if(scEurIsDerived(id))     bits.push(scT('derived')+' — '+scEurHow(id));
+  else if(scEurIsScaled(id)) bits.push(scT('scaled')+' — '+scEurScaleHow());
+  if(scEurIsWeighted(id))    bits.push(scEurWeightLabel(id)+' — '+scEurWeightHow(id));
+  return bits.filter(Boolean).join(' · ');
 }
 // Id de l'image du pack — seulement quand un SEUL pack atteint le maximum.
-// (L'aperçu d'image au survol est prévu mais pas encore implémenté : img/packs/<id>.webp.)
 function scEurPackImg(id){ const ps=scEurPacks(id); return ps.length===1 ? ps[0] : null; }
 
 // ---------- formats € : décimales adaptatives ----------
@@ -305,6 +410,9 @@ function scFmtFix(v,d){
   return Number(v).toLocaleString(scLang()==='FR'?'fr-FR':'en-US',
     {minimumFractionDigits:d, maximumFractionDigits:d});
 }
+// Nombre nu à la locale active : facteurs (0,5 / 100) et quantités (7 140). Les décimales
+// suivent la valeur — un facteur entier ne doit pas s'écrire « 0,50 ».
+function scFmtNum(v){ return Number(v).toLocaleString(scLang()==='FR'?'fr-FR':'en-US'); }
 function scFmtEur(v){
   if(v==null) return null;
   const a=Math.abs(v), d = a>=100?0 : a>=1?2 : a>=0.01?3 : (a===0?2:4);
@@ -422,8 +530,10 @@ async function scLoadEuro(){
     const d=await (await fetch('data/shopcalc_euro.json')).json();
     SC_EURO=(d&&d.items)||{}; SC_EURO_META=(d&&d._meta)||{}; SC_EURO_PACKS=(d&&d.packs)||{};
     SC_EURO_DERIVED=(d&&d.derived)||{};
+    SC_EURO_SPEEDUPS=(d&&d.speedups)||{}; SC_EURO_WEIGHTS=(d&&Array.isArray(d.weights)?d.weights:[]);
   }
-  catch(e){ console.error('euro',e); SC_EURO={}; SC_EURO_META={}; SC_EURO_PACKS={}; SC_EURO_DERIVED={}; }
+  catch(e){ console.error('euro',e); SC_EURO={}; SC_EURO_META={}; SC_EURO_PACKS={}; SC_EURO_DERIVED={};
+           SC_EURO_SPEEDUPS={}; SC_EURO_WEIGHTS=[]; }
 }
 
 async function scLoadChests(){

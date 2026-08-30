@@ -520,16 +520,34 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
    donc aucune image à montrer. On le distingue visuellement des vrais noms. */
 .ie-pack.is-multi { color: var(--text-muted); font-style: italic; }
 
-/* « Calculé » : la valeur ne vient d'aucun pack, elle est déduite d'un objet relevé.
-   Pastille et non simple texte — la nuance change la confiance qu'on accorde au chiffre,
-   elle doit se voir d'un coup d'œil au milieu de 55 noms de packs. Inerte comme
-   « Multipack » : il n'y a pas d'image à ouvrir, le calcul est détaillé sous le tableau. */
-.ie-pack.is-derived {
+/* Cellule « Pack d'origine » : le pack, puis les pastilles des règles qui ont décidé du prix.
+   Elles s'enroulent plutôt que d'élargir la colonne — le tableau défile déjà sur mobile. */
+.ie-src { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+/* Pastilles de règle. Elles disent que le chiffre affiché ne se déduit PAS du pack à côté :
+   la nuance change la confiance qu'on accorde au prix, elle doit se voir d'un coup d'œil au
+   milieu de 55 noms de packs. Une seule famille visuelle, trois poids selon ce que la règle
+   fait : l'or pour celles qui REMPLACENT l'origine du prix (« Calculé » plein, puisque aucun
+   pack ne le justifie ; « Barème » en contour, le pack existe mais ne fixe pas le prix), le
+   gris pour « ×0,25 » qui ne fait que PONDÉRER un prix déjà établi. Inertes comme
+   « Multipack » : rien à ouvrir, tout est détaillé sous le tableau. */
+.ie-tag {
   display: inline-block; padding: 1px 8px; border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  font-size: 12px; font-weight: 600; white-space: nowrap; cursor: help;
+  border: 1px solid transparent;
+}
+.ie-tag.is-derived {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
   background: color-mix(in srgb, var(--accent) 12%, transparent);
-  color: var(--accent); font-size: 12px; font-weight: 600; white-space: nowrap;
-  cursor: help;
+  color: var(--accent);
+}
+.ie-tag.is-scaled {
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+  color: color-mix(in srgb, var(--accent) 88%, var(--text-light));
+}
+.ie-tag.is-weighted {
+  border-color: var(--border); color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 /* Encadré des valeurs calculées, sous le tableau. PERMANENT et déplié : une valeur qu'aucun
@@ -544,6 +562,11 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .ie-derived-intro { margin: 0 0 10px; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 .ie-derived-list { margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-light); line-height: 1.6; }
 .ie-derived-list li + li { margin-top: 8px; }
+/* Plusieurs règles = plusieurs sections dans le même encadré : un filet les sépare, sinon la
+   liste de l'une se lit comme la suite de l'autre. */
+.ie-derived-list + .ie-derived-h {
+  margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border);
+}
 /* Le calcul chiffré passe à la ligne : collé au texte il se lisait comme sa fin de phrase. */
 .ie-derived-sum {
   display: block; margin-top: 3px; color: var(--accent);
