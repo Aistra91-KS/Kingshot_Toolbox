@@ -5,7 +5,7 @@
     "packPriceUsd": 5,
     "updatedAt": "2026-08-28",
     "source": "Relevé in-game des packs récurrents (disponibles au moins une fois par mois), hors packs d'événement ponctuels. Fourni et mis à jour périodiquement par Paul (fichier Pack_ks.xlsx).",
-    "note": "Seconde valorisation, en argent réel. La clé de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantité MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coûtent le même prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocké : c'est _meta.packPrice / qty, calculé à l'affichage. Fichier ADMIN en lecture seule, régénérable d'un bloc depuis le relevé Excel. Les quantités du relevé font foi, Y COMPRIS à la baisse. Le bloc `derived` chiffre à part les objets qu'AUCUN pack ne vend : {fromId, factor, how{FR,EN}} — la valeur unitaire vaut celle de `fromId` (qui doit, lui, être relevé dans `items`) multipliée par `factor`. Ce bloc ne vient PAS de l'Excel : le CONSERVER lors d'une régénération d'un bloc de `items`."
+    "note": "Seconde valorisation, en argent reel. La cle de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantite MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coutent le meme prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocke : il se recalcule a l'affichage. Fichier ADMIN en lecture seule, regenerable d'un bloc depuis le releve Excel. Les quantites du releve font foi, Y COMPRIS a la baisse. TROIS blocs corrigent ce que le releve seul dit mal, et se CONSERVENT lors d'une regeneration de `items` (ils ne viennent PAS de l'Excel) : `derived` {fromId, factor, how} deduit la valeur d'un objet de celle d'un autre et REMPLACE le releve quand les deux existent — un releve peut etre exact et son prix unitaire absurde (un pack genereux sur un objet ne le rend pas plus utile) ; `speedups` fixe le prix d'UNE minute d'accelerateur (prix du pack / total de minutes du pack le plus genereux) et en deduit les cinq accelerateurs, pour qu'une heure vaille toujours 60 minutes ; `weights` applique une ponderation ASSUMEE (choix editorial, pas une mesure) au resultat, ex. x0,25 sur les ressources brutes."
   },
   "packs": {
     "adventure-supply-pack": {
@@ -253,8 +253,75 @@
         "FR": "La Caisse d'Équipement de Héros Chanceux a 1 % de chance de donner un équipement mythique : il en faut donc 100 en moyenne (1 ÷ 1 %) pour en sortir un. Cette caisse-ci en donne un à coup sûr — elle vaut 100 caisses chanceuses.",
         "EN": "The Lucky Hero Gear Chest has a 1% chance of giving a mythic gear piece, so it takes 100 of them on average (1 ÷ 1%) to land one. This chest gives one for certain — it is worth 100 Lucky Chests."
       }
+    },
+    "fast_walk_1": {
+      "fromId": "fast_walk_2",
+      "factor": 0.5,
+      "how": {
+        "FR": "La Marche Rapide 2 enlève 50 % du temps de trajet, la Marche Rapide 1 seulement 25 % : la 1 fait donc exactement la moitié du travail de la 2. Le relevé disait l'inverse (4 dans le Pack Conquérant contre 6 dans le Globe-trotteur, soit 1,50 € contre 1,00 €) — un pack avare sur un objet ne le rend pas plus précieux.",
+        "EN": "Fast Walk 2 removes 50% of the travel time, Fast Walk 1 only 25%: the 1 does exactly half the work of the 2. The survey said the opposite (4 in the Conqueror Pack against 6 in World Traveler, so €1.50 against €1.00) — a pack being stingy with an item does not make that item more valuable."
+      }
+    },
+    "fragment_of_a_specific_mythical_hero": {
+      "fromId": "mythic_general_hero_shard",
+      "factor": 0.8,
+      "how": {
+        "FR": "Un fragment ciblé ne sert qu'à un héros précis, là où le fragment universel va sur n'importe lequel : il vaut donc un peu moins, fixé à 0,8 fois le fragment universel.",
+        "EN": "A targeted shard only works on one specific hero, where the universal shard goes on any of them: it is therefore worth slightly less, set at 0.8 times the universal shard."
+      }
     }
   },
+  "speedups": {
+    "basis": {
+      "packs": [
+        "speedup-weekly-card"
+      ],
+      "minutes": 7140,
+      "detail": [
+        {
+          "itemId": "1h_general_speedup",
+          "qty": 70
+        },
+        {
+          "itemId": "5m_general_speedup",
+          "qty": 504
+        },
+        {
+          "itemId": "1m_general_speedup",
+          "qty": 420
+        }
+      ]
+    },
+    "minutes": {
+      "1m_general_speedup": 1,
+      "5m_general_speedup": 5,
+      "1h_general_speedup": 60,
+      "3h_general_speedup": 180,
+      "8h_general_speedup": 480
+    },
+    "how": {
+      "FR": "Un accélérateur ne vaut que le temps qu'il fait gagner : une heure doit valoir soixante minutes, sinon le classement des boutiques se décide sur le format des jetons et non sur le temps. Le pack le plus généreux en accélérateurs fixe donc le prix de LA minute, et les cinq accélérateurs s'en déduisent.",
+      "EN": "A speedup is worth exactly the time it saves: one hour has to be worth sixty minutes, otherwise the shop rankings are decided by token size rather than by time. So the pack that gives the most speedup time sets the price of ONE minute, and all five speedups follow from it."
+    }
+  },
+  "weights": [
+    {
+      "factor": 0.25,
+      "ids": [
+        "10k_wood",
+        "10k_bread",
+        "10k_stone",
+        "10k_iron",
+        "lv1_custom_resource_chest",
+        "lv2_custom_resource_chest",
+        "lv3_custom_resource_chest"
+      ],
+      "how": {
+        "FR": "Bois, pain, pierre, fer et caisses de ressources personnalisées ne comptent que pour un quart de leur prix relevé : ils s'accumulent tout seuls en jouant, et un pack rempli de ressources n'est pas un bon achat pour autant. C'est une pondération assumée, pas une mesure — l'or et les gemmes, eux, gardent leur prix relevé.",
+        "EN": "Wood, bread, stone, iron and custom resource chests only count for a quarter of their surveyed price: they pile up on their own just by playing, and a pack full of resources is not a good buy for all that. This is a deliberate weighting, not a measurement — coins and gems keep their surveyed price."
+      }
+    }
+  ],
   "items": {
     "10000_hero_xp": {
       "qty": 30,
