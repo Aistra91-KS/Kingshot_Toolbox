@@ -89,9 +89,10 @@ function spViewTabsHtml(){
 }
 
 // Pack d'où la valeur est tirée, en info-bulle : c'est ce qui permet d'auditer une valeur
-// qui paraît fausse. Absent sur les quelques objets dont le relevé ne nomme pas sa source.
+// qui paraît fausse. Une valeur calculée y donne son calcul plutôt qu'un nom de pack.
+// Absent sur les quelques objets dont le relevé ne nomme pas sa source.
 function spSrcAttr(itemId){
-  const src=scEurSrc(itemId);
+  const src=scEurWhy(itemId);
   return src ? ` title="${scEscAttr(src)}"` : '';
 }
 

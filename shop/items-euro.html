@@ -44,7 +44,7 @@
     <div class="db-page">
         <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="shop_calc.html" data-i18n="crumbShops">Shops</a> / <span data-i18n="itemsEur">Real-money item values</span></div>
         <h1 data-i18n="itemsEur">Real-money item values</h1>
-        <p class="db-intro" data-en="What each item really costs, worked out from the paid pack it appears in: the pack's price divided by how many you get. Only the items a pack can put a price on are listed. This table is read-only and independent from the gem values - no exchange rate is ever worked out between the two." data-fr="Ce que chaque objet coûte réellement, calculé depuis le pack payant où il apparaît : le prix du pack divisé par la quantité obtenue. Seuls les objets qu'un pack permet de chiffrer sont listés. Ce tableau est en lecture seule et indépendant des valeurs en gemmes - aucun taux de change n'est jamais calculé entre les deux.">What each item really costs, worked out from the paid pack it appears in: the pack's price divided by how many you get. Only the items a pack can put a price on are listed. This table is read-only and independent from the gem values - no exchange rate is ever worked out between the two.</p>
+        <p class="db-intro" data-en="What each item really costs, worked out from the paid pack it appears in: the pack's price divided by how many you get. A few items no pack sells are worked out from an item that a pack does price - they are marked “Calculated”, and the maths is spelled out under the table. This table is read-only and independent from the gem values - no exchange rate is ever worked out between the two." data-fr="Ce que chaque objet coûte réellement, calculé depuis le pack payant où il apparaît : le prix du pack divisé par la quantité obtenue. Quelques objets qu'aucun pack ne vend sont déduits d'un objet dont le prix est relevé - ils portent la mention « Calculé », et le calcul est détaillé sous le tableau. Ce tableau est en lecture seule et indépendant des valeurs en gemmes - aucun taux de change n'est jamais calculé entre les deux.">What each item really costs, worked out from the paid pack it appears in: the pack's price divided by how many you get. A few items no pack sells are worked out from an item that a pack does price - they are marked “Calculated”, and the maths is spelled out under the table. This table is read-only and independent from the gem values - no exchange rate is ever worked out between the two.</p>
 
         <div class="shop-toolbar">
             <input id="ie-search" class="table-input" data-i18n-placeholder="search" placeholder="Search…">
@@ -67,6 +67,8 @@
             </table>
         </div>
         <p class="db-intro" id="ie-note" style="font-size:12px;"></p>
+        <!-- Valeurs calculees : rempli par ieRenderDerived(), masque s'il n'y en a aucune. -->
+        <section class="ie-derived" id="ie-derived" hidden></section>
     </div>
 
     <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son

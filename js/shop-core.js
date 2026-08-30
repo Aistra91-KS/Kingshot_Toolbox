@@ -67,10 +67,14 @@ const i18nShop = {
     zoneEUR:"tarif zone euro TTC", zoneUSD:"tarif boutique en dollars",
     itemsEur:"Prix réel des objets", itemsEurSub:"Ce que chaque objet coûte vraiment, d'après les packs payants.",
     colPack:"Pack d'origine", noPack:"non précisé", multipack:"Multipack", seePack:"voir le pack",
-    tipPack:"Le pack qui donne le plus de cet objet — donc le meilleur prix unitaire, puisque tous les packs coûtent le même prix. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image.",
-    ieNote:"{n} objets sur les {t} du référentiel apparaissent dans un pack payant ; les autres n'ont aucun prix connu et ne sont donc pas listés ici. Relevé : {z}, mis à jour le {d}.",
+    tipPack:"Le pack qui donne le plus de cet objet — donc le meilleur prix unitaire, puisque tous les packs coûtent le même prix. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. « Calculé » : aucun pack ne vend cet objet, sa valeur est déduite d'un autre — le calcul est détaillé sous le tableau.",
+    ieNote:"{n} objets sur les {t} du référentiel sont chiffrés ici ; les autres n'ont aucun prix connu et ne sont donc pas listés. Relevé : {z}, mis à jour le {d}.",
+    derived:"Calculé",
+    derivedTitle:"Valeurs calculées",
+    derivedIntro:"Ces objets ne sont vendus dans aucun pack : leur prix ne se relève pas, il se déduit d'un objet dont le prix, lui, est relevé. La colonne « Pack d'origine » les signale par « Calculé ».",
+    derivedSum:"Soit {p} \u00F7 {q} \u00D7 {f} = {b}",
     covered:"sur {n} des {t} objets valorisés", coveredAll:"tous les objets sont valorisés",
-    tipEur:"Prix réel de l'objet, déduit du pack payant où il apparaît (prix du pack ÷ quantité). Un « — » signale un objet qu'aucun pack ne permet de chiffrer.",
+    tipEur:"Prix réel de l'objet, déduit du pack payant où il apparaît (prix du pack ÷ quantité). Quelques objets qu'aucun pack ne vend sont calculés depuis un objet relevé (le détail est sur la page « Prix réel des objets »). Un « — » signale un objet qu'on ne sait toujours pas chiffrer.",
     tipRatioEur:"Valeur en euros ÷ coût. Plus c'est élevé, meilleure est l'affaire.",
     eurNote:"Relevé des packs payants, {z}. Les deux lectures sont indépendantes : aucun taux de change n'est calculé entre gemmes et argent réel."
 
@@ -127,10 +131,14 @@ const i18nShop = {
     zoneEUR:"euro-zone price incl. tax", zoneUSD:"US dollar store price",
     itemsEur:"Real-money item values", itemsEurSub:"What each item really costs, from the paid packs.",
     colPack:"Source pack", noPack:"not specified", multipack:"Multipack", seePack:"see the pack",
-    tipPack:"The pack that gives the most of this item - so the best unit price, since every pack costs the same. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture.",
-    ieNote:"{n} of the {t} items in the reference table appear in a paid pack; the others have no known price and are not listed here. Survey: {z}, updated {d}.",
+    tipPack:"The pack that gives the most of this item - so the best unit price, since every pack costs the same. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. “Calculated”: no pack sells this item, its value is worked out from another one - the maths is spelled out under the table.",
+    ieNote:"{n} of the {t} items in the reference table are priced here; the others have no known price and are not listed. Survey: {z}, updated {d}.",
+    derived:"Calculated",
+    derivedTitle:"Calculated values",
+    derivedIntro:"These items are sold in no pack at all: their price cannot be read off a pack, it is worked out from an item whose price can. The “Source pack” column marks them “Calculated”.",
+    derivedSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
     covered:"on {n} of {t} items priced", coveredAll:"all items are priced",
-    tipEur:"The item's real price, taken from the paid pack it appears in (pack price ÷ quantity). A “—” marks an item no pack can put a price on.",
+    tipEur:"The item's real price, taken from the paid pack it appears in (pack price ÷ quantity). A few items no pack sells are worked out from an item that a pack does price (the maths is on the “Real-money item values” page). A “—” marks an item still impossible to price.",
     tipRatioEur:"Euro value ÷ cost. The higher it is, the better the deal.",
     eurNote:"Survey of the paid packs, {z}. The two readings are independent: no exchange rate is computed between gems and real money."
 
@@ -166,7 +174,7 @@ let SC_ITEMS=[], SC_DEFAULTS=[];
 let SC_CLASSIC=[];
 let SC_EVENTS=[], SC_EVENTS_DEF=[];
 let SC_CHESTS=[];
-let SC_EURO={}, SC_EURO_META={}, SC_EURO_PACKS={};   // relevé € : ADMIN, lecture seule (jamais d'édition joueur)
+let SC_EURO={}, SC_EURO_META={}, SC_EURO_PACKS={}, SC_EURO_DERIVED={};   // relevé € : ADMIN, lecture seule (jamais d'édition joueur)
 
 // ---------- helpers d'affichage ----------
 function scEscAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
@@ -230,12 +238,39 @@ function scCurSym(){ return scCur()==='USD' ? '$' : '\u20AC'; }
 // « sans valeur » — un 0 placerait la ligne en pire affaire et renverserait le podium
 // des boutiques mal couvertes.
 function scEurUnit(id){
-  const r=SC_EURO[id]; if(!r) return null;
+  const r=SC_EURO[id]; if(!r) return scEurDerivedUnit(id);
   // Le prix du pack est le MÊME pour tous (relevé sur les packs à 6 € / 5 $) : il vit dans
   // _meta, pas répété 55 fois. La quantité, elle, est propre à chaque objet.
   const p = (scCur()==='USD') ? SC_EURO_META.packPriceUsd : SC_EURO_META.packPrice;
   const q = Number(r.qty);
   return (typeof p==='number' && isFinite(p) && q>0) ? (p/q) : null;
+}
+
+// ---------- valeurs CALCULÉES (bloc `derived`) ----------
+// Certains objets ne sont vendus dans AUCUN pack : le relevé ne peut pas les chiffrer, et la
+// règle du « — » les laissait sans valeur. Quand un raisonnement vérifiable relie un tel objet
+// à un objet relevé, le bloc `derived` porte ce lien — {fromId, factor} — et rien d'autre : la
+// valeur elle-même n'est pas stockée, elle se recalcule comme celle d'un pack.
+// Exemple : la Caisse d'Équipement de Héros Mythique Personnalisée donne à coup sûr ce que la
+// Caisse Chanceuse donne 1 fois sur 100 — elle vaut donc 100 caisses chanceuses.
+// La base (`fromId`) doit être un objet RELEVÉ : une dérivée d'une dérivée n'est pas résolue
+// (scEurUnit() ne repasse jamais ici), ce qui interdit aussi toute boucle infinie.
+function scEurDerivedUnit(id){
+  const d=SC_EURO_DERIVED[id]; if(!d || !SC_EURO[d.fromId]) return null;
+  const u=scEurUnit(d.fromId), f=Number(d.factor);
+  return (u!=null && f>0) ? u*f : null;
+}
+// Vrai quand la valeur affichée est calculée et non relevée — ce qui doit toujours se voir.
+function scEurIsDerived(id){ return !SC_EURO[id] && !!SC_EURO_DERIVED[id]; }
+// Le raisonnement en toutes lettres, dans la langue active : c'est lui qui rend la valeur auditable.
+function scEurHow(id){
+  const h=SC_EURO_DERIVED[id] && SC_EURO_DERIVED[id].how;
+  return h ? (h[scLang()] || h.EN || h.FR || '') : '';
+}
+// Objets calculés, dans l'ordre du référentiel (SC_ITEMS peut ne pas être chargé : garde-fou).
+function scEurDerivedIds(){
+  const ids=Object.keys(SC_EURO_DERIVED).filter(id=>scEurDerivedUnit(id)!=null);
+  return SC_ITEMS.length ? SC_ITEMS.filter(i=>ids.includes(i.id)).map(i=>i.id) : ids;
 }
 
 // Packs qui atteignent la quantité MAXIMALE pour cet objet. Tous les packs coûtant le même
@@ -248,9 +283,15 @@ function scPackName(pid){
 }
 // Libellé de la colonne « Pack d'origine » : le nom du pack, ou « Multipack » à égalité.
 function scEurSrc(id){
+  if(scEurIsDerived(id)) return scT('derived');
   const ps=scEurPacks(id);
   if(!ps.length) return '';
   return ps.length===1 ? scPackName(ps[0]) : scT('multipack');
+}
+// Texte d'audit d'une valeur € : le pack d'origine, ou le calcul en toutes lettres quand la
+// valeur est dérivée — « Calculé » tout court n'apprendrait rien à qui doute du chiffre.
+function scEurWhy(id){
+  return scEurIsDerived(id) ? (scT('derived')+' — '+scEurHow(id)) : scEurSrc(id);
 }
 // Id de l'image du pack — seulement quand un SEUL pack atteint le maximum.
 // (L'aperçu d'image au survol est prévu mais pas encore implémenté : img/packs/<id>.webp.)
@@ -380,8 +421,9 @@ async function scLoadEuro(){
   try{
     const d=await (await fetch('data/shopcalc_euro.json')).json();
     SC_EURO=(d&&d.items)||{}; SC_EURO_META=(d&&d._meta)||{}; SC_EURO_PACKS=(d&&d.packs)||{};
+    SC_EURO_DERIVED=(d&&d.derived)||{};
   }
-  catch(e){ console.error('euro',e); SC_EURO={}; SC_EURO_META={}; SC_EURO_PACKS={}; }
+  catch(e){ console.error('euro',e); SC_EURO={}; SC_EURO_META={}; SC_EURO_PACKS={}; SC_EURO_DERIVED={}; }
 }
 
 async function scLoadChests(){

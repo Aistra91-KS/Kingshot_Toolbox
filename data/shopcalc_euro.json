@@ -5,7 +5,7 @@
     "packPriceUsd": 5,
     "updatedAt": "2026-08-28",
     "source": "Relevé in-game des packs récurrents (disponibles au moins une fois par mois), hors packs d'événement ponctuels. Fourni et mis à jour périodiquement par Paul (fichier Pack_ks.xlsx).",
-    "note": "Seconde valorisation, en argent réel. La clé de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantité MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coûtent le même prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocké : c'est _meta.packPrice / qty, calculé à l'affichage. Fichier ADMIN en lecture seule, régénérable d'un bloc depuis le relevé Excel. Les quantités du relevé font foi, Y COMPRIS à la baisse."
+    "note": "Seconde valorisation, en argent réel. La clé de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantité MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coûtent le même prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocké : c'est _meta.packPrice / qty, calculé à l'affichage. Fichier ADMIN en lecture seule, régénérable d'un bloc depuis le relevé Excel. Les quantités du relevé font foi, Y COMPRIS à la baisse. Le bloc `derived` chiffre à part les objets qu'AUCUN pack ne vend : {fromId, factor, how{FR,EN}} — la valeur unitaire vaut celle de `fromId` (qui doit, lui, être relevé dans `items`) multipliée par `factor`. Ce bloc ne vient PAS de l'Excel : le CONSERVER lors d'une régénération d'un bloc de `items`."
   },
   "packs": {
     "adventure-supply-pack": {
@@ -243,6 +243,16 @@
     "world-traveler": {
       "FR": "Globe-trotteur",
       "EN": "World Traveler"
+    }
+  },
+  "derived": {
+    "custom_mythic_hero_gear_chest": {
+      "fromId": "lucky_hero_gear_chest",
+      "factor": 100,
+      "how": {
+        "FR": "La Caisse d'Équipement de Héros Chanceux a 1 % de chance de donner un équipement mythique : il en faut donc 100 en moyenne (1 ÷ 1 %) pour en sortir un. Cette caisse-ci en donne un à coup sûr — elle vaut 100 caisses chanceuses.",
+        "EN": "The Lucky Hero Gear Chest has a 1% chance of giving a mythic gear piece, so it takes 100 of them on average (1 ÷ 1%) to land one. This chest gives one for certain — it is worth 100 Lucky Chests."
+      }
     }
   },
   "items": {

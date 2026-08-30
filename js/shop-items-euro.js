@@ -5,8 +5,12 @@
 //  au référentiel gemmes (shop/items.html), rien n'est éditable et rien ne part dans
 //  localStorage. Indépendante de la valorisation en gemmes : aucun taux de change entre les
 //  deux échelles n'est calculé nulle part.
-//  Seuls les objets qu'un pack permet de chiffrer sont listés (43 sur 87) ; la note de bas
-//  de tableau annonce cette couverture pour qu'une absence ne passe pas pour un oubli.
+//  Seuls les objets qu'on sait chiffrer sont listés ; la note de bas de tableau annonce cette
+//  couverture pour qu'une absence ne passe pas pour un oubli. Deux origines s'y côtoient : le
+//  prix RELEVÉ dans un pack, et — pour les objets qu'aucun pack ne vend — la valeur CALCULÉE
+//  depuis un objet relevé (bloc `derived` du JSON). Les secondes se signalent partout : pastille
+//  « Calculé » dans la colonne « Pack d'origine », et encadré permanent sous le tableau qui
+//  déroule le raisonnement. Une valeur calculée qu'on ne peut pas vérifier ne vaut rien.
 // ============================================================
 
 function ieEl(id){ return document.getElementById(id); }
@@ -106,7 +110,7 @@ function iePvBind(tb){
 
 // Objets reellement chiffres, dans l'ORDRE DU REFERENTIEL — meme logique que la page
 // gemmes, pour que les deux tableaux se parcourent de la meme facon.
-function ieAll(){ return SC_ITEMS.filter(it => !it.skin && SC_EURO[it.id]); }
+function ieAll(){ return SC_ITEMS.filter(it => !it.skin && scEurUnit(it.id)!=null); }
 
 function ieRenderCatFilter(){
   const sel=ieEl('ie-cat-filter'); if(!sel) return;
@@ -154,6 +158,7 @@ function ieRender(){
     // La recherche porte aussi sur le nom du pack : « qu'est-ce que contient la Weekly Card ? »
     return scNameEN(it).toLowerCase().includes(q)
         || ((it.name&&it.name.FR)||'').toLowerCase().includes(q)
+        || scEurSrc(it.id).toLowerCase().includes(q)
         || scEurPacks(it.id).map(scPackName).join(' ').toLowerCase().includes(q);
   });
 
@@ -166,7 +171,11 @@ function ieRender(){
     // Un pack unique a une image : le nom devient un bouton qui l'ouvre en aperçu.
     // L'icône signale qu'il y a quelque chose à voir — un nom seul ne s'annonce pas.
     // Un « multipack » n'a rien à montrer : il reste du texte inerte.
-    const packCell = src
+    // Une valeur calculée n'a pas de pack : la pastille le dit, et son titre porte le calcul.
+    // Texte inerte comme « Multipack » — il n'y a aucune image à ouvrir.
+    const packCell = scEurIsDerived(it.id)
+      ? `<span class="ie-pack is-derived" title="${scEscAttr(scEurHow(it.id))}">${scEscAttr(src)}</span>`
+      : src
       ? (pimg
           ? `<button type="button" class="ie-pack" data-pack="${scEscAttr(pimg)}" aria-label="${scEscAttr(src)} — ${scEscAttr(scT('seePack'))}">${scEscAttr(src)}${IE_ICON_IMG}</button>`
           : `<span class="ie-pack is-multi">${scEscAttr(src)}</span>`)
@@ -182,12 +191,40 @@ function ieRender(){
   const cnt=ieEl('ie-count');
   if(cnt) cnt.textContent=`${rows.length} / ${all.length} ${scT('count')}`;
 
+  ieRenderDerived();
+
   const note=ieEl('ie-note');
   if(note) note.textContent=scT('ieNote')
     .replace('{n}', all.length)
     .replace('{t}', SC_ITEMS.filter(i=>!i.skin).length)
     .replace('{z}', scT('zone'+scCur()))
     .replace('{d}', ieDate(SC_EURO_META.updatedAt));
+}
+
+// Encadré permanent sous le tableau : le calcul de chaque valeur dérivée, en toutes lettres.
+// Permanent et non replié, parce qu'une valeur qu'aucun pack ne justifie doit pouvoir se
+// vérifier sans interaction — y compris au toucher, où l'info-bulle de la pastille n'existe pas.
+// Rien à dire s'il n'y a aucune valeur calculée : l'encadré disparaît alors entièrement.
+function ieRenderDerived(){
+  const box=ieEl('ie-derived'); if(!box) return;
+  const lang=scLang(), ids=scEurDerivedIds();
+  if(!ids.length){ box.hidden=true; box.innerHTML=''; return; }
+  box.hidden=false;
+  box.innerHTML=`<h2 class="ie-derived-h">${scEscAttr(scT('derivedTitle'))}</h2>`
+    +`<p class="ie-derived-intro">${scEscAttr(scT('derivedIntro'))}</p>`
+    +`<ul class="ie-derived-list">`+ids.map(id=>{
+      const it=scItemById(id);
+      // Le calcul repart des DEUX chiffres relevés (prix du pack, quantité) et non du prix
+      // unitaire affiché : « 0,167 € × 100 » donnerait 16,70 €, l'opérande étant arrondi.
+      const d=SC_EURO_DERIVED[id];
+      const sum=scT('derivedSum')
+        .replace('{p}', scFmtEur(scCur()==='USD' ? SC_EURO_META.packPriceUsd : SC_EURO_META.packPrice))
+        .replace('{q}', SC_EURO[d.fromId].qty)
+        .replace('{f}', d.factor)
+        .replace('{b}', scFmtEur(scEurUnit(id)));
+      return `<li><strong>${scEscAttr(scName(it,lang))}</strong> — ${scEscAttr(scEurHow(id))}`
+           + `<span class="ie-derived-sum">${scEscAttr(sum)}</span></li>`;
+    }).join('')+`</ul>`;
 }
 
 (async function(){

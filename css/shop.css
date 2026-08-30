@@ -520,6 +520,36 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
    donc aucune image à montrer. On le distingue visuellement des vrais noms. */
 .ie-pack.is-multi { color: var(--text-muted); font-style: italic; }
 
+/* « Calculé » : la valeur ne vient d'aucun pack, elle est déduite d'un objet relevé.
+   Pastille et non simple texte — la nuance change la confiance qu'on accorde au chiffre,
+   elle doit se voir d'un coup d'œil au milieu de 55 noms de packs. Inerte comme
+   « Multipack » : il n'y a pas d'image à ouvrir, le calcul est détaillé sous le tableau. */
+.ie-pack.is-derived {
+  display: inline-block; padding: 1px 8px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent); font-size: 12px; font-weight: 600; white-space: nowrap;
+  cursor: help;
+}
+
+/* Encadré des valeurs calculées, sous le tableau. PERMANENT et déplié : une valeur qu'aucun
+   pack ne justifie doit pouvoir se vérifier sans interaction — l'info-bulle de la pastille
+   n'existe pas au toucher. Liseré or à gauche, comme les autres blocs « à lire » du site. */
+.ie-derived {
+  margin: 18px 0 22px; padding: 14px 16px;
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: 10px; background: var(--control-bg);
+}
+.ie-derived-h { margin: 0 0 6px; font-size: 15px; color: var(--accent); }
+.ie-derived-intro { margin: 0 0 10px; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.ie-derived-list { margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-light); line-height: 1.6; }
+.ie-derived-list li + li { margin-top: 8px; }
+/* Le calcul chiffré passe à la ligne : collé au texte il se lisait comme sa fin de phrase. */
+.ie-derived-sum {
+  display: block; margin-top: 3px; color: var(--accent);
+  font-weight: 600; font-variant-numeric: tabular-nums;
+}
+
 /* ============================================================
    VALORISATION D'ÉVÉNEMENT (.sxe-) — section « ce que l'événement m'a rapporté »
    Rendue par js/shop-event.js sur les seules boutiques qui ont un
