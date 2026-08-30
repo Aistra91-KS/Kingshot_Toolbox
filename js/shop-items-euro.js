@@ -259,12 +259,8 @@ function ieScaleSection(){
   return ieRuleBlock(scT('scaleTitle'), scEurScaleHow()+' '+basis,
     ids.map(id => {
       const n=scEurMinutes(id);   // « 1 minutes » se lit comme une coquille
-      // Le barème dit ce que l'objet VAUT ; il ne dit pas où le trouver. On redonne donc son
-      // pack ici comme dans le tableau — sauf pour l'Accélérateur 8h, qu'aucun pack ne vend.
-      const src=scEurSrc(id);
-      return ieRuleLi(id, src ? scT('scaleFrom').replace('{pack}', src) : '',
-                      scT(n===1?'scaleSum1':'scaleSum').replace('{n}', scFmtNum(n))
-                      +' → '+scFmtEur(scEurUnit(id)));
+      return ieRuleLi(id, '', scT(n===1?'scaleSum1':'scaleSum').replace('{n}', scFmtNum(n))
+                              +' → '+scFmtEur(scEurUnit(id)));
     }));
 }
 
@@ -275,11 +271,13 @@ function ieDerivedSection(){
   return ieRuleBlock(scT('derivedTitle'), scT('derivedIntro'), scEurDerivedIds().map(id=>{
     const d=SC_EURO_DERIVED[id], base=SC_EURO[d.fromId];
     const plain = base && !scEurIsDerived(d.fromId) && !scEurIsScaled(d.fromId) && !scEurIsWeighted(d.fromId);
-    const sum = plain
-      ? scT('derivedSum').replace('{p}', scFmtEur(scEurPackPrice())).replace('{q}', scFmtNum(base.qty))
-                         .replace('{f}', scFmtNum(d.factor)).replace('{b}', scFmtEur(scEurUnit(id)))
-      : scT('derivedSumAlt').replace('{n}', scName(scItemById(d.fromId), scLang()))
-                         .replace('{f}', scFmtNum(d.factor)).replace('{b}', scFmtEur(scEurUnit(id)));
+    const key = plain ? 'derivedSum' : (Number(d.factor)===1 ? 'derivedSumSame' : 'derivedSumAlt');
+    const sum = scT(key)
+      .replace('{p}', scFmtEur(scEurPackPrice()))
+      .replace('{q}', base ? scFmtNum(base.qty) : '')
+      .replace('{n}', scName(scItemById(d.fromId), scLang()))
+      .replace('{f}', scFmtNum(d.factor))
+      .replace('{b}', scFmtEur(scEurUnit(id)));
     return ieRuleLi(id, scEurHow(id), sum);
   }));
 }

@@ -5,7 +5,7 @@
     "packPriceUsd": 5,
     "updatedAt": "2026-08-28",
     "source": "Relevé in-game des packs récurrents (disponibles au moins une fois par mois), hors packs d'événement ponctuels. Fourni et mis à jour périodiquement par Paul (fichier Pack_ks.xlsx).",
-    "note": "Seconde valorisation, en argent reel. La cle de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantite MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coutent le meme prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocke : il se recalcule a l'affichage. Fichier ADMIN en lecture seule, regenerable d'un bloc depuis le releve Excel. Les quantites du releve font foi, Y COMPRIS a la baisse. TROIS blocs corrigent ce que le releve seul dit mal, et se CONSERVENT lors d'une regeneration de `items` (ils ne viennent PAS de l'Excel) : `derived` {fromId, factor, how} deduit la valeur d'un objet de celle d'un autre et REMPLACE le releve quand les deux existent — un releve peut etre exact et son prix unitaire absurde (un pack genereux sur un objet ne le rend pas plus utile) ; `speedups` fixe le prix d'UNE minute d'accelerateur (prix du pack / total de minutes du pack le plus genereux) et en deduit les cinq accelerateurs, pour qu'une heure vaille toujours 60 minutes ; `weights` applique une ponderation ASSUMEE (choix editorial, pas une mesure) au resultat, ex. x0,25 sur les ressources brutes."
+    "note": "Seconde valorisation, en argent reel. La cle de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantite MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coutent le meme prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocke : il se recalcule a l'affichage. Fichier ADMIN en lecture seule, regenerable d'un bloc depuis le releve Excel. Les quantites du releve font foi, Y COMPRIS a la baisse. TROIS blocs corrigent ce que le releve seul dit mal, et se CONSERVENT lors d'une regeneration de `items` (ils ne viennent PAS de l'Excel) : `derived` {fromId, factor, packs?, how} deduit la valeur d'un objet de celle d'un autre et REMPLACE le releve quand les deux existent ; une valeur deduite n'affiche AUCUN pack, sauf si la regle en nomme un dans `packs` (le pack qui chiffre `fromId` vaut alors aussi pour elle) — un releve peut etre exact et son prix unitaire absurde (un pack genereux sur un objet ne le rend pas plus utile) ; `speedups` fixe le prix d'UNE minute d'accelerateur (prix du pack / total de minutes du pack le plus genereux) et en deduit les cinq accelerateurs, pour qu'une heure vaille toujours 60 minutes ; les cinq affichent donc `basis.packs` comme pack d'origine, et non celui qui en donne le plus ; `weights` applique une ponderation ASSUMEE (choix editorial, pas une mesure) au resultat, ex. x0,25 sur les ressources brutes."
   },
   "packs": {
     "adventure-supply-pack": {
@@ -269,6 +269,39 @@
         "FR": "Un fragment ciblé ne sert qu'à un héros précis, là où le fragment universel va sur n'importe lequel : il vaut donc un peu moins, fixé à 0,8 fois le fragment universel.",
         "EN": "A targeted shard only works on one specific hero, where the universal shard goes on any of them: it is therefore worth slightly less, set at 0.8 times the universal shard."
       }
+    },
+    "lv1_custom_resource_chest": {
+      "fromId": "10k_bread",
+      "factor": 1,
+      "packs": [
+        "city-lifeline-pack"
+      ],
+      "how": {
+        "FR": "Une caisse de ressources personnalisée de niveau 1 rend le même service qu'un lot de 10k de pain : elle est alignée sur lui, pondération comprise.",
+        "EN": "A level 1 custom resource chest does the same job as a 10k bread pack: it is lined up on it, weighting included."
+      }
+    },
+    "lv2_custom_resource_chest": {
+      "fromId": "lv1_custom_resource_chest",
+      "factor": 10,
+      "packs": [
+        "city-lifeline-pack"
+      ],
+      "how": {
+        "FR": "Une caisse de niveau 2 vaut dix caisses de niveau 1.",
+        "EN": "A level 2 chest is worth ten level 1 chests."
+      }
+    },
+    "lv3_custom_resource_chest": {
+      "fromId": "lv1_custom_resource_chest",
+      "factor": 100,
+      "packs": [
+        "city-lifeline-pack"
+      ],
+      "how": {
+        "FR": "Une caisse de niveau 3 vaut cent caisses de niveau 1.",
+        "EN": "A level 3 chest is worth a hundred level 1 chests."
+      }
     }
   },
   "speedups": {
@@ -311,14 +344,11 @@
         "10k_wood",
         "10k_bread",
         "10k_stone",
-        "10k_iron",
-        "lv1_custom_resource_chest",
-        "lv2_custom_resource_chest",
-        "lv3_custom_resource_chest"
+        "10k_iron"
       ],
       "how": {
-        "FR": "Bois, pain, pierre, fer et caisses de ressources personnalisées ne comptent que pour un quart de leur prix relevé : ils s'accumulent tout seuls en jouant, et un pack rempli de ressources n'est pas un bon achat pour autant. C'est une pondération assumée, pas une mesure — l'or et les gemmes, eux, gardent leur prix relevé.",
-        "EN": "Wood, bread, stone, iron and custom resource chests only count for a quarter of their surveyed price: they pile up on their own just by playing, and a pack full of resources is not a good buy for all that. This is a deliberate weighting, not a measurement — coins and gems keep their surveyed price."
+        "FR": "Bois, pain, pierre et fer ne comptent que pour un quart de leur prix relevé : ils s'accumulent tout seuls en jouant, et un pack rempli de ressources n'est pas un bon achat pour autant. C'est une pondération assumée, pas une mesure — l'or et les gemmes, eux, gardent leur prix relevé. Les caisses de ressources personnalisées en héritent, puisqu'elles sont alignées sur le pain.",
+        "EN": "Wood, bread, stone and iron only count for a quarter of their surveyed price: they pile up on their own just by playing, and a pack full of resources is not a good buy for all that. This is a deliberate weighting, not a measurement — coins and gems keep their surveyed price. The custom resource chests inherit it, since they are lined up on bread."
       }
     }
   ],

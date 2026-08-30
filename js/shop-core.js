@@ -67,18 +67,18 @@ const i18nShop = {
     zoneEUR:"tarif zone euro TTC", zoneUSD:"tarif boutique en dollars",
     itemsEur:"Prix réel des objets", itemsEurSub:"Ce que chaque objet coûte vraiment, d'après les packs payants.",
     colPack:"Pack d'origine", noPack:"non précisé", multipack:"Multipack", seePack:"voir le pack",
-    tipPack:"Le pack qui donne le plus de cet objet, et où l'en trouver. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. Une pastille à côté du nom signale que le prix ne sort pas de ce pack mais d'une règle — « Calculé », « Barème » ou « ×0,25 » —, toutes détaillées sous le tableau.",
+    tipPack:"Le pack d'où vient le prix. Pour un objet relevé, c'est celui qui en donne le plus — donc le meilleur prix unitaire, puisque tous les packs coûtent le même prix. Pour les accélérateurs, c'est le pack qui fixe le prix de la minute : le même pour les cinq durées. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. Une pastille dit quelle règle a décidé du prix — « Calculé », « Barème » ou « ×0,25 » —, toutes détaillées sous le tableau.",
     ieNote:"{n} objets sur les {t} du référentiel sont chiffrés ici ; les autres n'ont aucun prix connu et ne sont donc pas listés. Relevé : {z}, mis à jour le {d}.",
     derived:"Calculé",
     derivedTitle:"Valeurs calculées",
     derivedIntro:"Le prix de ces objets ne se relève pas dans leur propre pack : il se déduit d'un autre objet. Soit parce qu'aucun pack ne les vend, soit parce que le relevé, tout exact qu'il est, donnait un prix unitaire absurde — un pack avare sur un objet ne rend pas cet objet plus précieux.",
     derivedSum:"Soit {p} \u00F7 {q} \u00D7 {f} = {b}",
     derivedSumAlt:"Soit la valeur de « {n} » \u00D7 {f} = {b}",
+    derivedSumSame:"Soit la valeur de « {n} », donc {b}",
     scaled:"Barème",
     scaleTitle:"Barème des accélérateurs",
     scaleBasis:"Base : {p} \u00F7 {m} minutes = {u} la minute, d'après {pack}, le pack qui donne le plus de temps ({detail}).",
     scaleSum:"{n} minutes", scaleSum1:"{n} minute",
-    scaleFrom:"le plus d'exemplaires dans {pack}",
     weightTitle:"Pondération assumée",
     weightSum:"Soit {p} \u00F7 {q} \u00D7 {f} = {b}",
     covered:"sur {n} des {t} objets valorisés", coveredAll:"tous les objets sont valorisés",
@@ -139,18 +139,18 @@ const i18nShop = {
     zoneEUR:"euro-zone price incl. tax", zoneUSD:"US dollar store price",
     itemsEur:"Real-money item values", itemsEurSub:"What each item really costs, from the paid packs.",
     colPack:"Source pack", noPack:"not specified", multipack:"Multipack", seePack:"see the pack",
-    tipPack:"The pack that gives the most of this item, and where to find it. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. A pill next to the name means the price does not come from that pack but from a rule - “Calculated”, “Scale” or “×0.25” - all spelled out under the table.",
+    tipPack:"The pack the price comes from. For a surveyed item that is the pack giving the most of it - so the best unit price, since every pack costs the same. For speedups it is the pack that sets the price of one minute: the same one for all five lengths. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. A pill says which rule decided the price - “Calculated”, “Scale” or “×0.25” - all spelled out under the table.",
     ieNote:"{n} of the {t} items in the reference table are priced here; the others have no known price and are not listed. Survey: {z}, updated {d}.",
     derived:"Calculated",
     derivedTitle:"Calculated values",
     derivedIntro:"The price of these items cannot be read off their own pack: it is worked out from another item. Either because no pack sells them, or because the survey - accurate as it is - gave an absurd unit price: a pack being stingy with an item does not make that item more valuable.",
     derivedSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
     derivedSumAlt:"That is the value of “{n}” \u00D7 {f} = {b}",
+    derivedSumSame:"That is the value of “{n}”, so {b}",
     scaled:"Scale",
     scaleTitle:"Speedup scale",
     scaleBasis:"Basis: {p} \u00F7 {m} minutes = {u} per minute, from {pack}, the pack that gives the most time ({detail}).",
     scaleSum:"{n} minutes", scaleSum1:"{n} minute",
-    scaleFrom:"most of them in {pack}",
     weightTitle:"Deliberate weighting",
     weightSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
     covered:"on {n} of {t} items priced", coveredAll:"all items are priced",
@@ -365,7 +365,18 @@ function scEurDerivedIds(){ return scEurOrder(Object.keys(SC_EURO_DERIVED).filte
 // Packs qui atteignent la quantité MAXIMALE pour cet objet. Tous les packs coûtant le même
 // prix, « le plus d'exemplaires » = « le meilleur prix unitaire » : ce sont donc les packs
 // à recommander. UN seul => son image illustre l'objet. PLUSIEURS => « multipack », sans image.
-function scEurPacks(id){ const r=SC_EURO[id]; return (r && Array.isArray(r.packs)) ? r.packs : []; }
+function scEurPacks(id){
+  // Un accélérateur n'est pas chiffré par SON pack mais par celui qui fixe le prix de la
+  // minute : c'est donc ce pack-là qui justifie la valeur, pour les cinq durées à la fois.
+  // Afficher « Offres Quotidiennes » sur le 3h laisserait croire que 6 € ÷ 12 y donne 0,151 €.
+  if(scEurIsScaled(id)) return (SC_EURO_SPEEDUPS.basis && SC_EURO_SPEEDUPS.basis.packs) || [];
+  // Une valeur déduite ne vient d'AUCUN pack : c'est un calcul, pas un relevé. Sauf quand la
+  // règle en nomme un — le pack qui chiffre `fromId` vaut alors aussi pour elle (les caisses
+  // de ressources, alignées sur le pain du Pack Lien Vital de la Ville).
+  const d=SC_EURO_DERIVED[id];
+  if(d) return Array.isArray(d.packs) ? d.packs : [];
+  const r=SC_EURO[id]; return (r && Array.isArray(r.packs)) ? r.packs : [];
+}
 function scPackName(pid){
   const p=SC_EURO_PACKS[pid];
   return p ? (p[scLang()] || p.EN || p.FR || pid) : pid;
