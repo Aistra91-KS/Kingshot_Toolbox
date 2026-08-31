@@ -269,14 +269,24 @@ function ieScaleSection(){
 // pas un simple relevé, ce raccourci n'existe pas — on la nomme alors plutôt que de la chiffrer.
 function ieDerivedSection(){
   return ieRuleBlock(scT('derivedTitle'), scT('derivedIntro'), scEurDerivedIds().map(id=>{
-    const d=SC_EURO_DERIVED[id], base=SC_EURO[d.fromId];
+    const d=SC_EURO_DERIVED[id];
+    // Plusieurs bases : le raccourci « prix du pack ÷ quantité » n'existe plus, chaque terme a
+    // le sien. On nomme donc les termes et on ne chiffre que le total — détailler cinq divisions
+    // sur une ligne la rendrait illisible, et le prix de chaque base est déjà dans le tableau.
+    if(Array.isArray(d.from)) {
+      const termes=d.from.map(p=>scT('derivedTerm').replace('{f}', scFmtFactor(p.factor))
+                                                   .replace('{n}', scName(scItemById(p.id), scLang())));
+      return ieRuleLi(id, scEurHow(id), scT('derivedSumMulti')
+        .replace('{t}', termes.join(' + ')).replace('{b}', scFmtEur(scEurUnit(id))));
+    }
+    const base=SC_EURO[d.fromId];
     const plain = base && !scEurIsDerived(d.fromId) && !scEurIsScaled(d.fromId) && !scEurIsWeighted(d.fromId);
     const key = plain ? 'derivedSum' : (Number(d.factor)===1 ? 'derivedSumSame' : 'derivedSumAlt');
     const sum = scT(key)
       .replace('{p}', scFmtEur(scEurPackPrice()))
       .replace('{q}', base ? scFmtNum(base.qty) : '')
       .replace('{n}', scName(scItemById(d.fromId), scLang()))
-      .replace('{f}', scFmtNum(d.factor))
+      .replace('{f}', scFmtFactor(d.factor))
       .replace('{b}', scFmtEur(scEurUnit(id)));
     return ieRuleLi(id, scEurHow(id), sum);
   }));

@@ -274,6 +274,62 @@
         "EN": "A targeted shard only works on one specific hero, where the universal shard goes on any of them: it is therefore worth slightly less, set at 0.8 times the universal shard."
       }
     },
+    "governor_charm_material_chest": {
+      "from": [
+        {
+          "id": "charm_guide",
+          "factor": 1.545
+        },
+        {
+          "id": "charm_design",
+          "factor": 1.545
+        }
+      ],
+      "how": {
+        "FR": "Cette caisse rend soit des Guides, soit des Plans de Talisman, à 50/50, en lots de 2 à 15 (31,5 % pour 2, 15 % pour 4, 3 % pour 8 et 0,5 % pour 15). En moyenne elle donne donc 1,545 Guide et 1,545 Plans, et elle vaut ce que valent ces deux lots réunis. Le relevé la sortait à 1,00 € : c'était le prix de la Carte d'Avantages qui la contient, pas la valeur de ce qu'on y trouve.",
+        "EN": "This chest gives either Charm Guides or Charm Designs, 50/50, in batches of 2 to 15 (31.5% for 2, 15% for 4, 3% for 8 and 0.5% for 15). On average it therefore hands over 1.545 Guides and 1.545 Designs, and it is worth what those two batches are worth together. The survey priced it at 1.00 EUR: that was the price of the Benefits Card holding it, not the value of what comes out of it."
+      }
+    },
+    "governor_gear_material_chest": {
+      "from": [
+        {
+          "id": "artisan_s_vision",
+          "factor": 1
+        },
+        {
+          "id": "gilded_threads",
+          "factor": 4
+        },
+        {
+          "id": "satin",
+          "factor": 400
+        }
+      ],
+      "how": {
+        "FR": "Cette caisse n'a rien d'aléatoire : elle donne toujours 1 Vision de l'Artisan, 4 Fils Dorés et 400 Satin. Elle vaut donc exactement la somme des trois. Le relevé la sortait à 0,154 €, soit presque deux fois moins que son contenu.",
+        "EN": "There is nothing random about this chest: it always gives 1 Artisan's Vision, 4 Gilded Threads and 400 Satin. So it is worth exactly the three of them added up. The survey priced it at 0.154 EUR, barely half of what is inside it."
+      }
+    },
+    "governor_gear_variety_chest": {
+      "from": [
+        {
+          "id": "satin",
+          "factor": 469
+        },
+        {
+          "id": "gilded_threads",
+          "factor": 2.345
+        },
+        {
+          "id": "artisan_s_vision",
+          "factor": 1.9625
+        }
+      ],
+      "how": {
+        "FR": "Cette caisse donne du Satin une fois sur deux, des Fils Dorés une fois sur quatre et une Vision de l'Artisan une fois sur quatre, en lots très inégaux. En moyenne cela fait 469 Satin, 2,345 Fils Dorés et 1,9625 Vision. Le relevé la sortait à 3,00 € parce qu'un seul pack en donne 2 — huit fois son contenu réel.",
+        "EN": "This chest gives Satin half the time, Gilded Threads a quarter of the time and an Artisan's Vision a quarter of the time, in wildly uneven batches. On average that comes to 469 Satin, 2.345 Gilded Threads and 1.9625 Visions. The survey priced it at 3.00 EUR because a single pack gives 2 of them - eight times what is actually inside."
+      }
+    },
     "lv1_custom_resource_chest": {
       "fromId": "10k_bread",
       "factor": 1,
