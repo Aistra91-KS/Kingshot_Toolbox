@@ -160,7 +160,7 @@
         ]
       },
       "short": {
-        "EN": "Valeur",
+        "EN": "Valuable",
         "FR": "Valeur"
       }
     },
@@ -195,7 +195,7 @@
         ]
       },
       "short": {
-        "EN": "Commun",
+        "EN": "Common",
         "FR": "Commun"
       }
     },
@@ -230,7 +230,7 @@
         ]
       },
       "short": {
-        "EN": "Peu commun",
+        "EN": "Uncommon",
         "FR": "Peu commun"
       }
     },
@@ -300,7 +300,7 @@
         ]
       },
       "short": {
-        "EN": "Épique",
+        "EN": "Epic",
         "FR": "Épique"
       }
     },
@@ -335,7 +335,7 @@
         ]
       },
       "short": {
-        "EN": "Mythique",
+        "EN": "Mythic",
         "FR": "Mythique"
       }
     }

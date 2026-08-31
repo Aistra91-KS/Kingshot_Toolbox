@@ -274,6 +274,62 @@
         "EN": "A targeted shard only works on one specific hero, where the universal shard goes on any of them: it is therefore worth slightly less, set at 0.8 times the universal shard."
       }
     },
+    "governor_charm_material_chest": {
+      "from": [
+        {
+          "id": "charm_guide",
+          "factor": 1.545
+        },
+        {
+          "id": "charm_design",
+          "factor": 1.545
+        }
+      ],
+      "how": {
+        "FR": "Un tirage sur deux donne des Guides de Talisman, l'autre des Plans. Guides : 15 × 0,5 % + 8 × 3 % + 4 × 15 % + 2 × 31,5 % = 1,545 en moyenne. Les Plans suivent la même table, donc 1,545 aussi.",
+        "EN": "One draw in two gives Charm Guides, the other Charm Designs. Guides: 15 × 0.5% + 8 × 3% + 4 × 15% + 2 × 31.5% = 1.545 on average. Designs follow the same table, so 1.545 as well."
+      }
+    },
+    "governor_gear_material_chest": {
+      "from": [
+        {
+          "id": "artisan_s_vision",
+          "factor": 1
+        },
+        {
+          "id": "gilded_threads",
+          "factor": 4
+        },
+        {
+          "id": "satin",
+          "factor": 400
+        }
+      ],
+      "how": {
+        "FR": "Contenu fixe, sans tirage : 1 Vision de l'Artisan, 4 Fils Dorés et 400 Satin à chaque ouverture.",
+        "EN": "Fixed contents, no draw: 1 Artisan's Vision, 4 Gilded Threads and 400 Satin every time."
+      }
+    },
+    "governor_gear_variety_chest": {
+      "from": [
+        {
+          "id": "satin",
+          "factor": 469
+        },
+        {
+          "id": "gilded_threads",
+          "factor": 2.345
+        },
+        {
+          "id": "artisan_s_vision",
+          "factor": 1.9625
+        }
+      ],
+      "how": {
+        "FR": "Trois butins possibles. Satin (1 fois sur 2) : 5 000 × 0,5 % + 2 500 × 3 % + 1 200 × 15 % + 600 × 31,5 % = 469. Fils Dorés (1 fois sur 4) : 50 × 0,25 % + 25 × 1,5 % + 12 × 7,5 % + 6 × 15,75 % = 2,345. Vision de l'Artisan (1 fois sur 4) : 50 × 0,25 % + 20 × 1,5 % + 10 × 7,5 % + 5 × 15,75 % = 1,9625.",
+        "EN": "Three possible drops. Satin (1 draw in 2): 5,000 × 0.5% + 2,500 × 3% + 1,200 × 15% + 600 × 31.5% = 469. Gilded Threads (1 in 4): 50 × 0.25% + 25 × 1.5% + 12 × 7.5% + 6 × 15.75% = 2.345. Artisan's Vision (1 in 4): 50 × 0.25% + 20 × 1.5% + 10 × 7.5% + 5 × 15.75% = 1.9625."
+      }
+    },
     "lv1_custom_resource_chest": {
       "fromId": "10k_bread",
       "factor": 1,

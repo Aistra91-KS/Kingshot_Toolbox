@@ -147,7 +147,7 @@
     "id": "truegold_chest",
     "name": {
       "EN": "Truegold Chest",
-      "FR": "Truegold Chest"
+      "FR": "Coffre d'Or Véritable"
     },
     "category": "Other",
     "gemValue": 6400
@@ -228,7 +228,7 @@
     "id": "truegold_weekly_card_chest",
     "name": {
       "EN": "Truegold Weekly Card Chest",
-      "FR": "Truegold Weekly Card Chest"
+      "FR": "Coffre de Carte Hebdo d'Or Véritable"
     },
     "category": "Other",
     "gemValue": 3590
@@ -300,7 +300,7 @@
     "id": "divine_tokens",
     "name": {
       "EN": "Divine Tokens",
-      "FR": "Divine Tokens"
+      "FR": "Jetons Divins"
     },
     "category": "Event",
     "gemValue": 840
@@ -309,7 +309,7 @@
     "id": "treasure_map",
     "name": {
       "EN": "Treasure Map",
-      "FR": "Treasure Map"
+      "FR": "Carte au Trésor"
     },
     "category": "Event",
     "gemValue": 0
@@ -318,7 +318,7 @@
     "id": "horn_of_the_seas",
     "name": {
       "EN": "Horn of the seas",
-      "FR": "Horn of the seas"
+      "FR": "Cor des Mers"
     },
     "category": "Event",
     "gemValue": 0
@@ -326,9 +326,10 @@
   {
     "id": "governor_charm_material_chest",
     "name": {
-      "EN": "Governor Charm Material Chest",
-      "FR": "Governor Charm Material Chest"
+      "EN": "Random Governor Charm Material Chest",
+      "FR": "Caisse de Matériaux de Talisman du Chef Aléatoire"
     },
+    "img": "Governor Charm Material Chest",
     "category": "Governor",
     "gemValue": 3090
   },
@@ -345,7 +346,7 @@
     "id": "governor_gear_variety_chest",
     "name": {
       "EN": "Governor Gear Variety Chest",
-      "FR": "Governor Gear Variety Chest"
+      "FR": "Caisse de Variétés d'Équipement du Chef"
     },
     "category": "Governor",
     "gemValue": 3370
@@ -398,9 +399,10 @@
   {
     "id": "1000_hero_xp",
     "name": {
-      "EN": "1000 Hero Xp",
-      "FR": "1000 Hero Xp"
+      "EN": "1000 Hero XP",
+      "FR": "1 000 EXP de Héros"
     },
+    "img": "1000 Hero Xp",
     "category": "Hero",
     "gemValue": 30
   },
@@ -408,7 +410,7 @@
     "id": "10000_hero_xp",
     "name": {
       "EN": "10000 Hero XP",
-      "FR": "10000 Hero XP"
+      "FR": "10 000 EXP de Héros"
     },
     "category": "Hero",
     "gemValue": 300
@@ -417,7 +419,7 @@
     "id": "5000_hero_xp",
     "name": {
       "EN": "5000 Hero XP",
-      "FR": "5000 Hero XP"
+      "FR": "5 000 EXP de Héros"
     },
     "category": "Hero",
     "gemValue": 150
@@ -498,7 +500,7 @@
     "id": "mythic_conquest_skill_book",
     "name": {
       "EN": "Mythic Conquest Skill Book",
-      "FR": "Livre de compétence de conquête mythique"
+      "FR": "Livre de compétence de conquête Mythique"
     },
     "category": "Hero",
     "gemValue": 1000
@@ -507,7 +509,7 @@
     "id": "rare_conquest_skill_book",
     "name": {
       "EN": "Rare Conquest Skill Book",
-      "FR": "Livre de compétence de conquête rare"
+      "FR": "Livre de compétence de conquête Rare"
     },
     "category": "Hero",
     "gemValue": 150
@@ -516,7 +518,7 @@
     "id": "hero_s_luck_chest",
     "name": {
       "EN": "Hero's Luck Chest",
-      "FR": "Hero's Luck Chest"
+      "FR": "Boîte à Chance de Héros"
     },
     "category": "Hero",
     "gemValue": 7500
@@ -524,8 +526,8 @@
   {
     "id": "fragment_of_a_specific_mythical_hero",
     "name": {
-      "EN": "fragment of a specific mythical hero",
-      "FR": "fragment d'un héros mythique spécifique"
+      "EN": "Fragment of a Specific Mythical Hero",
+      "FR": "Fragment d'un héros mythique spécifique"
     },
     "category": "Hero",
     "gemValue": 4000
@@ -773,40 +775,45 @@
     "category": "Master/Expert",
     "gemValue": 750
   },
-  { "id": "teleport_skin", 
-  "name": { 
-    "EN": "Teleport Skin", 
-    "FR": "Skin de téléportation" 
-    }, 
-    "category": "Cosmetic", 
-    "gemValue": 0 
+  {
+    "id": "teleport_skin",
+    "name": {
+      "EN": "Teleport Skin",
+      "FR": "Skin de téléportation"
+    },
+    "category": "Cosmetic",
+    "gemValue": 0
   },
-  { "id": "call_of_destiny", 
-  "name": { 
-    "EN": "Call of Destiny", 
-    "FR": "Appel du destin" 
-  }, 
-    "skin": true 
-  },
-  { "id": "Nanook_Sphere", 
-  "name": { 
-    "EN": "Nanook Sphere", 
-    "FR": "Sphère de Nanook" 
-  }, 
-    "skin": true 
-  },
-  { "id": "Emperor_Penguin_Slopes",
-  "name": {
-    "EN": "Emperor Penguin Slopes",
-    "FR": "Manchot Empereur Glissant"
-  },
+  {
+    "id": "call_of_destiny",
+    "name": {
+      "EN": "Call of Destiny",
+      "FR": "Appel du destin"
+    },
     "skin": true
   },
-  { "id": "Frostcrown",
-  "name": {
-    "EN": "Frostcrown",
-    "FR": "Couronne de Givre"
+  {
+    "id": "Nanook_Sphere",
+    "name": {
+      "EN": "Nanook Sphere",
+      "FR": "Sphère de Nanook"
+    },
+    "skin": true
   },
+  {
+    "id": "Emperor_Penguin_Slopes",
+    "name": {
+      "EN": "Emperor Penguin Slopes",
+      "FR": "Manchot Empereur Glissant"
+    },
+    "skin": true
+  },
+  {
+    "id": "Frostcrown",
+    "name": {
+      "EN": "Frostcrown",
+      "FR": "Couronne de Givre"
+    },
     "skin": true
   }
 ]

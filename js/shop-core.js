@@ -73,10 +73,14 @@ const i18nShop = {
     ieNote:"{n} objets sur les {t} du référentiel sont chiffrés ici ; les autres n'ont aucun prix connu et ne sont donc pas listés. Relevé : {z}, mis à jour le {d}.",
     derived:"Calculé",
     derivedTitle:"Valeurs calculées",
-    derivedIntro:"Le prix de ces objets ne se relève pas dans leur propre pack : il se déduit d'un autre objet. Soit parce qu'aucun pack ne les vend, soit parce que le relevé, tout exact qu'il est, donnait un prix unitaire absurde — un pack avare sur un objet ne rend pas cet objet plus précieux.",
+    derivedIntro:"Le prix de ces objets ne se relève pas dans leur propre pack : il se déduit d'autres objets. Soit parce qu'aucun pack ne les vend, soit parce que le relevé, tout exact qu'il est, donnait un prix unitaire absurde — un pack avare sur un objet ne rend pas cet objet plus précieux. Une caisse, elle, vaut la somme de ce qu'elle rend ; si son butin est tiré au sort, les quantités sont des moyennes.",
     derivedSum:"Soit {p} \u00F7 {q} \u00D7 {f} = {b}",
     derivedSumAlt:"Soit la valeur de « {n} » \u00D7 {f} = {b}",
     derivedSumSame:"Soit la valeur de « {n} », donc {b}",
+    derivedSumMulti:"Soit {t} = {r} = {b}",
+    derivedSumMultiAlt:"Soit {t} = {b}",
+    derivedTerm:"{f} \u00D7 « {n} »",
+    derivedTermRaw:"{f} \u00D7 ({p} \u00F7 {q})",
     scaled:"Barème",
     scaleTitle:"Barème des accélérateurs",
     scaleBasis:"Base : {p} \u00F7 {m} minutes = {u} la minute, d'après {pack}, le pack qui donne le plus de temps ({detail}).",
@@ -147,10 +151,14 @@ const i18nShop = {
     ieNote:"{n} of the {t} items in the reference table are priced here; the others have no known price and are not listed. Survey: {z}, updated {d}.",
     derived:"Calculated",
     derivedTitle:"Calculated values",
-    derivedIntro:"The price of these items cannot be read off their own pack: it is worked out from another item. Either because no pack sells them, or because the survey - accurate as it is - gave an absurd unit price: a pack being stingy with an item does not make that item more valuable.",
+    derivedIntro:"The price of these items cannot be read off their own pack: it is worked out from other items. Either because no pack sells them, or because the survey - accurate as it is - gave an absurd unit price: a pack being stingy with an item does not make that item more valuable. A chest is worth the sum of what it gives; if its loot is random, the quantities are averages.",
     derivedSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
     derivedSumAlt:"That is the value of “{n}” \u00D7 {f} = {b}",
     derivedSumSame:"That is the value of “{n}”, so {b}",
+    derivedSumMulti:"That is {t} = {r} = {b}",
+    derivedSumMultiAlt:"That is {t} = {b}",
+    derivedTerm:"{f} \u00D7 “{n}”",
+    derivedTermRaw:"{f} \u00D7 ({p} \u00F7 {q})",
     scaled:"Scale",
     scaleTitle:"Speedup scale",
     scaleBasis:"Basis: {p} \u00F7 {m} minutes = {u} per minute, from {pack}, the pack that gives the most time ({detail}).",
@@ -282,8 +290,7 @@ function scEurResolve(id, seen){
     const path = seen || new Set();
     if(path.has(id)) return null;
     path.add(id);
-    const base=scEurResolve(d.fromId, path), f=Number(d.factor);
-    v = (base!=null && f>0) ? base*f : null;
+    v = scEurDerivedValue(d, path);
   } else {
     v = scEurScaleUnit(id);
     if(v==null) v = scEurRawUnit(id);
@@ -345,15 +352,44 @@ function scEurWeightHow(id){ const w=scEurWeightRule(id); return w ? scEurRuleTx
 function scEurWeightLabel(id){ return '×'+scFmtNum(scEurWeight(id)); }
 
 // ---------- valeurs DÉDUITES (bloc `derived`) ----------
-// {fromId, factor} et rien d'autre : la valeur elle-même n'est pas stockée, elle se recalcule
-// comme celle d'un pack. Deux usages, le second ajouté après coup :
+// Des liens et des facteurs, rien d'autre : la valeur elle-même n'est pas stockée, elle se
+// recalcule comme celle d'un pack. Trois usages, ajoutés dans cet ordre :
 //  · CHIFFRER un objet qu'aucun pack ne vend — la Caisse d'Équipement de Héros Mythique
 //    Personnalisée donne à coup sûr ce que la Caisse Chanceuse donne 1 fois sur 100, elle vaut
 //    donc 100 caisses chanceuses ;
 //  · CORRIGER un relevé exact mais absurde au prix unitaire — Marche Rapide 1 = 0,5 × la 2,
-//    fragment ciblé = 0,8 × le fragment universel.
+//    fragment ciblé = 0,8 × le fragment universel ;
+//  · OUVRIR une caisse dont on connaît le butin — une caisse ne vaut pas ce qu'un pack la
+//    vend, elle vaut ce qu'elle rend. D'où `from[]`, la somme de plusieurs bases.
 // D'où la précédence sur le relevé quand les deux existent. Une chaîne de dérivations est
 // résolue (scEurResolve() repasse par ici) mais ne peut pas boucler : `seen` la coupe.
+
+// Les termes d'une règle, toujours sous la même forme. Une règle s'appuie soit sur UNE base
+// (`fromId` × `factor`), soit sur PLUSIEURS, sommées (`from[]`) : une caisse au butin mélangé ne
+// vaut pas un multiple d'un seul objet, elle vaut le total de ce qu'elle rend. Les quantités
+// d'un tirage aléatoire sont des ESPÉRANCES (Σ quantité × probabilité), calculées en amont —
+// le fichier ne stocke pas la table de butin, seulement son résultat.
+function scEurDerivedParts(d){
+  return Array.isArray(d.from) ? d.from : [{id:d.fromId, factor:d.factor}];
+}
+// Valeur d'une règle. Un seul terme irrésolu annule TOUT le calcul : une somme amputée d'un
+// terme n'est pas un chiffre approché, c'est un chiffre faux — et la règle rend « — », jamais
+// le relevé qu'elle devait corriger.
+function scEurDerivedValue(d, path){
+  const parts=scEurDerivedParts(d);
+  if(!parts.length) return null;
+  let total=0;
+  for(const p of parts){
+    // Chaque terme part avec SA copie du chemin : deux termes peuvent légitimement partager une
+    // base (le Satin sous la caisse de variétés), et un `Set` commun ferait passer le second
+    // pour un cycle. Ce qu'on interdit, c'est qu'une règle se rappelle elle-même, pas qu'une
+    // même base serve deux fois.
+    const base=scEurResolve(p.id, new Set(path)), f=Number(p.factor);
+    if(base==null || !(f>0)) return null;
+    total += base*f;
+  }
+  return total;
+}
 // Vrai quand la valeur affichée est déduite d'un autre objet — ce qui doit toujours se voir.
 function scEurIsDerived(id){ return !!SC_EURO_DERIVED[id] && scEurUnit(id)!=null; }
 // Le raisonnement en toutes lettres, dans la langue active.
@@ -417,6 +453,12 @@ function scFmtFix(v,d){
 // Nombre nu à la locale active : facteurs (0,5 / 100) et quantités (7 140). Les décimales
 // suivent la valeur — un facteur entier ne doit pas s'écrire « 0,50 ».
 function scFmtNum(v){ return Number(v).toLocaleString(scLang()==='FR'?'fr-FR':'en-US'); }
+// Le facteur d'une règle est un OPÉRANDE du calcul affiché, pas un ordre de grandeur : l'arrondir
+// à 3 décimales comme le reste ferait mentir la ligne d'audit — « 1,963 × Vision » juste sous une
+// explication qui annonce 1,9625. On lui laisse donc de quoi s'écrire en entier.
+function scFmtFactor(v){
+  return Number(v).toLocaleString(scLang()==='FR'?'fr-FR':'en-US', {maximumFractionDigits:6});
+}
 function scFmtEur(v){
   if(v==null) return null;
   const a=Math.abs(v), d = a>=100?0 : a>=1?2 : a>=0.01?3 : (a===0?2:4);
