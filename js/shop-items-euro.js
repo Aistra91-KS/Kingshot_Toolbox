@@ -270,14 +270,29 @@ function ieScaleSection(){
 function ieDerivedSection(){
   return ieRuleBlock(scT('derivedTitle'), scT('derivedIntro'), scEurDerivedIds().map(id=>{
     const d=SC_EURO_DERIVED[id];
-    // Plusieurs bases : le raccourci « prix du pack ÷ quantité » n'existe plus, chaque terme a
-    // le sien. On nomme donc les termes et on ne chiffre que le total — détailler cinq divisions
-    // sur une ligne la rendrait illisible, et le prix de chaque base est déjà dans le tableau.
+    // Plusieurs bases : la ligne dit d'abord CE QU'ON ADDITIONNE (les objets), puis la MÊME
+    // somme en chiffres relevés. Renvoyer le lecteur au tableau pour les prix unitaires ne
+    // marche pas : ils y sont arrondis à 4 décimales, et un facteur comme 400 amplifie
+    // l'arrondi au point de changer le total (400 × 0,0002 donne 0,080 là où 400 × (5 $ ÷
+    // 26 000) donne 0,0769). Seules les divisions permettent de refaire le calcul et de
+    // retomber sur le chiffre affiché.
     if(Array.isArray(d.from)) {
-      const termes=d.from.map(p=>scT('derivedTerm').replace('{f}', scFmtFactor(p.factor))
-                                                   .replace('{n}', scName(scItemById(p.id), scLang())));
-      return ieRuleLi(id, scEurHow(id), scT('derivedSumMulti')
-        .replace('{t}', termes.join(' + ')).replace('{b}', scFmtEur(scEurUnit(id))));
+      const noms=[], bruts=[];
+      for(const p of d.from){
+        const nom=scName(scItemById(p.id), scLang()), f=scFmtFactor(p.factor), r=SC_EURO[p.id];
+        noms.push(scT('derivedTerm').replace('{f}', f).replace('{n}', nom));
+        // Un terme n'a de forme « prix du pack ÷ quantité » que si SA valeur sort du relevé nu.
+        if(r && !scEurIsDerived(p.id) && !scEurIsScaled(p.id) && !scEurIsWeighted(p.id)){
+          bruts.push(scT('derivedTermRaw').replace('{f}', f)
+                                          .replace('{p}', scFmtEur(scEurPackPrice()))
+                                          .replace('{q}', scFmtNum(r.qty)));
+        }
+      }
+      // Un seul terme sans forme relevée et la ligne chiffrée serait bancale : on la retire.
+      const complet = bruts.length===noms.length;
+      return ieRuleLi(id, scEurHow(id), scT(complet ? 'derivedSumMulti' : 'derivedSumMultiAlt')
+        .replace('{t}', noms.join(' + ')).replace('{r}', bruts.join(' + '))
+        .replace('{b}', scFmtEur(scEurUnit(id))));
     }
     const base=SC_EURO[d.fromId];
     const plain = base && !scEurIsDerived(d.fromId) && !scEurIsScaled(d.fromId) && !scEurIsWeighted(d.fromId);
