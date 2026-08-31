@@ -3,7 +3,7 @@
     "tier": "Gen 7 / TG5+",
     "packPrice": 6,
     "packPriceUsd": 5,
-    "updatedAt": "2026-08-28",
+    "updatedAt": "2026-08-31",
     "source": "Relevé in-game des packs récurrents (disponibles au moins une fois par mois), hors packs d'événement ponctuels. Fourni et mis à jour périodiquement par Paul (fichier Pack_ks.xlsx).",
     "note": "Seconde valorisation, en argent reel. La cle de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantite MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coutent le meme prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocke : il se recalcule a l'affichage. Fichier ADMIN en lecture seule, regenerable d'un bloc depuis le releve Excel. Les quantites du releve font foi, Y COMPRIS a la baisse. TROIS blocs corrigent ce que le releve seul dit mal, et se CONSERVENT lors d'une regeneration de `items` (ils ne viennent PAS de l'Excel) : `derived` {fromId, factor, packs?, how} deduit la valeur d'un objet de celle d'un autre et REMPLACE le releve quand les deux existent ; une valeur deduite n'affiche AUCUN pack, sauf si la regle en nomme un dans `packs` (le pack qui chiffre `fromId` vaut alors aussi pour elle) — un releve peut etre exact et son prix unitaire absurde (un pack genereux sur un objet ne le rend pas plus utile) ; `speedups` fixe le prix d'UNE minute d'accelerateur (prix du pack / total de minutes du pack le plus genereux) et en deduit les cinq accelerateurs, pour qu'une heure vaille toujours 60 minutes ; les cinq affichent donc `basis.packs` comme pack d'origine, et non celui qui en donne le plus ; `weights` applique une ponderation ASSUMEE (choix editorial, pas une mesure) au resultat, ex. x0,25 sur les ressources brutes."
   },
@@ -39,6 +39,10 @@
     "custom-pet-chest-common-custom-chest": {
       "FR": "Coffre Perso Animal - Coffre Personnalisé Commun",
       "EN": "Custom Pet Chest - Common Custom Chest"
+    },
+    "custom-selection-common-custom-chest": {
+      "FR": "Sélection Personnalisé - Coffre Personnalisé Commun",
+      "EN": "Custom Selection - Common Custom Chest"
     },
     "daily-deals": {
       "FR": "Offres Quotidiennes",
@@ -457,9 +461,9 @@
       ]
     },
     "coin": {
-      "qty": 70000,
+      "qty": 75000,
       "packs": [
-        "truegold-dust-weekly-card"
+        "custom-selection-common-custom-chest"
       ]
     },
     "common_taming_mark": {
@@ -526,7 +530,8 @@
       "qty": 1,
       "packs": [
         "custom-arms-set-common-custom-chest",
-        "custom-pet-chest-common-custom-chest"
+        "custom-pet-chest-common-custom-chest",
+        "custom-selection-common-custom-chest"
       ]
     },
     "governor_charm_material_chest": {
@@ -570,7 +575,8 @@
       "qty": 2000,
       "packs": [
         "custom-arms-set-common-custom-chest",
-        "custom-pet-chest-common-custom-chest"
+        "custom-pet-chest-common-custom-chest",
+        "custom-selection-common-custom-chest"
       ]
     },
     "lv2_custom_resource_chest": {
