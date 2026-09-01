@@ -1,11 +1,11 @@
 <!-- kshub-news
 version: 1.13
-covers-until: f7c893a970451647730fb1b8e96d445512d98860
-generated: 2026-08-30
+covers-until: 215d33cb0fcf134e96716e893b2eaefdb536af84
+generated: 2026-09-01
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 💬 Un bouton pour me dire ce qui cloche
-title-en: 💬 A button to tell me what is wrong
+title-fr: 🎭 Le Magasin du Théâtre, palier par palier
+title-en: 🎭 The Theater Shop, tier by tier
 -->
 
 <!--
@@ -59,24 +59,27 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 💬 Dis-moi ce qui cloche, sans quitter la page
+### 🎭 Le Magasin du Théâtre, palier par palier
 
-Une valeur qui te paraît fausse, un outil qui bloque, une idée pour en améliorer un : il y a maintenant un bouton **« Un retour ? »** dans l'en-tête de chaque page — et dans le menu latéral sur téléphone.
+La boutique de l'événement Théâtre Fantastique a sa page, et elle ne ressemble pas aux autres : **le même objet y est vendu trois fois, à trois prix croissants**. En jeu, seule la couleur de la carte te le dit. Sur la page, chaque ligne porte son **palier** — or, violet, bleu — et le tableau continue de tout classer par rentabilité.
 
-Tu dis de quoi il s'agit (bug, valeur erronée, idée, autre), tu écris, tu envoies. **Aucun compte, aucune adresse mail à donner.** Le formulaire t'annonce exactement ce qui part avec ton message — la page où tu étais, ta langue et la version du site, rien de plus — et te confirme à l'écran une fois qu'il est bien arrivé.
+C'est ce classement qui rend l'échelle lisible. Exemple : le **Mithril du palier 2** (×100) reste un meilleur achat que l'**Or Véritable du palier 1** (×90). Autrement dit, creuser un palier cher sur un bon objet peut rapporter plus que rester au palier 1 d'un objet moyen.
 
-Laisse ton pseudo en jeu si tu veux que je puisse revenir vers toi. Sinon, écris et pars : je lis tout.
+Les 28 lignes y sont, avec leur coût en Jetons Fantaisie, leur stock et leur valeur — en gemmes **et** en euros, les deux lectures sont complètes. Coche ce que tu comptes prendre, le solde et la valeur obtenue se recalculent tout seuls.
 
-👉 https://kingshottoolbox.com/
+Petit essai au passage : cette page a **sa propre adresse française**. Si ça donne quelque chose, j'étendrai aux autres.
+
+👉 https://kingshottoolbox.com/fr/shop/theater-shop.html
+👉 https://kingshottoolbox.com/shop/theater-shop.html (en anglais)
 
 ## EN
 
-### 💬 Tell me what is wrong, without leaving the page
+### 🎭 The Theater Shop, tier by tier
 
-A value that looks wrong, a tool that breaks, an idea to make one better: there is now a **Feedback** button in the header of every page — and in the side menu on phones.
+The store of the Fantasy Theater event has its page, and this one is unlike the others: **the same item is sold three times, at three rising prices**. In game only the colour of the card tells you which is which. On the page every line carries its **tier** — gold, purple, blue — and the table still ranks everything by value.
 
-Say what it is about (a bug, a wrong value, an idea, something else), write, send. **No account, no email address to hand over.** The form tells you exactly what travels with your message — the page you were on, your language and the site version, nothing more — and confirms on screen once it has really arrived.
+That ranking is what makes the ladder readable. For example: **Mithril at tier 2** (×100) is still a better buy than **TrueGold at tier 1** (×90). Digging into an expensive tier on a good item can beat staying at tier 1 on an average one.
 
-Leave your in-game name if you want me to be able to get back to you. Otherwise write and go: I read everything.
+All 28 lines are there, with their Fantasy Token cost, their stock and their value — in gems **and** in euros, both readings are complete. Tick what you plan to buy and the balance and the value you get update as you go.
 
-👉 https://kingshottoolbox.com/
+👉 https://kingshottoolbox.com/shop/theater-shop.html
