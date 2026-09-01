@@ -110,7 +110,7 @@ function hubInitHelp() {
             ]
         },
         links: [
-            { label: { FR: '🛡️ Commencer par Ma Caserne', EN: '🛡️ Start with My Barracks' }, href: 'caserne.html' }
+            { label: { FR: '🛡️ Commencer par Ma Caserne', EN: '🛡️ Start with My Barracks' }, href: 'caserne' }
         ]
     });
 }

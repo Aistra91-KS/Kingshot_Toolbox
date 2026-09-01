@@ -85,7 +85,7 @@ function scRefreshIndex(){ scApplyTranslations(); scRenderIndex(); }
           "Event shops show the time left in days and hours; once ended, their page stays available so you can compare with another run.",
           "Gem values come from the “Item values” page: edit them there and every shop recalculates."]
     },
-    links:[{label:{FR:'Ouvrir « Valeur des objets »', EN:'Open “Item values”'}, href:'shop/items.html'}]
+    links:[{label:{FR:'Ouvrir « Valeur des objets »', EN:'Open “Item values”'}, href:'shop/items'}]
   });
 
   window.addEventListener('langChanged', scRefreshIndex);

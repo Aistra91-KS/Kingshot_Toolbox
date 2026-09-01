@@ -186,8 +186,8 @@ function csInitHelp() {
             ]
         },
         links: [
-            { label: { FR: '🐻 Piège à Ours', EN: '🐻 Bear Trap' }, href: 'beartrap_calc.html' },
-            { label: { FR: '⚔️ Vikings', EN: '⚔️ Vikings' }, href: 'vikings.html' }
+            { label: { FR: '🐻 Piège à Ours', EN: '🐻 Bear Trap' }, href: 'beartrap_calc' },
+            { label: { FR: '⚔️ Vikings', EN: '⚔️ Vikings' }, href: 'vikings' }
         ]
     });
 }

@@ -50,8 +50,8 @@ const SITE = {
   //  PAGES INSTITUTIONNELLES (pied de page)
   // ---------------------------------------------------------
   pages: {
-    about:     { name: { EN: "About",     FR: "À propos" },   href: "about.html" },
-    changelog: { name: { EN: "Changelog", FR: "Nouveautés" }, href: "changelog.html" }
+    about:     { name: { EN: "About",     FR: "À propos" },   href: "about" },
+    changelog: { name: { EN: "Changelog", FR: "Nouveautés" }, href: "changelog" }
   },
 
   // ---------------------------------------------------------
@@ -100,7 +100,7 @@ const SITE = {
         FR: "Optimisez l'ordre de vos recherches scientifiques. Suivez votre progression sur les arbres Croissance, Économie et Combat."
       },
       icon: "flask-conical",
-      href: "research_calc.html"
+      href: "research_calc"
     },
     truegold: {
       name: { EN: "TrueGold", FR: "TrueGold" },
@@ -109,7 +109,7 @@ const SITE = {
         FR: "Planifiez l'amélioration de vos bâtiments TrueGold. Calculez vos ressources et accélérateurs nécessaires."
       },
       icon: "coins",
-      href: "truegold_calc.html"
+      href: "truegold_calc"
     },
     waracademy: {
       name: { EN: "War Academy", FR: "Académie de Guerre" },
@@ -118,7 +118,7 @@ const SITE = {
         FR: "Planifiez vos recherches de troupes TrueGold. Suggère le chemin optimal pour maximiser les recherches, les points KvK, ou viser un score précis."
       },
       icon: "shield",
-      href: "waracademy.html"
+      href: "waracademy"
     },
     buildings: {
       name: { EN: "Buildings", FR: "Bâtiments" },
@@ -127,7 +127,7 @@ const SITE = {
         FR: "Le tableau complet d'amélioration de chaque bâtiment : TrueGold, Or Véritable Trempé, ressources, temps et prérequis par palier."
       },
       icon: "building-2",
-      href: "database/buildings/index.html"
+      href: "database/buildings/"
     },
     waresearch: {
       name: { EN: "War Academy Research", FR: "Recherches Académie" },
@@ -136,7 +136,7 @@ const SITE = {
         FR: "Toutes les recherches de troupes de l'Académie de Guerre, palier par palier : poussière d'Or Véritable, ressources, temps, effets et prérequis — arbres Infanterie, Archers et Cavalerie."
       },
       icon: "flask-conical",
-      href: "database/waracademy/index.html"
+      href: "database/waracademy/"
     },
     mastersdb: {
       name: { EN: "Masters DB", FR: "Experts (BDD)" },
@@ -145,7 +145,7 @@ const SITE = {
         FR: "La référence complète de chaque Expert : paliers d'affinité et bonus, expertise passive, et pour chaque compétence l'effet, le coût d'EXP, les manuscrits et la puissance par niveau."
       },
       icon: "crown",
-      href: "database/masters/index.html"
+      href: "database/masters/"
     },
     petsdb: {
       name: { EN: "Pets DB", FR: "Familiers (BDD)" },
@@ -154,7 +154,7 @@ const SITE = {
         FR: "La référence complète de chaque familier : effet de la compétence par palier, coûts d'avancement et nourriture requise pour chaque niveau."
       },
       icon: "paw-print",
-      href: "database/pets/index.html"
+      href: "database/pets/"
     },
     beartrap: {
       name: { EN: "Bear Trap", FR: "Piège à Ours" },
@@ -163,7 +163,7 @@ const SITE = {
         FR: "Optimisez vos ralliements pour le Bear Trap. Calculez la répartition parfaite de vos marches."
       },
       icon: "paw-print",
-      href: "beartrap_calc.html"
+      href: "beartrap_calc"
     },
     vikings: {
       name: { EN: "Vikings", FR: "Vikings" },
@@ -172,7 +172,7 @@ const SITE = {
         FR: "Répartissez vos troupes sur vos marches pour l'événement Vikings et maximisez votre défense."
       },
       icon: "axe",
-      href: "vikings.html"
+      href: "vikings"
     },
     heroes: {
       name: { EN: "Heroes", FR: "Héros" },
@@ -181,7 +181,7 @@ const SITE = {
         FR: "Gérez vos héros, définissez leurs générations et enregistrez les niveaux de leurs compétences."
       },
       icon: "users",
-      href: "caserne.html"
+      href: "caserne"
     },
     masters: {
       name: { EN: "Masters", FR: "Experts" },
@@ -190,7 +190,7 @@ const SITE = {
         FR: "Consultez les experts, leurs compétences et leurs paliers d'affinité pour optimiser vos bonus."
       },
       icon: "crown",
-      href: "masters.html",
+      href: "masters",
       badge: "beta"
     },
     pets: {
@@ -200,7 +200,7 @@ const SITE = {
         FR: "Parcourez vos familiers palier par palier : caractéristiques, niveau, bonus d'armée et compétences."
       },
       icon: "paw-print",
-      href: "pets.html"
+      href: "pets"
     },
     shopcalc: {
       name: { EN: "Shop Value", FR: "Valeur Boutique" },
@@ -209,7 +209,7 @@ const SITE = {
         FR: "Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires."
       },
       icon: "shopping-cart",
-      href: "shop_calc.html",
+      href: "shop_calc",
       badge: "beta"
     }
   },

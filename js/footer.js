@@ -60,7 +60,11 @@ function ftrEsc(s) {
 // Page courante : même résolution que le header (HDR_ACTIVE_HREF prime,
 // sinon le nom de fichier), pour marquer le lien de la page ouverte.
 function ftrCurrentPage() {
-  return window.HDR_ACTIVE_HREF || (window.location.pathname.split('/').pop() || 'index.html');
+  // Même normalisation que le header : le `.html` d'une vieille adresse ne doit pas
+  // faire perdre le repère de la page ouverte.
+  const id = window.HDR_ACTIVE_HREF || (typeof hdrPageId==='function' ? hdrPageId()
+           : (window.location.pathname.split('/').pop() || 'index.html'));
+  return String(id).replace(/\.html$/, '');
 }
 
 function ftrLinkHtml(href, icon, label, sub, external) {

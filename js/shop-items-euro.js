@@ -356,8 +356,8 @@ function ieWeightSection(){
           "Only items we can price are listed: the others have no known price.",
           "This table is read-only and unrelated to the gem values — the two are read separately."]
     },
-    links:[{label:{FR:'Valeur des objets (gemmes)', EN:'Item values (gems)'}, href:'shop/items.html'},
-           {label:{FR:'Retour aux boutiques', EN:'Back to shops'}, href:'shop_calc.html'}]
+    links:[{label:{FR:'Valeur des objets (gemmes)', EN:'Item values (gems)'}, href:'shop/items'},
+           {label:{FR:'Retour aux boutiques', EN:'Back to shops'}, href:'shop_calc'}]
   });
 
   window.addEventListener('langChanged',()=>{ scApplyTranslations(); ieRenderCatFilter(); ieRender(); });

@@ -43,7 +43,7 @@
             "EN": "The Blizzard Shop joined the Shops section, with its seven items, their price in Brawl Emblems and the stock left on each one, plus the countdown to closing time. Six of the seven give back exactly the same value per emblem; the seventh, the 100 Enhancement XP Component, gives half as much, so it is the one line to leave alone.",
             "FR": "Le Magasin du Blizzard rejoint la section Boutiques, avec ses sept objets, leur prix en Emblèmes de Duel et le stock restant sur chacun, plus le compte à rebours jusqu'à la fermeture. Six des sept rapportent exactement la même valeur par emblème ; le septième, les 100 Points d'EXP d'Amélioration, en rapporte deux fois moins — c'est la seule ligne à laisser de côté."
           },
-          "href": "shop/blizzard-shop.html",
+          "href": "shop/blizzard-shop",
           "linkLabel": {
             "EN": "Blizzard Shop",
             "FR": "Magasin du Blizzard"
@@ -65,7 +65,7 @@
             "EN": "Two event shops now tell you what the whole event gave you back. Tick the packs you bought on each day - or nothing at all if you play for free - and the page adds up everything the event hands out: the daily missions, the free packs, the free tracks, the milestones and the contents of the packs themselves. It compares that to what you actually paid and shows a single percentage: 100% means you got your money back, and the colour runs from red to green as the deal gets better.",
             "FR": "Deux boutiques d'événement te disent maintenant ce que l'événement entier t'a rapporté. Coche les packs achetés chaque jour - ou rien du tout si tu joues gratuitement - et la page additionne tout ce que l'événement distribue : les missions quotidiennes, les packs gratuits, les pistes gratuites, les paliers et le contenu des packs eux-mêmes. Elle compare le tout à ce que tu as réellement payé et affiche un seul pourcentage : 100 %, c'est ta mise récupérée, et la couleur va du rouge au vert à mesure que l'affaire s'améliore."
           },
-          "href": "shop/adventure-stall.html",
+          "href": "shop/adventure-stall",
           "linkLabel": {
             "EN": "Adventure Stall",
             "FR": "Stand d'Aventure"
@@ -77,7 +77,7 @@
             "EN": "The event currency you earn is counted too. One button drops it into the shop table below, so the items you pick there feed straight back into the value you recovered.",
             "FR": "La monnaie d'événement que tu gagnes est comptée elle aussi. Un bouton la reporte dans le tableau de la boutique en dessous, et les objets que tu y choisis reviennent aussitôt nourrir la valeur récupérée."
           },
-          "href": "shop/dragons-caravan.html",
+          "href": "shop/dragons-caravan",
           "linkLabel": {
             "EN": "Dragon's Caravan",
             "FR": "Caravane du Dragon"
@@ -96,7 +96,7 @@
             "EN": "The real-money prices come from a new survey: 59 paid packs instead of 33. Three items turn out to be handed out in much bigger amounts than before, so they now cost far less per unit - Gilded Threads and Satin especially.",
             "FR": "Les prix en argent réel viennent d'un nouveau relevé : 59 packs payants au lieu de 33. Trois objets se révèlent distribués en bien plus grande quantité qu'avant, et coûtent donc bien moins cher à l'unité - les Fils Dorés et le Satin en particulier."
           },
-          "href": "shop/items-euro.html",
+          "href": "shop/items-euro",
           "linkLabel": {
             "EN": "Real-money item values",
             "FR": "Prix réel des objets"
@@ -118,7 +118,7 @@
             "EN": "Every shop page now offers a second reading. Two pills at the top switch between the usual gem value and what the items really cost in real money, worked out from the paid packs they appear in. The two readings never mix: nothing is converted from one to the other, and no gem-to-euro rate is ever worked out. Prices show in euros or dollars, as you prefer.",
             "FR": "Chaque page boutique propose désormais une seconde lecture. Deux pastilles en haut basculent entre la valeur en gemmes habituelle et ce que les objets coûtent vraiment en argent réel, calculé depuis les packs payants où ils apparaissent. Les deux lectures ne se mélangent jamais : rien n'est converti de l'une à l'autre, et aucun taux de change gemme/euro n'est calculé. Les prix s'affichent en euros ou en dollars, au choix."
           },
-          "href": "shop_calc.html"
+          "href": "shop_calc"
         },
         {
           "type": "new",
@@ -126,7 +126,7 @@
             "EN": "A new page lists the real-money price of every item that a paid pack can put a price on, along with the pack each price comes from - so any figure that looks wrong can be traced back to its source.",
             "FR": "Une nouvelle page liste le prix en argent réel de chaque objet qu'un pack payant permet de chiffrer, avec le pack d'où vient chaque prix — pour qu'un chiffre qui paraît faux puisse être remonté à sa source."
           },
-          "href": "shop/items-euro.html",
+          "href": "shop/items-euro",
           "linkLabel": {
             "EN": "Real-money item values",
             "FR": "Prix réel des objets"
@@ -138,7 +138,7 @@
             "EN": "The Flamedragon Tyrant Prediction Shop joined the Shops section, with its nine items, their Dragonclaw Mark price and their stock. Six of the nine are priced at exactly the same rate, so the two that are not are where the marks actually go furthest.",
             "FR": "Le Magasin de Pronostique du Tyran rejoint la section Boutiques, avec ses neuf objets, leur prix en Marques Draconiques et leur stock. Six des neuf sont au même tarif : les deux exceptions sont donc là où les marques rapportent vraiment le plus."
           },
-          "href": "shop/flamedragon-tyrant-prediction.html",
+          "href": "shop/flamedragon-tyrant-prediction",
           "linkLabel": {
             "EN": "Open the shop",
             "FR": "Ouvrir la boutique"
@@ -157,7 +157,7 @@
             "EN": "On the Research planner, the bonus is now typed as a percentage, like the other planners.",
             "FR": "Sur le planificateur de Recherches, le bonus se saisit désormais en pourcentage, comme sur les autres planificateurs."
           },
-          "href": "research_calc.html"
+          "href": "research_calc"
         }
       ]
     },
@@ -175,7 +175,7 @@
             "EN": "Two new event shops joined the Shops section: Dragon's Caravan and Adventure Stall. Each one lists every item with its cost, what it is worth in gems and how much stock is left, so you can see straight away what deserves your currency before the event ends.",
             "FR": "Deux nouvelles boutiques d'événement rejoignent la section Boutiques : la Caravane du Dragon et le Stand d'Aventure. Chacune liste tous les objets avec leur coût, leur valeur en gemmes et le stock restant, pour voir tout de suite ce qui mérite ta monnaie avant la fin de l'événement."
           },
-          "href": "shop_calc.html"
+          "href": "shop_calc"
         },
         {
           "type": "new",
@@ -222,7 +222,7 @@
             "EN": "New “Quick Select” option on the Research tree tabs: tick the highest level you have reached and everything it requires gets ticked with it — up to 102 boxes in a single click.",
             "FR": "Nouvelle option « Sélection rapide » sur les onglets d'arbre des Recherches : coche le niveau le plus haut que tu as atteint et tout ce qu'il exige se coche avec lui — jusqu'à 102 cases d'un seul clic."
           },
-          "href": "research_calc.html"
+          "href": "research_calc"
         },
         {
           "type": "improved",
@@ -230,7 +230,7 @@
             "EN": "Unticking a research now clears everything that depends on it, so fixing a mistake takes one click instead of a cleanup pass.",
             "FR": "Décocher une recherche retire aussi tout ce qui en dépend : corriger une erreur prend un clic au lieu d'une séance de nettoyage."
           },
-          "href": "research_calc.html"
+          "href": "research_calc"
         }
       ]
     },
@@ -255,7 +255,7 @@
             "EN": "New About page: who is behind the toolbox, and what happens to the data you enter.",
             "FR": "Nouvelle page « À propos » : qui est derrière l'outil, et ce que deviennent les données que tu saisis."
           },
-          "href": "about.html"
+          "href": "about"
         },
         {
           "type": "new",
@@ -263,7 +263,7 @@
             "EN": "This page: the full update history, dated and numbered, so you can see at a glance what changed since your last visit.",
             "FR": "Cette page : l'historique complet des mises à jour, daté et numéroté, pour voir d'un coup d'œil ce qui a changé depuis ta dernière visite."
           },
-          "href": "changelog.html"
+          "href": "changelog"
         },
         {
           "type": "fixed",
@@ -271,7 +271,7 @@
             "EN": "Reviewed the French hero translations used by the Heroes page and the databases.",
             "FR": "Traductions françaises des héros revues, côté Caserne comme côté base de données."
           },
-          "href": "caserne.html"
+          "href": "caserne"
         }
       ]
     },
@@ -289,7 +289,7 @@
             "EN": "The exclusive weapons of the three newest heroes are in: their Conquest and Expedition effects show up level by level, like every other hero.",
             "FR": "Les armes exclusives des trois héros les plus récents sont là : leurs effets Conquête et Expédition s'affichent niveau par niveau, comme pour les autres héros."
           },
-          "href": "caserne.html"
+          "href": "caserne"
         }
       ]
     },
@@ -307,7 +307,7 @@
             "EN": "An “Apply these changes” button at the bottom of the TrueGold and War Academy plans: your levels go up, your stocks go down by what the plan spends, and the next plan is worked out straight away. A confirmation window shows every change before anything moves.",
             "FR": "Un bouton « Appliquer les modifications » au bas des plans TrueGold et Académie de Guerre : tes niveaux montent, tes stocks baissent de ce que le plan dépense, et la suggestion suivante est calculée dans la foulée. Une fenêtre de confirmation détaille chaque changement avant que rien ne bouge."
           },
-          "href": "truegold_calc.html"
+          "href": "truegold_calc"
         },
         {
           "type": "new",
@@ -315,7 +315,7 @@
             "EN": "New database page for the Advanced TrueGold research: 92 researches, 1,010 levels, with dust, Tempered TrueGold, resources and time for each level.",
             "FR": "Nouvelle page de base de données pour les recherches avancées d'Or Véritable : 92 recherches, 1 010 niveaux, avec poussière, Or Véritable Trempé, ressources et temps pour chaque niveau."
           },
-          "href": "database/waracademy/advanced.html",
+          "href": "database/waracademy/advanced",
           "linkLabel": {
             "EN": "Advanced research",
             "FR": "Recherches avancées"
@@ -327,7 +327,7 @@
             "EN": "Better-paying KvK plans. Both planners used to fall into the same trap — you could earn more points by unticking a building or a tree. TrueGold now explores every combination, and the War Academy commits to a prerequisite chain and finishes it: +4 to +6.5% points, with no case made worse.",
             "FR": "Des plans KvK plus rentables. Les deux planificateurs tombaient dans le même piège : tu pouvais gagner des points en décochant un bâtiment ou un arbre. TrueGold explore désormais toutes les combinaisons, et l'Académie sait s'engager dans une chaîne de prérequis et la terminer : +4 à +6,5 % de points, sans aucun cas dégradé."
           },
-          "href": "waracademy.html"
+          "href": "waracademy"
         },
         {
           "type": "fixed",
@@ -335,7 +335,7 @@
             "EN": "Corrected the gem value of Mithril in the item reference.",
             "FR": "Valeur en gemmes du Mithril corrigée dans le référentiel des objets."
           },
-          "href": "shop/items.html",
+          "href": "shop/items",
           "linkLabel": {
             "EN": "Item values",
             "FR": "Valeur des objets"
@@ -357,7 +357,7 @@
             "EN": "Shop Value is now a summary sorted into three families — Event shops, Permanent shops and Chests — and each of the 12 shops has its own page. Finished event shops don't disappear: their card turns grey but stays clickable.",
             "FR": "Valeur Boutique est devenu un sommaire rangé en trois familles — Boutiques d'Événement, Boutiques Permanentes et Coffres — et chacune des 12 boutiques a sa page. Les boutiques d'événement terminées ne disparaissent plus : leur carte passe en grisé mais reste cliquable."
           },
-          "href": "shop_calc.html"
+          "href": "shop_calc"
         },
         {
           "type": "new",
@@ -365,7 +365,7 @@
             "EN": "A shopping cart. Enter your currency, pick your quantities line by line, and four counters update live: your currency, what you've spent, what's left, and the gem value you're getting. A summary stays stuck to the bottom of the screen while you scroll.",
             "FR": "Un panier. Renseigne ta monnaie, choisis tes quantités ligne par ligne, et quatre compteurs se mettent à jour en direct : ta monnaie, le dépensé, le restant et la valeur obtenue en gemmes. Un récapitulatif reste collé en bas de l'écran pendant que tu parcours la liste."
           },
-          "href": "shop/polar-shop.html",
+          "href": "shop/polar-shop",
           "linkLabel": {
             "EN": "Polar Shop",
             "FR": "Magasin Polaire"
@@ -408,7 +408,7 @@
             "EN": "A Server tier selector (TG3 / TG5 / TG8 / TG10) at the top of the Configuration panel. The planner no longer suggests upgrades that don't exist on your server yet; buildings already above the tier are flagged and still count as prerequisites.",
             "FR": "Un sélecteur Palier de serveur (TG3 / TG5 / TG8 / TG10) en tête du panneau Configuration. Le planificateur ne propose plus d'améliorations qui n'existent pas encore sur ton serveur ; les bâtiments déjà au-dessus du palier sont signalés et comptent toujours comme prérequis."
           },
-          "href": "truegold_calc.html"
+          "href": "truegold_calc"
         },
         {
           "type": "improved",
@@ -433,7 +433,7 @@
             "EN": "The Polar Shop event store is loaded with its purchase caps, its daily reset and its countdown, so you can rank every line by gems per coin spent.",
             "FR": "Le Magasin Polaire est chargé avec ses plafonds d'achat, sa réinitialisation quotidienne et son compte à rebours, pour classer chaque ligne au rapport gemmes par pièce dépensée."
           },
-          "href": "shop/polar-shop.html",
+          "href": "shop/polar-shop",
           "linkLabel": {
             "EN": "Polar Shop",
             "FR": "Magasin Polaire"
@@ -462,7 +462,7 @@
             "EN": "The upgrade plan now reads as numbered steps: each step groups consecutive levels of one building, a building comes back as many times as the prerequisites demand, and every step tells you what it unlocks next.",
             "FR": "Le plan d'amélioration se lit en étapes numérotées : chaque étape regroupe les niveaux consécutifs d'un même bâtiment, un bâtiment revient autant de fois que les prérequis l'imposent, et chaque étape indique ce qu'elle débloque ensuite."
           },
-          "href": "truegold_calc.html"
+          "href": "truegold_calc"
         },
         {
           "type": "fixed",
@@ -477,7 +477,7 @@
             "EN": "Expert portraits are no longer pixelated — they use full-size images. Two skill icons that weren't showing up are back.",
             "FR": "Les portraits des Experts ne sont plus pixelisés : ils utilisent des images pleine taille. Deux icônes de compétences qui ne s'affichaient pas sont revenues."
           },
-          "href": "masters.html"
+          "href": "masters"
         }
       ]
     },
@@ -502,7 +502,7 @@
             "EN": "Vikings nudges you to enter exact troop counts rather than the game's rounded percentages, marks rounded percentages with “≈”, and adds a copy button next to each number on mobile.",
             "FR": "Vikings t'invite à saisir des nombres exacts plutôt que les pourcentages arrondis du jeu, marque les pourcentages arrondis d'un « ≈ », et ajoute un bouton copier à côté de chaque nombre sur mobile."
           },
-          "href": "vikings.html"
+          "href": "vikings"
         },
         {
           "type": "improved",
@@ -534,7 +534,7 @@
             "EN": "The KvK breakdown now shows the dust and the speedup time your plan consumes, on top of the points.",
             "FR": "Le bilan KvK affiche maintenant la quantité de poussière et le temps d'accélérateurs que ton plan consomme, en plus des points."
           },
-          "href": "waracademy.html"
+          "href": "waracademy"
         },
         {
           "type": "fixed",
@@ -549,7 +549,7 @@
             "EN": "“Shop Calc” is renamed “Shop Value”, which says better what it does.",
             "FR": "« Shop Calc » est renommé « Shop Value », plus parlant sur ce qu'il fait."
           },
-          "href": "shop_calc.html"
+          "href": "shop_calc"
         },
         {
           "type": "improved",
@@ -574,7 +574,7 @@
             "EN": "One page per Expert: affinity milestones and squad bonuses, passive expertise, and for each skill its effect, EXP cost, manuscripts and power per level.",
             "FR": "Une page par Expert : paliers d'affinité et bonus d'escouade, expertise passive, et pour chaque compétence l'effet, le coût d'EXP, les manuscrits et la puissance par niveau."
           },
-          "href": "database/masters/index.html"
+          "href": "database/masters/"
         },
         {
           "type": "new",
@@ -582,7 +582,7 @@
             "EN": "One page per pet (14 pets, 7 generations): skill effect tier by tier, advancement costs and the Pet Food needed for every level.",
             "FR": "Une page par familier (14 familiers, 7 générations) : effet de la compétence palier par palier, coûts d'avancement et nourriture requise pour chaque niveau."
           },
-          "href": "database/pets/index.html"
+          "href": "database/pets/"
         },
         {
           "type": "new",
@@ -590,7 +590,7 @@
             "EN": "Bear Trap gets a joiner tier list per server generation (S to D) and an “Allowed heroes” menu, so the suggestion sticks to what your alliance permits. Capacity bonuses fill themselves in from Valora and the Mighty Bison.",
             "FR": "Le Piège à Ours reçoit une tier-list des joiners par génération de serveur (S à D) et un menu « Héros autorisés », pour que la suggestion respecte ce que ton alliance permet. Les bonus de capacité se remplissent tout seuls depuis Valora et le Puissant Bison."
           },
-          "href": "beartrap_calc.html"
+          "href": "beartrap_calc"
         },
         {
           "type": "improved",

@@ -73,7 +73,7 @@ window.scResetItems=function(){
           "Every shop uses that value to compute the “value ÷ cost” ratio.",
           "The “Reset values” button restores the site's original values."]
     },
-    links:[{label:{FR:'Retour aux boutiques', EN:'Back to shops'}, href:'shop_calc.html'}]
+    links:[{label:{FR:'Retour aux boutiques', EN:'Back to shops'}, href:'shop_calc'}]
   });
 
   window.addEventListener('langChanged',()=>{ scApplyTranslations(); scRenderCatFilter(); scRenderItems(); });

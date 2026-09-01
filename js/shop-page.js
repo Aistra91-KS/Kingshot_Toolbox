@@ -552,8 +552,8 @@ function spNotifyEvent(){ if(window.ShopEvent) ShopEvent.refresh(); }
           "Gem values are edited on the “Item values” page — the change applies to every shop.",
           "The “💎 Gems” and “€ Euros” pills open two independent readings of the same shop. The euro reading is based on the real price of the paid packs; a “—” marks an item no pack can put a price on."]
     },
-    links:[{label:{FR:'Toutes les boutiques', EN:'All shops'}, href:'shop_calc.html'},
-           {label:{FR:'Valeur des objets', EN:'Item values'}, href:'shop/items.html'}]
+    links:[{label:{FR:'Toutes les boutiques', EN:'All shops'}, href:'shop_calc'},
+           {label:{FR:'Valeur des objets', EN:'Item values'}, href:'shop/items'}]
   });
 
   window.addEventListener('langChanged', spRenderAll);

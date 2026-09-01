@@ -466,7 +466,7 @@ function btInitHelp(){
                 "Pick the optimization mode (min Infantry/Cavalry thresholds) then “Generate the rest”: your remaining troops are split automatically.",
                 "Read the deployment plan: composition, capacity and total of each march. Hover the “i” icons for field details."]
         },
-        links:[{label:{FR:'⚙️ Configurer mes héros — Ma Caserne', EN:'⚙️ Set up my heroes — My Barracks'}, href:'caserne.html'}]
+        links:[{label:{FR:'⚙️ Configurer mes héros — Ma Caserne', EN:'⚙️ Set up my heroes — My Barracks'}, href:'caserne'}]
     });
 }
 document.addEventListener('DOMContentLoaded', async () => {

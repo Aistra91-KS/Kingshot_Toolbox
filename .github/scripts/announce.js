@@ -85,7 +85,7 @@ if (blocked) process.exit(1);
 
 // Lien vers l'entrée correspondante : le lecteur va du message au détail daté.
 const clAnchor = release
-  ? `${SITE}changelog.html#v${String(release.version).replace(/\./g, '-')}`
+  ? `${SITE}changelog#v${String(release.version).replace(/\./g, '-')}`
   : '';
 const moreFr = clAnchor ? `\n\n📜 Toutes les nouveautés : ${clAnchor}` : '';
 const moreEn = clAnchor ? `\n\n📜 Full changelog: ${clAnchor}` : '';

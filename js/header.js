@@ -25,8 +25,18 @@ function hdrSvg(name, size = 18) {
   return `<svg class="hdr-ic" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
 }
 
+// Repère de la page ouverte. Le site s'adresse en version courte (`/caserne`), mais
+// GitHub Pages sert toujours `/caserne.html` — vieux favoris et résultats Google déjà
+// indexés y mènent encore. On compare donc sur un identifiant qui ignore le `.html`,
+// sinon la surbrillance du menu disparaît sur ces adresses-là.
+function hdrPageId(){
+  const last = window.location.pathname.split('/').pop() || '';
+  if(!last) return 'index.html';                 // dossier -> son index
+  return last.replace(/\.html$/, '') || 'index.html';
+}
+
 // --- État global ---
-let HDR_CURRENT_PAGE = window.HDR_ACTIVE_HREF || (window.location.pathname.split('/').pop() || 'index.html');
+let HDR_CURRENT_PAGE = (window.HDR_ACTIVE_HREF || hdrPageId()).replace(/\.html$/, '');
 let HDR_CTX = { catId: null, toolId: null };
 let HDR_SELECTED_CAT = null;
 

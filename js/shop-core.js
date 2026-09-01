@@ -617,7 +617,7 @@ function scAllShops(){
   );
 }
 function scFindBySlug(slug){ return scAllShops().find(e=>e.shop.slug===slug) || null; }
-function scShopHref(shop){ return 'shop/'+(shop.slug||'')+'.html'; }
+function scShopHref(shop){ return 'shop/'+(shop.slug||''); }   // adresse courte, cf. MAP.md §9
 // Image de la carte : `img/shops/<slug>.webp`. Absente, la mosaïque de secours prend le relais
 // (voir scThumbHtml) — aucune image à produire pour que la page soit présentable.
 function scShopImgSrc(shop){ return 'img/shops/'+(shop.img||shop.slug||'')+'.webp'; }

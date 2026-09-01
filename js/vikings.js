@@ -468,8 +468,8 @@ function vkInitHelp() {
             ]
         },
         links: [
-            { label: { FR: '🐻 Piège à Ours', EN: '🐻 Bear Trap' }, href: 'beartrap_calc.html' },
-            { label: { FR: '🛡️ Ma Caserne', EN: '🛡️ My Barracks' }, href: 'caserne.html' }
+            { label: { FR: '🐻 Piège à Ours', EN: '🐻 Bear Trap' }, href: 'beartrap_calc' },
+            { label: { FR: '🛡️ Ma Caserne', EN: '🛡️ My Barracks' }, href: 'caserne' }
         ]
     });
 }
