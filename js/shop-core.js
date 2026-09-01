@@ -528,8 +528,16 @@ function scStartCountdowns(){
 }
 
 // ---------- chargement ----------
+// Les 5 fichiers de données sont servis par GitHub Pages avec un cache de 10 minutes.
+// Le HTML d'une boutique NEUVE n'est jamais en cache, lui : un visiteur revenu dans la
+// fenêtre récupérait donc la page neuve avec l'ancienne liste de boutiques, et lisait
+// « Shop introuvable » sur une page pourtant en ligne. `cache:'no-cache'` ne désactive pas
+// le cache, il force sa REVALIDATION : le serveur répond 304 (quelques octets) tant que le
+// fichier n'a pas bougé, et le nouveau contenu arrive dès qu'il bouge.
+function scFetchData(file){ return fetch(file, { cache: 'no-cache' }); }
+
 async function scLoadItems(){
-  try{ SC_DEFAULTS = await (await fetch('data/shopcalc_items.json')).json(); }catch(e){ console.error('items',e); SC_DEFAULTS=[]; }
+  try{ SC_DEFAULTS = await (await scFetchData('data/shopcalc_items.json')).json(); }catch(e){ console.error('items',e); SC_DEFAULTS=[]; }
   const saved = safeParse(STORAGE_KEYS.shopcalcItems,null);
   // Le FICHIER est la liste de référence (même logique que les boutiques d'événement) : un objet
   // ajouté au JSON apparaît toujours ; seule la valeur en gemmes éditée est réappliquée par id.
@@ -544,13 +552,13 @@ function scSaveItems(){ localStorage.setItem(STORAGE_KEYS.shopcalcItems, JSON.st
 async function scLoadClassic(){
   // Classique = boutiques admin en LECTURE SEULE : toujours chargées depuis le fichier,
   // sans localStorage (seules les valeurs en gemmes du référentiel l'impactent).
-  try{ SC_CLASSIC = await (await fetch('data/shopcalc_classic.json')).json(); }catch(e){ console.error('classic',e); SC_CLASSIC=[]; }
+  try{ SC_CLASSIC = await (await scFetchData('data/shopcalc_classic.json')).json(); }catch(e){ console.error('classic',e); SC_CLASSIC=[]; }
 }
 
 // Boutiques d'événement : admin-sourcées (data/shopcalc_events.json).
 // L'utilisateur ne crée pas de boutique ; il édite seulement le contenu (qté, coût, ajout, retrait).
 async function scLoadEvents(){
-  try{ SC_EVENTS_DEF = await (await fetch('data/shopcalc_events.json')).json(); }catch(e){ console.error('events',e); SC_EVENTS_DEF=[]; }
+  try{ SC_EVENTS_DEF = await (await scFetchData('data/shopcalc_events.json')).json(); }catch(e){ console.error('events',e); SC_EVENTS_DEF=[]; }
   const saved = safeParse(STORAGE_KEYS.shopcalcEvents,null);
   // Le FICHIER est la liste de référence : on réapplique les éditions user par id,
   // et on ignore les boutiques absentes du fichier (anciennes boutiques de test = fantômes).
@@ -584,7 +592,7 @@ function scSaveEvents(){ localStorage.setItem(STORAGE_KEYS.shopcalcEvents, JSON.
 // Aucun localStorage : la donnée est régénérable d'un bloc depuis le relevé interne.
 async function scLoadEuro(){
   try{
-    const d=await (await fetch('data/shopcalc_euro.json')).json();
+    const d=await (await scFetchData('data/shopcalc_euro.json')).json();
     SC_EURO=(d&&d.items)||{}; SC_EURO_META=(d&&d._meta)||{}; SC_EURO_PACKS=(d&&d.packs)||{};
     SC_EURO_DERIVED=(d&&d.derived)||{};
     SC_EURO_SPEEDUPS=(d&&d.speedups)||{}; SC_EURO_WEIGHTS=(d&&Array.isArray(d.weights)?d.weights:[]);
@@ -594,7 +602,7 @@ async function scLoadEuro(){
 }
 
 async function scLoadChests(){
-  try{ SC_CHESTS = await (await fetch('data/shopcalc_chests.json')).json(); }
+  try{ SC_CHESTS = await (await scFetchData('data/shopcalc_chests.json')).json(); }
   catch(e){ console.error('chests',e); SC_CHESTS=[]; }
 }
 async function scLoadAll(){ await scLoadItems(); await scLoadClassic(); await scLoadEvents(); await scLoadChests(); await scLoadEuro(); }
