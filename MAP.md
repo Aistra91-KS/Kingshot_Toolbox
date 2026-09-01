@@ -35,9 +35,9 @@ Kingshot_Toolbox/
 ├── 404.html                      Page introuvable : autonome (styles inline, liens en `/` absolu — servie par Pages à n'importe quelle profondeur), `noindex`, jamais dans le sitemap
 │
 ├── favicon.ico                   Icône multi-tailles (16/32/48) à la racine — convention attendue par les robots qui ne lisent pas le HTML ; jamais dans le sitemap
-├── sitemap.xml                   Plan du site : 1 ligne `<url><loc>` par page publiée (63 URLs) — soumis à Google Search Console
+├── sitemap.xml                   Plan du site : 1 ligne `<url><loc>` par page publiée (68 URLs, dont les DEUX adresses du Magasin du Théâtre — chaque langue est une page à indexer) — soumis à Google Search Console
 ├── robots.txt                    Ouvre tout aux robots et déclare l'URL du sitemap (portée réelle : cf. §9)
-├── llms.txt                      Sommaire du site pour les robots d'IA (format llmstxt.org) : résumé, puis les pages classées par section. Ni page ni sitemap — un fichier texte à tenir à jour quand une page est ajoutée ou retirée
+├── llms.txt                      Sommaire du site pour les robots d'IA (format llmstxt.org) : résumé, puis les pages classées par section. Ni page ni sitemap — un fichier texte à tenir à jour quand une page est ajoutée ou retirée (la jumelle `/fr/` y est citée à côté de son anglaise)
 ├── google55512fe842dbeeaf.html   Jeton de vérification Google Search Console — ne pas supprimer, ne pas ajouter au sitemap
 │
 ├── fr/                           **Pilote « une URL par langue »** (cf. §4) : pages servies en français en dur, hors du modèle EN + bascule JS du reste du site
