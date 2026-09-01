@@ -32,6 +32,8 @@ const i18nShopEvent = {
     evPack: "Pack", evPrice: "Prix", evDay: "J",
     evPerDay: "max {n}/jour", evOnce: "achat unique", evMaxTotal: "{n} pour l'événement",
     evPurchaseChk: "Mission « {m} » validée ?",
+    evExploreTiers: "{n} palier(s) sur {t}",
+    evExploreTip: "Le nombre d'Amulettes que tu as DÉPENSÉES depuis le début de l'événement — c'est lui qui débloque les paliers, pas le nombre d'amulettes en poche. Les paliers se cumulent : tout ce qui est en dessous de ton total est déjà acquis.",
     evOutside: "Jours d'achat ailleurs",
     evOutsideTip: "Cette mission est QUOTIDIENNE : elle demande un achat chaque jour. Indique ici le nombre de jours où tu as acheté un pack AILLEURS dans le jeu (un autre événement) — ils s'ajoutent aux jours cochés dans la grille.",
     evPurchaseChkTip: "Coche si tu as validé cette mission, y compris avec un achat fait AILLEURS dans le jeu : n'importe quel achat la valide, et plusieurs événements tournent en même temps. Inutile si tu as déjà coché un achat dans la grille.",
@@ -45,6 +47,7 @@ const i18nShopEvent = {
     evSrcMissions: "Missions", evSrcDouble: "Doublement", evSrcFree: "Pack gratuit",
     evSrcSeason: "Saisonnières", evSeasonNote: "Les missions saisonnières ne se réclament qu'une fois pour tout l'événement ; celles qui exigent un nombre de jours ou un achat n'entrent au calcul qu'une fois la condition remplie.",
     evSrcWaypost: "Visiteur de Passage", evSrcTravel: "Piste voyage", evSrcMilestones: "Paliers",
+    evSrcExplore: "Paliers d'exploration",
     evSrcMore: "+{n}",
     evTotalRow: "Total des gains",
     evTotalCount: "{n} objets comptés sur {t}",
@@ -79,6 +82,8 @@ const i18nShopEvent = {
     evPack: "Pack", evPrice: "Price", evDay: "D",
     evPerDay: "max {n}/day", evOnce: "single purchase", evMaxTotal: "{n} for the whole event",
     evPurchaseChk: "\u201C{m}\u201D mission done?",
+    evExploreTiers: "{n} of {t} milestones",
+    evExploreTip: "How many Amulets you have SPENT since the event started - that is what unlocks the milestones, not how many you are holding. Milestones stack: everything below your total is already yours.",
     evOutside: "Days bought elsewhere",
     evOutsideTip: "This mission is DAILY: it needs a purchase every day. Enter how many days you bought a pack SOMEWHERE ELSE in the game (another event) - they add to the days ticked in the grid.",
     evPurchaseChkTip: "Tick this if you cleared that mission, including with a purchase made SOMEWHERE ELSE in the game: any purchase clears it, and several events run at once. Not needed if you already ticked a purchase in the grid.",
@@ -92,6 +97,7 @@ const i18nShopEvent = {
     evSrcMissions: "Missions", evSrcDouble: "Doubled", evSrcFree: "Free pack",
     evSrcSeason: "Seasonal", evSeasonNote: "Seasonal missions are claimed once for the whole event; those needing a number of days or a purchase only count once the condition is met.",
     evSrcWaypost: "Waypost", evSrcTravel: "Travel track", evSrcMilestones: "Milestones",
+    evSrcExplore: "Exploration track",
     evSrcMore: "+{n}",
     evTotalRow: "Rewards total",
     evTotalCount: "{n} of {t} items counted",
@@ -306,6 +312,18 @@ function seCompute(){
     seAdd(tot, tv.reward, tvTiers, null, seT('evSrcTravel'));
   }
 
+  // Paliers d'exploration : une piste de récompenses en OBJETS, débloquée par les
+  // Amulettes DÉPENSÉES — un nombre que le joueur saisit, et non un total calculé à
+  // partir de ses achats. C'est voulu : l'amulette ne se dépense pas en boutique, elle
+  // alimente un tirage aléatoire, et rien dans le plan ne permet de deviner combien le
+  // joueur en a réellement grillé. Les paliers se CUMULENT : tout palier sous le total
+  // saisi est acquis, il n'y en a pas qu'un seul d'actif.
+  const explore = Math.max(0, Number(SE_PLAN.explore)||0);
+  let expTiers = 0;
+  (SE_DATA.explorationMilestones||[]).forEach(m=>{
+    if(explore >= (Number(m.points)||0)){ seAdd(tot, m.reward, 1, null, seT('evSrcExplore')); expTiers++; }
+  });
+
   // Valorisation des objets (référentiel gemmes + relevé €). Un objet marqué
   // eurExclude garde sa valeur gemmes mais sort du total € (relevé non représentatif).
   // `excluded` = les objets que le joueur a DÉCOCHÉS dans le détail : ils restent
@@ -349,6 +367,7 @@ function seCompute(){
   const pct = spend > 0 ? (valueEur / spend * 100) : null;
 
   return { days, played, purchaseDays, purchaseOk, outsideBuys, dailyBuy, spend, buysTotal, tvTiers, curSrc: tot.cur,
+           explore, expTiers, expTotal: (SE_DATA.explorationMilestones||[]).length,
            gemRewards: gemItems, eurRewards: eurItems, itemsOn, itemsAll,
            coins, msCoins, msReached, stall: tot.stall, travel: tot.travel,
            rows, extras, covered, totalRows, cart, valueEur, valueGem, pct };
@@ -381,6 +400,23 @@ function seFmtMoney(v){
 }
 
 // ---------- rendu ----------
+// Tous les événements ne versent pas la monnaie de leur boutique. Au Théâtre
+// Fantastique, les packs donnent des Amulettes, qui alimentent un TIRAGE ALÉATOIRE dont
+// sortent les Jetons Fantaisie : l'outil ne peut pas prédire combien. Afficher « 0 jeton
+// attendu » laisserait croire que l'événement n'en rapporte aucun. La tuile ne s'affiche
+// donc que si une source du fichier verse réellement des pièces.
+function seHasCoins(){
+  const bags = [SE_DATA.freeDailyPack, SE_DATA.waypost]
+    .concat(SE_DATA.missions||[], SE_DATA.seasonalMissions||[], SE_DATA.stallMilestones||[]);
+  (SE_DATA.packs||[]).forEach(p=>{ bags.push(p.reward, p.immediate, p.daily); });
+  // Les pistes versent leurs pièces via `reward` : les oublier masquerait la tuile — et
+  // avec elle le bouton « Utiliser comme budget », son seul point d'entrée — sur un
+  // événement dont les pièces ne viendraient QUE d'une piste.
+  if(SE_DATA.travelMilestones) bags.push(SE_DATA.travelMilestones.reward);
+  (SE_DATA.explorationMilestones||[]).forEach(m=> bags.push(m.reward));
+  return bags.some(b => b && (Number(b.coins)||0) > 0);
+}
+
 function seKpisHtml(c){
   const buysTxt = c.buysTotal>0
     ? `${c.buysTotal} ${seT(c.buysTotal>1?'evBuys':'evBuy')}`
@@ -416,7 +452,7 @@ function seKpisHtml(c){
         <span class="sx-kpi-sub">💎 ${seNum(c.valueGem)} · ${spCoverTxt(c.covered + (c.cart?c.cart.takeCovered:0), c.totalRows + (c.cart?c.cart.takeTotal:0))}</span>
       </div>
       ${ratioTile}
-      <div class="sx-kpi">
+      ${!seHasCoins() ? '' : `<div class="sx-kpi">
         <span class="sx-kpi-lbl">${seT('evCoins')}</span>
         <span class="sx-kpi-val">${seNum(c.coins)}</span>
         <span class="sx-kpi-sub">${SE_DATA.stallMilestones
@@ -424,7 +460,7 @@ function seKpisHtml(c){
           : scEscAttr(scResName(spShop(), scLang()))}</span>
         <button type="button" class="sx-btn sxe-budget${budgetSet?' ok':''}" ${budgetSet?'disabled':''}
           title="${scEscAttr(seT('evBudgetTip'))}" onclick="seApplyBudget()">${budgetSet?'✓ '+seT('evBudgetOk'):seT('evUseBudget')}</button>
-      </div>
+      </div>`}
     </div>`;
 }
 
@@ -512,9 +548,11 @@ function seDetailHtml(c){
   // l'événement. Les monnaies secondaires ne sont affichées que si l'événement les
   // utilise — la Caravane du Dragon n'a ni points de vente ni piste de voyage, ses
   // lignes ne doivent pas apparaître à zéro.
-  const cur = [
+  // Même règle que la tuile : sans source de pièces dans le fichier, la ligne afficherait
+  // « Jeton Fantaisie · 0 » — le zéro trompeur que seHasCoins() sert justement à écarter.
+  const cur = (seHasCoins() ? [
     { n: scResName(spShop(), scLang()), q: c.coins, src: seSrcList(c.curSrc.coins), sub: seT('evCoinsRowSub') }
-  ].concat((SE_DATA.stallMilestones || c.stall > 0) ? [
+  ] : []).concat((SE_DATA.stallMilestones || c.stall > 0) ? [
     { n: seCurName('stallName','evStallRow'), q: c.stall, src: seSrcList(c.curSrc.stall),
       sub: SE_DATA.stallMilestones ? seTf('evStallRowSub',{r:c.msReached, n:seNum(c.msCoins)}) : '' }
   ] : []).concat(SE_DATA.travelMilestones ? [
@@ -603,6 +641,17 @@ function seRender(){
           <span class="sx-fact">${seT('evPlayed')} :
             <span class="sx-take on"><button type="button" data-se="pl:-" onclick="sePlayedStep(-1)" ${c.played<=0?'disabled':''} aria-label="−">−</button><input type="text" inputmode="numeric" value="${c.played}" data-se="pl:i" onchange="seSetPlayed(this.value)" aria-label="${scEscAttr(seT('evPlayed'))}"><button type="button" data-se="pl:+" onclick="sePlayedStep(1)" ${c.played>=days?'disabled':''} aria-label="+">+</button></span>
             / ${days}</span>
+          ${(()=>{ if(!c.expTotal) return '';
+            // Saisie libre (pas de compteur +/- : on parle de milliers d'amulettes).
+            // Le compte des paliers atteints est affiché à côté, sinon le joueur ne
+            // sait pas ce que son chiffre a débloqué.
+            const nm = SE_DATA._meta.exploreName;
+            const lbl = nm ? (nm[scLang()]||nm.EN||nm.FR) : seT('evSrcExplore');
+            return `<span class="sx-fact">${scEscAttr(lbl)}${seTip('evExploreTip')} :
+              <span class="sx-take sxe-explore${c.explore>0?' on':''}"><input type="text" inputmode="numeric"
+                value="${c.explore||''}" placeholder="0" data-se="ex:i"
+                onchange="seSetExplore(this.value)" aria-label="${scEscAttr(lbl)}"></span>
+              <span class="sx-sub">${seTf('evExploreTiers',{n:c.expTiers, t:c.expTotal})}</span></span>`; })()}
           ${(()=>{ const pm = sePurchaseMission(); if(!pm) return '';
             // Quotidienne : un compteur de jours. Saisonnière : une case.
             if(c.dailyBuy) return `<span class="sx-fact">${seT('evOutside')}${seTip('evOutsideTip')} :
@@ -619,7 +668,8 @@ function seRender(){
         ${(SE_DATA.seasonalMissions||[]).length ? `<p class="sxe-note">${seT('evSeasonNote')}</p>` : ''}
         ${seDetailHtml(c)}
       </details>
-      <p class="sxe-note">${cartNote}<br>${seTf('evSrcNote',{tier: scEscAttr(SE_DATA._meta.tier||'')})}</p>
+      <p class="sxe-note">${(()=>{ const n=SE_DATA._meta.currencyNote;
+          return n ? scEscAttr(n[scLang()]||n.EN||n.FR)+'<br>' : ''; })()}${cartNote}<br>${seTf('evSrcNote',{tier: scEscAttr(SE_DATA._meta.tier||'')})}</p>
     </div>`;
 
   if(focusKey){
@@ -648,6 +698,15 @@ window.seToggle = function(packId, day){
 };
 window.sePlayedStep = function(d){
   SE_PLAN.played = Math.max(0, Math.min(seDays(), (Number(SE_PLAN.played)||0) + d));
+  seSave(); seAfter();
+};
+// NB : `seF2P()` ne remet PAS ce compteur à zéro, et c'est voulu. Les Amulettes
+// s'obtiennent surtout gratuitement (événement « Theater Notes ») : un joueur sans
+// aucun achat en dépense quand même, et ses paliers lui sont bien acquis. Le bouton
+// « Je suis F2P » vide la grille des ACHATS, pas ce que le joueur a gagné sans payer.
+window.seSetExplore = function(v){
+  const n = parseInt(String(v).replace(/\D/g,''), 10);
+  SE_PLAN.explore = Math.max(0, isNaN(n)?0:n);
   seSave(); seAfter();
 };
 window.seSetPlayed = function(v){
@@ -745,8 +804,9 @@ window.ShopEvent = { refresh: seAfter };
         open: saved.open!==false, excluded: saved.excluded||{},
         // Deux réglages distincts, selon la nature de la mission d'achat (cf. seHasDailyPurchase).
         purchaseOk: (saved.purchaseOk!=null) ? !!saved.purchaseOk : ((Number(saved.outsideBuys)||0) > 0),
-        outsideBuys: Number(saved.outsideBuys)||0 }
-    : { played: seDays(), buys: {}, open: true, excluded: {}, purchaseOk: false, outsideBuys: 0 };
+        outsideBuys: Number(saved.outsideBuys)||0,
+        explore: Number(saved.explore)||0 }
+    : { played: seDays(), buys: {}, open: true, excluded: {}, purchaseOk: false, outsideBuys: 0, explore: 0 };
 
   seRender();
   window.addEventListener('langChanged', seRender);

@@ -1,0 +1,439 @@
+{
+  "_meta": {
+    "event": "Theater_Shop",
+    "slug": "theater-shop",
+    "days": 6,
+    "tier": "Gen 7 / TG5+",
+    "updatedAt": "2026-09-01",
+    "source": "Relevé in-game de Paul (captures du 1er septembre 2026)",
+    "exploreName": {
+      "EN": "Fantasy Amulets spent",
+      "FR": "Amulettes Fantaisie dépensées"
+    },
+    "currencyNote": {
+      "EN": "The packs give Fantasy Amulets, not Fantasy Tokens: the Amulets feed a random draw, and the shop currency comes out of that. How much is down to luck, so the tool does not guess it - fill in your own token balance in the shop table above.",
+      "FR": "Les packs donnent des Amulettes Fantaisie, pas des Jetons Fantaisie : les Amulettes alimentent un tirage aléatoire, et c'est de là que sort la monnaie de la boutique. Le montant dépend du hasard, l'outil ne le devine donc pas — renseigne toi-même ton solde de jetons dans le tableau de la boutique ci-dessus."
+    },
+    "note": "Chaque pack contient AUSSI un petit coffre x1 (cadeau d'alliance) : volontairement absent du fichier, il ne se comptabilise jamais. Les Amulettes Fantaisie sont listées mais jamais chiffrées : elles ne sont pas la monnaie de la boutique, elles alimentent un tirage aléatoire qui rapporte des Jetons Fantaisie. Prix € relevés à l'écran ; les prix $ sont les paliers de magasin correspondants."
+  },
+  "packs": [
+    {
+      "id": "common",
+      "name": {
+        "EN": "Common Fantasy Theater Pack",
+        "FR": "Pack Théâtre Fantastique Commun"
+      },
+      "priceEur": 5.99,
+      "priceUsd": 4.99,
+      "perDay": 1,
+      "short": {
+        "EN": "Common",
+        "FR": "Commun"
+      },
+      "reward": {
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 2500
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 25
+          },
+          {
+            "itemId": "lv1_custom_resource_chest",
+            "qty": 200
+          },
+          {
+            "label": {
+              "EN": "Fantasy Amulet",
+              "FR": "Amulette Fantaisie"
+            },
+            "qty": 60
+          }
+        ]
+      }
+    },
+    {
+      "id": "uncommon",
+      "name": {
+        "EN": "Uncommon Fantasy Theater Pack",
+        "FR": "Pack Théâtre Fantastique Peu Commun"
+      },
+      "priceEur": 11.99,
+      "priceUsd": 9.99,
+      "perDay": 1,
+      "short": {
+        "EN": "Uncommon",
+        "FR": "Peu commun"
+      },
+      "reward": {
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 5000
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 40
+          },
+          {
+            "itemId": "lv1_custom_resource_chest",
+            "qty": 400
+          },
+          {
+            "label": {
+              "EN": "Fantasy Amulet",
+              "FR": "Amulette Fantaisie"
+            },
+            "qty": 120
+          }
+        ]
+      }
+    },
+    {
+      "id": "rare",
+      "name": {
+        "EN": "Rare Fantasy Theater Pack",
+        "FR": "Pack Théâtre Fantastique Rare"
+      },
+      "priceEur": 23.99,
+      "priceUsd": 19.99,
+      "perDay": 1,
+      "short": {
+        "EN": "Rare",
+        "FR": "Rare"
+      },
+      "reward": {
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 10000
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 60
+          },
+          {
+            "itemId": "lv1_custom_resource_chest",
+            "qty": 800
+          },
+          {
+            "label": {
+              "EN": "Fantasy Amulet",
+              "FR": "Amulette Fantaisie"
+            },
+            "qty": 240
+          }
+        ]
+      }
+    },
+    {
+      "id": "epic",
+      "name": {
+        "EN": "Epic Fantasy Theater Pack",
+        "FR": "Pack Théâtre Fantastique Épique"
+      },
+      "priceEur": 59.99,
+      "priceUsd": 49.99,
+      "perDay": 1,
+      "short": {
+        "EN": "Epic",
+        "FR": "Épique"
+      },
+      "reward": {
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 25000
+          },
+          {
+            "itemId": "1000_exp_vip",
+            "qty": 12
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 200
+          },
+          {
+            "label": {
+              "EN": "Fantasy Amulet",
+              "FR": "Amulette Fantaisie"
+            },
+            "qty": 550
+          }
+        ]
+      }
+    },
+    {
+      "id": "mythic",
+      "name": {
+        "EN": "Mythic Fantasy Theater Pack",
+        "FR": "Pack Théâtre Fantastique Mythique"
+      },
+      "priceEur": 119.99,
+      "priceUsd": 99.99,
+      "perDay": 1,
+      "short": {
+        "EN": "Mythic",
+        "FR": "Mythique"
+      },
+      "reward": {
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 50000
+          },
+          {
+            "itemId": "1000_exp_vip",
+            "qty": 20
+          },
+          {
+            "itemId": "lv2_custom_resource_chest",
+            "qty": 400
+          },
+          {
+            "label": {
+              "EN": "Fantasy Amulet",
+              "FR": "Amulette Fantaisie"
+            },
+            "qty": 1000
+          }
+        ]
+      }
+    }
+  ],
+  "explorationMilestones": [
+    {
+      "points": 100,
+      "reward": {
+        "items": [
+          {
+            "itemId": "1h_general_speedup",
+            "qty": 20
+          }
+        ]
+      }
+    },
+    {
+      "points": 200,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_gear_material_chest",
+            "qty": 16
+          }
+        ]
+      }
+    },
+    {
+      "points": 500,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_charm_material_chest",
+            "qty": 35
+          }
+        ]
+      }
+    },
+    {
+      "points": 800,
+      "reward": {
+        "items": [
+          {
+            "itemId": "1h_general_speedup",
+            "qty": 60
+          }
+        ]
+      }
+    },
+    {
+      "points": 1100,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_gear_material_chest",
+            "qty": 45
+          }
+        ]
+      }
+    },
+    {
+      "points": 1400,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_charm_material_chest",
+            "qty": 30
+          }
+        ]
+      }
+    },
+    {
+      "points": 1700,
+      "reward": {
+        "items": [
+          {
+            "itemId": "1h_general_speedup",
+            "qty": 60
+          }
+        ]
+      }
+    },
+    {
+      "points": 2000,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_gear_material_chest",
+            "qty": 45
+          }
+        ]
+      }
+    },
+    {
+      "points": 2300,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_charm_material_chest",
+            "qty": 30
+          }
+        ]
+      }
+    },
+    {
+      "points": 2600,
+      "reward": {
+        "items": [
+          {
+            "itemId": "1h_general_speedup",
+            "qty": 60
+          }
+        ]
+      }
+    },
+    {
+      "points": 2900,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_gear_material_chest",
+            "qty": 45
+          }
+        ]
+      }
+    },
+    {
+      "points": 3200,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_charm_material_chest",
+            "qty": 30
+          }
+        ]
+      }
+    },
+    {
+      "points": 3500,
+      "reward": {
+        "items": [
+          {
+            "itemId": "1h_general_speedup",
+            "qty": 60
+          }
+        ]
+      }
+    },
+    {
+      "points": 3800,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_gear_material_chest",
+            "qty": 45
+          }
+        ]
+      }
+    },
+    {
+      "points": 4100,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_charm_material_chest",
+            "qty": 30
+          }
+        ]
+      }
+    },
+    {
+      "points": 4400,
+      "reward": {
+        "items": [
+          {
+            "itemId": "1h_general_speedup",
+            "qty": 60
+          }
+        ]
+      }
+    },
+    {
+      "points": 4700,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_gear_material_chest",
+            "qty": 45
+          }
+        ]
+      }
+    },
+    {
+      "points": 5000,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_charm_material_chest",
+            "qty": 30
+          }
+        ]
+      }
+    },
+    {
+      "points": 5300,
+      "reward": {
+        "items": [
+          {
+            "itemId": "1h_general_speedup",
+            "qty": 60
+          }
+        ]
+      }
+    },
+    {
+      "points": 5600,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_gear_material_chest",
+            "qty": 45
+          }
+        ]
+      }
+    },
+    {
+      "points": 5900,
+      "reward": {
+        "items": [
+          {
+            "itemId": "governor_charm_material_chest",
+            "qty": 30
+          }
+        ]
+      }
+    }
+  ]
+}

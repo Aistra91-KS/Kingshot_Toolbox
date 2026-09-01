@@ -362,6 +362,14 @@
         "FR": "Une caisse de niveau 3 vaut cent caisses de niveau 1.",
         "EN": "A level 3 chest is worth a hundred level 1 chests."
       }
+    },
+    "1000_exp_vip": {
+      "fromId": "100_exp_vip",
+      "factor": 10,
+      "how": {
+        "FR": "1 000 points d'EXP VIP, c'est exactement dix fois 100 points : le rapport n'a rien d'une estimation. Le relevé ne chiffre que le lot de 100, celui de 1 000 s'en déduit — sans quoi les packs qui donnent le gros lot resteraient sans prix réel. Le référentiel gemmes applique déjà ce même ×10 (200 → 2 000).",
+        "EN": "1,000 VIP EXP is exactly ten times 100 VIP EXP: the ratio is arithmetic, not a guess. The survey only prices the 100 bundle, so the 1,000 one follows from it - otherwise the packs handing out the big bundle would have no real-money price at all. The gem reference already applies the same x10 (200 -> 2,000)."
+      }
     }
   },
   "speedups": {
