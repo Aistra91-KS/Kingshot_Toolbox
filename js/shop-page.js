@@ -198,13 +198,22 @@ function spRenderPodium(){
       <span class="sx-pod-rank">${i+1}</span>
       <span class="sx-pod-img" style="background-image:url('img/Item/${r.img}.webp');"></span>
       <span class="sx-pod-txt">
-        <span class="sx-pod-name">${scEscAttr(r.nameTxt)}</span>
+        <span class="sx-pod-name">${scEscAttr(r.nameTxt)}${spTierHtml(r.tier)}</span>
         <span class="sx-pod-val">${ chest
           ? (eur ? `<b>${scFmtEur(r.eur)}</b>` : `💎 <b>${r.gem.toLocaleString()}</b>`)
           : (eur ? `<b>${scFmtRatio(r.ratioEur)}</b> · ${scFmtEur(r.eur)}`
                  : `<b>×${r.ratio.toFixed(2)}</b> · 💎 ${r.gem.toLocaleString()}`) }</span>
       </span>
     </div>`).join('');
+}
+
+// Pastille de palier. Le NUMÉRO est écrit DANS la pastille : la couleur seule ne doit
+// jamais porter l'information (un joueur daltonien doit lire le palier aussi vite que
+// les autres). L'en-tête de colonne dit « Palier », donc le chiffre nu suffit à la lecture.
+function spTierHtml(t){
+  if(!t) return '';
+  const lbl=scT('tierOf').replace('{n}',t);
+  return `<span class="sx-tier t${t}" title="${scEscAttr(lbl)}"><i aria-hidden="true"></i>${t}</span>`;
 }
 
 // ---------- tableau ----------
@@ -275,10 +284,13 @@ function spRenderTable(){
   const edit = SP_EDIT;
   const shopping = spIsEvent() && !edit;   // colonnes du panier
   const stock    = spIsEvent();            // colonnes de stock (dispo / restant)
+  // Colonne « Palier » seulement si la boutique en a : les autres gardent leur tableau tel quel.
+  const tiered   = rows.some(r=>r.tier>0);
 
   const heads = `<tr>
       <th class="c-img"></th>
       ${spTh('name',scT('hItem'),'','srt')}
+      ${tiered ? spTh('tier',scT('hTier')+scTip('tipTier'),'ctr','srt') : ''}
       ${spTh('qty',scT('hQty'),'ctr','srt')}
       ${spTh('cost',scT('hCost'),'rgt','srt')}
       ${eurV ? spTh('eur',scTc('hEur')+scTip('tipEur'),'rgt','srt')
@@ -350,6 +362,7 @@ function spRenderTable(){
     return `<tr class="${isTopV?'is-top':''}${r.take>0?' in-cart':''}" style="--cat:${scCatColor(r.cat)};">
       <td class="c-img"><span class="sx-ico" style="background-image:url('img/Item/${r.img}.webp');"></span></td>
       <td class="c-name">${scEscAttr(r.nameTxt)}${isTopV?`<span class="sx-tag">${scT('best')}</span>`:''}</td>
+      ${tiered?`<td class="ctr c-tier">${spTierHtml(r.tier)}</td>`:''}
       ${qtyCell}
       ${costCell}
       ${valCell}

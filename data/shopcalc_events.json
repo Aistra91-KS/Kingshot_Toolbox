@@ -1,5 +1,216 @@
 [
   {
+    "id": "Theater_Shop",
+    "slug": "theater-shop",
+    "name": {
+      "EN": "Theater Shop",
+      "FR": "Magasin du Théâtre"
+    },
+    "endsAt": "2026-09-08T00:00:00Z",
+    "resourceName": {
+      "EN": "Fantasy Token",
+      "FR": "Jeton Fantaisie"
+    },
+    "items": [
+      {
+        "itemId": "truegold",
+        "qty": 36,
+        "cost": 200,
+        "qtyMax": 10,
+        "tier": 1
+      },
+      {
+        "itemId": "mithril",
+        "qty": 1,
+        "cost": 500,
+        "qtyMax": 4,
+        "tier": 1
+      },
+      {
+        "itemId": "custom_mythic_hero_gear_chest",
+        "qty": 1,
+        "cost": 1000,
+        "qtyMax": 2,
+        "tier": 1
+      },
+      {
+        "itemId": "pet_advancement_materials_custom_chest",
+        "qty": 7,
+        "cost": 200,
+        "qtyMax": 10,
+        "tier": 1
+      },
+      {
+        "itemId": "advanced_taming_mark",
+        "qty": 1,
+        "cost": 80,
+        "qtyMax": 25,
+        "tier": 1
+      },
+      {
+        "itemId": "common_taming_mark",
+        "qty": 1,
+        "cost": 10,
+        "qtyMax": 200,
+        "tier": 1
+      },
+      {
+        "itemId": "100_enhancement_xp_component",
+        "qty": 26,
+        "cost": 200,
+        "qtyMax": 10,
+        "tier": 1
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 30,
+        "cost": 200,
+        "qtyMax": 10,
+        "tier": 1
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 36,
+        "cost": 200,
+        "qtyMax": 10,
+        "tier": 1
+      },
+      {
+        "itemId": "truegold",
+        "qty": 36,
+        "cost": 300,
+        "qtyMax": 25,
+        "tier": 2
+      },
+      {
+        "itemId": "mithril",
+        "qty": 1,
+        "cost": 750,
+        "qtyMax": 10,
+        "tier": 2
+      },
+      {
+        "itemId": "custom_mythic_hero_gear_chest",
+        "qty": 1,
+        "cost": 1500,
+        "qtyMax": 5,
+        "tier": 2
+      },
+      {
+        "itemId": "pet_advancement_materials_custom_chest",
+        "qty": 7,
+        "cost": 300,
+        "qtyMax": 25,
+        "tier": 2
+      },
+      {
+        "itemId": "advanced_taming_mark",
+        "qty": 1,
+        "cost": 120,
+        "qtyMax": 60,
+        "tier": 2
+      },
+      {
+        "itemId": "common_taming_mark",
+        "qty": 1,
+        "cost": 15,
+        "qtyMax": 500,
+        "tier": 2
+      },
+      {
+        "itemId": "100_enhancement_xp_component",
+        "qty": 26,
+        "cost": 300,
+        "qtyMax": 25,
+        "tier": 2
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 30,
+        "cost": 300,
+        "qtyMax": 25,
+        "tier": 2
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 36,
+        "cost": 300,
+        "qtyMax": 25,
+        "tier": 2
+      },
+      {
+        "itemId": "truegold",
+        "qty": 36,
+        "cost": 360,
+        "qtyMax": 60,
+        "tier": 3
+      },
+      {
+        "itemId": "mithril",
+        "qty": 1,
+        "cost": 900,
+        "qtyMax": 20,
+        "tier": 3
+      },
+      {
+        "itemId": "custom_mythic_hero_gear_chest",
+        "qty": 1,
+        "cost": 1800,
+        "qtyMax": 10,
+        "tier": 3
+      },
+      {
+        "itemId": "pet_advancement_materials_custom_chest",
+        "qty": 7,
+        "cost": 360,
+        "qtyMax": 60,
+        "tier": 3
+      },
+      {
+        "itemId": "advanced_taming_mark",
+        "qty": 1,
+        "cost": 150,
+        "qtyMax": 140,
+        "tier": 3
+      },
+      {
+        "itemId": "common_taming_mark",
+        "qty": 1,
+        "cost": 18,
+        "qtyMax": 1100,
+        "tier": 3
+      },
+      {
+        "itemId": "100_enhancement_xp_component",
+        "qty": 26,
+        "cost": 360,
+        "qtyMax": 60,
+        "tier": 3
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 30,
+        "cost": 360,
+        "qtyMax": 60,
+        "tier": 3
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 36,
+        "cost": 360,
+        "qtyMax": 60,
+        "tier": 3
+      },
+      {
+        "itemId": "5m_general_speedup",
+        "qty": 9,
+        "cost": 10,
+        "qtyMax": 9999,
+        "tier": 3
+      }
+    ]
+  },
+  {
     "id": "Blizzard_Shop",
     "slug": "blizzard-shop",
     "name": {

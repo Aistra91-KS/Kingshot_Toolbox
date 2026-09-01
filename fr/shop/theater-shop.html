@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
+    try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-M1QG4XSD3K');
+    </script>
+    <!-- Page servie deux crans sous la racine (/fr/shop/) : tous les chemins du site
+         restent écrits comme ailleurs grâce à ce <base>. -->
+    <base href="../../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Magasin du Théâtre Kingshot - Prix par palier et valeur en gemmes | Kingshot Toolbox</title>
+    <meta name="description" content="Tout le contenu du Magasin du Théâtre de Kingshot, la boutique de l'événement Théâtre Fantastique : les mêmes objets vendus à trois prix croissants, avec le coût en Jetons Fantaisie, le stock et la valeur en gemmes de chaque palier.">
+    <link rel="canonical" href="https://kingshottoolbox.com/fr/shop/theater-shop.html">
+    <!-- Une URL par langue : cette page est la française, sa jumelle anglaise vit sous /shop/.
+         Les deux se citent mutuellement, et l'anglaise sert de défaut aux autres langues. -->
+    <link rel="alternate" hreflang="fr" href="https://kingshottoolbox.com/fr/shop/theater-shop.html">
+    <link rel="alternate" hreflang="en" href="https://kingshottoolbox.com/shop/theater-shop.html">
+    <link rel="alternate" hreflang="x-default" href="https://kingshottoolbox.com/shop/theater-shop.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kingshot Toolbox">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:title" content="Magasin du Théâtre Kingshot - Prix par palier et valeur en gemmes">
+    <meta property="og:description" content="Tout le contenu du Magasin du Théâtre de Kingshot, la boutique de l'événement Théâtre Fantastique : les mêmes objets vendus à trois prix croissants, avec le coût en Jetons Fantaisie, le stock et la valeur en gemmes de chaque palier.">
+    <meta property="og:url" content="https://kingshottoolbox.com/fr/shop/theater-shop.html">
+    <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Kingshot Toolbox - calculateurs, optimiseurs et bases de données gratuits pour Kingshot">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="img/logo/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo/favicon-96.png">
+    <link rel="alternate icon" type="image/png" href="img/logo/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/db.css">
+    <link rel="stylesheet" href="css/shop.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Boutiques","item":"https://kingshottoolbox.com/shop_calc.html"},{"@type":"ListItem","position":3,"name":"Magasin du Théâtre","item":"https://kingshottoolbox.com/fr/shop/theater-shop.html"}]}</script>
+</head>
+<body class="has-app-header">
+    <div class="db-page db-wide">
+        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="shop_calc.html" data-i18n="crumbShops">Boutiques</a> / <span>Magasin du Théâtre</span></div>
+
+        <div class="sx-hero">
+          <div class="sx-hero-thumb" id="sp-thumb"></div>
+          <div class="sx-hero-text">
+            <h1>Magasin du Théâtre</h1>
+            <div class="sx-facts" id="sp-facts"></div>
+          </div>
+        </div>
+        <p class="db-intro">Le contenu complet du Magasin du Théâtre de Kingshot — la boutique de l'événement Théâtre Fantastique — payée en Jetons Fantaisie. Cette boutique ne fonctionne pas comme les autres : elle propose les mêmes neuf offres trois fois, à trois prix croissants, plus un accélérateur qui n'apparaît que dans le palier le plus cher — 28 lignes en tout. Le palier 1 est le moins cher et le moins fourni ; une fois épuisé, le même objet coûte 50 % de plus, puis encore 20 % environ. Chaque ligne est confrontée à sa valeur de référence en gemmes, pour voir exactement ce que l'on perd en creusant les paliers les plus chers.</p>
+        <div id="sp-archive"></div>
+        <div class="sx-actions" id="sp-actions"></div>
+        <div id="sp-cart"></div>
+
+        <div class="db-section"><h2 data-i18n="bestDeals">Meilleures affaires</h2><div class="sx-podium" id="sp-podium"></div></div>
+        <div class="db-section"><h2 data-i18n="allItems">Tous les objets</h2><div id="sp-table"></div></div>
+        <!-- Les deux référentiels de valeurs, à portée de clic depuis la boutique qui s'en
+             sert : le joueur qui doute d'un chiffre du tableau voit d'où il vient sans
+             partir le chercher. Écrits en dur — le maillage doit exister sans JS (MAP.md §9).
+             Le [data-i18n] est sur le <span> du libellé, jamais sur le <a> : applyI18n écrit
+             un textContent, ce qui effacerait la pastille de l'icône. -->
+        <div class="sx-reflinks">
+          <p class="sx-reflinks-lead" data-i18n="refsLead">D'où viennent ces valeurs ?</p>
+          <div class="sx-reflinks-row">
+            <a class="sx-reflink" href="shop/items.html"><span class="sx-reflink-glyph" aria-hidden="true">&#128142;</span><span data-i18n="itemsRef">Valeur des objets</span></a>
+            <a class="sx-reflink is-eur" href="shop/items-euro.html"><span class="sx-reflink-glyph" aria-hidden="true">&euro;</span><span data-i18n="itemsEur">Prix réel des objets</span></a>
+          </div>
+        </div>
+        <nav class="db-switch footer" id="sp-switch" aria-label="Boutiques"></nav>
+    </div>
+
+    <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
+         etat ferme (position:fixed + translateX(100%) => hors ecran). Placee AVANT
+         les scripts : header.js la reutilise au lieu d en creer une seconde, puis
+         hdrBuildDrawer() en remplace le contenu par sa version complete. Le rendu
+         final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
+         n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
+    <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">Guide KVK</div><a href="research_calc.html" class="drawer-tool"><span>Recherches</span></a><a href="truegold_calc.html" class="drawer-tool"><span>Or Véritable</span></a><a href="waracademy.html" class="drawer-tool"><span>Académie de Guerre</span></a><div class="drawer-cat">Optimiseur d'événements</div><a href="beartrap_calc.html" class="drawer-tool"><span>Piège à Ours</span></a><a href="vikings.html" class="drawer-tool"><span>Vikings</span></a><a href="caserne.html" class="drawer-tool"><span>Héros</span></a><a href="masters.html" class="drawer-tool"><span>Experts</span><span class="hdr-badge">Beta</span></a><a href="pets.html" class="drawer-tool"><span>Familiers</span></a><div class="drawer-cat">Calcul Packs / Boutiques</div><a href="shop_calc.html" class="drawer-tool"><span>Valeur Boutique</span><span class="hdr-badge">Beta</span></a><div class="drawer-cat">Base de données</div><a href="database/buildings/index.html" class="drawer-tool"><span>Bâtiments</span></a><a href="database/waracademy/index.html" class="drawer-tool"><span>Recherches Académie</span></a><a href="database/masters/index.html" class="drawer-tool"><span>BDD Experts</span></a><a href="database/pets/index.html" class="drawer-tool"><span>BDD Familiers</span></a></nav></aside>
+
+    <script src="js/site-config.js"></script>
+    <script src="js/storage-keys.js"></script>
+    <script src="js/profiles.js"></script>
+    <script src="js/lang.js"></script>
+    <script>
+    /* ---- Page française : une URL = une langue ----
+       Le reste du site sert un HTML anglais que le JS traduit selon la préférence du
+       visiteur. Ici l'inverse : l'URL décide, pas la préférence. On épingle donc le
+       rendu en FR pour cette page seule, sans rien réécrire dans lang.js (60 autres
+       pages en dépendent).
+       - get() renvoie FR : header, footer, tableau et boutique s'affichent en français.
+       - set('EN') ne retraduit pas la page, il emmène vers la page jumelle anglaise —
+         c'est ce que doit faire le bouton de langue quand chaque langue a son adresse.
+       - la préférence globale n'est écrite que si le visiteur n'en avait aucune : arriver
+         par la porte française règle le site en français, mais un choix déjà fait est
+         respecté. */
+    (function(){
+      var EN = 'shop/theater-shop.html';
+      try{ if(!localStorage.getItem(GlobalLang.STORAGE_KEY)) localStorage.setItem(GlobalLang.STORAGE_KEY,'FR'); }catch(e){}
+      GlobalLang.get = function(){ return 'FR'; };
+      GlobalLang.set = function(lang){
+        if(lang === 'EN'){
+          // Enregistrer AVANT de partir : sans cela la page anglaise relit `hub_lang`,
+          // y trouve encore FR, et se retraduit en français — le bouton paraîtrait cassé.
+          try{ localStorage.setItem(GlobalLang.STORAGE_KEY,'EN'); }catch(e){}
+          location.href = EN; return;
+        }
+        try{ localStorage.setItem(GlobalLang.STORAGE_KEY,'FR'); }catch(e){}
+        window.dispatchEvent(new CustomEvent('langChanged', { detail:{ lang:'FR' } }));
+      };
+    })();
+    window.HDR_ACTIVE_HREF = 'shop_calc.html'; window.SHOP_SLUG = 'theater-shop';
+    </script>
+    <script src="js/header.js"></script>
+    <script src="js/help.js"></script>
+    <script src="js/shop-core.js"></script>
+    <script src="js/shop-page.js"></script>
+    <script src="js/backup.js"></script>
+    <script src="js/footer.js"></script>
+</body>
+</html>
