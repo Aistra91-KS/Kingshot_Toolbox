@@ -3,9 +3,9 @@
     "tier": "Gen 7 / TG5+",
     "packPrice": 6,
     "packPriceUsd": 5,
-    "updatedAt": "2026-08-31",
-    "source": "Relevé in-game des packs récurrents (disponibles au moins une fois par mois), hors packs d'événement ponctuels. Fourni et mis à jour périodiquement par Paul (fichier Pack_ks.xlsx).",
-    "note": "Seconde valorisation, en argent reel. La cle de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs atteignant la quantite MAXIMALE pour cet objet — soit le meilleur prix unitaire, puisque tous les packs coutent le meme prix. UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocke : il se recalcule a l'affichage. Fichier ADMIN en lecture seule, regenerable d'un bloc depuis le releve Excel. Les quantites du releve font foi, Y COMPRIS a la baisse. TROIS blocs corrigent ce que le releve seul dit mal, et se CONSERVENT lors d'une regeneration de `items` (ils ne viennent PAS de l'Excel) : `derived` {fromId, factor, packs?, how} deduit la valeur d'un objet de celle d'un autre et REMPLACE le releve quand les deux existent ; une valeur deduite n'affiche AUCUN pack, sauf si la regle en nomme un dans `packs` (le pack qui chiffre `fromId` vaut alors aussi pour elle) — un releve peut etre exact et son prix unitaire absurde (un pack genereux sur un objet ne le rend pas plus utile) ; `speedups` fixe le prix d'UNE minute d'accelerateur (prix du pack / total de minutes du pack le plus genereux) et en deduit les cinq accelerateurs, pour qu'une heure vaille toujours 60 minutes ; les cinq affichent donc `basis.packs` comme pack d'origine, et non celui qui en donne le plus ; `weights` applique une ponderation ASSUMEE (choix editorial, pas une mesure) au resultat, ex. x0,25 sur les ressources brutes."
+    "updatedAt": "2026-09-01",
+    "source": "Relevé in-game des packs ACHETABLES AU MOINS UNE FOIS PAR MOIS. Sont écartés : les packs d'événement, les packs VIP et les packs qui ne passent qu'une seule fois — un prix qu'on ne peut pas refaire le mois suivant n'est pas un prix de référence. Fourni et mis à jour périodiquement par Paul (fichier Pack_ks.xlsx).",
+    "note": "Seconde valorisation, en argent reel. La cle de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs offrant le MEILLEUR PRIX UNITAIRE pour cet objet — prix du pack divise par la quantite obtenue. Les packs releves n'ont plus tous le meme prix : `_meta.packPrice` / `packPriceUsd` donnent le prix par DEFAUT (6 € / 5 $), et un pack qui coute autre chose porte son propre `price` / `priceUsd` dans `packs`. C'est ce qui a fait tomber la vieille regle « le plus d'exemplaires » : a deux prix differents, la plus grosse quantite n'est plus forcement la moins chere (20 accelerateurs 3h a 24 € sont plus chers que 12 a 6 €). UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocke : il se recalcule a l'affichage. Fichier ADMIN en lecture seule, regenerable d'un bloc depuis le releve Excel. Les quantites du releve font foi, Y COMPRIS a la baisse. TROIS blocs corrigent ce que le releve seul dit mal, et se CONSERVENT lors d'une regeneration de `items` (ils ne viennent PAS de l'Excel) : `derived` {fromId, factor, packs?, how} deduit la valeur d'un objet de celle d'un autre et REMPLACE le releve quand les deux existent ; une valeur deduite n'affiche AUCUN pack, sauf si la regle en nomme un dans `packs` (le pack qui chiffre `fromId` vaut alors aussi pour elle) — un releve peut etre exact et son prix unitaire absurde (un pack genereux sur un objet ne le rend pas plus utile) ; `speedups` fixe le prix d'UNE minute d'accelerateur (prix du pack de base / total de minutes du pack le plus genereux) et en deduit les cinq accelerateurs, pour qu'une heure vaille toujours 60 minutes ; les cinq affichent donc `basis.packs` comme pack d'origine, et non celui qui en donne le plus ; A prix unitaire EGAL entre deux packs de tarifs differents, `items` retient le MOINS CHER : le format {qty, packs[]} ne sait pas decrire « 24 dans un pack a 6 € OU 96 dans un pack a 24 € », et a l'unite pres c'est le petit ticket qui se conseille. C'est le cas du Ranger de la nature, exactement 4x le pack Rencontre Frontaliere pour 4x le prix. `weights` applique une ponderation ASSUMEE (choix editorial, pas une mesure) au resultat, ex. x0,25 sur les ressources brutes."
   },
   "packs": {
     "adventure-supply-pack": {
@@ -208,6 +208,12 @@
       "FR": "Carte Hebdo D'or Véritable",
       "EN": "Truegold Weekly Card"
     },
+    "ultra-value-monthly-card": {
+      "FR": "Carte Mensuelle Ultra",
+      "EN": "Ultra Value Monthly Card",
+      "price": 12,
+      "priceUsd": 10
+    },
     "weekly-benefits-card-building": {
       "FR": "Carte d'Avantages Hebdo - Carte d'Avantages pour Bâtiments",
       "EN": "Weekly Benefits Card - Building"
@@ -243,6 +249,12 @@
     "weekly-deal-lucky-chest": {
       "FR": "Pack Offre Hebdo - Coffre de Chance",
       "EN": "Weekly Deal - Lucky Chest"
+    },
+    "wilderness-ranger": {
+      "FR": "Ranger de la nature",
+      "EN": "Wilderness Ranger",
+      "price": 24,
+      "priceUsd": 20
     },
     "world-traveler": {
       "FR": "Globe-trotteur",
@@ -370,6 +382,30 @@
         "FR": "1 000 points d'EXP VIP, c'est exactement dix fois 100 points : le rapport n'a rien d'une estimation. Le relevé ne chiffre que le lot de 100, celui de 1 000 s'en déduit — sans quoi les packs qui donnent le gros lot resteraient sans prix réel. Le référentiel gemmes applique déjà ce même ×10 (200 → 2 000).",
         "EN": "1,000 VIP EXP is exactly ten times 100 VIP EXP: the ratio is arithmetic, not a guess. The survey only prices the 100 bundle, so the 1,000 one follows from it - otherwise the packs handing out the big bundle would have no real-money price at all. The gem reference already applies the same x10 (200 -> 2,000)."
       }
+    },
+    "10000_exp_vip": {
+      "fromId": "100_exp_vip",
+      "factor": 100,
+      "how": {
+        "FR": "10 000 points d'EXP VIP, c'est exactement cent fois 100 points — la même égalité arithmétique que le lot de 1 000, poussée d'un cran. Aucun pack ne vend ce lot-là, il n'aurait donc aucun prix réel sans cette règle. Le référentiel gemmes applique déjà ce même ×100 (200 → 20 000).",
+        "EN": "10,000 VIP EXP is exactly one hundred times 100 VIP EXP - the same arithmetic identity as the 1,000 bundle, one step further. No pack sells that bundle, so without this rule it would have no real-money price at all. The gem reference already applies the same x100 (200 -> 20,000)."
+      }
+    },
+    "1000_hero_xp": {
+      "fromId": "10000_hero_xp",
+      "factor": 0.1,
+      "how": {
+        "FR": "1 000 EXP de héros, c'est exactement un dixième de 10 000 : de l'EXP de héros reste de l'EXP de héros, quel que soit le format du jeton. Seul le lot de 10 000 est relevé ; sans cette règle le petit lot, pourtant courant en boutique, resterait sans prix réel. Le référentiel gemmes applique déjà ce même rapport (300 → 30).",
+        "EN": "1,000 hero XP is exactly one tenth of 10,000: hero XP is hero XP, whatever size the token comes in. Only the 10,000 bundle is surveyed; without this rule the small one - common in shops - would have no real-money price. The gem reference already applies the same ratio (300 -> 30)."
+      }
+    },
+    "5000_hero_xp": {
+      "fromId": "10000_hero_xp",
+      "factor": 0.5,
+      "how": {
+        "FR": "5 000 EXP de héros, c'est exactement la moitié de 10 000 — même barème que le lot de 1 000. Le référentiel gemmes applique déjà ce même rapport (300 → 150).",
+        "EN": "5,000 hero XP is exactly half of 10,000 - the same scale as the 1,000 bundle. The gem reference already applies the same ratio (300 -> 150)."
+      }
     }
   },
   "speedups": {
@@ -439,6 +475,12 @@
         "daily-deals"
       ]
     },
+    "10_exp_vip": {
+      "qty": 600,
+      "packs": [
+        "ultra-value-monthly-card"
+      ]
+    },
     "10k_bread": {
       "qty": 940,
       "packs": [
@@ -473,6 +515,12 @@
       "qty": 420,
       "packs": [
         "speedup-weekly-card"
+      ]
+    },
+    "30d_vip_time": {
+      "qty": 1,
+      "packs": [
+        "ultra-value-monthly-card"
       ]
     },
     "3h_general_speedup": {
@@ -573,9 +621,9 @@
       ]
     },
     "gem": {
-      "qty": 3200,
+      "qty": 14000,
       "packs": [
-        "speedup-weekly-card"
+        "ultra-value-monthly-card"
       ]
     },
     "general_master_emblem": {
@@ -644,10 +692,9 @@
       ]
     },
     "lv2_custom_resource_chest": {
-      "qty": 350,
+      "qty": 3000,
       "packs": [
-        "truegold-dust-weekly-card",
-        "truegold-weekly-card"
+        "ultra-value-monthly-card"
       ]
     },
     "lv3_custom_resource_chest": {
@@ -732,6 +779,12 @@
       "qty": 8,
       "packs": [
         "master-gift-pack"
+      ]
+    },
+    "stamina": {
+      "qty": 600,
+      "packs": [
+        "ultra-value-monthly-card"
       ]
     },
     "transfert_pass": {

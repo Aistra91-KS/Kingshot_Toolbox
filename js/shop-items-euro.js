@@ -181,8 +181,8 @@ function ieRender(){
   tb.innerHTML=rows.map(it=>{
     const color=scCatColor(it.category), img=scImg(it);
     const src=scEurSrc(it.id), pimg=scEurPackImg(it.id);
-    // La colonne garde son sens d'origine — LE pack qui en donne le plus, donc où en trouver —
-    // même quand une règle décide du prix : « où en trouver le plus » et « ce que ça coûte »
+    // La colonne garde son sens d'origine — LE pack au meilleur prix unitaire, donc où l'acheter —
+    // même quand une règle décide du prix : « où l'acheter au mieux » et « ce que ça coûte »
     // sont deux questions distinctes. Ce sont les pastilles qui disent laquelle des deux le
     // chiffre suit ; sans elles, un lecteur qui divise le prix du pack par la quantité ne
     // retomberait pas sur la valeur affichée et croirait à une coquille.
@@ -251,7 +251,7 @@ function ieScaleSection(){
   const b=SC_EURO_SPEEDUPS.basis||{}, lang=scLang();
   const detail=(b.detail||[]).map(d=>`${scFmtNum(d.qty)} × ${scName(scItemById(d.itemId), lang)}`).join(', ');
   const basis=scT('scaleBasis')
-    .replace('{p}', scFmtEur(scEurPackPrice()))
+    .replace('{p}', scFmtEur(scEurBasisPrice()))
     .replace('{m}', scFmtNum(b.minutes))
     .replace('{u}', scFmtEur(scEurMinute()))
     .replace('{pack}', (b.packs||[]).map(scPackName).join(' / '))
@@ -284,7 +284,7 @@ function ieDerivedSection(){
         // Un terme n'a de forme « prix du pack ÷ quantité » que si SA valeur sort du relevé nu.
         if(r && !scEurIsDerived(p.id) && !scEurIsScaled(p.id) && !scEurIsWeighted(p.id)){
           bruts.push(scT('derivedTermRaw').replace('{f}', f)
-                                          .replace('{p}', scFmtEur(scEurPackPrice()))
+                                          .replace('{p}', scFmtEur(scEurRawPrice(p.id)))
                                           .replace('{q}', scFmtNum(r.qty)));
         }
       }
@@ -298,7 +298,7 @@ function ieDerivedSection(){
     const plain = base && !scEurIsDerived(d.fromId) && !scEurIsScaled(d.fromId) && !scEurIsWeighted(d.fromId);
     const key = plain ? 'derivedSum' : (Number(d.factor)===1 ? 'derivedSumSame' : 'derivedSumAlt');
     const sum = scT(key)
-      .replace('{p}', scFmtEur(scEurPackPrice()))
+      .replace('{p}', scFmtEur(scEurRawPrice(d.fromId)))
       .replace('{q}', base ? scFmtNum(base.qty) : '')
       .replace('{n}', scName(scItemById(d.fromId), scLang()))
       .replace('{f}', scFmtFactor(d.factor))
@@ -315,7 +315,7 @@ function ieWeightSection(){
     return ieRuleBlock(scT('weightTitle'), scEurRuleTxt(w.how), ids.map(id=>{
       const r=SC_EURO[id];
       const sum = r
-        ? scT('weightSum').replace('{p}', scFmtEur(scEurPackPrice())).replace('{q}', scFmtNum(r.qty))
+        ? scT('weightSum').replace('{p}', scFmtEur(scEurRawPrice(id))).replace('{q}', scFmtNum(r.qty))
                           .replace('{f}', scFmtNum(w.factor)).replace('{b}', scFmtEur(scEurUnit(id)))
         : scFmtEur(scEurUnit(id));
       return ieRuleLi(id, '', sum);

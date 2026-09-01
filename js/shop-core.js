@@ -71,7 +71,7 @@ const i18nShop = {
     refsGemLead:"Ces mêmes objets, valorisés en gemmes :",
     refsEurLead:"Ces mêmes objets, valorisés en argent réel :",
     colPack:"Pack d'origine", noPack:"non précisé", multipack:"Multipack", seePack:"voir le pack",
-    tipPack:"Le pack d'où vient le prix. Pour un objet relevé, c'est celui qui en donne le plus — donc le meilleur prix unitaire, puisque tous les packs coûtent le même prix. Pour les accélérateurs, c'est le pack qui fixe le prix de la minute : le même pour les cinq durées. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. Une pastille dit quelle règle a décidé du prix — « Calculé », « Barème » ou « ×0,25 » —, toutes détaillées sous le tableau.",
+    tipPack:"Le pack d'où vient le prix. Pour un objet relevé, c'est celui qui offre le meilleur prix unitaire — son prix divisé par la quantité qu'il donne, tous les packs ne coûtant pas la même chose. Pour les accélérateurs, c'est le pack qui fixe le prix de la minute : le même pour les cinq durées. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. Une pastille dit quelle règle a décidé du prix — « Calculé », « Barème » ou « ×0,25 » —, toutes détaillées sous le tableau.",
     ieNote:"{n} objets sur les {t} du référentiel sont chiffrés ici ; les autres n'ont aucun prix connu et ne sont donc pas listés. Relevé : {z}, mis à jour le {d}.",
     derived:"Calculé",
     derivedTitle:"Valeurs calculées",
@@ -85,7 +85,7 @@ const i18nShop = {
     derivedTermRaw:"{f} \u00D7 ({p} \u00F7 {q})",
     scaled:"Barème",
     scaleTitle:"Barème des accélérateurs",
-    scaleBasis:"Base : {p} \u00F7 {m} minutes = {u} la minute, d'après {pack}, le pack qui donne le plus de temps ({detail}).",
+    scaleBasis:"Base : {p} \u00F7 {m} minutes = {u} la minute, d'après {pack}, le pack qui donne le plus de temps par euro ({detail}).",
     scaleSum:"{n} minutes", scaleSum1:"{n} minute",
     weightTitle:"Pondération assumée",
     weightSum:"Soit {p} \u00F7 {q} \u00D7 {f} = {b}",
@@ -151,7 +151,7 @@ const i18nShop = {
     refsGemLead:"These same items, valued in gems:",
     refsEurLead:"These same items, valued in real money:",
     colPack:"Source pack", noPack:"not specified", multipack:"Multipack", seePack:"see the pack",
-    tipPack:"The pack the price comes from. For a surveyed item that is the pack giving the most of it - so the best unit price, since every pack costs the same. For speedups it is the pack that sets the price of one minute: the same one for all five lengths. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. A pill says which rule decided the price - “Calculated”, “Scale” or “×0.25” - all spelled out under the table.",
+    tipPack:"The pack the price comes from. For a surveyed item that is the pack with the best unit price - its price divided by how much of the item it gives, as packs do not all cost the same. For speedups it is the pack that sets the price of one minute: the same one for all five lengths. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. A pill says which rule decided the price - “Calculated”, “Scale” or “×0.25” - all spelled out under the table.",
     ieNote:"{n} of the {t} items in the reference table are priced here; the others have no known price and are not listed. Survey: {z}, updated {d}.",
     derived:"Calculated",
     derivedTitle:"Calculated values",
@@ -165,7 +165,7 @@ const i18nShop = {
     derivedTermRaw:"{f} \u00D7 ({p} \u00F7 {q})",
     scaled:"Scale",
     scaleTitle:"Speedup scale",
-    scaleBasis:"Basis: {p} \u00F7 {m} minutes = {u} per minute, from {pack}, the pack that gives the most time ({detail}).",
+    scaleBasis:"Basis: {p} \u00F7 {m} minutes = {u} per minute, from {pack}, the pack that gives the most time per euro ({detail}).",
     scaleSum:"{n} minutes", scaleSum1:"{n} minute",
     weightTitle:"Deliberate weighting",
     weightSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
@@ -302,11 +302,39 @@ function scEurResolve(id, seen){
   return (v==null) ? null : v*scEurWeight(id);
 }
 
-// Prix du pack dans la devise active. Le MÊME pour tous les packs relevés (6 € / 5 $) : il vit
-// dans _meta, il n'est pas répété 55 fois.
-function scEurPackPrice(){
+// Prix d'un pack dans la devise active. Presque tous les packs relevés partagent le même tarif
+// (6 € / 5 $) : il vit dans _meta et n'est pas répété 60 fois. Ceux qui coûtent autre chose
+// portent leur propre `price` / `priceUsd`, et c'est CE prix qui chiffre leurs objets — sans
+// quoi une carte à 12 € serait divisée par 6 € et sortirait deux fois trop généreuse.
+// Sans argument, on retombe sur le tarif par défaut : c'est le cas des appels qui parlent du
+// relevé en général et non d'un pack précis.
+function scEurPackPrice(pid){
+  const pk = pid ? SC_EURO_PACKS[pid] : null;
+  // Les DEUX devises ou aucune : un pack qui n'en déclarerait qu'une passerait au tarif par
+  // défaut dans l'autre, soit un chiffre faux du simple au double, et silencieux. Mieux vaut
+  // qu'il retombe entièrement sur le défaut — faux aussi, mais cohérent entre € et $, donc
+  // repérable en basculant la devise.
+  if(pk && typeof pk.price==='number' && isFinite(pk.price)
+        && typeof pk.priceUsd==='number' && isFinite(pk.priceUsd)){
+    return (scCur()==='USD') ? pk.priceUsd : pk.price;
+  }
   const p = (scCur()==='USD') ? SC_EURO_META.packPriceUsd : SC_EURO_META.packPrice;
   return (typeof p==='number' && isFinite(p)) ? p : null;
+}
+// Le prix du pack qui chiffre CET objet dans le relevé. Les packs listés sont à égalité de prix
+// unitaire ; à tarifs différents c'est le MOINS CHER qui s'affiche — même prix à l'unité, ticket
+// d'entrée plus bas, donc le meilleur conseil. Le relevé les départage déjà à la génération,
+// mais le prendre ici aussi évite qu'un fichier mal régénéré chiffre l'objet au pack cher.
+function scEurRawPrice(id){
+  const r=SC_EURO[id]; if(!r) return null;
+  const ps=Array.isArray(r.packs) ? r.packs : [];
+  if(!ps.length) return scEurPackPrice(null);
+  let lo=null;
+  for(const pid of ps){
+    const p=scEurPackPrice(pid);
+    if(p!=null && (lo==null || p<lo)) lo=p;
+  }
+  return lo;
 }
 // Le relevé nu. CALCULÉ, jamais stocké : le relevé ne garde que ce qui a été mesuré (le prix du
 // pack et la quantité). Stocker aussi le résultat de la division en ferait une seconde vérité,
@@ -314,7 +342,7 @@ function scEurPackPrice(){
 // stockée était de toute façon moins précis que la division elle-même.
 function scEurRawUnit(id){
   const r=SC_EURO[id]; if(!r) return null;
-  const p=scEurPackPrice(), q=Number(r.qty);
+  const p=scEurRawPrice(id), q=Number(r.qty);
   return (p!=null && q>0) ? (p/q) : null;
 }
 // Texte bilingue {FR,EN} d'une règle, dans la langue active. C'est lui qui rend un chiffre
@@ -325,11 +353,17 @@ function scEurRuleTxt(h){ return h ? (h[scLang()] || h.EN || h.FR || '') : ''; }
 // Un accélérateur ne vaut que le temps qu'il fait gagner : une heure DOIT valoir soixante
 // minutes. Relevé jeton par jeton, chacun héritait du pack qui en donnait le plus, sans aucun
 // rapport entre eux — le 3h finissait 6× plus cher à la minute que le 1h, et le classement des
-// boutiques se décidait sur le format des jetons. Le pack le plus généreux en temps TOTAL
+// boutiques se décidait sur le format des jetons. Le pack le plus généreux en temps par euro
 // (`basis.minutes`) fixe donc le prix de LA minute, et chaque accélérateur vaut sa durée.
 function scEurMinute(){
-  const b=SC_EURO_SPEEDUPS.basis, p=scEurPackPrice(), m=b?Number(b.minutes):0;
+  const b=SC_EURO_SPEEDUPS.basis, p=scEurBasisPrice(), m=b?Number(b.minutes):0;
   return (p!=null && m>0) ? (p/m) : null;
+}
+// Prix du pack qui sert de base au barème — le sien, pas le tarif par défaut : le jour où le
+// pack le plus généreux en temps sera un pack cher, la minute doit suivre son prix à lui.
+function scEurBasisPrice(){
+  const b=SC_EURO_SPEEDUPS.basis;
+  return scEurPackPrice((b && Array.isArray(b.packs) && b.packs[0]) || null);
 }
 function scEurMinutes(id){ const m=SC_EURO_SPEEDUPS.minutes; return (m && Number(m[id])) || 0; }
 function scEurScaleUnit(id){
@@ -406,9 +440,13 @@ function scEurOrder(ids){
 }
 function scEurDerivedIds(){ return scEurOrder(Object.keys(SC_EURO_DERIVED).filter(id=>scEurIsDerived(id))); }
 
-// Packs qui atteignent la quantité MAXIMALE pour cet objet. Tous les packs coûtant le même
-// prix, « le plus d'exemplaires » = « le meilleur prix unitaire » : ce sont donc les packs
-// à recommander. UN seul => son image illustre l'objet. PLUSIEURS => « multipack », sans image.
+// Packs offrant le MEILLEUR PRIX UNITAIRE pour cet objet — prix du pack ÷ quantité obtenue.
+// Ce sont donc les packs à recommander. La règle disait « le plus d'exemplaires » tant que tous
+// les packs coûtaient pareil ; à deux tarifs elle se retourne (20 accélérateurs 3h à 24 € sont
+// plus chers l'unité que 12 à 6 €), et c'est bien le prix unitaire qui décide. À prix unitaire
+// ÉGAL entre deux tarifs, le relevé retient le pack le MOINS CHER : même prix à l'unité, ticket
+// d'entrée plus bas.
+// UN seul => son image illustre l'objet. PLUSIEURS => « multipack », sans image.
 function scEurPacks(id){
   // Un accélérateur n'est pas chiffré par SON pack mais par celui qui fixe le prix de la
   // minute : c'est donc ce pack-là qui justifie la valeur, pour les cinq durées à la fois.
@@ -426,9 +464,9 @@ function scPackName(pid){
   return p ? (p[scLang()] || p.EN || p.FR || pid) : pid;
 }
 // Libellé de la colonne « Pack d'origine » : le nom du pack, ou « Multipack » à égalité.
-// Il reste celui qui donne LE PLUS de cet objet même quand une règle décide du prix : « où en
-// trouver le plus » et « ce que ça coûte » sont deux questions distinctes. C'est la pastille
-// posée à côté qui dit laquelle des deux le chiffre suit.
+// Il reste celui au MEILLEUR PRIX UNITAIRE même quand une règle décide du prix : « où l'acheter
+// au mieux » et « ce que ça coûte » sont deux questions distinctes. C'est la pastille posée à
+// côté qui dit laquelle des deux le chiffre suit.
 function scEurSrc(id){
   const ps=scEurPacks(id);
   if(!ps.length) return '';
@@ -443,7 +481,7 @@ function scEurWhy(id){
   if(scEurIsWeighted(id))    bits.push(scEurWeightLabel(id)+' — '+scEurWeightHow(id));
   return bits.filter(Boolean).join(' · ');
 }
-// Id de l'image du pack — seulement quand un SEUL pack atteint le maximum.
+// Id de l'image du pack — seulement quand un SEUL pack atteint le meilleur prix unitaire.
 function scEurPackImg(id){ const ps=scEurPacks(id); return ps.length===1 ? ps[0] : null; }
 
 // ---------- formats € : décimales adaptatives ----------
