@@ -243,6 +243,23 @@ function ieRuleLi(id, why, sum){
        + `<span class="ie-derived-sum">${scEscAttr(sum)}</span></li>`;
 }
 
+// Prix du pack qui chiffre un objet relevé, et prix du pack qui sert de base au barème. Ces
+// deux helpers n'appellent que `scEurPackPrice()`, qui existe de longue date : les lignes
+// d'audit passent par eux plutôt que par les fonctions ajoutées en même temps qu'elles dans
+// shop-core.js. Le site n'a aucun cache-busting sur ses <script>, donc un visiteur peut très
+// bien charger cette page-ci avec un shop-core.js encore en cache — un appel à une fonction
+// qu'il ne connaît pas le ferait planter en plein rendu, et l'aperçu au survol, branché après,
+// ne le serait jamais. Avec un vieux core l'argument est simplement ignoré : le chiffre retombe
+// sur le tarif par défaut, ce qui est faux mais s'affiche, et se corrige au rechargement.
+function iePackPriceOf(id){
+  const r=SC_EURO[id];
+  return scEurPackPrice((r && Array.isArray(r.packs) && r.packs[0]) || null);
+}
+function ieBasisPrice(){
+  const b=SC_EURO_SPEEDUPS.basis;
+  return scEurPackPrice((b && Array.isArray(b.packs) && b.packs[0]) || null);
+}
+
 // Barème : la base repart des DEUX chiffres relevés — prix du pack et minutes de ce pack — et
 // non du prix de la minute affiché, qui est arrondi. C'est la seule façon de retomber sur les
 // valeurs du tableau en refaisant le calcul à la main.
@@ -251,7 +268,7 @@ function ieScaleSection(){
   const b=SC_EURO_SPEEDUPS.basis||{}, lang=scLang();
   const detail=(b.detail||[]).map(d=>`${scFmtNum(d.qty)} × ${scName(scItemById(d.itemId), lang)}`).join(', ');
   const basis=scT('scaleBasis')
-    .replace('{p}', scFmtEur(scEurBasisPrice()))
+    .replace('{p}', scFmtEur(ieBasisPrice()))
     .replace('{m}', scFmtNum(b.minutes))
     .replace('{u}', scFmtEur(scEurMinute()))
     .replace('{pack}', (b.packs||[]).map(scPackName).join(' / '))
@@ -284,7 +301,7 @@ function ieDerivedSection(){
         // Un terme n'a de forme « prix du pack ÷ quantité » que si SA valeur sort du relevé nu.
         if(r && !scEurIsDerived(p.id) && !scEurIsScaled(p.id) && !scEurIsWeighted(p.id)){
           bruts.push(scT('derivedTermRaw').replace('{f}', f)
-                                          .replace('{p}', scFmtEur(scEurRawPrice(p.id)))
+                                          .replace('{p}', scFmtEur(iePackPriceOf(p.id)))
                                           .replace('{q}', scFmtNum(r.qty)));
         }
       }
@@ -298,7 +315,7 @@ function ieDerivedSection(){
     const plain = base && !scEurIsDerived(d.fromId) && !scEurIsScaled(d.fromId) && !scEurIsWeighted(d.fromId);
     const key = plain ? 'derivedSum' : (Number(d.factor)===1 ? 'derivedSumSame' : 'derivedSumAlt');
     const sum = scT(key)
-      .replace('{p}', scFmtEur(scEurRawPrice(d.fromId)))
+      .replace('{p}', scFmtEur(iePackPriceOf(d.fromId)))
       .replace('{q}', base ? scFmtNum(base.qty) : '')
       .replace('{n}', scName(scItemById(d.fromId), scLang()))
       .replace('{f}', scFmtFactor(d.factor))
@@ -315,7 +332,7 @@ function ieWeightSection(){
     return ieRuleBlock(scT('weightTitle'), scEurRuleTxt(w.how), ids.map(id=>{
       const r=SC_EURO[id];
       const sum = r
-        ? scT('weightSum').replace('{p}', scFmtEur(scEurRawPrice(id))).replace('{q}', scFmtNum(r.qty))
+        ? scT('weightSum').replace('{p}', scFmtEur(iePackPriceOf(id))).replace('{q}', scFmtNum(r.qty))
                           .replace('{f}', scFmtNum(w.factor)).replace('{b}', scFmtEur(scEurUnit(id)))
         : scFmtEur(scEurUnit(id));
       return ieRuleLi(id, '', sum);
