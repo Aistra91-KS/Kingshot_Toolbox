@@ -204,6 +204,32 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
 .sx-table td.dash, .sx-table .dash { color: var(--text-muted); opacity: .55; }
 .sx-sub { display: block; font-size: 10px; color: var(--text-muted); line-height: 1.3; margin-top: 1px; }
 
+/* ---------- pastille de palier ----------
+   Certaines boutiques d'événement vendent le MÊME objet à plusieurs prix, repérés en jeu
+   par la couleur de fond de la carte. On garde les trois teintes du jeu (or, améthyste,
+   azur) pour que le joueur retrouve ses repères, mais le numéro est écrit dans la pastille :
+   la couleur seule ne porte jamais l'information. Les valeurs du thème clair sont assombries
+   pour tenir 4,5:1 sur fond pâle (les teintes du thème sombre y tombaient à 3,1:1). */
+.sx-tier {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 1px 8px 1px 6px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+  color: var(--tier);
+  background: color-mix(in srgb, var(--tier) 18%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tier) 42%, transparent);
+}
+.sx-tier > i { width: 7px; height: 7px; border-radius: 50%; background: var(--tier); flex: none; }
+.sx-tier.t1 { --tier: #f5b840; }   /* or       — le moins cher, s'épuise en premier */
+.sx-tier.t2 { --tier: #b98cdd; }   /* améthyste */
+.sx-tier.t3 { --tier: #5aa9e6; }   /* azur     — le plus cher */
+[data-theme="light"] .sx-tier.t1 { --tier: #7d5600; }
+[data-theme="light"] .sx-tier.t2 { --tier: #6b3499; }
+[data-theme="light"] .sx-tier.t3 { --tier: #16548c; }
+.sx-table td.c-tier { width: 1%; white-space: nowrap; }
+/* Sur le podium la pastille suit le nom : elle dit à quel prix le ratio a été calculé. */
+.sx-pod-name .sx-tier { margin-left: 6px; vertical-align: 1px; }
+
 /* ---------- tuiles de bilan du panier ---------- */
 .sx-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 16px 0 0; }
 .sx-kpi {

@@ -16,6 +16,13 @@
         {
           "type": "new",
           "text": {
+            "EN": "The Theater Shop, the store of the Fantasy Theater event, now has its page. It is the first shop that sells the same offer three times over at three rising prices, so a new Tier column marks each line with its price step - gold, purple, blue, like the card colours in game. The table still ranks everything by value, which is what makes the ladder readable: Mithril at tier 2 is still a better buy than TrueGold at tier 1. The page also has a French address of its own, a first on the site.",
+            "FR": "Le Magasin du Théâtre, la boutique de l'événement Théâtre Fantastique, a sa page. C'est la première boutique qui vend la même offre trois fois à trois prix croissants : une colonne « Palier » marque donc chaque ligne de son cran de prix — or, violet, bleu, comme les couleurs des cartes en jeu. Le tableau continue de tout classer par rentabilité, et c'est ce qui rend l'échelle lisible : le Mithril au palier 2 reste un meilleur achat que l'Or Véritable au palier 1. La page a aussi sa propre adresse française, une première sur le site."
+          }
+        },
+        {
+          "type": "new",
+          "text": {
             "EN": "A Feedback button now sits in the header of every page, and in the side menu on phones. It opens a short form: say whether it is a bug, a wrong value, an idea or something else, write your message, leave your in-game name if you want a follow-up, and send. The form tells you exactly what travels with it - the page you were on, your language and the site version, nothing more - and confirms on screen once the message has really gone through. No account, no email address to give.",
             "FR": "Un bouton « Un retour ? » est apparu dans l'en-tête de chaque page, et dans le menu latéral sur téléphone. Il ouvre un formulaire court : dis s'il s'agit d'un bug, d'une valeur erronée, d'une idée ou d'autre chose, écris ton message, laisse ton pseudo en jeu si tu veux un suivi, et envoie. Le formulaire annonce exactement ce qui part avec lui — la page où tu étais, ta langue et la version du site, rien de plus — et confirme à l'écran une fois le message vraiment arrivé. Aucun compte, aucune adresse mail à donner."
           }

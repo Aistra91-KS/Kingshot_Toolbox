@@ -28,7 +28,7 @@ const i18nShop = {
     chestPickHint:"Un seul objet à choisir — le plus rentable est mis en avant.",
     // — colonnes / champs —
     colName:"Nom", colCat:"Catégorie", colGem:"Valeur (gemmes)",
-    hItem:"Objet", hQty:"Qté", hCost:"Coût", hGem:"Valeur gemmes", hRatio:"Ratio",
+    hItem:"Objet", hQty:"Qté", hCost:"Coût", hGem:"Valeur gemmes", hRatio:"Ratio", hTier:"Palier",
     hRestant:"Restant", hMaxFin:"Max fin", hObt:"Obtenable", hCostObt:"Coût obt.", hShare:"Part",
     best:"Top", bestPick:"Meilleur choix",
     daily:"Réinit. quotidienne (00h UTC)", stock:"Stock (sans réinit.)",
@@ -40,6 +40,8 @@ const i18nShop = {
     perDay:"/jour", unlimited:"Illimité", lots:"lots",
     tipTake:"Nombre de lots que tu prévois d'acheter. Le solde et la valeur se recalculent aussitôt.",
     tipAvail:"Quantité maximale achetable d'ici la fin de l'événement, réinitialisations quotidiennes comprises.",
+    tipTier:"La boutique vend le même objet à plusieurs prix. Le palier 1 est le moins cher : il s'épuise d'abord, puis le 2, puis le 3.",
+    tierOf:"Palier {n}",
     overWarn:"Ton panier dépasse ta monnaie disponible.",
     // — mode édition —
     edit:"Modifier", editDone:"Terminer", editOn:"Mode édition",
@@ -110,7 +112,7 @@ const i18nShop = {
     chestContent:"Chest contents",
     chestPickHint:"A single item to pick — the best value is highlighted.",
     colName:"Name", colCat:"Category", colGem:"Value (gems)",
-    hItem:"Item", hQty:"Qty", hCost:"Cost", hGem:"Gem value", hRatio:"Ratio",
+    hItem:"Item", hQty:"Qty", hCost:"Cost", hGem:"Gem value", hRatio:"Ratio", hTier:"Tier",
     hRestant:"Remaining", hMaxFin:"Max by end", hObt:"Obtainable", hCostObt:"Obt. cost", hShare:"Share",
     best:"Top", bestPick:"Best pick",
     daily:"Daily reset (00:00 UTC)", stock:"Stock (no reset)",
@@ -121,6 +123,8 @@ const i18nShop = {
     perDay:"/day", unlimited:"Unlimited", lots:"lots",
     tipTake:"How many lots you plan to buy. The balance and value update instantly.",
     tipAvail:"Maximum buyable by the event's end, daily resets included.",
+    tipTier:"The shop sells the same item at several prices. Tier 1 is the cheapest: it sells out first, then tier 2, then tier 3.",
+    tierOf:"Tier {n}",
     overWarn:"Your cart costs more than the currency you have.",
     edit:"Edit", editDone:"Done", editOn:"Editing",
     editHint:"Adjust quantities, costs and remaining stock to match your in-game shop. Your changes stay on your device.",
@@ -556,12 +560,19 @@ async function scLoadEvents(){
   SC_EVENTS.forEach(s=>{
     const def=SC_EVENTS_DEF.find(d=>d.id===s.id); if(!def) return;
     s.endsAt=def.endsAt; s.resourceName=def.resourceName; s.slug=def.slug; s.name=def.name; s.img=def.img;
+    // Le rapprochement fichier <-> sauvegarde se fait par POSITION : il n'est fiable que
+    // si la liste a gardé sa longueur. Dès qu'un objet a été ajouté ou retiré, les rangs
+    // glissent — et l'égalité des `itemId` ne suffit pas à le voir quand une boutique
+    // répète les mêmes objets. Au Magasin du Théâtre, retirer les 9 lignes du palier 1
+    // ferait correspondre le palier 2 au palier 1 ligne pour ligne, et lui collerait le
+    // stock et le palier du 1. Longueurs différentes : on ne réécrit aucun champ admin.
+    const alignes = (def.items||[]).length === (s.items||[]).length;
     (s.items||[]).forEach((si,i)=>{
-      const di=(def.items||[])[i];
+      const di = alignes ? (def.items||[])[i] : null;
       // La ligne correspond à celle du fichier -> les champs admin font foi.
       // Sinon (objet ajouté par l'utilisateur, ou décalage après une suppression), on garde
       // ses valeurs : les écraser effaçait le « réinit. quotidienne » coché à l'ajout.
-      if(di && di.itemId===si.itemId){ si.dailyReset=!!di.dailyReset; si.qtyMax=di.qtyMax; si.skinId=di.skinId; }
+      if(di && di.itemId===si.itemId){ si.dailyReset=!!di.dailyReset; si.qtyMax=di.qtyMax; si.skinId=di.skinId; si.tier=di.tier; }
     });
   });
   // Nettoie les fantômes du localStorage (seulement si le fichier a bien chargé, pour ne rien effacer sur une erreur réseau).
@@ -652,7 +663,9 @@ function scComputeRows(shop, opts){
     const maxfin = daily ? restant*resets : restant;
     const obtenable = cost>0 ? Math.min(maxfin, Math.floor(resources/cost)) : 0;
     const take = Math.max(0, Math.min(maxfin, Math.floor(Number(si.take)||0)));
-    return { i, si, itemId: si.itemId, it, skin, qty, cost, gem, ratio: cost>0?gem/cost:0, restant, daily, maxfin,
+    // Palier de prix : 0 = boutique sans palier (le cas de toutes les autres).
+    const tier=Math.max(0,Number(si.tier)||0);
+    return { i, si, itemId: si.itemId, it, skin, qty, cost, gem, ratio: cost>0?gem/cost:0, restant, daily, maxfin, tier,
              obtenable, coutobt: obtenable*cost, cat:(it&&it.category)||'Other',
              take, takeCost: take*cost, takeGem: take*gem,
              eur, ratioEur: (eur!=null && cost>0) ? eur/cost : null,
