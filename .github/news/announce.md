@@ -69,8 +69,8 @@ Les 28 lignes y sont, avec leur coût en Jetons Fantaisie, leur stock et leur va
 
 Petit essai au passage : cette page a **sa propre adresse française**. Si ça donne quelque chose, j'étendrai aux autres.
 
-👉 https://kingshottoolbox.com/fr/shop/theater-shop.html
-👉 https://kingshottoolbox.com/shop/theater-shop.html (en anglais)
+👉 https://kingshottoolbox.com/fr/shop/theater-shop
+👉 https://kingshottoolbox.com/shop/theater-shop (en anglais)
 
 ## EN
 
@@ -82,4 +82,4 @@ That ranking is what makes the ladder readable. For example: **Mithril at tier 2
 
 All 28 lines are there, with their Fantasy Token cost, their stock and their value — in gems **and** in euros, both readings are complete. Tick what you plan to buy and the balance and the value you get update as you go.
 
-👉 https://kingshottoolbox.com/shop/theater-shop.html
+👉 https://kingshottoolbox.com/shop/theater-shop
