@@ -36,6 +36,7 @@
 
 - **Site statique GitHub Pages** : aucun build, aucun backend. Tester en servant le repo localement + Chromium préinstallé (`/opt/pw-browsers/chromium`, Playwright déjà configuré). **Attention** : les adresses du site n'ont plus de `.html` (cf. `MAP.md` §9), donc un simple `python3 -m http.server` ne résout plus les liens internes — il faut un serveur qui essaie `X.html` quand `/X` est demandé, comme le fait GitHub Pages.
 - **Respecter les conventions du projet** (cf. `MAP.md`) : navigation via `site-config.js` uniquement, i18n (`data-i18n` / `data-en`/`data-fr` + event `langChanged`), clés `STORAGE_KEYS` + `safeParse`, charte graphique (variables CSS), styles BDD partagés dans `css/db.css`.
+- **Cache des `<script>` : ne jamais appeler depuis une page un nom global né dans le même lot côté `shop-core.js`.** Aucun cache-busting sur le site : un visiteur de retour peut mélanger une page neuve et un core en cache, et un `ReferenceError` tue le rendu en plein milieu (chiffres périmés à l'écran, aperçus au survol morts) — invisible en local. Ajouter un paramètre à une fonction existante, oui ; un nouveau nom appelé d'un autre fichier, non. Cf. `MAP.md` §9.
 - **Ne pas casser la logique existante** : lors d'un nettoyage/refactor, ne supprimer que du code prouvé non référencé et vérifier le rendu avant/après.
 
 ---
