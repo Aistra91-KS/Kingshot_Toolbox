@@ -218,9 +218,17 @@ function seBuysAt(day){
   return (SE_DATA.packs||[]).reduce((s,p)=> s + seBuysCount(p.id, day), 0);
 }
 
-function seCompute(){
+/* `upTo` (optionnel) borne le calcul aux `upTo` PREMIERS JOURS de l'événement :
+   ce que le plan a versé À CETTE DATE, packs des jours suivants exclus. Omis, le
+   comportement est celui d'avant — tout l'événement. Sert aux modules greffés qui
+   doivent distinguer « ce que j'ai déjà » de « ce que le plan versera encore » ;
+   le refaire de leur côté les obligerait à recopier les règles ci-dessous
+   (jours joués, missions à achat, exclusions du détail) et à dériver dès qu'elles
+   bougent. */
+function seCompute(upTo){
   const days = seDays();
-  const played = Math.max(0, Math.min(days, Number(SE_PLAN.played)||0));
+  const cap = (upTo === undefined || upTo === null) ? days : Math.max(0, Math.min(days, Math.floor(upTo)));
+  const played = Math.max(0, Math.min(cap, Number(SE_PLAN.played)||0));
   const tot = { coins:0, stall:0, travel:0, items:{}, extras:{},
                 cur:{ coins:{}, stall:{}, travel:{} } };
 
@@ -232,14 +240,14 @@ function seCompute(){
   //    événements de front (constaté sur un relevé réel : 230 essences contre 195).
   // Bornée par les jours joués : une mission quotidienne se réclame en jeu.
   let gridBuyDays = 0;
-  for(let d=1; d<=days; d++) if(seBuysAt(d) > 0) gridBuyDays++;
+  for(let d=1; d<=cap; d++) if(seBuysAt(d) > 0) gridBuyDays++;
   // `purchaseOk` = le joueur déclare la mission validée, typiquement par un achat fait
   // AILLEURS. Une mission saisonnière ne se réclamant qu'une fois, il lui suffit que ce
   // compte soit > 0 ; une mission quotidienne, elle, la coche vaut alors pour tous les
   // jours joués (c'est ce que le joueur affirme, l'info-bulle le dit).
   const dailyBuy = seHasDailyPurchase();
   const purchaseOk = !!SE_PLAN.purchaseOk;
-  const outsideBuys = Math.max(0, Math.min(days, Number(SE_PLAN.outsideBuys)||0));
+  const outsideBuys = Math.max(0, Math.min(cap, Number(SE_PLAN.outsideBuys)||0));
   // Mission quotidienne -> des JOURS s'ajoutent ; mission saisonnière -> un seul achat
   // suffit, la case vaut 1. Dans les deux cas le total reste borné par les jours joués.
   const outside = dailyBuy ? outsideBuys : (purchaseOk ? 1 : 0);
@@ -254,19 +262,19 @@ function seCompute(){
     const price = (scCur()==='USD') ? Number(p.priceUsd)||0 : Number(p.priceEur)||0;
     if(p.once){
       let buyDay = 0;
-      for(let d=1; d<=days; d++) if(seBuysCount(p.id, d) > 0){ buyDay = d; break; }
+      for(let d=1; d<=cap; d++) if(seBuysCount(p.id, d) > 0){ buyDay = d; break; }
       if(buyDay){
         spend += price; buysTotal += 1;
         const lbl = seShort(p);
         seAdd(tot, p.immediate, 1, null, lbl);
-        seAdd(tot, p.daily, Math.min(days - buyDay + 1, played), null, lbl);
+        seAdd(tot, p.daily, Math.min(cap - buyDay + 1, played), null, lbl);
         // Pass « Double! Daily Mission rewards » : il n'ajoute aucun lot quotidien
         // propre, il rejoue une seconde fois une PARTIE des récompenses de mission,
         // du jour de l'achat jusqu'à la fin de l'événement.
-        if(p.doublesDailyMissions){ dblRule = p.doublesDailyMissions; dblSpan = days - buyDay + 1; }
+        if(p.doublesDailyMissions){ dblRule = p.doublesDailyMissions; dblSpan = cap - buyDay + 1; }
       }
     } else {
-      for(let d=1; d<=days; d++){
+      for(let d=1; d<=cap; d++){
         const n = seBuysCount(p.id, d);
         if(n){ spend += price*n; buysTotal += n; seAdd(tot, p.reward, n, null, seShort(p)); }
       }
@@ -672,6 +680,13 @@ function seRender(){
           return n ? scEscAttr(n[scLang()]||n.EN||n.FR)+'<br>' : ''; })()}${cartNote}<br>${seTf('evSrcNote',{tier: scEscAttr(SE_DATA._meta.tier||'')})}</p>
     </div>`;
 
+  // Point d'extension : une boutique peut prolonger la section par une analyse qui
+  // lui est propre — le Théâtre y branche son optimiseur d'amulettes (js/shop-theater.js).
+  // Appelé AVANT la remise du focus, pour que les contrôles ajoutés en profitent aussi.
+  if(typeof window.seExtras === 'function'){
+    try{ window.seExtras(host, c); }catch(e){ console.error('seExtras', e); }
+  }
+
   if(focusKey){
     const el = host.querySelector(`[data-se="${focusKey}"]`);
     if(el && !el.disabled) el.focus({ preventScroll:true });
@@ -773,7 +788,19 @@ function seAfter(){
 
 // Point d'entrée du rafraîchissement demandé par shop-page.js (panier, monnaie,
 // devise ou lecture changées) — voir le hook dans spRenderAll / spAfterEdit.
-window.ShopEvent = { refresh: seAfter };
+window.ShopEvent = {
+  refresh: seAfter,
+  // Lecture seule pour les modules greffés par `seExtras` : le fichier de
+  // l'événement et le plan d'achat, sans refaire de requête ni redoubler la
+  // persistance. Des accesseurs, pas les variables : `SE_PLAN` est réaffecté
+  // à chaque changement de boutique, une référence figée se périmerait.
+  data: () => SE_DATA,
+  plan: () => SE_PLAN,
+  // Le calcul complet, éventuellement borné aux `upTo` premiers jours : c'est ce
+  // qui évite à un module greffé de recopier les règles de seCompute pour savoir
+  // ce que le plan a DÉJÀ versé.
+  compute: (upTo) => (SE_DATA && SE_PLAN) ? seCompute(upTo) : null
+};
 
 // ---------- init ----------
 (async function(){

@@ -1,0 +1,92 @@
+{
+  "_meta": {
+    "event": "Fantasy_Theater",
+    "slug": "fantasy-theater",
+    "updatedAt": "2026-09-02",
+    "source": "Guide kingshotmastery.com/guides/kingshot-fantasy-theater-guide (Victor, 2026-08-31), relayé par Paul le 2026-09-02.",
+    "note": "Mécaniques de l'ÉVÉNEMENT (le tirage), à ne pas confondre avec data/events/theater-shop.json qui porte les packs payants et les 21 paliers d'activité, ni avec la boutique theater-shop de shopcalc_events.json qui dépense les Jetons. Ici : ce que coûte une exploration et ce qu'elle rapporte. Les missions quotidiennes, elles, vivent dans theater-shop.json avec les packs (schéma `missions[]` commun à tous les événements) : c'est le moteur de la boutique qui totalise les Amulettes, pas celui-ci. Les coûts sont donnés PAR ÉTAGE DE DÉPART (explorer DEPUIS l'étage f), c'est ainsi que le guide les liste.",
+    "unknown": "Les JETONS PAR ÉTAGE ne sont documentés nulle part : ceux qui sont ici viennent du relevé de Paul sur son serveur (cf. theater.tokensNote). Ils sont modifiables dans la page, et l'écart est rangé en localStorage. Tout ce qui n'en dépend pas — coût d'une montée, probabilité d'atteindre un étage, paliers d'activité — se calcule sans eux."
+  },
+  "pity": {
+    "note": "Chance de monter à la n-ième tentative depuis la dernière montée. Le compteur se remet à zéro dès qu'on monte. La 5e tentative est garantie.",
+    "chances": [
+      0.1,
+      0.3,
+      0.6,
+      0.8,
+      1.0
+    ]
+  },
+  "jump": {
+    "note": "Quand une exploration réussit, de combien d'étages on monte.",
+    "1": 0.8,
+    "2": 0.1967,
+    "3": 0.0033
+  },
+  "fanstars": {
+    "note": "Fanstars gagnées en atteignant le sommet du Théâtre. À 5 Fanstars, l'exploration suivante entre dans la Forteresse Fantastique et consomme les Fanstars.",
+    "needed": 5,
+    "drops": {
+      "1": 0.72,
+      "2": 0.14,
+      "3": 0.08,
+      "4": 0.04,
+      "5": 0.02
+    }
+  },
+  "theater": {
+    "peak": 7,
+    "costByFloor": {
+      "1": 5,
+      "2": 8,
+      "3": 20,
+      "4": 30,
+      "5": 60,
+      "6": 100
+    },
+    "tokensByFloor": {
+      "1": 0,
+      "2": 140,
+      "3": 300,
+      "4": 850,
+      "5": 1600,
+      "6": 3000,
+      "7": 6800
+    },
+    "tokensNote": "Relevé en jeu par Paul (2026-09-02) sur SON serveur. Le guide ne publie pas ces montants et ils peuvent varier d'une génération de serveur à l'autre : ils servent de valeurs par défaut, que la page laisse modifier (l'écart est alors rangé en localStorage).",
+    "amuletLabel": {
+      "EN": "Fantasy Amulet",
+      "FR": "Amulette Fantaisie"
+    },
+    "amuletLabelNote": "Doit correspondre EXACTEMENT au `label` des amulettes dans theater-shop.json (packs et missions) : c'est la clé sous laquelle shop-event.js range les objets non valorisables, et donc par elle que ce module retrouve le total du plan."
+  },
+  "fortress": {
+    "note": "Confirmé en jeu par Paul (2026-09-02) : la Forteresse compte 8 étages. `costByFloor` s'arrête donc à 7, comme au Théâtre le coût s'arrête à l'avant-dernier étage — on n'explore jamais DEPUIS le sommet.",
+    "peak": 8,
+    "costByFloor": {
+      "1": 3,
+      "2": 5,
+      "3": 14,
+      "4": 20,
+      "5": 40,
+      "6": 70,
+      "7": 100
+    },
+    "tokensByFloor": {
+      "8": 13000
+    },
+    "tokensNote": "Seul le SOMMET est propre à la Forteresse. Les étages 1 à 7 reprennent les Jetons du Théâtre (theater.tokensByFloor) : Paul les donne pour identiques, et la page les fait donc suivre automatiquement — modifier un étage du Théâtre modifie le même étage en Forteresse. Le jour où les deux barèmes divergeraient, ajouter ici les étages concernés."
+  },
+  "rules": {
+    "claimResetsToFloor": 1,
+    "claimAllowedFromFloor": 2,
+    "claimAllowedFromFloorNote": "Une manche impose au moins une exploration : sans cette règle, encaisser l'étage 1 serait gratuit et rapporterait des jetons à l'infini. Le guide ne le dit pas explicitement, mais un tirage gratuit ne peut pas exister.",
+    "failStillCountsForMilestones": true,
+    "failStillCountsForMilestonesNote": "Guide : « an exploration that fails to move you up a floor is not wasted — it still counts toward this track ». Les paliers d'activité comptent les amulettes DÉPENSÉES, réussite ou non.",
+    "noFloorLoss": true,
+    "leftoverTokensBecome": {
+      "EN": "Lv.1 Custom Secured Resource Chest",
+      "FR": "Caisse de Ressources Sécurisée Personnalisée Nv.1"
+    }
+  }
+}

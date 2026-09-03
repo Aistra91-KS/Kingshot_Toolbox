@@ -3,7 +3,7 @@
     "tier": "Gen 7 / TG5+",
     "packPrice": 6,
     "packPriceUsd": 5,
-    "updatedAt": "2026-09-01",
+    "updatedAt": "2026-09-03",
     "source": "Relevé in-game des packs ACHETABLES AU MOINS UNE FOIS PAR MOIS. Sont écartés : les packs d'événement, les packs VIP et les packs qui ne passent qu'une seule fois — un prix qu'on ne peut pas refaire le mois suivant n'est pas un prix de référence. Fourni et mis à jour périodiquement par Paul (fichier Pack_ks.xlsx).",
     "note": "Seconde valorisation, en argent reel. La cle de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs offrant le MEILLEUR PRIX UNITAIRE pour cet objet — prix du pack divise par la quantite obtenue. Les packs releves n'ont plus tous le meme prix : `_meta.packPrice` / `packPriceUsd` donnent le prix par DEFAUT (6 € / 5 $), et un pack qui coute autre chose porte son propre `price` / `priceUsd` dans `packs`. C'est ce qui a fait tomber la vieille regle « le plus d'exemplaires » : a deux prix differents, la plus grosse quantite n'est plus forcement la moins chere (20 accelerateurs 3h a 24 € sont plus chers que 12 a 6 €). UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocke : il se recalcule a l'affichage. Fichier ADMIN en lecture seule, regenerable d'un bloc depuis le releve Excel. Les quantites du releve font foi, Y COMPRIS a la baisse. TROIS blocs corrigent ce que le releve seul dit mal, et se CONSERVENT lors d'une regeneration de `items` (ils ne viennent PAS de l'Excel) : `derived` {fromId, factor, packs?, how} deduit la valeur d'un objet de celle d'un autre et REMPLACE le releve quand les deux existent ; une valeur deduite n'affiche AUCUN pack, sauf si la regle en nomme un dans `packs` (le pack qui chiffre `fromId` vaut alors aussi pour elle) — un releve peut etre exact et son prix unitaire absurde (un pack genereux sur un objet ne le rend pas plus utile) ; `speedups` fixe le prix d'UNE minute d'accelerateur (prix du pack de base / total de minutes du pack le plus genereux) et en deduit les cinq accelerateurs, pour qu'une heure vaille toujours 60 minutes ; les cinq affichent donc `basis.packs` comme pack d'origine, et non celui qui en donne le plus ; A prix unitaire EGAL entre deux packs de tarifs differents, `items` retient le MOINS CHER : le format {qty, packs[]} ne sait pas decrire « 24 dans un pack a 6 € OU 96 dans un pack a 24 € », et a l'unite pres c'est le petit ticket qui se conseille. C'est le cas du Ranger de la nature, exactement 4x le pack Rencontre Frontaliere pour 4x le prix. `weights` applique une ponderation ASSUMEE (choix editorial, pas une mesure) au resultat, ex. x0,25 sur les ressources brutes."
   },
@@ -155,6 +155,12 @@
     "promotion-medallion-pack": {
       "FR": "Pack Médaillon de Promotion",
       "EN": "Promotion Medallion Pack"
+    },
+    "research-privilege": {
+      "FR": "Privilège de Recherche",
+      "EN": "Research Privilege",
+      "price": 12,
+      "priceUsd": 10
     },
     "skill-manual-pack": {
       "FR": "Pack Manuel de Compétences",
@@ -698,9 +704,9 @@
       ]
     },
     "lv3_custom_resource_chest": {
-      "qty": 50,
+      "qty": 160,
       "packs": [
-        "intel-monthly-pass"
+        "research-privilege"
       ]
     },
     "masters_manuscript": {
@@ -800,9 +806,9 @@
       ]
     },
     "truegold_dust": {
-      "qty": 204,
+      "qty": 485,
       "packs": [
-        "truegold-dust-weekly-card"
+        "research-privilege"
       ]
     },
     "truegold_weekly_card_chest": {

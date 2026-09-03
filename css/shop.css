@@ -666,6 +666,15 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .sxe-detail { margin: 14px; background: var(--control-bg); }
 
 .sxe-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 0 14px 12px; }
+/* Une pastille d'outil ne doit jamais forcer la PAGE à défiler. `.sx-fact` porte
+   `white-space: nowrap`, utile dans l'en-tête de boutique où les faits sont
+   courts ; ici le plus long (« Amulettes Fantaisie dépensées » et son compteur)
+   dépasse à lui seul la largeur d'un téléphone, et un élément flex ne rétrécit
+   pas sous son contenu — d'où 52 px de débordement horizontal sur la page du
+   Théâtre, 18 sur le Stand d'Aventure. On lève le `nowrap` dans la barre d'outils
+   seulement : la pastille se replie au lieu de pousser la page.
+   Sans effet sur grand écran, où elles tiennent déjà sur une ligne. */
+.sxe-toolbar .sx-fact { white-space: normal; flex-wrap: wrap; max-width: 100%; }
 .sxe-toolbar .sx-take input[type="text"] {
   width: 40px; text-align: center; border: none;
   border-left: 1px solid var(--border); border-right: 1px solid var(--border);
@@ -680,7 +689,10 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
    horizontalement dans sa boîte (même parti que les tableaux BDD sur mobile),
    la colonne du pack restant figée — sans elle, on coche à l'aveugle. */
 .sxe-gridbox { overflow-x: auto; margin: 0 14px 4px; border: 1px solid var(--border); border-radius: 8px; }
-.sxe-grid { width: 100%; border-collapse: collapse; font-size: 13px; }
+/* `margin: 0` n'est pas décoratif : `style.css` donne 20 px de marge basse à
+   TOUTE table, ce qui creusait une bande vide sous la dernière ligne, à
+   l'intérieur du cadre — on aurait juré une ligne blanche de trop. */
+.sxe-grid { width: 100%; border-collapse: collapse; font-size: 13px; margin: 0; }
 .sxe-grid th, .sxe-grid td { padding: 7px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
 .sxe-grid thead th { background: var(--table-header); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); font-weight: 600; }
 .sxe-grid tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
@@ -801,3 +813,104 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .sxe-chk-fact { cursor: pointer; gap: 7px; }
 .sxe-chk-fact .sxe-chk { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; }
 @media (max-width: 560px) { .sxe-num { height: 44px; width: 44px; } }
+
+/* ==========================================================================
+   MAGASIN DU THÉÂTRE (.stx-) — « ce que valent tes amulettes »
+   Prolonge la section événement (js/shop-theater.js), branché par seExtras.
+   Réutilise tout le vocabulaire visuel de .sxe- : seuls les éléments que la
+   valorisation d'événement ne connaît pas ont leurs propres règles ici.
+   ========================================================================== */
+/* Dans `.sxe-panel`, chaque enfant porte SON retrait horizontal (14 px) : la
+   grille, les notes, le détail des gains. Sans le même, titres, texte et
+   bandeaux de ce bloc se collaient au bord du panneau pendant que ses tableaux,
+   eux, étaient en retrait — deux alignements dans la même section.
+   On le pose donc une fois sur le bloc, et on annule celui des éléments
+   empruntés à la boutique, sinon il se cumulerait. */
+.stx-root { margin: 22px 14px 0; padding-top: 18px; border-top: 1px solid var(--border); }
+.stx-root .sxe-gridbox, .stx-root .sxe-note { margin-left: 0; margin-right: 0; }
+.stx-root .sxe-toolbar { padding-left: 0; padding-right: 0; }
+.stx-root h2 { font-size: 17px; margin: 0 0 4px; }
+.stx-root h3 { font-size: 14px; margin: 22px 0 4px; color: var(--accent); }
+
+/* Barème de jetons : replié par défaut, il ne se touche qu'une fois. */
+.stx-toks { margin-top: 12px; }
+.stx-tok-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px; padding: 12px 14px 0; }
+.stx-tok { display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  font-size: 12px; color: var(--text-muted); }
+.stx-tok input { width: 84px; min-height: 34px; padding: 4px 8px; text-align: right;
+  background: var(--input-bg); border: 1px solid var(--border); color: var(--text-light);
+  border-radius: 4px; font-family: inherit; font-size: 13px; font-variant-numeric: tabular-nums;
+  outline: none; transition: border-color .2s; }
+.stx-tok input:focus { border-color: var(--accent); }
+/* Le dernier étage n'existe qu'en Forteresse : un filet le détache des autres. */
+.stx-tok-fort { grid-column: 1 / -1; padding-top: 8px; border-top: 1px dashed var(--border); }
+
+.stx-verdict { margin-top: 14px; padding: 12px 14px; background: var(--control-bg);
+  border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 6px; }
+.stx-verdict p { margin: 0 0 8px; font-size: 13.5px; color: var(--text-muted); line-height: 1.55; }
+.stx-verdict p:last-child { margin-bottom: 0; }
+.stx-verdict strong { color: var(--text-light); }
+.stx-claim { color: var(--success) !important; }
+.stx-push { color: var(--accent) !important; }
+
+/* Jauge de probabilité : une piste de largeur fixe, remplie à hauteur de la
+   chance, puis la valeur. L'ancienne version peignait une barre en fond de
+   cellule pendant que le pourcentage restait centré : à 100 % la barre passait
+   derrière le texte, à 30 % les deux ne se touchaient plus. */
+.stx-odds { white-space: nowrap; }
+.stx-meter {
+  display: inline-block; width: 110px; height: 8px; vertical-align: middle;
+  background: var(--control-bg); border: 1px solid var(--border);
+  border-radius: 999px; overflow: hidden;
+}
+.stx-meter > span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.stx-odds-v { display: inline-block; min-width: 46px; margin-left: 10px; text-align: right;
+  font-variant-numeric: tabular-nums; }
+
+/* La ligne « Meilleure ». Deux règles la contrariaient, et il faut les deux.
+   1. `style.css` raye TOUTES les tables : `tbody tr:nth-child(even)` (0,1,2) bat un
+      simple `.stx-best` (0,1,0). La consigne mise en avant tombant sur une ligne
+      paire, la teinte ne s'affichait pas du tout. On qualifie donc comme le fait
+      déjà le survol juste au-dessus — `.sxe-grid tbody tr…` (0,2,2) l'emporte.
+   2. La 1re colonne est `position: sticky` avec un fond OPAQUE : aucun fond de
+      ligne ne passe dessous, d'où une bande qui démarrait une colonne trop loin.
+      Même parade que `tbody tr:hover td.c-pack`, à la même teinte. */
+.sxe-grid tbody tr.stx-best { background: color-mix(in srgb, var(--success) 10%, transparent); }
+.sxe-grid tbody tr.stx-best td.c-pack { background: color-mix(in srgb, var(--success) 10%, var(--bg-panel)); }
+.sxe-grid tbody tr.stx-best:hover { background: color-mix(in srgb, var(--success) 16%, transparent); }
+.sxe-grid tbody tr.stx-best:hover td.c-pack { background: color-mix(in srgb, var(--success) 16%, var(--bg-panel)); }
+.stx-ratio { font-weight: 700; color: var(--accent); }
+.stx-tag { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 20px;
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em;
+  background: color-mix(in srgb, var(--success) 16%, transparent); color: var(--success); }
+
+/* Rapprochement du budget : la seule ligne de la section qui se compare
+   directement au jeu. Discrète tant que le compte tombe juste, franche sinon. */
+.stx-recon { margin: 10px 0 0; font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+.stx-recon em { opacity: .85; }
+.stx-recon-bad {
+  padding: 10px 12px; border-radius: 6px; border-left: 3px solid var(--warning);
+  background: color-mix(in srgb, var(--warning) 8%, transparent); color: var(--text-light);
+}
+
+/* Actions du Théâtre : « je viens de… ». Trois boutons qui reportent en une fois
+   l'étage, le compteur de garantie et les amulettes dépensées.
+   Le groupe reprend `.sx-take`, l'idiome des steppers voisins : même bordure,
+   même rayon, même hauteur, segments accolés. Seule la largeur change — les
+   boutons de `.sx-take` font 24 px, taillés pour un « − » ou un « + », pas pour
+   un mot. Sans quoi le bloc ressemblait à un widget étranger posé dans la barre. */
+.stx-acts button { width: auto; min-height: 21px; padding: 0 10px; font-size: 12px; white-space: nowrap; }
+.stx-acts button + button { border-left: 1px solid var(--border); }
+.stx-acts button:disabled { opacity: .35; cursor: default; }
+.stx-acts button:disabled:hover { background: var(--control-bg); color: var(--text-light); }
+
+/* Retrait mobile, à la même valeur que les éléments voisins de la section.
+   Il vit ICI, après `.stx-root`, et pas dans la requête média plus haut : à
+   spécificité égale (une classe de chaque côté, une requête média n'en ajoute
+   pas), c'est l'ordre du fichier qui tranche — et le raccourci `margin` de
+   `.stx-root` écrasait l'override en le suivant. Le bloc restait à 14 px pendant
+   que ses propres tableaux passaient à 10. */
+@media (max-width: 560px) {
+  .stx-root { margin-left: 10px; margin-right: 10px; }
+}

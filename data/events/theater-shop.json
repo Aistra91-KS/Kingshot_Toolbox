@@ -2,6 +2,8 @@
   "_meta": {
     "event": "Theater_Shop",
     "slug": "theater-shop",
+    "startsAt": "2026-09-01",
+    "endsAt": "2026-09-07T00:00:00Z",
     "days": 6,
     "tier": "Gen 7 / TG5+",
     "updatedAt": "2026-09-01",
@@ -14,8 +16,75 @@
       "EN": "The packs give Fantasy Amulets, not Fantasy Tokens: the Amulets feed a random draw, and the shop currency comes out of that. How much is down to luck, so the tool does not guess it - fill in your own token balance in the shop table above.",
       "FR": "Les packs donnent des Amulettes Fantaisie, pas des Jetons Fantaisie : les Amulettes alimentent un tirage aléatoire, et c'est de là que sort la monnaie de la boutique. Le montant dépend du hasard, l'outil ne le devine donc pas — renseigne toi-même ton solde de jetons dans le tableau de la boutique ci-dessus."
     },
-    "note": "Chaque pack contient AUSSI un petit coffre x1 (cadeau d'alliance) : volontairement absent du fichier, il ne se comptabilise jamais. Les Amulettes Fantaisie sont listées mais jamais chiffrées : elles ne sont pas la monnaie de la boutique, elles alimentent un tirage aléatoire qui rapporte des Jetons Fantaisie. Prix € relevés à l'écran ; les prix $ sont les paliers de magasin correspondants."
+    "note": "Chaque pack contient AUSSI un petit coffre x1 (cadeau d'alliance) : volontairement absent du fichier, il ne se comptabilise jamais. Les Amulettes Fantaisie sont listées mais jamais chiffrées : elles ne sont pas la monnaie de la boutique, elles alimentent un tirage aléatoire qui rapporte des Jetons Fantaisie. Prix € relevés à l'écran ; les prix $ sont les paliers de magasin correspondants. Les MISSIONS (Notes de Théâtre) sont listées comme les packs : elles versent des Amulettes, jamais des Jetons — l'étiquette sans itemId les laisse comptées mais jamais valorisées.",
+    "startsAtNote": "Fenêtre de l'ÉVÉNEMENT : `startsAt` = jour 1, `endsAt` = sa fermeture exacte (relevé par Paul : le 02/09/2026 à 20:50 UTC, il restait 4 j 3 h 10 min). Les packs s'achètent jusqu'à cette date, un par type et par jour. **La BOUTIQUE ferme 24 h plus tard** — son `endsAt` à elle est dans shopcalc_events.json (08/09) et ne dit que jusqu'à quand les Jetons restent dépensables. Un plan d'achat se borne donc au `endsAt` d'ICI, jamais à celui de la boutique : ce dernier inventerait une journée d'achat qui n'existe pas. `days` (6) reste la durée totale, elle sert à numéroter les jours."
   },
+  "missions": [
+    {
+      "id": "notes",
+      "name": {
+        "EN": "Theater Notes - 3 free daily missions",
+        "FR": "Notes de Théâtre - 3 missions quotidiennes gratuites"
+      },
+      "items": [
+        {
+          "label": {
+            "EN": "Fantasy Amulet",
+            "FR": "Amulette Fantaisie"
+          },
+          "qty": 20
+        }
+      ],
+      "note": {
+        "EN": "20 amulets in total across the three (5 + 5 + 10), not 20 each.",
+        "FR": "20 amulettes en cumulé sur les trois (5 + 5 + 10), pas 20 chacune."
+      }
+    },
+    {
+      "id": "purchase",
+      "name": {
+        "EN": "Daily mission: make a purchase in the game",
+        "FR": "Mission quotidienne : faire un achat dans le jeu"
+      },
+      "requiresPurchase": true,
+      "items": [
+        {
+          "label": {
+            "EN": "Fantasy Amulet",
+            "FR": "Amulette Fantaisie"
+          },
+          "qty": 20
+        }
+      ],
+      "note": {
+        "EN": "Any purchase counts, event pack or not.",
+        "FR": "N'importe quel achat compte, pack d'event ou non."
+      }
+    }
+  ],
+  "seasonalMissions": [
+    {
+      "id": "welcome",
+      "name": {
+        "EN": "Event opening grant",
+        "FR": "Cadeau d'ouverture de l'événement"
+      },
+      "minDays": 1,
+      "items": [
+        {
+          "label": {
+            "EN": "Fantasy Amulet",
+            "FR": "Amulette Fantaisie"
+          },
+          "qty": 10
+        }
+      ],
+      "note": {
+        "EN": "DEDUCED, not read off a reward screen. On day 3 the plan came out 2 amulets short while 8 were actually left in game - a gap of exactly 10, which a one-off opening grant explains. Confirm it in game and correct or delete this entry if it is wrong: the page now shows the reconciliation, so any remaining gap is visible.",
+        "FR": "DÉDUIT, pas relevé sur un écran de récompense. Au 3e jour, le plan tombait 2 amulettes en dessous alors qu'il en restait 8 en jeu — un écart d'exactement 10, qu'un cadeau d'ouverture unique explique. À confirmer en jeu, et à corriger ou supprimer si c'est faux : la page affiche désormais le rapprochement, donc tout écart restant se voit."
+      }
+    }
+  ],
   "packs": [
     {
       "id": "common",

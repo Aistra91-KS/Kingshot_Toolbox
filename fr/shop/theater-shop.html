@@ -58,7 +58,7 @@
             <div class="sx-facts" id="sp-facts"></div>
           </div>
         </div>
-        <p class="db-intro">Le contenu complet du Magasin du Théâtre de Kingshot — la boutique de l'événement Théâtre Fantastique — payée en Jetons Fantaisie. Cette boutique ne fonctionne pas comme les autres : elle propose les mêmes neuf offres trois fois, à trois prix croissants, plus un accélérateur qui n'apparaît que dans le palier le plus cher — 28 lignes en tout. Le palier 1 est le moins cher et le moins fourni ; une fois épuisé, le même objet coûte 50 % de plus, puis encore 20 % environ. Chaque ligne est confrontée à sa valeur de référence en gemmes, pour voir exactement ce que l'on perd en creusant les paliers les plus chers.</p>
+        <p class="db-intro">Le contenu complet du Magasin du Théâtre de Kingshot — la boutique de l'événement Théâtre Fantastique — payée en Jetons Fantaisie. Cette boutique ne fonctionne pas comme les autres : elle propose les mêmes neuf offres trois fois, à trois prix croissants, plus un accélérateur qui n'apparaît que dans le palier le plus cher — 28 lignes en tout. Le palier 1 est le moins cher et le moins fourni ; une fois épuisé, le même objet coûte 50 % de plus, puis encore 20 % environ. Chaque ligne est confrontée à sa valeur de référence en gemmes, pour voir exactement ce que l'on perd en creusant les paliers les plus chers. Sous le tableau de la boutique, une section dédiée traduit un plan d'Amulettes Fantaisie en Jetons : les chances d'atteindre chaque étage, l'étage où encaisser rapporte le plus par amulette, et ce qu'il faut faire depuis celui où l'on se trouve.</p>
         <div id="sp-archive"></div>
         <div class="sx-actions" id="sp-actions"></div>
         <div id="sp-cart"></div>
@@ -128,6 +128,9 @@
     <script src="js/shop-core.js"></script>
     <script src="js/shop-page.js"></script>
     <script src="js/shop-event.js"></script>
+    <!-- Propre au Theatre : prolonge la section evenement par l optimiseur
+         d amulettes (window.seExtras). Doit suivre shop-event.js. -->
+    <script src="js/shop-theater.js"></script>
     <script src="js/backup.js"></script>
     <script src="js/footer.js"></script>
 </body>
