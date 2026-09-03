@@ -163,7 +163,13 @@ Kingshot_Toolbox/
 │   ├── packs/                    Captures des packs payants `<id de pack>.webp` (34), affichées en aperçu au survol sur `shop/items-euro.html`. Redimensionnées à 560×760 max — elles ne servent qu'en bulle, la pleine résolution serait 25× plus lourde pour rien
 │   └── pets/                     Familiers : portraits (.webp ×14) + sous-dossier skills/ (icônes compétence, .webp ×14)
 │
+├── tests/                        Tests des moteurs de calcul — `node --test` à la racine, **zéro dépendance, zéro build** (cf. §10)
+│   ├── harness.mjs               Charge les fichiers de `js/` tels quels dans un contexte `vm` (fetch sur disque, localStorage en mémoire, DOM inerte)
+│   ├── shop-event.test.mjs       Valorisation d'événement : les contrôles chiffrés de §7, enfin rejouables
+│   └── theater-draw.test.mjs     Moteur du tirage du Théâtre contre une simulation Monte-Carlo grainée
+│
 └── .github/
+    ├── workflows/tests.yml             Workflow : lance `node --test` à chaque push et sur les PR
     ├── workflows/discord-announce.yml  Workflow : publie l'annonce (déclenché par le commit de announce.md)
     ├── scripts/announce.js             Script Node : lit announce.md → 2 embeds Discord (FR + EN)
     └── news/announce.md                Annonce en attente : en-tête `covers-until` + sections `## FR` / `## EN`
@@ -522,3 +528,21 @@ Lecture sûre via `safeParse(key, fallback)` (try/catch → fallback si JSON cor
 ---
 
 *Fin de MAP.md — proposer une mise à jour ciblée de ce fichier à chaque changement de fichiers/architecture.*
+
+---
+
+## 10. Tests
+
+**`node --test`** à la racine du dépôt. Rien à installer, rien à construire — c'est le lanceur de Node lui-même, et les tests ne chargent que des fichiers déjà servis par le site.
+
+**Comment ça marche.** Le site n'a ni modules ni build : `js/*.js` pose des fonctions globales que le navigateur assemble page par page. `tests/harness.mjs` reproduit ça dans un contexte `vm` — les scripts y sont chargés **sans être modifiés**, dans l'ordre du HTML, avec trois substituts : `fetch` lit `data/` sur le disque, `localStorage` est en mémoire (donc chaque test part des valeurs par défaut), et `document.getElementById` rend `null`, ce qui fait sortir les IIFE de fin de fichier avant tout rendu. C'est ce qui permet de tester **le code réellement servi** sans lui ajouter le moindre `export`.
+
+Conséquence à connaître : les `let` de premier niveau d'un script vivent dans la portée lexicale du contexte, pas sur son objet global. On ne les lit et ne les écrit donc qu'**à l'intérieur** du contexte, via `run(ctx, '…')`.
+
+**Ce qui est couvert.** Les deux calculs où une régression serait invisible à l'écran et coûteuse pour le joueur :
+- **Valorisation d'événement** (`seCompute`) — les contrôles réels de §7, jusqu'ici vérifiés à la main une seule fois : Caravane du Dragon 4 jours + achat déclaré → **230 essences** (et 195 sans, ce qui prouve d'où viennent les 35), Stand d'Aventure F2P 5 jours → **32 388 gemmes**, plus l'invariant « autant de Points de Vente que de Pièces d'Aventure par source ».
+- **Tirage du Théâtre** (`ftClimbCostFrom`, `ftComputeReach`, `ftAttemptsFrom`) — la forme close comparée à une **simulation Monte-Carlo qui ne partage aucune ligne avec elle**. Le générateur est **grainé** : à graine fixe le résultat ne bouge pas, donc un test qui échoue signale un vrai écart, jamais un coup de malchance.
+
+**Ajouter un test.** Un contrôle chiffré écrit en prose dans ce fichier est déjà un test — il ne lui manque que d'être exécutable. Le transcrire vaut mieux que d'en inventer un nouveau : il vient d'un relevé en jeu.
+
+**Une règle.** Un test qui ne peut pas échouer ne protège rien. Après en avoir écrit un, casser volontairement le code qu'il couvre et vérifier qu'il vire au rouge — c'est ce qui a validé la première série.

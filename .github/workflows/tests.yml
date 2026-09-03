@@ -1,0 +1,19 @@
+# Lance les tests des moteurs de calcul. Aucune dépendance à installer : les tests
+# n'utilisent que le lanceur intégré de Node, et le dépôt n'a pas de gestionnaire
+# de paquets (cf. MAP.md §10).
+name: Tests
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test
