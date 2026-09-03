@@ -74,7 +74,7 @@ function spViewTabsHtml(){
   const eur=scIsEur();
   let h=`<span class="db-switch sx-views" role="tablist" aria-label="${scEscAttr(scT('viewLabel'))}">
       <button type="button" class="db-switch-item${eur?'':' active'}" role="tab" aria-selected="${eur?'false':'true'}" onclick="spSetView('gem')">&#128142; ${scT('viewGem')}</button>
-      <button type="button" class="db-switch-item${eur?' active':''}" role="tab" aria-selected="${eur?'true':'false'}" onclick="spSetView('eur')">&euro; ${scT('viewEur')}</button>
+      <button type="button" class="db-switch-item${eur?' active':''}" role="tab" aria-selected="${eur?'true':'false'}" onclick="spSetView('eur')">&#128181; ${scT('viewEur')}</button>
     </span>`;
   // Le sélecteur de devise n'a de sens que dans la lecture € : on ne l'affiche pas ailleurs.
   if(eur){
@@ -111,7 +111,10 @@ function spSetView(v){
   if(c && SP_TWIN[c]) SP_SORT.cur.col = SP_TWIN[c];
   spRenderAll();
 }
-function spSetCur(c){ if(scCur()===c) return; scSetCur(c); spRenderAll(); }
+// Cliquer la pastille DÉJÀ active n'est pas un geste vide : tant que rien n'est mémorisé, la
+// devise suit la langue, et ce clic est ce qui la fige. On enregistre donc toujours, et on ne
+// re-rend que si l'affichage change vraiment.
+function spSetCur(c){ const same=scCur()===c; scSetCur(c); if(!same) spRenderAll(); }
 
 // ---------- barre d'action : lecture + monnaie + crayon + panier ----------
 function spRenderActions(){
@@ -541,21 +544,21 @@ function spNotifyEvent(){ if(window.ShopEvent) ShopEvent.refresh(); }
     id:'shop-page',
     anchor:'#sp-facts',   // sous la ligne d'infos, pas entre le titre et elle
     title:{FR:'Lire cette boutique', EN:'Reading this shop'},
-    summary:{FR:"Chaque objet est comparé à sa valeur en gemmes : le ratio dit combien de valeur tu obtiens par unité de monnaie.",
-             EN:"Each item is compared to its gem value: the ratio tells how much value you get per unit of currency."},
+    summary:{FR:"Chaque objet est comparé à sa valeur — en argent réel par défaut, en gemmes si tu bascules : le ratio dit combien de valeur tu obtiens par unité de monnaie.",
+             EN:"Each item is compared to its value — real money by default, gems if you switch: the ratio tells how much value you get per unit of currency."},
     steps:{
-      FR:["Le ratio = valeur en gemmes ÷ coût. Plus il est élevé, meilleure est l'affaire ; le meilleur de la boutique est marqué « Top ».",
+      FR:["Le ratio = valeur de l'objet ÷ coût, dans la lecture active. Plus il est élevé, meilleure est l'affaire ; le meilleur de la boutique est marqué « Top ».",
           "Clique sur un en-tête de colonne pour trier le tableau.",
           "Sur une boutique d'événement, renseigne ta monnaie en haut de page : la colonne « Obtenable » indique ce que tu peux réellement sortir d'ici la fin.",
           "Le bouton « Modifier » (crayon) ouvre le mode édition : quantités, coûts et stock restant deviennent modifiables, et tu peux ajouter ou retirer des objets si ta boutique en jeu diffère.",
           "Les valeurs en gemmes se modifient sur la page « Valeur des objets » — le changement se répercute sur toutes les boutiques.",
-          "Les pastilles « 💎 Gemmes » et « € Euros » ouvrent deux lectures indépendantes de la même boutique. La lecture en euros s'appuie sur le prix réel des packs payants ; un « — » signale un objet qu'aucun pack ne permet de chiffrer."],
-      EN:["Ratio = gem value ÷ cost. The higher it is, the better the deal; the shop's best one is tagged “Top”.",
+          "Les pastilles « 💵 $ / € » et « 💎 Gemmes » ouvrent deux lectures indépendantes de la même boutique. L'argent réel, affiché d'entrée, s'appuie sur le prix des packs payants ; un « — » signale un objet qu'aucun pack ne permet de chiffrer. Les pastilles € / $ à côté changent de devise."],
+      EN:["Ratio = item value ÷ cost, in the active reading. The higher it is, the better the deal; the shop's best one is tagged “Top”.",
           "Click a column header to sort the table.",
           "On an event shop, enter your currency at the top: the “Obtainable” column shows what you can really get before it ends.",
           "The “Edit” (pencil) button opens edit mode: quantities, costs and remaining stock become editable, and you can add or remove items if your in-game shop differs.",
           "Gem values are edited on the “Item values” page — the change applies to every shop.",
-          "The “💎 Gems” and “€ Euros” pills open two independent readings of the same shop. The euro reading is based on the real price of the paid packs; a “—” marks an item no pack can put a price on."]
+          "The “💵 $ / €” and “💎 Gems” pills open two independent readings of the same shop. Real money, shown first, is based on the price of the paid packs; a “—” marks an item no pack can put a price on. The € / $ pills next to them switch currency."]
     },
     links:[{label:{FR:'Toutes les boutiques', EN:'All shops'}, href:'shop_calc'},
            {label:{FR:'Valeur des objets', EN:'Item values'}, href:'shop/items'}]

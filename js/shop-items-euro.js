@@ -131,7 +131,9 @@ function ieRenderCur(){
     <button type="button" class="db-switch-item${usd?'':' active'}" onclick="ieSetCur('EUR')">&euro;</button>
     <button type="button" class="db-switch-item${usd?' active':''}" onclick="ieSetCur('USD')">$</button>`;
 }
-window.ieSetCur=function(c){ if(scCur()===c) return; scSetCur(c); ieRender(); };
+// Comme sur les pages boutique : cliquer la pastille déjà active fige la devise, qui suivait
+// jusque-là la langue. On enregistre toujours, on ne re-rend que si l'affichage change.
+window.ieSetCur=function(c){ const same=scCur()===c; scSetCur(c); if(!same) ieRender(); };
 
 // Date du relevé : le JSON la garde en ISO (non ambigu), on l'affiche au format local.
 function ieDate(iso){

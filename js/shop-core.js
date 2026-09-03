@@ -63,7 +63,7 @@ const i18nShop = {
     tipCostObt:"Monnaie d'événement nécessaire pour la quantité « Obtenable ».",
 
     // --- valorisation € (vue séparée) ---
-    viewGem:"Gemmes", viewEur:"Euros", viewLabel:"Lecture",
+    viewGem:"Gemmes", viewEur:"$ / €", viewLabel:"Lecture",
     hEur:"Valeur {c}", hTakeEur:"Valeur {c} tot.", kpiValueEur:"Valeur obtenue",
     curLabel:"Devise", noEur:"Valeur {c} inconnue pour cet objet",
     zoneEUR:"tarif zone euro TTC", zoneUSD:"tarif boutique en dollars",
@@ -143,7 +143,7 @@ const i18nShop = {
     tipCostObt:"Event currency needed for the “Obtainable” quantity.",
 
     // --- euro valuation (separate view) ---
-    viewGem:"Gems", viewEur:"Euros", viewLabel:"Reading",
+    viewGem:"Gems", viewEur:"$ / €", viewLabel:"Reading",
     hEur:"{c} value", hTakeEur:"{c} value tot.", kpiValueEur:"Value obtained",
     curLabel:"Currency", noEur:"No {c} value known for this item",
     zoneEUR:"euro-zone price incl. tax", zoneUSD:"US dollar store price",
@@ -222,9 +222,12 @@ function scLabel(it,skin,lang){ const b=it?scName(it,lang):'??'; return skin?`${
 function scGem(id){ const it=scItemById(id); return it?Number(it.gemValue)||0:0; }
 
 // ---------- valorisation € : vue et devise ----------
-// La VUE vit dans l'URL (?v=eur) pour qu'un lien partagé ouvre la bonne lecture, et se
+// La VUE vit dans l'URL (?v=gem) pour qu'un lien partagé ouvre la bonne lecture, et se
 // retient d'une boutique à l'autre dans une clé « chrome » (même nature que hub_lang /
 // hub_theme, donc hors registre STORAGE_KEYS : le relevé € lui-même est en lecture seule).
+// Seule la lecture NON par défaut s'écrit dans l'URL : le paramètre ne sert qu'à forcer ce
+// qu'une première visite ne montrerait pas d'elle-même. Les deux valeurs restent acceptées
+// en entrée, donc les liens « ?v=eur » déjà partagés continuent d'ouvrir l'argent réel.
 const SC_VIEW_KEY='shop_view', SC_CUR_KEY='shop_currency';
 function scChromeGet(k,def){ try{ return localStorage.getItem(k)||def; }catch(e){ return def; } }
 function scChromeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
@@ -239,8 +242,11 @@ function scView(){
     // dès la première navigation vers une autre boutique.
     SC_VIEW = v; scChromeSet(SC_VIEW_KEY, v); return SC_VIEW;
   }
-  v=scChromeGet(SC_VIEW_KEY,'gem');
-  SC_VIEW = (v==='eur') ? 'eur' : 'gem';
+  // Première visite : c'est l'argent réel qui s'affiche. Le prix en euros dit tout de suite
+  // ce qu'une boutique coûte vraiment, là où la gemme demande de connaître le jeu pour
+  // être lue. La lecture en gemmes reste à une pastille, et le choix se retient.
+  v=scChromeGet(SC_VIEW_KEY,'eur');
+  SC_VIEW = (v==='gem') ? 'gem' : 'eur';
   return SC_VIEW;
 }
 function scSetView(v){
@@ -248,16 +254,22 @@ function scSetView(v){
   scChromeSet(SC_VIEW_KEY, SC_VIEW);
   try{
     const u=new URL(location.href);
-    if(SC_VIEW==='eur') u.searchParams.set('v','eur'); else u.searchParams.delete('v');
+    if(SC_VIEW==='gem') u.searchParams.set('v','gem'); else u.searchParams.delete('v');
     history.replaceState(null,'',u);
   }catch(e){}
 }
 function scIsEur(){ return scView()==='eur'; }
 
+// Tant que le visiteur n'a pas touché aux pastilles, la devise SUIT LA LANGUE : euro en
+// français, dollar en anglais (la langue démarre sur EN), parce que c'est le tarif que
+// chaque public voit dans sa propre boutique. Ce défaut n'est volontairement pas mémorisé :
+// il se recalcule à chaque lecture, donc changer de langue change aussi la devise — jusqu'au
+// premier clic sur une pastille, qui fige le choix pour de bon.
 function scCur(){
   if(SC_CUR) return SC_CUR;
-  SC_CUR = (scChromeGet(SC_CUR_KEY,'EUR')==='USD') ? 'USD' : 'EUR';
-  return SC_CUR;
+  const c=scChromeGet(SC_CUR_KEY,'');
+  if(c==='USD' || c==='EUR'){ SC_CUR=c; return SC_CUR; }
+  return (scLang()==='FR') ? 'EUR' : 'USD';
 }
 function scSetCur(c){ SC_CUR = (c==='USD')?'USD':'EUR'; scChromeSet(SC_CUR_KEY, SC_CUR); }
 function scCurSym(){ return scCur()==='USD' ? '$' : '\u20AC'; }
