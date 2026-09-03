@@ -655,7 +655,13 @@ async function scLoadChests(){
   try{ SC_CHESTS = await (await scFetchData('data/shopcalc_chests.json')).json(); }
   catch(e){ console.error('chests',e); SC_CHESTS=[]; }
 }
-async function scLoadAll(){ await scLoadItems(); await scLoadClassic(); await scLoadEvents(); await scLoadChests(); await scLoadEuro(); }
+// Les cinq fichiers sont INDÉPENDANTS : aucun chargeur ne lit les globales d'un autre, et
+// chacun gère déjà son propre échec. Les attendre l'un après l'autre coûtait cinq allers-
+// retours réseau en série avant le premier rendu — d'autant plus longs que `no-cache` les
+// fait tous revalider. En parallèle, c'est le plus lent qui donne le temps d'attente.
+async function scLoadAll(){
+  await Promise.all([scLoadItems(), scLoadClassic(), scLoadEvents(), scLoadChests(), scLoadEuro()]);
+}
 
 // ---------- résolution boutique <-> page ----------
 // `kind` distingue les trois familles ; il n'est PAS stocké dans les JSON (il découle du fichier d'origine).
