@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 1.13
-covers-until: 215d33cb0fcf134e96716e893b2eaefdb536af84
-generated: 2026-09-01
+version: none
+covers-until: 6a19a06c457fb04388ca636fb9ed0b6933062046
+generated: 2026-09-03
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 🎭 Le Magasin du Théâtre, palier par palier
-title-en: 🎭 The Theater Shop, tier by tier
+title-fr: 🧭 Sais-tu ce que valent tes Amulettes ?
+title-en: 🧭 Do you know what your Amulets are worth?
 -->
 
 <!--
@@ -59,27 +59,25 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 🎭 Le Magasin du Théâtre, palier par palier
+### 🧭 Sais-tu ce que valent tes Amulettes ?
 
-La boutique de l'événement Théâtre Fantastique a sa page, et elle ne ressemble pas aux autres : **le même objet y est vendu trois fois, à trois prix croissants**. En jeu, seule la couleur de la carte te le dit. Sur la page, chaque ligne porte son **palier** — or, violet, bleu — et le tableau continue de tout classer par rentabilité.
+Le Magasin du Théâtre est la seule boutique dont on ne peut pas acheter la monnaie directement : les packs versent des Amulettes Fantaisie, et ce sont les étages atteints dans le tirage du Théâtre qui donnent les Jetons Fantaisie affichés dans la boutique. Une nouvelle section, sous le détail des gains de la page, comble ce chaînon manquant.
 
-C'est ce classement qui rend l'échelle lisible. Exemple : le **Mithril du palier 2** (×100) reste un meilleur achat que l'**Or Véritable du palier 1** (×90). Autrement dit, creuser un palier cher sur un bon objet peut rapporter plus que rester au palier 1 d'un objet moyen.
+Elle lit ton plan d'achat déjà coché au-dessus et affiche combien d'amulettes tu devrais avoir **en poche aujourd'hui** — le seul chiffre comparable au jeu —, les chances exactes d'atteindre chaque étage, et l'étage où encaisser rapporte le plus de jetons par amulette.
 
-Les 28 lignes y sont, avec leur coût en Jetons Fantaisie, leur stock et leur valeur — en gemmes **et** en euros, les deux lectures sont complètes. Coche ce que tu comptes prendre, le solde et la valeur obtenue se recalculent tout seuls.
-
-Petit essai au passage : cette page a **sa propre adresse française**. Si ça donne quelque chose, j'étendrai aux autres.
+Le plus utile au quotidien : un conseil **pousser ou encaisser**, calculé pour l'étage et le compteur d'échecs où tu es, avec le budget exact où ce conseil bascule — la réponse dépend de ton état, pas d'une règle unique. Trois boutons (« échouer », « monter », « encaisser ») reportent d'un clic ce qui vient de se passer en jeu, et le bouton « Comment ça marche ? » de la page détaille tout le reste.
 
 👉 https://kingshottoolbox.com/fr/shop/theater-shop
 👉 https://kingshottoolbox.com/shop/theater-shop (en anglais)
 
 ## EN
 
-### 🎭 The Theater Shop, tier by tier
+### 🧭 Do you know what your Amulets are worth?
 
-The store of the Fantasy Theater event has its page, and this one is unlike the others: **the same item is sold three times, at three rising prices**. In game only the colour of the card tells you which is which. On the page every line carries its **tier** — gold, purple, blue — and the table still ranks everything by value.
+The Theater Shop is the only shop whose currency you cannot buy directly: packs pay Fantasy Amulets, and it's the floors you reach in the Theater's draw that hand out the Fantasy Tokens the shop is priced in. A new section under the reward breakdown fills that missing link.
 
-That ranking is what makes the ladder readable. For example: **Mithril at tier 2** (×100) is still a better buy than **TrueGold at tier 1** (×90). Digging into an expensive tier on a good item can beat staying at tier 1 on an average one.
+It reads the purchase plan you've already ticked above and shows how many amulets you should be holding **today** — the only figure that should match the game —, the exact odds of reaching each floor, and which floor pays the most tokens per amulet to cash in on.
 
-All 28 lines are there, with their Fantasy Token cost, their stock and their value — in gems **and** in euros, both readings are complete. Tick what you plan to buy and the balance and the value you get update as you go.
+The most useful part day to day: a **push or cash in** verdict, worked out for the floor and failed-push counter you're actually on, with the exact budget where that advice flips — the answer depends on your state, not a single rule. Three buttons ("failed", "went up", "cashed in") report what just happened in game with one click, and the page's "How does it work?" button walks through the rest.
 
 👉 https://kingshottoolbox.com/shop/theater-shop
