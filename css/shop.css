@@ -745,7 +745,6 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 
 @media (max-width: 560px) {
   .sxe-gridbox, .sxe-toolbar, .sxe-note { margin-left: 10px; margin-right: 10px; }
-  .stx-root { margin-left: 10px; margin-right: 10px; }
   .sxe-detail { margin: 10px; }
   /* Cible tactile : 44 px de haut, 8 px d'écart — un doigt ne vise pas 30 px. */
   .sxe-cell { height: 44px; width: 42px; }
@@ -869,7 +868,18 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .stx-odds-v { display: inline-block; min-width: 46px; margin-left: 10px; text-align: right;
   font-variant-numeric: tabular-nums; }
 
-.stx-best { background: color-mix(in srgb, var(--success) 10%, transparent); }
+/* La ligne « Meilleure ». Deux règles la contrariaient, et il faut les deux.
+   1. `style.css` raye TOUTES les tables : `tbody tr:nth-child(even)` (0,1,2) bat un
+      simple `.stx-best` (0,1,0). La consigne mise en avant tombant sur une ligne
+      paire, la teinte ne s'affichait pas du tout. On qualifie donc comme le fait
+      déjà le survol juste au-dessus — `.sxe-grid tbody tr…` (0,2,2) l'emporte.
+   2. La 1re colonne est `position: sticky` avec un fond OPAQUE : aucun fond de
+      ligne ne passe dessous, d'où une bande qui démarrait une colonne trop loin.
+      Même parade que `tbody tr:hover td.c-pack`, à la même teinte. */
+.sxe-grid tbody tr.stx-best { background: color-mix(in srgb, var(--success) 10%, transparent); }
+.sxe-grid tbody tr.stx-best td.c-pack { background: color-mix(in srgb, var(--success) 10%, var(--bg-panel)); }
+.sxe-grid tbody tr.stx-best:hover { background: color-mix(in srgb, var(--success) 16%, transparent); }
+.sxe-grid tbody tr.stx-best:hover td.c-pack { background: color-mix(in srgb, var(--success) 16%, var(--bg-panel)); }
 .stx-ratio { font-weight: 700; color: var(--accent); }
 .stx-tag { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 20px;
   font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em;
@@ -894,3 +904,13 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .stx-acts button + button { border-left: 1px solid var(--border); }
 .stx-acts button:disabled { opacity: .35; cursor: default; }
 .stx-acts button:disabled:hover { background: var(--control-bg); color: var(--text-light); }
+
+/* Retrait mobile, à la même valeur que les éléments voisins de la section.
+   Il vit ICI, après `.stx-root`, et pas dans la requête média plus haut : à
+   spécificité égale (une classe de chaque côté, une requête média n'en ajoute
+   pas), c'est l'ordre du fichier qui tranche — et le raccourci `margin` de
+   `.stx-root` écrasait l'override en le suivant. Le bloc restait à 14 px pendant
+   que ses propres tableaux passaient à 10. */
+@media (max-width: 560px) {
+  .stx-root { margin-left: 10px; margin-right: 10px; }
+}

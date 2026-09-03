@@ -113,10 +113,16 @@ function ftComputeReach(area, budget, f0, k0) {
     const stride = (peak + 1) * nk;
     const jumps = Object.keys(J).map(j => [+j, J[j]]);
     const out = new Array(peak + 1).fill(0);
+    // UN seul tampon pour les sept cibles, remis a zero entre chaque. En allouer un
+    // par cible faisait 7 x (20001 x 40 x 8 o) = ~45 Mo de Float64Array jetables a
+    // chaque appel au budget plafond — 57 ms sur un ordinateur de bureau, bien plus
+    // sur un telephone. Equivalent au precedent : chaque case est soit reecrite
+    // ci-dessous, soit laissee a zero, ce que `fill(0)` garantit.
+    const R = new Float64Array((B + 1) * stride);
 
     for (let T = 1; T <= peak; T++) {
         if (f0 >= T) { out[T] = 1; continue; }
-        const R = new Float64Array((B + 1) * stride);
+        R.fill(0);
         for (let b = 0; b <= B; b++) {
             const base = b * stride;
             for (let f = 1; f <= peak; f++) {
@@ -269,7 +275,8 @@ const i18nTheater = {
         fortRate: 'Fortress payout',
         fortCycle: 'Full cycle, Theater and Fortress',
         perAmulet: 'tokens per amulet',
-        noPlan: 'Tick what you buy in the grid above and this works out what those amulets are worth.'
+        noPlan: 'Tick what you buy in the grid above and this works out what those amulets are worth.',
+        noTokens: 'Every floor is set to 0 tokens, so there is nothing to weigh up: fill in "Tokens paid by each floor" - or restore the default values - and the advice comes back.'
     },
     FR: {
         title: 'Ce que valent tes amulettes',
@@ -315,7 +322,8 @@ const i18nTheater = {
         fortRate: 'Rendement de la Forteresse',
         fortCycle: 'Cycle complet, Théâtre et Forteresse',
         perAmulet: 'jetons par amulette',
-        noPlan: 'Coche tes achats dans la grille ci-dessus et le calcul te dira ce que ces amulettes valent.'
+        noPlan: 'Coche tes achats dans la grille ci-dessus et le calcul te dira ce que ces amulettes valent.',
+        noTokens: 'Tous les étages sont à 0 jeton : il n’y a plus rien à arbitrer. Renseigne « Jetons donnés par chaque étage » — ou rétablis les valeurs par défaut — et le conseil revient.'
     }
 };
 
@@ -600,14 +608,24 @@ function stRender(host, c) {
     let verdict = '';
     if (!total) {
         verdict = `<p>${stT('noPlan')}</p>`;
+    } else if (!tok) {
+        // Barème entièrement remis à zéro par le joueur : plus aucun étage ne paie,
+        // donc `fin` est nul et tout conseil chiffré est faux. Le dire, plutôt que de
+        // laisser un cadre vide et deux tableaux disparus sans explication.
+        verdict = `<p>${stT('noTokens')}</p>`;
     } else if (s.floor >= a.peak) {
         verdict = `<p>${fr ? 'Tu es au <strong>sommet</strong> : encaisse, c’est le seul choix ici, et tu repars à l’étage 1 avec tes Fanstars.'
             : 'You are at the <strong>peak</strong>: cash in, the only move here, and you restart at floor 1 with your Fanstars.'}</p>`;
-    } else if (fin && !canPush && !fin.claim) {
+    } else if (!canPush) {
+        // NE PAS y remettre `!fin.claim` : à un étage encaissable, ne pas pouvoir
+        // explorer rend TOUJOURS l'encaissement optimal, donc `fin.claim` y est
+        // toujours vrai — la condition ne laissait passer que l'étage 1, et le seul
+        // conseil de fin d'événement (« encaisse avant la fermeture ») ne s'affichait
+        // jamais. C'est pourtant le piège que ce module existe pour signaler.
         verdict = `<p>${fr
             ? `<strong class="stx-claim">Plus rien à jouer.</strong> Il te reste ${stFmt(budget)} amulette(s), et une exploration depuis l’étage ${s.floor} en coûte ${a.cost[s.floor] || '—'}. ${s.floor >= a.claimFrom ? 'Encaisse ton étage avant la fermeture : une montée laissée en plan ne rapporte rien.' : 'Attends les amulettes des missions du jour.'}`
             : `<strong class="stx-claim">Nothing left to play.</strong> You have ${stFmt(budget)} amulet(s) and an exploration from floor ${s.floor} costs ${a.cost[s.floor] || '—'}. ${s.floor >= a.claimFrom ? 'Cash your floor in before it closes: a climb left hanging pays nothing.' : 'Wait for the amulets from today\'s missions.'}`}</p>`;
-    } else if (fin) {
+    } else {
         const bits = [fin.claim
             ? (fr ? `<strong class="stx-claim">Encaisse.</strong> À l’étage ${s.floor}, avec ${stFmt(budget)} amulettes devant toi, prendre les ${stFmt(tok[s.floor])} jetons et repartir rapporte plus que pousser plus haut.`
                   : `<strong class="stx-claim">Cash in.</strong> On floor ${s.floor}, with ${stFmt(budget)} amulets ahead of you, taking the ${stFmt(tok[s.floor])} tokens and starting over beats climbing further.`)
@@ -617,9 +635,21 @@ function stRender(host, c) {
         // Le seuil où le conseil bascule : c'est LA chose à comprendre sur cet
         // événement, et elle ne se lit dans aucun tableau.
         const flip = stFlipBudget(a, tok, s.floor, s.pity);
-        if (flip) bits.push(fr
-            ? `Le seuil dépend d’où tu es : à l’étage ${s.floor} avec ${s.pity} échec(s), la bascule est à <strong>${stFmt(flip)} amulettes</strong> — en dessous il vaudrait mieux encaisser et recommencer, au-dessus pousser. Tu en as ${stFmt(budget)}. Le compteur de garantie fait beaucoup : à ce même étage sur un compteur neuf, il faudrait ${stFmt(stFlipBudget(a, tok, s.floor, 0) || 0)} amulettes pour que pousser vaille le coup.`
-            : `The threshold depends on where you are: on floor ${s.floor} with ${s.pity} failed push(es), it flips at <strong>${stFmt(flip)} amulets</strong> - below that you would do better cashing in and starting over, above it pushing. You have ${stFmt(budget)}. The guarantee counter matters a lot: on the same floor with a fresh counter, pushing would only pay from ${stFmt(stFlipBudget(a, tok, s.floor, 0) || 0)} amulets.`);
+        if (flip) {
+            // La comparaison au compteur neuf n'est ajoutée QUE si elle dit quelque
+            // chose. `stFlipBudget` rend `null` dans DEUX cas opposés — pousser vaut
+            // toujours mieux, ou encaisser vaut toujours mieux — et un `|| 0` en
+            // faisait « pousser paie dès 0 amulette », soit l'inverse du conseil dans
+            // le second cas. À compteur neuf, elle répéterait en plus le chiffre
+            // qu'on vient de donner en affirmant qu'il diffère.
+            const fresh = s.pity > 0 ? stFlipBudget(a, tok, s.floor, 0) : null;
+            bits.push((fr
+                ? `Le seuil dépend d’où tu es : à l’étage ${s.floor} avec ${s.pity} échec(s), la bascule est à <strong>${stFmt(flip)} amulettes</strong> — en dessous il vaudrait mieux encaisser et recommencer, au-dessus pousser. Tu en as ${stFmt(budget)}.`
+                : `The threshold depends on where you are: on floor ${s.floor} with ${s.pity} failed push(es), it flips at <strong>${stFmt(flip)} amulets</strong> - below that you would do better cashing in and starting over, above it pushing. You have ${stFmt(budget)}.`)
+              + (fresh ? (fr
+                ? ` Le compteur de garantie fait beaucoup : à ce même étage sur un compteur neuf, il faudrait ${stFmt(fresh)} amulettes pour que pousser vaille le coup.`
+                : ` The guarantee counter matters a lot: on the same floor with a fresh counter, pushing would only pay from ${stFmt(fresh)} amulets.`) : ''));
+        }
 
         // La boutique reste ouverte 24 h de plus que l'événement : c'est le piège
         // à dire, puisque le seul vrai risque est de finir sur une montée non encaissée.
@@ -635,6 +665,10 @@ function stRender(host, c) {
     }
 
     // --- jusqu'où ---
+    // Au sommet il n'y a plus d'étage à atteindre : la boucle ne produit aucune
+    // ligne, et le bloc entier se tait plutôt que d'afficher un titre, un
+    // sous-titre et un tableau vide. Être au sommet est un état normal — le
+    // verdict a d'ailleurs son propre message pour lui.
     let reachRows = '';
     for (let T = Math.max(2, s.floor + 1); T <= a.peak; T++) {
         reachRows += `<tr><td class="c-pack">${stT('floor')} ${T}</td>
@@ -701,8 +735,8 @@ function stRender(host, c) {
         ${stReconcileHtml(total, spent, derived, future, pocket, stEventDayNow(c), muted)}
         ${stControlsHtml()}
         <div class="stx-verdict">${verdict}</div>
-        <h3>${stT('reachTitle')}</h3><p class="sx-section-sub">${stT('reachSub')}</p>
-        ${stTableHtml(`<th class="c-pack">${stT('thReach')}</th><th>${stT('thOdds')}</th><th class="rgt">${stT('thCostFrom')}</th>`, reachRows)}
+        ${reachRows ? `<h3>${stT('reachTitle')}</h3><p class="sx-section-sub">${stT('reachSub')}</p>
+        ${stTableHtml(`<th class="c-pack">${stT('thReach')}</th><th>${stT('thOdds')}</th><th class="rgt">${stT('thCostFrom')}</th>`, reachRows)}` : ''}
         ${cash}
         <h3>${stT('climbTitle')}</h3>
         ${stTableHtml(`<th class="c-pack">${stT('thFloor')}</th><th class="rgt">${stT('thOne')}</th><th class="rgt">${stT('thAsc')}</th><th class="rgt">${stT('thPeak')}</th>`, climb)}
@@ -940,13 +974,19 @@ window.spHelpExtras = function (cfg) {
         if (!ST.eventEnd && meta) ST.eventEnd = meta.endsAt;
         let box = h.querySelector('#stx-root');
         if (!box) {
-            // Placé APRÈS le détail des gains, à la fin du panneau « Mes achats » :
-            // c'est la suite logique de « voilà ce que j'achète » -> « voilà ce que ça vaut ».
-            const panel = h.querySelector('details.sxe-panel');
+            // Placé à la fin de la section événement, APRÈS le panneau « Mes achats »
+            // et sa note de source : la suite logique de « voilà ce que j'achète »
+            // -> « voilà ce que ça vaut ».
+            //
+            // À la fin de la SECTION, pas du panneau. Le panneau est un `<details>`
+            // dont l'état plié est enregistré : logée dedans, la section disparaissait
+            // d'un clic sur « Mes achats », et pour de bon — alors que l'intro de la
+            // page et le mode d'emploi la promettent tous les deux.
+            const sec = h.querySelector('.sxe-section') || h.firstElementChild || h;
             box = document.createElement('div');
             box.id = 'stx-root';
             box.className = 'stx-root';
-            (panel || h.firstElementChild || h).appendChild(box);
+            sec.appendChild(box);
         }
         stRender(h, c);
     };
