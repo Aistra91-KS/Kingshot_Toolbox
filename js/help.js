@@ -12,6 +12,7 @@
 //      title:   {FR:'…', EN:'…'},        // titre modale (optionnel)
 //      summary: {FR:'…', EN:'…'},        // résumé global
 //      steps:   {FR:['…','…'], EN:[…]},  // mode d'emploi
+//      sections:[{title:{FR,EN}, steps:{FR:[…],EN:[…]}}],  // chapitres en plus (optionnel)
 //      links:   [{label:{FR,EN}, href:'…'}        // lien externe
 //                {label:{FR,EN}, action:fn}],     // ou action JS (onglet…)
 //      banner: true                      // bandeau d'intro mémorisé (optionnel)
@@ -118,6 +119,16 @@
       html += `<h3 class="help-h3">${esc(t('guide'))}</h3><ol class="help-steps">` +
         steps.map(s => `<li>${esc(s)}</li>`).join('') + `</ol>`;
     }
+    // Chapitres optionnels : un module propre à une page peut ajouter SES étapes
+    // sous SON titre, au lieu d'allonger la liste principale. Une seule liste de
+    // treize points dont la moitié parle d'autre chose ne se lit pas — et surtout
+    // ne se retrouve pas. Absent partout ailleurs : rien ne change.
+    (CFG.sections || []).forEach(sec => {
+      const ss = (sec.steps && (sec.steps[L()] || sec.steps.FR)) || [];
+      if (!ss.length) return;
+      html += `<h3 class="help-h3">${esc(pick(sec.title))}</h3><ol class="help-steps">` +
+        ss.map(s => `<li>${esc(s)}</li>`).join('') + `</ol>`;
+    });
     if (links.length) {
       html += `<h3 class="help-h3">${esc(t('links'))}</h3><ul class="help-links">` +
         links.map((l, i) => `<li><a href="${esc(l.href || '#')}"${l.action ? ` data-act="${i}"` : ''}>${esc(pick(l.label))}</a></li>`).join('') + `</ul>`;

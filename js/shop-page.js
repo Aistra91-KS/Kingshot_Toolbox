@@ -532,7 +532,12 @@ function spNotifyEvent(){ if(window.ShopEvent) ShopEvent.refresh(); }
   spRenderAll();
   scStartCountdowns();
 
-  if (window.HelpSystem) HelpSystem.init({
+  // Le mode d'emploi se construit AVANT d'être posé : une boutique peut avoir des
+  // contrôles que les autres n'ont pas — le Théâtre et sa section « Ce que valent tes
+  // amulettes » — et c'est à son module de les expliquer, pas à cette page partagée.
+  // Le hook reçoit la configuration entière et la complète sur place, en général par
+  // un chapitre à lui (`sections`). Absent, rien ne change.
+  const spHelpCfg = {
     id:'shop-page',
     anchor:'#sp-facts',   // sous la ligne d'infos, pas entre le titre et elle
     title:{FR:'Lire cette boutique', EN:'Reading this shop'},
@@ -554,7 +559,11 @@ function spNotifyEvent(){ if(window.ShopEvent) ShopEvent.refresh(); }
     },
     links:[{label:{FR:'Toutes les boutiques', EN:'All shops'}, href:'shop_calc'},
            {label:{FR:'Valeur des objets', EN:'Item values'}, href:'shop/items'}]
-  });
+  };
+  if (typeof window.spHelpExtras === 'function') {
+    try { window.spHelpExtras(spHelpCfg); } catch(e){ console.error('spHelpExtras', e); }
+  }
+  if (window.HelpSystem) HelpSystem.init(spHelpCfg);
 
   window.addEventListener('langChanged', spRenderAll);
 })();
