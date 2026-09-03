@@ -373,10 +373,10 @@ const organizerTierList = {
     1: { inf: ["Amadeus", "Helga", "Howard"], cav: ["Jabel"], arc: ["Quinn"] },
     2: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Hilde", "Jabel"], arc: ["Marlin", "Quinn"] },
     3: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Marlin", "Quinn"] },
-    4: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Rosa", "Marlin", "Quinn"] },
-    5: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Rosa", "Marlin", "Quinn"] },
-    6: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Yang", "Rosa", "Marlin", "Quinn"] },
-    7: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Ava", "Petra", "Hilde", "Jabel"], arc: ["Yang", "Rosa", "Marlin", "Quinn"] }
+    4: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Rosa", "Marlin", "Quinn"] },
+    5: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Rosa", "Marlin", "Quinn"] },
+    6: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Yang", "Rosa", "Marlin", "Quinn"] },
+    7: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Ava", "Petra", "Hilde", "Jabel"], arc: ["Yang", "Rosa", "Marlin", "Quinn"] }
 };
 
 const heroCapacityByLevel = {
