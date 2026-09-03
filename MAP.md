@@ -163,6 +163,13 @@ Kingshot_Toolbox/
 │   ├── packs/                    Captures des packs payants `<id de pack>.webp` (34), affichées en aperçu au survol sur `shop/items-euro.html`. Redimensionnées à 560×760 max — elles ne servent qu'en bulle, la pleine résolution serait 25× plus lourde pour rien
 │   └── pets/                     Familiers : portraits (.webp ×14) + sous-dossier skills/ (icônes compétence, .webp ×14)
 │
+├── tools/                        Outillage hors ligne, **jamais servi au visiteur** (cf. §11)
+│   ├── build_pages.py            Générateur des 25 pages à gabarit — `--check` vérifie sans écrire
+│   ├── templates/                Les deux gabarits : `shop.html`, `building.html`
+│   ├── pages-shop.json           Ce qui change d'une page boutique à l'autre (17 entrées)
+│   ├── pages-building.json       Idem pour les bâtiments (8 entrées) — **l'ordre du fichier est l'ordre de la nav**
+│   └── partials/                 Le cas particulier d'UNE page : les 3 blocs du Théâtre, les 8 tableaux de niveaux
+│
 ├── tests/                        Tests des moteurs de calcul — `node --test` à la racine, **zéro dépendance, zéro build** (cf. §10)
 │   ├── harness.mjs               Charge les fichiers de `js/` tels quels dans un contexte `vm` (fetch sur disque, localStorage en mémoire, DOM inerte)
 │   ├── shop-event.test.mjs       Valorisation d'événement : les contrôles chiffrés de §7, enfin rejouables
@@ -546,3 +553,32 @@ Conséquence à connaître : les `let` de premier niveau d'un script vivent dans
 **Ajouter un test.** Un contrôle chiffré écrit en prose dans ce fichier est déjà un test — il ne lui manque que d'être exécutable. Le transcrire vaut mieux que d'en inventer un nouveau : il vient d'un relevé en jeu.
 
 **Une règle.** Un test qui ne peut pas échouer ne protège rien. Après en avoir écrit un, casser volontairement le code qu'il couvre et vérifier qu'il vire au rouge — c'est ce qui a validé la première série.
+
+---
+
+## 11. Pages générées
+
+**25 des 70 pages ne s'écrivent plus à la main** : les 17 pages boutique et les 8 pages de bâtiments sortent d'un gabarit.
+
+```
+python3 tools/build_pages.py           écrit les pages
+python3 tools/build_pages.py --check   ne touche à rien, échoue si une page servie
+                                       ne correspond plus à son gabarit (lancé en CI)
+```
+
+**Ça ne contredit pas « aucun build ».** Le script tourne **à la main, avant le commit**, et **sa sortie est commitée** : GitHub Pages sert exactement le même HTML statique et complet qu'avant, donc la règle du §9 (le contenu doit exister sans exécuter le JS) est intacte. Ce qui disparaît, c'est d'écrire 17 fois la même chose : avant ce générateur, 78 lignes étaient identiques dans ≥15 des 19 pages boutique, et deux pages de bâtiments ne différaient que de **24 lignes sur 654**.
+
+**Où éditer quoi.**
+
+| Ce que tu veux changer | Le fichier à ouvrir |
+|---|---|
+| Le gabarit commun (head, scripts, structure) | `tools/templates/shop.html` ou `building.html` |
+| Titre, description, nom FR/EN, intro d'une page | `tools/pages-shop.json` / `pages-building.json` |
+| Un bloc propre à UNE page | `tools/partials/<slug>.<rôle>.html` |
+| **Une page `shop/*.html` ou `database/buildings/*.html`** | **aucun — elle est regénérée, l'édition serait perdue** |
+
+**Ce qui se déduit ne se déclare pas.** Une boutique charge `shop-event.js` **et** reçoit son `<div id="sp-event">` parce qu'elle a un `data/events/<slug>.json` ; elle affiche « Chest contents » parce qu'elle est listée dans `shopcalc_chests.json` ; la nav des bâtiments suit l'ordre de `pages-building.json`. Aucune de ces informations n'est répétée dans le JSON — donc aucune ne peut s'y désynchroniser.
+
+**Ne sont pas générées** : `shop/items.html`, `shop/items-euro.html` et `database/buildings/index.html` — trois pages uniques, avec leur propre corps et leurs propres scripts. Les mettre dans un gabarit à un exemplaire ne rapporterait rien.
+
+**Les tableaux de niveaux des bâtiments restent des partials**, recopiés tels quels depuis les pages existantes. Ils pourraient venir de `data/truegold_db.json` (`dbDataRaw` porte les mêmes chiffres), mais les libellés FR des prérequis et des durées n'existent que dans le HTML : les reconstruire risquerait de modifier en silence des données publiées. C'est un chantier suivant, à mener en déplaçant d'abord ces traductions dans la donnée.

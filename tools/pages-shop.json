@@ -1,0 +1,226 @@
+[
+  {
+    "slug": "adventure-stall",
+    "title": "Kingshot Adventure Stall - Best Deals &amp; Gem Value",
+    "description": "Kingshot Adventure Stall list: every item, its Adventure Coin cost, its stock limit and its value in gems. See which purchases give the most value per coin, daily-reset offers included.",
+    "name": {
+      "EN": "Adventure Stall",
+      "FR": "Stand d'Aventure"
+    },
+    "intro": {
+      "EN": "The full Adventure Stall line-up for Kingshot, priced in Adventure Coins. Each item is set against its reference value in gems so you can see, at a glance, where your coins go furthest — including the three daily-reset offers that refill every day at 00:00 UTC.",
+      "FR": "Le contenu complet du Stand d'Aventure de Kingshot, payé en Pièces d'Aventure. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes pièces rapportent le plus — y compris les trois offres à réinitialisation quotidienne qui se rechargent chaque jour à 00h UTC."
+    }
+  },
+  {
+    "slug": "alliance-championship",
+    "title": "Kingshot Alliance Championship Shop - Costs &amp; Gem Value",
+    "description": "Kingshot Alliance Championship shop: every item, its Championship Badge cost and its gem value, ranked by value per badge.",
+    "name": {
+      "EN": "Alliance Championship",
+      "FR": "Championnat d'Alliance"
+    },
+    "intro": {
+      "EN": "The Alliance Championship shop, paid in Championship Badges earned with your alliance. Each line compares what a badge costs you to what the item is worth in gems, so the whole shop can be read as a single ranking.",
+      "FR": "La boutique du Championnat d'Alliance, payée en Badges de Championnat gagnés avec ton alliance. Chaque ligne compare ce que coûte un badge à ce que vaut l'objet en gemmes : toute la boutique se lit comme un classement."
+    }
+  },
+  {
+    "slug": "arena",
+    "title": "Kingshot Arena Shop - Arena Token Costs &amp; Gem Value",
+    "description": "Kingshot Arena shop list: every item, its Arena Token cost and its value in gems, with the best value-per-token purchases highlighted.",
+    "name": {
+      "EN": "Arena",
+      "FR": "Arène"
+    },
+    "intro": {
+      "EN": "Everything the Arena shop sells in Kingshot, with the Arena Token price of each item set against its reference value in gems. The ratio tells you how much value a token actually buys — the higher it is, the better the purchase.",
+      "FR": "Tout ce que vend la boutique de l'Arène dans Kingshot, avec le prix en Jetons d'Arène de chaque objet face à sa valeur de référence en gemmes. Le ratio indique ce qu'un jeton rapporte vraiment — plus il est élevé, meilleur est l'achat."
+    }
+  },
+  {
+    "slug": "blizzard-shop",
+    "title": "Kingshot Blizzard Brawl Shop - Best Deals &amp; Gem Value",
+    "description": "Every item in the Kingshot Blizzard Shop, the Blizzard Brawl event store: Brawl Emblem cost, stock limit and gem value, ranked so you see where your emblems go furthest.",
+    "name": {
+      "EN": "Blizzard Shop",
+      "FR": "Magasin du Blizzard"
+    },
+    "intro": {
+      "EN": "The full Blizzard Shop line-up for Kingshot — the store of the Blizzard Brawl event — priced in Brawl Emblems. Each item is set against its reference value in gems, so you can see at a glance where your emblems go furthest. Six of the seven lines trade at exactly the same rate, which makes the odd one out easy to spot — and easy to skip.",
+      "FR": "Le contenu complet du Magasin du Blizzard de Kingshot — la boutique de l'événement Duel du Blizzard — payé en Emblèmes de Duel. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes emblèmes rapportent le plus. Six des sept lignes s'échangent exactement au même taux, ce qui rend l'intruse facile à repérer — et facile à laisser de côté."
+    }
+  },
+  {
+    "slug": "dragons-caravan",
+    "title": "Kingshot Dragon's Caravan - Best Deals &amp; Gem Value",
+    "description": "Kingshot Dragon's Caravan list: every item, its Dragon Essence cost, its stock limit and its value in gems. See which purchases give the most value per Essence before the event ends.",
+    "name": {
+      "EN": "Dragon's Caravan",
+      "FR": "Caravane du Dragon"
+    },
+    "intro": {
+      "EN": "The full Dragon's Caravan line-up for Kingshot, priced in Dragon Essence. Each item is set against its reference value in gems so you can see, at a glance, where your Essence goes furthest — from the mythic hero fragments to the limited-stock Mithril and gear chests.",
+      "FR": "Le contenu complet de la Caravane du Dragon de Kingshot, payé en Essence Draconique. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où ton Essence rapporte le plus — des fragments de héros mythiques au Mithril et aux caisses d'équipement à stock limité."
+    }
+  },
+  {
+    "slug": "flamedragon-tyrant-prediction",
+    "title": "Kingshot Flamedragon Tyrant Prediction Shop - Best Deals &amp; Gem Value",
+    "description": "Kingshot Flamedragon Tyrant Prediction Shop list: every item, its Dragonclaw Mark cost, its stock limit and its value in gems. See which purchases give the most value per mark before the shop closes.",
+    "name": {
+      "EN": "Flamedragon Tyrant - Prediction Shop",
+      "FR": "Tyran - Magasin de Pronostique"
+    },
+    "intro": {
+      "EN": "The full Prediction Shop line-up of the Flamedragon Tyrant event, priced in Dragonclaw Marks. Each item is set against its reference value in gems, so you can see at a glance where your marks go furthest. Most of the shop is priced at a flat rate, which makes the two exceptions worth spotting.",
+      "FR": "Le contenu complet du Magasin de Pronostique de l'événement Tyran Dragon de Flamme, payé en Marques Draconiques. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes marques rapportent le plus. La boutique applique un tarif de base uniforme, ce qui rend les deux exceptions d'autant plus intéressantes à repérer."
+    }
+  },
+  {
+    "slug": "gear-boost-chest",
+    "title": "Kingshot Gear Boost Custom Chest - Best Pick by Gem Value",
+    "description": "Kingshot Gear Boost Custom Chest: every option it offers, the quantity granted and its value in gems, so you can pick the most valuable reward.",
+    "name": {
+      "EN": "Gear Boost Custom Chest",
+      "FR": "Coffre personnalisé de Boost d'Équipement"
+    },
+    "intro": {
+      "EN": "The Gear Boost Custom Chest lets you take one option and one only. Each choice is listed with the quantity granted and what that quantity is worth in gems — the most valuable pick is highlighted.",
+      "FR": "Le Coffre personnalisé de Boost d'Équipement ne laisse prendre qu'une seule option. Chaque choix est listé avec la quantité accordée et ce que cette quantité vaut en gemmes — le choix le plus rentable est mis en avant."
+    }
+  },
+  {
+    "slug": "golden-ball-shop",
+    "title": "Kingshot Golden Ball Shop - Best Deals &amp; Gem Value",
+    "description": "Kingshot Golden Ball Shop archive: every item, its Ballon d'Or Brand cost, stock limit and gem value - kept online to compare with other event shops.",
+    "name": {
+      "EN": "Golden Ball Shop",
+      "FR": "Magasin du ballon d'or"
+    },
+    "intro": {
+      "EN": "The Golden Ball Shop line-up, paid in Ballon d'Or Brands. This event has run its course, but the page stays up: comparing a finished shop with a live one is the easiest way to judge whether the current offer is generous.",
+      "FR": "Le contenu du Magasin du ballon d'or, payé en Marques du ballon d'or. Cet événement est passé, mais la page reste en ligne : comparer une boutique terminée à une boutique en cours reste le moyen le plus simple de juger si l'offre du moment est généreuse."
+    }
+  },
+  {
+    "slug": "kingdom-of-power",
+    "title": "Kingshot Kingdom of Power Shop - Costs &amp; Gem Value",
+    "description": "Kingshot Kingdom of Power shop: Kingdom Coin cost of every item and its value in gems, with the best deals highlighted.",
+    "name": {
+      "EN": "Kingdom of Power",
+      "FR": "Royaume du Pouvoir"
+    },
+    "intro": {
+      "EN": "The Kingdom of Power shop, paid in Kingdom Coins. Every item is weighed against its gem value, turning a plain price list into a ranking of what is actually worth buying.",
+      "FR": "La boutique du Royaume du Pouvoir, payée en Pièces du Royaume. Chaque objet est pesé face à sa valeur en gemmes, ce qui transforme une simple liste de prix en classement de ce qui vaut réellement l'achat."
+    }
+  },
+  {
+    "slug": "polar-shop",
+    "title": "Kingshot Polar Shop - Best Deals &amp; Gem Value",
+    "description": "Kingshot Polar Shop list: every item, its Twinstar Coin cost, its stock limit and its value in gems. See which purchases give the most value per coin before the event ends.",
+    "name": {
+      "EN": "Polar Shop",
+      "FR": "Magasin Polaire"
+    },
+    "intro": {
+      "EN": "The full Polar Shop line-up for Kingshot, priced in Twinstar Coins. Each item is set against its reference value in gems so you can see, at a glance, where your coins go furthest — including the daily-reset offers and the limited-stock exclusives.",
+      "FR": "Le contenu complet du Magasin Polaire de Kingshot, payé en Pièces des Étoiles Jumelles. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes pièces rapportent le plus — y compris les offres à réinitialisation quotidienne et les exclusivités à stock limité."
+    }
+  },
+  {
+    "slug": "summit-contest-champion",
+    "title": "Kingshot Summit Contest Champion Shop - Best Deals &amp; Gem Value",
+    "description": "Kingshot Summit Contest Champion Shop: every item, its Champion Token cost, its stock limit and its value in gems, with the best value-per-token deals ranked.",
+    "name": {
+      "EN": "Summit Contest Champion Shop",
+      "FR": "Magasin Champion de la Ligue Suprême"
+    },
+    "intro": {
+      "EN": "The Champion Shop of the Summit Contest, reserved for the top of the leaderboard and paid in Champion Tokens. Bundles here are large, so the cost-to-gem-value ratio is what separates a genuine reward from an expensive habit.",
+      "FR": "Le Magasin Champion de la Ligue Suprême, réservé au haut du classement et payé en Jetons de Champion. Les lots y sont gros : c'est le rapport entre le coût et la valeur en gemmes qui distingue la vraie récompense de l'achat réflexe."
+    }
+  },
+  {
+    "slug": "summit-contest-ordinary",
+    "title": "Kingshot Summit Contest Ordinary Shop - Best Deals &amp; Gem Value",
+    "description": "Kingshot Summit Contest Ordinary Shop: League Token cost of every item, stock limits and gem value, so you can spend your tokens where they return the most.",
+    "name": {
+      "EN": "Summit Contest Ordinary Shop",
+      "FR": "Magasin Ordinaire de la Ligue Suprême"
+    },
+    "intro": {
+      "EN": "The Ordinary Shop of the Summit Contest, open to every participant and paid in League Tokens. Prices are steep on the headline items, which makes the ratio column the fastest way to tell a bargain from a trap.",
+      "FR": "Le Magasin Ordinaire de la Ligue Suprême, ouvert à tous les participants et payé en Jetons de Ligue. Les objets vedettes y sont chers : la colonne ratio est le moyen le plus rapide de distinguer la bonne affaire du piège."
+    }
+  },
+  {
+    "slug": "swordland",
+    "title": "Kingshot Swordland Shop - Relic Coin Costs &amp; Gem Value",
+    "description": "Kingshot Swordland shop: Relic Coin cost of every item next to its value in gems, so you can spend your coins where they return the most.",
+    "name": {
+      "EN": "Swordland",
+      "FR": "Swordland"
+    },
+    "intro": {
+      "EN": "The Swordland shop and its Relic Coins. Coins come in slowly, so this page exists to answer one question before you spend them: which line of the shop returns the most value per coin.",
+      "FR": "La boutique de Swordland et ses Pièces de Relique. Les pièces rentrent lentement : cette page répond à la seule question qui compte avant de les dépenser — quelle ligne de la boutique rapporte le plus par pièce."
+    }
+  },
+  {
+    "slug": "theater-shop",
+    "title": "Kingshot Theater Shop - Tier Prices &amp; Gem Value",
+    "description": "Every item in the Kingshot Theater Shop, the Fantasy Theater event store: the same items sold at three rising prices, with Fantasy Token cost, stock and gem value for each tier.",
+    "name": {
+      "EN": "Theater Shop",
+      "FR": "Magasin du Théâtre"
+    },
+    "intro": {
+      "EN": "The full Theater Shop line-up for Kingshot — the store of the Fantasy Theater event — priced in Fantasy Tokens. This shop works differently from the others: it sells the same nine offers three times over, at three rising prices, plus one speedup that only shows up in the dearest tier — 28 lines in all. Tier 1 is the cheapest and holds the smallest stock; once it is gone, the same item costs 50% more, then about 20% more again. Every line is set against its reference value in gems, so you can see exactly how much value you give up by digging into the dearer tiers. Below the shop table, a dedicated section turns a plan of Fantasy Amulets into the Tokens it can be expected to pay: the odds of reaching each floor, where cashing in pays most per amulet, and what to do next from the floor you are on.",
+      "FR": "Le contenu complet du Magasin du Théâtre de Kingshot — la boutique de l'événement Théâtre Fantastique — payée en Jetons Fantaisie. Cette boutique ne fonctionne pas comme les autres : elle propose les mêmes neuf offres trois fois, à trois prix croissants, plus un accélérateur qui n'apparaît que dans le palier le plus cher — 28 lignes en tout. Le palier 1 est le moins cher et le moins fourni ; une fois épuisé, le même objet coûte 50 % de plus, puis encore 20 % environ. Chaque ligne est confrontée à sa valeur de référence en gemmes, pour voir exactement ce que l'on perd en creusant les paliers les plus chers. Sous le tableau de la boutique, une section dédiée traduit un plan d'Amulettes Fantaisie en Jetons : les chances d'atteindre chaque étage, l'étage où encaisser rapporte le plus par amulette, et ce qu'il faut faire depuis celui où l'on se trouve."
+    },
+    "extraScripts": [
+      "shop-theater.js"
+    ]
+  },
+  {
+    "slug": "tidal-shop",
+    "title": "Kingshot Tidal Shop - Tidal Stone Costs &amp; Gem Value",
+    "description": "Kingshot Tidal Shop: every item, its Tidal Stone cost and its value in gems, ranked by how much value each stone buys.",
+    "name": {
+      "EN": "Tidal Shop",
+      "FR": "Magasin des Marées"
+    },
+    "intro": {
+      "EN": "The Tidal Shop and its Tidal Stones. The catalogue mixes cheap consumables with heavyweight bundles, so the ratio column is the only honest way to compare them side by side.",
+      "FR": "Le Magasin des Marées et ses Pierres des Marées. Le catalogue mélange consommables bon marché et gros lots : la colonne ratio est la seule façon honnête de les comparer côte à côte."
+    }
+  },
+  {
+    "slug": "trial-shop",
+    "title": "Kingshot Trial Shop - Trial Crystal Costs &amp; Gem Value",
+    "description": "Kingshot Trial Shop: Trial Crystal cost of every item next to its gem value, with the best value-per-crystal purchases highlighted.",
+    "name": {
+      "EN": "Trial Shop",
+      "FR": "Magasin du Défi"
+    },
+    "intro": {
+      "EN": "The Trial Shop, paid in Trial Crystals. Each item's crystal price sits next to its reference value in gems, so the best use of a hard-won crystal becomes obvious.",
+      "FR": "Le Magasin du Défi, payé en Cristaux du Défi. Le prix en cristaux de chaque objet est posé à côté de sa valeur de référence en gemmes : le meilleur usage d'un cristal durement gagné saute aux yeux."
+    }
+  },
+  {
+    "slug": "war-chant-chest",
+    "title": "Kingshot War Chant Custom Chest - Best Pick by Gem Value",
+    "description": "Kingshot War Chant Custom Chest: all eight options, the quantity granted and the gem value of each, so the best reward is easy to spot.",
+    "name": {
+      "EN": "War Chant Custom Chest",
+      "FR": "Coffre personnalisé Chant de Guerre"
+    },
+    "intro": {
+      "EN": "The War Chant Custom Chest offers eight options for a single pick. Quantities differ wildly from one line to the next, so the gem value is what makes them comparable — the best one is highlighted.",
+      "FR": "Le Coffre personnalisé Chant de Guerre propose huit options pour un seul choix. Les quantités varient énormément d'une ligne à l'autre : c'est la valeur en gemmes qui les rend comparables — la meilleure est mise en avant."
+    }
+  }
+]

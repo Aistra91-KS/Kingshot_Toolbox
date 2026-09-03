@@ -17,3 +17,6 @@ jobs:
         with:
           node-version: '22'
       - run: node --test
+      # Une page modifiée à la main plutôt que dans son gabarit repartirait à la
+      # prochaine génération : autant l'apprendre ici.
+      - run: python3 tools/build_pages.py --check

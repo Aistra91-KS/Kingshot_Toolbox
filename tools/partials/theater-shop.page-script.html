@@ -1,0 +1,21 @@
+    <script>
+    /* ---- Moitié anglaise de la paire « une URL par langue » (cf. MAP.md §4) ----
+       Cette page garde le comportement de tout le site : HTML anglais, traduit par le JS
+       si le visiteur est réglé en FR. Une seule chose change — le bouton de langue.
+       Passer en français doit EMMENER vers /fr/, sinon la jumelle française n'est
+       atteignable que depuis Google et la page anglaise servirait du français à son
+       adresse anglaise. On ne redirige que sur un clic explicite : rediriger au
+       chargement selon une préférence enregistrée surprendrait le visiteur venu d'un
+       lien, et brouillerait ce que Google voit. */
+    (function(){
+      var FR = 'fr/shop/theater-shop', base = GlobalLang.set.bind(GlobalLang);
+      GlobalLang.set = function(lang){
+        if(lang === 'FR'){
+          try{ localStorage.setItem(GlobalLang.STORAGE_KEY,'FR'); }catch(e){}
+          location.href = FR; return;
+        }
+        base(lang);
+      };
+    })();
+    window.HDR_ACTIVE_HREF = 'shop_calc'; window.SHOP_SLUG = 'theater-shop';
+    </script>

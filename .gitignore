@@ -1,0 +1,3 @@
+# Sortie de compilation Python du générateur de pages (tools/) — jamais servie, jamais commitée.
+__pycache__/
+*.pyc
