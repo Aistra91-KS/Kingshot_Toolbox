@@ -6,6 +6,23 @@
   },
   "releases": [
     {
+      "version": "1.14",
+      "date": "2026-09-03",
+      "title": {
+        "EN": "What your Fantasy Amulets are worth",
+        "FR": "Ce que valent tes Amulettes Fantaisie"
+      },
+      "changes": [
+        {
+          "type": "new",
+          "text": {
+            "EN": "The Theater Shop is the only shop whose currency you cannot buy: packs pay Fantasy Amulets, and only the floors you reach in the Theater's draw hand out the Fantasy Tokens the shop is priced in. A new section under the reward breakdown fills that gap. It reads the purchase plan you tick above and tells you how many amulets you should be holding today, the odds of reaching each floor, which floor pays the most tokens per amulet to cash in on, and whether to push or cash in right now - with the exact budget where that advice flips. Three buttons - failed, went up, cashed in - report what just happened in game and keep your floor, guarantee counter and amulets spent in sync.",
+            "FR": "Le Magasin du Théâtre est la seule boutique dont on ne peut pas acheter la monnaie : les packs versent des Amulettes Fantaisie, et seuls les étages atteints dans le tirage du Théâtre donnent les Jetons Fantaisie qui chiffrent la boutique. Une nouvelle section sous le détail des gains comble ce manque. Elle lit le plan d'achat coché au-dessus et dit combien d'amulettes tu devrais avoir en poche aujourd'hui, les chances d'atteindre chaque étage, l'étage où encaisser rapporte le plus de jetons par amulette, et s'il faut pousser ou encaisser maintenant — avec le seuil exact où ce conseil bascule. Trois boutons — échouer, monter, encaisser — reportent ce qui vient de se passer en jeu et gardent l'étage, le compteur de garantie et les amulettes dépensées à jour."
+          }
+        }
+      ]
+    },
+    {
       "version": "1.13",
       "date": "2026-08-30",
       "title": {
