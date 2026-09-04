@@ -162,7 +162,16 @@ function ftComputeReach(area, budget, f0, k0) {
     return out;
 }
 
-/* Jetons espérés d'un budget FINI, et le geste à faire maintenant.
+/* Jetons espérés d'un budget FINI, et le geste à faire maintenant : une case de
+   la table résolue par `ftSolveValue`, dont le commentaire porte la récurrence. */
+function ftFiniteValue(area, tokens, budget, f0, k0) {
+    const s = ftSolveValue(area, tokens, budget);
+    const b = Math.min(Math.max(0, Math.floor(budget) || 0), s.B);
+    const at = b * s.stride + Math.min(f0, area.peak) * s.nk + Math.min(k0, s.nk - 1);
+    return { tokens: s.V[at], claim: !!s.claimAt[at] };
+}
+
+/* La table entière — tous les budgets jusqu'à B, tous les états.
 
    Le « jetons par amulette » des consignes est un régime asymptotique : il
    suppose qu'on enchaîne les manches sans fin. Avec 120 amulettes on n'atteint
@@ -181,17 +190,25 @@ function ftComputeReach(area, budget, f0, k0) {
 
    Encaisser ne coûte rien mais renvoie à l'étage 1, où l'on ne peut qu'explorer :
    V(b,1,·) ne dépend donc que de budgets plus petits. On le calcule en premier,
-   et la récurrence se ferme sans boucle. */
-function ftFiniteValue(area, tokens, budget, f0, k0) {
-    const s = ftSolveValue(area, tokens, budget);
-    const at = s.B * s.stride + Math.min(f0, area.peak) * s.nk + Math.min(k0, s.nk - 1);
-    return { tokens: s.V[at], claim: !!s.claimAt[at] };
-}
+   et la récurrence se ferme sans boucle.
 
-/* La table complète, tous budgets d'un coup. Une résolution pour le budget B
-   calcule DÉJÀ tous les budgets plus petits — les relire coûte donc zéro, là où
-   redemander `ftFiniteValue` budget par budget relance tout à chaque essai. */
+   Résoudre pour B calcule DÉJÀ tous les budgets plus petits : le verdict et le
+   seuil se lisent donc dans la MÊME table, et `ftSolveValue` la mémoïse pour ne
+   la reconstruire qu'à un changement de barème. D'où la résolution jusqu'au
+   plafond du seuil même quand on n'interroge qu'un petit budget — c'est la même
+   table, calculée une fois. */
+const FT_FLIP_CAP = 4000;      // au-delà, le conseil ne bascule plus utilement
+let FT_SOLVE_CACHE = null;
 function ftSolveValue(area, tokens, budget) {
+    const want = Math.max(0, Math.min(Math.floor(budget) || 0, FT_MAX_BUDGET));
+    let sig = (area.id || area.peak) + '|' + (area.failMult || 0) + '|' + (area.claimFrom || 2);
+    for (let i = 1; i <= area.peak; i++) sig += '|' + (tokens[i] || 0);
+    if (FT_SOLVE_CACHE && FT_SOLVE_CACHE.sig === sig && FT_SOLVE_CACHE.s.B >= want) return FT_SOLVE_CACHE.s;
+    const s = ftComputeValue(area, tokens, Math.max(want, FT_FLIP_CAP));
+    FT_SOLVE_CACHE = { sig, s };
+    return s;
+}
+function ftComputeValue(area, tokens, budget) {
     const peak = area.peak, P = area.pity, C = area.cost, J = area.jump, nk = P.length;
     // Encaisser à l'étage 1 serait gratuit ET y renverrait : la récurrence
     // boucherait sur elle-même (V(b,1,0) lu pendant qu'on l'écrit) et la table
@@ -236,45 +253,39 @@ function ftSolveValue(area, tokens, budget) {
     return { V, claimAt, stride, nk, B };
 }
 
-/* Le budget à partir duquel pousser devient meilleur qu'encaisser, DANS L'ÉTAT
-   OÙ L'ON EST et AUTOUR DU BUDGET QU'ON A.
+/* La PLAGE de budgets sur laquelle le conseil ne change pas, autour du budget
+   qu'on a, dans l'état où l'on est.
 
-   Le « autour » n'est pas une coquetterie : la décision n'est pas monotone en
-   budget. Elle bascule 13 fois entre 1 et 1 200 amulettes à l'étage 4, parce que
-   ce qui compte n'est pas seulement d'avoir de quoi viser le sommet, mais de
-   savoir ce qu'on fera du reliquat. Une dichotomie — ce qu'on faisait ici —
-   suppose UNE bascule et rend celle d'une autre zone : à l'étage 5 avec 248
-   amulettes, la page conseillait « Encaisse » puis annonçait un seuil de 242
-   au-dessus duquel il fallait « pousser ». Elle se contredisait à une ligne
-   d'intervalle. On rend donc la borne de la plage CONTINUE qui contient le
-   budget du joueur : elle, elle est toujours d'accord avec le conseil. */
-const FT_FLIP_CAP = 4000;
-/* Résoudre jusqu'au plafond coûte ~44 ms, et le verdict en redemande à chaque
-   frappe — y compris dans le barème de jetons, où l'on tape chiffre par chiffre.
-   On garde donc la table de DÉCISIONS (un octet par état, ~160 Ko) et pas les
-   valeurs (huit fois plus lourdes) : elle ne dépend que de la zone et du barème,
-   qui ne bougent qu'à une correction du joueur. Même idiome que FT_REACH_CACHE. */
-let FT_FLIP_CACHE = null;
-function ftFlipTable(area, tokens) {
-    let sig = (area.id || area.peak) + '|' + (area.failMult || 0);
-    for (let i = 1; i <= area.peak; i++) sig += '|' + (tokens[i] || 0);
-    if (FT_FLIP_CACHE && FT_FLIP_CACHE.sig === sig) return FT_FLIP_CACHE.t;
+   Une plage, et pas un seuil, parce que la décision n'est PAS monotone en budget :
+   à l'étage 2 sur un compteur neuf elle bascule 245 fois entre 1 et 4 000
+   amulettes. Ce qui compte n'est pas seulement d'avoir de quoi viser le sommet,
+   mais ce qu'on fera du reliquat — et le reliquat, lui, oscille. Deux pièges en
+   sont sortis, tous deux vus à l'écran :
+
+     · une recherche par dichotomie suppose UNE bascule et rend celle d'une autre
+       plage : à l'étage 5 avec 248 amulettes, la page conseillait « Encaisse »
+       puis annonçait une bascule à 242 au-dessus de laquelle il fallait pousser ;
+     · même juste, un seuil seul se lit comme une règle (« en dessous encaisse,
+       au-dessus pousse ») — or à l'étage 2 avec 20 amulettes, pousser ne vaut
+       mieux qu'à 24 exactement, et encaisser reprend de 25 à 28.
+
+   On rend donc les deux bornes de la plage qui contient le budget du joueur, et
+   la phrase n'affirme plus que ce qui s'y passe. `hi` vaut `null` quand la plage
+   se poursuit au-delà de ce qu'on regarde. */
+function ftAdviceRange(area, tokens, budget, f0, k0) {
     const s = ftSolveValue(area, tokens, FT_FLIP_CAP);
-    const t = { claimAt: s.claimAt, stride: s.stride, nk: s.nk };
-    FT_FLIP_CACHE = { sig, t };
-    return t;
-}
-function ftFlipBudget(area, tokens, budget, f0, k0) {
-    const b0 = Math.max(0, Math.min(Math.floor(budget) || 0, FT_FLIP_CAP));
-    const s = ftFlipTable(area, tokens);
+    // Toujours borner par la table elle-même : `ftSolveValue` plafonne à
+    // FT_MAX_BUDGET, et lire au-delà rendrait `undefined` — donc « pousse »,
+    // silencieusement, pour tous les états hors table.
+    const cap = Math.min(FT_FLIP_CAP, s.B);
+    const b0 = Math.max(0, Math.min(Math.floor(budget) || 0, cap));
     const f = Math.min(f0, area.peak), k = Math.min(k0, s.nk - 1);
     const claims = b => !!s.claimAt[b * s.stride + f * s.nk + k];
-    if (claims(b0)) {                       // on encaisse ici : la bascule est au-dessus
-        for (let b = b0 + 1; b <= FT_FLIP_CAP; b++) if (!claims(b)) return b;
-        return null;                        // encaisser reste bon aussi loin qu'on regarde
-    }
-    for (let b = b0; b > 1; b--) if (claims(b - 1)) return b;
-    return null;                            // pousser est bon depuis la première amulette
+    const here = claims(b0);
+    let lo = b0, hi = null;
+    while (lo > 0 && claims(lo - 1) === here) lo--;
+    for (let b = b0 + 1; b <= cap; b++) if (claims(b) !== here) { hi = b - 1; break; }
+    return { claim: here, lo, hi };
 }
 
 /* Rendement d'une consigne simple « j'encaisse dès que j'atteins l'étage T ».
@@ -328,7 +339,8 @@ const i18nTheater = {
         actClaimTip: 'You took the floor reward: back to floor 1, counter reset. Costs no amulets.',
         actCost: 'costs {n} here',
         lblTokens: 'Tokens paid by each floor',
-        tokHint: 'Shipped with a reading from one server. The game publishes them nowhere and they may differ on yours - change any of them and everything below follows. What a failed exploration pays is not in here: it follows the cost of the exploration itself, ten times over.',
+        tokHint: 'Shipped with a reading from one server. The game publishes them nowhere and they may differ on yours - change any of them and everything below follows.',
+        tokHintLot: 'What a failed exploration pays is not in here: it follows the cost of the exploration itself, {n} times over.',
         tokReset: 'Restore default values',
         floor: 'Floor',
         fortress: 'Fortress',
@@ -378,7 +390,8 @@ const i18nTheater = {
         actClaimTip: 'Tu as pris la récompense de l’étage : retour à l’étage 1, compteur remis à zéro. Ne coûte aucune amulette.',
         actCost: 'coûte {n} ici',
         lblTokens: 'Jetons donnés par chaque étage',
-        tokHint: 'Livrés avec le relevé d’un serveur. Le jeu ne les publie nulle part et ils peuvent différer chez toi — change-les et tout ce qui suit s’ajuste. Ce que paie une exploration ratée n’est pas ici : cela suit le coût de l’exploration elle-même, au décuple.',
+        tokHint: 'Livrés avec le relevé d’un serveur. Le jeu ne les publie nulle part et ils peuvent différer chez toi — change-les et tout ce qui suit s’ajuste.',
+        tokHintLot: 'Ce que paie une exploration ratée n’est pas ici : cela suit le coût de l’exploration elle-même, multiplié par {n}.',
         tokReset: 'Rétablir les valeurs par défaut',
         floor: 'Étage',
         fortress: 'Forteresse',
@@ -536,7 +549,7 @@ function stControlsHtml() {
         <details class="sxe-panel stx-toks"${ST.state.toksOpen ? ' open' : ''} data-st-toks>
             <summary>${stT('lblTokens')}</summary>
             <div class="stx-tok-grid">${toks}</div>
-            <p class="sxe-note">${stT('tokHint')}
+            <p class="sxe-note">${stT('tokHint')}${a.failMult ? ' ' + stTf('tokHintLot', a.failMult) : ''}
                 <button type="button" class="sx-btn" data-st-reset="1">${stT('tokReset')}</button></p>
         </details>`;
 }
@@ -696,23 +709,38 @@ function stRender(host, c) {
             : (fr ? `<strong class="stx-push">Pousse.</strong> À l’étage ${s.floor} avec ${s.pity} échec(s) au compteur, la prochaine exploration (${a.cost[s.floor] || '—'} amulettes) vaut mieux qu’encaisser.`
                   : `<strong class="stx-push">Push.</strong> On floor ${s.floor} with ${s.pity} failed push(es) banked, the next exploration (${a.cost[s.floor] || '—'} amulets) beats cashing in.`)];
 
-        // Le seuil où le conseil bascule : c'est LA chose à comprendre sur cet
-        // événement, et elle ne se lit dans aucun tableau.
-        const flip = ftFlipBudget(a, tok, budget, s.floor, s.pity);
-        if (flip) {
+        // Où le conseil bascule : c'est LA chose à comprendre sur cet événement, et
+        // elle ne se lit dans aucun tableau. On ne l'annonce QUE comme une plage
+        // (cf. `ftAdviceRange`) — dit comme une règle, c'est faux à une amulette
+        // près : à l'étage 2 avec 20 amulettes, pousser ne vaut mieux qu'à 24
+        // exactement, et encaisser reprend de 25 à 28.
+        const rg = ftAdviceRange(a, tok, budget, s.floor, s.pity);
+        // Une plage ouverte des deux côtés ne dit rien : le conseil ne bascule
+        // jamais dans ce qu'on regarde, il n'y a donc pas de seuil à donner.
+        if (rg.lo > 0 || rg.hi !== null) {
+            const bord = rg.claim
+                ? (rg.hi !== null
+                    ? (fr ? `encaisser reste le bon geste jusqu’à <strong>${stFmt(rg.hi)} amulettes</strong> ; à partir de ${stFmt(rg.hi + 1)}, pousser redevient payant`
+                          : `cashing in stays the right move up to <strong>${stFmt(rg.hi)} amulets</strong>; from ${stFmt(rg.hi + 1)} on, pushing pays again`)
+                    : (fr ? `encaisser reste le bon geste depuis <strong>${stFmt(rg.lo)} amulettes</strong>`
+                          : `cashing in has been the right move since <strong>${stFmt(rg.lo)} amulets</strong>`))
+                : (rg.lo > 0
+                    ? (fr ? `pousser paie à partir de <strong>${stFmt(rg.lo)} amulettes</strong> ; en dessous, mieux vaudrait encaisser et recommencer`
+                          : `pushing pays from <strong>${stFmt(rg.lo)} amulets</strong> on; below that you would do better cashing in and starting over`)
+                    : (fr ? `pousser paie jusqu’à <strong>${stFmt(rg.hi)} amulettes</strong> ; au-delà, il vaudrait mieux encaisser et recommencer`
+                          : `pushing pays up to <strong>${stFmt(rg.hi)} amulets</strong>; beyond that you would do better cashing in and starting over`));
             // La comparaison au compteur neuf n'est ajoutée QUE si elle dit quelque
-            // chose. `ftFlipBudget` rend `null` dans DEUX cas opposés — pousser vaut
-            // toujours mieux, ou encaisser vaut toujours mieux — et un `|| 0` en
-            // faisait « pousser paie dès 0 amulette », soit l'inverse du conseil dans
-            // le second cas. À compteur neuf, elle répéterait en plus le chiffre
-            // qu'on vient de donner en affirmant qu'il diffère.
-            const fresh = s.pity > 0 ? ftFlipBudget(a, tok, budget, s.floor, 0) : null;
+            // chose : elle n'a pas de sens sur un compteur déjà neuf, et elle
+            // s'annulerait à répéter ce qu'on vient de dire. On ne la garde donc que
+            // quand elle RENVERSE le conseil : c'est là qu'elle apprend quelque chose.
+            const fr0 = s.pity > 0 ? ftAdviceRange(a, tok, budget, s.floor, 0) : null;
+            const dit = !!fr0 && fr0.claim !== rg.claim;
             bits.push((fr
-                ? `Le seuil dépend d’où tu es : à l’étage ${s.floor} avec ${s.pity} échec(s), la bascule est à <strong>${stFmt(flip)} amulettes</strong> — en dessous il vaudrait mieux encaisser et recommencer, au-dessus pousser. Tu en as ${stFmt(budget)}.`
-                : `The threshold depends on where you are: on floor ${s.floor} with ${s.pity} failed push(es), it flips at <strong>${stFmt(flip)} amulets</strong> - below that you would do better cashing in and starting over, above it pushing. You have ${stFmt(budget)}.`)
-              + (fresh ? (fr
-                ? ` Le compteur de garantie fait beaucoup : à ce même étage sur un compteur neuf, il faudrait ${stFmt(fresh)} amulettes pour que pousser vaille le coup.`
-                : ` The guarantee counter matters a lot: on the same floor with a fresh counter, pushing would only pay from ${stFmt(fresh)} amulets.`) : ''));
+                ? `Le conseil dépend d’où tu es ET de ce qu’il te reste : à l’étage ${s.floor} avec ${s.pity} échec(s), ${bord}. Tu en as ${stFmt(budget)}.`
+                : `The advice depends on where you are AND on what you have left: on floor ${s.floor} with ${s.pity} failed push(es), ${bord}. You have ${stFmt(budget)}.`)
+              + (dit ? (fr
+                ? ` Le compteur de garantie fait beaucoup : à ce même étage sur un compteur neuf, ${fr0.claim ? 'il faudrait encaisser' : 'pousser paierait'} avec le même budget.`
+                : ` The guarantee counter matters a lot: on the same floor with a fresh counter, the same budget would ${fr0.claim ? 'call for cashing in' : 'make pushing pay'}.`) : ''));
         }
 
         // La boutique reste ouverte 24 h de plus que l'événement : c'est le piège

@@ -220,21 +220,44 @@ test('le lot déplace les montants, jamais le meilleur étage où encaisser', ()
     `le lot vaut de ${Math.min(...ecarts).toFixed(4)} à ${Math.max(...ecarts).toFixed(4)} jetons par amulette selon la consigne`);
 });
 
-test('le seuil annoncé ne contredit jamais le conseil donné juste au-dessus', () => {
-  /* La décision n'est pas monotone en budget : elle bascule 13 fois entre 1 et
-     1 200 amulettes à l'étage 4. La dichotomie d'avant rendait donc parfois le
-     seuil d'une AUTRE plage — à l'étage 5 avec 248 amulettes, la page disait
-     « Encaisse » puis annonçait une bascule à 242 au-dessus de laquelle il
-     fallait pousser. Le seuil doit rester du bon côté du budget. */
-  for (const f of [2, 3, 4, 5, 6]) {
-    for (const k of [0, 2]) {
-      for (const b of [20, 100, 248, 391, 600]) {
-        const claim = run(ctx, `ftFiniteValue(AREA, TOK, ${b}, ${f}, ${k}).claim`);
-        const flip = run(ctx, `ftFlipBudget(AREA, TOK, ${b}, ${f}, ${k})`);
-        if (flip === null) continue;        // la page n'affiche alors aucun seuil
-        assert.ok(claim ? flip > b : flip <= b,
-          `étage ${f}, ${k} échec(s), ${b} amulettes : conseil « ${claim ? 'encaisse' : 'pousse'} » mais seuil annoncé à ${flip}`);
+test('la plage de conseil annoncée est vraie à ses deux bornes, pour tous les budgets', () => {
+  /* La décision n'est pas monotone en budget — 245 basculements à l'étage 2 sur
+     un compteur neuf entre 1 et 4 000 amulettes. La page n'a donc le droit
+     d'annoncer qu'une PLAGE, et la phrase affirme trois choses : le conseil est
+     celui du verdict, il tient encore à la borne, et il change juste au-delà.
+     On les vérifie ici pour chaque état et chaque budget, pas sur cinq points :
+     c'est un échantillon trop fin pour être atteint autrement, et le défaut qu'on
+     répare vivait dans des plages larges d'UNE amulette.
+
+     Le balayage tourne DANS le contexte : 15 000 allers-retours `run()`
+     recompileraient le même code 15 000 fois. */
+  const violation = run(ctx, `(function () {
+    const claimAt = (b, f, k) => ftFiniteValue(AREA, TOK, b, f, k).claim;
+    for (let f = 2; f <= AREA.peak - 1; f++) {
+      for (let k = 0; k < AREA.pity.length; k++) {
+        for (let b = 0; b <= 600; b++) {
+          const rg = ftAdviceRange(AREA, TOK, b, f, k);
+          const dit = claimAt(b, f, k);
+          if (rg.claim !== dit) return 'étage ' + f + ', ' + k + ' échec(s), ' + b + ' am. : la plage dit « ' + (rg.claim ? 'encaisse' : 'pousse') + ' », le verdict dit l\\'inverse';
+          if (b < rg.lo || (rg.hi !== null && b > rg.hi)) return 'étage ' + f + ', ' + b + ' am. : le budget est hors de sa propre plage [' + rg.lo + ', ' + rg.hi + ']';
+          if (rg.lo > 0 && claimAt(rg.lo - 1, f, k) === rg.claim) return 'étage ' + f + ', ' + k + ' échec(s), ' + b + ' am. : la plage commence à ' + rg.lo + ' alors que le conseil y est déjà le même en dessous';
+          if (rg.hi !== null && claimAt(rg.hi + 1, f, k) === rg.claim) return 'étage ' + f + ', ' + k + ' échec(s), ' + b + ' am. : la plage s\\'arrête à ' + rg.hi + ' alors que le conseil y tient encore au-dessus';
+        }
       }
     }
+    return null;
+  })()`);
+  assert.equal(violation, null, String(violation));
+});
+
+test('la plage ne lit jamais au-delà de la table qui la porte', () => {
+  // FT_FLIP_CAP borne le balayage, FT_MAX_BUDGET borne la table : lire au-delà
+  // rendrait `undefined`, donc « pousse », en silence. La plage doit rester
+  // dans la table quel que soit le budget demandé, y compris absurde.
+  for (const b of [0, 1, 4000, 50000, Infinity, NaN]) {
+    const rg = run(ctx, `ftAdviceRange(AREA, TOK, ${JSON.stringify(b)}, 3, 0)`);
+    assert.ok(rg.lo >= 0 && (rg.hi === null || rg.hi >= rg.lo),
+      `budget ${b} : plage incohérente [${rg.lo}, ${rg.hi}]`);
+    assert.equal(typeof rg.claim, 'boolean', `budget ${b} : conseil illisible`);
   }
 });
