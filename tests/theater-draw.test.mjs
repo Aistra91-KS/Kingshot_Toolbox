@@ -189,3 +189,52 @@ test('le lot ne peut ni manquer ni dépasser ce que le budget permet', () => {
       `budget ${b} : le lot rapporte ${(avec - sans).toFixed(0)} jetons, plus que les ${AREA.failMult * b} d’un budget entièrement raté`);
   }
 });
+
+test('le lot déplace les montants, jamais le meilleur étage où encaisser', () => {
+  /* C'est la promesse écrite dans MAP.md, dans le fichier de données et dans
+     trois commentaires : le lot valant le même multiple à chaque étage, il
+     s'ajoute des deux côtés de l'arbitrage. Un lot qui dépendrait de l'étage
+     ATTEINT plutôt que de l'étage QUITTÉ la casserait sans qu'aucun autre test
+     ne bronche. */
+  const meilleur = zone => {
+    let best = null;
+    for (let T = 2; T <= AREA.peak; T++) {
+      const r = run(ctx, `ftThresholdStats(${zone}, TOK, ${T}).ratio`);
+      if (!best || r > best.r) best = { T, r };
+    }
+    return best;
+  };
+  const avec = meilleur('AREA'), sans = meilleur('AREA_SANS_LOT');
+  assert.equal(avec.T, sans.T,
+    `le lot a déplacé la meilleure consigne : étage ${sans.T} sans lui, ${avec.T} avec`);
+
+  // Et il la déplace du MÊME montant partout : le lot ne dépend que du coût, que
+  // la consigne s'arrête à l'étage 2 ou monte jusqu'au sommet.
+  const ecarts = [];
+  for (let T = 2; T <= AREA.peak; T++) {
+    ecarts.push(run(ctx, `ftThresholdStats(AREA, TOK, ${T}).ratio`)
+              - run(ctx, `ftThresholdStats(AREA_SANS_LOT, TOK, ${T}).ratio`));
+  }
+  const ecart = Math.max(...ecarts) - Math.min(...ecarts);
+  assert.ok(ecart < 1e-9,
+    `le lot vaut de ${Math.min(...ecarts).toFixed(4)} à ${Math.max(...ecarts).toFixed(4)} jetons par amulette selon la consigne`);
+});
+
+test('le seuil annoncé ne contredit jamais le conseil donné juste au-dessus', () => {
+  /* La décision n'est pas monotone en budget : elle bascule 13 fois entre 1 et
+     1 200 amulettes à l'étage 4. La dichotomie d'avant rendait donc parfois le
+     seuil d'une AUTRE plage — à l'étage 5 avec 248 amulettes, la page disait
+     « Encaisse » puis annonçait une bascule à 242 au-dessus de laquelle il
+     fallait pousser. Le seuil doit rester du bon côté du budget. */
+  for (const f of [2, 3, 4, 5, 6]) {
+    for (const k of [0, 2]) {
+      for (const b of [20, 100, 248, 391, 600]) {
+        const claim = run(ctx, `ftFiniteValue(AREA, TOK, ${b}, ${f}, ${k}).claim`);
+        const flip = run(ctx, `ftFlipBudget(AREA, TOK, ${b}, ${f}, ${k})`);
+        if (flip === null) continue;        // la page n'affiche alors aucun seuil
+        assert.ok(claim ? flip > b : flip <= b,
+          `étage ${f}, ${k} échec(s), ${b} amulettes : conseil « ${claim ? 'encaisse' : 'pousse'} » mais seuil annoncé à ${flip}`);
+      }
+    }
+  }
+});
