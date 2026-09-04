@@ -2,8 +2,8 @@
   "_meta": {
     "event": "Fantasy_Theater",
     "slug": "fantasy-theater",
-    "updatedAt": "2026-09-02",
-    "source": "Guide kingshotmastery.com/guides/kingshot-fantasy-theater-guide (Victor, 2026-08-31), relayé par Paul le 2026-09-02.",
+    "updatedAt": "2026-09-04",
+    "source": "Guide kingshotmastery.com/guides/kingshot-fantasy-theater-guide (Victor, 2026-08-31), relayé par Paul le 2026-09-02 ; le lot de consolation des explorations ratées (rules.failTokenMultiplier) est un relevé de Paul du 2026-09-04, que le guide ne mentionne pas.",
     "note": "Mécaniques de l'ÉVÉNEMENT (le tirage), à ne pas confondre avec data/events/theater-shop.json qui porte les packs payants et les 21 paliers d'activité, ni avec la boutique theater-shop de shopcalc_events.json qui dépense les Jetons. Ici : ce que coûte une exploration et ce qu'elle rapporte. Les missions quotidiennes, elles, vivent dans theater-shop.json avec les packs (schéma `missions[]` commun à tous les événements) : c'est le moteur de la boutique qui totalise les Amulettes, pas celui-ci. Les coûts sont donnés PAR ÉTAGE DE DÉPART (explorer DEPUIS l'étage f), c'est ainsi que le guide les liste.",
     "unknown": "Les JETONS PAR ÉTAGE ne sont documentés nulle part : ceux qui sont ici viennent du relevé de Paul sur son serveur (cf. theater.tokensNote). Ils sont modifiables dans la page, et l'écart est rangé en localStorage. Tout ce qui n'en dépend pas — coût d'une montée, probabilité d'atteindre un étage, paliers d'activité — se calcule sans eux."
   },
@@ -78,6 +78,8 @@
     "tokensNote": "Seul le SOMMET est propre à la Forteresse. Les étages 1 à 7 reprennent les Jetons du Théâtre (theater.tokensByFloor) : Paul les donne pour identiques, et la page les fait donc suivre automatiquement — modifier un étage du Théâtre modifie le même étage en Forteresse. Le jour où les deux barèmes divergeraient, ajouter ici les étages concernés."
   },
   "rules": {
+    "failTokenMultiplier": 10,
+    "failTokenMultiplierNote": "Une exploration RATÉE paie des Jetons : 10 fois ce qu'elle a coûté en amulettes (50 à l'étage 1 où elle coûte 5, 80 à l'étage 2 où elle coûte 8 — relevé en jeu par Paul le 2026-09-04, identique à tous les étages du Théâtre ET de la Forteresse). Une exploration RÉUSSIE ne paie rien d'autre que l'étage atteint. Ce n'est pas un détail : 64,69 % des amulettes partent sur des tentatives ratées (1,8324 échec pour 2,8324 tentatives par montée, le barème de garantie étant le même partout), donc le lot ajoute 6,47 jetons par amulette — la moitié de plus que tout ce que paient les étages. Comme il vaut le même multiple à chaque étage, il ne déplace pas l'arbitrage pousser/encaisser : il ne change QUE les montants. Absent du fichier (ou à 0), le moteur retrouve exactement son ancien calcul, qui sous-estimait tout d'environ 53 %.",
     "claimResetsToFloor": 1,
     "claimAllowedFromFloor": 2,
     "claimAllowedFromFloorNote": "Une manche impose au moins une exploration : sans cette règle, encaisser l'étage 1 serait gratuit et rapporterait des jetons à l'infini. Le guide ne le dit pas explicitement, mais un tirage gratuit ne peut pas exister.",

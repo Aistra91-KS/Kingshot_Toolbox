@@ -32,7 +32,8 @@ function ftExpectedAttempts(pity) {
 }
 
 /* Espérance d'amulettes pour atteindre l'étage `target` depuis chaque étage,
-   et loi de l'étage d'arrivée (on peut dépasser la cible avec un +2 / +3).
+   la loi de l'étage d'arrivée (on peut dépasser la cible avec un +2 / +3), et les
+   JETONS ramassés en chemin sur les explorations ratées.
    Exact : espérance par linéarité, loi par récurrence descendante. */
 /* Mémoïsé : chaque ligne des tableaux « jusqu'où » et « où encaisser » redemande
    la même table, soit une quinzaine de reconstructions par rendu — donc à chaque
@@ -40,33 +41,43 @@ function ftExpectedAttempts(pity) {
    d'une zone ne changent pas en cours de session. */
 let FT_CLIMB_CACHE = {};
 function ftClimbStats(area, target) {
-    const key = (area.id || area.peak) + '|' + target;
+    // Le multiplicateur entre dans la clé : deux zones de même `id` mais de lot
+    // différent — ce que font les tests — rendraient sinon la table de l'autre.
+    const key = (area.id || area.peak) + '|' + target + '|' + (area.failMult || 0);
     if (!FT_CLIMB_CACHE[key]) FT_CLIMB_CACHE[key] = ftComputeClimb(area, target);
     return FT_CLIMB_CACHE[key];
 }
 function ftComputeClimb(area, target) {
     const peak = area.peak, C = area.cost, J = area.jump;
     const EA = ftExpectedAttempts(area.pity);
+    // Une montée demande EA tentatives dont exactement UNE réussit : les EA - 1
+    // autres paient chacune le lot d'échec de l'étage d'où elles partent.
+    const EF = EA - 1, mult = area.failMult || 0;
     const cost = new Array(peak + 1).fill(0);
+    const cons = new Array(peak + 1).fill(0);
     const land = new Array(peak + 1);
 
     for (let f = peak; f >= 1; f--) {
         if (f >= target) {
             cost[f] = 0;
+            cons[f] = 0;
             land[f] = { [f]: 1 };
             continue;
         }
         let e = EA * C[f];
+        let cn = EF * C[f] * mult;
         const d = {};
         for (const j in J) {
             const g = Math.min(f + (+j), peak);
             e += J[j] * cost[g];
+            cn += J[j] * cons[g];
             for (const ff in land[g]) d[ff] = (d[ff] || 0) + J[j] * land[g][ff];
         }
         cost[f] = e;
+        cons[f] = cn;
         land[f] = d;
     }
-    return { cost, land };
+    return { cost, land, cons };
 }
 
 /* Espérance de tentatives pour monter quand le compteur de garantie est déjà
@@ -158,7 +169,13 @@ function ftComputeReach(area, budget, f0, k0) {
    problème — maximiser l'espérance de jetons avec un budget qui s'épuise :
 
      V(b,f,k) = max( encaisser : jetons[f] + V(b,1,0)     si f >= claimFrom
-                   , explorer  : p·Σ q_j·V(b-c, f+j, 0) + (1-p)·V(b-c, f, k+1) )
+                   , explorer  : p·Σ q_j·V(b-c, f+j, 0) + (1-p)·(lot[f] + V(b-c, f, k+1)) )
+
+   `lot[f]` est le lot de consolation : une exploration RATÉE paie des jetons
+   (`rules.failTokenMultiplier` × son coût). Il ne se ramasse que sur la branche
+   d'échec, jamais sur une montée. L'oublier sous-estimait tout de ~53 %, sans
+   pour autant fausser le conseil : valant le même multiple à chaque étage, il
+   s'ajoute des deux côtés de l'arbitrage.
 
    Encaisser ne coûte rien mais renvoie à l'étage 1, où l'on ne peut qu'explorer :
    V(b,1,·) ne dépend donc que de budgets plus petits. On le calcule en premier,
@@ -181,6 +198,7 @@ function ftFiniteValue(area, tokens, budget, f0, k0) {
         const base = b * stride;
         for (let f = 1; f <= peak; f++) {          // l'étage 1 en premier : cf. ci-dessus
             const c = C[f];
+            const lot = c ? (area.failMult || 0) * c : 0;
             let up = 0;
             if (c && b >= c) {
                 const prev = (b - c) * stride;
@@ -194,7 +212,7 @@ function ftFiniteValue(area, tokens, budget, f0, k0) {
                 if (c && b >= c) {
                     const prev = (b - c) * stride;
                     const stay = (k + 1 < nk) ? V[prev + f * nk + (k + 1)] : 0;
-                    explore = P[k] * up + (1 - P[k]) * stay;
+                    explore = P[k] * up + (1 - P[k]) * (stay + lot);
                 }
                 // Encaisser reste possible sans un sou : c'est ce qui garantit
                 // qu'une montée en cours vaut toujours ce que paie son étage.
@@ -208,10 +226,13 @@ function ftFiniteValue(area, tokens, budget, f0, k0) {
     return { tokens: V[at], claim: !!claimAt[at] };
 }
 
-/* Rendement d'une consigne simple « j'encaisse dès que j'atteins l'étage T ». */
+/* Rendement d'une consigne simple « j'encaisse dès que j'atteins l'étage T ».
+   Le gain n'est pas que la récompense d'arrivée : la montée ramasse en chemin les
+   lots des explorations ratées, et les ignorer donnait une colonne « jetons par
+   amulette » en contradiction avec le bandeau. */
 function ftThresholdStats(area, tokens, T) {
-    const { cost, land } = ftClimbStats(area, T);
-    let gain = 0;
+    const { cost, land, cons } = ftClimbStats(area, T);
+    let gain = cons[1];
     for (const f in land[1]) gain += land[1][f] * (tokens[f] || 0);
     return { cost: cost[1], gain, ratio: cost[1] > 0 ? gain / cost[1] : 0, landing: land[1] };
 }
@@ -264,10 +285,12 @@ const i18nTheater = {
         reachSub: 'Exact odds of getting at least this high on one climb, pushing without ever cashing in, from the floor you are on.',
         thReach: 'Reach at least', thOdds: 'Odds', thCostFrom: 'Average cost from your floor',
         cashTitle: 'Where to cash in',
-        cashSub: 'Cashing in ends the round and sends you back to floor 1, so the question is always whether the next floor is worth what it costs to reach.',
+        cashSub: 'Cashing in ends the round and sends you back to floor 1, so the question is always whether the next floor is worth what it costs to reach. The tokens counted include the consolation picked up on failed explorations along the way, which is why they beat the floor reward on its own.',
         thRule: 'Rule', thCost: 'Average amulets', thGain: 'Average tokens', thRatio: 'Tokens per amulet',
+        thFailTok: 'Tokens if it fails',
         ruleAt: 'Cash in from floor', bestRule: 'Best',
         climbTitle: 'What a climb costs',
+        climbSub: 'A failed exploration is not wasted: it pays tokens - {n} times what it cost - on top of counting toward the activity track. Over a whole climb that consolation is worth more than half of what the floors themselves pay.',
         thFloor: 'Floor', thOne: 'One exploration', thAsc: 'Average per ascent', thPeak: 'Average to reach floor 7',
         fortTitle: 'Fanstars and the Fortress',
         fortPeaks: 'Peak visits per Fortress entry',
@@ -311,10 +334,12 @@ const i18nTheater = {
         reachSub: 'Probabilité exacte de monter au moins jusque-là sur une montée, en poussant sans jamais encaisser, depuis l’étage où tu es.',
         thReach: 'Atteindre au moins', thOdds: 'Chances', thCostFrom: 'Coût moyen depuis ton étage',
         cashTitle: 'Où encaisser',
-        cashSub: 'Encaisser met fin à la manche et renvoie à l’étage 1 : la question est toujours de savoir si l’étage suivant vaut ce qu’il coûte à atteindre.',
+        cashSub: 'Encaisser met fin à la manche et renvoie à l’étage 1 : la question est toujours de savoir si l’étage suivant vaut ce qu’il coûte à atteindre. Les jetons comptés incluent les lots ramassés en chemin sur les explorations ratées — c’est pourquoi ils dépassent la seule récompense de l’étage.',
         thRule: 'Consigne', thCost: 'Amulettes en moyenne', thGain: 'Jetons en moyenne', thRatio: 'Jetons par amulette',
+        thFailTok: 'Jetons si échec',
         ruleAt: 'Encaisser dès l’étage', bestRule: 'Meilleure',
         climbTitle: 'Ce que coûte une montée',
+        climbSub: 'Une exploration ratée n’est pas perdue : elle paie des jetons — {n} fois son coût — en plus de compter pour les paliers d’activité. Sur une montée entière, ce lot vaut plus de la moitié de ce que paient les étages eux-mêmes.',
         thFloor: 'Étage', thOne: 'Une exploration', thAsc: 'Moyenne par montée', thPeak: 'Moyenne pour l’étage 7',
         fortTitle: 'Fanstars et Forteresse',
         fortPeaks: 'Passages au sommet par entrée',
@@ -700,6 +725,7 @@ function stRender(host, c) {
     for (let i = 1; i <= a.peak; i++) {
         climb += `<tr><td class="c-pack">${stT('floor')} ${i}</td>
             <td class="rgt">${a.cost[i] ? stFmt(a.cost[i]) : '—'}</td>
+            <td class="rgt stx-lot">${a.cost[i] && a.failMult ? stFmt(a.failMult * a.cost[i]) : '—'}</td>
             <td class="rgt">${a.cost[i] ? stFmt(EA * a.cost[i]) : '—'}</td>
             <td class="rgt">${i < a.peak ? stFmt(peakCost[i]) : '—'}</td></tr>`;
     }
@@ -709,15 +735,20 @@ function stRender(host, c) {
     let eFan = 0;
     for (const k in drops) eFan += (+k) * drops[k];
     const peaks = ST.mech.fanstars.needed / eFan;
-    const fortClimb = ftClimbStats(f, f.peak).cost[1];
+    const fortStats = ftClimbStats(f, f.peak), fortClimb = fortStats.cost[1];
     const fortKpis = [
         { label: stT('fortPeaks'), value: stFmt(peaks, 2) },
         { label: stT('fortClear'), value: stFmt(fortClimb), sub: stT('amulets') }
     ];
     if (ftok && tok) {
-        const rate = ftok[f.peak] / fortClimb;
+        // Vider la Forteresse rapporte son sommet ET les lots des explorations
+        // ratées du parcours : compter le seul sommet donnait un rendement bien
+        // en dessous de celui du Théâtre, qui, lui, les compte.
+        const rate = (ftok[f.peak] + fortStats.cons[1]) / fortClimb;
         fortKpis.push({ label: stT('fortRate'), value: stFmt(rate, 1), sub: stT('perAmulet'), tone: 'sxe-t-good' });
-        const cyCost = peaks * full + fortClimb, cyGain = peaks * tok[a.peak] + ftok[f.peak];
+        const peakCons = ftClimbStats(a, a.peak).cons[1];
+        const cyCost = peaks * full + fortClimb;
+        const cyGain = peaks * (tok[a.peak] + peakCons) + ftok[f.peak] + fortStats.cons[1];
         fortKpis.push({ label: stT('fortCycle'), value: stFmt(cyGain / cyCost, 1), sub: stT('perAmulet') });
     }
 
@@ -739,7 +770,8 @@ function stRender(host, c) {
         ${stTableHtml(`<th class="c-pack">${stT('thReach')}</th><th>${stT('thOdds')}</th><th class="rgt">${stT('thCostFrom')}</th>`, reachRows)}` : ''}
         ${cash}
         <h3>${stT('climbTitle')}</h3>
-        ${stTableHtml(`<th class="c-pack">${stT('thFloor')}</th><th class="rgt">${stT('thOne')}</th><th class="rgt">${stT('thAsc')}</th><th class="rgt">${stT('thPeak')}</th>`, climb)}
+        ${a.failMult ? `<p class="sx-section-sub">${stTf('climbSub', a.failMult)}</p>` : ''}
+        ${stTableHtml(`<th class="c-pack">${stT('thFloor')}</th><th class="rgt">${stT('thOne')}</th><th class="rgt">${stT('thFailTok')}</th><th class="rgt">${stT('thAsc')}</th><th class="rgt">${stT('thPeak')}</th>`, climb)}
         <h3>${stT('fortTitle')}</h3>
         ${stKpiHtml(fortKpis)}`;
 
@@ -896,6 +928,7 @@ window.spHelpExtras = function (cfg) {
         FR: [
             "Sous le détail des gains, cette boutique a une section de plus : « Ce que valent tes amulettes ». Les packs du Théâtre versent des Amulettes Fantaisie, jamais des Jetons — les Amulettes servent à explorer le Théâtre, et ce sont les étages atteints qui paient les Jetons. Cette section est ce chaînon manquant.",
             "Commence par relever dans le jeu ton « Étage actuel » et tes « Échecs d'affilée » : tout le reste en découle. Les échecs ne sont pas perdus, c'est la garantie du Théâtre — 10 % de chance de monter sur un compteur neuf, puis 30, 60, 80, et 100 % à la cinquième exploration.",
+            "Une exploration ratée n'est pas un coup pour rien : elle paie des Jetons, dix fois ce qu'elle a coûté en amulettes — 50 à l'étage 1, 1 000 à l'étage 6, la colonne « Jetons si échec » les donne tous. Comme près des deux tiers des amulettes partent sur des tentatives ratées, ce lot pèse à lui seul la moitié de ce que paient les étages : tous les chiffres de la section le comptent.",
             "Ensuite, après chaque exploration en jeu, clique sur ce que tu viens de faire : « échouer », « monter » +1, +2 ou +3, ou « encaisser ». L'étage, le compteur et les « Amulettes Fantaisie dépensées » se mettent à jour ensemble. Un saut de deux ou trois étages ne coûte qu'une seule exploration — d'où les trois boutons.",
             "Deux chiffres à ne pas confondre. « Amulettes en poche » est le seul qui doive correspondre au jeu aujourd'hui ; « À dépenser d'ici la fin » y ajoute les packs des jours à venir et les missions pas encore faites, et c'est sur celui-là qu'on raisonne. Si le solde en poche ne colle pas au jeu, corrige la grille d'achats au-dessus.",
             "« Pousse » ou « Encaisse » répond à une seule question : tenter l'étage suivant, ou prendre la récompense et repartir de l'étage 1 ? La réponse dépend d'où tu es et de ce qu'il te reste — un gros budget rend la poussée payante, un petit budget non. La page donne le seuil exact où le conseil bascule.",
@@ -905,6 +938,7 @@ window.spHelpExtras = function (cfg) {
         EN: [
             "Below the reward breakdown, this shop has one extra section: “What your amulets are worth”. Theater packs pay Fantasy Amulets, never Tokens — Amulets are what you spend exploring the Theater, and the floors you reach are what pay the Tokens. This section is that missing link.",
             "Start by reading your “Current floor” and “Failed pushes in a row” off the game: everything else follows from those two. Failed pushes are not wasted, they are the Theater's guarantee — a 10% chance of going up on a fresh counter, then 30, 60, 80, and 100% on the fifth exploration.",
+            "A failed exploration is not a wasted push: it pays Tokens, ten times what it cost in amulets - 50 on floor 1, 1,000 on floor 6, the “Tokens if it fails” column lists them all. Since close to two thirds of your amulets go on failed attempts, that consolation alone is worth half of what the floors pay: every figure in this section counts it.",
             "From then on, after each exploration in game, click what you just did: “failed”, “went up” +1, +2 or +3, or “cashed in”. The floor, the counter and the “Fantasy Amulets spent” field all move together. A jump of two or three floors still costs a single exploration — hence the three buttons.",
             "Two figures not to confuse. “Amulets in hand” is the only one that should match the game today; “Amulets left to spend” adds the packs of the days ahead and the missions not yet done, and that is the one to plan on. If the in-hand figure does not match the game, fix the purchase grid above.",
             "“Push” or “Cash in” answers one question: try the next floor, or take the reward and start again from floor 1? The answer depends on where you are and what you have left — a large budget makes pushing pay, a small one does not. The page gives the exact budget where the advice flips.",
@@ -931,10 +965,15 @@ window.spHelpExtras = function (cfg) {
     if (!ST.mech || !ST.mech.theater) return;
 
     const jump = { 1: ST.mech.jump['1'], 2: ST.mech.jump['2'], 3: ST.mech.jump['3'] };
+    // Le lot d'échec vaut le même multiple du coût dans les deux zones. Absent du
+    // fichier — un visiteur au JSON encore en cache, le site n'ayant pas de
+    // cache-busting — il vaut 0 et le moteur retrouve son calcul d'avant plutôt
+    // que de rendre des NaN.
+    const failMult = Number(ST.mech.rules.failTokenMultiplier) || 0;
     ST.area = { id: 'theater', peak: ST.mech.theater.peak, cost: ST.mech.theater.costByFloor,
-        pity: ST.mech.pity.chances, jump, claimFrom: ST.mech.rules.claimAllowedFromFloor };
+        pity: ST.mech.pity.chances, jump, claimFrom: ST.mech.rules.claimAllowedFromFloor, failMult };
     ST.fortress = { id: 'fortress', peak: ST.mech.fortress.peak, cost: ST.mech.fortress.costByFloor,
-        pity: ST.mech.pity.chances, jump, claimFrom: ST.mech.rules.claimAllowedFromFloor };
+        pity: ST.mech.pity.chances, jump, claimFrom: ST.mech.rules.claimAllowedFromFloor, failMult };
 
     const saved = safeParse(stKey(), {}) || {};
     ST.state = Object.assign({}, ST_DEFAULTS, saved);
