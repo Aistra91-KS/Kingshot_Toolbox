@@ -9,6 +9,14 @@
 > TrueGold est considéré comme terminé, et refactorer un moteur stabilisé déplacerait le risque
 > sans rien rapporter au joueur : A03 et A04 passent en **choix assumé**. Une erreur de l'audit
 > a par ailleurs été corrigée : A17 n'était pas une dette (cf. « Ce qui a l'air mauvais »).
+>
+> **Relecture de la branche (4 septembre).** Deux régressions introduites par ce lot ont été
+> rattrapées : `tools/` et `tests/` seraient partis en ligne (GitHub Pages publie tout le dépôt —
+> `_config.yml` les exclut désormais), et le jumeau français n'était couvert par aucun garde-fou
+> (`--check` compare maintenant les scripts et feuilles des deux jumelles). La relecture a aussi
+> trouvé **deux bugs qui vivaient déjà sur `main`**, hors périmètre de l'audit, corrigés dans la
+> foulée : le barème de jetons du Théâtre lisait « 1 600 » comme 1 (séparateur de milliers), et
+> la Sauvegarde Globale oubliait le Théâtre depuis toute page autre que la sienne.
 
 ---
 

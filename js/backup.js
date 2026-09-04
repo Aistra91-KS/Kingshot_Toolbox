@@ -14,6 +14,7 @@ const i18nBackup = {
         modWaracademy: "Académie de Guerre (Niveaux & Paramètres)",
         modShopcalc: "Calcul Boutique (valeurs, boutiques modifiées, achats d'événement)",
         modPets: "Familiers (Niveaux)",
+        modTheater: "Théâtre Fantastique (barème de jetons et progression)",
         modTrueGold: "TrueGold (Niveaux, Stocks & Paramètres)",
         btnExport: "Exporter (.json)",
         btnImport: "Importer",
@@ -35,6 +36,7 @@ const i18nBackup = {
         modWaracademy: "War Academy (Levels & Settings)",
         modShopcalc: "Shop Value (values, edited shops, event purchases)",
         modPets: "Pets (Levels)",
+        modTheater: "Fantasy Theater (token table and progress)",
         modTrueGold: "TrueGold (Levels, Stocks & Settings)",
         btnExport: "Export (.json)",
         btnImport: "Import",
@@ -57,7 +59,13 @@ const BACKUP_MODULES = [
     { id: 'module-vikings',  labelKey: 'modVikings',  keys: [STORAGE_KEYS.vikings] },
     { id: 'module-waracademy', labelKey: 'modWaracademy', keys: [STORAGE_KEYS.waracademy] },
     { id: 'module-shopcalc', labelKey: 'modShopcalc', keys: [STORAGE_KEYS.shopcalcItems, STORAGE_KEYS.shopcalcEvents, STORAGE_KEYS.shopcalcEventPlans] },
-    { id: 'module-pets',     labelKey: 'modPets',     keys: [STORAGE_KEYS.pets] }
+    { id: 'module-pets',     labelKey: 'modPets',     keys: [STORAGE_KEYS.pets] },
+    // Le barème de jetons corrigé à la main est la seule donnée du Magasin du
+    // Théâtre que rien d'autre ne porte. Il se déclare ICI, comme les autres :
+    // shop-theater.js n'étant chargé que sur sa page, s'y inscrire n'inscrivait
+    // le module que là — une sauvegarde faite depuis n'importe quelle autre page
+    // l'oubliait, et un import depuis ailleurs le sautait.
+    { id: 'module-theater',  labelKey: 'modTheater',  keys: [STORAGE_KEYS.theaterOptimizer] }
 ];
 
 
