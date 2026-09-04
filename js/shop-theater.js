@@ -799,7 +799,14 @@ function stBind(host) {
         const tok = e.target.closest('[data-st-tok]');
         if (tok) {
             const v = String(tok.value).trim();
-            ST.state.tokens[tok.dataset.stTok] = v === '' ? '' : (Math.round(parseFloat(v.replace(',', '.'))) || 0);
+            // Un séparateur de milliers ne doit pas décimer la valeur. `parseFloat`
+            // lisait « 1 600 » comme 1 et « 1,600 » comme 1,6 — arrondi à 2 : le
+            // joueur qui recopiait son écran de jeu empoisonnait en silence le
+            // verdict, le seuil de bascule et tout le tableau « où encaisser ».
+            // Le barème ne porte que des ENTIERS : on ne garde donc que les
+            // chiffres, comme `seSetExplore` le fait déjà dans shop-event.js.
+            const chiffres = v.replace(/\D/g, '');
+            ST.state.tokens[tok.dataset.stTok] = v === '' ? '' : (chiffres === '' ? 0 : parseInt(chiffres, 10));
             stSave(); stRedraw();
         }
     });
@@ -867,24 +874,6 @@ function stRedrawNow() {
         if (el && !el.disabled) el.focus({ preventScroll: true });
     }
 }
-
-/* Inscrit le module dans la Sauvegarde Globale. Le barème corrigé à la main est
-   la seule donnée de cette page que rien d'autre ne porte : l'oublier de l'export
-   en ferait la seule chose qu'une sauvegarde ne rattrape pas.
-
-   Fait ici plutôt que dans `js/backup.js` pour laisser ce fichier partagé
-   identique au dépôt public. L'ordre tient parce que tous les scripts sont
-   analysés avant `DOMContentLoaded`, et que cette page charge shop-theater.js
-   AVANT backup.js : notre écouteur est donc enregistré en premier, et s'exécute
-   avant que backup.js ne lise `BACKUP_MODULES`. */
-document.addEventListener('DOMContentLoaded', function () {
-    if (window.SHOP_SLUG !== 'theater-shop') return;
-    if (typeof BACKUP_MODULES === 'undefined' || typeof i18nBackup === 'undefined') return;
-    if (BACKUP_MODULES.some(m => m.id === 'module-theater')) return;
-    i18nBackup.FR.modTheater = 'Théâtre Fantastique (barème de jetons et progression)';
-    i18nBackup.EN.modTheater = 'Fantasy Theater (token table and progress)';
-    BACKUP_MODULES.push({ id: 'module-theater', labelKey: 'modTheater', keys: [stKey()] });
-});
 
 /* --------------------------------------------------------------------------
    5. Mode d'emploi

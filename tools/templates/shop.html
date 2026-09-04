@@ -16,16 +16,16 @@
     <base href="../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Kingshot Summit Contest Ordinary Shop - Best Deals &amp; Gem Value | Kingshot Toolbox</title>
-    <meta name="description" content="Kingshot Summit Contest Ordinary Shop: League Token cost of every item, stock limits and gem value, so you can spend your tokens where they return the most.">
-    <link rel="canonical" href="https://kingshottoolbox.com/shop/summit-contest-ordinary">
-    <meta property="og:type" content="website">
+    <title>{{TITLE}} | Kingshot Toolbox</title>
+    <meta name="description" content="{{DESCRIPTION}}">
+    <link rel="canonical" href="https://kingshottoolbox.com/shop/{{SLUG}}">
+{{HEAD_EXTRA}}    <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
-    <meta property="og:title" content="Kingshot Summit Contest Ordinary Shop - Best Deals &amp; Gem Value">
-    <meta property="og:description" content="Kingshot Summit Contest Ordinary Shop: League Token cost of every item, stock limits and gem value, so you can spend your tokens where they return the most.">
-    <meta property="og:url" content="https://kingshottoolbox.com/shop/summit-contest-ordinary">
+    <meta property="og:title" content="{{TITLE}}">
+    <meta property="og:description" content="{{DESCRIPTION}}">
+    <meta property="og:url" content="https://kingshottoolbox.com/shop/{{SLUG}}">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -38,27 +38,25 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/db.css">
     <link rel="stylesheet" href="css/shop.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Shops","item":"https://kingshottoolbox.com/shop_calc"},{"@type":"ListItem","position":3,"name":"Summit Contest Ordinary Shop","item":"https://kingshottoolbox.com/shop/summit-contest-ordinary"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Shops","item":"https://kingshottoolbox.com/shop_calc"},{"@type":"ListItem","position":3,"name":"{{NAME_EN}}","item":"https://kingshottoolbox.com/shop/{{SLUG}}"}]}</script>
 </head>
 <body class="has-app-header">
     <div class="db-page db-wide">
-        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="shop_calc" data-i18n="crumbShops">Shops</a> / <span data-en="Summit Contest Ordinary Shop" data-fr="Magasin Ordinaire de la Ligue Suprême">Summit Contest Ordinary Shop</span></div>
+        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="shop_calc" data-i18n="crumbShops">Shops</a> / <span data-en="{{NAME_EN}}" data-fr="{{NAME_FR}}">{{NAME_EN}}</span></div>
 
         <div class="sx-hero">
           <div class="sx-hero-thumb" id="sp-thumb"></div>
           <div class="sx-hero-text">
-            <h1 data-en="Summit Contest Ordinary Shop" data-fr="Magasin Ordinaire de la Ligue Suprême">Summit Contest Ordinary Shop</h1>
+            <h1 data-en="{{NAME_EN}}" data-fr="{{NAME_FR}}">{{NAME_EN}}</h1>
             <div class="sx-facts" id="sp-facts"></div>
           </div>
         </div>
-        <p class="db-intro" data-en="The Ordinary Shop of the Summit Contest, open to every participant and paid in League Tokens. Prices are steep on the headline items, which makes the ratio column the fastest way to tell a bargain from a trap." data-fr="Le Magasin Ordinaire de la Ligue Suprême, ouvert à tous les participants et payé en Jetons de Ligue. Les objets vedettes y sont chers : la colonne ratio est le moyen le plus rapide de distinguer la bonne affaire du piège.">The Ordinary Shop of the Summit Contest, open to every participant and paid in League Tokens. Prices are steep on the headline items, which makes the ratio column the fastest way to tell a bargain from a trap.</p>
+        <p class="db-intro" data-en="{{INTRO_EN}}" data-fr="{{INTRO_FR}}">{{INTRO_EN}}</p>
         <div id="sp-archive"></div>
         <div class="sx-actions" id="sp-actions"></div>
         <div id="sp-cart"></div>
 
-        <div class="db-section"><h2 data-i18n="bestDeals">Best deals</h2><div class="sx-podium" id="sp-podium"></div></div>
-        <div class="db-section"><h2 data-i18n="allItems">All items</h2><div id="sp-table"></div></div>
-        <!-- Les deux référentiels de valeurs, à portée de clic depuis la boutique qui s'en
+{{SECTIONS}}{{EVENT_SLOT}}        <!-- Les deux référentiels de valeurs, à portée de clic depuis la boutique qui s'en
              sert : le joueur qui doute d'un chiffre du tableau voit d'où il vient sans
              partir le chercher. Écrits en dur — le maillage doit exister sans JS (MAP.md §9).
              Le [data-i18n] est sur le <span> du libellé, jamais sur le <a> : applyI18n écrit
@@ -86,12 +84,11 @@
     <script src="js/storage-keys.js"></script>
     <script src="js/profiles.js"></script>
     <script src="js/lang.js"></script>
-    <script>window.HDR_ACTIVE_HREF = 'shop_calc'; window.SHOP_SLUG = 'summit-contest-ordinary';</script>
-    <script src="js/header.js"></script>
+{{PAGE_SCRIPT}}    <script src="js/header.js"></script>
     <script src="js/help.js"></script>
     <script src="js/shop-core.js"></script>
     <script src="js/shop-page.js"></script>
-    <script src="js/backup.js"></script>
+{{EXTRA_SCRIPTS}}    <script src="js/backup.js"></script>
     <script src="js/footer.js"></script>
 </body>
 </html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
+    try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-M1QG4XSD3K');
+    </script>
+    <base href="../../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>{{TITLE}} | Kingshot Toolbox</title>
+    <meta name="description" content="{{DESCRIPTION}}">
+    <link rel="canonical" href="https://kingshottoolbox.com/database/buildings/{{SLUG}}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kingshot Toolbox">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:title" content="{{TITLE}}">
+    <meta property="og:description" content="{{DESCRIPTION}}">
+    <meta property="og:url" content="https://kingshottoolbox.com/database/buildings/{{SLUG}}">
+    <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Kingshot Toolbox - free calculators, optimizers and databases for Kingshot">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="img/logo/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo/favicon-96.png">
+    <link rel="alternate icon" type="image/png" href="img/logo/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/db.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Buildings","item":"https://kingshottoolbox.com/database/buildings/"},{"@type":"ListItem","position":3,"name":"{{NAME_EN}}","item":"https://kingshottoolbox.com/database/buildings/{{SLUG}}"}]}</script>
+</head>
+<body class="has-app-header">
+    <div class="db-page">
+        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="database/buildings/" data-i18n="crumbBuildings">Buildings</a> / <span id="crumb-name">{{NAME_FR}}</span></div>
+        <div class="db-head">
+          <img class="db-hero" src="img/buildings/{{SLUG}}.webp" alt="{{NAME_EN}}" onerror="this.remove()">
+          <h1 id="bldg-name" data-en="{{NAME_EN}}" data-fr="{{NAME_FR}}">{{NAME_EN}}</h1>
+        </div>
+        <p class="db-intro" data-i18n="bldgIntro">Full per-level upgrade costs: TrueGold, Tempered TrueGold, resources and build time.</p>
+        <nav class="db-switch " aria-label="Buildings">{{NAV}}</nav>
+        <div class="table-container">
+          <table class="db-table">
+            <thead><tr>
+              <th data-i18n="cLevel">Level</th>
+              <th data-i18n="cReq">Requirements</th>
+              <th data-i18n="cTG">TrueGold</th>
+              <th data-i18n="cTTG">Tempered TG</th>
+              <th data-i18n="cBread">Bread</th>
+              <th data-i18n="cWood">Wood</th>
+              <th data-i18n="cStone">Stone</th>
+              <th data-i18n="cIron">Iron</th>
+              <th data-i18n="cTime">Time</th>
+            </tr></thead>
+            {{TABLE}}
+          </table>
+        </div>
+        <nav class="db-switch footer" aria-label="Buildings">{{NAV}}</nav>
+    </div>
+
+    <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
+         etat ferme (position:fixed + translateX(100%) => hors ecran). Placee AVANT
+         les scripts : header.js la reutilise au lieu d en creer une seconde, puis
+         hdrBuildDrawer() en remplace le contenu par sa version complete. Le rendu
+         final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
+         n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
+    <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Guide</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>TrueGold</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span><span class="hdr-badge">Beta</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Pack / Shop Calculation</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'database/buildings/';</script>
+    <script src="js/profiles.js"></script>
+    <script src="js/header.js"></script>
+    <script>
+    (function(){
+      const dict = {
+        FR: { crumbBuildings:"Bâtiments", bldgIntro:"Coûts d'amélioration complets par palier : TrueGold, Or Véritable Trempé, ressources et temps de construction.", cLevel:"Palier", cReq:"Prérequis", cTG:"TrueGold", cTTG:"TG Trempé", cBread:"Pain", cWood:"Bois", cStone:"Pierre", cIron:"Fer", cTime:"Temps" },
+        EN: { crumbBuildings:"Buildings", bldgIntro:"Full per-level upgrade costs: TrueGold, Tempered TrueGold, resources and build time.", cLevel:"Level", cReq:"Requirements", cTG:"TrueGold", cTTG:"Tempered TG", cBread:"Bread", cWood:"Wood", cStone:"Stone", cIron:"Iron", cTime:"Time" }
+      };
+      function apply(){
+        const lang = (window.GlobalLang && GlobalLang.get && GlobalLang.get()) || 'FR';
+        if (window.GlobalLang && GlobalLang.applyI18n) GlobalLang.applyI18n(dict[lang]||dict.FR);
+        document.querySelectorAll('[data-en][data-fr]').forEach(el=>{ el.textContent = el.getAttribute('data-'+lang.toLowerCase()) || el.textContent; });
+        const n=document.getElementById('bldg-name'); const c=document.getElementById('crumb-name');
+        if(n&&c) c.textContent=n.textContent;
+        document.documentElement.lang = lang.toLowerCase();
+      }
+      window.addEventListener('langChanged', apply);
+      apply();
+    })();
+    </script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

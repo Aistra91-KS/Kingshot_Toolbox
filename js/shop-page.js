@@ -175,7 +175,7 @@ function spRenderCart(){
       <div class="sx-kpi gemtile">
         <span class="sx-kpi-lbl">${scT('kpiValue')}</span>
         <span class="sx-kpi-val">💎 ${spNum(cart.gems)}</span>
-        <span class="sx-kpi-sub">${cart.spent>0?`${(cart.gems/cart.spent).toFixed(2)} 💎 / ${scEscAttr(scResShort(shop,lang))}`:'—'}</span>
+        <span class="sx-kpi-sub">${cart.spent>0?`${scFmtFix(cart.gems/cart.spent,2)} 💎 / ${scEscAttr(scResShort(shop,lang))}`:'—'}</span>
       </div>`}
     </div>`;
 }
@@ -203,9 +203,9 @@ function spRenderPodium(){
       <span class="sx-pod-txt">
         <span class="sx-pod-name">${scEscAttr(r.nameTxt)}${spTierHtml(r.tier)}</span>
         <span class="sx-pod-val">${ chest
-          ? (eur ? `<b>${scFmtEur(r.eur)}</b>` : `💎 <b>${r.gem.toLocaleString()}</b>`)
+          ? (eur ? `<b>${scFmtEur(r.eur)}</b>` : `💎 <b>${scFmtNum(r.gem)}</b>`)
           : (eur ? `<b>${scFmtRatio(r.ratioEur)}</b> · ${scFmtEur(r.eur)}`
-                 : `<b>×${r.ratio.toFixed(2)}</b> · 💎 ${r.gem.toLocaleString()}`) }</span>
+                 : `<b>×${scFmtFix(r.ratio,2)}</b> · 💎 ${scFmtNum(r.gem)}`) }</span>
       </span>
     </div>`).join('');
 }
@@ -225,7 +225,11 @@ function spTh(col,label,align,extra){
   const arrow=(st&&st.col===col)?(st.dir>0?' ▲':' ▼'):'';
   return `<th class="${align||''}${extra?' '+extra:''}" onclick="spSort('${col}')">${label}${arrow}</th>`;
 }
-function spNum(n){ return Number(n||0).toLocaleString(); }
+// Un seul formateur pour toute la page, et c'est celui du CORE : `toLocaleString()` sans
+// argument suit la locale du NAVIGATEUR, pas la langue du site. Un visiteur français dont
+// le navigateur est en anglais lisait « 12,000 » dans la colonne Coût juste à côté de
+// « 13,89 € » dans la colonne voisine — deux conventions dans le même tableau.
+function spNum(n){ return scFmtNum(Number(n)||0); }
 
 // Le rendu remplace tout le contenu de #sp-table, donc le conteneur qui défile est recréé :
 // sans ces deux relevés, chaque clic sur « + » d'une ligne du bas ramenait le tableau en haut
@@ -356,7 +360,7 @@ function spRenderTable(){
       : `<td class="rgt gem">${spNum(r.gem)}</td>`;
     const rv = eurV ? r.ratioEur : r.ratio;
     const ratioCell = (rv!=null && rv>0)
-      ? `<td class="c-ratio"><b>${eurV?scFmtRatio(rv):'×'+rv.toFixed(2)}</b><span class="sx-bar"><span style="width:${rMax>0?(rv/rMax*100):0}%"></span></span></td>`
+      ? `<td class="c-ratio"><b>${eurV?scFmtRatio(rv):'×'+scFmtFix(rv,2)}</b><span class="sx-bar"><span style="width:${rMax>0?(rv/rMax*100):0}%"></span></span></td>`
       // Un ratio vide vient soit d'une valeur € inconnue, soit d'un coût à 0 (saisissable
       // en mode édition) : ne mettre l'info-bulle « valeur inconnue » que dans le premier cas.
       : `<td class="c-ratio"><span class="dash"${(eurV&&r.eur==null)?` title="${scEscAttr(scTc('noEur'))}"`:''}>—</span></td>`;

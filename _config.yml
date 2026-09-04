@@ -1,0 +1,19 @@
+# Configuration GitHub Pages (Jekyll).
+#
+# Le site n'utilise RIEN de Jekyll : pas de gabarit, pas de front matter, pas de
+# Liquid. Ce fichier n'existe que pour une raison — dire ce qui ne doit PAS être
+# publié. Sans lui, Pages recopie tout le dépôt à la racine du domaine, y compris
+# l'outillage : `tools/templates/shop.html` se serait servi en `text/html` avec ses
+# `{{EMPLACEMENTS}}` visibles, et les huit `tools/partials/*.table.html` auraient
+# exposé le tableau complet des pages bâtiments — des fragments sans `<head>`, sans
+# canonique, dupliquant le contenu des pages qu'on demande justement à Google de
+# classer.
+#
+# `exclude` remplace la liste par défaut de Jekyll (Gemfile, node_modules, vendor/…),
+# dont aucune entrée n'existe ici : rien n'est perdu à la redéfinir.
+exclude:
+  - tools        # gabarits, données de génération et partials (cf. MAP.md §11)
+  - tests        # harnais et tests des moteurs de calcul (cf. MAP.md §10)
+  - CLAUDE.md    # documents de travail du dépôt : publics sur GitHub, mais ils
+  - MAP.md       # n'ont rien à faire sous une adresse du site
+  - TECH_DEBT_AUDIT.md

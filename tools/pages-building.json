@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "town-center",
+    "title": "Town Center - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete Town Center upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "name": {
+      "EN": "Town Center",
+      "FR": "Centre-ville"
+    }
+  },
+  {
+    "slug": "embassy",
+    "title": "Embassy - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete Embassy upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "name": {
+      "EN": "Embassy",
+      "FR": "Ambassade"
+    }
+  },
+  {
+    "slug": "command-center",
+    "title": "Command Center - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete Command Center upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "name": {
+      "EN": "Command Center",
+      "FR": "Base de commandement"
+    }
+  },
+  {
+    "slug": "war-academy",
+    "title": "War Academy - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete War Academy upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "name": {
+      "EN": "War Academy",
+      "FR": "Académie de Guerre"
+    }
+  },
+  {
+    "slug": "infirmary",
+    "title": "Infirmary - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete Infirmary upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "name": {
+      "EN": "Infirmary",
+      "FR": "Infirmerie"
+    }
+  },
+  {
+    "slug": "barracks",
+    "title": "Barracks - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete Barracks upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "name": {
+      "EN": "Barracks",
+      "FR": "Quartiers"
+    }
+  },
+  {
+    "slug": "stable",
+    "title": "Stable - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete Stable upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "name": {
+      "EN": "Stable",
+      "FR": "Ecurie"
+    }
+  },
+  {
+    "slug": "range",
+    "title": "Range - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete Range upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "name": {
+      "EN": "Range",
+      "FR": "Stand de Tir"
+    }
+  }
+]
