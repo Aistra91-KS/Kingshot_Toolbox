@@ -881,6 +881,9 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .sxe-grid tbody tr.stx-best:hover { background: color-mix(in srgb, var(--success) 16%, transparent); }
 .sxe-grid tbody tr.stx-best:hover td.c-pack { background: color-mix(in srgb, var(--success) 16%, var(--bg-panel)); }
 .stx-ratio { font-weight: 700; color: var(--accent); }
+/* Le lot d'une exploration ratée est un GAIN au milieu d'un tableau de coûts :
+   sans la couleur du succès, la colonne se lisait comme une dépense de plus. */
+.stx-lot { color: var(--success); }
 .stx-tag { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 20px;
   font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em;
   background: color-mix(in srgb, var(--success) 16%, transparent); color: var(--success); }

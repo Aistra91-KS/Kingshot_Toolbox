@@ -23,13 +23,21 @@ const AREA = {
   peak: MECH.theater.peak,
   cost: MECH.theater.costByFloor,
   pity: MECH.pity.chances,
-  jump: { 1: MECH.jump['1'], 2: MECH.jump['2'], 3: MECH.jump['3'] }
+  jump: { 1: MECH.jump['1'], 2: MECH.jump['2'], 3: MECH.jump['3'] },
+  claimFrom: MECH.rules.claimAllowedFromFloor,
+  failMult: MECH.rules.failTokenMultiplier
 };
+/* La même zone SANS le lot d'échec : c'est le calcul d'avant, qui doit rester
+   accessible tel quel — un joueur dont le JSON est encore en cache le reçoit. */
+const AREA_SANS_LOT = Object.assign({}, AREA, { id: 'theater-sans-lot', failMult: 0 });
+const TOK = MECH.theater.tokensByFloor;
 
 /* Le contexte ne charge QUE le moteur : shop-theater.js s'appuie sur shop-core.js
    pour le rendu, dont la section 1 n'a besoin de rien. */
 const ctx = createContext(['js/storage-keys.js', 'js/shop-core.js', 'js/shop-theater.js']);
 run(ctx, `var AREA = ${JSON.stringify(AREA)};`);
+run(ctx, `var AREA_SANS_LOT = ${JSON.stringify(AREA_SANS_LOT)};`);
+run(ctx, `var TOK = ${JSON.stringify(TOK)};`);
 
 /* mulberry32 — 32 bits, graine explicite, même suite à chaque exécution. */
 function rng(seed) {
@@ -98,4 +106,158 @@ test('la garantie de la 5e tentative est bien celle du barème', () => {
   for (let i = 0; i < p.length; i++) { attendu += (i + 1) * survie * p[i]; survie *= (1 - p[i]); }
   assert.equal(survie, 0, 'la dernière tentative du barème doit être garantie (probabilité 1)');
   assert.ok(Math.abs(run(ctx, 'ftAttemptsFrom(AREA.pity, 0)') - attendu) < 1e-9);
+});
+
+/* --------------------------------------------------------------------------
+   Le lot de consolation des explorations ratées (rules.failTokenMultiplier).
+   Il ne se ramasse QUE sur un échec, et il vaut un multiple du coût de l'étage
+   d'où part l'exploration. Même méthode que ci-dessus : une simulation qui ne
+   connaît que le JSON, opposée aux formes closes du moteur.
+   -------------------------------------------------------------------------- */
+
+test('le lot d’échec est bien compté dans « où encaisser »', () => {
+  const rand = rng(19700101);
+  const N = 120000;
+  for (const T of [2, 4, 7]) {
+    const exact = run(ctx, `ftThresholdStats(AREA, TOK, ${T})`);
+    let gain = 0;
+    for (let i = 0; i < N; i++) {
+      // Une manche jouée à la règle « j'encaisse dès l'étage T », en ramassant
+      // les jetons de chaque exploration ratée.
+      let floor = 1, pity = 0;
+      while (floor < T) {
+        const c = AREA.cost[floor];
+        if (rand() < AREA.pity[pity]) {
+          const r = rand();
+          const step = r < AREA.jump[1] ? 1 : (r < AREA.jump[1] + AREA.jump[2] ? 2 : 3);
+          floor = Math.min(floor + step, AREA.peak);
+          pity = 0;
+        } else {
+          gain += AREA.failMult * c;                 // raté : le lot tombe
+          pity = Math.min(pity + 1, AREA.pity.length - 1);
+        }
+      }
+      gain += TOK[floor];                            // et la récompense de l'étage atteint
+    }
+    const sim = gain / N;
+    const ecart = Math.abs(sim - exact.gain) / exact.gain;
+    assert.ok(ecart < 0.01,
+      `consigne « encaisser dès l’étage ${T} » : exact ${exact.gain.toFixed(0)} jetons, simulé ${sim.toFixed(0)} — écart ${(ecart * 100).toFixed(2)} %`);
+  }
+});
+
+test('sans multiplicateur, le moteur retrouve exactement son calcul d’avant', () => {
+  // Le gain d'une consigne se réduit alors à la seule récompense de l'étage
+  // d'arrivée, recalculée ici à la main depuis la loi d'atterrissage.
+  for (const T of [2, 4, 7]) {
+    const st = run(ctx, `ftThresholdStats(AREA_SANS_LOT, TOK, ${T})`);
+    const land = run(ctx, `ftClimbStats(AREA_SANS_LOT, ${T}).land[1]`);
+    let attendu = 0;
+    for (const f in land) attendu += land[f] * (TOK[f] || 0);
+    assert.ok(Math.abs(st.gain - attendu) < 1e-9,
+      `étage ${T} : ${st.gain} au lieu de ${attendu}`);
+    // …et le lot ne doit jamais toucher les COÛTS, qui ne dépendent que des dés.
+    assert.ok(Math.abs(st.cost - run(ctx, `ftThresholdStats(AREA, TOK, ${T}).cost`)) < 1e-9,
+      'le lot d’échec a déplacé un coût de montée');
+  }
+});
+
+test('l’espérance d’un budget fini compte le lot — cas calculable à la main', () => {
+  /* Cinq amulettes à l'étage 1 : une seule exploration possible, et plus rien
+     après. Soit elle monte (probabilité 10 %) et on encaisse l'étage atteint,
+     soit elle rate (90 %) et elle paie 10 x 5 = 50 jetons.
+       V = 0,1 x (0,8x140 + 0,1967x300 + 0,0033x850) + 0,9 x 50 */
+  const J = AREA.jump, P = AREA.pity[0], lot = AREA.failMult * AREA.cost[1];
+  const attendu = P * (J[1] * TOK[2] + J[2] * TOK[3] + J[3] * TOK[4]) + (1 - P) * lot;
+  const moteur = run(ctx, 'ftFiniteValue(AREA, TOK, 5, 1, 0).tokens');
+  assert.ok(Math.abs(moteur - attendu) < 1e-9,
+    `moteur ${moteur.toFixed(4)} jetons, calcul à la main ${attendu.toFixed(4)}`);
+
+  // Et sans le lot, la même situation ne vaut que la branche qui monte.
+  const sansLot = run(ctx, 'ftFiniteValue(AREA_SANS_LOT, TOK, 5, 1, 0).tokens');
+  assert.ok(Math.abs(sansLot - P * (J[1] * TOK[2] + J[2] * TOK[3] + J[3] * TOK[4])) < 1e-9);
+});
+
+test('le lot ne peut ni manquer ni dépasser ce que le budget permet', () => {
+  // Encadrement : le lot ajoute au plus 10 jetons par amulette (si TOUT ratait),
+  // et jamais moins que rien. Une erreur de branche sort de cet encadrement.
+  for (const b of [50, 219, 391]) {
+    const avec = run(ctx, `ftFiniteValue(AREA, TOK, ${b}, 1, 0).tokens`);
+    const sans = run(ctx, `ftFiniteValue(AREA_SANS_LOT, TOK, ${b}, 1, 0).tokens`);
+    assert.ok(avec > sans, `budget ${b} : le lot ne rapporte rien`);
+    assert.ok(avec - sans <= AREA.failMult * b + 1e-9,
+      `budget ${b} : le lot rapporte ${(avec - sans).toFixed(0)} jetons, plus que les ${AREA.failMult * b} d’un budget entièrement raté`);
+  }
+});
+
+test('le lot déplace les montants, jamais le meilleur étage où encaisser', () => {
+  /* C'est la promesse écrite dans MAP.md, dans le fichier de données et dans
+     trois commentaires : le lot valant le même multiple à chaque étage, il
+     s'ajoute des deux côtés de l'arbitrage. Un lot qui dépendrait de l'étage
+     ATTEINT plutôt que de l'étage QUITTÉ la casserait sans qu'aucun autre test
+     ne bronche. */
+  const meilleur = zone => {
+    let best = null;
+    for (let T = 2; T <= AREA.peak; T++) {
+      const r = run(ctx, `ftThresholdStats(${zone}, TOK, ${T}).ratio`);
+      if (!best || r > best.r) best = { T, r };
+    }
+    return best;
+  };
+  const avec = meilleur('AREA'), sans = meilleur('AREA_SANS_LOT');
+  assert.equal(avec.T, sans.T,
+    `le lot a déplacé la meilleure consigne : étage ${sans.T} sans lui, ${avec.T} avec`);
+
+  // Et il la déplace du MÊME montant partout : le lot ne dépend que du coût, que
+  // la consigne s'arrête à l'étage 2 ou monte jusqu'au sommet.
+  const ecarts = [];
+  for (let T = 2; T <= AREA.peak; T++) {
+    ecarts.push(run(ctx, `ftThresholdStats(AREA, TOK, ${T}).ratio`)
+              - run(ctx, `ftThresholdStats(AREA_SANS_LOT, TOK, ${T}).ratio`));
+  }
+  const ecart = Math.max(...ecarts) - Math.min(...ecarts);
+  assert.ok(ecart < 1e-9,
+    `le lot vaut de ${Math.min(...ecarts).toFixed(4)} à ${Math.max(...ecarts).toFixed(4)} jetons par amulette selon la consigne`);
+});
+
+test('la plage de conseil annoncée est vraie à ses deux bornes, pour tous les budgets', () => {
+  /* La décision n'est pas monotone en budget — 245 basculements à l'étage 2 sur
+     un compteur neuf entre 1 et 4 000 amulettes. La page n'a donc le droit
+     d'annoncer qu'une PLAGE, et la phrase affirme trois choses : le conseil est
+     celui du verdict, il tient encore à la borne, et il change juste au-delà.
+     On les vérifie ici pour chaque état et chaque budget, pas sur cinq points :
+     c'est un échantillon trop fin pour être atteint autrement, et le défaut qu'on
+     répare vivait dans des plages larges d'UNE amulette.
+
+     Le balayage tourne DANS le contexte : 15 000 allers-retours `run()`
+     recompileraient le même code 15 000 fois. */
+  const violation = run(ctx, `(function () {
+    const claimAt = (b, f, k) => ftFiniteValue(AREA, TOK, b, f, k).claim;
+    for (let f = 2; f <= AREA.peak - 1; f++) {
+      for (let k = 0; k < AREA.pity.length; k++) {
+        for (let b = 0; b <= 600; b++) {
+          const rg = ftAdviceRange(AREA, TOK, b, f, k);
+          const dit = claimAt(b, f, k);
+          if (rg.claim !== dit) return 'étage ' + f + ', ' + k + ' échec(s), ' + b + ' am. : la plage dit « ' + (rg.claim ? 'encaisse' : 'pousse') + ' », le verdict dit l\\'inverse';
+          if (b < rg.lo || (rg.hi !== null && b > rg.hi)) return 'étage ' + f + ', ' + b + ' am. : le budget est hors de sa propre plage [' + rg.lo + ', ' + rg.hi + ']';
+          if (rg.lo > 0 && claimAt(rg.lo - 1, f, k) === rg.claim) return 'étage ' + f + ', ' + k + ' échec(s), ' + b + ' am. : la plage commence à ' + rg.lo + ' alors que le conseil y est déjà le même en dessous';
+          if (rg.hi !== null && claimAt(rg.hi + 1, f, k) === rg.claim) return 'étage ' + f + ', ' + k + ' échec(s), ' + b + ' am. : la plage s\\'arrête à ' + rg.hi + ' alors que le conseil y tient encore au-dessus';
+        }
+      }
+    }
+    return null;
+  })()`);
+  assert.equal(violation, null, String(violation));
+});
+
+test('la plage ne lit jamais au-delà de la table qui la porte', () => {
+  // FT_FLIP_CAP borne le balayage, FT_MAX_BUDGET borne la table : lire au-delà
+  // rendrait `undefined`, donc « pousse », en silence. La plage doit rester
+  // dans la table quel que soit le budget demandé, y compris absurde.
+  for (const b of [0, 1, 4000, 50000, Infinity, NaN]) {
+    const rg = run(ctx, `ftAdviceRange(AREA, TOK, ${JSON.stringify(b)}, 3, 0)`);
+    assert.ok(rg.lo >= 0 && (rg.hi === null || rg.hi >= rg.lo),
+      `budget ${b} : plage incohérente [${rg.lo}, ${rg.hi}]`);
+    assert.equal(typeof rg.claim, 'boolean', `budget ${b} : conseil illisible`);
+  }
 });
