@@ -171,6 +171,38 @@ def build_buildings():
 FAMILLES = [build_shops, build_buildings]
 
 
+# ------------------------------------------------------- jumeau français
+
+# La paire « une URL par langue » (MAP.md §4) : deux fichiers pour une même page,
+# dont un seul est généré. L'anglaise sort du gabarit, la française est écrite à la
+# main — texte français en dur, `<base href="../../">`, hreflang inversés : elle ne
+# rentre pas dans le gabarit sans y ajouter une dimension de langue, ce qui n'a pas
+# lieu d'être tant que le pilote ne concerne qu'une page.
+#
+# Le risque est donc réel : une modification du gabarit passe sur l'anglaise et pas
+# sur la française, sans que rien ne le signale. On ne peut pas comparer les deux
+# pages ligne à ligne (elles diffèrent légitimement), mais on peut comparer ce dont
+# la DÉRIVE CASSE VRAIMENT la page : la liste des scripts et des feuilles de style.
+# C'est exactement ce qui a déjà dû être rattrapé à la main deux fois.
+JUMEAUX = [('shop/theater-shop.html', 'fr/shop/theater-shop.html')]
+
+
+def check_jumeaux():
+    ecarts = []
+    for en, fr in JUMEAUX:
+        if not (exists(en) and exists(fr)):
+            continue
+        for quoi, motif in (('scripts', r'<script src="js/([\w-]+)\.js"'),
+                            ('feuilles de style', r'<link rel="stylesheet" href="css/([\w-]+)\.css"')):
+            a, b = re.findall(motif, read(en)), re.findall(motif, read(fr))
+            if a != b:
+                ecarts.append('%s vs %s : %s\n    anglaise : %s\n    française: %s'
+                              % (en, fr, quoi, a, b))
+    return ecarts
+
+
+
+
 def main():
     check = '--check' in sys.argv[1:]
     rendus = {}
@@ -189,16 +221,26 @@ def main():
                 f.write(contenu)
             ecrits.append(rel)
 
+    ecarts = check_jumeaux()
+
     if check:
+        if ecarts:
+            print('Le jumeau français a dérivé de son anglaise :')
+            for e in ecarts:
+                print('  ' + e)
+            print()
         if differents:
             print('Ces pages ne correspondent plus à leur gabarit :')
             for d in differents:
                 print('  ' + d)
             print('\nRelance `python3 tools/build_pages.py`, puis commite la sortie.')
+        if differents or ecarts:
             return 1
-        print('%d pages conformes à leur gabarit.' % len(rendus))
+        print('%d pages conformes à leur gabarit, jumeau français aligné.' % len(rendus))
         return 0
 
+    for e in ecarts:
+        print('ATTENTION — le jumeau français a dérivé : ' + e)
     print('%d pages générées, %d réécrites.' % (len(rendus), len(ecrits)))
     for e in ecrits:
         print('  ' + e)

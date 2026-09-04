@@ -36,6 +36,7 @@ Kingshot_Toolbox/
 │
 ├── favicon.ico                   Icône multi-tailles (16/32/48) à la racine — convention attendue par les robots qui ne lisent pas le HTML ; jamais dans le sitemap
 ├── sitemap.xml                   Plan du site : 1 ligne `<url><loc>` par page publiée (68 URLs), **toutes sans `.html`** (cf. la règle des adresses au §9) — soumis à Google Search Console
+├── _config.yml                   **Seul rôle : dire ce que GitHub Pages ne doit PAS publier** (`tools/`, `tests/`, les .md de travail). Sans lui, Pages recopie tout le dépôt à la racine du domaine — les gabarits et les partials se seraient servis en `text/html`, dupliquant le contenu des pages qu'on demande à Google de classer. Le site n'utilise rien d'autre de Jekyll : ni front matter, ni Liquid, ni gabarit
 ├── robots.txt                    Ouvre tout aux robots et déclare l'URL du sitemap (portée réelle : cf. §9)
 ├── llms.txt                      Sommaire du site pour les robots d'IA (format llmstxt.org) : résumé, puis les pages classées par section. Ni page ni sitemap — un fichier texte à tenir à jour quand une page est ajoutée ou retirée (la jumelle `/fr/` y est citée à côté de son anglaise)
 ├── google55512fe842dbeeaf.html   Jeton de vérification Google Search Console — ne pas supprimer, ne pas ajouter au sitemap
@@ -578,6 +579,10 @@ python3 tools/build_pages.py --check   ne touche à rien, échoue si une page se
 | **Une page `shop/*.html` ou `database/buildings/*.html`** | **aucun — elle est regénérée, l'édition serait perdue** |
 
 **Ce qui se déduit ne se déclare pas.** Une boutique charge `shop-event.js` **et** reçoit son `<div id="sp-event">` parce qu'elle a un `data/events/<slug>.json` ; elle affiche « Chest contents » parce qu'elle est listée dans `shopcalc_chests.json` ; la nav des bâtiments suit l'ordre de `pages-building.json`. Aucune de ces informations n'est répétée dans le JSON — donc aucune ne peut s'y désynchroniser.
+
+**Le jumeau français n'est pas généré non plus, et c'est surveillé.** `fr/shop/theater-shop.html` est écrite à la main : texte français en dur (aucun `data-en`/`data-fr`), `<base href="../../">`, `hreflang` inversés — elle n'entre pas dans le gabarit sans y ajouter une dimension de langue, ce qui n'a pas lieu d'être tant que le pilote ne concerne qu'une page. Le risque, lui, est réel : une modification du gabarit passe sur l'anglaise et pas sur la française. `--check` compare donc ce dont la dérive **casse** vraiment la page — la liste des scripts et des feuilles de style des deux jumelles — et échoue si elles divergent. C'est exactement ce qui a déjà dû être rattrapé deux fois à la main. Généraliser le pilote (cf. §4) rendrait le gabarit bilingue et supprimerait le garde-fou.
+
+**Ni `tools/` ni `tests/` ne sont publiés** : `_config.yml` les exclut. Sans cette exclusion, `tools/templates/shop.html` serait servi tel quel, `{{EMPLACEMENTS}}` compris, et les huit `tools/partials/*.table.html` exposeraient le tableau complet des pages bâtiments sous forme de fragments sans `<head>` ni canonique.
 
 **Ne sont pas générées** : `shop/items.html`, `shop/items-euro.html` et `database/buildings/index.html` — trois pages uniques, avec leur propre corps et leurs propres scripts. Les mettre dans un gabarit à un exemplaire ne rapporterait rien.
 
