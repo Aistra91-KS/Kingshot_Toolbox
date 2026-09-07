@@ -8,6 +8,36 @@
   },
   "releases": [
     {
+      "version": "1.13.4",
+      "date": "2026-09-07",
+      "changes": [
+        {
+          "type": "new",
+          "title": {
+            "EN": "The War Academy planner can buy dust for you",
+            "FR": "Le planificateur d'Académie de Guerre peut acheter ta poussière"
+          },
+          "text": {
+            "EN": "Dust is not only picked up in game: three exchanges produce it every week, and the plan can now count on them. A new panel between the tree and the suggestion gives each exchange its own row, ticked or not — untick the two TrueGold ones and the plan will never touch your stock. Enter what you are willing to spend and how many exchanges you have already made this week; the tool converts only what the plan really needs, and lists the exchanges to make before the researches, since you need the dust in hand before starting the first one.",
+            "FR": "La poussière ne se ramasse pas qu'en jeu : trois échanges en produisent chaque semaine, et le plan peut désormais compter dessus. Un panneau entre l'arbre et la suggestion donne une ligne à chaque échange, que tu coches ou non — décoche les deux lignes TrueGold et le plan n'y touchera jamais. Saisis ce que tu acceptes d'y mettre et les échanges déjà faits cette semaine ; l'outil ne convertit que ce dont le plan a vraiment besoin, et liste les échanges à faire avant les recherches, puisqu'il faut la poussière en main avant de lancer la première."
+          },
+          "href": "waracademy"
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "War Academy plans no longer forget what they cost in coins",
+            "FR": "Les plans d'Académie de Guerre n'oublient plus ce qu'ils coûtent en pièces"
+          },
+          "text": {
+            "EN": "Every research level costs coins — close to 900,000 across a month-long plan — and the planner was not reading that at all. It could hand you a plan you simply could not pay for. Leave the coins field empty and it now tells you how many you will need; fill it in and it bounds the plan, splitting your coins between what the researches cost and what the exchanges cost.",
+            "FR": "Chaque niveau de recherche coûte des pièces — près de 900 000 sur un plan d'un mois — et le planificateur ne les lisait pas du tout. Il pouvait donc te proposer un plan que tu ne pouvais pas payer. Laisse le champ des pièces vide et il t'annonce désormais la quantité nécessaire ; renseigne-le et il borne le plan, en partageant tes pièces entre ce que coûtent les recherches et ce que coûtent les échanges."
+          },
+          "href": "waracademy"
+        }
+      ]
+    },
+    {
       "version": "1.13.3",
       "date": "2026-09-07",
       "changes": [

@@ -275,6 +275,9 @@
 /* ---------- Bloc points totaux (bilan KvK + total) ---------- */
 .wa-out-bilan { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
 .wa-out-bilan-title { font-size: 15px; font-weight: bold; margin-bottom: 8px; color: var(--text-light); }
+/* Deuxième titre dans le même bilan (« tes stocks une fois les échanges faits ») :
+   il lui faut de l'air au-dessus, sinon il colle à la dernière ligne du premier. */
+.wa-out-bilan-title--next { margin-top: 12px; }
 .wa-out-bilan-row { padding-left: 8px; margin-bottom: 5px; font-size: 14px; color: var(--text-muted); }
 .wa-out-bilan-row b { color: var(--accent); }
 .wa-out-total {
@@ -336,3 +339,103 @@ details.wa-step[open] .wa-step__chev { transform: rotate(90deg); }
 .wa-bd__it b { color: var(--text-light); font-weight: 600; }
 .wa-bd__it.is-dust svg { color: var(--accent); opacity: 1; }
 .wa-bd__it.is-dust b { color: var(--accent); }
+
+/* ---------- Échanges de poussière ----------
+   Panneau propre, entre l'arbre et la suggestion : une ligne par échange, cochable.
+   Les cellules « dans ce plan » sont remplies par renderTradeRows() ; les champs de
+   saisie, eux, sont statiques dans le HTML pour ne jamais être recréés sous les
+   doigts du joueur. */
+.wa-trade-stocks {
+    display: flex; flex-wrap: wrap; gap: 10px 24px;
+    margin-bottom: 14px;
+}
+.wa-trade-stock { display: flex; align-items: center; gap: 10px; }
+.wa-trade-stock label { color: var(--text-light); font-size: 14px; }
+/* Montants saisis en `type=text` : un <input type=number> refuse les espaces, donc
+   il ne peut pas porter de séparateur de milliers. On reprend ici l'apparence de
+   input[type="number"] (style.css), en plus large — « 1 000 000 » ne tient pas en 80px. */
+.wa-num {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--text-light);
+    padding: 6px;
+    border-radius: 4px;
+    width: 120px;
+    text-align: right;
+    outline: none;
+    font: inherit;
+}
+.wa-num:focus { border-color: var(--accent); }
+
+/* Le tableau défile dans sa propre boîte : le corps de page ne doit jamais
+   défiler horizontalement (cf. MAP.md). */
+.wa-trades-wrap { overflow-x: auto; }
+.wa-trades {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.wa-trades th, .wa-trades td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    white-space: nowrap;
+}
+.wa-trades thead th {
+    background: var(--table-header);
+    color: var(--text-muted);
+    font-size: 11px; font-weight: bold;
+    text-transform: uppercase; letter-spacing: .04em;
+}
+.wa-trades tbody tr:nth-child(even) { background: var(--table-row-alt); }
+.wa-trades tbody th[scope="row"] { color: var(--text-light); font-weight: bold; }
+.wa-trades tbody tr:last-child th,
+.wa-trades tbody tr:last-child td { border-bottom: 0; }
+
+.wa-trades-done input[type="number"] { width: 62px; }
+.wa-trades-done small { color: var(--text-muted); margin-left: 6px; }
+
+.wa-trades-plan { color: var(--text-light); }
+.wa-trades-plan b { color: var(--accent); }
+.wa-trades-plan small { color: var(--text-muted); }
+/* Ligne décochée : le texte descend en secondaire, la ligne reste lisible. */
+.wa-trades-plan.is-off { color: var(--text-muted); font-style: italic; }
+
+.wa-trade-total {
+    margin-top: 12px; padding-top: 12px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-weight: bold; color: var(--text-light);
+}
+.wa-trade-total b { color: var(--accent); font-size: 18px; }
+
+/* Sous 600px la table ne tient pas : 457px de colonnes pour 340px utiles, et c'est
+   « dans ce plan » — la colonne qui porte l'information — qui sortait de l'écran.
+   Chaque ligne devient donc une carte empilée, la case à cocher calée à gauche, les
+   en-têtes de colonnes repris en étiquettes via data-label (posé par renderTradeRows,
+   donc traduit sans plomberie i18n supplémentaire). Plus rien à faire défiler. */
+@media (max-width: 600px) {
+    .wa-trade-stocks { flex-direction: column; align-items: stretch; }
+    .wa-trade-stock { justify-content: space-between; }
+
+    .wa-trades, .wa-trades tbody, .wa-trades tr, .wa-trades td, .wa-trades tbody th { display: block; }
+    .wa-trades thead { display: none; }
+    .wa-trades tr {
+        position: relative;
+        padding: 10px 12px 10px 40px;
+        border-bottom: 1px solid var(--border);
+    }
+    .wa-trades tbody tr:last-child { border-bottom: 0; }
+    .wa-trades td, .wa-trades tbody th {
+        padding: 2px 0;
+        border-bottom: 0;
+        white-space: normal;
+    }
+    .wa-trades td:first-child { position: absolute; left: 12px; top: 12px; padding: 0; }
+    .wa-trades td[data-label]::before {
+        content: attr(data-label) ' ';
+        color: var(--text-muted);
+        font-size: 11px; text-transform: uppercase; letter-spacing: .04em;
+        margin-right: 6px;
+    }
+}
