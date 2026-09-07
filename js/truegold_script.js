@@ -54,10 +54,11 @@ const i18n = {
         'groundWorks': 'Ground Works (+10%)',
         'kvkBonus': 'KVK Bonus (+5%)',
         'greyWolf': 'Grey Wolf Bonus (%)',
-        'doubleTime': 'Double Time (+20%)',
+        'doubleTime': 'Double Time (−20% time)',
         'totalBonus': 'Speed bonus',
-        'grpSpeed': 'Speed bonuses (÷ base time)',
-        'grpReduc': 'Remaining-time reduction (cumulative)',
+        'grpSpeed': 'Construction speed (÷ base time)',
+        'grpReduc': 'Base-time cut (outside speed)',
+        'wolfHint': 'A speed bonus like the others — leave it off if you read your in-game stat with the wolf active',
         'resources': 'Resources',
         'transfoUsed': 'Used transformation (max 100)',
         'kvkTitle': 'KVK & Speedups',
@@ -147,10 +148,11 @@ const i18n = {
         'groundWorks': '1er Ministre (+10%)',
         'kvkBonus': 'Bonus KVK (+5%)',
         'greyWolf': 'Bonus Loup Gris (%)',
-        'doubleTime': 'Bouchées Doubles (+20%)',
+        'doubleTime': 'Bouchées Doubles (−20 % de temps)',
         'totalBonus': 'Bonus vitesse',
-        'grpSpeed': 'Bonus de vitesse (÷ temps de base)',
-        'grpReduc': 'Réduction du temps restant (cumulée)',
+        'grpSpeed': 'Vitesse de construction (÷ temps de base)',
+        'grpReduc': 'Coupe sur le temps de base (hors vitesse)',
+        'wolfHint': 'Un bonus de vitesse comme les autres — laisse décoché si ta stat en jeu a été relevée loup actif',
         'resources': 'Ressources',
         'transfoUsed': 'Transformation utilisées (max 100)',
         'kvkTitle': 'KVK & Accélérateurs',
@@ -484,7 +486,7 @@ function getPanReductionMinutes() {
 
 function updateAllRowCosts() {
     let speedBonus = computeTotalVitesse() / 100;
-    let reducRestant = computeReductionTempsRestant() / 100;
+    let coupeBase = computeReductionTempsBase() / 100;
     const lang = GlobalLang.get();
     
     let grandTotalTG = 0;
@@ -504,7 +506,7 @@ function updateAllRowCosts() {
                 sumTTG += (parseInt(row[COL.TTG]) || 0);
                 const lvlTime = parseInt(row[COL.TIME]) || 0;
                 let t = lvlTime / (1 + speedBonus);       // vitesse (groupe A)
-                t = t * Math.max(0, 1 - reducRestant);    // Loup + Bouchées sur temps restant (groupe B)
+                t = t * Math.max(0, 1 - coupeBase);       // Bouchées Doubles : coupe sur le temps de base (B)
                 realTimeMinutes += Math.max(0, Math.ceil(t) - panRedMin);
             }
         });
@@ -557,6 +559,23 @@ function formatMinutesCustom(minutes, lang) {
 }
 
 // ============ BONUS CALCULATION ============
+// Deux familles de bonus, et une seule des deux divise le temps :
+//
+//   A. VITESSE DE CONSTRUCTION — Bonus Vitesse, 1er Ministre, KVK **et Loup Gris**. Le jeu
+//      les additionne dans une seule statistique, puis divise : temps / (1 + total).
+//   B. BOUCHÉES DOUBLES — le seul bonus qui reste hors de cette statistique : −20 % sur le
+//      temps de base, en multiplicatif.
+//
+//   temps = base × (1 − 20 % si Bouchées) / (1 + vitesse + loup)
+//
+// Le Loup Gris était rangé en B, ce qui sous-estimait tous les temps d'environ 15 %. Sa
+// compétence annonce « augmente la vitesse de construction de 15 % » (cf. data/pets_db.json) :
+// c'est un bonus de vitesse comme les autres, pas une coupe sur le temps restant. La preuve
+// côté jeu : la stat « Vitesse de construction » de la fiche joueur l'inclut déjà quand il est
+// actif — d'où l'avertissement du formulaire, ne pas le compter deux fois.
+//
+// Les Bouchées Doubles, elles, restent bien multiplicatives, et c'est ce qui les rend fortes :
+// sur 113 % de vitesse, ajouter +20 points au pool ne gagnerait que ~7 %, la coupe en gagne 20.
 function computeTotalVitesse() {
     let base = parseFloat(document.getElementById('baseVitesse').value) || 0;
     let elTransfo = document.getElementById('transfoUtilisees');
@@ -566,16 +585,14 @@ function computeTotalVitesse() {
     let total = base;
     if (document.getElementById('bonusGround').checked) total += 10;
     if (document.getElementById('bonusKvk').checked) total += 5;
-    return total; // groupe A (bonus de vitesse) en %
-}
-// Loup Gris + Bouchées Doubles : réduisent le TEMPS RESTANT (cumul), pas la vitesse de base
-function computeReductionTempsRestant() {
-    let total = 0;
-    if (document.getElementById('bonusDouble').checked) total += 20;
     if (document.getElementById('bonusWolfCheck').checked) {
         total += parseFloat(document.getElementById('bonusWolfVal').value) || 0;
     }
-    return total; // groupe B en %
+    return total; // groupe A (vitesse de construction) en %
+}
+// Bouchées Doubles : coupe multiplicative sur le temps de base (groupe B)
+function computeReductionTempsBase() {
+    return document.getElementById('bonusDouble').checked ? 20 : 0;
 }
 function getTotalVitesse() {
     const total = computeTotalVitesse();
@@ -743,7 +760,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     const modeTarget = (mode === 'target');
     scoreCible = Math.max(0, Number(scoreCible) || 0);
     const panReductionMin = getPanReductionMinutes();
-    const reducRestant = computeReductionTempsRestant() / 100;
+    const coupeBase = computeReductionTempsBase() / 100;
     const isEN = (lang === 'EN');
 
     // ============ BOUCLIER DE SÉCURITÉ ============
@@ -918,8 +935,8 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
                     if (!niveauOuvert(couts.label, palierMax)) continue;   // palier pas encore ouvert sur le serveur
                     let estValide = checkPrereqsTG(couts.prereq, etatBatiments);
                     if (estValide && tgActuel >= couts.tg && ttgActuel >= couts.ttg) {
-                        let tReel = couts.tempsBase / (1 + Number(vitesseAmelio));   // vitesse (A)
-                        tReel = tReel * Math.max(0, 1 - reducRestant);                // Loup + Bouchées (B)
+                        let tReel = couts.tempsBase / (1 + Number(vitesseAmelio));   // vitesse, loup inclus (A)
+                        tReel = tReel * Math.max(0, 1 - coupeBase);                   // Bouchées Doubles (B)
                         const tempsReelMinutes = Math.max(0, Math.ceil(tReel) - panReductionMin);
                         const gainKVKRessources = (couts.tg * 2000) + (couts.ttg * 30000);
                         const minutesAAccelerer = modeTarget ? 0 : Math.min(tempsReelMinutes, stockAccelSimule);
@@ -1063,7 +1080,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             for (const lvl in source) {
                 const c = source[lvl];
                 let tReel = c.tempsBase / (1 + Number(vitesseAmelio));
-                tReel = tReel * Math.max(0, 1 - reducRestant);
+                tReel = tReel * Math.max(0, 1 - coupeBase);
                 const tg = parseTG(c.label);
                 table[lvl] = {
                     tg: c.tg,
@@ -1801,7 +1818,7 @@ function tgInitHelp() {
             FR: [
                 "Choisis le « Palier serveur » : c'est le palier le plus haut ouvert sur ton serveur (TG3, TG5, TG8 ou TG10). Au palier TG8, par exemple, un bâtiment peut monter au maximum en TG8-0 — le TG8-1 n'existe pas encore en jeu. Ce réglage ne limite que les suggestions, pas les niveaux que tu peux sélectionner dans le tableau.",
                 "Renseigne tes stocks de TrueGold (TG) et Or Véritable Trempé (TTG), et le nombre de transformations déjà utilisées (max 100).",
-                "Deux types de bonus : les bonus de vitesse (Bonus Vitesse, 1er Ministre, KVK) divisent le temps de base ; le Loup Gris et les Bouchées Doubles réduisent ensuite le temps restant (cumulés). Indique aussi tes accélérateurs (jours / heures / minutes).",
+                "Deux types de bonus. Les bonus de vitesse (Bonus Vitesse, 1er Ministre, KVK et Loup Gris) s'additionnent et divisent le temps de base : le Loup Gris annonce « +15 % de vitesse de construction », c'est un bonus de vitesse comme les autres. Attention, la stat de vitesse affichée en jeu l'inclut déjà quand il est actif — si tu l'as relevée à ce moment-là, laisse la case décochée pour ne pas le compter deux fois. Les Bouchées Doubles, elles, sont à part : elles coupent 20 % du temps de base en plus de tout le reste. Indique aussi tes accélérateurs (jours / heures / minutes).",
                 "Pour chaque bâtiment, mets son niveau actuel et le niveau cible que tu veux atteindre.",
                 "Décoche la case devant un bâtiment pour l'exclure des suggestions (quel que soit le mode) : il reste figé à son niveau actuel et sert toujours de prérequis aux autres.",
                 "Choisis le mode : « Max points KVK » (rentabilité maximale en points), « Max bâtiments » (en monter le plus possible), ou « Score cible » (atteindre un score précis au coût le plus bas).",
@@ -1813,7 +1830,7 @@ function tgInitHelp() {
             EN: [
                 "Pick your “Server tier”: the highest tier open on your server (TG3, TG5, TG8 or TG10). At tier TG8 for instance, a building can only go up to TG8-0 — TG8-1 isn't in the game yet. This setting only limits the suggestions, not the levels you can pick in the table.",
                 "Enter your TrueGold (TG) and Tempered TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
-                "Two kinds of bonus: speed bonuses (Speed, Ground Works, KVK) divide the base time; Grey Wolf and Double Time then cut the remaining time (cumulative). Also set your speedups (days / hours / minutes).",
+                "Two kinds of bonus. Speed bonuses (Speed, Ground Works, KVK and Grey Wolf) add up and divide the base time: the Grey Wolf reads “+15% construction speed”, so it is a speed bonus like the others. Careful, your in-game speed stat already includes it while it is active — if that is when you read it, leave the box unchecked so it isn't counted twice. Double Time is the odd one out: it cuts 20% off the base time on top of everything else. Also set your speedups (days / hours / minutes).",
                 "For each building, set its current level and the target level you want to reach.",
                 "Uncheck the box next to a building to exclude it from the suggestions (in any mode): it stays frozen at its current level and still counts as a prerequisite for the others.",
                 "Pick a mode: “Max KVK points” (best points value), “Max buildings” (upgrade as many as possible), or “Target score” (reach a specific score at the lowest cost).",

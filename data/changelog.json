@@ -8,6 +8,24 @@
   },
   "releases": [
     {
+      "version": "1.13.3",
+      "date": "2026-09-07",
+      "changes": [
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Build times were too short with the Grey Wolf",
+            "FR": "Les temps de construction étaient trop courts avec le Loup Gris"
+          },
+          "text": {
+            "EN": "The TrueGold planner treated the Grey Wolf as a cut on the time left instead of what it is: a construction speed bonus, added up with your Speed, Ground Works and KVK bonuses. Every build time came out about 15% short — a Town Center going TG7 to TG8 read 5d 20h when the game asked for 6d 18h. The wolf now sits with the other speed bonuses and counts towards the total shown. Careful though: your in-game speed stat already includes the wolf while its skill is up, so leave the box unchecked if that is when you read it. Double Time keeps its own line, because it alone cuts 20% off the base time on top of everything else.",
+            "FR": "Le planificateur TrueGold traitait le Loup Gris comme une coupe sur le temps restant au lieu de ce qu'il est : un bonus de vitesse de construction, qui s'additionne au Bonus Vitesse, au 1er Ministre et au KVK. Tous les temps sortaient environ 15 % trop courts — un Centre-ville qui passe de TG7 à TG8 affichait 5j 20h là où le jeu en demande 6j 18h. Le loup rejoint donc les autres bonus de vitesse et compte dans le total affiché. Attention toutefois : la stat de vitesse affichée en jeu l'inclut déjà quand sa compétence est active, donc laisse la case décochée si c'est à ce moment-là que tu l'as relevée. Les Bouchées Doubles gardent leur ligne à part, car elles seules coupent 20 % du temps de base en plus de tout le reste."
+          },
+          "href": "truegold_calc"
+        }
+      ]
+    },
+    {
       "version": "1.13.2",
       "date": "2026-09-06",
       "changes": [
