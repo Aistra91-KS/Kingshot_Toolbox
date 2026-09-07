@@ -34,7 +34,7 @@ Event shops: [Theater Shop](https://kingshottoolbox.com/shop/theater-shop) (also
 
 Permanent shops: [Arena](https://kingshottoolbox.com/shop/arena), [Alliance Championship](https://kingshottoolbox.com/shop/alliance-championship), [Swordland](https://kingshottoolbox.com/shop/swordland), [Kingdom of Power](https://kingshottoolbox.com/shop/kingdom-of-power), [Tidal Shop](https://kingshottoolbox.com/shop/tidal-shop), [Trial Shop](https://kingshottoolbox.com/shop/trial-shop).
 
-Custom chests: [Gear Boost](https://kingshottoolbox.com/shop/gear-boost-chest), [War Chant](https://kingshottoolbox.com/shop/war-chant-chest).
+Custom chests: [Gear Boost](https://kingshottoolbox.com/shop/gear-boost-chest), [War Chant](https://kingshottoolbox.com/shop/war-chant-chest), [Treasure Cove](https://kingshottoolbox.com/shop/treasure-cove-chest).
 
 ## About
 

@@ -14,6 +14,22 @@
         {
           "type": "new",
           "title": {
+            "EN": "The Treasure Cove Chest",
+            "FR": "Le Coffre de la Crique au Trésor"
+          },
+          "text": {
+            "EN": "Twelve options, one pick. The chest page lists every choice with the quantity it grants and what that quantity is worth, so the twelve become comparable at a glance. The two readings do not name the same winner: in gems the 180 Forgehammers come out on top, in real money the 140 Governor Gear Material Chests. All twelve lines are priced both ways, so none of them sits outside the ranking.",
+            "FR": "Douze options, un seul choix. La page du coffre liste chaque option avec la quantité accordée et ce que cette quantité vaut, ce qui rend les douze comparables d'un coup d'œil. Les deux lectures ne désignent pas le même gagnant : en gemmes ce sont les 180 Marteaux de Forge, en argent réel les 140 Caisses de Matériaux d'Équipement du Chef. Les douze lignes sont chiffrées dans les deux sens, aucune ne reste donc hors du classement."
+          },
+          "href": "shop/treasure-cove-chest",
+          "linkLabel": {
+            "EN": "Treasure Cove Chest",
+            "FR": "Coffre de la Crique au Trésor"
+          }
+        },
+        {
+          "type": "new",
+          "title": {
             "EN": "The War Academy planner can buy dust for you",
             "FR": "Le planificateur d'Académie de Guerre peut acheter ta poussière"
           },

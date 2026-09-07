@@ -198,6 +198,19 @@
     }
   },
   {
+    "slug": "treasure-cove-chest",
+    "title": "Kingshot Treasure Cove Chest - Best Pick, Gem &amp; Real-Money",
+    "description": "Kingshot Treasure Cove Chest: all twelve options, the quantity granted and what each is worth in gems or in €/$, so the best reward is easy to spot.",
+    "name": {
+      "EN": "Treasure Cove Chest",
+      "FR": "Coffre de la Crique au Trésor"
+    },
+    "intro": {
+      "EN": "The Treasure Cove Chest offers twelve options for a single pick, and the quantities are large — 450 TrueGold, 340 Artisan's Visions, 333 Enhancement XP components. Only the value makes them comparable, and the two readings do not crown the same line: in gems the Forgehammers come first, in real money the Governor Gear Material Chests. All twelve are priced both ways, so the ranking holds end to end. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
+      "FR": "Le Coffre de la Crique au Trésor propose douze options pour un seul choix, avec de grosses quantités — 450 Or Véritable, 340 Visions de l'Artisan, 333 points d'EXP d'Amélioration. Seule la valeur les rend comparables, et les deux lectures ne sacrent pas la même ligne : en gemmes ce sont les Marteaux de Forge, en argent réel les Caisses de Matériaux d'Équipement du Chef. Les douze options sont chiffrées dans les deux lectures, le classement tient donc de bout en bout. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+    }
+  },
+  {
     "slug": "trial-shop",
     "title": "Kingshot Trial Shop - Trial Crystal, Gem &amp; Real-Money",
     "description": "Kingshot Trial Shop: Trial Crystal cost of every item next to its value in gems or in €/$, with the best value-per-crystal purchases highlighted.",
