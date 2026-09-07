@@ -12,6 +12,22 @@
       "date": "2026-09-07",
       "changes": [
         {
+          "type": "improved",
+          "title": {
+            "EN": "Charm Guides and Designs cost less than the page said",
+            "FR": "Guides et Plans de Talisman coûtent moins cher que la page ne le disait"
+          },
+          "text": {
+            "EN": "A pack the survey had not seen yet, the Custom Forging Set, hands out 72 Charm Guides and 78 Charm Designs for the price the Master's Collections asked for 65. Both drop in real money - the Guide by 10 %, the Design by 17 % - and the Governor Charm Material Chest, which is worth what it hands back, follows them down 13 %. Gem values are untouched: the two readings never talk to each other.",
+            "FR": "Un pack que le relevé n'avait pas encore vu, l'Ensemble de Forge Personnalisé, donne 72 Guides de Talisman et 78 Plans de Talisman pour le prix auquel les Collections d'Expert en donnaient 65. Les deux baissent en argent réel — le Guide de 10 %, les Plans de 17 % — et la Caisse de Matériaux de Talisman, qui vaut ce qu'elle rend, les suit de 13 %. Les valeurs en gemmes ne bougent pas : les deux lectures ne se parlent jamais."
+          },
+          "href": "shop/items-euro",
+          "linkLabel": {
+            "EN": "Real-money item values",
+            "FR": "Prix réel des objets"
+          }
+        },
+        {
           "type": "new",
           "title": {
             "EN": "The Treasure Cove Chest",
