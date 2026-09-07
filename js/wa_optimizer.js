@@ -51,6 +51,92 @@
 
   const key = (treeId, resId) => treeId + '.' + resId;
 
+  // ============================================================
+  //  ÉCHANGES DE POUSSIÈRE
+  //  La poussière ne se ramasse pas qu'en jeu : trois échanges hebdomadaires en
+  //  produisent, et le plan doit pouvoir compter dessus.
+  //
+  //    5 000 pièces   ->  1 poussière   (200 échanges / semaine)
+  //    5 TrueGold     -> 13 poussières  ( 20 échanges / semaine)
+  //   10 TrueGold     -> 13 poussières  (sans limite)
+  //
+  //  L'ORDRE DE CETTE LISTE EST L'ORDRE DE PRIORITÉ, et il n'est pas arbitraire :
+  //   1. les pièces d'abord — c'est la seule monnaie qui ne serve à rien d'autre sur
+  //      le site, la dépenser ne prive aucun autre plan ;
+  //   2. l'échange à 5 TG ensuite : 2,6 poussières par TrueGold contre 1,3 pour celui
+  //      à 10 TG. Il rend exactement le DOUBLE, donc le remplir avant l'autre est
+  //      toujours gagnant — jamais l'inverse, quelle que soit la quantité voulue ;
+  //   3. l'échange à 10 TG en dernier, celui qui n'a pas de plafond.
+  //  Cet ordre minimise aussi le TrueGold dépensé à poussière égale, ce qui compte :
+  //  le même TrueGold finance l'arbre des bâtiments sur l'autre page du site.
+  // ============================================================
+  const DUST_TRADES = [
+    { id: 'coins', pay: 'coins',    price: 5000, dust: 1,  weeklyMax: 200,  usedKey: 'usedCoins' },
+    { id: 'tg5',   pay: 'truegold', price: 5,    dust: 13, weeklyMax: 20,   usedKey: 'usedTg5'   },
+    { id: 'tg10',  pay: 'truegold', price: 10,   dust: 13, weeklyMax: null, usedKey: null        },
+  ];
+
+  const posInt = (v) => Math.max(0, Math.floor(Number(v) || 0));
+
+  // Les échanges à faire pour obtenir `needDust` poussières, au moindre TrueGold.
+  // `needDust` à null = « tout ce que les stocks déclarés peuvent produire », ce qui
+  // donne la capacité maximale (c'est elle qui étend le budget avant l'optimisation).
+  //
+  // `stock` = { coins, truegold, usedCoins, usedTg5, use } — `used*` sont les échanges
+  // DÉJÀ faits cette semaine, que le joueur saisit : ils entament le plafond, pas le
+  // stock. `use` est l'ensemble des échanges qu'il accepte de faire, par identifiant
+  // (`{coins:true, tg5:true, tg10:false}`) : une ligne décochée est simplement sautée,
+  // ce qui lui permet par exemple de ne jamais entamer son TrueGold. Absent = tout est
+  // autorisé, pour que les appels sans cet argument gardent leur sens.
+  //
+  // Un échange est indivisible : couvrir 1 poussière manquante coûte un échange entier
+  // qui en rend 13. Le surplus n'est pas perdu (il reste en stock), il est rendu dans
+  // `over` pour que la page puisse le dire.
+  function planTrades(needDust, stock) {
+    stock = stock || {};
+    const need = (needDust == null) ? Infinity : Math.max(0, Math.ceil(Number(needDust) || 0));
+    const pools = { coins: posInt(stock.coins), truegold: posInt(stock.truegold) };
+    const out = { dust: 0, coins: 0, truegold: 0, trades: [], over: 0 };
+
+    for (const tr of DUST_TRADES) {
+      if (out.dust >= need) break;
+      if (stock.use && !stock.use[tr.id]) continue;
+      const byStock = Math.floor(pools[tr.pay] / tr.price);
+      const byWeek  = tr.weeklyMax == null ? Infinity
+                    : Math.max(0, tr.weeklyMax - posInt(stock[tr.usedKey]));
+      const byNeed  = (need === Infinity) ? Infinity : Math.ceil((need - out.dust) / tr.dust);
+      const n = Math.min(byStock, byWeek, byNeed);
+      if (n <= 0) continue;
+      pools[tr.pay] -= n * tr.price;
+      out[tr.pay]   += n * tr.price;
+      out.dust      += n * tr.dust;
+      out.trades.push({ id: tr.id, pay: tr.pay, n, spend: n * tr.price, dust: n * tr.dust });
+    }
+    // Passe de retrait. La boucle ci-dessus sert le besoin dans l'ordre de priorité,
+    // mais un échange est INDIVISIBLE : le dernier ajouté dépasse presque toujours la
+    // cible, ce qui peut rendre inutiles ceux qui le précèdent. Sans ce retrait,
+    // couvrir 13 poussières avec 5 000 pièces en poche dépenserait les pièces ET les
+    // 5 TrueGold, alors que les 5 TrueGold suffisaient — 5 000 pièces jetées.
+    // On retire donc du moins souhaitable au plus souhaitable, c'est-à-dire à rebours
+    // de la liste : le TrueGold à 10 d'abord, puis celui à 5, les pièces en dernier.
+    // Le résultat couvre toujours le besoin, et jamais plus cher.
+    if (need !== Infinity) {
+      for (let i = out.trades.length - 1; i >= 0; i--) {
+        const line = out.trades[i];
+        const tr = DUST_TRADES.find(x => x.id === line.id);
+        const drop = Math.min(line.n, Math.floor((out.dust - need) / tr.dust));
+        if (drop <= 0) continue;
+        line.n -= drop; line.spend -= drop * tr.price; line.dust -= drop * tr.dust;
+        out.dust -= drop * tr.dust;
+        out[tr.pay] -= drop * tr.price;
+      }
+      out.trades = out.trades.filter(l => l.n > 0);
+      out.over = Math.max(0, out.dust - need);
+    }
+    return out;
+  }
+
+
   // Build fast lookup: state[key] = { treeId, res, level, byLevel }.
   // `byLevel` indexes a research's levels by level number, built once per plan: the
   // selection loop asks for them thousands of times and a linear scan there showed up
@@ -116,6 +202,10 @@
     const mode          = opts.mode || 'classic';
     const targetScore   = Math.max(0, Number(opts.targetScore) || 0);
     const speedupBudget = opts.speedupBudget == null ? Infinity : Math.max(0, Number(opts.speedupBudget) || 0);
+    // Les pièces sont la TROISIÈME ressource contrainte : chaque niveau en coûte
+    // (`levels[].coin`), et elles servent aussi à acheter de la poussière par échange.
+    // Laissé à null, le budget est infini et le plan se comporte comme avant.
+    const coinBudget    = opts.coinBudget == null ? Infinity : Math.max(0, Number(opts.coinBudget) || 0);
 
     const speedFactor = 1 + speedPct / 100;         // time_eff = base / factor
     const costFactor  = 1 - costRedPct / 100;        // dust_eff = ceil(base * factor)
@@ -125,11 +215,12 @@
     const state = buildState(db, currentLevels, enabledTrees);
 
     const steps = [];
-    let spentDust = 0, spentEffDust = 0, spentBaseTime = 0, spentEffTime = 0;
+    let spentDust = 0, spentEffDust = 0, spentBaseTime = 0, spentEffTime = 0, spentCoins = 0;
     let score = 0; // KvK points accumulated (nominal or effective per flag)
     let inProgressKey = null; // the single research left unfinished by a resource limit
 
-    const affordable = (nl) => spentEffDust + effDustOf(nl.dust || 0) <= dustBudget;
+    const affordable = (nl) => spentEffDust + effDustOf(nl.dust || 0) <= dustBudget
+                            && spentCoins + (nl.coin || 0) <= coinBudget;
 
     const HARD_CAP = 100000;
     let iter = 0;
@@ -181,13 +272,13 @@
     function bundleFor(entry) {
       const needs = new Map();
       if (!collectNeeds(key(entry.treeId, entry.res.id), entry.level + 1, needs, { n: 0 })) return null;
-      let dust = 0, time = 0, pts = 0, first = null, firstScore = -Infinity;
+      let dust = 0, time = 0, coin = 0, pts = 0, first = null, firstScore = -Infinity;
       for (const pair of needs) {
         const e = state[pair[0]], upTo = pair[1];
         for (let L = e.level + 1; L <= upTo; L++) {
           const o = levelObj(e, L);
           const ed = effDustOf(o.dust || 0), et = effTimeOf(o.time || 0);
-          dust += ed; time += et;
+          dust += ed; time += et; coin += (o.coin || 0);
           pts += PTS_PER_DUST * (SCORE_ON_EFFECTIVE ? ed : (o.dust || 0))
                + PTS_PER_MIN  * (SCORE_ON_EFFECTIVE ? et : (o.time || 0));
         }
@@ -203,7 +294,7 @@
         }
       }
       if (!first || dust <= 0) return null;
-      return { dust: dust, time: time, dens: pts / dust, first: first };
+      return { dust: dust, time: time, coin: coin, dens: pts / dust, first: first };
     }
 
     while (iter++ < HARD_CAP) {
@@ -225,6 +316,7 @@
           // of speedups, is worse than not starting at all.
           if (spentEffDust + b.dust > dustBudget) continue;
           if (spentEffTime + b.time > speedupBudget) continue;
+          if (spentCoins + b.coin > coinBudget) continue;
           if (!affordable(b.first.nl)) continue;
           if (b.dens > bestScore) { bestScore = b.dens; best = b.first; }
         }
@@ -272,13 +364,14 @@
         }
         if (et > 0) frac = Math.min(frac, Math.max(0, speedupBudget - spentEffTime) / et); // can't exceed speedups
         const partBase = bt * frac, partEff = et * frac; // exact for accounting
-        spentDust += bd; spentEffDust += ed;
+        spentDust += bd; spentEffDust += ed; spentCoins += (l2.coin || 0);
         spentBaseTime += partBase; spentEffTime += partEff;
         score += dustPts + PTS_PER_MIN * st2 * frac;
         steps.push({
           treeId: e2.treeId, researchId: e2.res.id, name: e2.res.name,
           toLevel: l2.level, fromLevel: l2.level - 1, maxLevel: e2.res.maxLevel,
-          baseDust: bd, effDust: ed, baseTime: Math.round(partBase), effTime: Math.round(partEff),
+          baseDust: bd, effDust: ed,
+          baseTime: Math.round(partBase), effTime: Math.round(partEff),
           points: Math.round(dustPts + PTS_PER_MIN * st2 * frac), buff: l2.buff || '',
           partial: true,
         });
@@ -294,13 +387,14 @@
         const remEff = Math.max(0, speedupBudget - spentEffTime);
         const frac = effTime > 0 ? remEff / effTime : 0;
         const partBase = baseTime * frac, partEff = effTime * frac;
-        spentDust += baseDust; spentEffDust += eff;
+        spentDust += baseDust; spentEffDust += eff; spentCoins += (lvl.coin || 0);
         spentBaseTime += partBase; spentEffTime += partEff;
         score += PTS_PER_DUST * scoreDust + PTS_PER_MIN * scoreTime * frac;
         steps.push({
           treeId: entry.treeId, researchId: entry.res.id, name: entry.res.name,
           toLevel: lvl.level, fromLevel: lvl.level - 1, maxLevel: entry.res.maxLevel,
-          baseDust, effDust: eff, baseTime: Math.round(partBase), effTime: Math.round(partEff),
+          baseDust, effDust: eff,
+          baseTime: Math.round(partBase), effTime: Math.round(partEff),
           points: Math.round(PTS_PER_DUST * scoreDust + PTS_PER_MIN * scoreTime * frac),
           buff: lvl.buff || '', partial: true,
         });
@@ -309,7 +403,7 @@
       }
 
       entry.level = lvl.level;
-      spentDust += baseDust; spentEffDust += eff;
+      spentDust += baseDust; spentEffDust += eff; spentCoins += (lvl.coin || 0);
       spentBaseTime += baseTime; spentEffTime += effTime;
       score += stepPts;
 
@@ -332,6 +426,7 @@
         count: steps.length,
         baseDust: spentDust,
         effDust: spentEffDust,      // what the player actually spends
+        coins: spentCoins,
         baseTimeMin: Math.round(spentBaseTime),
         effTimeMin: Math.round(spentEffTime),   // what the player actually waits (after speed)
         kvkPoints: kvkFromDust + kvkFromTime,
@@ -362,9 +457,15 @@
   // the others near zero (at 15 000 dust it puts 13 540 into a single tree). No greedy
   // spreading across three trees ever proposes that; the same greedy confined to one
   // tree does. Cost is bounded and known — 4 orderings x (1 + number of trees) runs.
+  // `opts.rank` : évaluation ALLÉGÉE, réservée au classement d'un grand nombre de
+  // candidats (le partage des pièces entre recherches et échanges, cf. waracademy.js).
+  // Elle ne rejoue ni les 4 ordres ni les arbres séparés — 16 plans deviennent 1 — donc
+  // elle sous-estime le score et ne doit JAMAIS être rendue au joueur : elle sert à
+  // repérer les candidats prometteurs, qui sont ensuite réévalués pour de bon.
   function suggest(opts) {
     const mode = (opts && opts.mode) || 'classic';
     if (mode === 'kvk') {
+      if (opts.rank) return runPlan(opts, 'kvk');
       const all = (opts.db.trees || []).map(t => t.id)
         .filter(id => !opts.enabledTrees || opts.enabledTrees.includes(id));
       const treeSets = [opts.enabledTrees || null];
@@ -382,5 +483,5 @@
     return runPlan(opts, mode === 'target' ? 'kvk' : 'classic');
   }
 
-  return { suggest, SCORE_ON_EFFECTIVE, PTS_PER_DUST, PTS_PER_MIN };
+  return { suggest, planTrades, DUST_TRADES, SCORE_ON_EFFECTIVE, PTS_PER_DUST, PTS_PER_MIN };
 }));

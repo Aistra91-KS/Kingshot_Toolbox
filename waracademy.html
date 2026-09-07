@@ -126,6 +126,56 @@
         </div>
 
         <div class="panel">
+            <h2 data-i18n="tradeTitle">Dust Exchanges</h2>
+            <p class="wa-hint" data-i18n="tradeHint">Coins and TrueGold buy dust every week. Tick the exchanges you agree to make — the plan converts only what it really needs.</p>
+
+            <div class="wa-trade-stocks">
+                <div class="wa-trade-stock">
+                    <label for="tradeCoins" data-i18n="tradeCoins">Coins available</label>
+                    <input type="text" inputmode="numeric" autocomplete="off" class="wa-num" id="tradeCoins" value="0" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()">
+                </div>
+                <div class="wa-trade-stock">
+                    <label for="tradeTruegold" data-i18n="tradeTruegold">TrueGold to convert</label>
+                    <input type="text" inputmode="numeric" autocomplete="off" class="wa-num" id="tradeTruegold" value="0" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()">
+                </div>
+            </div>
+
+            <div class="wa-trades-wrap">
+                <table class="wa-trades">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-i18n="tradeColUse">Use</th>
+                            <th scope="col" data-i18n="tradeColWhat">Exchange</th>
+                            <th scope="col" id="tradeColDone" data-i18n="tradeColDone">Done this week</th>
+                            <th scope="col" data-i18n="tradeColPlan">In this plan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" id="tradeUseCoins" checked aria-labelledby="tradeWhatCoins" onchange="WA.triggerUpdate()"></td>
+                            <th scope="row" id="tradeWhatCoins" data-i18n="tradeWhatCoins">5 000 coins → 1 dust</th>
+                            <td class="wa-trades-done"><input type="number" id="tradeUsedCoins" value="0" min="0" max="200" aria-labelledby="tradeWhatCoins tradeColDone" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()"><small>/ 200</small></td>
+                            <td id="tradePlanCoins" class="wa-trades-plan">—</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="tradeUseTg5" checked aria-labelledby="tradeWhatTg5" onchange="WA.triggerUpdate()"></td>
+                            <th scope="row" id="tradeWhatTg5" data-i18n="tradeWhatTg5">5 TrueGold → 13 dust</th>
+                            <td class="wa-trades-done"><input type="number" id="tradeUsedTg5" value="0" min="0" max="20" aria-labelledby="tradeWhatTg5 tradeColDone" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()"><small>/ 20</small></td>
+                            <td id="tradePlanTg5" class="wa-trades-plan">—</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="tradeUseTg10" aria-labelledby="tradeWhatTg10" onchange="WA.triggerUpdate()"></td>
+                            <th scope="row" id="tradeWhatTg10" data-i18n="tradeWhatTg10">10 TrueGold → 13 dust</th>
+                            <td class="wa-trades-done"><small data-i18n="tradeNoCap">no weekly cap</small></td>
+                            <td id="tradePlanTg10" class="wa-trades-plan">—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="wa-trade-total"><span data-i18n="tradeTotal">Dust this plan buys</span> <b id="tradeTotalDust">0</b></div>
+        </div>
+
+        <div class="panel">
             <h2 data-i18n="strategyOutput">Strategy Output</h2>
             <div id="wa-output" class="result-box"></div>
         </div>

@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: none
-covers-until: 6a19a06c457fb04388ca636fb9ed0b6933062046
-generated: 2026-09-03
+version: 1.13.4
+covers-until: aaab67add7feabc120b691c0c470114a0d2fefe9
+generated: 2026-09-07
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 🧭 Sais-tu ce que valent tes Amulettes ?
-title-en: 🧭 Do you know what your Amulets are worth?
+title-fr: ⚔️ L'Académie de Guerre achète ta poussière
+title-en: ⚔️ The War Academy planner now buys your dust
 -->
 
 <!--
@@ -20,7 +20,7 @@ GABARIT — mode d'emploi
    Le lien vers l'entrée (changelog.html#v1-9) est ajouté automatiquement en fin
    de chaque embed : inutile de l'écrire à la main.
    Annonce qui ne change rien sur le site (événement en jeu, message à la
-   communauté) : écrire `version: none`.
+   communauté) : écrire `version: 1.13.4`.
 1. Demander l'annonce. Le texte complet de ce fichier est renvoyé prêt à coller
    (il repart de `covers-until` pour lister les commits parus depuis).
 2. Coller ce fichier en entier, puis committer SEUL (aucun autre fichier).
@@ -59,25 +59,46 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 🧭 Sais-tu ce que valent tes Amulettes ?
+### ⚔️ L'Académie de Guerre achète ta poussière
 
-Le Magasin du Théâtre est la seule boutique dont on ne peut pas acheter la monnaie directement : les packs versent des Amulettes Fantaisie, et ce sont les étages atteints dans le tirage du Théâtre qui donnent les Jetons Fantaisie affichés dans la boutique. Une nouvelle section, sous le détail des gains de la page, comble ce chaînon manquant.
+La poussière d'Or Véritable ne se ramasse pas qu'en jeu : **trois échanges en produisent chaque semaine**, et le planificateur sait enfin compter dessus.
 
-Elle lit ton plan d'achat déjà coché au-dessus et affiche combien d'amulettes tu devrais avoir **en poche aujourd'hui** — le seul chiffre comparable au jeu —, les chances exactes d'atteindre chaque étage, et l'étage où encaisser rapporte le plus de jetons par amulette.
+Un nouveau panneau, entre l'arbre et la suggestion, donne une ligne à chaque échange — 5 000 pièces contre 1 poussière, 5 TrueGold contre 13, 10 TrueGold contre 13. Tu coches ceux que tu acceptes de faire : **décoche les deux lignes TrueGold et le plan n'y touchera jamais**. Tu saisis ce que tu es prêt à y mettre et les échanges déjà faits cette semaine (les plafonds sont hebdomadaires), et l'outil ne convertit **que ce dont le plan a vraiment besoin** — souvent bien moins que tout ce que tu déclares, parce qu'un plan est plus souvent limité par tes accélérateurs que par ta poussière.
 
-Le plus utile au quotidien : un conseil **pousser ou encaisser**, calculé pour l'étage et le compteur d'échecs où tu es, avec le budget exact où ce conseil bascule — la réponse dépend de ton état, pas d'une règle unique. Trois boutons (« échouer », « monter », « encaisser ») reportent d'un clic ce qui vient de se passer en jeu, et le bouton « Comment ça marche ? » de la page détaille tout le reste.
+Les échanges à faire sont listés **en tête du résultat**, avant les recherches : c'est l'ordre à suivre en jeu, il faut la poussière en main avant de lancer la première. Suivent les stocks qu'ils te laissent, prêts à recopier dans tes saisies.
 
-👉 https://kingshottoolbox.com/fr/shop/theater-shop
-👉 https://kingshottoolbox.com/shop/theater-shop (en anglais)
+### 🪙 Et un vrai correctif : les pièces ne comptaient pas
+
+Chaque niveau de recherche coûte des pièces — près de **900 000** sur un plan d'un mois — et l'outil ne les regardait pas du tout. Il pouvait donc te proposer un plan que tu n'avais pas les moyens de payer. Laisse le champ « Pièces disponibles » vide et il t'annonce simplement la quantité nécessaire ; renseigne-le et il borne le plan, en partageant tes pièces entre ce que coûtent les recherches et ce que coûtent les échanges.
+
+### 🐺 TrueGold : le Loup Gris était du mauvais côté du calcul
+
+Sur la page TrueGold, le Loup Gris était traité comme une coupe sur le temps restant, alors que c'est un **bonus de vitesse de construction** qui s'additionne à ton Bonus Vitesse, au 1er Ministre et au KVK. Tous les temps sortaient environ **15 % trop courts** : un Centre-ville qui passe de TG7 à TG8 affichait 5j 20h par étape là où le jeu en demande 6j 18h.
+
+Attention à ne pas le compter deux fois : la vitesse affichée sur ta fiche en jeu **inclut déjà le loup** quand sa compétence est active. Si c'est à ce moment-là que tu l'as relevée, laisse la case décochée.
+
+👉 https://kingshottoolbox.com/waracademy
+👉 https://kingshottoolbox.com/truegold_calc
 
 ## EN
 
-### 🧭 Do you know what your Amulets are worth?
+### ⚔️ The War Academy planner now buys your dust
 
-The Theater Shop is the only shop whose currency you cannot buy directly: packs pay Fantasy Amulets, and it's the floors you reach in the Theater's draw that hand out the Fantasy Tokens the shop is priced in. A new section under the reward breakdown fills that missing link.
+TrueGold Dust isn't only picked up in game: **three exchanges produce it every week**, and the planner can finally count on them.
 
-It reads the purchase plan you've already ticked above and shows how many amulets you should be holding **today** — the only figure that should match the game —, the exact odds of reaching each floor, and which floor pays the most tokens per amulet to cash in on.
+A new panel between the tree and the suggestion gives each exchange its own row — 5,000 coins for 1 dust, 5 TrueGold for 13, 10 TrueGold for 13. Tick the ones you agree to make: **untick the two TrueGold rows and the plan will never touch your stock**. Enter what you're willing to spend and how many exchanges you've already made this week (the caps are weekly), and the tool converts **only what the plan really needs** — often far less than you declare, because a plan is bound by your speedups more often than by your dust.
 
-The most useful part day to day: a **push or cash in** verdict, worked out for the floor and failed-push counter you're actually on, with the exact budget where that advice flips — the answer depends on your state, not a single rule. Three buttons ("failed", "went up", "cashed in") report what just happened in game with one click, and the page's "How does it work?" button walks through the rest.
+The exchanges to make are listed **at the top of the result**, before the researches: that's the order to follow in game, since you need the dust in hand before starting the first one. The stocks they leave you with come right after, ready to copy back into your inputs.
 
-👉 https://kingshottoolbox.com/shop/theater-shop
+### 🪙 And a real fix: coins were not being counted
+
+Every research level costs coins — close to **900,000** across a month-long plan — and the tool wasn't reading that at all. It could hand you a plan you simply couldn't pay for. Leave "Coins available" empty and it just tells you how many you'll need; fill it in and it bounds the plan, splitting your coins between what the researches cost and what the exchanges cost.
+
+### 🐺 TrueGold: the Grey Wolf was on the wrong side of the maths
+
+On the TrueGold page the Grey Wolf was treated as a cut on the time left, when it's really a **construction speed bonus** that adds to your Speed bonus, Ground Works and KVK. Every build time was coming out about **15% short**: a Town Center going TG7 to TG8 read 5d 20h per step where the game asks for 6d 18h.
+
+Careful not to count it twice: the speed stat on your in-game profile **already includes the wolf** while its skill is up. If that's when you read it, leave the box unchecked.
+
+👉 https://kingshottoolbox.com/waracademy
+👉 https://kingshottoolbox.com/truegold_calc
