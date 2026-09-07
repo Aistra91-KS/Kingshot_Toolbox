@@ -22,5 +22,23 @@
       { "itemId": "charm_guide", "qty": 4 },
       { "itemId": "charm_design", "qty": 4 }
     ]
+  },
+  {
+    "id": "treasure_cove_chest", "slug": "treasure-cove-chest",
+    "name": { "EN": "Treasure Cove Chest", "FR": "Coffre de la Crique au Trésor" },
+    "items": [
+      { "itemId": "mithril", "qty": 5 },
+      { "itemId": "truegold", "qty": 450 },
+      { "itemId": "mythic_general_hero_shard", "qty": 50 },
+      { "itemId": "forgehammers", "qty": 180 },
+      { "itemId": "lucky_hero_gear_chest", "qty": 180 },
+      { "itemId": "100_enhancement_xp_component", "qty": 333 },
+      { "itemId": "1h_general_speedup", "qty": 250 },
+      { "itemId": "artisan_s_vision", "qty": 340 },
+      { "itemId": "governor_gear_material_chest", "qty": 140 },
+      { "itemId": "pet_advancement_materials_custom_chest", "qty": 90 },
+      { "itemId": "charm_guide", "qty": 300 },
+      { "itemId": "charm_design", "qty": 300 }
+    ]
   } 
 ]
