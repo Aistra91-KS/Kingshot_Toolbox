@@ -24,7 +24,7 @@
       tradeCoinsRow: 'coins', tradeTgRow: 'TrueGold',
       cCoins: 'Coins', cCoinsNeed: 'needed', cCoinsResearch: 'researches', cCoinsTrades: 'exchanges',
       outTradeTitle: 'Exchanges to make first', outTradeConvert: 'Convert', outTradeInto: 'into',
-      outTradeVia: 'exchanges of', outStocksTitle: 'Your stocks once exchanged',
+      outTradeVia: 'exchange(s) of', tradeCountShort: 'exchange(s)', outStocksTitle: 'Your stocks once exchanged',
       outStockDust: 'TrueGold Dust:', outStockCoins: 'Coins:', outStockTg: 'TrueGold:',
       outTradeOver: 'dust more than the plan spends, kept for next time', tradeGivesShort: 'dust',
       applyTradeCoins: 'Coins', applyTradeTg: 'TrueGold to convert',
@@ -78,7 +78,7 @@
       tradeCoinsRow: 'pièces', tradeTgRow: 'TrueGold',
       cCoins: 'Pièces', cCoinsNeed: 'nécessaires', cCoinsResearch: 'recherches', cCoinsTrades: 'échanges',
       outTradeTitle: 'Échanges à faire d’abord', outTradeConvert: 'Convertir', outTradeInto: 'en',
-      outTradeVia: 'échanges de', outStocksTitle: 'Tes stocks une fois les échanges faits',
+      outTradeVia: 'échange(s) de', tradeCountShort: 'échange(s)', outStocksTitle: 'Tes stocks une fois les échanges faits',
       outStockDust: "Poussières d'Or Véritable :", outStockCoins: 'Pièces :', outStockTg: 'TrueGold :',
       outTradeOver: 'poussières de plus que ce que le plan dépense, gardées pour la prochaine fois', tradeGivesShort: 'poussières',
       applyTradeCoins: 'Pièces', applyTradeTg: 'TrueGold à convertir',
@@ -664,7 +664,11 @@
         return;
       }
       cell.classList.remove('is-off');
-      cell.innerHTML = `<b>${fmtNum(line.n)}</b> × <b>+${fmtNum(line.dust)}</b> `
+      // Pas de « × » entre le nombre d'échanges et la poussière : `line.dust` est DÉJÀ
+      // le total des `line.n` échanges (planTrades), donc « 20 × +260 » se lisait comme
+      // 5 200 poussières pour 260 réelles. Le taux unitaire est de toute façon écrit
+      // dans la colonne « Échange » de la même ligne.
+      cell.innerHTML = `<b>${fmtNum(line.n)}</b> ${t('tradeCountShort')} · <b>+${fmtNum(line.dust)}</b> `
                      + `<small>(${fmtNum(line.spend)} ${t(line.pay === 'coins' ? 'tradeCoinsRow' : 'tradeTgRow')})</small>`;
     });
     const tot = document.getElementById('tradeTotalDust');
