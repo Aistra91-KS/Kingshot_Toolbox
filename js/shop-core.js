@@ -71,7 +71,7 @@ const i18nShop = {
     refsGemLead:"Ces mêmes objets, valorisés en gemmes :",
     refsEurLead:"Ces mêmes objets, valorisés en argent réel :",
     colPack:"Pack d'origine", noPack:"non précisé", multipack:"Multipack", seePack:"voir le pack",
-    tipPack:"Le pack d'où vient le prix. Pour un objet relevé, c'est celui qui offre le meilleur prix unitaire — son prix divisé par la quantité qu'il donne, tous les packs ne coûtant pas la même chose. Pour les accélérateurs, c'est le pack qui fixe le prix de la minute : le même pour les cinq durées. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. Une pastille dit quelle règle a décidé du prix — « Calculé », « Barème » ou « ×0,25 » —, toutes détaillées sous le tableau.",
+    tipPack:"Le pack d'où vient le prix. Pour un objet relevé, c'est celui qui offre le meilleur prix unitaire — son prix divisé par la quantité qu'il donne, tous les packs ne coûtant pas la même chose. Pour les accélérateurs, c'est le pack qui fixe le prix de la minute : le même pour les cinq durées ; pour les jetons d'affinité, celui qui fixe le prix du point, le même pour les trois. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. Une pastille dit quelle règle a décidé du prix — « Calculé », « Barème » ou « ×0,25 » —, toutes détaillées sous le tableau.",
     ieNote:"{n} objets sur les {t} du référentiel sont chiffrés ici ; les autres n'ont aucun prix connu et ne sont donc pas listés. Relevé : {z}, mis à jour le {d}.",
     derived:"Calculé",
     derivedTitle:"Valeurs calculées",
@@ -87,6 +87,9 @@ const i18nShop = {
     scaleTitle:"Barème des accélérateurs",
     scaleBasis:"Base : {p} \u00F7 {m} minutes = {u} la minute, d'après {pack}, le pack qui donne le plus de temps par euro ({detail}).",
     scaleSum:"{n} minutes", scaleSum1:"{n} minute",
+    affTitle:"Barème d'affinité",
+    affBasis:"Base : « {item} », {q} pour {p} via {pack} — le point d'affinité le moins cher du relevé. Chaque valeur ci-dessous vaut donc ({p} \u00F7 {q} \u00F7 {n}) \u00D7 ses propres points.",
+    affSum:"{n} points d'affinité", affSum1:"{n} point d'affinité",
     weightTitle:"Pondération assumée",
     weightSum:"Soit {p} \u00F7 {q} \u00D7 {f} = {b}",
     covered:"sur {n} des {t} objets valorisés", coveredAll:"tous les objets sont valorisés",
@@ -151,7 +154,7 @@ const i18nShop = {
     refsGemLead:"These same items, valued in gems:",
     refsEurLead:"These same items, valued in real money:",
     colPack:"Source pack", noPack:"not specified", multipack:"Multipack", seePack:"see the pack",
-    tipPack:"The pack the price comes from. For a surveyed item that is the pack with the best unit price - its price divided by how much of the item it gives, as packs do not all cost the same. For speedups it is the pack that sets the price of one minute: the same one for all five lengths. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. A pill says which rule decided the price - “Calculated”, “Scale” or “×0.25” - all spelled out under the table.",
+    tipPack:"The pack the price comes from. For a surveyed item that is the pack with the best unit price - its price divided by how much of the item it gives, as packs do not all cost the same. For speedups it is the pack that sets the price of one minute, the same one for all five lengths; for affinity tokens, the one that sets the price of a point, the same one for all three. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. A pill says which rule decided the price - “Calculated”, “Scale” or “×0.25” - all spelled out under the table.",
     ieNote:"{n} of the {t} items in the reference table are priced here; the others have no known price and are not listed. Survey: {z}, updated {d}.",
     derived:"Calculated",
     derivedTitle:"Calculated values",
@@ -167,6 +170,9 @@ const i18nShop = {
     scaleTitle:"Speedup scale",
     scaleBasis:"Basis: {p} \u00F7 {m} minutes = {u} per minute, from {pack}, the pack that gives the most time per euro ({detail}).",
     scaleSum:"{n} minutes", scaleSum1:"{n} minute",
+    affTitle:"Affinity scale",
+    affBasis:"Basis: \u201C{item}\u201D, {q} for {p} from {pack} - the cheapest affinity point in the survey. So each value below is ({p} \u00F7 {q} \u00F7 {n}) \u00D7 its own points.",
+    affSum:"{n} affinity points", affSum1:"{n} affinity point",
     weightTitle:"Deliberate weighting",
     weightSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
     covered:"on {n} of {t} items priced", coveredAll:"all items are priced",
@@ -208,6 +214,7 @@ let SC_EVENTS=[], SC_EVENTS_DEF=[];
 let SC_CHESTS=[];
 let SC_EURO={}, SC_EURO_META={}, SC_EURO_PACKS={}, SC_EURO_DERIVED={};   // relevé € : ADMIN, lecture seule (jamais d'édition joueur)
 let SC_EURO_SPEEDUPS={}, SC_EURO_WEIGHTS=[];                             // barème accélérateurs + pondérations assumées (mêmes règles : ADMIN, lecture seule)
+let SC_EURO_AFFINITY={};                                                 // barème des jetons d'affinité (idem)
 
 // ---------- helpers d'affichage ----------
 function scEscAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
@@ -274,8 +281,8 @@ function scCur(){
 function scSetCur(c){ SC_CUR = (c==='USD')?'USD':'EUR'; scChromeSet(SC_CUR_KEY, SC_CUR); }
 function scCurSym(){ return scCur()==='USD' ? '$' : '\u20AC'; }
 
-// ---------- prix UNITAIRE : quatre couches, dans cet ordre ----------
-// Le prix affiché n'est plus toujours « prix du pack ÷ quantité obtenue » : trois blocs du JSON
+// ---------- prix UNITAIRE : cinq couches, dans cet ordre ----------
+// Le prix affiché n'est plus toujours « prix du pack ÷ quantité obtenue » : quatre blocs du JSON
 // corrigent ce que le relevé seul dit mal. Ils ne viennent PAS de l'Excel et survivent donc à
 // une régénération d'un bloc de `items` — c'est exactement leur raison d'être.
 //   1. `derived`  — la valeur est DÉDUITE d'un autre objet, et REMPLACE le relevé quand les deux
@@ -285,8 +292,11 @@ function scCurSym(){ return scCur()==='USD' ? '$' : '\u20AC'; }
 //   2. `speedups` — barème des accélérateurs : le pack le plus généreux en temps fixe le prix
 //      d'UNE minute, et les cinq accélérateurs s'en déduisent. Sans lui, le prix suivait le
 //      format du jeton et non le temps (le 3h sortait 6× plus cher à la minute que le 1h).
-//   3. `items`    — le relevé lui-même : prix du pack ÷ quantité obtenue.
-//   4. `weights`  — pondération ASSUMÉE appliquée au résultat (choix éditorial, pas une mesure).
+//   3. `affinity` — même idée pour les jetons d'affinité : ils n'achètent qu'une chose, des
+//      points d'affinité, donc un point doit coûter pareil quel que soit le jeton qui le porte.
+//      Le moins cher au point fixe ce prix, et les trois s'en déduisent.
+//   4. `items`    — le relevé lui-même : prix du pack ÷ quantité obtenue.
+//   5. `weights`  — pondération ASSUMÉE appliquée au résultat (choix éditorial, pas une mesure).
 // Renvoie null et jamais 0 quand rien ne chiffre l'objet : « inconnu » n'est pas « sans
 // valeur » — un 0 placerait la ligne en pire affaire et renverserait le podium des boutiques
 // mal couvertes.
@@ -309,6 +319,7 @@ function scEurResolve(id, seen){
     v = scEurDerivedValue(d, path);
   } else {
     v = scEurScaleUnit(id);
+    if(v==null) v = scEurAffinityUnit(id);
     if(v==null) v = scEurRawUnit(id);
   }
   return (v==null) ? null : v*scEurWeight(id);
@@ -387,6 +398,43 @@ function scEurIsScaled(id){ return !SC_EURO_DERIVED[id] && scEurScaleUnit(id)!=n
 function scEurScaleHow(){ return scEurRuleTxt(SC_EURO_SPEEDUPS.how); }
 function scEurScaledIds(){ return scEurOrder(Object.keys(SC_EURO_SPEEDUPS.minutes||{}).filter(id=>scEurIsScaled(id))); }
 
+// ---------- barème d'affinité (bloc `affinity`) ----------
+// Le Cor en cuivre, la Coupe en argent et les Épices d'élite n'achètent qu'une seule chose : des
+// points d'affinité d'expert (10, 100 et 1 000). Un point doit donc coûter pareil quel que soit
+// le jeton qui le porte — exactement l'argument du barème des accélérateurs, où une heure vaut
+// soixante minutes. Relevé jeton par jeton, chacun héritait du pack qui en donnait le plus : la
+// Coupe (100 points) sortait à 0,375 € contre 0,250 € les Épices (1 000 points), soit trente
+// fois le prix du point. C'est aussi ce qui chiffre le Cor en cuivre, qu'aucun pack ne vend.
+function scEurAffinityPoints(id){ const p=SC_EURO_AFFINITY.points; return (p && Number(p[id])) || 0; }
+// La base n'est PAS stockée : le JSON ne donne que le nombre de points, et le prix du point se
+// prend sur celui des jetons qui l'offre le moins cher AU RELEVÉ. Elle se recalcule donc à
+// chaque livraison de packs, là où une base figée dans le fichier serait à re-choisir à la main
+// — et fausse en silence le jour où un autre jeton devient le meilleur.
+// Le relevé NU, jamais scEurUnit() : la base d'un barème ne peut pas dépendre du barème
+// lui-même, et repasser par la valeur finale bouclerait sur le jeton qui sert de base.
+function scEurAffinityBasis(){
+  const pts=SC_EURO_AFFINITY.points; if(!pts) return null;
+  let best=null;
+  for(const id in pts){
+    const n=Number(pts[id]), u=scEurRawUnit(id);
+    if(!(n>0) || u==null) continue;
+    const per=u/n;
+    if(best==null || per<best.per) best={id:id, per:per, points:n};
+  }
+  return best;
+}
+function scEurAffinityUnit(id){
+  const n=scEurAffinityPoints(id), b=scEurAffinityBasis();
+  return (n>0 && b) ? (b.per*n) : null;
+}
+// Vrai quand c'est ce barème-ci, et non le relevé, qui donne son prix à cet objet. Le jeton qui
+// sert de base en fait partie : sa valeur ne change pas, mais elle vient bien du barème — c'est
+// déjà le cas de l'accélérateur 1h, qui porte la pastille tout en étant dans le pack de base.
+function scEurIsAffinity(id){
+  return !SC_EURO_DERIVED[id] && scEurScaleUnit(id)==null && scEurAffinityUnit(id)!=null;
+}
+function scEurAffinityHow(){ return scEurRuleTxt(SC_EURO_AFFINITY.how); }
+
 // ---------- pondération assumée (bloc `weights`) ----------
 // Dernière couche, et la seule qui ne mesure rien : elle dit ce qu'on décide de COMPTER, pas ce
 // qu'on a relevé. Les ressources brutes s'accumulent toutes seules en jouant — un pack qui en
@@ -464,6 +512,12 @@ function scEurPacks(id){
   // minute : c'est donc ce pack-là qui justifie la valeur, pour les cinq durées à la fois.
   // Afficher « Offres Quotidiennes » sur le 3h laisserait croire que 6 € ÷ 12 y donne 0,151 €.
   if(scEurIsScaled(id)) return (SC_EURO_SPEEDUPS.basis && SC_EURO_SPEEDUPS.basis.packs) || [];
+  // Même raison pour les trois jetons d'affinité : le prix vient du jeton le moins cher au
+  // point, donc du pack qui chiffre CELUI-LÀ, pour les trois à la fois.
+  if(scEurIsAffinity(id)){
+    const b=scEurAffinityBasis(), r=b ? SC_EURO[b.id] : null;
+    return (r && Array.isArray(r.packs)) ? r.packs : [];
+  }
   // Une valeur déduite ne vient d'AUCUN pack : c'est un calcul, pas un relevé. Sauf quand la
   // règle en nomme un — le pack qui chiffre `fromId` vaut alors aussi pour elle (les caisses
   // de ressources, alignées sur le pain du Pack Lien Vital de la Ville).
@@ -488,8 +542,9 @@ function scEurSrc(id){
 // pesé sur le chiffre — « Calculé » tout court n'apprendrait rien à qui doute du chiffre.
 function scEurWhy(id){
   const bits=[scEurSrc(id)];
-  if(scEurIsDerived(id))     bits.push(scT('derived')+' — '+scEurHow(id));
-  else if(scEurIsScaled(id)) bits.push(scT('scaled')+' — '+scEurScaleHow());
+  if(scEurIsDerived(id))       bits.push(scT('derived')+' — '+scEurHow(id));
+  else if(scEurIsScaled(id))   bits.push(scT('scaled')+' — '+scEurScaleHow());
+  else if(scEurIsAffinity(id)) bits.push(scT('scaled')+' — '+scEurAffinityHow());
   if(scEurIsWeighted(id))    bits.push(scEurWeightLabel(id)+' — '+scEurWeightHow(id));
   return bits.filter(Boolean).join(' · ');
 }
@@ -705,9 +760,10 @@ async function scLoadEuro(){
     SC_EURO=(d&&d.items)||{}; SC_EURO_META=(d&&d._meta)||{}; SC_EURO_PACKS=(d&&d.packs)||{};
     SC_EURO_DERIVED=(d&&d.derived)||{};
     SC_EURO_SPEEDUPS=(d&&d.speedups)||{}; SC_EURO_WEIGHTS=(d&&Array.isArray(d.weights)?d.weights:[]);
+    SC_EURO_AFFINITY=(d&&d.affinity)||{};
   }
   catch(e){ console.error('euro',e); SC_LOAD_FAILED.push('euro'); SC_EURO={}; SC_EURO_META={}; SC_EURO_PACKS={}; SC_EURO_DERIVED={};
-           SC_EURO_SPEEDUPS={}; SC_EURO_WEIGHTS=[]; }
+           SC_EURO_SPEEDUPS={}; SC_EURO_WEIGHTS=[]; SC_EURO_AFFINITY={}; }
 }
 
 async function scLoadChests(){

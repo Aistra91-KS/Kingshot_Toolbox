@@ -154,6 +154,7 @@ function ieTags(id){
   let h='';
   if(scEurIsDerived(id))     h+=ieTag('is-derived', scT('derived'), scEurHow(id));
   else if(scEurIsScaled(id)) h+=ieTag('is-scaled',  scT('scaled'),  scEurScaleHow());
+  else if(ieIsAff(id))       h+=ieTag('is-scaled',  scT('scaled'),  ieAffHow());
   if(scEurIsWeighted(id))    h+=ieTag('is-weighted', scEurWeightLabel(id), scEurWeightHow(id));
   return h;
 }
@@ -223,11 +224,11 @@ function ieRender(){
 // Encadré permanent sous le tableau : chaque règle qui décide d'un prix, en toutes lettres.
 // Permanent et non replié, parce qu'un chiffre que le pack affiché ne justifie pas doit pouvoir
 // se vérifier sans interaction — y compris au toucher, où l'info-bulle de la pastille n'existe
-// pas. Trois sections, dans l'ordre où les règles s'appliquent ; chacune disparaît si elle ne
+// pas. Quatre sections, dans l'ordre où les règles s'appliquent ; chacune disparaît si elle ne
 // touche aucun objet, et l'encadré entier avec elles.
 function ieRenderRules(){
   const box=ieEl('ie-derived'); if(!box) return;
-  const parts=[ieScaleSection(), ieDerivedSection(), ieWeightSection()].filter(Boolean);
+  const parts=[ieScaleSection(), ieAffinitySection(), ieDerivedSection(), ieWeightSection()].filter(Boolean);
   box.hidden = !parts.length;
   box.innerHTML = parts.join('');
 }
@@ -260,6 +261,88 @@ function iePackPriceOf(id){
 function ieBasisPrice(){
   const b=SC_EURO_SPEEDUPS.basis;
   return scEurPackPrice((b && Array.isArray(b.packs) && b.packs[0]) || null);
+}
+
+// ---------- barème d'affinité, recalculé ICI ----------
+// Le barème lui-même vit dans shop-core.js (c'est lui qui chiffre les objets partout) ; ce qui
+// suit ne sert qu'à l'EXPLIQUER sous le tableau, et le refait donc à partir de `SC_EURO`, de
+// `scEurPackPrice()` et de `scEurRuleTxt()` — trois noms de longue date. Le site n'a aucun
+// cache-busting sur ses <script> : un visiteur peut charger cette page-ci avec un shop-core.js
+// encore en cache, et un appel à une fonction qu'il ne connaît pas planterait le rendu en plein
+// milieu. Le bloc de données lui-même se lit au `typeof` pour la même raison — un vieux core ne
+// déclare pas `SC_EURO_AFFINITY`, et le nommer directement suffirait à lever un ReferenceError.
+function ieAffData(){ return (typeof SC_EURO_AFFINITY!=='undefined' && SC_EURO_AFFINITY) ? SC_EURO_AFFINITY : null; }
+function ieAffHow(){ const a=ieAffData(); return a ? scEurRuleTxt(a.how) : ''; }
+function ieAffPoints(id){ const a=ieAffData(); return (a && a.points && Number(a.points[id])) || 0; }
+// Le relevé NU du jeton : la base d'un barème ne peut pas dépendre du barème lui-même. Le prix
+// retenu est celui du pack le MOINS CHER parmi ceux listés, comme le fait `scEurRawPrice()` —
+// et non `iePackPriceOf()`, qui s'en tient au premier. Les deux coïncident tant qu'un jeton n'a
+// qu'un pack, mais le format `{qty, packs[]}` prévoit l'égalité entre tarifs : le jour où elle
+// arrive, un calcul divergent de celui du core ferait disparaître pastille ET encadré en
+// silence (cf. `ieIsAff()`), en laissant les prix barémés sans rien pour les justifier.
+function ieAffPackPrice(id){
+  const r=SC_EURO[id]; if(!r) return null;
+  const ps=Array.isArray(r.packs) ? r.packs : [];
+  if(!ps.length) return scEurPackPrice(null);
+  let lo=null;
+  for(const pid of ps){
+    const v=scEurPackPrice(pid);
+    if(v!=null && (lo==null || v<lo)) lo=v;
+  }
+  return lo;
+}
+function ieAffRawUnit(id){
+  const r=SC_EURO[id]; if(!r) return null;
+  const p=ieAffPackPrice(id), q=Number(r.qty);
+  return (p!=null && q>0) ? (p/q) : null;
+}
+// Celui des trois jetons qui offre le point d'affinité le moins cher.
+function ieAffBasis(){
+  const a=ieAffData(); if(!a || !a.points) return null;
+  let best=null;
+  for(const id in a.points){
+    const n=Number(a.points[id]), u=ieAffRawUnit(id);
+    if(!(n>0) || u==null) continue;
+    const per=u/n;
+    if(best==null || per<best.per) best={id:id, per:per, points:n};
+  }
+  return best;
+}
+function ieAffUnit(id){ const n=ieAffPoints(id), b=ieAffBasis(); return (n>0 && b) ? (b.per*n) : null; }
+// Pastille et encadré ne s'affichent que si le chiffre du tableau vient BIEN de ce barème. Avec
+// un core en cache, la Coupe en argent ressort encore au relevé nu : annoncer un calcul que le
+// prix affiché ne suit pas serait pire que de ne rien annoncer. La page retombe alors sur
+// l'ancien rendu, et se corrige d'elle-même au rechargement suivant.
+function ieIsAff(id){
+  const v=ieAffUnit(id); if(v==null) return false;
+  // `scEurResolve()` applique encore la pondération sur le résultat du barème : la comparaison
+  // doit passer par le même chemin, sinon un jour où l'un des trois jetons entrerait dans
+  // `weights` la règle se tairait au lieu de s'expliquer.
+  const shown=scEurUnit(id), expected=v*scEurWeight(id);
+  return shown!=null && Math.abs(shown-expected) <= 1e-9*Math.max(1, Math.abs(expected));
+}
+
+// La ligne de base ne donne QUE des divisions, à partir des chiffres relevés du jeton — prix du
+// pack, quantité, points. Y écrire le prix du point tout fait le trahirait : 0,00025 € s'affiche
+// « 0,0003 € », et 0,0003 × 10 ne retombe pas sur les 0,0025 € du Cor en cuivre. Avec les
+// divisions, le lecteur refait le calcul et tombe juste.
+function ieAffinitySection(){
+  const a=ieAffData(); if(!a || !a.points) return '';
+  const ids=scEurOrder(Object.keys(a.points).filter(ieIsAff));
+  if(!ids.length) return '';
+  const b=ieAffBasis(), r=SC_EURO[b.id], lang=scLang();
+  const basis=scT('affBasis')
+    .replace(/\{p\}/g, scFmtEur(ieAffPackPrice(b.id)))
+    .replace(/\{q\}/g, scFmtNum(r.qty))
+    .replace('{n}', scFmtNum(b.points))
+    .replace('{item}', scName(scItemById(b.id), lang))
+    .replace('{pack}', (r.packs||[]).map(scPackName).join(' / '));
+  return ieRuleBlock(scT('affTitle'), ieAffHow()+' '+basis,
+    ids.map(id => {
+      const n=ieAffPoints(id);   // « 1 points » se lit comme une coquille
+      return ieRuleLi(id, '', scT(n===1?'affSum1':'affSum').replace('{n}', scFmtNum(n))
+                              +' → '+scFmtEur(scEurUnit(id)));
+    }));
 }
 
 // Barème : la base repart des DEUX chiffres relevés — prix du pack et minutes de ce pack — et

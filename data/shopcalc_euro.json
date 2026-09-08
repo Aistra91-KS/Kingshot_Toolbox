@@ -3,9 +3,9 @@
     "tier": "Gen 7 / TG5+",
     "packPrice": 6,
     "packPriceUsd": 5,
-    "updatedAt": "2026-09-07",
+    "updatedAt": "2026-09-08",
     "source": "Relevé in-game des packs ACHETABLES AU MOINS UNE FOIS PAR MOIS. Sont écartés : les packs d'événement, les packs VIP et les packs qui ne passent qu'une seule fois — un prix qu'on ne peut pas refaire le mois suivant n'est pas un prix de référence. Fourni et mis à jour périodiquement par Paul (fichier Pack_ks.xlsx).",
-    "note": "Seconde valorisation, en argent reel. La cle de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs offrant le MEILLEUR PRIX UNITAIRE pour cet objet — prix du pack divise par la quantite obtenue. Les packs releves n'ont plus tous le meme prix : `_meta.packPrice` / `packPriceUsd` donnent le prix par DEFAUT (6 € / 5 $), et un pack qui coute autre chose porte son propre `price` / `priceUsd` dans `packs`. C'est ce qui a fait tomber la vieille regle « le plus d'exemplaires » : a deux prix differents, la plus grosse quantite n'est plus forcement la moins chere (20 accelerateurs 3h a 24 € sont plus chers que 12 a 6 €). UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocke : il se recalcule a l'affichage. Fichier ADMIN en lecture seule, regenerable d'un bloc depuis le releve Excel. Les quantites du releve font foi, Y COMPRIS a la baisse. TROIS blocs corrigent ce que le releve seul dit mal, et se CONSERVENT lors d'une regeneration de `items` (ils ne viennent PAS de l'Excel) : `derived` {fromId, factor, packs?, how} deduit la valeur d'un objet de celle d'un autre et REMPLACE le releve quand les deux existent ; une valeur deduite n'affiche AUCUN pack, sauf si la regle en nomme un dans `packs` (le pack qui chiffre `fromId` vaut alors aussi pour elle) — un releve peut etre exact et son prix unitaire absurde (un pack genereux sur un objet ne le rend pas plus utile) ; `speedups` fixe le prix d'UNE minute d'accelerateur (prix du pack de base / total de minutes du pack le plus genereux) et en deduit les cinq accelerateurs, pour qu'une heure vaille toujours 60 minutes ; les cinq affichent donc `basis.packs` comme pack d'origine, et non celui qui en donne le plus ; A prix unitaire EGAL entre deux packs de tarifs differents, `items` retient le MOINS CHER : le format {qty, packs[]} ne sait pas decrire « 24 dans un pack a 6 € OU 96 dans un pack a 24 € », et a l'unite pres c'est le petit ticket qui se conseille. C'est le cas du Ranger de la nature, exactement 4x le pack Rencontre Frontaliere pour 4x le prix. `weights` applique une ponderation ASSUMEE (choix editorial, pas une mesure) au resultat, ex. x0,25 sur les ressources brutes."
+    "note": "Seconde valorisation, en argent reel. La cle de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs offrant le MEILLEUR PRIX UNITAIRE pour cet objet — prix du pack divise par la quantite obtenue. Les packs releves n'ont plus tous le meme prix : `_meta.packPrice` / `packPriceUsd` donnent le prix par DEFAUT (6 € / 5 $), et un pack qui coute autre chose porte son propre `price` / `priceUsd` dans `packs`. C'est ce qui a fait tomber la vieille regle « le plus d'exemplaires » : a deux prix differents, la plus grosse quantite n'est plus forcement la moins chere (20 accelerateurs 3h a 24 € sont plus chers que 12 a 6 €). UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocke : il se recalcule a l'affichage. Fichier ADMIN en lecture seule, regenerable d'un bloc depuis le releve Excel. Les quantites du releve font foi, Y COMPRIS a la baisse. QUATRE blocs corrigent ce que le releve seul dit mal, et se CONSERVENT lors d'une regeneration de `items` (ils ne viennent PAS de l'Excel) : `derived` {fromId, factor, packs?, how} deduit la valeur d'un objet de celle d'un autre et REMPLACE le releve quand les deux existent ; une valeur deduite n'affiche AUCUN pack, sauf si la regle en nomme un dans `packs` (le pack qui chiffre `fromId` vaut alors aussi pour elle) — un releve peut etre exact et son prix unitaire absurde (un pack genereux sur un objet ne le rend pas plus utile) ; `speedups` fixe le prix d'UNE minute d'accelerateur (prix du pack de base / total de minutes du pack le plus genereux) et en deduit les cinq accelerateurs, pour qu'une heure vaille toujours 60 minutes ; les cinq affichent donc `basis.packs` comme pack d'origine, et non celui qui en donne le plus ; `affinity` fait pareil pour les trois jetons d'affinite (Cor en cuivre 10 points, Coupe en argent 100, Epices d'elite 1 000) : le bloc ne stocke QUE le nombre de points, et le prix du point se prend sur celui des trois qui l'offre le moins cher au releve — la base se recalcule donc a chaque livraison au lieu d'etre figee, et les trois affichent le pack de cette base ; A prix unitaire EGAL entre deux packs de tarifs differents, `items` retient le MOINS CHER : le format {qty, packs[]} ne sait pas decrire « 24 dans un pack a 6 € OU 96 dans un pack a 24 € », et a l'unite pres c'est le petit ticket qui se conseille. C'est le cas du Ranger de la nature, exactement 4x le pack Rencontre Frontaliere pour 4x le prix. `weights` applique une ponderation ASSUMEE (choix editorial, pas une mesure) au resultat, ex. x0,25 sur les ressources brutes."
   },
   "packs": {
     "adventure-supply-pack": {
@@ -107,6 +107,22 @@
     "master-gift-pack": {
       "FR": "Ensemble de cadeaux d'expert",
       "EN": "Master Gift Pack"
+    },
+    "master-s-acuity-master-treasure-pack-1-emblem": {
+      "FR": "Acuité de l'Expert - Pack Trésor Expert 1 - Emblêmes",
+      "EN": "Master's Acuity - Master Treasure Pack 1 - Emblem"
+    },
+    "master-s-acuity-master-treasure-pack-1-manuscript": {
+      "FR": "Acuité de l'Expert - Pack Trésor Expert 1 - Livre",
+      "EN": "Master's Acuity - Master Treasure Pack 1 - Manuscript"
+    },
+    "master-s-acuity-master-treasure-pack-1-spices": {
+      "FR": "Acuité de l'Expert - Pack Trésor Expert 1 - Epices",
+      "EN": "Master's Acuity - Master Treasure Pack 1 - Spices"
+    },
+    "master-s-acuity-master-treasure-pack-1-supply": {
+      "FR": "Acuité de l'Expert - Pack Trésor Expert 1 - Provision",
+      "EN": "Master's Acuity - Master Treasure Pack 1 - Supply"
     },
     "master-s-collection-apprentice-s-work-classic": {
       "FR": "Collection principale - Travail de l'Apprenti - Classique",
@@ -451,6 +467,17 @@
       "EN": "A speedup is worth exactly the time it saves: one hour has to be worth sixty minutes. So the pack that gives the most speedup time sets the price of ONE minute, and all five speedups follow from it."
     }
   },
+  "affinity": {
+    "points": {
+      "copper_horn": 10,
+      "silver_goblet": 100,
+      "elite_spices": 1000
+    },
+    "how": {
+      "FR": "Ces trois objets ne servent qu'à une chose : monter l'affinité d'un expert. Un point d'affinité DOIT donc valoir le même prix quel que soit le jeton qui le porte — l'objet le moins cher au point fixe ce prix, et les trois s'en déduisent. Relevé jeton par jeton, chacun héritait du pack qui en donnait le plus : la Coupe en argent (100 points) ressortait trois fois plus chère que les Épices d'élite (1 000 points), soit trente fois le prix du point. C'est aussi ce qui chiffre le Cor en cuivre, qu'aucun pack ne vend.",
+      "EN": "These three items do exactly one thing: raise a Master's affinity. So one affinity point MUST cost the same whatever token carries it - the item with the cheapest point sets that price, and all three follow from it. Surveyed token by token, each one inherited the pack that gave the most of it: the Silver Goblet (100 points) came out three times dearer than Elite Spices (1,000 points), i.e. thirty times the price per point. It is also what prices the Copper Horn, which no pack sells."
+    }
+  },
   "weights": [
     {
       "factor": 0.25,
@@ -559,9 +586,9 @@
       ]
     },
     "adventure_supply": {
-      "qty": 15,
+      "qty": 30,
       "packs": [
-        "adventure-supply-pack"
+        "master-s-acuity-master-treasure-pack-1-supply"
       ]
     },
     "artisan_s_vision": {
@@ -716,9 +743,9 @@
       ]
     },
     "masters_manuscript": {
-      "qty": 520,
+      "qty": 1000,
       "packs": [
-        "frontier-encounter-adventurer"
+        "master-s-acuity-master-treasure-pack-1-manuscript"
       ]
     },
     "mithril": {
@@ -788,9 +815,9 @@
       ]
     },
     "silver_goblet": {
-      "qty": 8,
+      "qty": 16,
       "packs": [
-        "master-gift-pack"
+        "master-s-acuity-master-treasure-pack-1-spices"
       ]
     },
     "stamina": {
