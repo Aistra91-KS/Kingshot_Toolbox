@@ -1,29 +1,12 @@
 {
   "_meta": {
-    "note": "Historique des mises à jour du site, rendu par changelog.html (js/changelog.js). Entrées les plus récentes EN PREMIER. Les entrées antérieures au 17/08/2026 ont été reconstituées a posteriori à partir des annonces Discord (.github/news/announce.md dans l'historique git) et des commits.",
+    "note": "Historique des mises à jour du site, rendu par changelog.html (js/changelog.js). PÉRIMÈTRE — ce n'est PAS un fourre-tout : on y met les évolutions et nouveautés des PAGES du site, ce que le joueur voit. Favicon, SEO, refactor, outillage, CI, documentation n'y entrent pas. Test : si ça ne change rien pour qui ouvre une page, ça n'y va pas. Entrées les plus récentes EN PREMIER. Les entrées antérieures au 17/08/2026 ont été reconstituées a posteriori à partir des annonces Discord (.github/news/announce.md dans l'historique git) et des commits.",
     "types": "new = nouveauté · improved = amélioration · fixed = correctif",
-    "howto": "Ajouter une version = 1 objet en tête de releases[] + incrémenter SITE.version dans js/site-config.js (même numéro). href est facultatif : chemin relatif à la racine du site.",
+    "howto": "C'EST PAUL QUI DÉCIDE QUAND LA VERSION CHANGE : ne jamais ajouter de version ni incrémenter SITE.version de sa propre initiative — le proposer et attendre son accord. Une fois décidé, ajouter une version = 1 objet en tête de releases[] + incrémenter SITE.version dans js/site-config.js (même numéro). href est facultatif : chemin relatif à la racine du site.",
     "versioning": "MAJEURE.FONCTIONNALITE.CORRECTIF. Le 2e chiffre monte pour une FONCTIONNALITÉ : nouvel outil, nouvelle page, refonte d'une section, gros changement de structure. Le 3e monte pour tout le reste : ajout de contenu (une boutique de plus), petite amélioration, correctif. Après la v1.13.1, une boutique ajoutée donne la v1.13.2, un nouvel outil donne la v1.14.0. Les versions 0.x sont antérieures à cette règle et gardent leur numérotation d'origine.",
     "schema": "release = {version, date, changes[]} — PAS de titre de version : l'en-tête ne porte que le numéro et la date. change = {type, title{EN,FR}, text{EN,FR}, href?, linkLabel?{EN,FR}} : chaque modification porte SON titre, pour qu'elle se lise seule. `title` est optionnel — les versions 0.x n'en ont pas et s'affichent en description seule."
   },
   "releases": [
-    {
-      "version": "1.13.5",
-      "date": "2026-09-07",
-      "changes": [
-        {
-          "type": "fixed",
-          "title": {
-            "EN": "The site icon is legible in Google results",
-            "FR": "L'ic\u00f4ne du site est lisible dans les r\u00e9sultats Google"
-          },
-          "text": {
-            "EN": "The little toolbox shown next to the site name in search results was drawn for a large size. Shrunk to 16 pixels it fell apart: the handle merged into the lid, the crossed swords turned to a smudge, and Google's round crop clipped the corners off the tile and left white slivers. It has been redrawn for that size - a thicker handle with a real gap beneath it, one clean lid seam, and a background that fills the circle edge to edge. The large versions, the one iOS puts on a home screen among them, keep the detailed drawing. Browsers hold on to icons for a while, so it may take a few days to change everywhere.",
-            "FR": "La petite caisse \u00e0 outils affich\u00e9e \u00e0 c\u00f4t\u00e9 du nom du site dans les r\u00e9sultats de recherche \u00e9tait dessin\u00e9e pour du grand format. R\u00e9duite \u00e0 16 pixels, elle s'effondrait : l'anse fusionnait avec le couvercle, les \u00e9p\u00e9es crois\u00e9es viraient \u00e0 la bavure, et le d\u00e9coupage rond de Google rognait les coins de la tuile en laissant des \u00e9clats blancs. Elle a \u00e9t\u00e9 redessin\u00e9e pour cette taille - une anse plus \u00e9paisse avec un vrai vide dessous, un seul trait de couvercle net, et un fond qui remplit le cercle jusqu'au bord. Les versions en grand, dont celle qu'iOS pose sur l'\u00e9cran d'accueil, gardent le dessin d\u00e9taill\u00e9. Les navigateurs conservent les ic\u00f4nes un moment : le changement peut mettre quelques jours \u00e0 se voir partout."
-          }
-        }
-      ]
-    },
     {
       "version": "1.13.4",
       "date": "2026-09-07",
