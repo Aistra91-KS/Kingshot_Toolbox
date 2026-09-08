@@ -88,7 +88,7 @@ const i18nShop = {
     scaleBasis:"Base : {p} \u00F7 {m} minutes = {u} la minute, d'après {pack}, le pack qui donne le plus de temps par euro ({detail}).",
     scaleSum:"{n} minutes", scaleSum1:"{n} minute",
     affTitle:"Barème d'affinité",
-    affBasis:"Base : « {item} », {q} pour {p} via {pack} — le point d'affinité le moins cher du relevé. Chaque valeur ci-dessous vaut donc ({p} \u00F7 {q} \u00F7 {n}) \u00D7 ses propres points.",
+    affBasis:"Base : {n} points pour {p}, d'après {pack}, le pack qui donne le plus de points d'affinité par euro ({detail}). Chaque valeur ci-dessous vaut donc ({p} \u00F7 {n}) \u00D7 ses propres points.",
     affSum:"{n} points d'affinité", affSum1:"{n} point d'affinité",
     weightTitle:"Pondération assumée",
     weightSum:"Soit {p} \u00F7 {q} \u00D7 {f} = {b}",
@@ -171,7 +171,7 @@ const i18nShop = {
     scaleBasis:"Basis: {p} \u00F7 {m} minutes = {u} per minute, from {pack}, the pack that gives the most time per euro ({detail}).",
     scaleSum:"{n} minutes", scaleSum1:"{n} minute",
     affTitle:"Affinity scale",
-    affBasis:"Basis: \u201C{item}\u201D, {q} for {p} from {pack} - the cheapest affinity point in the survey. So each value below is ({p} \u00F7 {q} \u00F7 {n}) \u00D7 its own points.",
+    affBasis:"Basis: {n} points for {p}, from {pack}, the pack that gives the most affinity points per euro ({detail}). So each value below is ({p} \u00F7 {n}) \u00D7 its own points.",
     affSum:"{n} affinity points", affSum1:"{n} affinity point",
     weightTitle:"Deliberate weighting",
     weightSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
@@ -292,9 +292,9 @@ function scCurSym(){ return scCur()==='USD' ? '$' : '\u20AC'; }
 //   2. `speedups` — barème des accélérateurs : le pack le plus généreux en temps fixe le prix
 //      d'UNE minute, et les cinq accélérateurs s'en déduisent. Sans lui, le prix suivait le
 //      format du jeton et non le temps (le 3h sortait 6× plus cher à la minute que le 1h).
-//   3. `affinity` — même idée pour les jetons d'affinité : ils n'achètent qu'une chose, des
+//   3. `affinity` — même barème pour les jetons d'affinité : ils n'achètent qu'une chose, des
 //      points d'affinité, donc un point doit coûter pareil quel que soit le jeton qui le porte.
-//      Le moins cher au point fixe ce prix, et les trois s'en déduisent.
+//      Le pack le plus généreux en points par euro fixe ce prix, et les trois s'en déduisent.
 //   4. `items`    — le relevé lui-même : prix du pack ÷ quantité obtenue.
 //   5. `weights`  — pondération ASSUMÉE appliquée au résultat (choix éditorial, pas une mesure).
 // Renvoie null et jamais 0 quand rien ne chiffre l'objet : « inconnu » n'est pas « sans
@@ -399,36 +399,34 @@ function scEurScaleHow(){ return scEurRuleTxt(SC_EURO_SPEEDUPS.how); }
 function scEurScaledIds(){ return scEurOrder(Object.keys(SC_EURO_SPEEDUPS.minutes||{}).filter(id=>scEurIsScaled(id))); }
 
 // ---------- barème d'affinité (bloc `affinity`) ----------
-// Le Cor en cuivre, la Coupe en argent et les Épices d'élite n'achètent qu'une seule chose : des
-// points d'affinité d'expert (10, 100 et 1 000). Un point doit donc coûter pareil quel que soit
-// le jeton qui le porte — exactement l'argument du barème des accélérateurs, où une heure vaut
-// soixante minutes. Relevé jeton par jeton, chacun héritait du pack qui en donnait le plus : la
-// Coupe (100 points) sortait à 0,375 € contre 0,250 € les Épices (1 000 points), soit trente
-// fois le prix du point. C'est aussi ce qui chiffre le Cor en cuivre, qu'aucun pack ne vend.
+// Même construction que le barème des accélérateurs, et pour la même raison. Le Cor en cuivre,
+// la Coupe en argent et les Épices d'élite n'achètent qu'une seule chose : des points d'affinité
+// d'expert (10, 100 et 1 000). Un point doit donc coûter pareil quel que soit le jeton qui le
+// porte, comme une heure doit valoir soixante minutes. Relevé jeton par jeton, chacun héritait
+// du pack qui en donnait le plus : la Coupe (100 points) sortait à 0,750 € contre 0,250 € les
+// Épices (1 000 points), soit trente fois le prix du point.
+// C'est le PACK le plus généreux en points par euro qui fixe le prix du point, et non le jeton
+// le moins cher à l'unité : un pack se juge sur tout ce qu'il verse, jetons additionnés. Les
+// deux ne se rejoignent pas — le Pack Trésor Expert 1 donne 16 Épices ET 16 Coupes, mais ses
+// 17 600 points pour 5 $ restent en deçà des 24 000 de la Rencontre Frontalière.
 function scEurAffinityPoints(id){ const p=SC_EURO_AFFINITY.points; return (p && Number(p[id])) || 0; }
-// La base n'est PAS stockée : le JSON ne donne que le nombre de points, et le prix du point se
-// prend sur celui des jetons qui l'offre le moins cher AU RELEVÉ. Elle se recalcule donc à
-// chaque livraison de packs, là où une base figée dans le fichier serait à re-choisir à la main
-// — et fausse en silence le jour où un autre jeton devient le meilleur.
-// Le relevé NU, jamais scEurUnit() : la base d'un barème ne peut pas dépendre du barème
-// lui-même, et repasser par la valeur finale bouclerait sur le jeton qui sert de base.
-function scEurAffinityBasis(){
-  const pts=SC_EURO_AFFINITY.points; if(!pts) return null;
-  let best=null;
-  for(const id in pts){
-    const n=Number(pts[id]), u=scEurRawUnit(id);
-    if(!(n>0) || u==null) continue;
-    const per=u/n;
-    if(best==null || per<best.per) best={id:id, per:per, points:n};
-  }
-  return best;
+// Prix d'UN point d'affinité = prix du pack de base ÷ points qu'il verse.
+function scEurPoint(){
+  const b=SC_EURO_AFFINITY.basis, p=scEurAffinityBasisPrice(), n=b?Number(b.points):0;
+  return (p!=null && n>0) ? (p/n) : null;
+}
+// Le prix du pack de base — le sien, pas le tarif par défaut : le jour où le pack le plus
+// généreux en points sera un pack cher, le point doit suivre son prix à lui.
+function scEurAffinityBasisPrice(){
+  const b=SC_EURO_AFFINITY.basis;
+  return scEurPackPrice((b && Array.isArray(b.packs) && b.packs[0]) || null);
 }
 function scEurAffinityUnit(id){
-  const n=scEurAffinityPoints(id), b=scEurAffinityBasis();
-  return (n>0 && b) ? (b.per*n) : null;
+  const n=scEurAffinityPoints(id), u=scEurPoint();
+  return (n>0 && u!=null) ? (u*n) : null;
 }
-// Vrai quand c'est ce barème-ci, et non le relevé, qui donne son prix à cet objet. Le jeton qui
-// sert de base en fait partie : sa valeur ne change pas, mais elle vient bien du barème — c'est
+// Vrai quand c'est ce barème-ci, et non le relevé, qui donne son prix à cet objet. Le jeton du
+// pack de base en fait partie : sa valeur ne change pas, mais elle vient bien du barème — c'est
 // déjà le cas de l'accélérateur 1h, qui porte la pastille tout en étant dans le pack de base.
 function scEurIsAffinity(id){
   return !SC_EURO_DERIVED[id] && scEurScaleUnit(id)==null && scEurAffinityUnit(id)!=null;
@@ -512,12 +510,9 @@ function scEurPacks(id){
   // minute : c'est donc ce pack-là qui justifie la valeur, pour les cinq durées à la fois.
   // Afficher « Offres Quotidiennes » sur le 3h laisserait croire que 6 € ÷ 12 y donne 0,151 €.
   if(scEurIsScaled(id)) return (SC_EURO_SPEEDUPS.basis && SC_EURO_SPEEDUPS.basis.packs) || [];
-  // Même raison pour les trois jetons d'affinité : le prix vient du jeton le moins cher au
-  // point, donc du pack qui chiffre CELUI-LÀ, pour les trois à la fois.
-  if(scEurIsAffinity(id)){
-    const b=scEurAffinityBasis(), r=b ? SC_EURO[b.id] : null;
-    return (r && Array.isArray(r.packs)) ? r.packs : [];
-  }
+  // Même raison pour les trois jetons d'affinité : c'est le pack qui fixe le prix du point qui
+  // justifie leur valeur, pour les trois à la fois — pas celui où chacun se relève.
+  if(scEurIsAffinity(id)) return (SC_EURO_AFFINITY.basis && SC_EURO_AFFINITY.basis.packs) || [];
   // Une valeur déduite ne vient d'AUCUN pack : c'est un calcul, pas un relevé. Sauf quand la
   // règle en nomme un — le pack qui chiffre `fromId` vaut alors aussi pour elle (les caisses
   // de ressources, alignées sur le pain du Pack Lien Vital de la Ville).

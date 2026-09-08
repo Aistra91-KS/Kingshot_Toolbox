@@ -25,8 +25,12 @@ test('un point d\'affinité vaut le même prix sur les trois jetons', async () =
   const pts = JSON.parse(run(ctx, 'JSON.stringify(SC_EURO_AFFINITY.points)'));
   const perPoint = Object.entries(pts).map(([id, n]) => unit(ctx, id) / n);
   for (const p of perPoint) assert.ok(Math.abs(p - perPoint[0]) < 1e-12, 'prix du point identique');
-  // La base est le jeton le moins cher au point : elle garde donc SA valeur relevée.
-  assert.equal(run(ctx, 'scEurAffinityBasis().id'), 'elite_spices');
+  // Le pack de base est celui qui verse le plus de points par euro, jetons additionnés — pas
+  // celui où un jeton se relève au meilleur prix unitaire. Les deux ne se rejoignent pas : le
+  // Pack Trésor Expert 1 donne 16 Épices ET 16 Coupes, soit 17 600 points pour 5 $, mais reste
+  // derrière les 24 000 de la Rencontre Frontalière.
+  assert.equal(run(ctx, 'JSON.stringify(SC_EURO_AFFINITY.basis.packs)'), '["frontier-encounter-adventurer"]');
+  assert.equal(run(ctx, 'scEurPoint()'), 6 / 24000);
   assert.equal(unit(ctx, 'elite_spices'), 0.25);
 });
 
@@ -51,7 +55,7 @@ test('les trois jetons affichent le pack de la BASE, pas le leur', async () => {
   // Même règle que les cinq accélérateurs (MAP §9) : la colonne « Pack d'origine »
   // nomme le pack d'où vient le PRIX. La Coupe est bien relevée dans un pack à elle,
   // mais ce n'est pas lui qui la chiffre.
-  const basisPacks = run(ctx, 'JSON.stringify(SC_EURO[scEurAffinityBasis().id].packs)');
+  const basisPacks = run(ctx, 'JSON.stringify(SC_EURO_AFFINITY.basis.packs)');
   for (const id of ['copper_horn', 'silver_goblet', 'elite_spices'])
     assert.equal(run(ctx, `JSON.stringify(scEurPacks(${JSON.stringify(id)}))`), basisPacks);
   assert.notEqual(run(ctx, 'JSON.stringify(SC_EURO.silver_goblet.packs)'), basisPacks);
@@ -63,7 +67,18 @@ test('le barème se lit en dollars comme en euros', async () => {
   const pts = JSON.parse(run(ctx, 'JSON.stringify(SC_EURO_AFFINITY.points)'));
   const perPoint = Object.entries(pts).map(([id, n]) => unit(ctx, id) / n);
   for (const p of perPoint) assert.ok(Math.abs(p - perPoint[0]) < 1e-12);
-  assert.ok(Math.abs(unit(ctx, 'silver_goblet') - 5 / 24 / 10) < 1e-12);
+  assert.ok(Math.abs(unit(ctx, 'silver_goblet') - 5 / 24000 * 100) < 1e-12);
+});
+
+test('le total de points du pack de base est celui de son détail', async () => {
+  const ctx = await euro();
+  // `basis.points` ne se retrouve PAS dans `items` (un pack n'y figure que sous l'objet dont il
+  // est le meilleur prix unitaire) : il se relit dans l'Excel, donc il peut diverger de son
+  // propre `detail` à une régénération. C'est le seul garde-fou qui l'attrape.
+  const detail = JSON.parse(run(ctx, 'JSON.stringify(SC_EURO_AFFINITY.basis.detail)'));
+  const pts = JSON.parse(run(ctx, 'JSON.stringify(SC_EURO_AFFINITY.points)'));
+  const sum = detail.reduce((t, d) => t + d.qty * pts[d.itemId], 0);
+  assert.equal(sum, Number(run(ctx, 'SC_EURO_AFFINITY.basis.points')));
 });
 
 test('le barème ne déborde pas sur les autres règles', async () => {
