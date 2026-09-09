@@ -122,6 +122,22 @@ const messages = (!perLangPing && (fr.length + moreFr.length + en.length + moreE
   ? [{ embeds: [frEmbed, enEmbed] }]
   : [{ embeds: [frEmbed] }, { embeds: [enEmbed] }];
 
+// ---- Image d'illustration (facultative) ----
+// `image` vaut pour les deux langues ; `image-fr` / `image-en` la remplacent au
+// besoin — une capture d'écran porte du texte, elle a donc une langue.
+// Discord doit pouvoir ALLER CHERCHER l'URL au moment de l'envoi : une adresse
+// du site ne vaut que si Pages a fini de déployer, ce qui n'est pas garanti
+// quand la fusion déclenche l'annonce et le déploiement en même temps.
+// `raw.githubusercontent.com` est servi dès le push, sans cette course.
+const pickImage = (u) => (/^https:\/\/\S+$/i.test((u || '').trim()) ? u.trim() : '');
+const imgFr = pickImage(meta['image-fr'] || meta.image);
+const imgEn = pickImage(meta['image-en'] || meta.image);
+if (imgFr) frEmbed.image = { url: imgFr };
+if (imgEn) enEmbed.image = { url: imgEn };
+// Deux embeds dans le MÊME message et une seule image pour les deux : Discord
+// l'afficherait deux fois. On ne la garde alors que sur le dernier.
+if (messages.length === 1 && imgFr && imgFr === imgEn) delete frEmbed.image;
+
 // Rappel : une mention placée dans un embed s'affiche mais ne notifie jamais.
 const MENTIONS = { parse: ['everyone', 'roles', 'users'] };
 if (perLangPing) {
