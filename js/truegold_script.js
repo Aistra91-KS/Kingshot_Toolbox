@@ -46,8 +46,8 @@ const i18n = {
         'serverTierHint': 'Highest tier open on your server',
         'tierOverOne': " building is already past tier ",
         'tierOverMany': " buildings are already past tier ",
-        'tierOverEndOne': " — it is left out of the suggestions.",
-        'tierOverEndMany': " — they are left out of the suggestions.",
+        'tierOverEndOne': ", so it is left out of the suggestions.",
+        'tierOverEndMany': ", so they are left out of the suggestions.",
         'lang': 'Language',
         'currentStocks': "💰 Current Stocks:",
         'baseBonus': 'Bonus Speed (%)',
@@ -58,7 +58,7 @@ const i18n = {
         'totalBonus': 'Speed bonus',
         'grpSpeed': 'Construction speed (÷ base time)',
         'grpReduc': 'Base-time cut (outside speed)',
-        'wolfHint': 'A speed bonus like the others — leave it off if you read your in-game stat with the wolf active',
+        'wolfHint': 'A speed bonus like the others. Leave it off if you read your in-game stat with the wolf active',
         'resources': 'Resources',
         'transfoUsed': 'Used transformation (max 100)',
         'kvkTitle': 'KVK & Speedups',
@@ -131,8 +131,8 @@ const i18n = {
         'applyTransfos': "Transformations used",
         'applyNone': "none left",
         'applyWarn': "⚠️ Your current levels and stocks will be replaced.",
-        'applyWarnTransfo': "The TTG gained from transformations is the expected average — adjust it if your rolls differed.",
-        'applyDone': "✅ Plan applied — levels and stocks updated."
+        'applyWarnTransfo': "The TTG gained from transformations is the expected average. Adjust it if your rolls differed.",
+        'applyDone': "✅ Plan applied: levels and stocks updated."
     },
     'FR': {
         'ctrlPanel': 'Panneau de Contrôle',
@@ -141,8 +141,8 @@ const i18n = {
         'serverTierHint': 'Palier le plus haut ouvert sur ton serveur',
         'tierOverOne': " bâtiment dépasse déjà le palier ",
         'tierOverMany': " bâtiments dépassent déjà le palier ",
-        'tierOverEndOne': " — il est ignoré par les suggestions.",
-        'tierOverEndMany': " — ils sont ignorés par les suggestions.",
+        'tierOverEndOne': ", il est donc ignoré par les suggestions.",
+        'tierOverEndMany': ", ils sont donc ignorés par les suggestions.",
         'lang': 'Langue',
         'baseBonus': 'Bonus Vitesse (%)',
         'groundWorks': '1er Ministre (+10%)',
@@ -152,7 +152,7 @@ const i18n = {
         'totalBonus': 'Bonus vitesse',
         'grpSpeed': 'Vitesse de construction (÷ temps de base)',
         'grpReduc': 'Coupe sur le temps de base (hors vitesse)',
-        'wolfHint': 'Un bonus de vitesse comme les autres — laisse décoché si ta stat en jeu a été relevée loup actif',
+        'wolfHint': 'Un bonus de vitesse comme les autres. Laisse décoché si ta stat en jeu a été relevée loup actif',
         'resources': 'Ressources',
         'transfoUsed': 'Transformation utilisées (max 100)',
         'kvkTitle': 'KVK & Accélérateurs',
@@ -226,8 +226,8 @@ const i18n = {
         'applyTransfos': "Transformations utilisées",
         'applyNone': "plus rien",
         'applyWarn': "⚠️ Tes niveaux et tes stocks actuels seront remplacés.",
-        'applyWarnTransfo': "Le TTG gagné par les transformations est la moyenne attendue — corrige-le si tes tirages ont été différents.",
-        'applyDone': "✅ Plan appliqué — niveaux et stocks mis à jour."
+        'applyWarnTransfo': "Le TTG gagné par les transformations est la moyenne attendue. Corrige-le si tes tirages ont été différents.",
+        'applyDone': "✅ Plan appliqué : niveaux et stocks mis à jour."
     }
 };
 
@@ -263,7 +263,7 @@ async function loadDatabase() {
         
         // Vérifier le statut HTTP
         if (!response.ok) {
-            throw new Error(`HTTP ${response.status} (${response.statusText}) — Le fichier n'a pas été trouvé à l'URL : ${response.url}`);
+            throw new Error(`HTTP ${response.status} (${response.statusText}) : le fichier n'a pas été trouvé à l'URL : ${response.url}`);
         }
         
         // Récupérer le texte brut avant de parser
@@ -372,9 +372,9 @@ function renderBuildings() {
 
         let tr = document.createElement('tr');
         tr.innerHTML = `
-            <td class="bldg-name"><input type="checkbox" class="bldg-toggle" aria-label="${getLocName(nom)} — ${tx.inclSuggest}" title="${tx.inclSuggest}" style="vertical-align:middle; margin-right:6px;" ${b.enabled !== false ? 'checked' : ''} onchange="toggleBuildingEnabled(${index}, this.checked)"><span class="bldg-icon">${bldgIcon(nom)}</span> ${getLocName(nom)}</td>
-            <td><select class="table-select" aria-label="${getLocName(nom)} — ${tx.curLvl}" onchange="updateBuildingLvl(${index}, this.value, 'current')">${curOptions}</select></td>
-            <td><select class="table-select" aria-label="${getLocName(nom)} — ${tx.targetLvl}" onchange="updateBuildingLvl(${index}, this.value, 'target')">${tgtOptions}</select></td>
+            <td class="bldg-name"><input type="checkbox" class="bldg-toggle" aria-label="${getLocName(nom)}, ${tx.inclSuggest}" title="${tx.inclSuggest}" style="vertical-align:middle; margin-right:6px;" ${b.enabled !== false ? 'checked' : ''} onchange="toggleBuildingEnabled(${index}, this.checked)"><span class="bldg-icon">${bldgIcon(nom)}</span> ${getLocName(nom)}</td>
+            <td><select class="table-select" aria-label="${getLocName(nom)}, ${tx.curLvl}" onchange="updateBuildingLvl(${index}, this.value, 'current')">${curOptions}</select></td>
+            <td><select class="table-select" aria-label="${getLocName(nom)}, ${tx.targetLvl}" onchange="updateBuildingLvl(${index}, this.value, 'target')">${tgtOptions}</select></td>
             <td id="tg-cost-${index}">0</td>
             <td id="ttg-cost-${index}">0</td>
             <td id="time-cost-${index}" style="font-size:13px;">0</td>
@@ -1809,16 +1809,16 @@ function tgInitHelp() {
     if (!window.HelpSystem) return;
     HelpSystem.init({
         id: 'truegold', banner: true, anchor: '[data-i18n="myBuildings"]',
-        title: { FR: 'TrueGold — Aide', EN: 'TrueGold — Help' },
+        title: { FR: 'TrueGold : Aide', EN: 'TrueGold: Help' },
         summary: {
             FR: "Calcule la stratégie d'amélioration de tes bâtiments TrueGold la plus rentable selon ton objectif : maximiser tes points KVK, monter un maximum de bâtiments, ou atteindre un score précis au meilleur coût.",
             EN: "Computes the most efficient TrueGold building-upgrade strategy for your goal: maximize KVK points, upgrade as many buildings as possible, or reach a target score at the lowest cost."
         },
         steps: {
             FR: [
-                "Choisis le « Palier serveur » : c'est le palier le plus haut ouvert sur ton serveur (TG3, TG5, TG8 ou TG10). Au palier TG8, par exemple, un bâtiment peut monter au maximum en TG8-0 — le TG8-1 n'existe pas encore en jeu. Ce réglage ne limite que les suggestions, pas les niveaux que tu peux sélectionner dans le tableau.",
+                "Choisis le « Palier serveur » : c'est le palier le plus haut ouvert sur ton serveur (TG3, TG5, TG8 ou TG10). Au palier TG8, par exemple, un bâtiment peut monter au maximum en TG8-0, car le TG8-1 n'existe pas encore en jeu. Ce réglage ne limite que les suggestions, pas les niveaux que tu peux sélectionner dans le tableau.",
                 "Renseigne tes stocks de TrueGold (TG) et Or Véritable Trempé (TTG), et le nombre de transformations déjà utilisées (max 100).",
-                "Deux types de bonus. Les bonus de vitesse (Bonus Vitesse, 1er Ministre, KVK et Loup Gris) s'additionnent et divisent le temps de base : le Loup Gris annonce « +15 % de vitesse de construction », c'est un bonus de vitesse comme les autres. Attention, la stat de vitesse affichée en jeu l'inclut déjà quand il est actif — si tu l'as relevée à ce moment-là, laisse la case décochée pour ne pas le compter deux fois. Les Bouchées Doubles, elles, sont à part : elles coupent 20 % du temps de base en plus de tout le reste. Indique aussi tes accélérateurs (jours / heures / minutes).",
+                "Deux types de bonus. Les bonus de vitesse (Bonus Vitesse, 1er Ministre, KVK et Loup Gris) s'additionnent et divisent le temps de base : le Loup Gris annonce « +15 % de vitesse de construction », c'est un bonus de vitesse comme les autres. Attention, la stat de vitesse affichée en jeu l'inclut déjà quand il est actif. Si tu l'as relevée à ce moment-là, laisse la case décochée pour ne pas le compter deux fois. Les Bouchées Doubles, elles, sont à part : elles coupent 20 % du temps de base en plus de tout le reste. Indique aussi tes accélérateurs (jours / heures / minutes).",
                 "Pour chaque bâtiment, mets son niveau actuel et le niveau cible que tu veux atteindre.",
                 "Décoche la case devant un bâtiment pour l'exclure des suggestions (quel que soit le mode) : il reste figé à son niveau actuel et sert toujours de prérequis aux autres.",
                 "Choisis le mode : « Max points KVK » (rentabilité maximale en points), « Max bâtiments » (en monter le plus possible), ou « Score cible » (atteindre un score précis au coût le plus bas).",
@@ -1828,14 +1828,14 @@ function tgInitHelp() {
                 "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux passent à ceux du plan et tes stocks (TG, TTG, transformations, accélérateurs) sont réduits d'autant. L'outil enchaîne alors sur la suggestion suivante."
             ],
             EN: [
-                "Pick your “Server tier”: the highest tier open on your server (TG3, TG5, TG8 or TG10). At tier TG8 for instance, a building can only go up to TG8-0 — TG8-1 isn't in the game yet. This setting only limits the suggestions, not the levels you can pick in the table.",
+                "Pick your “Server tier”: the highest tier open on your server (TG3, TG5, TG8 or TG10). At tier TG8 for instance, a building can only go up to TG8-0, because TG8-1 isn't in the game yet. This setting only limits the suggestions, not the levels you can pick in the table.",
                 "Enter your TrueGold (TG) and Tempered TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
-                "Two kinds of bonus. Speed bonuses (Speed, Ground Works, KVK and Grey Wolf) add up and divide the base time: the Grey Wolf reads “+15% construction speed”, so it is a speed bonus like the others. Careful, your in-game speed stat already includes it while it is active — if that is when you read it, leave the box unchecked so it isn't counted twice. Double Time is the odd one out: it cuts 20% off the base time on top of everything else. Also set your speedups (days / hours / minutes).",
+                "Two kinds of bonus. Speed bonuses (Speed, Ground Works, KVK and Grey Wolf) add up and divide the base time: the Grey Wolf reads “+15% construction speed”, so it is a speed bonus like the others. Careful, your in-game speed stat already includes it while it is active. If that is when you read it, leave the box unchecked so it isn't counted twice. Double Time is the odd one out: it cuts 20% off the base time on top of everything else. Also set your speedups (days / hours / minutes).",
                 "For each building, set its current level and the target level you want to reach.",
                 "Uncheck the box next to a building to exclude it from the suggestions (in any mode): it stays frozen at its current level and still counts as a prerequisite for the others.",
                 "Pick a mode: “Max KVK points” (best points value), “Max buildings” (upgrade as many as possible), or “Target score” (reach a specific score at the lowest cost).",
                 "In “Target score” mode, type the score you aim for: the tool finds the cheapest combination (buildings + transformations + speedups) to reach it.",
-                "Read the “Improvement Plan” top to bottom: steps are numbered in the order you should do them in game. A building coming back several times is normal — the Town Center and the Embassy/troop buildings unlock each other, tier after tier (the 🔓 note tells you which step gets unlocked).",
+                "Read the “Improvement Plan” top to bottom: steps are numbered in the order you should do them in game. A building coming back several times is normal: the Town Center and the Embassy/troop buildings unlock each other, tier after tier (the 🔓 note tells you which step gets unlocked).",
                 "Click a step to unfold the level-by-level detail: TG and TTG cost, build time, speedups used and KVK points earned.",
                 "Once you've carried the plan out in game, click “Apply these changes” at the bottom of the result: after confirming, your levels jump to the plan's and your stocks (TG, TTG, transformations, speedups) go down accordingly. The tool then moves on to the next suggestion."
             ]

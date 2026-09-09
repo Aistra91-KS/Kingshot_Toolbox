@@ -41,7 +41,7 @@
          nextLevel:"Prochain niveau", nextCap:"Prochain cap", levelsRange:"niv.",
          maxReached:"Niveau maximum atteint", readyAdvance:"Prêt à avancer",
          advance:"Avancement", advDone:"Avancement effectué",
-         skillLocked:"Compétence verrouillée — débloquée au 1er avancement (niv. 10)",
+         skillLocked:"Compétence verrouillée, débloquée au 1er avancement (niv. 10)",
          matFood:"Nourriture", matManual:"Manuel", matPotion:"Potion", matMedallion:"Médaille",
          hint:"Molette pour descendre" },
     EN:{ collection:"Collection", genWord:"Generation", yourLevel:"Your level", levelWord:"Level",
@@ -49,7 +49,7 @@
          nextLevel:"Next level", nextCap:"Next cap", levelsRange:"lvl",
          maxReached:"Max level reached", readyAdvance:"Ready to advance",
          advance:"Advancement", advDone:"Advancement done",
-         skillLocked:"Skill locked — unlocks at the 1st advancement (lvl 10)",
+         skillLocked:"Skill locked, unlocks at the 1st advancement (lvl 10)",
          matFood:"Pet Food", matManual:"Manual", matPotion:"Potion", matMedallion:"Medallion",
          hint:"Scroll to descend" },
   };

@@ -16,7 +16,7 @@
       waLevel: 'War Academy Level', speedBonus: 'Speed Bonus (%)', costReduction: 'Cost Reduction (%)',
       resources: 'Resources', dustBudget: 'TrueGold Dust',
       tradeTitle: 'Dust Exchanges',
-      tradeHint: 'Coins and TrueGold buy dust every week. Tick the exchanges you agree to make — the plan converts only what it really needs.',
+      tradeHint: 'Coins and TrueGold buy dust every week. Tick the exchanges you agree to make. The plan converts only what it really needs.',
       tradeCoins: 'Coins available', tradeTruegold: 'TrueGold to convert',
       tradeColUse: 'Use', tradeColWhat: 'Exchange', tradeColDone: 'Done this week', tradeColPlan: 'In this plan',
       tradeWhatCoins: '5 000 coins → 1 dust', tradeWhatTg5: '5 TrueGold → 13 dust', tradeWhatTg10: '10 TrueGold → 13 dust',
@@ -36,11 +36,11 @@
       strategyOutput: 'Strategy Output',
       legMax: 'Maxed', legDone: 'In progress', legAvail: 'Available', legLocked: 'Locked', legSuggested: 'Suggested',
       core: 'War Academy',
-      headClassic: '🛠️ MAX RESEARCHES', headKvk: '🏆 KvK — MAX POINTS', headTarget: '🎯 TARGET SCORE',
+      headClassic: '🛠️ MAX RESEARCHES', headKvk: '🏆 KvK · MAX POINTS', headTarget: '🎯 TARGET SCORE',
       cResearch: 'researches', cLevels: 'levels', cDust: 'Dust', cReste: 'left', cTime: 'Time',
       cSpeedHave: 'your speedups', cMissing: 'short', cSpare: 'spare', cPoints: 'KvK points',
       cFromDust: 'dust', cFromTime: 'time',
-      reached: '✅ Target reached', notReached: '⚠️ Target not reached with this dust — max:',
+      reached: '✅ Target reached', notReached: '⚠️ Target not reached with this dust. Max:',
       lvls: 'lvls', empty: 'No research available. Raise your War Academy level, set your current levels, or add dust.',
       completed: 'Completed', inProgress: 'In progress',
       planTitle: 'Upgrade Plan', planDust: 'Cost', planTime: 'Time', planPoints: 'Points',
@@ -61,8 +61,8 @@
       applySpeedups: 'Speedups',
       applyNone: 'none left',
       applyWarn: '⚠️ Your current levels, dust and speedups will be replaced.',
-      applyDone: '✅ Plan applied — levels and resources updated.',
-      helpTitle: 'War Academy — Help',
+      applyDone: '✅ Plan applied: levels and resources updated.',
+      helpTitle: 'War Academy: Help',
       helpSummary: "Plans the optimal TrueGold research path for your goal: complete as many researches as possible, maximize KvK points, or reach a target score for the least dust.",
     },
     FR: {
@@ -70,7 +70,7 @@
       waLevel: 'Niveau Académie de Guerre', speedBonus: 'Bonus Vitesse (%)', costReduction: 'Réduction de Coût (%)',
       resources: 'Ressources', dustBudget: "Poussières d'Or Véritable",
       tradeTitle: 'Échanges de poussière',
-      tradeHint: "Les pièces et le TrueGold achètent de la poussière chaque semaine. Coche les échanges que tu acceptes de faire — le plan ne convertit que ce dont il a vraiment besoin.",
+      tradeHint: "Les pièces et le TrueGold achètent de la poussière chaque semaine. Coche les échanges que tu acceptes de faire. Le plan ne convertit que ce dont il a vraiment besoin.",
       tradeCoins: 'Pièces disponibles', tradeTruegold: 'TrueGold à convertir',
       tradeColUse: 'Utiliser', tradeColWhat: 'Échange', tradeColDone: 'Faits cette semaine', tradeColPlan: 'Dans ce plan',
       tradeWhatCoins: '5 000 pièces → 1 poussière', tradeWhatTg5: '5 TrueGold → 13 poussières', tradeWhatTg10: '10 TrueGold → 13 poussières',
@@ -90,11 +90,11 @@
       strategyOutput: 'Résultat de la Stratégie',
       legMax: 'Max', legDone: 'En cours', legAvail: 'Disponible', legLocked: 'Bloqué', legSuggested: 'Suggéré',
       core: 'Académie de Guerre',
-      headClassic: '🛠️ MAX RECHERCHES', headKvk: '🏆 KvK — MAX POINTS', headTarget: '🎯 SCORE CIBLE',
+      headClassic: '🛠️ MAX RECHERCHES', headKvk: '🏆 KvK · MAX POINTS', headTarget: '🎯 SCORE CIBLE',
       cResearch: 'recherches', cLevels: 'niveaux', cDust: 'Poussières', cReste: 'reste', cTime: 'Temps',
       cSpeedHave: 'tes accélérateurs', cMissing: 'il manque', cSpare: 'de reste', cPoints: 'points KvK',
       cFromDust: 'poussières', cFromTime: 'temps',
-      reached: '✅ Score cible atteint', notReached: '⚠️ Cible non atteinte avec ces poussières — max :',
+      reached: '✅ Score cible atteint', notReached: '⚠️ Cible non atteinte avec ces poussières. Max :',
       lvls: 'niv.', empty: "Aucune recherche disponible. Monte ton niveau d'Académie de Guerre, renseigne tes niveaux, ou ajoute des poussières.",
       completed: 'Terminé', inProgress: 'En cours',
       planTitle: 'Plan d\'amélioration', planDust: 'Coût', planTime: 'Temps', planPoints: 'Points',
@@ -114,9 +114,9 @@
       applySpeedups: 'Accélérateurs',
       applyNone: 'plus rien',
       applyWarn: '⚠️ Tes niveaux, tes poussières et tes accélérateurs actuels seront remplacés.',
-      applyDone: '✅ Plan appliqué — niveaux et ressources mis à jour.',
+      applyDone: '✅ Plan appliqué : niveaux et ressources mis à jour.',
       dbErr: '⚠️ Impossible de charger la base de recherche (data/truegold_war_db.json).',
-      helpTitle: 'Académie de Guerre — Aide',
+      helpTitle: 'Académie de Guerre : Aide',
       helpSummary: "Calcule le chemin de recherche TrueGold optimal selon ton objectif : valider un maximum de recherches, maximiser les points KvK, ou atteindre un score cible au moindre coût en poussières.",
     },
   };
@@ -125,27 +125,27 @@
       "Renseigne ton niveau d'Académie de Guerre (1–10) : il débloque les paliers de l'arbre.",
       "Sur l'arbre, touche le niveau de chaque recherche pour indiquer ta progression actuelle.",
       "Indique tes poussières d'Or Véritable, tes accélérateurs et ton bonus de vitesse.",
-      "Sous l'arbre, le panneau « Échanges de poussière » sert à en acheter : une ligne par échange du jeu, que tu coches ou non. Saisis les pièces et le TrueGold que tu acceptes d'y mettre — le champ dit bien « TrueGold à convertir », pas « ton stock » : le même TrueGold sert à monter tes bâtiments sur la page TrueGold, et l'outil ne décide pas à ta place combien tu veux y laisser. Décoche les deux lignes TrueGold et le plan n'y touchera jamais.",
-      "Renseigne les échanges déjà faits cette semaine : ils entament le plafond (200 pour les pièces, 20 pour l'échange à 5 TrueGold), pas ton stock. Attention, un plafond atteint change le conseil : l'échange à 5 TrueGold rend 13 poussières, celui à 10 TrueGold aussi — donc deux fois moins par TrueGold. Une fois tes 20 échanges à 5 TG consommés, le plan se rabat sur le second et ton or rapporte moitié moins.",
+      "Sous l'arbre, le panneau « Échanges de poussière » sert à en acheter : une ligne par échange du jeu, que tu coches ou non. Saisis les pièces et le TrueGold que tu acceptes d'y mettre. Le champ dit bien « TrueGold à convertir », pas « ton stock » : le même TrueGold sert à monter tes bâtiments sur la page TrueGold, et l'outil ne décide pas à ta place combien tu veux y laisser. Décoche les deux lignes TrueGold et le plan n'y touchera jamais.",
+      "Renseigne les échanges déjà faits cette semaine : ils entament le plafond (200 pour les pièces, 20 pour l'échange à 5 TrueGold), pas ton stock. Attention, un plafond atteint change le conseil : l'échange à 5 TrueGold rend 13 poussières, celui à 10 TrueGold aussi, donc deux fois moins par TrueGold. Une fois tes 20 échanges à 5 TG consommés, le plan se rabat sur le second et ton or rapporte moitié moins.",
       "Les recherches coûtent aussi des PIÈCES, et beaucoup : près de 900 000 sur un plan d'un mois. Laisse « Pièces disponibles » à zéro et l'outil se contente de t'annoncer la quantité nécessaire, à vérifier en jeu. Renseigne-les et elles bornent le plan : il partage alors tes pièces entre ce que coûtent les recherches et ce que coûtent les échanges, et ne te propose jamais un plan que tu ne peux pas payer.",
       "Coche les arbres (Infanterie / Archers / Cavalerie) à inclure dans la suggestion.",
       "Choisis le mode : Max recherches, KvK (max points) ou Score cible.",
       "Lis la stratégie : les recherches à monter, les poussières, les pièces et le temps nécessaires, et les points KvK.",
-      "Si le plan a besoin d'échanges, ils sont listés en tête du résultat, avant les recherches — c'est l'ordre à suivre en jeu, il faut la poussière en main avant de lancer la première recherche. Les trois nombres qui suivent (« Tes stocks une fois les échanges faits ») sont ceux à recopier dans tes saisies pour démarrer.",
-      "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux de recherche passent à ceux du plan, et tes poussières, accélérateurs, pièces et TrueGold sont réduits d'autant — compteurs d'échanges hebdomadaires compris. L'outil enchaîne alors sur la suggestion suivante.",
+      "Si le plan a besoin d'échanges, ils sont listés en tête du résultat, avant les recherches : c'est l'ordre à suivre en jeu, il faut la poussière en main avant de lancer la première recherche. Les trois nombres qui suivent (« Tes stocks une fois les échanges faits ») sont ceux à recopier dans tes saisies pour démarrer.",
+      "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux de recherche passent à ceux du plan, et tes poussières, accélérateurs, pièces et TrueGold sont réduits d'autant, compteurs d'échanges hebdomadaires compris. L'outil enchaîne alors sur la suggestion suivante.",
     ],
     EN: [
       'Set your War Academy level (1–10): it unlocks the tree tiers.',
       'On the tree, tap each research level to set your current progress.',
       'Enter your TrueGold Dust, your speedups and your speed bonus.',
-      'Below the tree, the "Dust Exchanges" panel buys more of it: one row per exchange in the game, ticked or not. Enter the coins and the TrueGold you agree to spend — the field says "TrueGold to convert", not "your stock": the same TrueGold pays for your buildings on the TrueGold page, and the tool does not get to decide how deep into it you go. Untick both TrueGold rows and the plan will never touch it.',
-      'Fill in the exchanges you have already made this week: they eat into the cap (200 for coins, 20 for the 5-TrueGold one), not into your stock. A maxed cap changes the advice: the 5-TrueGold exchange gives 13 dust and so does the 10-TrueGold one — half as much per TrueGold. Once your 20 five-TG exchanges are spent, the plan falls back on the second and your gold buys half the dust.',
+      'Below the tree, the "Dust Exchanges" panel buys more of it: one row per exchange in the game, ticked or not. Enter the coins and the TrueGold you agree to spend. The field says "TrueGold to convert", not "your stock": the same TrueGold pays for your buildings on the TrueGold page, and the tool does not get to decide how deep into it you go. Untick both TrueGold rows and the plan will never touch it.',
+      'Fill in the exchanges you have already made this week: they eat into the cap (200 for coins, 20 for the 5-TrueGold one), not into your stock. A maxed cap changes the advice: the 5-TrueGold exchange gives 13 dust and so does the 10-TrueGold one, half as much per TrueGold. Once your 20 five-TG exchanges are spent, the plan falls back on the second and your gold buys half the dust.',
       'Researches cost COINS too, and plenty: close to 900,000 across a month-long plan. Leave "Coins available" at zero and the tool simply tells you how many you will need, to check in game. Fill it in and it bounds the plan: your coins are then split between what the researches cost and what the exchanges cost, and you are never handed a plan you cannot pay for.',
       'Tick the trees (Infantry / Archer / Cavalry) to include in the suggestion.',
       'Pick a mode: Max researches, KvK (max points), or Target score.',
       'Read the strategy: which researches to level, the dust, coins and time needed, and the KvK points.',
-      'If the plan needs exchanges, they are listed at the top of the result, before the researches — that is the order to follow in game, since you need the dust in hand before starting the first research. The three figures that follow ("your stocks once exchanged") are the ones to copy back into your inputs to get going.',
-      'Once you\'ve carried the plan out in game, click “Apply these changes” at the bottom of the result: after confirming, your research levels jump to the plan\'s, and your dust, speedups, coins and TrueGold go down accordingly — weekly exchange counters included. The tool then moves on to the next suggestion.',
+      'If the plan needs exchanges, they are listed at the top of the result, before the researches: that is the order to follow in game, since you need the dust in hand before starting the first research. The three figures that follow ("your stocks once exchanged") are the ones to copy back into your inputs to get going.',
+      'Once you\'ve carried the plan out in game, click “Apply these changes” at the bottom of the result: after confirming, your research levels jump to the plan\'s, and your dust, speedups, coins and TrueGold go down accordingly, weekly exchange counters included. The tool then moves on to the next suggestion.',
     ],
   };
 
@@ -974,8 +974,8 @@
 
     const diff = availMin - tot.effTimeMin;
     const speedChip = diff >= 0
-      ? `<span class="wa-chip wa-chip-ok">${t('cSpeedHave')}: ${fmtTime(availMin)} — <b>${fmtTime(diff)} ${t('cSpare')}</b></span>`
-      : `<span class="wa-chip wa-chip-warn">${t('cSpeedHave')}: ${fmtTime(availMin)} — <b>${t('cMissing')} ${fmtTime(-diff)}</b></span>`;
+      ? `<span class="wa-chip wa-chip-ok">${t('cSpeedHave')}: ${fmtTime(availMin)} · <b>${fmtTime(diff)} ${t('cSpare')}</b></span>`
+      : `<span class="wa-chip wa-chip-warn">${t('cSpeedHave')}: ${fmtTime(availMin)} · <b>${t('cMissing')} ${fmtTime(-diff)}</b></span>`;
 
     let chips =
       `<span class="wa-chip"><b>${order.length}</b> ${t('cResearch')} · <b>${tot.count}</b> ${t('cLevels')}</span>` +
@@ -1119,7 +1119,7 @@
   // ---------------- i18n apply + startup ----------------
   function applyI18n() {
     if (window.GlobalLang) window.GlobalLang.applyI18n(i18n[lang()]);
-    document.title = (lang() === 'EN' ? 'TrueGold War Academy' : 'Académie de Guerre TrueGold') + ' — Kingshot Toolbox';
+    document.title = (lang() === 'EN' ? 'TrueGold War Academy' : 'Académie de Guerre TrueGold') + ' | Kingshot Toolbox';
   }
 
   function initHelp() {

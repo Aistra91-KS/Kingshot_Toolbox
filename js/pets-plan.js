@@ -528,9 +528,9 @@
     FR: {
       tabWalk:"Promenade", tabPlan:"Plan d'avancement",
       title:"Plan d'avancement",
-      sub:"Dis ce que tu as en stock : l'outil cherche quels familiers avancer, et dans quel ordre, pour marquer le plus de points possible à l'événement. Il part des niveaux et des avancements que tu as saisis dans la promenade — seuls les <b>avancements</b> rapportent, la nourriture ne sert qu'à atteindre le cap suivant.",
+      sub:"Dis ce que tu as en stock : l'outil cherche quels familiers avancer, et dans quel ordre, pour marquer le plus de points possible à l'événement. Il part des niveaux et des avancements que tu as saisis dans la promenade. Seuls les <b>avancements</b> rapportent, la nourriture ne sert qu'à atteindre le cap suivant.",
       proven:"Aucun autre plan ne fait mieux avec ce stock.",
-      unproven:"Meilleur plan trouvé. Sur autant de familiers, l'outil n'a pas le temps de vérifier qu'il n'existe rien de mieux — décoche ceux que tu ne feras pas, il y arrivera.",
+      unproven:"Meilleur plan trouvé. Sur autant de familiers, l'outil n'a pas le temps de vérifier qu'il n'existe rien de mieux. Décoche ceux que tu ne feras pas, il y arrivera.",
       chestInto:"ouverts en : ",
       applyBtn:"Appliquer les modifications",
       applyHint:"Met à jour tes niveaux de familiers et ton stock comme si tu venais de réaliser ce plan en jeu.",
@@ -538,11 +538,11 @@
       applyPets:"Familiers avancés", applyStock:"Stock", applyGain:"Points gagnés",
       applyAdv:"avancements", applyAdv1:"avancement", applyNone:"plus rien",
       applyWarn:"⚠️ Tes niveaux et ton stock actuels seront remplacés. À ne faire qu'une fois le plan réalisé en jeu.",
-      applyDone:"✅ Plan appliqué — niveaux et stock mis à jour.",
+      applyDone:"✅ Plan appliqué : niveaux et stock mis à jour.",
       stock:"Ton stock", reset:"Tout remettre à zéro",
       petsFilter:"Familiers retenus", petsCount:"{n} / {t}",
       allOn:"Tout cocher", allOff:"Tout décocher", onlyStarted:"Seulement les commencés",
-      onlyStartedTip:"Décoche les familiers restés au niveau 1 sans aucun avancement — ceux que tu n'as sans doute pas encore débloqués",
+      onlyStartedTip:"Décoche les familiers restés au niveau 1 sans aucun avancement, ceux que tu n'as sans doute pas encore débloqués",
       onlyStartedNone:"Rien à trier : aucun familier n'a encore de niveau saisi dans l'onglet Promenade",
       nonePicked:"Aucun familier retenu. Coche-en au moins un dans « Familiers retenus » pour obtenir un plan.",
       excluded:"{n} familier(s) mis de côté : ni le plan ni le classement ne les proposent.",
@@ -568,21 +568,21 @@
       blocked:"Ce qui t'arrête", blockedIntro:"Le prochain avancement le plus payant, et ce qu'il te manque :",
       missing:"Il te manque", orWord:"ou", opens:"coffres",
       foodOnly:"aucun coffre n'en donne",
-      chestMore:"de plus — tu en as {have} sur les {need} qu'il faudrait",
+      chestMore:"de plus, tu en as {have} sur les {need} qu'il faudrait",
       allTitle:"Tous les avancements possibles, du plus rentable au moins rentable",
       rankNote:"Ce classement n'est pas l'ordre à suivre : il compare les avancements un par un, sans tenir compte de ton stock. L'ordre à suivre, c'est le plan ci-dessus.",
       allCount:"{n} avancements",
       colPet:"Familier", colAdv:"Avancement", colPts:"Points", colFood:"Nourriture",
       colMan:"Manuels", colPot:"Potions", colMed:"Médailles", colEff:"Points / coffre",
-      legend:"Le prix est ramené en <b>équivalents coffre</b> : un coffre vaut {rates} — la seule monnaie commune entre les trois matériaux. Les lignes en vert sont celles que ton stock permet de faire.",
+      legend:"Le prix est ramené en <b>équivalents coffre</b> : un coffre vaut {rates}, la seule monnaie commune entre les trois matériaux. Les lignes en vert sont celles que ton stock permet de faire.",
       orWordPlain:"ou",
     },
     EN: {
       tabWalk:"Trail", tabPlan:"Advancement plan",
       title:"Advancement plan",
-      sub:"Tell it what you have in stock: the tool looks for which pets to advance, and in what order, to score the most event points. It starts from the levels and advancements you entered on the trail — only <b>advancements</b> score, pet food is just the toll to reach the next cap.",
+      sub:"Tell it what you have in stock: the tool looks for which pets to advance, and in what order, to score the most event points. It starts from the levels and advancements you entered on the trail. Only <b>advancements</b> score, pet food is just the toll to reach the next cap.",
       proven:"No other plan does better with this stock.",
-      unproven:"Best plan found. Over this many pets the tool cannot check in time that nothing better exists — untick the ones you will not do and it will.",
+      unproven:"Best plan found. Over this many pets the tool cannot check in time that nothing better exists. Untick the ones you will not do and it will.",
       chestInto:"opened as: ",
       applyBtn:"Apply these changes",
       applyHint:"Updates your pet levels and your stock as if you had just carried this plan out in game.",
@@ -590,11 +590,11 @@
       applyPets:"Pets advanced", applyStock:"Stock", applyGain:"Points earned",
       applyAdv:"advancements", applyAdv1:"advancement", applyNone:"none left",
       applyWarn:"⚠️ Your current levels and stock will be replaced. Only do this once you have carried the plan out in game.",
-      applyDone:"✅ Plan applied — levels and stock updated.",
+      applyDone:"✅ Plan applied: levels and stock updated.",
       stock:"Your stock", reset:"Reset everything",
       petsFilter:"Pets in the plan", petsCount:"{n} / {t}",
       allOn:"Tick all", allOff:"Untick all", onlyStarted:"Only the started ones",
-      onlyStartedTip:"Unticks pets still at level 1 with no advancement — the ones you probably have not unlocked yet",
+      onlyStartedTip:"Unticks pets still at level 1 with no advancement, the ones you probably have not unlocked yet",
       onlyStartedNone:"Nothing to sort: no pet has a level entered on the Trail tab yet",
       nonePicked:"No pet selected. Tick at least one under \u00ab Pets in the plan \u00bb to get a plan.",
       excluded:"{n} pet(s) set aside: neither the plan nor the ranking will suggest them.",
@@ -620,13 +620,13 @@
       blocked:"What stops you", blockedIntro:"The most rewarding advancement left, and what you are short of:",
       missing:"You are short of", orWord:"or", opens:"chests",
       foodOnly:"no chest gives any",
-      chestMore:"more — you have {have} of the {need} needed",
+      chestMore:"more, you have {have} of the {need} needed",
       allTitle:"Every advancement left, most rewarding first",
       rankNote:"This ranking is not the order to follow: it compares advancements one by one, ignoring your stock. The order to follow is the plan above.",
       allCount:"{n} advancements",
       colPet:"Pet", colAdv:"Advancement", colPts:"Points", colFood:"Pet Food",
       colMan:"Manuals", colPot:"Potions", colMed:"Medallions", colEff:"Points / chest",
-      legend:"Prices are converted into <b>chest equivalents</b>: one chest is {rates} — the only common currency the game gives between the three materials. Green rows are the ones your stock can pay for.",
+      legend:"Prices are converted into <b>chest equivalents</b>: one chest is {rates}, the only common currency the game gives between the three materials. Green rows are the ones your stock can pay for.",
       orWordPlain:"or",
     }
   };
@@ -1041,7 +1041,7 @@
             '<img class="pp-thumb" src="img/pets/' + esc(st.petId) + '.webp" alt="" loading="lazy">' +
             '<div class="pp-step-txt">' +
               '<div class="pp-step-nm"><span class="pp-gen" style="--rc:var(--gen-' + (p.generation || 1) + ')"></span>' +
-                esc(p.name ? p.name[L()] : st.petId) + ' — ' + esc(s.advTo) + ' ' + st.cap + '</div>' +
+                esc(p.name ? p.name[L()] : st.petId) + ' · ' + esc(s.advTo) + ' ' + st.cap + '</div>' +
               '<div class="pp-step-meta">' +
                 '<span class="pp-lvl">' + (st.fromLevel < st.cap
                     ? esc(s.fromTo.replace("{a}", st.fromLevel).replace("{b}", st.cap))
@@ -1088,8 +1088,8 @@
           '<span class="pp-miss-alt"><span class="pp-miss-or">' + esc(s.orWord) + '</span>' +
           chip("chest", m.chestsShort) + note + '</span></div>');
       }
-      blockHTML = '<div class="pp-note" style="margin-top:14px"><b>' + esc(s.blocked) + '</b> — ' + esc(s.blockedIntro) +
-        '<div class="pp-miss-nm">' + esc(p.name ? p.name[L()] : r.petId) + ' — ' + esc(s.advTo) + ' ' + r.cap +
+      blockHTML = '<div class="pp-note" style="margin-top:14px"><b>' + esc(s.blocked) + '</b> · ' + esc(s.blockedIntro) +
+        '<div class="pp-miss-nm">' + esc(p.name ? p.name[L()] : r.petId) + ' · ' + esc(s.advTo) + ' ' + r.cap +
         ' (+' + fmt(r.points) + ' ' + esc(s.points) + ')</div>' +
         '<div class="pp-miss"><span class="pp-miss-lead">' + esc(s.missing) + '</span>' + rows.join("") + '</div></div>';
     }

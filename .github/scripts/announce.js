@@ -150,7 +150,7 @@ if (perLangPing) {
 
 (async () => {
   if (dryRun) {
-    console.log(`APERÇU — ${messages.length} message(s), FR ${fr.length} car. / EN ${en.length} car.`);
+    console.log(`APERÇU : ${messages.length} message(s), FR ${fr.length} car. / EN ${en.length} car.`);
     console.log(JSON.stringify(messages, null, 2));
     return;
   }

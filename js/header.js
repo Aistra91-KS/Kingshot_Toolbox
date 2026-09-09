@@ -114,7 +114,7 @@ function hdrRenderCategories() {
   const cats = S.categories || [];
   const items = cats.map(c => ({
     value: c.id,
-    label: hdrT(c.name) + (c.status !== 'active' ? ' — ' + hdrT(S.ui.soon) : ''),
+    label: hdrT(c.name) + (c.status !== 'active' ? ' · ' + hdrT(S.ui.soon) : ''),
     disabled: c.status !== 'active'
   }));
   hdrBuildDropdown('hdr-cat', items, HDR_SELECTED_CAT, (val) => {
@@ -308,7 +308,7 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
 
 // ---------- Construction + injection ----------
 (function buildHeader() {
-  if (!window.SITE) { console.error('site-config.js manquant — header non généré.'); return; }
+  if (!window.SITE) { console.error('site-config.js manquant : header non généré.'); return; }
   const S = window.SITE;
 
   // Favicon — filet de sécurité uniquement : les 3 <link> sont écrits en dur dans le <head>

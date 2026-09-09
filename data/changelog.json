@@ -1,10 +1,10 @@
 {
   "_meta": {
-    "note": "Historique des mises à jour du site, rendu par changelog.html (js/changelog.js). PÉRIMÈTRE — ce n'est PAS un fourre-tout : on y met les évolutions et nouveautés des PAGES du site, ce que le joueur voit. Favicon, SEO, refactor, outillage, CI, documentation n'y entrent pas. Test : si ça ne change rien pour qui ouvre une page, ça n'y va pas. Entrées les plus récentes EN PREMIER. Les entrées antérieures au 17/08/2026 ont été reconstituées a posteriori à partir des annonces Discord (.github/news/announce.md dans l'historique git) et des commits.",
+    "note": "Historique des mises à jour du site, rendu par changelog.html (js/changelog.js). PÉRIMÈTRE : ce n'est PAS un fourre-tout : on y met les évolutions et nouveautés des PAGES du site, ce que le joueur voit. Favicon, SEO, refactor, outillage, CI, documentation n'y entrent pas. Test : si ça ne change rien pour qui ouvre une page, ça n'y va pas. Entrées les plus récentes EN PREMIER. Les entrées antérieures au 17/08/2026 ont été reconstituées a posteriori à partir des annonces Discord (.github/news/announce.md dans l'historique git) et des commits.",
     "types": "new = nouveauté · improved = amélioration · fixed = correctif",
-    "howto": "C'EST PAUL QUI DÉCIDE QUAND LA VERSION CHANGE : ne jamais ajouter de version ni incrémenter SITE.version de sa propre initiative — le proposer et attendre son accord. Une fois décidé, ajouter une version = 1 objet en tête de releases[] + incrémenter SITE.version dans js/site-config.js (même numéro). href est facultatif : chemin relatif à la racine du site.",
+    "howto": "C'EST PAUL QUI DÉCIDE QUAND LA VERSION CHANGE : ne jamais ajouter de version ni incrémenter SITE.version de sa propre initiative. Le proposer et attendre son accord. Une fois décidé, ajouter une version = 1 objet en tête de releases[] + incrémenter SITE.version dans js/site-config.js (même numéro). href est facultatif : chemin relatif à la racine du site.",
     "versioning": "MAJEURE.FONCTIONNALITE.CORRECTIF. Le 2e chiffre monte pour une FONCTIONNALITÉ : nouvel outil, nouvelle page, refonte d'une section, gros changement de structure. Le 3e monte pour tout le reste : ajout de contenu (une boutique de plus), petite amélioration, correctif. Après la v1.13.1, une boutique ajoutée donne la v1.13.2, un nouvel outil donne la v1.14.0. Les versions 0.x sont antérieures à cette règle et gardent leur numérotation d'origine.",
-    "schema": "release = {version, date, changes[]} — PAS de titre de version : l'en-tête ne porte que le numéro et la date. change = {type, title{EN,FR}, text{EN,FR}, href?, linkLabel?{EN,FR}} : chaque modification porte SON titre, pour qu'elle se lise seule. `title` est optionnel — les versions 0.x n'en ont pas et s'affichent en description seule."
+    "schema": "release = {version, date, changes[]}, PAS de titre de version : l'en-tête ne porte que le numéro et la date. change = {type, title{EN,FR}, text{EN,FR}, href?, linkLabel?{EN,FR}} : chaque modification porte SON titre, pour qu'elle se lise seule. `title` est optionnel : les versions 0.x n'en ont pas et s'affichent en description seule."
   },
   "releases": [
     {
@@ -18,8 +18,8 @@
             "FR": "Un plan pour avancer tes familiers"
           },
           "text": {
-            "EN": "The Pets page gets a second tab. Tell it what you have — pet food, growth manuals, nutrient potions, promotion medallions and the advancement chests — and it works out which pets to advance, in what order, and how many points that scores in the Beast Training event. Only advancements score; pet food is just the toll to reach the next cap. The chest is a choice and not a bundle — 7 manuals, or 2 potions, or 1 medallion — so the tool decides the split for you and tells you how many to open as what. It starts from the levels you already entered on the trail, and you can untick the pets you have not unlocked: they leave the plan, the ranking and the « what stops you » line at once.",
-            "FR": "La page Familiers gagne un second onglet. Dis-lui ce que tu as — nourriture, manuels de croissance, potions nutritives, médaillons de promotion et coffres d'avancement — et il cherche quels familiers avancer, dans quel ordre, et combien de points ça rapporte à l'événement Entraînement Animalier. Seuls les avancements rapportent ; la nourriture n'est qu'un péage vers le cap suivant. Le coffre est un choix et non un lot — 7 manuels, ou 2 potions, ou 1 médaillon — alors l'outil tranche la répartition à ta place et te dit combien en ouvrir en quoi. Il part des niveaux que tu as saisis dans la promenade, et tu peux décocher les familiers que tu n'as pas débloqués : ils quittent d'un coup le plan, le classement et la ligne « ce qui t'arrête »."
+            "EN": "The Pets page gets a second tab. Tell it what you have (pet food, growth manuals, nutrient potions, promotion medallions and the advancement chests) and it works out which pets to advance, in what order, and how many points that scores in the Beast Training event. Only advancements score; pet food is just the toll to reach the next cap. The chest is a choice and not a bundle (7 manuals, or 2 potions, or 1 medallion), so the tool decides the split for you and tells you how many to open as what. It starts from the levels you already entered on the trail, and you can untick the pets you have not unlocked: they leave the plan, the ranking and the « what stops you » line at once.",
+            "FR": "La page Familiers gagne un second onglet. Dis-lui ce que tu as (nourriture, manuels de croissance, potions nutritives, médaillons de promotion et coffres d'avancement) et il cherche quels familiers avancer, dans quel ordre, et combien de points ça rapporte à l'événement Entraînement Animalier. Seuls les avancements rapportent ; la nourriture n'est qu'un péage vers le cap suivant. Le coffre est un choix et non un lot (7 manuels, ou 2 potions, ou 1 médaillon), alors l'outil tranche la répartition à ta place et te dit combien en ouvrir en quoi. Il part des niveaux que tu as saisis dans la promenade, et tu peux décocher les familiers que tu n'as pas débloqués : ils quittent d'un coup le plan, le classement et la ligne « ce qui t'arrête »."
           },
           "href": "pets",
           "linkLabel": {
@@ -34,8 +34,8 @@
             "FR": "Coche le plan une fois réalisé en jeu"
           },
           "text": {
-            "EN": "The same button TrueGold and the War Academy already have. Once you have carried the plan out in game, it shows exactly what will change, waits for you to confirm, then moves your pets up to the levels in the plan, ticks their advancements, and leaves your stock at what remains — including the spare materials a chest handed over. The trail picks the new levels up straight away, and the plan moves on to what you can do next.",
-            "FR": "Le même bouton que sur TrueGold et l'Académie de Guerre. Une fois le plan réalisé en jeu, il montre exactement ce qui va changer, attend ta confirmation, puis fait monter tes familiers aux niveaux du plan, coche leurs avancements et laisse ton stock à ce qu'il reste — les matériaux qu'un coffre a versés en trop compris. La promenade reprend les nouveaux niveaux immédiatement, et le plan enchaîne sur ce que tu peux faire ensuite."
+            "EN": "The same button TrueGold and the War Academy already have. Once you have carried the plan out in game, it shows exactly what will change, waits for you to confirm, then moves your pets up to the levels in the plan, ticks their advancements, and leaves your stock at what remains, including the spare materials a chest handed over. The trail picks the new levels up straight away, and the plan moves on to what you can do next.",
+            "FR": "Le même bouton que sur TrueGold et l'Académie de Guerre. Une fois le plan réalisé en jeu, il montre exactement ce qui va changer, attend ta confirmation, puis fait monter tes familiers aux niveaux du plan, coche leurs avancements et laisse ton stock à ce qu'il reste, les matériaux qu'un coffre a versés en trop compris. La promenade reprend les nouveaux niveaux immédiatement, et le plan enchaîne sur ce que tu peux faire ensuite."
           },
           "href": "pets",
           "linkLabel": {
@@ -56,8 +56,8 @@
             "FR": "Guides et Plans de Talisman coûtent moins cher que la page ne le disait"
           },
           "text": {
-            "EN": "A pack the survey had not seen yet, the Custom Forging Set, hands out 72 Charm Guides and 78 Charm Designs for the price the Master's Collections asked for 65. Both drop in real money - the Guide by 10 %, the Design by 17 % - and the Governor Charm Material Chest, which is worth what it hands back, follows them down 13 %. Gem values are untouched: the two readings never talk to each other.",
-            "FR": "Un pack que le relevé n'avait pas encore vu, l'Ensemble de Forge Personnalisé, donne 72 Guides de Talisman et 78 Plans de Talisman pour le prix auquel les Collections d'Expert en donnaient 65. Les deux baissent en argent réel — le Guide de 10 %, les Plans de 17 % — et la Caisse de Matériaux de Talisman, qui vaut ce qu'elle rend, les suit de 13 %. Les valeurs en gemmes ne bougent pas : les deux lectures ne se parlent jamais."
+            "EN": "A pack the survey had not seen yet, the Custom Forging Set, hands out 72 Charm Guides and 78 Charm Designs for the price the Master's Collections asked for 65. Both drop in real money (the Guide by 10 %, the Design by 17 %), and the Governor Charm Material Chest, which is worth what it hands back, follows them down 13 %. Gem values are untouched: the two readings never talk to each other.",
+            "FR": "Un pack que le relevé n'avait pas encore vu, l'Ensemble de Forge Personnalisé, donne 72 Guides de Talisman et 78 Plans de Talisman pour le prix auquel les Collections d'Expert en donnaient 65. Les deux baissent en argent réel (le Guide de 10 %, les Plans de 17 %), et la Caisse de Matériaux de Talisman, qui vaut ce qu'elle rend, les suit de 13 %. Les valeurs en gemmes ne bougent pas : les deux lectures ne se parlent jamais."
           },
           "href": "shop/items-euro",
           "linkLabel": {
@@ -88,8 +88,8 @@
             "FR": "Le planificateur d'Académie de Guerre peut acheter ta poussière"
           },
           "text": {
-            "EN": "Dust is not only picked up in game: three exchanges produce it every week, and the plan can now count on them. A new panel between the tree and the suggestion gives each exchange its own row, ticked or not — untick the two TrueGold ones and the plan will never touch your stock. Enter what you are willing to spend and how many exchanges you have already made this week; the tool converts only what the plan really needs, and lists the exchanges to make before the researches, since you need the dust in hand before starting the first one.",
-            "FR": "La poussière ne se ramasse pas qu'en jeu : trois échanges en produisent chaque semaine, et le plan peut désormais compter dessus. Un panneau entre l'arbre et la suggestion donne une ligne à chaque échange, que tu coches ou non — décoche les deux lignes TrueGold et le plan n'y touchera jamais. Saisis ce que tu acceptes d'y mettre et les échanges déjà faits cette semaine ; l'outil ne convertit que ce dont le plan a vraiment besoin, et liste les échanges à faire avant les recherches, puisqu'il faut la poussière en main avant de lancer la première."
+            "EN": "Dust is not only picked up in game: three exchanges produce it every week, and the plan can now count on them. A new panel between the tree and the suggestion gives each exchange its own row, ticked or not. Untick the two TrueGold ones and the plan will never touch your stock. Enter what you are willing to spend and how many exchanges you have already made this week; the tool converts only what the plan really needs, and lists the exchanges to make before the researches, since you need the dust in hand before starting the first one.",
+            "FR": "La poussière ne se ramasse pas qu'en jeu : trois échanges en produisent chaque semaine, et le plan peut désormais compter dessus. Un panneau entre l'arbre et la suggestion donne une ligne à chaque échange, que tu coches ou non. Décoche les deux lignes TrueGold et le plan n'y touchera jamais. Saisis ce que tu acceptes d'y mettre et les échanges déjà faits cette semaine ; l'outil ne convertit que ce dont le plan a vraiment besoin, et liste les échanges à faire avant les recherches, puisqu'il faut la poussière en main avant de lancer la première."
           },
           "href": "waracademy"
         },
@@ -100,8 +100,8 @@
             "FR": "Les plans d'Académie de Guerre n'oublient plus ce qu'ils coûtent en pièces"
           },
           "text": {
-            "EN": "Every research level costs coins — close to 900,000 across a month-long plan — and the planner was not reading that at all. It could hand you a plan you simply could not pay for. Leave the coins field empty and it now tells you how many you will need; fill it in and it bounds the plan, splitting your coins between what the researches cost and what the exchanges cost.",
-            "FR": "Chaque niveau de recherche coûte des pièces — près de 900 000 sur un plan d'un mois — et le planificateur ne les lisait pas du tout. Il pouvait donc te proposer un plan que tu ne pouvais pas payer. Laisse le champ des pièces vide et il t'annonce désormais la quantité nécessaire ; renseigne-le et il borne le plan, en partageant tes pièces entre ce que coûtent les recherches et ce que coûtent les échanges."
+            "EN": "Every research level costs coins, close to 900,000 across a month-long plan, and the planner was not reading that at all. It could hand you a plan you simply could not pay for. Leave the coins field empty and it now tells you how many you will need; fill it in and it bounds the plan, splitting your coins between what the researches cost and what the exchanges cost.",
+            "FR": "Chaque niveau de recherche coûte des pièces, près de 900 000 sur un plan d'un mois, et le planificateur ne les lisait pas du tout. Il pouvait donc te proposer un plan que tu ne pouvais pas payer. Laisse le champ des pièces vide et il t'annonce désormais la quantité nécessaire ; renseigne-le et il borne le plan, en partageant tes pièces entre ce que coûtent les recherches et ce que coûtent les échanges."
           },
           "href": "waracademy"
         }
@@ -118,8 +118,8 @@
             "FR": "Les temps de construction étaient trop courts avec le Loup Gris"
           },
           "text": {
-            "EN": "The TrueGold planner treated the Grey Wolf as a cut on the time left instead of what it is: a construction speed bonus, added up with your Speed, Ground Works and KVK bonuses. Every build time came out about 15% short — a Town Center going TG7 to TG8 read 5d 20h when the game asked for 6d 18h. The wolf now sits with the other speed bonuses and counts towards the total shown. Careful though: your in-game speed stat already includes the wolf while its skill is up, so leave the box unchecked if that is when you read it. Double Time keeps its own line, because it alone cuts 20% off the base time on top of everything else.",
-            "FR": "Le planificateur TrueGold traitait le Loup Gris comme une coupe sur le temps restant au lieu de ce qu'il est : un bonus de vitesse de construction, qui s'additionne au Bonus Vitesse, au 1er Ministre et au KVK. Tous les temps sortaient environ 15 % trop courts — un Centre-ville qui passe de TG7 à TG8 affichait 5j 20h là où le jeu en demande 6j 18h. Le loup rejoint donc les autres bonus de vitesse et compte dans le total affiché. Attention toutefois : la stat de vitesse affichée en jeu l'inclut déjà quand sa compétence est active, donc laisse la case décochée si c'est à ce moment-là que tu l'as relevée. Les Bouchées Doubles gardent leur ligne à part, car elles seules coupent 20 % du temps de base en plus de tout le reste."
+            "EN": "The TrueGold planner treated the Grey Wolf as a cut on the time left instead of what it is: a construction speed bonus, added up with your Speed, Ground Works and KVK bonuses. Every build time came out about 15% short. A Town Center going TG7 to TG8 read 5d 20h when the game asked for 6d 18h. The wolf now sits with the other speed bonuses and counts towards the total shown. Careful though: your in-game speed stat already includes the wolf while its skill is up, so leave the box unchecked if that is when you read it. Double Time keeps its own line, because it alone cuts 20% off the base time on top of everything else.",
+            "FR": "Le planificateur TrueGold traitait le Loup Gris comme une coupe sur le temps restant au lieu de ce qu'il est : un bonus de vitesse de construction, qui s'additionne au Bonus Vitesse, au 1er Ministre et au KVK. Tous les temps sortaient environ 15 % trop courts. Un Centre-ville qui passe de TG7 à TG8 affichait 5j 20h là où le jeu en demande 6j 18h. Le loup rejoint donc les autres bonus de vitesse et compte dans le total affiché. Attention toutefois : la stat de vitesse affichée en jeu l'inclut déjà quand sa compétence est active, donc laisse la case décochée si c'est à ce moment-là que tu l'as relevée. Les Bouchées Doubles gardent leur ligne à part, car elles seules coupent 20 % du temps de base en plus de tout le reste."
           },
           "href": "truegold_calc"
         }
@@ -169,8 +169,8 @@
             "FR": "Le Magasin du Théâtre et ses trois paliers de prix"
           },
           "text": {
-            "EN": "The Theater Shop, the store of the Fantasy Theater event, now has its page. It is the first shop that sells the same offer three times over at three rising prices, so a new Tier column marks each line with its price step - gold, purple, blue, like the card colours in game. The table still ranks everything by value, which is what makes the ladder readable: Mithril at tier 2 is still a better buy than TrueGold at tier 1. The page also has a French address of its own, a first on the site.",
-            "FR": "Le Magasin du Théâtre, la boutique de l'événement Théâtre Fantastique, a sa page. C'est la première boutique qui vend la même offre trois fois à trois prix croissants : une colonne « Palier » marque donc chaque ligne de son cran de prix — or, violet, bleu, comme les couleurs des cartes en jeu. Le tableau continue de tout classer par rentabilité, et c'est ce qui rend l'échelle lisible : le Mithril au palier 2 reste un meilleur achat que l'Or Véritable au palier 1. La page a aussi sa propre adresse française, une première sur le site."
+            "EN": "The Theater Shop, the store of the Fantasy Theater event, now has its page. It is the first shop that sells the same offer three times over at three rising prices, so a new Tier column marks each line with its price step: gold, purple, blue, like the card colours in game. The table still ranks everything by value, which is what makes the ladder readable: Mithril at tier 2 is still a better buy than TrueGold at tier 1. The page also has a French address of its own, a first on the site.",
+            "FR": "Le Magasin du Théâtre, la boutique de l'événement Théâtre Fantastique, a sa page. C'est la première boutique qui vend la même offre trois fois à trois prix croissants : une colonne « Palier » marque donc chaque ligne de son cran de prix : or, violet, bleu, comme les couleurs des cartes en jeu. Le tableau continue de tout classer par rentabilité, et c'est ce qui rend l'échelle lisible : le Mithril au palier 2 reste un meilleur achat que l'Or Véritable au palier 1. La page a aussi sa propre adresse française, une première sur le site."
           }
         }
       ]
@@ -186,8 +186,8 @@
             "FR": "Un bouton « Un retour ? » sur chaque page"
           },
           "text": {
-            "EN": "A Feedback button now sits in the header of every page, and in the side menu on phones. It opens a short form: say whether it is a bug, a wrong value, an idea or something else, write your message, leave your in-game name if you want a follow-up, and send. The form tells you exactly what travels with it - the page you were on, your language and the site version, nothing more - and confirms on screen once the message has really gone through. No account, no email address to give.",
-            "FR": "Un bouton « Un retour ? » est apparu dans l'en-tête de chaque page, et dans le menu latéral sur téléphone. Il ouvre un formulaire court : dis s'il s'agit d'un bug, d'une valeur erronée, d'une idée ou d'autre chose, écris ton message, laisse ton pseudo en jeu si tu veux un suivi, et envoie. Le formulaire annonce exactement ce qui part avec lui — la page où tu étais, ta langue et la version du site, rien de plus — et confirme à l'écran une fois le message vraiment arrivé. Aucun compte, aucune adresse mail à donner."
+            "EN": "A Feedback button now sits in the header of every page, and in the side menu on phones. It opens a short form: say whether it is a bug, a wrong value, an idea or something else, write your message, leave your in-game name if you want a follow-up, and send. The form tells you exactly what travels with it (the page you were on, your language and the site version, nothing more) and confirms on screen once the message has really gone through. No account, no email address to give.",
+            "FR": "Un bouton « Un retour ? » est apparu dans l'en-tête de chaque page, et dans le menu latéral sur téléphone. Il ouvre un formulaire court : dis s'il s'agit d'un bug, d'une valeur erronée, d'une idée ou d'autre chose, écris ton message, laisse ton pseudo en jeu si tu veux un suivi, et envoie. Le formulaire annonce exactement ce qui part avec lui (la page où tu étais, ta langue et la version du site, rien de plus) et confirme à l'écran une fois le message vraiment arrivé. Aucun compte, aucune adresse mail à donner."
           }
         }
       ]
@@ -207,7 +207,7 @@
           },
           "text": {
             "EN": "The Blizzard Shop joined the Shops section, with its seven items, their price in Brawl Emblems and the stock left on each one, plus the countdown to closing time. Six of the seven give back exactly the same value per emblem; the seventh, the 100 Enhancement XP Component, gives half as much, so it is the one line to leave alone.",
-            "FR": "Le Magasin du Blizzard rejoint la section Boutiques, avec ses sept objets, leur prix en Emblèmes de Duel et le stock restant sur chacun, plus le compte à rebours jusqu'à la fermeture. Six des sept rapportent exactement la même valeur par emblème ; le septième, les 100 Points d'EXP d'Amélioration, en rapporte deux fois moins — c'est la seule ligne à laisser de côté."
+            "FR": "Le Magasin du Blizzard rejoint la section Boutiques, avec ses sept objets, leur prix en Emblèmes de Duel et le stock restant sur chacun, plus le compte à rebours jusqu'à la fermeture. Six des sept rapportent exactement la même valeur par emblème ; le septième, les 100 Points d'EXP d'Amélioration, en rapporte deux fois moins, c'est la seule ligne à laisser de côté."
           },
           "href": "shop/blizzard-shop",
           "linkLabel": {
@@ -231,8 +231,8 @@
             "FR": "Prix en argent réel refaits sur 59 packs"
           },
           "text": {
-            "EN": "The real-money prices come from a new survey: 59 paid packs instead of 33. Three items turn out to be handed out in much bigger amounts than before, so they now cost far less per unit - Gilded Threads and Satin especially.",
-            "FR": "Les prix en argent réel viennent d'un nouveau relevé : 59 packs payants au lieu de 33. Trois objets se révèlent distribués en bien plus grande quantité qu'avant, et coûtent donc bien moins cher à l'unité - les Fils Dorés et le Satin en particulier."
+            "EN": "The real-money prices come from a new survey: 59 paid packs instead of 33. Three items turn out to be handed out in much bigger amounts than before, so they now cost far less per unit, Gilded Threads and Satin especially.",
+            "FR": "Les prix en argent réel viennent d'un nouveau relevé : 59 packs payants au lieu de 33. Trois objets se révèlent distribués en bien plus grande quantité qu'avant, et coûtent donc bien moins cher à l'unité, les Fils Dorés et le Satin en particulier."
           },
           "href": "shop/items-euro",
           "linkLabel": {
@@ -253,8 +253,8 @@
             "FR": "Ce qu'un événement t'a rendu, en pourcentage"
           },
           "text": {
-            "EN": "Two event shops now tell you what the whole event gave you back. Tick the packs you bought on each day - or nothing at all if you play for free - and the page adds up everything the event hands out: the daily missions, the free packs, the free tracks, the milestones and the contents of the packs themselves. It compares that to what you actually paid and shows a single percentage: 100% means you got your money back, and the colour runs from red to green as the deal gets better.",
-            "FR": "Deux boutiques d'événement te disent maintenant ce que l'événement entier t'a rapporté. Coche les packs achetés chaque jour - ou rien du tout si tu joues gratuitement - et la page additionne tout ce que l'événement distribue : les missions quotidiennes, les packs gratuits, les pistes gratuites, les paliers et le contenu des packs eux-mêmes. Elle compare le tout à ce que tu as réellement payé et affiche un seul pourcentage : 100 %, c'est ta mise récupérée, et la couleur va du rouge au vert à mesure que l'affaire s'améliore."
+            "EN": "Two event shops now tell you what the whole event gave you back. Tick the packs you bought on each day, or nothing at all if you play for free, and the page adds up everything the event hands out: the daily missions, the free packs, the free tracks, the milestones and the contents of the packs themselves. It compares that to what you actually paid and shows a single percentage: 100% means you got your money back, and the colour runs from red to green as the deal gets better.",
+            "FR": "Deux boutiques d'événement te disent maintenant ce que l'événement entier t'a rapporté. Coche les packs achetés chaque jour, ou rien du tout si tu joues gratuitement, et la page additionne tout ce que l'événement distribue : les missions quotidiennes, les packs gratuits, les pistes gratuites, les paliers et le contenu des packs eux-mêmes. Elle compare le tout à ce que tu as réellement payé et affiche un seul pourcentage : 100 %, c'est ta mise récupérée, et la couleur va du rouge au vert à mesure que l'affaire s'améliore."
           },
           "href": "shop/adventure-stall",
           "linkLabel": {
@@ -285,8 +285,8 @@
             "FR": "Chaque récompense détaillée, et décochable"
           },
           "text": {
-            "EN": "A breakdown lists every reward with its total in gems and in real money, and says where each quantity comes from - the missions, a pass, a milestone or a given pack. Untick anything you don't care about and it leaves the total, and the percentage, at once. Your answers are kept on your device, per event and per profile.",
-            "FR": "Un détail liste chaque récompense avec son total en gemmes et en argent réel, et indique d'où vient chaque quantité - les missions, un pass, un palier ou tel pack. Décoche ce qui ne t'intéresse pas : l'objet sort aussitôt du total, et du pourcentage. Tes réponses restent sur ton appareil, par événement et par profil."
+            "EN": "A breakdown lists every reward with its total in gems and in real money, and says where each quantity comes from: the missions, a pass, a milestone or a given pack. Untick anything you don't care about and it leaves the total, and the percentage, at once. Your answers are kept on your device, per event and per profile.",
+            "FR": "Un détail liste chaque récompense avec son total en gemmes et en argent réel, et indique d'où vient chaque quantité : les missions, un pass, un palier ou tel pack. Décoche ce qui ne t'intéresse pas : l'objet sort aussitôt du total, et du pourcentage. Tes réponses restent sur ton appareil, par événement et par profil."
           }
         }
       ]
@@ -362,8 +362,8 @@
             "FR": "Une page pour le prix réel des objets"
           },
           "text": {
-            "EN": "A new page lists the real-money price of every item that a paid pack can put a price on, along with the pack each price comes from - so any figure that looks wrong can be traced back to its source.",
-            "FR": "Une nouvelle page liste le prix en argent réel de chaque objet qu'un pack payant permet de chiffrer, avec le pack d'où vient chaque prix — pour qu'un chiffre qui paraît faux puisse être remonté à sa source."
+            "EN": "A new page lists the real-money price of every item that a paid pack can put a price on, along with the pack each price comes from, so any figure that looks wrong can be traced back to its source.",
+            "FR": "Une nouvelle page liste le prix en argent réel de chaque objet qu'un pack payant permet de chiffrer, avec le pack d'où vient chaque prix, pour qu'un chiffre qui paraît faux puisse être remonté à sa source."
           },
           "href": "shop/items-euro",
           "linkLabel": {
@@ -405,7 +405,7 @@
             "FR": "La boîte à outils a son adresse"
           },
           "text": {
-            "EN": "The site has moved to kingshottoolbox.com. Old links keep working and send you to the new address automatically, so nothing breaks — but pinned links and bookmarks are worth updating.",
+            "EN": "The site has moved to kingshottoolbox.com. Old links keep working and send you to the new address automatically, so nothing breaks, but pinned links and bookmarks are worth updating.",
             "FR": "Le site a déménagé sur kingshottoolbox.com. Les anciens liens continuent de fonctionner et redirigent tout seuls vers la nouvelle adresse : rien ne casse, mais les liens épinglés et les favoris méritent une mise à jour."
           }
         },
@@ -427,8 +427,8 @@
             "FR": "Une icône de site, et des descriptions de page plus claires"
           },
           "text": {
-            "EN": "The site icon now shows up in your browser tab, and every page states more clearly what it does — which is what search engines display.",
-            "FR": "L'icône du site apparaît maintenant dans l'onglet du navigateur, et chaque page annonce plus clairement ce qu'elle fait — c'est ce qu'affichent les moteurs de recherche."
+            "EN": "The site icon now shows up in your browser tab, and every page states more clearly what it does, which is what search engines display.",
+            "FR": "L'icône du site apparaît maintenant dans l'onglet du navigateur, et chaque page annonce plus clairement ce qu'elle fait, et c'est ce qu'affichent les moteurs de recherche."
           }
         },
         {
@@ -452,8 +452,8 @@
         {
           "type": "new",
           "text": {
-            "EN": "New “Quick Select” option on the Research tree tabs: tick the highest level you have reached and everything it requires gets ticked with it — up to 102 boxes in a single click.",
-            "FR": "Nouvelle option « Sélection rapide » sur les onglets d'arbre des Recherches : coche le niveau le plus haut que tu as atteint et tout ce qu'il exige se coche avec lui — jusqu'à 102 cases d'un seul clic."
+            "EN": "New “Quick Select” option on the Research tree tabs: tick the highest level you have reached and everything it requires gets ticked with it, up to 102 boxes in a single click.",
+            "FR": "Nouvelle option « Sélection rapide » sur les onglets d'arbre des Recherches : coche le niveau le plus haut que tu as atteint et tout ce qu'il exige se coche avec lui, jusqu'à 102 cases d'un seul clic."
           },
           "href": "research_calc"
         },
@@ -545,7 +545,7 @@
         {
           "type": "improved",
           "text": {
-            "EN": "Better-paying KvK plans. Both planners used to fall into the same trap — you could earn more points by unticking a building or a tree. TrueGold now explores every combination, and the War Academy commits to a prerequisite chain and finishes it: +4 to +6.5% points, with no case made worse.",
+            "EN": "Better-paying KvK plans. Both planners used to fall into the same trap: you could earn more points by unticking a building or a tree. TrueGold now explores every combination, and the War Academy commits to a prerequisite chain and finishes it: +4 to +6.5% points, with no case made worse.",
             "FR": "Des plans KvK plus rentables. Les deux planificateurs tombaient dans le même piège : tu pouvais gagner des points en décochant un bâtiment ou un arbre. TrueGold explore désormais toutes les combinaisons, et l'Académie sait s'engager dans une chaîne de prérequis et la terminer : +4 à +6,5 % de points, sans aucun cas dégradé."
           },
           "href": "waracademy"
@@ -571,8 +571,8 @@
         {
           "type": "new",
           "text": {
-            "EN": "Shop Value is now a summary sorted into three families — Event shops, Permanent shops and Chests — and each of the 12 shops has its own page. Finished event shops don't disappear: their card turns grey but stays clickable.",
-            "FR": "Valeur Boutique est devenu un sommaire rangé en trois familles — Boutiques d'Événement, Boutiques Permanentes et Coffres — et chacune des 12 boutiques a sa page. Les boutiques d'événement terminées ne disparaissent plus : leur carte passe en grisé mais reste cliquable."
+            "EN": "Shop Value is now a summary sorted into three families (Event shops, Permanent shops and Chests), and each of the 12 shops has its own page. Finished event shops don't disappear: their card turns grey but stays clickable.",
+            "FR": "Valeur Boutique est devenu un sommaire rangé en trois familles (Boutiques d'Événement, Boutiques Permanentes et Coffres), et chacune des 12 boutiques a sa page. Les boutiques d'événement terminées ne disparaissent plus : leur carte passe en grisé mais reste cliquable."
           },
           "href": "shop_calc"
         },
@@ -679,7 +679,7 @@
         {
           "type": "improved",
           "text": {
-            "EN": "Expert portraits are no longer pixelated — they use full-size images. Two skill icons that weren't showing up are back.",
+            "EN": "Expert portraits are no longer pixelated, they use full-size images. Two skill icons that weren't showing up are back.",
             "FR": "Les portraits des Experts ne sont plus pixelisés : ils utilisent des images pleine taille. Deux icônes de compétences qui ne s'affichaient pas sont revenues."
           },
           "href": "masters"
@@ -693,8 +693,8 @@
         {
           "type": "new",
           "text": {
-            "EN": "Multiple profiles: main account, farm account… each profile keeps its own data — heroes, levels, calculations, formations — and everything switches at once. Language and theme stay shared. Your current data becomes your first profile, nothing is lost.",
-            "FR": "Profils multiples : compte principal, ferme… chaque profil garde ses propres données — héros, niveaux, calculs, formations — et tout bascule d'un coup. La langue et le thème restent communs. Tes données actuelles deviennent ton premier profil, rien n'est perdu."
+            "EN": "Multiple profiles: main account, farm account… each profile keeps its own data (heroes, levels, calculations, formations) and everything switches at once. Language and theme stay shared. Your current data becomes your first profile, nothing is lost.",
+            "FR": "Profils multiples : compte principal, ferme… chaque profil garde ses propres données (héros, niveaux, calculs, formations) et tout bascule d'un coup. La langue et le thème restent communs. Tes données actuelles deviennent ton premier profil, rien n'est perdu."
           }
         },
         {

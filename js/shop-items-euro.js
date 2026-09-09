@@ -194,7 +194,7 @@ function ieRender(){
     // pack atteint le maximum — un « multipack » n'a pas d'image à montrer et reste inerte.
     const packEl = src
       ? (pimg
-          ? `<button type="button" class="ie-pack" data-pack="${scEscAttr(pimg)}" aria-label="${scEscAttr(src)} — ${scEscAttr(scT('seePack'))}">${scEscAttr(src)}${IE_ICON_IMG}</button>`
+          ? `<button type="button" class="ie-pack" data-pack="${scEscAttr(pimg)}" aria-label="${scEscAttr(src)}, ${scEscAttr(scT('seePack'))}">${scEscAttr(src)}${IE_ICON_IMG}</button>`
           : `<span class="ie-pack is-multi">${scEscAttr(src)}</span>`)
       : '';
     // Sans pack ET sans pastille, l'objet n'aurait rien à dire : le « — » évite la case vide.
@@ -242,7 +242,7 @@ function ieRuleBlock(title, intro, lis){
 }
 // Le calcul chiffré passe à la ligne : collé au texte il se lisait comme sa fin de phrase.
 function ieRuleLi(id, why, sum){
-  return `<li><strong>${scEscAttr(scName(scItemById(id), scLang()))}</strong>${why ? ' — '+scEscAttr(why) : ''}`
+  return `<li><strong>${scEscAttr(scName(scItemById(id), scLang()))}</strong>${why ? ' · '+scEscAttr(why) : ''}`
        + `<span class="ie-derived-sum">${scEscAttr(sum)}</span></li>`;
 }
 
@@ -411,26 +411,26 @@ function ieWeightSection(){
 
   if (window.HelpSystem) HelpSystem.init({
     id:'shop-items-euro', banner:true,
-    title:{FR:'Prix réel des objets — Aide', EN:'Real-money item values — Help'},
+    title:{FR:'Prix réel des objets : Aide', EN:'Real-money item values: Help'},
     summary:{FR:"Ce tableau donne ce que chaque objet coûte en argent réel, d'après le pack payant où il apparaît.",
              EN:"This table gives what each item costs in real money, based on the paid pack it appears in."},
     steps:{
       FR:["Le prix affiché est celui d'UN exemplaire : prix du pack ÷ quantité obtenue.",
-          "La colonne « Pack d'origine » dit où trouver le plus de cet objet — c'est ce qui permet de vérifier une valeur qui paraît fausse.",
+          "La colonne « Pack d'origine » dit où trouver le plus de cet objet. C'est ce qui permet de vérifier une valeur qui paraît fausse.",
           "Une pastille à côté du pack veut dire que le prix ne sort pas de ce pack mais d'une règle : « Barème » pour les accélérateurs (tous alignés sur le prix de la minute), « Calculé » pour une valeur déduite d'un autre objet, « ×0,25 » pour les ressources brutes, volontairement comptées au quart.",
           "Chaque règle est détaillée en toutes lettres sous le tableau, avec son calcul.",
           "Les pastilles € / $ changent de devise. Le choix vaut aussi pour les pages boutique.",
           "Cherche par nom d'objet ou par nom de pack, ou filtre par catégorie.",
           "Seuls les objets qu'on sait chiffrer sont listés : les autres n'ont aucun prix connu.",
-          "Ce tableau est en lecture seule et n'a aucun rapport avec les valeurs en gemmes — les deux se lisent séparément."],
+          "Ce tableau est en lecture seule et n'a aucun rapport avec les valeurs en gemmes, les deux se lisent séparément."],
       EN:["The price shown is for ONE unit: pack price ÷ quantity received.",
-          "The “Source pack” column says where to find the most of an item — that is what lets you check a value that looks wrong.",
+          "The “Source pack” column says where to find the most of an item. That is what lets you check a value that looks wrong.",
           "A pill next to the pack means the price does not come from that pack but from a rule: “Scale” for speedups (all lined up on the price of one minute), “Calculated” for a value worked out from another item, “×0.25” for raw resources, deliberately counted at a quarter.",
           "Every rule is spelled out under the table, with its maths.",
           "The € / $ pills switch currency. The choice also applies to the shop pages.",
           "Search by item name or by pack name, or filter by category.",
           "Only items we can price are listed: the others have no known price.",
-          "This table is read-only and unrelated to the gem values — the two are read separately."]
+          "This table is read-only and unrelated to the gem values, the two are read separately."]
     },
     links:[{label:{FR:'Valeur des objets (gemmes)', EN:'Item values (gems)'}, href:'shop/items'},
            {label:{FR:'Retour aux boutiques', EN:'Back to shops'}, href:'shop_calc'}]

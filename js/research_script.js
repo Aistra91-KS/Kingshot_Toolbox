@@ -593,7 +593,7 @@ function rsInitHelp() {
     if (!window.HelpSystem) return;
     HelpSystem.init({
         id: 'research', banner: true, anchor: '[data-i18n="controlPanel"]',
-        title: { FR: 'Recherche — Aide', EN: 'Research — Help' },
+        title: { FR: 'Recherche : Aide', EN: 'Research: Help' },
         summary: {
             FR: "Détermine l'ordre de recherche le plus rentable parmi tes trois arbres (Croissance, Économie, Combat), en tenant compte de ton bonus de vitesse de recherche et de tes accélérateurs.",
             EN: "Works out the most efficient research order across your three trees (Growth, Economy, Battle), based on your research speed bonus and your available speedups."
@@ -602,7 +602,7 @@ function rsInitHelp() {
             FR: [
                 "Renseigne ton bonus de vitesse de recherche : bonus de base + Premier Ministre (+10%), KVK (+5%), Royaume (+10%). Le « Bonus total » s'affiche automatiquement.",
                 "Choisis l'arbre cible (Croissance, Économie ou Combat) pour filtrer les suggestions, ou consulte l'onglet de chaque arbre.",
-                "Première mise en place : sur un onglet d'arbre, active « Sélection rapide » (panneau latéral) puis coche directement le plus haut niveau atteint de chaque recherche — tous ses prérequis se cochent d'un coup. Décocher retire de même ce qui en dépend.",
+                "Première mise en place : sur un onglet d'arbre, active « Sélection rapide » (panneau latéral) puis coche directement le plus haut niveau atteint de chaque recherche, et tous ses prérequis se cochent d'un coup. Décocher retire de même ce qui en dépend.",
                 "L'onglet « Ordre de recherche optimal » propose les prochaines recherches à faire, classées de la plus rentable à la moins rentable (temps réduit par ton bonus).",
                 "Active le « Mode KVK » et renseigne tes accélérateurs (jours / heures / minutes) pour ne voir que ce que tu peux réellement terminer avec ton stock : l'outil indique aussi combien de recherches supplémentaires seraient possibles au-delà.",
                 "Active « Masquer terminées » pour ne garder que ce qu'il te reste à faire."
@@ -610,7 +610,7 @@ function rsInitHelp() {
             EN: [
                 "Set your research speed bonus: base bonus + Chief Minister (+10%), KVK (+5%), Kingdom (+10%). The “Total Bonus” updates automatically.",
                 "Pick a target tree (Growth, Economy or Battle) to filter the suggestions, or browse each tree's tab.",
-                "First-time setup: on a tree tab, turn on “Quick Select” (side panel) then tick the highest level you've reached in each research — all its prerequisites get ticked at once. Unticking likewise clears what depends on it.",
+                "First-time setup: on a tree tab, turn on “Quick Select” (side panel) then tick the highest level you've reached in each research, and all its prerequisites get ticked at once. Unticking likewise clears what depends on it.",
                 "The “Optimal Search Order” tab lists the next researches to do, ranked from most to least efficient (time reduced by your bonus).",
                 "Turn on “KVK Mode” and enter your speedups (days / hours / minutes) to see only what you can actually finish within your stock: it also tells you how many more researches would be possible beyond that.",
                 "Turn on “Hide completed” to keep only what's left to do."

@@ -2,14 +2,14 @@
   {
     "slug": "adventure-stall",
     "title": "Kingshot Adventure Stall - Gem &amp; Real-Money Value",
-    "description": "Kingshot Adventure Stall list: every item, its Adventure Coin cost, its stock limit and what it is worth — in gems or in real money. See which purchases give the most value per coin, daily-reset offers included.",
+    "description": "Kingshot Adventure Stall list: every item, its Adventure Coin cost, its stock limit and what it is worth, in gems or in real money. See which purchases give the most value per coin, daily-reset offers included.",
     "name": {
       "EN": "Adventure Stall",
       "FR": "Stand d'Aventure"
     },
     "intro": {
-      "EN": "The full Adventure Stall line-up for Kingshot, priced in Adventure Coins. Each item is set against its reference value in gems so you can see, at a glance, where your coins go furthest — including the three daily-reset offers that refill every day at 00:00 UTC. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le contenu complet du Stand d'Aventure de Kingshot, payé en Pièces d'Aventure. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes pièces rapportent le plus — y compris les trois offres à réinitialisation quotidienne qui se rechargent chaque jour à 00h UTC. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The full Adventure Stall line-up for Kingshot, priced in Adventure Coins. Each item is set against its reference value in gems so you can see, at a glance, where your coins go furthest, including the three daily-reset offers that refill every day at 00:00 UTC. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le contenu complet du Stand d'Aventure de Kingshot, payé en Pièces d'Aventure. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes pièces rapportent le plus, y compris les trois offres à réinitialisation quotidienne qui se rechargent chaque jour à 00h UTC. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -21,21 +21,21 @@
       "FR": "Championnat d'Alliance"
     },
     "intro": {
-      "EN": "The Alliance Championship shop, paid in Championship Badges earned with your alliance. Each line compares what a badge costs you to what the item is worth in gems, so the whole shop can be read as a single ranking. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "La boutique du Championnat d'Alliance, payée en Badges de Championnat gagnés avec ton alliance. Chaque ligne compare ce que coûte un badge à ce que vaut l'objet en gemmes : toute la boutique se lit comme un classement. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The Alliance Championship shop, paid in Championship Badges earned with your alliance. Each line compares what a badge costs you to what the item is worth in gems, so the whole shop can be read as a single ranking. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "La boutique du Championnat d'Alliance, payée en Badges de Championnat gagnés avec ton alliance. Chaque ligne compare ce que coûte un badge à ce que vaut l'objet en gemmes : toute la boutique se lit comme un classement. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
     "slug": "arena",
     "title": "Kingshot Arena Shop - Token Costs, Gem &amp; Real-Money Value",
-    "description": "Kingshot Arena shop list: every item, its Arena Token cost and what it is worth — in gems or in real money — with the best value-per-token purchases highlighted.",
+    "description": "Kingshot Arena shop list: every item, its Arena Token cost and what it is worth, in gems or in real money, with the best value-per-token purchases highlighted.",
     "name": {
       "EN": "Arena",
       "FR": "Arène"
     },
     "intro": {
-      "EN": "Everything the Arena shop sells in Kingshot, with the Arena Token price of each item set against its reference value in gems. The ratio tells you how much value a token actually buys — the higher it is, the better the purchase. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Tout ce que vend la boutique de l'Arène dans Kingshot, avec le prix en Jetons d'Arène de chaque objet face à sa valeur de référence en gemmes. Le ratio indique ce qu'un jeton rapporte vraiment — plus il est élevé, meilleur est l'achat. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "Everything the Arena shop sells in Kingshot, with the Arena Token price of each item set against its reference value in gems. The ratio tells you how much value a token actually buys. The higher it is, the better the purchase. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Tout ce que vend la boutique de l'Arène dans Kingshot, avec le prix en Jetons d'Arène de chaque objet face à sa valeur de référence en gemmes. Le ratio indique ce qu'un jeton rapporte vraiment. Plus il est élevé, meilleur est l'achat. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -47,8 +47,8 @@
       "FR": "Magasin du Blizzard"
     },
     "intro": {
-      "EN": "The full Blizzard Shop line-up for Kingshot — the store of the Blizzard Brawl event — priced in Brawl Emblems. Each item is set against its reference value in gems, so you can see at a glance where your emblems go furthest. Six of the seven lines trade at exactly the same rate, which makes the odd one out easy to spot — and easy to skip. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le contenu complet du Magasin du Blizzard de Kingshot — la boutique de l'événement Duel du Blizzard — payé en Emblèmes de Duel. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes emblèmes rapportent le plus. Six des sept lignes s'échangent exactement au même taux, ce qui rend l'intruse facile à repérer — et facile à laisser de côté. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The full Blizzard Shop line-up for Kingshot, the store of the Blizzard Brawl event, priced in Brawl Emblems. Each item is set against its reference value in gems, so you can see at a glance where your emblems go furthest. Six of the seven lines trade at exactly the same rate, which makes the odd one out easy to spot, and easy to skip. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le contenu complet du Magasin du Blizzard de Kingshot, la boutique de l'événement Duel du Blizzard, payé en Emblèmes de Duel. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes emblèmes rapportent le plus. Six des sept lignes s'échangent exactement au même taux, ce qui rend l'intruse facile à repérer, et facile à laisser de côté. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -60,8 +60,8 @@
       "FR": "Caravane du Dragon"
     },
     "intro": {
-      "EN": "The full Dragon's Caravan line-up for Kingshot, priced in Dragon Essence. Each item is set against its reference value in gems so you can see, at a glance, where your Essence goes furthest — from the mythic hero fragments to the limited-stock Mithril and gear chests. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le contenu complet de la Caravane du Dragon de Kingshot, payé en Essence Draconique. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où ton Essence rapporte le plus — des fragments de héros mythiques au Mithril et aux caisses d'équipement à stock limité. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The full Dragon's Caravan line-up for Kingshot, priced in Dragon Essence. Each item is set against its reference value in gems so you can see, at a glance, where your Essence goes furthest, whether on the mythic hero fragments or on the limited-stock Mithril and gear chests. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le contenu complet de la Caravane du Dragon de Kingshot, payé en Essence Draconique. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où ton Essence rapporte le plus, que ce soit sur les fragments de héros mythiques ou sur le Mithril et les caisses d'équipement à stock limité. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -73,8 +73,8 @@
       "FR": "Tyran - Magasin de Pronostique"
     },
     "intro": {
-      "EN": "The full Prediction Shop line-up of the Flamedragon Tyrant event, priced in Dragonclaw Marks. Each item is set against its reference value in gems, so you can see at a glance where your marks go furthest. Most of the shop is priced at a flat rate, which makes the two exceptions worth spotting. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le contenu complet du Magasin de Pronostique de l'événement Tyran Dragon de Flamme, payé en Marques Draconiques. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes marques rapportent le plus. La boutique applique un tarif de base uniforme, ce qui rend les deux exceptions d'autant plus intéressantes à repérer. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The full Prediction Shop line-up of the Flamedragon Tyrant event, priced in Dragonclaw Marks. Each item is set against its reference value in gems, so you can see at a glance where your marks go furthest. Most of the shop is priced at a flat rate, which makes the two exceptions worth spotting. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le contenu complet du Magasin de Pronostique de l'événement Tyran Dragon de Flamme, payé en Marques Draconiques. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes marques rapportent le plus. La boutique applique un tarif de base uniforme, ce qui rend les deux exceptions d'autant plus intéressantes à repérer. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -86,21 +86,21 @@
       "FR": "Coffre personnalisé de Boost d'Équipement"
     },
     "intro": {
-      "EN": "The Gear Boost Custom Chest lets you take one option and one only. Each choice is listed with the quantity granted and what that quantity is worth in gems — the most valuable pick is highlighted. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le Coffre personnalisé de Boost d'Équipement ne laisse prendre qu'une seule option. Chaque choix est listé avec la quantité accordée et ce que cette quantité vaut en gemmes — le choix le plus rentable est mis en avant. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The Gear Boost Custom Chest lets you take one option and one only. Each choice is listed with the quantity granted and what that quantity is worth in gems. The most valuable pick is highlighted. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le Coffre personnalisé de Boost d'Équipement ne laisse prendre qu'une seule option. Chaque choix est listé avec la quantité accordée et ce que cette quantité vaut en gemmes. Le choix le plus rentable est mis en avant. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
     "slug": "golden-ball-shop",
     "title": "Kingshot Golden Ball Shop - Gem &amp; Real-Money Value",
-    "description": "Kingshot Golden Ball Shop archive: every item, its Ballon d'Or Brand cost, stock limit and value in gems or in €/$ - kept online to compare with other event shops.",
+    "description": "Kingshot Golden Ball Shop archive: every item, its Ballon d'Or Brand cost, stock limit and value in gems or in €/$, kept online to compare with other event shops.",
     "name": {
       "EN": "Golden Ball Shop",
       "FR": "Magasin du ballon d'or"
     },
     "intro": {
-      "EN": "The Golden Ball Shop line-up, paid in Ballon d'Or Brands. This event has run its course, but the page stays up: comparing a finished shop with a live one is the easiest way to judge whether the current offer is generous. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le contenu du Magasin du ballon d'or, payé en Marques du ballon d'or. Cet événement est passé, mais la page reste en ligne : comparer une boutique terminée à une boutique en cours reste le moyen le plus simple de juger si l'offre du moment est généreuse. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The Golden Ball Shop line-up, paid in Ballon d'Or Brands. This event has run its course, but the page stays up: comparing a finished shop with a live one is the easiest way to judge whether the current offer is generous. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le contenu du Magasin du ballon d'or, payé en Marques du ballon d'or. Cet événement est passé, mais la page reste en ligne : comparer une boutique terminée à une boutique en cours reste le moyen le plus simple de juger si l'offre du moment est généreuse. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -112,8 +112,8 @@
       "FR": "Royaume du Pouvoir"
     },
     "intro": {
-      "EN": "The Kingdom of Power shop, paid in Kingdom Coins. Every item is weighed against its gem value, turning a plain price list into a ranking of what is actually worth buying. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "La boutique du Royaume du Pouvoir, payée en Pièces du Royaume. Chaque objet est pesé face à sa valeur en gemmes, ce qui transforme une simple liste de prix en classement de ce qui vaut réellement l'achat. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The Kingdom of Power shop, paid in Kingdom Coins. Every item is weighed against its gem value, turning a plain price list into a ranking of what is actually worth buying. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "La boutique du Royaume du Pouvoir, payée en Pièces du Royaume. Chaque objet est pesé face à sa valeur en gemmes, ce qui transforme une simple liste de prix en classement de ce qui vaut réellement l'achat. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -125,8 +125,8 @@
       "FR": "Magasin Polaire"
     },
     "intro": {
-      "EN": "The full Polar Shop line-up for Kingshot, priced in Twinstar Coins. Each item is set against its reference value in gems so you can see, at a glance, where your coins go furthest — including the daily-reset offers and the limited-stock exclusives. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le contenu complet du Magasin Polaire de Kingshot, payé en Pièces des Étoiles Jumelles. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes pièces rapportent le plus — y compris les offres à réinitialisation quotidienne et les exclusivités à stock limité. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The full Polar Shop line-up for Kingshot, priced in Twinstar Coins. Each item is set against its reference value in gems so you can see, at a glance, where your coins go furthest, including the daily-reset offers and the limited-stock exclusives. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le contenu complet du Magasin Polaire de Kingshot, payé en Pièces des Étoiles Jumelles. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes pièces rapportent le plus, y compris les offres à réinitialisation quotidienne et les exclusivités à stock limité. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -138,8 +138,8 @@
       "FR": "Magasin Champion de la Ligue Suprême"
     },
     "intro": {
-      "EN": "The Champion Shop of the Summit Contest, reserved for the top of the leaderboard and paid in Champion Tokens. Bundles here are large, so the cost-to-gem-value ratio is what separates a genuine reward from an expensive habit. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le Magasin Champion de la Ligue Suprême, réservé au haut du classement et payé en Jetons de Champion. Les lots y sont gros : c'est le rapport entre le coût et la valeur en gemmes qui distingue la vraie récompense de l'achat réflexe. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The Champion Shop of the Summit Contest, reserved for the top of the leaderboard and paid in Champion Tokens. Bundles here are large, so the cost-to-gem-value ratio is what separates a genuine reward from an expensive habit. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le Magasin Champion de la Ligue Suprême, réservé au haut du classement et payé en Jetons de Champion. Les lots y sont gros : c'est le rapport entre le coût et la valeur en gemmes qui distingue la vraie récompense de l'achat réflexe. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -151,8 +151,8 @@
       "FR": "Magasin Ordinaire de la Ligue Suprême"
     },
     "intro": {
-      "EN": "The Ordinary Shop of the Summit Contest, open to every participant and paid in League Tokens. Prices are steep on the headline items, which makes the ratio column the fastest way to tell a bargain from a trap. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le Magasin Ordinaire de la Ligue Suprême, ouvert à tous les participants et payé en Jetons de Ligue. Les objets vedettes y sont chers : la colonne ratio est le moyen le plus rapide de distinguer la bonne affaire du piège. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The Ordinary Shop of the Summit Contest, open to every participant and paid in League Tokens. Prices are steep on the headline items, which makes the ratio column the fastest way to tell a bargain from a trap. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le Magasin Ordinaire de la Ligue Suprême, ouvert à tous les participants et payé en Jetons de Ligue. Les objets vedettes y sont chers : la colonne ratio est le moyen le plus rapide de distinguer la bonne affaire du piège. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -164,8 +164,8 @@
       "FR": "Swordland"
     },
     "intro": {
-      "EN": "The Swordland shop and its Relic Coins. Coins come in slowly, so this page exists to answer one question before you spend them: which line of the shop returns the most value per coin. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "La boutique de Swordland et ses Pièces de Relique. Les pièces rentrent lentement : cette page répond à la seule question qui compte avant de les dépenser — quelle ligne de la boutique rapporte le plus par pièce. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The Swordland shop and its Relic Coins. Coins come in slowly, so this page exists to answer one question before you spend them: which line of the shop returns the most value per coin. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "La boutique de Swordland et ses Pièces de Relique. Les pièces rentrent lentement : cette page répond à la seule question qui compte avant de les dépenser : quelle ligne de la boutique rapporte le plus par pièce. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -177,8 +177,8 @@
       "FR": "Magasin du Théâtre"
     },
     "intro": {
-      "EN": "The full Theater Shop line-up for Kingshot — the store of the Fantasy Theater event — priced in Fantasy Tokens. This shop works differently from the others: it sells the same nine offers three times over, at three rising prices, plus one speedup that only shows up in the dearest tier — 28 lines in all. Tier 1 is the cheapest and holds the smallest stock; once it is gone, the same item costs 50% more, then about 20% more again. Every line is set against its reference value in gems, so you can see exactly how much value you give up by digging into the dearer tiers. Below the shop table, a dedicated section turns a plan of Fantasy Amulets into the Tokens it can be expected to pay: the odds of reaching each floor, where cashing in pays most per amulet, and what to do next from the floor you are on. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le contenu complet du Magasin du Théâtre de Kingshot — la boutique de l'événement Théâtre Fantastique — payée en Jetons Fantaisie. Cette boutique ne fonctionne pas comme les autres : elle propose les mêmes neuf offres trois fois, à trois prix croissants, plus un accélérateur qui n'apparaît que dans le palier le plus cher — 28 lignes en tout. Le palier 1 est le moins cher et le moins fourni ; une fois épuisé, le même objet coûte 50 % de plus, puis encore 20 % environ. Chaque ligne est confrontée à sa valeur de référence en gemmes, pour voir exactement ce que l'on perd en creusant les paliers les plus chers. Sous le tableau de la boutique, une section dédiée traduit un plan d'Amulettes Fantaisie en Jetons : les chances d'atteindre chaque étage, l'étage où encaisser rapporte le plus par amulette, et ce qu'il faut faire depuis celui où l'on se trouve. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The full Theater Shop line-up for Kingshot, the store of the Fantasy Theater event, priced in Fantasy Tokens. This shop works differently from the others: it sells the same nine offers three times over, at three rising prices, plus one speedup that only shows up in the dearest tier, for 28 lines in all. Tier 1 is the cheapest and holds the smallest stock; once it is gone, the same item costs 50% more, then about 20% more again. Every line is set against its reference value in gems, so you can see exactly how much value you give up by digging into the dearer tiers. Below the shop table, a dedicated section turns a plan of Fantasy Amulets into the Tokens it can be expected to pay: the odds of reaching each floor, where cashing in pays most per amulet, and what to do next from the floor you are on. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le contenu complet du Magasin du Théâtre de Kingshot, la boutique de l'événement Théâtre Fantastique, payée en Jetons Fantaisie. Cette boutique ne fonctionne pas comme les autres : elle propose les mêmes neuf offres trois fois, à trois prix croissants, plus un accélérateur qui n'apparaît que dans le palier le plus cher, soit 28 lignes en tout. Le palier 1 est le moins cher et le moins fourni ; une fois épuisé, le même objet coûte 50 % de plus, puis encore 20 % environ. Chaque ligne est confrontée à sa valeur de référence en gemmes, pour voir exactement ce que l'on perd en creusant les paliers les plus chers. Sous le tableau de la boutique, une section dédiée traduit un plan d'Amulettes Fantaisie en Jetons : les chances d'atteindre chaque étage, l'étage où encaisser rapporte le plus par amulette, et ce qu'il faut faire depuis celui où l'on se trouve. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     },
     "extraScripts": [
       "shop-theater.js"
@@ -193,8 +193,8 @@
       "FR": "Magasin des Marées"
     },
     "intro": {
-      "EN": "The Tidal Shop and its Tidal Stones. The catalogue mixes cheap consumables with heavyweight bundles, so the ratio column is the only honest way to compare them side by side. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le Magasin des Marées et ses Pierres des Marées. Le catalogue mélange consommables bon marché et gros lots : la colonne ratio est la seule façon honnête de les comparer côte à côte. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The Tidal Shop and its Tidal Stones. The catalogue mixes cheap consumables with heavyweight bundles, so the ratio column is the only honest way to compare them side by side. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le Magasin des Marées et ses Pierres des Marées. Le catalogue mélange consommables bon marché et gros lots : la colonne ratio est la seule façon honnête de les comparer côte à côte. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -206,8 +206,8 @@
       "FR": "Coffre de la Crique au Trésor"
     },
     "intro": {
-      "EN": "The Treasure Cove Chest offers twelve options for a single pick, and the quantities are large — 450 TrueGold, 340 Artisan's Visions, 333 Enhancement XP components. Only the value makes them comparable, and the two readings do not crown the same line: in gems the Forgehammers come first, in real money the Governor Gear Material Chests. All twelve are priced both ways, so the ranking holds end to end. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le Coffre de la Crique au Trésor propose douze options pour un seul choix, avec de grosses quantités — 450 Or Véritable, 340 Visions de l'Artisan, 333 points d'EXP d'Amélioration. Seule la valeur les rend comparables, et les deux lectures ne sacrent pas la même ligne : en gemmes ce sont les Marteaux de Forge, en argent réel les Caisses de Matériaux d'Équipement du Chef. Les douze options sont chiffrées dans les deux lectures, le classement tient donc de bout en bout. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The Treasure Cove Chest offers twelve options for a single pick, and the quantities are large: 450 TrueGold, 340 Artisan's Visions, 333 Enhancement XP components. Only the value makes them comparable, and the two readings do not crown the same line: in gems the Forgehammers come first, in real money the Governor Gear Material Chests. All twelve are priced both ways, so the ranking holds end to end. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le Coffre de la Crique au Trésor propose douze options pour un seul choix, avec de grosses quantités : 450 Or Véritable, 340 Visions de l'Artisan, 333 points d'EXP d'Amélioration. Seule la valeur les rend comparables, et les deux lectures ne sacrent pas la même ligne : en gemmes ce sont les Marteaux de Forge, en argent réel les Caisses de Matériaux d'Équipement du Chef. Les douze options sont chiffrées dans les deux lectures, le classement tient donc de bout en bout. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -219,8 +219,8 @@
       "FR": "Magasin du Défi"
     },
     "intro": {
-      "EN": "The Trial Shop, paid in Trial Crystals. Each item's crystal price sits next to its reference value in gems, so the best use of a hard-won crystal becomes obvious. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le Magasin du Défi, payé en Cristaux du Défi. Le prix en cristaux de chaque objet est posé à côté de sa valeur de référence en gemmes : le meilleur usage d'un cristal durement gagné saute aux yeux. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The Trial Shop, paid in Trial Crystals. Each item's crystal price sits next to its reference value in gems, so the best use of a hard-won crystal becomes obvious. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le Magasin du Défi, payé en Cristaux du Défi. Le prix en cristaux de chaque objet est posé à côté de sa valeur de référence en gemmes : le meilleur usage d'un cristal durement gagné saute aux yeux. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   },
   {
@@ -232,8 +232,8 @@
       "FR": "Coffre personnalisé Chant de Guerre"
     },
     "intro": {
-      "EN": "The War Chant Custom Chest offers eight options for a single pick. Quantities differ wildly from one line to the next, so the gem value is what makes them comparable — the best one is highlighted. The page opens on the €/$ reading and switches to gems in one click — the same items, priced either way.",
-      "FR": "Le Coffre personnalisé Chant de Guerre propose huit options pour un seul choix. Les quantités varient énormément d'une ligne à l'autre : c'est la valeur en gemmes qui les rend comparables — la meilleure est mise en avant. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic — les mêmes objets, chiffrés dans les deux sens."
+      "EN": "The War Chant Custom Chest offers eight options for a single pick. Quantities differ wildly from one line to the next, so the gem value is what makes them comparable. The best one is highlighted. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le Coffre personnalisé Chant de Guerre propose huit options pour un seul choix. Les quantités varient énormément d'une ligne à l'autre : c'est la valeur en gemmes qui les rend comparables. La meilleure est mise en avant. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
     }
   }
 ]

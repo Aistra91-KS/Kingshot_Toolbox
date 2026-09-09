@@ -70,8 +70,8 @@ function ktWarnUnsaved() {
             + 'padding:12px 16px;background:#b45309;color:#fff;font-size:14px;'
             + 'line-height:1.45;text-align:center;box-shadow:0 -2px 12px rgba(0,0,0,.3)';
         el.textContent = fr
-            ? "Ces changements ne sont pas sauvegardés (stockage plein ou navigation privée). Le calcul reste juste à l'écran — exportez vos données avant de quitter la page."
-            : "These changes are not being saved (storage full, or private browsing). The figures on screen stay correct — export your data before leaving the page.";
+            ? "Ces changements ne sont pas sauvegardés (stockage plein ou navigation privée). Le calcul reste juste à l'écran, exportez vos données avant de quitter la page."
+            : "These changes are not being saved (storage full, or private browsing). The figures on screen stay correct, export your data before leaving the page.";
         const x = document.createElement('button');
         x.type = 'button';
         x.setAttribute('aria-label', fr ? 'Fermer l\u2019avertissement' : 'Dismiss warning');

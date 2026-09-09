@@ -292,8 +292,8 @@
       "fromId": "lucky_hero_gear_chest",
       "factor": 100,
       "how": {
-        "FR": "La Caisse d'Équipement de Héros Chanceux a 1 % de chance de donner un équipement mythique : il en faut donc 100 en moyenne (1 ÷ 1 %) pour en sortir un. Cette caisse-ci en donne un à coup sûr — elle vaut 100 caisses chanceuses.",
-        "EN": "The Lucky Hero Gear Chest has a 1% chance of giving a mythic gear piece, so it takes 100 of them on average (1 ÷ 1%) to land one. This chest gives one for certain — it is worth 100 Lucky Chests."
+        "FR": "La Caisse d'Équipement de Héros Chanceux a 1 % de chance de donner un équipement mythique : il en faut donc 100 en moyenne (1 ÷ 1 %) pour en sortir un. Cette caisse-ci en donne un à coup sûr, elle vaut donc 100 caisses chanceuses.",
+        "EN": "The Lucky Hero Gear Chest has a 1% chance of giving a mythic gear piece, so it takes 100 of them on average (1 ÷ 1%) to land one. This chest gives one for certain, so it is worth 100 Lucky Chests."
       }
     },
     "fast_walk_1": {
@@ -405,16 +405,16 @@
       "fromId": "100_exp_vip",
       "factor": 10,
       "how": {
-        "FR": "1 000 points d'EXP VIP, c'est exactement dix fois 100 points : le rapport n'a rien d'une estimation. Le relevé ne chiffre que le lot de 100, celui de 1 000 s'en déduit — sans quoi les packs qui donnent le gros lot resteraient sans prix réel. Le référentiel gemmes applique déjà ce même ×10 (200 → 2 000).",
-        "EN": "1,000 VIP EXP is exactly ten times 100 VIP EXP: the ratio is arithmetic, not a guess. The survey only prices the 100 bundle, so the 1,000 one follows from it - otherwise the packs handing out the big bundle would have no real-money price at all. The gem reference already applies the same x10 (200 -> 2,000)."
+        "FR": "1 000 points d'EXP VIP, c'est exactement dix fois 100 points : le rapport n'a rien d'une estimation. Le relevé ne chiffre que le lot de 100, celui de 1 000 s'en déduit, sans quoi les packs qui donnent le gros lot resteraient sans prix réel. Le référentiel gemmes applique déjà ce même ×10 (200 → 2 000).",
+        "EN": "1,000 VIP EXP is exactly ten times 100 VIP EXP: the ratio is arithmetic, not a guess. The survey only prices the 100 bundle, so the 1,000 one follows from it, otherwise the packs handing out the big bundle would have no real-money price at all. The gem reference already applies the same x10 (200 -> 2,000)."
       }
     },
     "10000_exp_vip": {
       "fromId": "100_exp_vip",
       "factor": 100,
       "how": {
-        "FR": "10 000 points d'EXP VIP, c'est exactement cent fois 100 points — la même égalité arithmétique que le lot de 1 000, poussée d'un cran. Aucun pack ne vend ce lot-là, il n'aurait donc aucun prix réel sans cette règle. Le référentiel gemmes applique déjà ce même ×100 (200 → 20 000).",
-        "EN": "10,000 VIP EXP is exactly one hundred times 100 VIP EXP - the same arithmetic identity as the 1,000 bundle, one step further. No pack sells that bundle, so without this rule it would have no real-money price at all. The gem reference already applies the same x100 (200 -> 20,000)."
+        "FR": "10 000 points d'EXP VIP, c'est exactement cent fois 100 points, la même égalité arithmétique que le lot de 1 000, poussée d'un cran. Aucun pack ne vend ce lot-là, il n'aurait donc aucun prix réel sans cette règle. Le référentiel gemmes applique déjà ce même ×100 (200 → 20 000).",
+        "EN": "10,000 VIP EXP is exactly one hundred times 100 VIP EXP, the same arithmetic identity as the 1,000 bundle, one step further. No pack sells that bundle, so without this rule it would have no real-money price at all. The gem reference already applies the same x100 (200 -> 20,000)."
       }
     },
     "1000_hero_xp": {
@@ -422,15 +422,15 @@
       "factor": 0.1,
       "how": {
         "FR": "1 000 EXP de héros, c'est exactement un dixième de 10 000 : de l'EXP de héros reste de l'EXP de héros, quel que soit le format du jeton. Seul le lot de 10 000 est relevé ; sans cette règle le petit lot, pourtant courant en boutique, resterait sans prix réel. Le référentiel gemmes applique déjà ce même rapport (300 → 30).",
-        "EN": "1,000 hero XP is exactly one tenth of 10,000: hero XP is hero XP, whatever size the token comes in. Only the 10,000 bundle is surveyed; without this rule the small one - common in shops - would have no real-money price. The gem reference already applies the same ratio (300 -> 30)."
+        "EN": "1,000 hero XP is exactly one tenth of 10,000: hero XP is hero XP, whatever size the token comes in. Only the 10,000 bundle is surveyed; without this rule the small one, common in shops, would have no real-money price. The gem reference already applies the same ratio (300 -> 30)."
       }
     },
     "5000_hero_xp": {
       "fromId": "10000_hero_xp",
       "factor": 0.5,
       "how": {
-        "FR": "5 000 EXP de héros, c'est exactement la moitié de 10 000 — même barème que le lot de 1 000. Le référentiel gemmes applique déjà ce même rapport (300 → 150).",
-        "EN": "5,000 hero XP is exactly half of 10,000 - the same scale as the 1,000 bundle. The gem reference already applies the same ratio (300 -> 150)."
+        "FR": "5 000 EXP de héros, c'est exactement la moitié de 10 000, même barème que le lot de 1 000. Le référentiel gemmes applique déjà ce même rapport (300 → 150).",
+        "EN": "5,000 hero XP is exactly half of 10,000, the same scale as the 1,000 bundle. The gem reference already applies the same ratio (300 -> 150)."
       }
     }
   },
@@ -486,8 +486,8 @@
       "elite_spices": 1000
     },
     "how": {
-      "FR": "Ces trois objets ne servent qu'à une chose : monter l'affinité d'un expert (10, 100 et 1 000 points). Un point doit donc coûter pareil quel que soit le jeton qui le porte. Le pack qui donne le plus de points d'affinité par euro — toutes sortes de jetons additionnées — fixe le prix du point, et les trois s'en déduisent. Relevé jeton par jeton, chacun héritait du pack qui en donnait le plus : la Coupe en argent (100 points) ressortait à 0,750 € contre 0,250 € les Épices d'élite (1 000 points), soit trente fois le prix du point. C'est aussi ce qui chiffre le Cor en cuivre, qu'aucun pack ne vend.",
-      "EN": "These three items do exactly one thing: raise a Master's affinity (10, 100 and 1,000 points). So one point must cost the same whatever token carries it. The pack that gives the most affinity points per euro - every kind of token added up - sets the price of a point, and all three follow from it. Surveyed token by token, each one inherited the pack that gave the most of it: the Silver Goblet (100 points) came out at 0.750 EUR against 0.250 EUR for Elite Spices (1,000 points), thirty times the price per point. It is also what prices the Copper Horn, which no pack sells."
+      "FR": "Ces trois objets ne servent qu'à une chose : monter l'affinité d'un expert (10, 100 et 1 000 points). Un point doit donc coûter pareil quel que soit le jeton qui le porte. Le pack qui donne le plus de points d'affinité par euro (toutes sortes de jetons additionnées) fixe le prix du point, et les trois s'en déduisent. Relevé jeton par jeton, chacun héritait du pack qui en donnait le plus : la Coupe en argent (100 points) ressortait à 0,750 € contre 0,250 € les Épices d'élite (1 000 points), soit trente fois le prix du point. C'est aussi ce qui chiffre le Cor en cuivre, qu'aucun pack ne vend.",
+      "EN": "These three items do exactly one thing: raise a Master's affinity (10, 100 and 1,000 points). So one point must cost the same whatever token carries it. The pack that gives the most affinity points per euro (every kind of token added up) sets the price of a point, and all three follow from it. Surveyed token by token, each one inherited the pack that gave the most of it: the Silver Goblet (100 points) came out at 0.750 EUR against 0.250 EUR for Elite Spices (1,000 points), thirty times the price per point. It is also what prices the Copper Horn, which no pack sells."
     }
   },
   "weights": [

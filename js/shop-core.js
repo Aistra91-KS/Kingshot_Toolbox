@@ -20,12 +20,12 @@ const i18nShop = {
     // — statut / temps —
     endsIn:"Fin dans", ended:"Événement terminé", endedShort:"Terminé", permanent:"Permanente",
     days:"j", hours:"h", minutes:"min", lastDay:"Dernier jour",
-    archiveNote:"Cet événement est terminé. Les données ci-dessous sont celles de sa dernière édition — utiles pour comparer avec une autre boutique ou anticiper son retour.",
+    archiveNote:"Cet événement est terminé. Les données ci-dessous sont celles de sa dernière édition, utiles pour comparer avec une autre boutique ou anticiper son retour.",
     // — page boutique —
     crumbShops:"Boutiques", currency:"Monnaie", myCurrency:"Ma monnaie",
     bestDeals:"Meilleures affaires", allItems:"Tous les objets", rawTable:"Tableau complet",
     chestContent:"Contenu du coffre",
-    chestPickHint:"Un seul objet à choisir — le plus rentable est mis en avant.",
+    chestPickHint:"Un seul objet à choisir. Le plus rentable est mis en avant.",
     // — colonnes / champs —
     colName:"Nom", colCat:"Catégorie", colGem:"Valeur (gemmes)",
     hItem:"Objet", hQty:"Qté", hCost:"Coût", hGem:"Valeur gemmes", hRatio:"Ratio", hTier:"Palier",
@@ -71,11 +71,11 @@ const i18nShop = {
     refsGemLead:"Ces mêmes objets, valorisés en gemmes :",
     refsEurLead:"Ces mêmes objets, valorisés en argent réel :",
     colPack:"Pack d'origine", noPack:"non précisé", multipack:"Multipack", seePack:"voir le pack",
-    tipPack:"Le pack d'où vient le prix. Pour un objet relevé, c'est celui qui offre le meilleur prix unitaire — son prix divisé par la quantité qu'il donne, tous les packs ne coûtant pas la même chose. Pour les accélérateurs, c'est le pack qui fixe le prix de la minute : le même pour les cinq durées ; pour les jetons d'affinité, celui qui fixe le prix du point, le même pour les trois. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. Une pastille dit quelle règle a décidé du prix — « Calculé », « Barème » ou « ×0,25 » —, toutes détaillées sous le tableau.",
+    tipPack:"Le pack d'où vient le prix. Pour un objet relevé, c'est celui qui offre le meilleur prix unitaire, soit son prix divisé par la quantité qu'il donne, tous les packs ne coûtant pas la même chose. Pour les accélérateurs, c'est le pack qui fixe le prix de la minute : le même pour les cinq durées ; pour les jetons d'affinité, celui qui fixe le prix du point, le même pour les trois. Survole un nom de pack pour le voir en image. « Multipack » : plusieurs packs sont à égalité, il n'y a donc pas d'image. Une pastille dit quelle règle a décidé du prix (« Calculé », « Barème » ou « ×0,25 »), toutes détaillées sous le tableau.",
     ieNote:"{n} objets sur les {t} du référentiel sont chiffrés ici ; les autres n'ont aucun prix connu et ne sont donc pas listés. Relevé : {z}, mis à jour le {d}.",
-    derived:"Calculé",
+    derived:"Calculé", ruleSep:" : ",
     derivedTitle:"Valeurs calculées",
-    derivedIntro:"Le prix de ces objets ne se relève pas dans leur propre pack : il se déduit d'autres objets. Soit parce qu'aucun pack ne les vend, soit parce que le relevé, tout exact qu'il est, donnait un prix unitaire absurde — un pack avare sur un objet ne rend pas cet objet plus précieux. Une caisse, elle, vaut la somme de ce qu'elle rend ; si son butin est tiré au sort, les quantités sont des moyennes.",
+    derivedIntro:"Le prix de ces objets ne se relève pas dans leur propre pack : il se déduit d'autres objets. Soit parce qu'aucun pack ne les vend, soit parce que le relevé, tout exact qu'il est, donnait un prix unitaire absurde. Un pack avare sur un objet ne rend pas cet objet plus précieux. Une caisse, elle, vaut la somme de ce qu'elle rend ; si son butin est tiré au sort, les quantités sont des moyennes.",
     derivedSum:"Soit {p} \u00F7 {q} \u00D7 {f} = {b}",
     derivedSumAlt:"Soit la valeur de « {n} » \u00D7 {f} = {b}",
     derivedSumSame:"Soit la valeur de « {n} », donc {b}",
@@ -109,11 +109,11 @@ const i18nShop = {
     nItems:"items", nChoices:"choices", openShop:"Open shop",
     endsIn:"Ends in", ended:"Event ended", endedShort:"Ended", permanent:"Permanent",
     days:"d", hours:"h", minutes:"min", lastDay:"Last day",
-    archiveNote:"This event has ended. The data below is from its latest run — handy to compare with another shop or to prepare for its return.",
+    archiveNote:"This event has ended. The data below is from its latest run, handy to compare with another shop or to prepare for its return.",
     crumbShops:"Shops", currency:"Currency", myCurrency:"My currency",
     bestDeals:"Best deals", allItems:"All items", rawTable:"Full table",
     chestContent:"Chest contents",
-    chestPickHint:"A single item to pick — the best value is highlighted.",
+    chestPickHint:"A single item to pick. The best value is highlighted.",
     colName:"Name", colCat:"Category", colGem:"Value (gems)",
     hItem:"Item", hQty:"Qty", hCost:"Cost", hGem:"Gem value", hRatio:"Ratio", hTier:"Tier",
     hRestant:"Remaining", hMaxFin:"Max by end", hObt:"Obtainable", hCostObt:"Obt. cost", hShare:"Share",
@@ -154,11 +154,11 @@ const i18nShop = {
     refsGemLead:"These same items, valued in gems:",
     refsEurLead:"These same items, valued in real money:",
     colPack:"Source pack", noPack:"not specified", multipack:"Multipack", seePack:"see the pack",
-    tipPack:"The pack the price comes from. For a surveyed item that is the pack with the best unit price - its price divided by how much of the item it gives, as packs do not all cost the same. For speedups it is the pack that sets the price of one minute, the same one for all five lengths; for affinity tokens, the one that sets the price of a point, the same one for all three. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. A pill says which rule decided the price - “Calculated”, “Scale” or “×0.25” - all spelled out under the table.",
+    tipPack:"The pack the price comes from. For a surveyed item that is the pack with the best unit price, which is its price divided by how much of the item it gives, as packs do not all cost the same. For speedups it is the pack that sets the price of one minute, the same one for all five lengths; for affinity tokens, the one that sets the price of a point, the same one for all three. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. A pill says which rule decided the price (“Calculated”, “Scale” or “×0.25”), all spelled out under the table.",
     ieNote:"{n} of the {t} items in the reference table are priced here; the others have no known price and are not listed. Survey: {z}, updated {d}.",
-    derived:"Calculated",
+    derived:"Calculated", ruleSep:": ",
     derivedTitle:"Calculated values",
-    derivedIntro:"The price of these items cannot be read off their own pack: it is worked out from other items. Either because no pack sells them, or because the survey - accurate as it is - gave an absurd unit price: a pack being stingy with an item does not make that item more valuable. A chest is worth the sum of what it gives; if its loot is random, the quantities are averages.",
+    derivedIntro:"The price of these items cannot be read off their own pack: it is worked out from other items. Either because no pack sells them, or because the survey, accurate as it is, gave an absurd unit price. A pack being stingy with an item does not make that item more valuable. A chest is worth the sum of what it gives; if its loot is random, the quantities are averages.",
     derivedSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
     derivedSumAlt:"That is the value of “{n}” \u00D7 {f} = {b}",
     derivedSumSame:"That is the value of “{n}”, so {b}",
@@ -537,10 +537,10 @@ function scEurSrc(id){
 // pesé sur le chiffre — « Calculé » tout court n'apprendrait rien à qui doute du chiffre.
 function scEurWhy(id){
   const bits=[scEurSrc(id)];
-  if(scEurIsDerived(id))       bits.push(scT('derived')+' — '+scEurHow(id));
-  else if(scEurIsScaled(id))   bits.push(scT('scaled')+' — '+scEurScaleHow());
-  else if(scEurIsAffinity(id)) bits.push(scT('scaled')+' — '+scEurAffinityHow());
-  if(scEurIsWeighted(id))    bits.push(scEurWeightLabel(id)+' — '+scEurWeightHow(id));
+  if(scEurIsDerived(id))       bits.push(scT('derived')+scT('ruleSep')+scEurHow(id));
+  else if(scEurIsScaled(id))   bits.push(scT('scaled')+scT('ruleSep')+scEurScaleHow());
+  else if(scEurIsAffinity(id)) bits.push(scT('scaled')+scT('ruleSep')+scEurAffinityHow());
+  if(scEurIsWeighted(id))    bits.push(scEurWeightLabel(id)+scT('ruleSep')+scEurWeightHow(id));
   return bits.filter(Boolean).join(' · ');
 }
 // Id de l'image du pack — seulement quand un SEUL pack atteint le meilleur prix unitaire.
@@ -673,7 +673,7 @@ function scStartCountdowns(){
 // que par un message dans la console, que personne ne lit.
 async function scFetchData(file){
   const r = await fetch(file, { cache: 'no-cache' });
-  if(!r.ok) throw new Error(file + ' — HTTP ' + r.status);
+  if(!r.ok) throw new Error(file + ': HTTP ' + r.status);
   return r;
 }
 

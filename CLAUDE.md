@@ -21,7 +21,15 @@
    - `/security-review` → audit sécurité (peu pertinent sur ce site statique, mais à garder en tête).
 5. **Vérifier avant de conclure** : tester/valider (navigateur, checks, comparaison avant/après) et rapporter fidèlement — y compris les échecs ou ce qui n'a pas été fait.
 6. **Tenir `MAP.md` à jour** à chaque changement de fichiers / d'architecture.
-7. **Entretien de ce fichier** : Paul indiquera au fil des sessions les infos à ajouter ou corriger ici. Le garder concis et actionnable — une règle déjà écrite dans `MAP.md` se cite, elle ne se recopie pas.
+7. **Écrire humain, jamais « IA »** : tout texte destiné à être lu (site, commits, annonces, livrables) évite les marqueurs d'écriture LLM catalogués par [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing). Les sections « Markup », « Citations » et « Discrepancies » de cette page sont propres à Wikipédia et ne s'appliquent pas ici. Le reste, si :
+   - **Ponctuation** : pas de tiret cadratin en prose. Une virgule, une parenthèse, un deux-points ou deux phrases font le travail. Le `—` reste légitime dans un tableau pour dire « pas de valeur ». Guillemets et apostrophes **droits** (`"` `'`), jamais courbes.
+   - **Mise en forme** : pas de liste dont chaque puce est un titre en gras suivi de deux-points. Pas d'émoji dans un titre ni devant une puce. Pas de gras posé mécaniquement sur chaque occurrence d'un terme. En anglais, intertitres en casse de phrase, pas en Title Case.
+   - **Rythme** : pas de triplets systématiques (« rapide, simple et fiable »). Pas de « non seulement… mais aussi », ni de « ce n'est pas X, c'est Y ». Pas de paragraphe de conclusion qui redit ce qui vient d'être écrit (« En résumé », « Au final », « Overall »).
+   - **Fond** : pas d'emphase sur l'importance ou l'héritage du sujet (« joue un rôle clé », « témoigne de », « stands as a testament »). Pas d'analyse collée en participe présent (« soulignant son importance », « reflecting », « highlighting », « ensuring », « showcasing »). Pas d'attribution vague (« certains joueurs estiment », « il est généralement admis ») ni de « il est important de noter ». Pas de fausse gamme (« de X à Y » quand X et Y ne sont pas sur la même échelle).
+   - **Vocabulaire à éviter** : *crucial*, *vital*, *key* (adjectif), *robust*, *seamless*, *leverage*, *foster*, *enhance*, *streamline*, *showcase*, *underscore*, *delve*, *tapestry*, *landscape*, *realm*, *multifaceted*, *nuanced*, *vibrant*, *rich*, *nestled*, *boasts*, *groundbreaking*, et leurs équivalents français (« riche », « incontournable », « au cœur de », « véritable »).
+
+   Un chiffre, un fait ou une mesure valent mieux que l'adjectif qui les annonce. Le lecteur est un joueur, pas un prospect.
+8. **Entretien de ce fichier** : Paul indiquera au fil des sessions les infos à ajouter ou corriger ici. Le garder concis et actionnable — une règle déjà écrite dans `MAP.md` se cite, elle ne se recopie pas.
 
 ---
 
