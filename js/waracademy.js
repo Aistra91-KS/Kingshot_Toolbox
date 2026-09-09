@@ -1027,7 +1027,7 @@
   // ---------------- appliquer le plan ----------------
   // Réécrit la page à partir du plan affiché : niveaux atteints, poussières restantes,
   // accélérateurs restants. La recherche laissée « en cours » monte elle aussi de niveau
-  // (choix validé par Paul) — sa poussière est déjà entièrement payée.
+  // (choix validé par Aistra) — sa poussière est déjà entièrement payée.
   function applyPlan() {
     const res = lastPlan;
     if (!res || !res.steps.length) return;

@@ -17,6 +17,10 @@ exclude:
   - CLAUDE.md    # documents de travail du dépôt : publics sur GitHub, mais ils
   - MAP.md       # n'ont rien à faire sous une adresse du site
   - TECH_DEBT_AUDIT.md
+  - README.md    # Jekyll en ferait un README.html publié à l'adresse du site ;
+                 # il n'a d'utilité que sur la page GitHub du dépôt
+  - serve.py     # serveur local pour qui télécharge le dépôt (cf. README) :
+                 # inutile en ligne, où Pages résout déjà les adresses
   - node_modules # dépendances npm installées ponctuellement pour les tests navigateur.
                  # Cette liste REMPLAÇANT les défauts de Jekyll (qui l'excluent
                  # normalement), sans cette ligne le dossier partirait en ligne.

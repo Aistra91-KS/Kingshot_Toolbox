@@ -7,7 +7,7 @@
       "nutrientPotion",
       "promotionMedallion"
     ],
-    "notes": "FR = propositions à relire (Paul corrige). petFood[i] = Pet Food pour passer du niveau i+1 au niveau i+2 (length = maxLevel-1). advancements = 1 entree par avancement (= nb de paliers de skill = maxLevel/10). skill.desc conserve le placeholder X / X% du jeu ; skill.cooldown present seulement si valeur concrete (sinon recharge par palier ou absente)."
+    "notes": "FR = propositions à relire (Aistra corrige). petFood[i] = Pet Food pour passer du niveau i+1 au niveau i+2 (length = maxLevel-1). advancements = 1 entree par avancement (= nb de paliers de skill = maxLevel/10). skill.desc conserve le placeholder X / X% du jeu ; skill.cooldown present seulement si valeur concrete (sinon recharge par palier ou absente)."
   },
   "pets": [
     {
