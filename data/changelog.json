@@ -8,6 +8,44 @@
   },
   "releases": [
     {
+      "version": "1.13.5",
+      "date": "2026-09-09",
+      "changes": [
+        {
+          "type": "new",
+          "title": {
+            "EN": "A plan for advancing your pets",
+            "FR": "Un plan pour avancer tes familiers"
+          },
+          "text": {
+            "EN": "The Pets page gets a second tab. Tell it what you have — pet food, growth manuals, nutrient potions, promotion medallions and the advancement chests — and it works out which pets to advance, in what order, and how many points that scores in the Beast Training event. Only advancements score; pet food is just the toll to reach the next cap. The chest is a choice and not a bundle — 7 manuals, or 2 potions, or 1 medallion — so the tool decides the split for you and tells you how many to open as what. It starts from the levels you already entered on the trail, and you can untick the pets you have not unlocked: they leave the plan, the ranking and the « what stops you » line at once.",
+            "FR": "La page Familiers gagne un second onglet. Dis-lui ce que tu as — nourriture, manuels de croissance, potions nutritives, médaillons de promotion et coffres d'avancement — et il cherche quels familiers avancer, dans quel ordre, et combien de points ça rapporte à l'événement Entraînement Animalier. Seuls les avancements rapportent ; la nourriture n'est qu'un péage vers le cap suivant. Le coffre est un choix et non un lot — 7 manuels, ou 2 potions, ou 1 médaillon — alors l'outil tranche la répartition à ta place et te dit combien en ouvrir en quoi. Il part des niveaux que tu as saisis dans la promenade, et tu peux décocher les familiers que tu n'as pas débloqués : ils quittent d'un coup le plan, le classement et la ligne « ce qui t'arrête »."
+          },
+          "href": "pets",
+          "linkLabel": {
+            "EN": "Pets",
+            "FR": "Familiers"
+          }
+        },
+        {
+          "type": "new",
+          "title": {
+            "EN": "Tick the plan off once you have done it",
+            "FR": "Coche le plan une fois réalisé en jeu"
+          },
+          "text": {
+            "EN": "The same button TrueGold and the War Academy already have. Once you have carried the plan out in game, it shows exactly what will change, waits for you to confirm, then moves your pets up to the levels in the plan, ticks their advancements, and leaves your stock at what remains — including the spare materials a chest handed over. The trail picks the new levels up straight away, and the plan moves on to what you can do next.",
+            "FR": "Le même bouton que sur TrueGold et l'Académie de Guerre. Une fois le plan réalisé en jeu, il montre exactement ce qui va changer, attend ta confirmation, puis fait monter tes familiers aux niveaux du plan, coche leurs avancements et laisse ton stock à ce qu'il reste — les matériaux qu'un coffre a versés en trop compris. La promenade reprend les nouveaux niveaux immédiatement, et le plan enchaîne sur ce que tu peux faire ensuite."
+          },
+          "href": "pets",
+          "linkLabel": {
+            "EN": "Pets",
+            "FR": "Familiers"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.13.4",
       "date": "2026-09-07",
       "changes": [

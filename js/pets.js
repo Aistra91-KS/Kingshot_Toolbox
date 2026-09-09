@@ -477,4 +477,17 @@
       });
   }
   document.addEventListener("DOMContentLoaded", boot);
+
+  /* Relire les niveaux depuis le stockage et rafraîchir la fiche affichée.
+     Sert à l'onglet « Plan d'avancement » : quand le joueur y applique son plan,
+     les niveaux changent en stockage, mais la promenade garde les siens en
+     mémoire (`DATA`, lu une seule fois au démarrage) — elle afficherait des
+     valeurs périmées, et les réécrirait à la première modification.
+     Appelé sous garde `window.petsSyncFromStorage && …` depuis pets-plan.js :
+     sans cache-busting, ce fichier-ci peut être en version périmée chez un
+     visiteur de retour, et un nom global nu y lèverait un ReferenceError. */
+  window.petsSyncFromStorage = function(){
+    DATA = loadData();
+    if (PETS.length) renderInfo(station);
+  };
 })();

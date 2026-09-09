@@ -17,6 +17,8 @@ const STORAGE_KEYS = {
     shopcalcCollapsed: 'shopcalc_collapsed',
     shopcalcEventPlans: 'shopcalc_event_plans',
     pets:              'pets_levels',
+    petsPlan:          'pets_plan_stock',
+    petsPlanOff:       'pets_plan_off',
     theaterOptimizer:  'theater_optimizer_data',
 };
 

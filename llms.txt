@@ -15,7 +15,7 @@ Every page is available in English and French; the served HTML is English and th
 - [Vikings](https://kingshottoolbox.com/vikings): split your troops across marches for the Vikings event to maximise defence.
 - [Heroes](https://kingshottoolbox.com/caserne): manage your heroes, their generations, skill levels and exclusive gear.
 - [Masters](https://kingshottoolbox.com/masters): browse experts, their skills and affinity milestones to optimise bonuses.
-- [Pets](https://kingshottoolbox.com/pets): browse your pets tier by tier - attributes, level, army bonus and skills.
+- [Pets](https://kingshottoolbox.com/pets): browse your pets tier by tier - attributes, level, army bonus and skills - and plan which ones to advance with the materials you have, to score the most points in the Beast Training event.
 
 ## Databases
 

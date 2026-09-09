@@ -69,7 +69,7 @@ const BACKUP_MODULES = [
     { id: 'module-vikings',  labelKey: 'modVikings',  keys: [STORAGE_KEYS.vikings] },
     { id: 'module-waracademy', labelKey: 'modWaracademy', keys: [STORAGE_KEYS.waracademy] },
     { id: 'module-shopcalc', labelKey: 'modShopcalc', keys: [STORAGE_KEYS.shopcalcItems, STORAGE_KEYS.shopcalcEvents, STORAGE_KEYS.shopcalcEventPlans] },
-    { id: 'module-pets',     labelKey: 'modPets',     keys: [STORAGE_KEYS.pets] },
+    { id: 'module-pets',     labelKey: 'modPets',     keys: [STORAGE_KEYS.pets, STORAGE_KEYS.petsPlan, STORAGE_KEYS.petsPlanOff] },
     // Le barème de jetons corrigé à la main est la seule donnée du Magasin du
     // Théâtre que rien d'autre ne porte. Il se déclare ICI, comme les autres :
     // shop-theater.js n'étant chargé que sur sa page, s'y inscrire n'inscrivait
