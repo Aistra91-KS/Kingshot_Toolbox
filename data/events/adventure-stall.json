@@ -13,7 +13,7 @@
       "FR": "Points de Voyage"
     },
     "updatedAt": "2026-08-27",
-    "source": "Adventure_Stall.xlsx (relevé in-game de Paul)",
+    "source": "Adventure_Stall.xlsx (relevé in-game d'Aistra)",
     "note": "Récompenses exprimées avec les itemId du référentiel (data/shopcalc_items.json). Conversions d'équivalence exacte assumées : « 10 Enhancement XP Part » = 0.1 x 100_enhancement_xp_component ; « 5000 Hero XP » x10 = 10000_hero_xp x5. Les objets absents du référentiel (Skin Token) sont listés mais jamais valorisés. Modèle recalé sur un relevé in-game du 2026-08-27 (jour 3, pass acheté J1, 2 packs a 1,19 EUR) : il rend exactement 300 pieces / 200 points / 2 paliers."
   },
   "missions": [

@@ -384,7 +384,7 @@ function seCompute(upTo){
            rows, extras, covered, totalRows, cart, valueEur, valueGem, pct };
 }
 
-// Crans de couleur du % — seuils choisis par Paul. Le libellé accompagne toujours
+// Crans de couleur du % — seuils choisis par Aistra. Le libellé accompagne toujours
 // la couleur (jamais la couleur seule).
 function seTier(pct){
   if(pct < 100) return { cls:'sxe-t-bad',   label: seT('evQ0') };
@@ -540,7 +540,7 @@ function seDetailHtml(c){
       data-se="chk:${scEscAttr(r.key)}" data-k="${scEscAttr(r.key)}" ${r.off?'':'checked'}
       aria-label="${scEscAttr(seTf('evChkLbl',{x:name}))}" onchange="seToggleItem(this.dataset.k)"></td>`;
 
-  // Ligne de TOTAL, en tête (demande de Paul) : la somme de ce que le tableau liste,
+  // Ligne de TOTAL, en tête (demande d'Aistra) : la somme de ce que le tableau liste,
   // cases décochées exclues. C'est le total des RÉCOMPENSES de l'événement — le panier
   // boutique, compté à part dans les tuiles, n'y figure pas (cf. note sous le tableau).
   const totalRow = `<tr class="sxe-total-row">

@@ -3,7 +3,7 @@
 //  Pure logic, NO DOM. Usable in the browser (window.WA_Optimizer)
 //  and in Node (module.exports) for the test harness.
 //
-//  What each mode is FOR (settled by Paul; do not "fix" one into the other):
+//  What each mode is FOR (settled by Aistra; do not "fix" one into the other):
 //    - Classic / max researches : get the most researches done. It naturally spreads
 //                      across trees, because cheap levels sit everywhere.
 //    - KvK / max points         : get the most KvK points, full stop. If the best plan

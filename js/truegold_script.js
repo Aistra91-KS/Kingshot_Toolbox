@@ -1574,7 +1574,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
     // Résumé de ce que « Appliquer les modifications » écrira dans le formulaire.
     // Le niveau retenu est celui atteint en fin de plan, y compris pour une série
     // laissée en construction : ses ressources sont déjà payées et le joueur finira
-    // le chantier (choix validé par Paul). Les stocks sont ceux d'APRÈS le creuset,
+    // le chantier (choix validé par Aistra). Les stocks sont ceux d'APRÈS le creuset,
     // moins ce que les améliorations consomment.
     const parBatiment = {};
     for (const a of meilleurScenario.ameliorations) {

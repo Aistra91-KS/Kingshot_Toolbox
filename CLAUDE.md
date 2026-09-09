@@ -3,14 +3,14 @@
 > À lire au début de **chaque** session (Claude Code le charge automatiquement).
 > **Ce fichier dit comment travailler. `MAP.md` dit comment le site est fait** — quand une règle
 > technique est décrite là-bas, elle n'est pas recopiée ici, seulement citée.
-> Interlocuteur : Paul. On discute en **français**.
+> Interlocuteur : Aistra. On discute en **français**.
 
 ---
 
 ## Principes communs (Claude Code **et** Claude Cowork)
 
 1. **Point d'entrée** : lire `MAP.md` avant toute tâche, n'ouvrir ensuite que les fichiers concernés.
-2. **Branche dédiée sur le dépôt public, `main` directement sur le miroir privé.** Sur `Kingshot_Toolbox`, jamais de travail direct sur `main` : une erreur y part en ligne. Sur `ToolBoxPrivate`, les commits vont sur `main` — rien n'y est publié, c'est justement l'endroit où l'on essaie (cf. son `README.md`). Toute autre demande explicite de Paul prime.
+2. **Branche dédiée sur le dépôt public, `main` directement sur le miroir privé.** Sur `Kingshot_Toolbox`, jamais de travail direct sur `main` : une erreur y part en ligne. Sur `ToolBoxPrivate`, les commits vont sur `main` — rien n'y est publié, c'est justement l'endroit où l'on essaie (cf. son `README.md`). Toute autre demande explicite d'Aistra prime.
 3. **Être proactif sur les questions** : avant de coder / produire un livrable, si un choix de périmètre, de design ou d'architecture est ambigu, poser la (les) question(s) nécessaire(s) pour garantir la viabilité du travail. Ne pas deviner sur les décisions structurantes ; les défauts raisonnables sont OK pour le reste (les annoncer).
 4. **Être proactif sur les skills** : les skills enregistrés sont un *plus* ajouté pour améliorer l'outil. Les **considérer et les invoquer sans attendre** dès qu'une tâche correspond à leur usage — préciser lequel et pourquoi. Exemples :
    - `ui-ux-pro-max` → tout travail UI/UX (design, mise en page, couleurs, responsive).
@@ -29,7 +29,7 @@
    - **Vocabulaire à éviter** : *crucial*, *vital*, *key* (adjectif), *robust*, *seamless*, *leverage*, *foster*, *enhance*, *streamline*, *showcase*, *underscore*, *delve*, *tapestry*, *landscape*, *realm*, *multifaceted*, *nuanced*, *vibrant*, *rich*, *nestled*, *boasts*, *groundbreaking*, et leurs équivalents français (« riche », « incontournable », « au cœur de », « véritable »).
 
    Un chiffre, un fait ou une mesure valent mieux que l'adjectif qui les annonce. Le lecteur est un joueur, pas un prospect.
-8. **Entretien de ce fichier** : Paul indiquera au fil des sessions les infos à ajouter ou corriger ici. Le garder concis et actionnable — une règle déjà écrite dans `MAP.md` se cite, elle ne se recopie pas.
+8. **Entretien de ce fichier** : Aistra indiquera au fil des sessions les infos à ajouter ou corriger ici. Le garder concis et actionnable — une règle déjà écrite dans `MAP.md` se cite, elle ne se recopie pas.
 
 ---
 
@@ -38,22 +38,22 @@
 - **Git** : brancher depuis `main` à jour → commits clairs → `git push -u origin <branche>` (miroir privé : voir principe 2).
 - **PR** : ne PAS ouvrir de pull request sauf demande explicite. Une PR mergée est finie : repartir de `main` pour tout suivi (ne pas empiler sur l'historique mergé).
 - **Messages de commit / PR** : en **anglais**, langage courant compréhensible par un joueur non développeur (cf. `MAP.md` §9).
-- **Numéro de version : c'est Paul qui décide quand il change — jamais de ma propre initiative.**
+- **Numéro de version : c'est Aistra qui décide quand il change — jamais de ma propre initiative.**
   Livrer le travail **sans toucher** à `SITE.version` ni ajouter d'entrée dans `data/changelog.json`, puis le lui proposer : lui seul tranche s'il y a une nouvelle version, et laquelle. Un bump non demandé passe en ligne au premier merge et il faut ensuite le défaire (arrivé en v1.13.5, défait aussitôt). Une fois qu'il l'a demandé, appliquer le schéma `MAJEURE.FONCTIONNALITÉ.CORRECTIF` — 2ᵉ chiffre pour une **fonctionnalité** (nouvel outil, nouvelle page, refonte d'une section), 3ᵉ pour tout le reste. Détail du format dans `MAP.md` §6 (`changelog.json`) et §9 (« Publier une version »).
 - **Périmètre de la page Nouveautés (`data/changelog.json`) : ce n'est pas un fourre-tout.**
   Elle informe le joueur des **évolutions et nouveautés des pages du site** — un nouvel outil, une nouvelle page, du contenu ajouté, un chiffre corrigé, un confort d'usage qui se voit à l'écran. Ce qui ne change rien pour qui ouvre une page n'y a **pas sa place** : favicon, SEO, refactor, outillage, CI, documentation. Le test : « qu'est-ce que ça change pour quelqu'un qui ouvre une page du site ? » — si la réponse est « rien », ça ne va pas dans le changelog.
 - **Annonces Discord** (`.github/news/announce.md`, mécanique en `MAP.md` §7) : **toujours inclure le lien direct de chaque page concernée** par l'annonce (`https://kingshottoolbox.com/<page>`) — le lecteur doit pouvoir ouvrir la nouveauté sans avoir à la chercher. Règle systématique, à ne plus demander. Committer `announce.md` **seul**, et mettre `covers-until` au SHA du commit qui a publié l'annonce précédente.
-- **Relevé des packs (`data/shopcalc_euro.json`) — la procédure.** Paul fournit **périodiquement** un Excel `Pack_ks.xlsx` à jour (onglets *Data Pack In game* / *Trad* / *Liste item*). L'onglet **`Liste item`** donne le **mode de calcul** de chaque objet, et ses quatre valeurs sont exactement les quatre couches du site : `/ Quantité` = relevé nu, `Barême` = barème, `Calcul autre` = `derived`, `Pondération` = `weights`. La colonne **`Prix`** de l'onglet *Data* porte le prix du pack **en dollars**, et n'est plus la même pour tous. À chaque livraison :
+- **Relevé des packs (`data/shopcalc_euro.json`) — la procédure.** Aistra fournit **périodiquement** un Excel `Pack_ks.xlsx` à jour (onglets *Data Pack In game* / *Trad* / *Liste item*). L'onglet **`Liste item`** donne le **mode de calcul** de chaque objet, et ses quatre valeurs sont exactement les quatre couches du site : `/ Quantité` = relevé nu, `Barême` = barème, `Calcul autre` = `derived`, `Pondération` = `weights`. La colonne **`Prix`** de l'onglet *Data* porte le prix du pack **en dollars**, et n'est plus la même pour tous. À chaque livraison :
   1. **Régénérer `items` d'un bloc** depuis l'Excel — les quantités relevées font foi, **y compris à la baisse** : ce qui existait avant n'était qu'une estimation.
   2. **Conserver les quatre blocs `derived`, `speedups`, `affinity` et `weights`** : ils ne viennent pas de l'Excel, ils corrigent ce que le relevé seul dit mal, et les écraser ramènerait les incohérences qu'ils réparent.
   3. **Relire dans l'Excel les deux `basis`, et eux seuls** : `speedups.basis` (le pack le meilleur en **minutes par euro**) et `affinity.basis` (le meilleur en **points d'affinité par euro**, tous jetons confondus). Ce sont des **totaux par pack** qu'`items` ne permet pas de retrouver.
   4. **Ne jamais toucher `data/shopcalc_items.json`** (valeurs en gemmes) à cette occasion.
-  5. **Demander à Paul l'image d'un pack manquante** (`img/packs/<id>.webp`) : sans elle, l'aperçu au survol est cassé.
+  5. **Demander à Aistra l'image d'un pack manquante** (`img/packs/<id>.webp`) : sans elle, l'aperçu au survol est cassé.
   6. Un objet du relevé **absent du référentiel** est laissé de côté et **signalé**, jamais ajouté d'office.
 
   Tout le reste — périmètre du relevé, meilleur prix unitaire, égalité tranchée au moins cher, paliers de prix, `price`/`priceUsd`, Multipack, contrôle par capture en jeu, ce que fait chacun des quatre blocs — est décrit dans `MAP.md` §6 (`shopcalc_euro.json`). **S'y référer plutôt que de raisonner de mémoire** : les règles y sont chiffrées et illustrées de cas réels.
 - **Accélérateurs restreints (boutiques)** : un accélérateur d'entraînement (icône casque) se relève **comme un accélérateur général** (`1h_general_speedup` / `5m_general_speedup`), jamais comme un nouvel objet du référentiel. Règle systématique sur **toutes** les boutiques — une minute vaut une minute. Cf. `MAP.md` §6.
-- **Site statique GitHub Pages** : aucun build, aucun backend. Tester en servant le repo localement (`py serve.py` sur le miroir) + Chromium préinstallé (`/opt/pw-browsers/chromium`, Playwright déjà configuré). **Attention** : les adresses du site n'ont plus de `.html`, donc `python3 -m http.server` ne résout plus les liens internes — il faut un serveur qui essaie `X.html` quand `/X` est demandé, comme le fait GitHub Pages (cf. `MAP.md` §9).
+- **Site statique GitHub Pages** : aucun build, aucun backend. Tester en servant le repo localement (`python3 serve.py` à la racine, cf. `MAP.md` §9) + Chromium préinstallé (`/opt/pw-browsers/chromium`, Playwright déjà configuré). **Attention** : les adresses du site n'ont plus de `.html`, donc `python3 -m http.server` ne résout plus les liens internes — il faut un serveur qui essaie `X.html` quand `/X` est demandé, comme le fait GitHub Pages (cf. `MAP.md` §9).
 - **Pages générées (26 sur 71)** : les pages `shop/*.html` et `database/buildings/*.html` **ne s'éditent plus à la main** — elles sortent de `tools/build_pages.py` (cf. `MAP.md` §11). Modifier une page directement, c'est un changement perdu à la prochaine génération, et la CI le refuse (`--check`). Après toute modification du gabarit ou des données : relancer `python3 tools/build_pages.py` et **committer la sortie**.
 - **Ce qui est publié** : GitHub Pages sert **tout le dépôt** sauf ce qu'exclut `_config.yml`. Tout nouveau dossier d'outillage doit y être ajouté — sinon il part en ligne à l'adresse du site.
 - **Jumeau français** : `fr/shop/theater-shop.html` n'est pas généré. Toute modification du gabarit boutique doit être **reportée à la main** dessus (cf. `MAP.md` §11).

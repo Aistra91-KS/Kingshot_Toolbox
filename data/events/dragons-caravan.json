@@ -5,8 +5,8 @@
     "days": 6,
     "tier": "Gen 7 / TG5+",
     "updatedAt": "2026-08-27",
-    "source": "Captures in-game de Paul : Tyran des Dragons Flambés / Voie Brûlante (missions) + Pack Essence Draconique (packs).",
-    "note": "La monnaie de l'événement est l'Essence Draconique (champ `coins`), celle de la boutique. IGNORÉS à la demande de Paul : les Marques Draconiques (pièces dorées), les Célébrations Éclatantes (feux d'artifice) et la DERNIÈRE caisse de chaque pack Essence. Équivalence exacte assumée sur les ressources : « 1K pierre » = 0,1 x 10k_stone, « 1K fer » = 0,1 x 10k_iron. Seuls le pack « de Valeur » (1/jour) et la prime gratuite sont quotidiens ; les cinq autres packs ont un stock de 20 sur toute la période, librement réparti. Cet événement n'a ni monnaie secondaire ni palier : les lignes correspondantes ne s'affichent pas."
+    "source": "Captures in-game d'Aistra : Tyran des Dragons Flambés / Voie Brûlante (missions) + Pack Essence Draconique (packs).",
+    "note": "La monnaie de l'événement est l'Essence Draconique (champ `coins`), celle de la boutique. IGNORÉS à la demande d'Aistra : les Marques Draconiques (pièces dorées), les Célébrations Éclatantes (feux d'artifice) et la DERNIÈRE caisse de chaque pack Essence. Équivalence exacte assumée sur les ressources : « 1K pierre » = 0,1 x 10k_stone, « 1K fer » = 0,1 x 10k_iron. Seuls le pack « de Valeur » (1/jour) et la prime gratuite sont quotidiens ; les cinq autres packs ont un stock de 20 sur toute la période, librement réparti. Cet événement n'a ni monnaie secondaire ni palier : les lignes correspondantes ne s'affichent pas."
   },
   "missions": [
     {

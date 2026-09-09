@@ -11,7 +11,7 @@ test("Caravane du Dragon — 4 jours joués, achat fait ailleurs → 230 essence
   // l'événement) : le bon réglage est donc la case `purchaseOk`, pas le compteur
   // `outsideBuys` réservé aux missions quotidiennes (MAP §7, « Piège de
   // requiresPurchase »). Sans ce complément l'outil rendait 195 — le chiffre que
-  // le relevé en jeu de Paul contredisait.
+  // le relevé en jeu d'Aistra contredisait.
   const ctx = await loadEventShop('dragons-caravan', { played: 4, purchaseOk: true });
   const c = run(ctx, 'seCompute()');
   assert.equal(c.coins, 230);
@@ -26,7 +26,7 @@ test("Caravane du Dragon — sans l'achat déclaré, la mission ne se paie pas",
 });
 
 test("Stand d'Aventure — F2P sur 5 jours → 32 388 gemmes", async () => {
-  // Contrôle stable de MAP.md §7 : 30 588 (tableur de Paul) + 1 800 apportés par la
+  // Contrôle stable de MAP.md §7 : 30 588 (tableur d'Aistra) + 1 800 apportés par la
   // piste des Points de Voyage, que le tableur ignorait. NE PAS « corriger » vers
   // 30 588 : l'écart EST la piste de voyage.
   // La contrepartie en euros n'est volontairement pas testée — elle suit le prix de
