@@ -132,8 +132,8 @@ const SITE = {
     waresearch: {
       name: { EN: "War Academy Research", FR: "Recherches Académie" },
       desc: {
-        EN: "Every War Academy troop research, level by level: TrueGold dust, resources, research time, effects and requirements — Infantry, Archer and Cavalry trees.",
-        FR: "Toutes les recherches de troupes de l'Académie de Guerre, palier par palier : poussière d'Or Véritable, ressources, temps, effets et prérequis — arbres Infanterie, Archers et Cavalerie."
+        EN: "Every War Academy troop research, level by level: TrueGold dust, resources, research time, effects and requirements, for the Infantry, Archer and Cavalry trees.",
+        FR: "Toutes les recherches de troupes de l'Académie de Guerre, palier par palier : poussière d'Or Véritable, ressources, temps, effets et prérequis, pour les arbres Infanterie, Archers et Cavalerie."
       },
       icon: "flask-conical",
       href: "database/waracademy/"

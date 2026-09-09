@@ -71,7 +71,7 @@ const i18nBearTrap = {
         linkManual: "Manuel",
         linkNoSource: "Auto (non configuré)",
         linkSync: "Resynchroniser sur la compétence",
-        srcValora: "Valora — Avantage primitif",
+        srcValora: "Valora · Avantage primitif",
         srcBison: "Puissant Bison",
         joinerAuthBtn: "🛡️ Héros autorisés",
         joinerAuthTitle: "Héros joiners autorisés",
@@ -150,7 +150,7 @@ const i18nBearTrap = {
         linkManual: "Manual",
         linkNoSource: "Auto (not set)",
         linkSync: "Re-sync from the skill",
-        srcValora: "Valora — Savage Advantage",
+        srcValora: "Valora · Savage Advantage",
         srcBison: "Mighty Bison",
         joinerAuthBtn: "🛡️ Allowed heroes",
         joinerAuthTitle: "Allowed joiner heroes",
@@ -445,14 +445,14 @@ function btInitHelp(){
     if (!window.HelpSystem) return;
     HelpSystem.init({
         id:'beartrap', banner:true, anchor:'[data-i18n="planTitle"]',
-        title:{FR:'Bear Trap — Aide', EN:'Bear Trap — Help'},
+        title:{FR:'Bear Trap : Aide', EN:'Bear Trap: Help'},
         summary:{FR:"Répartit automatiquement tes troupes sur plusieurs marches pour le Piège à Ours, en respectant ta capacité, tes héros et tes seuils mini.",
                  EN:"Automatically splits your troops across several marches for the Bear Trap, respecting your capacity, heroes and minimum thresholds."},
         steps:{
             FR:["Renseigne tes troupes (Infanterie 🛡️, Archers 🏹, Cavalerie 🐎) et ta capacité de marche (capacité de base + bonus Expert + bonus Animal), ainsi que le nombre de marches max.",
                 "Indique ton rôle (Participant ou Organisateur) et la génération de ton serveur.",
                 "Héros : chaque marche est menée par des héros. Le niveau du héros CAPITAINE détermine la capacité (taille) de la marche ; son type 🛡️/🐎/🏹 oriente la composition. Certains héros sont de meilleurs capitaines/renforts pour le Piège à Ours.",
-                "⚠️ Les niveaux de tes héros proviennent de la page « Ma Caserne ». Configure-les là-bas d'abord — sinon ils sont considérés au niveau 1 et les capacités calculées seront fausses.",
+                "⚠️ Les niveaux de tes héros proviennent de la page « Ma Caserne ». Configure-les là-bas d'abord. Sinon ils sont considérés au niveau 1 et les capacités calculées seront fausses.",
                 "Crée une marche via « + Nouvelle marche », choisis ses héros, ou clique « 🪄 Suggérer » pour piocher automatiquement tes meilleurs héros (depuis Ma Caserne) adaptés au Piège à Ours.",
                 "🛡️ « Héros autorisés » : ouvre le menu des joiners permis par ton alliance (liste selon la génération de serveur). Les héros classés C et D y sont décochés par défaut (« Non recommandé »). Ce menu et la tier-list ne concernent que le CAPITAINE de chaque marche (le seul à porter l'effet du rally) : le capitaine est choisi parmi les héros cochés, puis départagé à niveau/compétences égales par le rang. Les 2 renforts sont pris au plus haut niveau (pour la capacité de la marche), quel que soit leur rang.",
                 "Choisis le mode d'optimisation (seuils mini Infanterie/Cavalerie) puis « Générer le reste des marches » : tes troupes restantes sont réparties automatiquement.",
@@ -460,13 +460,13 @@ function btInitHelp(){
             EN:["Enter your troops (Infantry 🛡️, Archers 🏹, Cavalry 🐎) and your march capacity (base + Expert bonus + Animal bonus), plus the max number of marches.",
                 "Set your role (Participant or Organizer) and your server generation.",
                 "Heroes: each march is led by heroes. The CAPTAIN hero's level sets the march capacity (size); its type 🛡️/🐎/🏹 drives the composition. Some heroes make better captains/joiners for the Bear Trap.",
-                "⚠️ Your heroes' levels come from the “My Barracks” page. Set them there first — otherwise they count as level 1 and the computed capacities will be wrong.",
+                "⚠️ Your heroes' levels come from the “My Barracks” page. Set them there first. Otherwise they count as level 1 and the computed capacities will be wrong.",
                 "Create a march via “+ New march”, pick its heroes, or click “🪄 Suggest” to auto-pick your best heroes (from My Barracks) suited to the Bear Trap.",
                 "🛡️ “Allowed heroes”: opens the menu of joiners your alliance permits (listed by server generation). Heroes ranked C and D are unchecked by default (“Not recommended”). This menu and the tier-list only apply to each march's CAPTAIN (the only one carrying the rally effect): the captain is picked from the checked heroes, then level/skill ties are broken by rank. The 2 backup heroes are taken at the highest level (for march capacity), regardless of their rank.",
                 "Pick the optimization mode (min Infantry/Cavalry thresholds) then “Generate the rest”: your remaining troops are split automatically.",
                 "Read the deployment plan: composition, capacity and total of each march. Hover the “i” icons for field details."]
         },
-        links:[{label:{FR:'⚙️ Configurer mes héros — Ma Caserne', EN:'⚙️ Set up my heroes — My Barracks'}, href:'caserne'}]
+        links:[{label:{FR:'⚙️ Configurer mes héros · Ma Caserne', EN:'⚙️ Set up my heroes · My Barracks'}, href:'caserne'}]
     });
 }
 document.addEventListener('DOMContentLoaded', async () => {

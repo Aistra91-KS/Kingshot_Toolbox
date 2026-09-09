@@ -448,7 +448,7 @@ function vkInitHelp() {
     if (!window.HelpSystem) return;
     HelpSystem.init({
         id: 'vikings', banner: true, anchor: '[data-i18n="planTitle"]',
-        title: { FR: 'Vikings — Aide', EN: 'Vikings — Help' },
+        title: { FR: 'Vikings : Aide', EN: 'Vikings: Help' },
         summary: {
             FR: "Répartit tes troupes sur tes marches pour l'événement Vikings selon ta capacité de marche, et te montre la composition de chaque marche ainsi que ce qui reste en garnison.",
             EN: "Splits your troops across your marches for the Vikings event based on your march capacity, and shows each march's composition and what stays in the garrison."

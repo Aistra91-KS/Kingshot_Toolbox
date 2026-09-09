@@ -60,7 +60,7 @@ window.scResetItems=function(){
 
   if (window.HelpSystem) HelpSystem.init({
     id:'shop-items', banner:true,
-    title:{FR:'Valeur des objets — Aide', EN:'Item values — Help'},
+    title:{FR:'Valeur des objets : Aide', EN:'Item values: Help'},
     summary:{FR:"Ce tableau donne la valeur en gemmes de chaque objet. C'est lui qui sert de référence à toutes les pages boutique du site.",
              EN:"This table holds each item's value in gems. Every shop page on the site uses it as its reference."},
     steps:{

@@ -229,8 +229,8 @@
       "priceUsd": 5,
       "once": true,
       "note": {
-        "EN": "One purchase for the whole event. Grants the Epic reward bundle right away, then DOUBLES your daily mission rewards until the event ends - coins, Stall Points, hero XP and speedups.",
-        "FR": "Un seul achat pour tout l'événement. Donne aussitôt le lot « Epic », puis DOUBLE les récompenses de tes missions quotidiennes jusqu'à la fin - pièces, Points de Vente, XP de héros et accélérateurs."
+        "EN": "One purchase for the whole event. Grants the Epic reward bundle right away, then DOUBLES your daily mission rewards until the event ends: coins, Stall Points, hero XP and speedups.",
+        "FR": "Un seul achat pour tout l'événement. Donne aussitôt le lot « Epic », puis DOUBLE les récompenses de tes missions quotidiennes jusqu'à la fin : pièces, Points de Vente, XP de héros et accélérateurs."
       },
       "immediate": {
         "items": [

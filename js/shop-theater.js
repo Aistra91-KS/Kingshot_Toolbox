@@ -316,7 +316,7 @@ const ST_DEFAULTS = { floor: 1, pity: 0, tokens: {}, toksOpen: false };
 const i18nTheater = {
     EN: {
         title: 'What your amulets are worth',
-        intro: 'The packs and missions above pay Amulets, not Tokens: Amulets feed the Theater draw, and the floors you reach in it pay the shop currency. This is that missing link - what a plan of amulets turns into.',
+        intro: 'The packs and missions above pay Amulets, not Tokens: Amulets feed the Theater draw, and the floors you reach in it pay the shop currency. This is that missing link: what a plan of amulets turns into.',
         pocket: 'Amulets in hand',
         pocketSub: 'today, day {n}',
         budget: 'Amulets left to spend',
@@ -335,11 +335,11 @@ const i18nTheater = {
         actUp: 'went up',
         actClaim: 'cashed in',
         actFailTip: 'An exploration that did not move you up: counter +1, and the amulets are added to what you have spent.',
-        actUpTip: 'An exploration that moved you up {n} floor(s): counter reset, and one exploration added to what you have spent - a jump of two or three floors still costs a single push.',
+        actUpTip: 'An exploration that moved you up {n} floor(s): counter reset, and one exploration added to what you have spent. A jump of two or three floors still costs a single push.',
         actClaimTip: 'You took the floor reward: back to floor 1, counter reset. Costs no amulets.',
         actCost: 'costs {n} here',
         lblTokens: 'Tokens paid by each floor',
-        tokHint: 'Shipped with a reading from one server. The game publishes them nowhere and they may differ on yours - change any of them and everything below follows.',
+        tokHint: 'Shipped with a reading from one server. The game publishes them nowhere and they may differ on yours. Change any of them and everything below follows.',
         tokHintLot: 'What a failed exploration pays is not in here: it follows the cost of the exploration itself, {n} times over.',
         tokReset: 'Restore default values',
         floor: 'Floor',
@@ -354,7 +354,7 @@ const i18nTheater = {
         thFailTok: 'Tokens if it fails',
         ruleAt: 'Cash in from floor', bestRule: 'Best',
         climbTitle: 'What a climb costs',
-        climbSub: 'A failed exploration is not wasted: it pays tokens - {n} times what it cost - on top of counting toward the activity track. Over a whole climb that consolation is worth more than half of what the floors themselves pay.',
+        climbSub: 'A failed exploration is not wasted: it pays tokens ({n} times what it cost) on top of counting toward the activity track. Over a whole climb that consolation is worth more than half of what the floors themselves pay.',
         thFloor: 'Floor', thOne: 'One exploration', thAsc: 'Average per ascent', thPeak: 'Average to reach floor 7',
         fortTitle: 'Fanstars and the Fortress',
         fortPeaks: 'Peak visits per Fortress entry',
@@ -363,11 +363,11 @@ const i18nTheater = {
         fortCycle: 'Full cycle, Theater and Fortress',
         perAmulet: 'tokens per amulet',
         noPlan: 'Tick what you buy in the grid above and this works out what those amulets are worth.',
-        noTokens: 'Every floor is set to 0 tokens, so there is nothing to weigh up: fill in "Tokens paid by each floor" - or restore the default values - and the advice comes back.'
+        noTokens: 'Every floor is set to 0 tokens, so there is nothing to weigh up: fill in "Tokens paid by each floor", or restore the default values, and the advice comes back.'
     },
     FR: {
         title: 'Ce que valent tes amulettes',
-        intro: 'Les packs et les missions ci-dessus versent des Amulettes, pas des Jetons : les Amulettes alimentent le tirage du Théâtre, et ce sont les étages atteints qui paient la monnaie de la boutique. Voici ce chaînon manquant — ce que devient un plan d’amulettes.',
+        intro: 'Les packs et les missions ci-dessus versent des Amulettes, pas des Jetons : les Amulettes alimentent le tirage du Théâtre, et ce sont les étages atteints qui paient la monnaie de la boutique. Voici ce chaînon manquant : ce que devient un plan d’amulettes.',
         pocket: 'Amulettes en poche',
         pocketSub: 'aujourd’hui, jour {n}',
         budget: 'À dépenser d’ici la fin',
@@ -386,11 +386,11 @@ const i18nTheater = {
         actUp: 'monter',
         actClaim: 'encaisser',
         actFailTip: 'Une exploration qui n’a pas fait monter : compteur +1, et les amulettes s’ajoutent à tes dépensées.',
-        actUpTip: 'Une exploration qui a fait monter de {n} étage(s) : compteur remis à zéro, et une exploration ajoutée à tes dépensées — un saut de deux ou trois étages ne coûte qu’une poussée.',
+        actUpTip: 'Une exploration qui a fait monter de {n} étage(s) : compteur remis à zéro, et une exploration ajoutée à tes dépensées. Un saut de deux ou trois étages ne coûte qu’une poussée.',
         actClaimTip: 'Tu as pris la récompense de l’étage : retour à l’étage 1, compteur remis à zéro. Ne coûte aucune amulette.',
         actCost: 'coûte {n} ici',
         lblTokens: 'Jetons donnés par chaque étage',
-        tokHint: 'Livrés avec le relevé d’un serveur. Le jeu ne les publie nulle part et ils peuvent différer chez toi — change-les et tout ce qui suit s’ajuste.',
+        tokHint: 'Livrés avec le relevé d’un serveur. Le jeu ne les publie nulle part et ils peuvent différer chez toi. Change-les et tout ce qui suit s’ajuste.',
         tokHintLot: 'Ce que paie une exploration ratée n’est pas ici : cela suit le coût de l’exploration elle-même, multiplié par {n}.',
         tokReset: 'Rétablir les valeurs par défaut',
         floor: 'Étage',
@@ -400,12 +400,12 @@ const i18nTheater = {
         thReach: 'Atteindre au moins', thOdds: 'Chances', thCostFrom: 'Coût moyen depuis ton étage',
         cashTitle: 'Où encaisser',
         cashSub: 'Encaisser met fin à la manche et renvoie à l’étage 1 : la question est toujours de savoir si l’étage suivant vaut ce qu’il coûte à atteindre.',
-        cashSubLot: 'Les jetons comptés incluent les lots ramassés en chemin sur les explorations ratées — c’est pourquoi ils dépassent la seule récompense de l’étage.',
+        cashSubLot: 'Les jetons comptés incluent les lots ramassés en chemin sur les explorations ratées, c’est pourquoi ils dépassent la seule récompense de l’étage.',
         thRule: 'Consigne', thCost: 'Amulettes en moyenne', thGain: 'Jetons en moyenne', thRatio: 'Jetons par amulette',
         thFailTok: 'Jetons si échec',
         ruleAt: 'Encaisser dès l’étage', bestRule: 'Meilleure',
         climbTitle: 'Ce que coûte une montée',
-        climbSub: 'Une exploration ratée n’est pas perdue : elle paie des jetons — {n} fois son coût — en plus de compter pour les paliers d’activité. Sur une montée entière, ce lot vaut plus de la moitié de ce que paient les étages eux-mêmes.',
+        climbSub: 'Une exploration ratée n’est pas perdue : elle paie des jetons ({n} fois son coût) en plus de compter pour les paliers d’activité. Sur une montée entière, ce lot vaut plus de la moitié de ce que paient les étages eux-mêmes.',
         thFloor: 'Étage', thOne: 'Une exploration', thAsc: 'Moyenne par montée', thPeak: 'Moyenne pour l’étage 7',
         fortTitle: 'Fanstars et Forteresse',
         fortPeaks: 'Passages au sommet par entrée',
@@ -414,7 +414,7 @@ const i18nTheater = {
         fortCycle: 'Cycle complet, Théâtre et Forteresse',
         perAmulet: 'jetons par amulette',
         noPlan: 'Coche tes achats dans la grille ci-dessus et le calcul te dira ce que ces amulettes valent.',
-        noTokens: 'Tous les étages sont à 0 jeton : il n’y a plus rien à arbitrer. Renseigne « Jetons donnés par chaque étage » — ou rétablis les valeurs par défaut — et le conseil revient.'
+        noTokens: 'Tous les étages sont à 0 jeton : il n’y a plus rien à arbitrer. Renseigne « Jetons donnés par chaque étage », ou rétablis les valeurs par défaut, et le conseil revient.'
     }
 };
 
@@ -580,8 +580,8 @@ function stReconcileHtml(total, spent, derived, future, pocket, dayNow, muted) {
             : `<strong>These numbers do not add up.</strong> In hand today: ${stFmt(total)} paid − ${stFmt(spent)} spent − ${stFmt(future)} still to come = ${pocketTxt}. A negative balance cannot happen in game: the event file is missing a source of amulets, and the gap against your real balance is exactly what is missing.`}</p>`;
     }
     return `<p class="stx-recon">${fr
-        ? `<strong>Aujourd’hui</strong> (jour ${dayNow}) tu devrais avoir ${pocketTxt} amulettes en poche — <em>c’est ce chiffre-là, et lui seul, qui doit correspondre au jeu.</em> Le budget de ${stFmt(derived)} y ajoute les ${stFmt(future)} que ton plan versera d’ici la fin : packs des jours à venir et missions pas encore faites, que tu n’as évidemment pas encore.`
-        : `<strong>Today</strong> (day ${dayNow}) you should be holding ${pocketTxt} amulets - <em>that figure, and only that one, is what should match the game.</em> The ${stFmt(derived)} budget adds the ${stFmt(future)} your plan will still pay before the end: packs on days to come and missions not yet done, which you obviously do not have yet.`}</p>`;
+        ? `<strong>Aujourd’hui</strong> (jour ${dayNow}) tu devrais avoir ${pocketTxt} amulettes en poche. <em>C’est ce chiffre-là, et lui seul, qui doit correspondre au jeu.</em> Le budget de ${stFmt(derived)} y ajoute les ${stFmt(future)} que ton plan versera d’ici la fin : packs des jours à venir et missions pas encore faites, que tu n’as évidemment pas encore.`
+        : `<strong>Today</strong> (day ${dayNow}) you should be holding ${pocketTxt} amulets. <em>That figure, and only that one, is what should match the game.</em> The ${stFmt(derived)} budget adds the ${stFmt(future)} your plan will still pay before the end: packs on days to come and missions not yet done, which you obviously do not have yet.`}</p>`;
 }
 
 /* Temps restant avant la fermeture de l'ÉVÉNEMENT — pas de la boutique, qui lui
@@ -705,7 +705,7 @@ function stRender(host, c) {
         const left = open ? scTimeLeftTxt(shop.endsAt) : '';
         verdict = `<p>${fr
             ? `<strong>L’événement est terminé.</strong> Le tirage est fermé : plus d’exploration ni d’encaissement possible. ` + (open
-                ? `Il ne te reste qu’à dépenser tes Jetons dans le tableau de la boutique ci-dessus — elle ferme dans <strong>${left}</strong>.`
+                ? `Il ne te reste qu’à dépenser tes Jetons dans le tableau de la boutique ci-dessus. Elle ferme dans <strong>${left}</strong>.`
                 : `La boutique a fermé elle aussi : les chiffres ci-dessous restent affichés pour comparer, ou préparer le prochain passage.`)
             : `<strong>The event is over.</strong> The draw is closed: no more exploration, no more cashing in. ` + (open
                 ? `All that is left is spending your Tokens in the shop table above - it closes in <strong>${left}</strong>.`
@@ -774,12 +774,12 @@ function stRender(host, c) {
         // à dire, puisque le seul vrai risque est de finir sur une montée non encaissée.
         const dl = stDeadline();
         if (dl) bits.push(fr
-            ? `L’événement ferme dans <strong>${dl}</strong> — la boutique, elle, reste ouverte 24 h de plus, mais seulement pour dépenser les Jetons. Une montée laissée en plan à la fermeture ne rapporte rien.`
+            ? `L’événement ferme dans <strong>${dl}</strong>. La boutique, elle, reste ouverte 24 h de plus, mais seulement pour dépenser les Jetons. Une montée laissée en plan à la fermeture ne rapporte rien.`
             : `The event closes in <strong>${dl}</strong> - the shop stays open 24 h longer, but only to spend Tokens. A climb left hanging when it closes pays nothing.`);
 
         if (s.pity > 0 && s.floor < a.peak) bits.push(fr
-            ? `Tes ${s.pity} échec(s) ne sont pas perdus : la prochaine exploration monte à ${stPct(a.pity[s.pity])}, contre ${stPct(a.pity[0])} sur un compteur neuf — et la 5ᵉ est garantie.`
-            : `Your ${s.pity} failed push(es) are not wasted: the next exploration ascends at ${stPct(a.pity[s.pity])} against ${stPct(a.pity[0])} on a fresh counter - and the 5th is guaranteed.`);
+            ? `Tes ${s.pity} échec(s) ne sont pas perdus : la prochaine exploration monte à ${stPct(a.pity[s.pity])}, contre ${stPct(a.pity[0])} sur un compteur neuf, et la 5ᵉ est garantie.`
+            : `Your ${s.pity} failed push(es) are not wasted: the next exploration ascends at ${stPct(a.pity[s.pity])} against ${stPct(a.pity[0])} on a fresh counter, and the 5th is guaranteed.`);
         verdict = bits.map(b => `<p>${b}</p>`).join('');
     }
 
@@ -1030,24 +1030,24 @@ window.spHelpExtras = function (cfg) {
     const lot = !ST.mech || !!(ST.mech.rules && ST.mech.rules.failTokenMultiplier);
     const steps = {
         FR: [
-            "Sous le détail des gains, cette boutique a une section de plus : « Ce que valent tes amulettes ». Les packs du Théâtre versent des Amulettes Fantaisie, jamais des Jetons — les Amulettes servent à explorer le Théâtre, et ce sont les étages atteints qui paient les Jetons. Cette section est ce chaînon manquant.",
-            "Commence par relever dans le jeu ton « Étage actuel » et tes « Échecs d'affilée » : tout le reste en découle. Les échecs ne sont pas perdus, c'est la garantie du Théâtre — 10 % de chance de monter sur un compteur neuf, puis 30, 60, 80, et 100 % à la cinquième exploration.",
-            "Une exploration ratée n'est pas un coup pour rien : elle paie des Jetons, dix fois ce qu'elle a coûté en amulettes — 50 à l'étage 1, 1 000 à l'étage 6, la colonne « Jetons si échec » les donne tous. Comme près des deux tiers des amulettes partent sur des tentatives ratées, ce lot pèse à lui seul la moitié de ce que paient les étages : tous les chiffres de la section le comptent.",
-            "Ensuite, après chaque exploration en jeu, clique sur ce que tu viens de faire : « échouer », « monter » +1, +2 ou +3, ou « encaisser ». L'étage, le compteur et les « Amulettes Fantaisie dépensées » se mettent à jour ensemble. Un saut de deux ou trois étages ne coûte qu'une seule exploration — d'où les trois boutons.",
+            "Sous le détail des gains, cette boutique a une section de plus : « Ce que valent tes amulettes ». Les packs du Théâtre versent des Amulettes Fantaisie, jamais des Jetons : les Amulettes servent à explorer le Théâtre, et ce sont les étages atteints qui paient les Jetons. Cette section est ce chaînon manquant.",
+            "Commence par relever dans le jeu ton « Étage actuel » et tes « Échecs d'affilée » : tout le reste en découle. Les échecs ne sont pas perdus, c'est la garantie du Théâtre : 10 % de chance de monter sur un compteur neuf, puis 30, 60, 80, et 100 % à la cinquième exploration.",
+            "Une exploration ratée n'est pas un coup pour rien : elle paie des Jetons, dix fois ce qu'elle a coûté en amulettes : 50 à l'étage 1, 1 000 à l'étage 6, et la colonne « Jetons si échec » les donne tous. Comme près des deux tiers des amulettes partent sur des tentatives ratées, ce lot pèse à lui seul la moitié de ce que paient les étages : tous les chiffres de la section le comptent.",
+            "Ensuite, après chaque exploration en jeu, clique sur ce que tu viens de faire : « échouer », « monter » +1, +2 ou +3, ou « encaisser ». L'étage, le compteur et les « Amulettes Fantaisie dépensées » se mettent à jour ensemble. Un saut de deux ou trois étages ne coûte qu'une seule exploration, d'où les trois boutons.",
             "Deux chiffres à ne pas confondre. « Amulettes en poche » est le seul qui doive correspondre au jeu aujourd'hui ; « À dépenser d'ici la fin » y ajoute les packs des jours à venir et les missions pas encore faites, et c'est sur celui-là qu'on raisonne. Si le solde en poche ne colle pas au jeu, corrige la grille d'achats au-dessus.",
-            "« Pousse » ou « Encaisse » répond à une seule question : tenter l'étage suivant, ou prendre la récompense et repartir de l'étage 1 ? La réponse dépend d'où tu es et de ce qu'il te reste — un gros budget rend la poussée payante, un petit budget non. La page donne le seuil exact où le conseil bascule.",
+            "« Pousse » ou « Encaisse » répond à une seule question : tenter l'étage suivant, ou prendre la récompense et repartir de l'étage 1 ? La réponse dépend d'où tu es et de ce qu'il te reste : un gros budget rend la poussée payante, un petit budget non. La page donne le seuil exact où le conseil bascule.",
             "Les trois tableaux disent la même chose sous trois angles : jusqu'où tes amulettes t'emmènent, à quel étage encaisser rapporte le plus par amulette, et ce que coûte chaque montée. Le dernier bloc chiffre la Forteresse, qui s'ouvre avec les Fanstars ramassés en chemin.",
-            "Le barème « Jetons donnés par chaque étage » est un relevé de serveur — le jeu ne le publie nulle part. S'il diffère chez toi, corrige-le : tout ce qui précède se recalcule, et tes valeurs sont conservées et emportées par la Sauvegarde Globale."
+            "Le barème « Jetons donnés par chaque étage » est un relevé de serveur, le jeu ne le publie nulle part. S'il diffère chez toi, corrige-le : tout ce qui précède se recalcule, et tes valeurs sont conservées et emportées par la Sauvegarde Globale."
         ],
         EN: [
-            "Below the reward breakdown, this shop has one extra section: “What your amulets are worth”. Theater packs pay Fantasy Amulets, never Tokens — Amulets are what you spend exploring the Theater, and the floors you reach are what pay the Tokens. This section is that missing link.",
-            "Start by reading your “Current floor” and “Failed pushes in a row” off the game: everything else follows from those two. Failed pushes are not wasted, they are the Theater's guarantee — a 10% chance of going up on a fresh counter, then 30, 60, 80, and 100% on the fifth exploration.",
-            "A failed exploration is not a wasted push: it pays Tokens, ten times what it cost in amulets - 50 on floor 1, 1,000 on floor 6, the “Tokens if it fails” column lists them all. Since close to two thirds of your amulets go on failed attempts, that consolation alone is worth half of what the floors pay: every figure in this section counts it.",
-            "From then on, after each exploration in game, click what you just did: “failed”, “went up” +1, +2 or +3, or “cashed in”. The floor, the counter and the “Fantasy Amulets spent” field all move together. A jump of two or three floors still costs a single exploration — hence the three buttons.",
+            "Below the reward breakdown, this shop has one extra section: “What your amulets are worth”. Theater packs pay Fantasy Amulets, never Tokens. Amulets are what you spend exploring the Theater, and the floors you reach are what pay the Tokens. This section is that missing link.",
+            "Start by reading your “Current floor” and “Failed pushes in a row” off the game: everything else follows from those two. Failed pushes are not wasted, they are the Theater's guarantee: a 10% chance of going up on a fresh counter, then 30, 60, 80, and 100% on the fifth exploration.",
+            "A failed exploration is not a wasted push: it pays Tokens, ten times what it cost in amulets: 50 on floor 1, 1,000 on floor 6, the “Tokens if it fails” column lists them all. Since close to two thirds of your amulets go on failed attempts, that consolation alone is worth half of what the floors pay: every figure in this section counts it.",
+            "From then on, after each exploration in game, click what you just did: “failed”, “went up” +1, +2 or +3, or “cashed in”. The floor, the counter and the “Fantasy Amulets spent” field all move together. A jump of two or three floors still costs a single exploration, hence the three buttons.",
             "Two figures not to confuse. “Amulets in hand” is the only one that should match the game today; “Amulets left to spend” adds the packs of the days ahead and the missions not yet done, and that is the one to plan on. If the in-hand figure does not match the game, fix the purchase grid above.",
-            "“Push” or “Cash in” answers one question: try the next floor, or take the reward and start again from floor 1? The answer depends on where you are and what you have left — a large budget makes pushing pay, a small one does not. The page gives the exact budget where the advice flips.",
+            "“Push” or “Cash in” answers one question: try the next floor, or take the reward and start again from floor 1? The answer depends on where you are and what you have left: a large budget makes pushing pay, a small one does not. The page gives the exact budget where the advice flips.",
             "The three tables say the same thing from three angles: how far your amulets take you, which floor pays the most tokens per amulet to cash in on, and what each climb costs. The last block prices the Fortress, which opens with the Fanstars picked up along the way.",
-            "The “Tokens paid by each floor” table is one server's reading — the game publishes it nowhere. If yours differs, correct it: everything above recalculates, and your values are kept and carried by the Global Backup."
+            "The “Tokens paid by each floor” table is one server's reading, and the game publishes it nowhere. If yours differs, correct it: everything above recalculates, and your values are kept and carried by the Global Backup."
         ]
     };
     if (!lot) { steps.FR.splice(2, 1); steps.EN.splice(2, 1); }
