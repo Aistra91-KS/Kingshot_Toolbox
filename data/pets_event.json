@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "source": "Capture en jeu — événement KVK « Entraînement Animalier », infobulle « Score de progression de l'animal ».",
+    "notes": "Barème relevé sur capture d'écran puis RECOUPÉ EN JEU par Paul le 09/09/2026 : avancer l'Ours de Guerre Cuirassé au niveau 20 lui a rapporté exactement 50 000 points, soit advancementScore['20'] (1 000) × pointsPerScore (50). Ce contrôle vaut surtout pour le FACTEUR 50, qui était l'hypothèse la plus lourde du fichier ; les dix lignes de advancementScore viennent de la même infobulle, désormais vérifiée en un point. advancementScore[cap] = score d'avancement gagné en avançant AU niveau <cap> ; pointsPerScore = points d'événement par point de score, lu sur la mission « Augmente le score d'avancement des animaux de 1 → 50 Points ». Les niveaux entre deux caps (payés en nourriture) ne rapportent AUCUN point : ils ne sont qu'un péage vers le cap suivant. Les quantités des avancements, elles, ne sont pas ici : elles viennent de pets_db.json (advancements[] et petFood[]).",
+    "chestNote": "Le coffre est un choix, pas un lot : une ouverture donne 7 manuels OU 2 potions OU 1 médaillon. C'est ce qui rend l'arbitrage intéressant — l'optimiseur décide de la répartition."
+  },
+  "event": {
+    "id": "beast-training",
+    "name": { "EN": "Beast Training", "FR": "Entraînement Animalier" }
+  },
+  "pointsPerScore": 50,
+  "advancementScore": {
+    "10": 500,
+    "20": 1000,
+    "30": 2000,
+    "40": 3000,
+    "50": 4500,
+    "60": 6750,
+    "70": 10000,
+    "80": 12000,
+    "90": 14500,
+    "100": 17500
+  },
+  "chest": {
+    "itemId": "pet_advancement_materials_custom_chest",
+    "name": { "EN": "Pet Advancement Materials Custom Chest", "FR": "Coffre personnalisé de Matériaux d'Avancement Animal" },
+    "img": "img/Item/Pet Advancement Materials Custom Chest.webp",
+    "choices": { "growthManual": 7, "nutrientPotion": 2, "promotionMedallion": 1 }
+  },
+  "materials": {
+    "petFood":            { "itemId": "pet_food_x1",       "name": { "EN": "Pet Food",            "FR": "Nourriture pour Animaux" }, "img": "img/Item/Pet Food x1.webp" },
+    "growthManual":       { "itemId": "growth_manual",     "name": { "EN": "Growth Manual",       "FR": "Manuel de Croissance" },    "img": "img/Item/Growth Manual.webp" },
+    "nutrientPotion":     { "itemId": "nutrient_potion",   "name": { "EN": "Nutrient Potion",     "FR": "Potion Nutritive" },        "img": "img/Item/Nutrient Potion.webp" },
+    "promotionMedallion": { "itemId": "promotion_medallion", "name": { "EN": "Promotion Medallion", "FR": "Médaillon de Promotion" }, "img": "img/Item/Promotion Medaillon.webp" }
+  }
+}

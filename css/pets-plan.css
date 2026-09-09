@@ -1,0 +1,350 @@
+/* ============================================================
+   css/pets-plan.css — Familiers · onglet « Plan d'avancement »
+
+   Même direction artistique que la promenade (css/pets.css) : palette
+   nature/sage, cartes blanches translucides, Cormorant Garamond pour
+   les titres et les chiffres, Karla pour le texte. Le panneau doit
+   donner l'impression d'être la même page vue autrement, pas un
+   second outil collé à côté.
+
+   Préfixe `.pp-` pour tout ce qui naît ici. Cette feuille ne réutilise
+   que des variables et des classes DÉJÀ EN LIGNE dans css/pets.css et
+   css/style.css : elle arrive toujours avec js/pets-plan.js (deux
+   fichiers neufs, donc jamais en cache périmé, cf. MAP §9), mais les
+   deux anciennes feuilles, elles, peuvent être en cache.
+   ============================================================ */
+
+/* ---------- Scène : la barre d'onglets, puis l'un des deux volets ---------- */
+.pp-stage{
+  flex:1; min-width:0; max-width:100%; display:flex; flex-direction:column; gap:10px;
+  height:calc(100vh - var(--header-offset) - 20px);
+}
+/* `max-width:100%` n'est pas de la ceinture-bretelles. Sous 768px le body passe en
+   `flex-direction:column` AVEC `flex-wrap:wrap` (cf. MAP §5, pied de page) : la
+   largeur devient l'axe TRANSVERSE, une ligne s'y dimensionne sur son contenu, et
+   `min-width:0` — qui ne gouverne que l'axe principal — n'y peut rien. Sans cette
+   ligne, le tableau des avancements poussait la scène à 830px dans un écran de
+   390px, et toute la page défilait latéralement. */
+.pp-pane{ min-width:0; max-width:100%; }
+/* La promenade portait sa propre hauteur ; dans la scène c'est le wrapper qui
+   la porte, sinon les onglets la poussent hors de l'écran. Sélecteur enfant à
+   dessein : sans le wrapper (JS en échec), .pet-main garde sa hauteur d'origine. */
+.pp-stage > .pet-main{ height:auto; flex:1; min-height:0; }
+
+/* ---------- Barre d'onglets (contrôle segmenté) ---------- */
+.pp-tabs{
+  flex:none; align-self:center; display:inline-flex; gap:3px; padding:3px;
+  background:rgba(255,255,255,.55); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(120,130,90,.25); border-radius:999px;
+  box-shadow:0 2px 10px rgba(60,70,40,.08);
+}
+.pp-tab{
+  min-height:40px; padding:8px 20px; border:0; border-radius:999px; cursor:pointer;
+  background:transparent; color:var(--ink-soft);
+  font-family:'Karla','Segoe UI',sans-serif; font-size:.86rem; font-weight:600; letter-spacing:.02em;
+  display:inline-flex; align-items:center; gap:8px;
+  transition:background .18s ease, color .18s ease;
+}
+.pp-tab:hover{ background:oklch(0.88 0.06 135 / .45); color:var(--ink); }
+.pp-tab[aria-selected="true"]{
+  background:var(--green); color:#fff;
+  box-shadow:0 2px 10px oklch(0.50 0.10 135 / .35);
+}
+.pp-tab .pp-tab-ico{ width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; flex:none; }
+
+/* ---------- Volet du plan ---------- */
+.pp-pane{
+  flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain;
+  border-radius:8px; box-shadow:0 4px 6px var(--shadow);
+  padding:20px clamp(14px,2.4vw,28px) 34px;
+  font-family:'Karla','Segoe UI',sans-serif; color:var(--ink-soft);
+  background:linear-gradient(180deg, oklch(0.93 0.035 128) 0%, oklch(0.90 0.045 134) 40%, oklch(0.88 0.05 138) 100%);
+}
+.pp-head{ display:flex; align-items:baseline; flex-wrap:wrap; gap:10px 14px; margin:0 0 4px; }
+.pp-title{ margin:0; font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.9rem; line-height:1.1; color:var(--ink); }
+.pp-event{
+  font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--green);
+  border:1px solid oklch(0.68 0.09 135 / .5); background:oklch(0.90 0.05 135 / .45);
+  border-radius:999px; padding:4px 11px;
+}
+.pp-sub{ margin:0 0 18px; font-size:.84rem; line-height:1.55; max-width:74ch; }
+.pp-sub a{ color:var(--green); font-weight:600; }
+
+/* Deux colonnes : le stock à gauche (il se relit sans cesse), le plan à droite */
+.pp-cols{ display:grid; grid-template-columns:minmax(260px,300px) minmax(0,1fr); gap:clamp(14px,2vw,24px); align-items:start; }
+.pp-side{
+  position:sticky; top:0; display:flex; flex-direction:column; gap:14px;
+  /* Ce que la colonne peut occuper sans cacher son bas. Elle est collée au haut
+     du volet, qui est lui-même la zone défilante : la hauteur disponible est donc
+     celle du volet, soit la scène (100vh − en-tête − 20 de marge du body) moins la
+     barre d'onglets (48), l'écart qui la suit (10) et le rembourrage haut du volet
+     (20). Sous-estimer ce retrait laisse la dernière ligne du stock restant sous
+     le bord, sans aucun moyen de l'atteindre — la panne même qu'on répare ici.
+     Pas d'`overscroll-behavior:contain` : arrivée en bout, la molette doit
+     continuer dans le volet, sinon la page paraît figée au-dessus de la colonne. */
+  max-height:calc(100vh - var(--header-offset) - 98px); overflow-y:auto;
+}
+
+.pp-card{
+  background:rgba(255,255,255,.68); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.75); border-radius:18px; padding:16px 18px;
+  box-shadow:0 18px 38px -20px rgba(60,70,40,.28), 0 3px 10px rgba(60,70,40,.06);
+}
+.pp-card-t{
+  font-size:11px; text-transform:uppercase; letter-spacing:.16em; font-weight:600; color:var(--green);
+  margin:0 0 12px; display:flex; align-items:center; gap:8px;
+}
+.pp-card-t::after{ content:""; flex:1; height:1px; background:rgba(90,100,60,.18); }
+
+/* ---------- Formulaire de stock ---------- */
+.pp-stock{ display:flex; flex-direction:column; gap:9px; }
+.pp-field{ display:flex; align-items:center; gap:10px; }
+.pp-field img{ width:30px; height:30px; flex:none; object-fit:contain; border-radius:7px;
+  background:oklch(0.88 0.05 90 / .4); border:1px solid oklch(0.72 0.08 85 / .35); padding:2px; }
+.pp-field label{ flex:1; min-width:0; font-size:.78rem; line-height:1.25; color:var(--ink-soft); }
+.pp-field input{
+  width:92px; flex:none; text-align:right;
+  font-family:'Cormorant Garamond',serif; font-weight:700; font-size:1rem; color:var(--ink);
+  font-variant-numeric:lining-nums tabular-nums;
+  background:rgba(255,255,255,.72); border:1px solid rgba(110,130,80,.4); border-radius:8px;
+  padding:6px 8px; outline:none; -moz-appearance:textfield;
+  transition:border-color .15s, box-shadow .15s;
+}
+.pp-field input:focus{ border-color:var(--green); box-shadow:0 0 0 2px oklch(0.60 0.10 135 / .22); }
+.pp-field input::-webkit-outer-spin-button, .pp-field input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+.pp-reset{
+  align-self:flex-start; margin-top:2px; padding:6px 12px; min-height:32px; cursor:pointer;
+  font:inherit; font-size:.74rem; color:var(--ink-soft);
+  background:rgba(255,255,255,.6); border:1px solid rgba(110,130,80,.35); border-radius:8px;
+  transition:border-color .15s, color .15s;
+}
+.pp-reset:hover{ border-color:var(--green); color:var(--green); }
+
+/* ---------- Bandeau de résultat ---------- */
+.pp-score{
+  background:linear-gradient(135deg, oklch(0.90 0.06 135 / .75), oklch(0.93 0.045 128 / .6));
+  border:1px solid oklch(0.70 0.09 135 / .45); border-radius:18px; padding:16px 18px;
+}
+.pp-score-n{
+  display:block; font-family:'Cormorant Garamond',serif; font-weight:600; font-size:2.5rem; line-height:1;
+  color:oklch(0.40 0.11 138); font-variant-numeric:lining-nums tabular-nums;
+}
+.pp-score-l{ display:block; margin-top:4px; font-size:11px; text-transform:uppercase; letter-spacing:.16em; font-weight:600; color:var(--green); }
+.pp-score-sub{ margin-top:10px; padding-top:10px; border-top:1px solid rgba(90,100,60,.18); font-size:.78rem; line-height:1.6; }
+.pp-score-sub b{ color:var(--ink); font-variant-numeric:tabular-nums; }
+
+/* Petites lignes « clé — valeur » (coffres ouverts, stock restant) */
+.pp-kv{ display:flex; justify-content:space-between; gap:10px; font-size:.78rem; padding:3px 0; }
+.pp-kv + .pp-kv{ border-top:1px dashed rgba(90,100,60,.16); }
+.pp-kv b{ color:var(--ink); font-variant-numeric:tabular-nums; }
+.pp-kv.pp-out b{ color:oklch(0.52 0.14 40); }
+
+/* ---------- Liste des étapes ---------- */
+.pp-steps{ display:flex; flex-direction:column; gap:8px; }
+.pp-step{
+  display:grid; grid-template-columns:auto auto 1fr auto; align-items:center; gap:12px;
+  background:rgba(255,255,255,.62); border:1px solid rgba(255,255,255,.7); border-radius:14px;
+  padding:9px 14px 9px 10px;
+}
+.pp-rank{
+  width:30px; height:30px; flex:none; border-radius:50%; display:grid; place-items:center;
+  border:1.5px solid oklch(0.60 0.10 136 / .55); background:oklch(0.96 0.02 118 / .9);
+  font-family:'Cormorant Garamond',serif; font-weight:600; font-size:14px; color:oklch(0.38 0.09 140);
+  font-variant-numeric:lining-nums tabular-nums;
+}
+.pp-thumb{ width:38px; height:38px; flex:none; object-fit:contain; }
+.pp-step-txt{ min-width:0; }
+.pp-step-nm{ font-size:.88rem; font-weight:600; color:var(--ink); }
+/* Pastille de génération — partagée par les étapes du plan et le filtre.
+   Scopée à `.pp-step-nm` au départ, elle sortait invisible dans le filtre :
+   la taille était là, la couleur non. */
+.pp-gen{ display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--rc,var(--green)); vertical-align:middle; }
+.pp-step-nm .pp-gen{ margin-right:7px; }
+.pp-step-meta{ margin-top:3px; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+.pp-pts{ text-align:right; flex:none; }
+.pp-pts b{ display:block; font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.05rem;
+  color:oklch(0.46 0.12 90); font-variant-numeric:lining-nums tabular-nums; }
+.pp-pts span{ display:block; font-size:.66rem; color:var(--ink-soft); opacity:.8; font-variant-numeric:tabular-nums; }
+
+/* Puce de coût : nourriture / manuel / potion / médaillon */
+.pp-chip{ display:inline-flex; align-items:center; gap:4px; font-size:.7rem; color:var(--ink-soft);
+  background:oklch(0.88 0.05 90 / .38); border:1px solid oklch(0.72 0.08 85 / .35); border-radius:7px; padding:2px 7px; }
+.pp-chip img{ width:14px; height:14px; object-fit:contain; }
+.pp-chip b{ color:var(--ink); font-variant-numeric:tabular-nums; font-weight:700; }
+.pp-chip.pp-chest{ background:oklch(0.88 0.06 300 / .25); border-color:oklch(0.70 0.10 300 / .35); }
+.pp-lvl{ font-size:.7rem; color:var(--ink-soft); opacity:.9; font-variant-numeric:tabular-nums; }
+
+/* ---------- États vides / d'alerte ---------- */
+.pp-note{
+  border-radius:12px; padding:12px 14px; font-size:.8rem; line-height:1.55;
+  background:oklch(0.90 0.05 85 / .5); border:1px solid oklch(0.75 0.08 80 / .45); color:oklch(0.44 0.08 62);
+}
+.pp-note b{ color:oklch(0.38 0.10 62); }
+.pp-note.pp-ok{ background:oklch(0.88 0.06 135 / .45); border-color:oklch(0.70 0.09 135 / .4); color:oklch(0.38 0.09 140); }
+
+/* « Ce qui t'arrête » — une ligne par nature de manque. La nourriture s'AJOUTE
+   au reste (aucun coffre n'en donne) ; les matériaux, eux, ont une alternative,
+   d'où le « ou » qui doit se voir de loin : tout sur une ligne, la lecture
+   devenait une addition des trois, ce qu'elle n'est pas. */
+.pp-miss-nm{ margin-top:9px; font-weight:600; color:oklch(0.38 0.10 62); }
+.pp-miss{ margin-top:8px; display:flex; flex-direction:column; gap:7px; }
+.pp-miss-lead{ font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.12em; opacity:.9; }
+.pp-miss-row{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 8px; }
+.pp-miss-grp, .pp-miss-alt{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+.pp-miss-or{
+  font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em;
+  color:oklch(0.44 0.13 42); background:oklch(0.93 0.04 70 / .8);
+  border:1px solid oklch(0.78 0.07 62 / .6); border-radius:999px; padding:2px 9px; margin:0 2px;
+}
+.pp-miss-why{ font-size:.7rem; font-style:italic; opacity:.85; }
+.pp-note.pp-ok b{ color:oklch(0.34 0.10 140); }
+
+/* ---------- Tableau dépliable ---------- */
+.pp-all > summary{
+  cursor:pointer; list-style:none; display:flex; align-items:center; gap:9px;
+  padding:11px 15px; min-height:44px; border-radius:12px;
+  background:rgba(255,255,255,.55); border:1px solid rgba(120,130,90,.22);
+  font-size:.82rem; font-weight:600; color:var(--ink-soft);
+  transition:border-color .15s, color .15s;
+}
+.pp-all > summary::-webkit-details-marker{ display:none; }
+.pp-all > summary:hover{ border-color:var(--green); color:var(--green); }
+.pp-all > summary .pp-caret{ width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2.2; transition:transform .2s ease; }
+.pp-all[open] > summary .pp-caret{ transform:rotate(90deg); }
+.pp-all > summary .pp-count{ margin-left:auto; font-weight:400; opacity:.8; font-variant-numeric:tabular-nums; }
+
+.pp-all{ margin-top:18px; }        /* pleine largeur du volet : 8 colonnes tiennent mal dans la colonne du plan */
+.pp-tblwrap{ margin-top:10px; overflow-x:auto; border-radius:14px; border:1px solid rgba(255,255,255,.7); background:rgba(255,255,255,.62); }
+.pp-tbl{ width:100%; border-collapse:collapse; font-size:.78rem; margin:0; }
+/* css/style.css zèbre TOUS les `tbody tr` du site et leur pose un survol violet,
+   deux règles pensées pour les tableaux en DA sombre. Sur fond clair elles
+   rendaient une ligne sur deux illisible : on les neutralise ici, et c'est la
+   cellule qui porte la couleur (survol et « retenu dans le plan »). */
+.pp-tbl tbody tr, .pp-tbl tbody tr:nth-child(even), .pp-tbl tbody tr:hover{ background:transparent; }
+.pp-tbl th, .pp-tbl td{ padding:8px 12px; text-align:left; white-space:nowrap; }
+.pp-tbl th{
+  position:sticky; top:0; z-index:1;
+  font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; font-weight:600; color:var(--green);
+  background:oklch(0.93 0.035 128); border-bottom:1px solid rgba(90,100,60,.2);
+}
+.pp-tbl th.pp-n, .pp-tbl td.pp-n{ text-align:right; font-variant-numeric:tabular-nums; }
+.pp-tbl tbody tr + tr td{ border-top:1px solid rgba(90,100,60,.12); }
+.pp-tbl tbody tr:hover td{ background:oklch(0.90 0.05 132 / .35); }
+.pp-tbl td.pp-name{ color:var(--ink); font-weight:600; white-space:normal; }
+.pp-tbl tr.pp-in td.pp-name::before{
+  content:""; display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:var(--green); margin-right:7px; vertical-align:middle;
+}
+.pp-tbl tr.pp-in td{ background:oklch(0.90 0.055 133 / .3); }
+.pp-legend{ margin:8px 2px 0; font-size:.72rem; color:var(--ink-soft); opacity:.9; line-height:1.5; }
+
+/* ---------- Responsive ---------- */
+@media (max-width:880px){
+  /* `flex:none` n'est pas cosmétique : c'est CE QUI REND LE VOLET DÉFILANT.
+     Sous 768px le body passe en `flex-direction:column` (cf. MAP §5, pied de
+     page) : la hauteur devient l'axe PRINCIPAL, et `flex-basis:0%` y remplace
+     purement et simplement la hauteur déclarée. Avec `flex-wrap:wrap`, la ligne
+     se dimensionne alors sur son contenu — la scène montait à 3 300px dans un
+     écran de 664, le body la coupait (`overflow:hidden`), et le volet, ayant la
+     taille de son contenu, n'avait plus rien à faire défiler : la page
+     paraissait figée sur le plan, et seulement là. La promenade y échappait,
+     son contenu étant en `position:absolute` (contribution nulle).
+     `flex:none` rend la main à `height` ; `width:100%` garde la pleine largeur
+     entre 768 et 880px, où le body est encore en ligne. */
+  .pp-stage{ height:calc(100dvh - var(--header-offset) - 20px); flex:none; width:100%; min-height:0; }
+  .pp-cols{ grid-template-columns:1fr; }
+  .pp-side{ position:static; max-height:none; overflow:visible; }
+  .pp-pane{ padding:16px 12px 30px; }
+  .pp-title{ font-size:1.5rem; }
+  .pp-score-n{ font-size:2.1rem; }
+  /* La vignette et le rang mangent la largeur sur un petit écran : on garde le rang */
+  .pp-step{ grid-template-columns:auto 1fr auto; gap:10px; padding:9px 12px 9px 9px; }
+  .pp-thumb{ display:none; }
+}
+@media (max-width:420px){
+  .pp-tab{ padding:8px 13px; font-size:.8rem; }
+  .pp-field input{ width:78px; }
+}
+@media (prefers-reduced-motion:reduce){
+  .pp-tab, .pp-all > summary .pp-caret{ transition:none; }
+}
+.pp-pane :focus-visible, .pp-tabs :focus-visible{ outline:2px solid oklch(0.52 0.11 135); outline-offset:2px; border-radius:6px; }
+
+/* Bascule d'onglet : le volet caché disparaît vraiment de la mise en page flex. */
+.pp-stage > .pet-main[hidden], .pp-pane[hidden]{ display:none !important; }
+
+/* ---------- Filtre des familiers (repli, au-dessus du plan) ---------- */
+.pp-pets{ margin-bottom:14px; }
+.pp-pets > summary{
+  cursor:pointer; list-style:none; display:flex; align-items:center; gap:9px; min-height:40px;
+  padding:9px 14px; border-radius:12px;
+  background:rgba(255,255,255,.55); border:1px solid rgba(120,130,90,.22);
+  font-size:.8rem; font-weight:600; color:var(--ink-soft);
+  transition:border-color .15s, color .15s;
+}
+.pp-pets > summary::-webkit-details-marker{ display:none; }
+.pp-pets > summary:hover{ border-color:var(--green); color:var(--green); }
+.pp-pets > summary .pp-caret{ width:15px; height:15px; flex:none; stroke:currentColor; fill:none; stroke-width:2.2; transition:transform .2s ease; }
+.pp-pets[open] > summary .pp-caret{ transform:rotate(90deg); }
+.pp-pets-t{ flex:1; }
+.pp-pets-n{ font-variant-numeric:tabular-nums; letter-spacing:.04em; color:var(--ink); font-weight:700; }
+
+.pp-petbtns{ margin:10px 0 8px; display:flex; flex-wrap:wrap; gap:6px; }
+.pp-mini{
+  padding:6px 11px; min-height:32px; cursor:pointer; font:inherit; font-size:.72rem;
+  color:var(--ink-soft); background:rgba(255,255,255,.6);
+  border:1px solid rgba(110,130,80,.35); border-radius:8px;
+  transition:border-color .15s, color .15s;
+}
+.pp-mini:hover{ border-color:var(--green); color:var(--green); }
+
+/* Une pastille par familier : elles s'enroulent, donc la hauteur suit la largeur
+   au lieu d'exploser en une colonne de 14 lignes. */
+.pp-petlist{ display:flex; flex-wrap:wrap; gap:6px; }
+.pp-pet{
+  display:inline-flex; align-items:center; gap:7px; cursor:pointer; user-select:none;
+  padding:6px 11px 6px 8px; min-height:34px; border-radius:10px;
+  background:rgba(255,255,255,.62); border:1px solid rgba(120,130,90,.25);
+  font-size:.78rem; color:var(--ink);
+  transition:background .14s, border-color .14s, opacity .14s;
+}
+.pp-pet:hover{ border-color:var(--green); }
+.pp-pet input{ width:14px; height:14px; flex:none; accent-color:var(--green); cursor:pointer; margin:0; }
+.pp-pet .pp-gen{ flex:none; }
+.pp-pet-nm{ white-space:nowrap; }
+.pp-pet-lv{ font-size:.68rem; color:var(--ink-soft); font-variant-numeric:tabular-nums; opacity:.85; }
+/* Jamais commencé = très probablement pas encore débloqué : on le dit sans crier. */
+.pp-pet-new .pp-pet-lv{ font-style:italic; }
+.pp-pet.is-off{ opacity:.45; background:rgba(255,255,255,.35); }
+.pp-pet.is-off .pp-pet-nm{ text-decoration:line-through; }
+
+/* Note discrète : elle rappelle un réglage, elle n'alerte de rien. */
+.pp-note.pp-thin{
+  background:rgba(255,255,255,.5); border-color:rgba(120,130,90,.22);
+  color:var(--ink-soft); font-size:.75rem; padding:8px 12px;
+}
+.pp-mini:disabled{ opacity:.45; cursor:not-allowed; }
+.pp-mini:disabled:hover{ border-color:rgba(110,130,80,.35); color:var(--ink-soft); }
+
+/* Ce que vaut le chiffre annoncé : prouvé maximal, ou seulement le meilleur trouvé. */
+.pp-proof{
+  margin-top:10px; padding-top:10px; border-top:1px solid rgba(90,100,60,.18);
+  display:flex; gap:7px; font-size:.72rem; line-height:1.5; color:oklch(0.46 0.09 62);
+}
+.pp-proof svg{ width:14px; height:14px; flex:none; margin-top:2px; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+.pp-proof.is-proven{ color:oklch(0.40 0.10 140); font-weight:600; }
+
+
+/* ---------- « Appliquer les modifications » ---------- */
+/* Les classes viennent de css/style.css, partagées avec TrueGold et l'Académie :
+   même geste, même bouton, mêmes automatismes. Elles sont taillées pour la DA
+   sombre du site — sur le fond clair de cette page, le doré et les gris de texte
+   passeraient mal. On les réaccorde ICI, sans rien changer chez les deux autres. */
+.pp-pane .plan-apply{ border-top:1px dashed rgba(90,100,60,.28); }
+.pp-pane .plan-apply-btn{
+  background:linear-gradient(135deg, var(--green), oklch(0.44 0.11 138));
+  color:#fff; box-shadow:0 4px 15px oklch(0.50 0.10 135 / .28);
+}
+.pp-pane .plan-apply-btn:hover{ box-shadow:0 6px 20px oklch(0.50 0.10 135 / .45); }
+.pp-pane .plan-apply-btn:focus-visible{ outline:2px solid oklch(0.40 0.11 138); outline-offset:3px; }
+.pp-pane .plan-apply-hint{ color:var(--ink-soft); }

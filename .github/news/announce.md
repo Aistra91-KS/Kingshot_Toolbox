@@ -1,11 +1,13 @@
 <!-- kshub-news
-version: 1.13.4
-covers-until: aaab67add7feabc120b691c0c470114a0d2fefe9
-generated: 2026-09-07
+version: 1.13.5
+covers-until: 9d39424b95eaf9e9c103195c06845b98dbfa505d
+generated: 2026-09-09
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: ⚔️ L'Académie de Guerre achète ta poussière
-title-en: ⚔️ The War Academy planner now buys your dust
+title-fr: 🐾 Le plan d'avancement des familiers
+title-en: 🐾 The pet advancement planner
+image-fr: https://raw.githubusercontent.com/Aistra91-KS/Kingshot_Toolbox/main/.github/news/img/1.13.5-pets-plan-fr.webp
+image-en: https://raw.githubusercontent.com/Aistra91-KS/Kingshot_Toolbox/main/.github/news/img/1.13.5-pets-plan-en.webp
 -->
 
 <!--
@@ -45,6 +47,15 @@ Clés de l'en-tête :
   color      couleur de l'embed en hexa (défaut F5B840, l'or de la charte)
   title-fr   titre de l'embed français
   title-en   titre de l'embed anglais
+  image      URL https:// d'une image posée en bas de l'embed (facultatif)
+  image-fr   image réservée au message français (une capture porte du texte)
+  image-en   image réservée au message anglais
+
+L'image doit être joignable par Discord AU MOMENT DE L'ENVOI. Ne pas la servir
+depuis kingshottoolbox.com : la fusion déclenche l'annonce ET le déploiement en
+même temps, et un 404 attrapé au vol reste en cache — l'image resterait cassée.
+La servir depuis raw.githubusercontent.com/<owner>/<repo>/main/... (disponible
+dès le push) ; les fichiers vivent dans .github/news/img/.
 
 Mentionner un rôle : une mention ne notifie QUE sous la forme <@&IDENTIFIANT>.
 Écrite en clair (@MonRole), elle s'affiche mais ne prévient personne.
@@ -59,46 +70,28 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### ⚔️ L'Académie de Guerre achète ta poussière
+### 🐾 Un plan d'avancement pour tes familiers
 
-La poussière d'Or Véritable ne se ramasse pas qu'en jeu : **trois échanges en produisent chaque semaine**, et le planificateur sait enfin compter dessus.
+La page Familiers gagne un **second onglet**. Tu dis ce que tu as en stock — nourriture, manuels de croissance, potions nutritives, médaillons de promotion et coffres d'avancement — et l'outil cherche **quels familiers avancer, dans quel ordre**, et combien de points ça rapporte à l'**Entraînement Animalier**.
 
-Un nouveau panneau, entre l'arbre et la suggestion, donne une ligne à chaque échange — 5 000 pièces contre 1 poussière, 5 TrueGold contre 13, 10 TrueGold contre 13. Tu coches ceux que tu acceptes de faire : **décoche les deux lignes TrueGold et le plan n'y touchera jamais**. Tu saisis ce que tu es prêt à y mettre et les échanges déjà faits cette semaine (les plafonds sont hebdomadaires), et l'outil ne convertit **que ce dont le plan a vraiment besoin** — souvent bien moins que tout ce que tu déclares, parce qu'un plan est plus souvent limité par tes accélérateurs que par ta poussière.
+Seuls les **avancements** rapportent : la nourriture n'est qu'un péage pour atteindre le cap suivant. Et le coffre est un **choix, pas un lot** — 7 manuels **ou** 2 potions **ou** 1 médaillon. C'est là qu'est tout l'arbitrage, alors l'outil tranche la répartition à ta place et te dit combien en ouvrir en quoi.
 
-Les échanges à faire sont listés **en tête du résultat**, avant les recherches : c'est l'ordre à suivre en jeu, il faut la poussière en main avant de lancer la première. Suivent les stocks qu'ils te laissent, prêts à recopier dans tes saisies.
+Deux choses qui font gagner du temps. **Décoche les familiers que tu n'as pas débloqués** : ils quittent d'un coup le plan, le classement et la ligne « ce qui t'arrête ». Et une fois le plan réalisé en jeu, le bouton **Appliquer les modifications** fait monter tes familiers, coche leurs avancements et met ton stock à jour — les matériaux qu'un coffre a versés en trop compris.
 
-### 🪙 Et un vrai correctif : les pièces ne comptaient pas
+Le plan part des niveaux que tu as déjà saisis dans la promenade. Quand l'outil a eu le temps de vérifier qu'**aucun autre plan ne fait mieux** avec ton stock, il te le dit ; quand il n'a pas pu, il le dit aussi plutôt que de te promettre un maximum qu'il ne tient pas.
 
-Chaque niveau de recherche coûte des pièces — près de **900 000** sur un plan d'un mois — et l'outil ne les regardait pas du tout. Il pouvait donc te proposer un plan que tu n'avais pas les moyens de payer. Laisse le champ « Pièces disponibles » vide et il t'annonce simplement la quantité nécessaire ; renseigne-le et il borne le plan, en partageant tes pièces entre ce que coûtent les recherches et ce que coûtent les échanges.
-
-### 🐺 TrueGold : le Loup Gris était du mauvais côté du calcul
-
-Sur la page TrueGold, le Loup Gris était traité comme une coupe sur le temps restant, alors que c'est un **bonus de vitesse de construction** qui s'additionne à ton Bonus Vitesse, au 1er Ministre et au KVK. Tous les temps sortaient environ **15 % trop courts** : un Centre-ville qui passe de TG7 à TG8 affichait 5j 20h par étape là où le jeu en demande 6j 18h.
-
-Attention à ne pas le compter deux fois : la vitesse affichée sur ta fiche en jeu **inclut déjà le loup** quand sa compétence est active. Si c'est à ce moment-là que tu l'as relevée, laisse la case décochée.
-
-👉 https://kingshottoolbox.com/waracademy
-👉 https://kingshottoolbox.com/truegold_calc
+👉 https://kingshottoolbox.com/pets
 
 ## EN
 
-### ⚔️ The War Academy planner now buys your dust
+### 🐾 An advancement plan for your pets
 
-TrueGold Dust isn't only picked up in game: **three exchanges produce it every week**, and the planner can finally count on them.
+The Pets page gets a **second tab**. Tell it what you have in stock — pet food, growth manuals, nutrient potions, promotion medallions and advancement chests — and it works out **which pets to advance, and in what order**, and how many points that scores in **Beast Training**.
 
-A new panel between the tree and the suggestion gives each exchange its own row — 5,000 coins for 1 dust, 5 TrueGold for 13, 10 TrueGold for 13. Tick the ones you agree to make: **untick the two TrueGold rows and the plan will never touch your stock**. Enter what you're willing to spend and how many exchanges you've already made this week (the caps are weekly), and the tool converts **only what the plan really needs** — often far less than you declare, because a plan is bound by your speedups more often than by your dust.
+Only **advancements** score: pet food is just the toll to reach the next cap. And the chest is a **choice, not a bundle** — 7 manuals **or** 2 potions **or** 1 medallion. That is where the whole trade-off lives, so the tool decides the split for you and tells you how many to open as what.
 
-The exchanges to make are listed **at the top of the result**, before the researches: that's the order to follow in game, since you need the dust in hand before starting the first one. The stocks they leave you with come right after, ready to copy back into your inputs.
+Two things that save time. **Untick the pets you have not unlocked** and they leave the plan, the ranking and the "what stops you" line at once. And once you have carried the plan out in game, the **Apply these changes** button moves your pets up, ticks their advancements and updates your stock — including the spare materials a chest handed over.
 
-### 🪙 And a real fix: coins were not being counted
+The plan starts from the levels you already entered on the trail. When the tool has had time to check that **no other plan does better** with your stock, it says so; when it has not, it says that too, rather than promising a maximum it cannot back up.
 
-Every research level costs coins — close to **900,000** across a month-long plan — and the tool wasn't reading that at all. It could hand you a plan you simply couldn't pay for. Leave "Coins available" empty and it just tells you how many you'll need; fill it in and it bounds the plan, splitting your coins between what the researches cost and what the exchanges cost.
-
-### 🐺 TrueGold: the Grey Wolf was on the wrong side of the maths
-
-On the TrueGold page the Grey Wolf was treated as a cut on the time left, when it's really a **construction speed bonus** that adds to your Speed bonus, Ground Works and KVK. Every build time was coming out about **15% short**: a Town Center going TG7 to TG8 read 5d 20h per step where the game asks for 6d 18h.
-
-Careful not to count it twice: the speed stat on your in-game profile **already includes the wolf** while its skill is up. If that's when you read it, leave the box unchecked.
-
-👉 https://kingshottoolbox.com/waracademy
-👉 https://kingshottoolbox.com/truegold_calc
+👉 https://kingshottoolbox.com/pets
