@@ -312,8 +312,10 @@
     try { localStorage.setItem(SKEY, JSON.stringify(state)); } catch (e) { /* quota */ if (window.ktWarnUnsaved) window.ktWarnUnsaved(); }
   }
   function load() {
-    let saved = null;
-    try { saved = JSON.parse(localStorage.getItem(SKEY)); } catch (e) { saved = null; }
+    // Passe par `safeParse` : la lecture nue avalait la corruption sans rien dire,
+    // et l'état repartait de zéro comme si le joueur n'avait jamais rien saisi.
+    const saved = window.safeParse ? safeParse(SKEY, null)
+                : (function () { try { return JSON.parse(localStorage.getItem(SKEY)); } catch (e) { return null; } })();
     if (saved && typeof saved === 'object') {
       state = Object.assign(state, saved);
       state.enabled = Object.assign({ infantry: true, archer: true, cavalry: true }, saved.enabled || {});

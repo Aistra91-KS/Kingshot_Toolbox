@@ -216,6 +216,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderHeroes(); 
     } catch (error) {
         console.error("Erreur de chargement :", error);
+        // La grille reste vide : sans ce bandeau, le joueur ne distingue pas
+        // « le fichier n'est pas arrivé » de « je n'ai aucun héros débloqué ».
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
     }
 
     // 4. Écouteurs pour tous les filtres

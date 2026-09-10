@@ -308,17 +308,11 @@ async function loadDatabase() {
     } catch (e) {
         console.error('❌ Erreur de chargement du JSON :', e);
         
-        // Message d'erreur détaillé pour l'utilisateur
-        const errorMessage = 
-            `❌ Impossible de charger la base de données TrueGold.\n\n` +
-            `📋 Détails techniques :\n${e.message}\n\n` +
-            `🔍 Vérifications à faire :\n` +
-            `1. Le fichier "data/truegold_db.json" existe-t-il ?\n` +
-            `2. Êtes-vous sur GitHub Pages (pas en local file://) ?\n` +
-            `3. Le JSON est-il valide (testez sur jsonlint.com) ?\n\n` +
-            `💡 Ouvrez la console (F12) pour plus de détails.`;
-        
-        showAppAlert(errorMessage);
+        // Ce qui s'affichait ici était une aide au débogage : chemin du fichier,
+        // message d'exception, renvoi vers jsonlint et la console. En français
+        // seulement, sur un site bilingue, et pour un joueur qui n'y peut rien.
+        // Le bandeau dit ce qui le concerne et propose de recharger.
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
         return false;
     }
 }
@@ -415,6 +409,7 @@ let panAutoHours = null; // null = manuel ; nombre = auto (PAN renseigné)
 async function loadPanBonus() {
     try {
         const res = await fetch('data/masters_db.json');
+        if (!res.ok) throw new Error('masters_db.json : HTTP ' + res.status);
         const db = await res.json();
         const map = {};
         const pan = db.find(m => m.id === 'pan');
@@ -426,6 +421,7 @@ async function loadPanBonus() {
     } catch (e) {
         console.error('PAN bonus load failed', e);
         panAutoHours = null;
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
     }
     applyPanUI();
 }
@@ -624,31 +620,56 @@ function saveData() {
     try { localStorage.setItem(STORAGE_KEYS.truegold, JSON.stringify(data)); } catch (e) { if (window.ktWarnUnsaved) window.ktWarnUnsaved(); }
 }
 
+// Restauration d'un champ, isolée. La suite d'origine était une seule séquence :
+// un `id` absent du HTML faisait lever `getElementById(...).value`, et TOUT ce qui
+// suivait restait aux valeurs par défaut. `buildings` étant assigné en dernier, la
+// donnée la plus longue à ressaisir était la première perdue, sans rien à l'écran
+// pour distinguer un champ restauré d'un champ par défaut.
+function tgPut(id, val, prop) {
+    if (val === undefined) return;
+    const el = document.getElementById(id);
+    if (!el) { console.warn('champ absent, réglage non restauré :', id); return; }
+    el[prop || 'value'] = val;
+}
+
 function loadData() {
-    const saved = localStorage.getItem(STORAGE_KEYS.truegold);
-    if (saved) {
+    const data = safeParse(STORAGE_KEYS.truegold, null);
+    if (data) {
         try {
-            const data = JSON.parse(saved);
-            if (data.baseVitesse !== undefined) document.getElementById('baseVitesse').value = data.baseVitesse;
-            if (data.bonusGround !== undefined) document.getElementById('bonusGround').checked = data.bonusGround;
-            if (data.bonusKvk !== undefined) document.getElementById('bonusKvk').checked = data.bonusKvk;
-            if (data.bonusWolfCheck !== undefined) document.getElementById('bonusWolfCheck').checked = data.bonusWolfCheck;
-            if (data.bonusWolfVal !== undefined) document.getElementById('bonusWolfVal').value = data.bonusWolfVal;
-            if (data.bonusDouble !== undefined) document.getElementById('bonusDouble').checked = data.bonusDouble;
-            if (data.serverTier !== undefined) document.getElementById('serverTier').value = data.serverTier;
-            if (data.stockTG !== undefined) document.getElementById('stockTG').value = data.stockTG;
-            if (data.stockTTG !== undefined) document.getElementById('stockTTG').value = data.stockTTG;
-            if (data.transfoUtilisees !== undefined) document.getElementById('transfoUtilisees').value = data.transfoUtilisees;
-            if (data.mode !== undefined && document.getElementById('modeSelect')) document.getElementById('modeSelect').value = data.mode;
-            if (data.scoreCible !== undefined && document.getElementById('scoreCible')) document.getElementById('scoreCible').value = data.scoreCible;
+            tgPut('baseVitesse', data.baseVitesse);
+            tgPut('bonusGround', data.bonusGround, 'checked');
+            tgPut('bonusKvk', data.bonusKvk, 'checked');
+            tgPut('bonusWolfCheck', data.bonusWolfCheck, 'checked');
+            tgPut('bonusWolfVal', data.bonusWolfVal);
+            tgPut('bonusDouble', data.bonusDouble, 'checked');
+            tgPut('serverTier', data.serverTier);
+            tgPut('stockTG', data.stockTG);
+            tgPut('stockTTG', data.stockTTG);
+            tgPut('transfoUtilisees', data.transfoUtilisees);
+            tgPut('modeSelect', data.mode);
+            tgPut('scoreCible', data.scoreCible);
             if (typeof syncScoreRow === 'function') syncScoreRow();
             const _sc = document.getElementById('scoreCible');
             if (_sc) { const _b = String(_sc.value || '').replace(/\D/g, ''); _sc.value = _b ? Number(_b).toLocaleString('fr-FR') : ''; }
-            if (data.accelJours !== undefined) document.getElementById('accelJours').value = data.accelJours;
-            if (data.accelHeures !== undefined) document.getElementById('accelHeures').value = data.accelHeures;
-            if (data.accelMinutes !== undefined) document.getElementById('accelMinutes').value = data.accelMinutes;
-            if (data.panReduction !== undefined) document.getElementById('panReduction').value = data.panReduction;
-            if (data.buildings !== undefined) buildingsState = data.buildings;
+            tgPut('accelJours', data.accelJours);
+            tgPut('accelHeures', data.accelHeures);
+            tgPut('accelMinutes', data.accelMinutes);
+            tgPut('panReduction', data.panReduction);
+            // Contrôle de forme : `backup.js` ne valide que le premier niveau du fichier,
+            // donc un `buildings` relu comme objet passait l'import et faisait lever
+            // `buildingsState.forEach` au premier rendu, conteneur déjà vidé.
+            // `loadDatabase()` ne pose les valeurs par défaut que s'il n'y a RIEN en
+            // stockage : sans ce repli, une liste refusée ici laissait la page sans
+            // aucun bâtiment plutôt qu'avec les bâtiments de départ.
+            if (Array.isArray(data.buildings)) {
+                buildingsState = data.buildings;
+            } else if (data.buildings !== undefined) {
+                console.warn('buildings ignoré : tableau attendu, reçu', typeof data.buildings);
+                if (Array.isArray(defaultBuildingsRef) && defaultBuildingsRef.length) {
+                    buildingsState = JSON.parse(JSON.stringify(defaultBuildingsRef));
+                }
+                if (window.ktWarnCorrupt) window.ktWarnCorrupt();
+            }
         } catch(e) {
             console.error("Error loading data", e);
         }
@@ -693,17 +714,31 @@ function syncScoreRow() {
 }
 function onModeChange() { syncScoreRow(); triggerUpdate(); }
 
+// Six étapes sous UN SEUL `catch` : la première qui levait emportait toutes les
+// suivantes, dont `saveData()`. Le joueur tapait une valeur, la voyait à l'écran,
+// et elle n'était pas enregistrée ; `renderBuildings()` ayant déjà vidé son
+// conteneur ligne 350 avant de le reconstruire, la liste des bâtiments disparaissait
+// avec. Mesuré : 8 lignes -> 0, champ à 999, stockage resté à 777, plan vide, aucun
+// message. Et comme l'exception était avalée, chaque frappe suivante relevait au
+// même endroit : la page restait figée sur des chiffres périmés.
+//
+// L'ORDRE est conservé tel quel : `applyPanUI()` écrit dans `panReduction`, que
+// `saveData()` relit juste après. Persister avant de rendre inverserait ce lien.
+function tgEtape(nom, fn) {
+    try { fn(); return true; }
+    catch (e) { console.error('triggerUpdate/' + nom, e); return false; }
+}
+
 function triggerUpdate() {
-    try {
-        getTotalVitesse();      // léger : met à jour le bonus total affiché (immédiat)
-        applyTranslations();    // léger (immédiat)
-        applyPanUI();
-        renderBuildings();      // met à jour les coûts par ligne (feedback immédiat)
-        saveData();             // léger : persistance garantie (immédiat)
-        scheduleCalculation();  // LOURD : optimiseur différé de 200 ms
-    } catch (e) {
-        console.error(e);
-    }
+    let ok = true;
+    ok = tgEtape('getTotalVitesse', getTotalVitesse) && ok;   // bonus total affiché (immédiat)
+    ok = tgEtape('applyTranslations', applyTranslations) && ok;
+    ok = tgEtape('applyPanUI', applyPanUI) && ok;
+    ok = tgEtape('renderBuildings', renderBuildings) && ok;   // coûts par ligne (feedback immédiat)
+    // La persistance ne dépend d'aucun rendu : elle tourne même si l'un d'eux a lâché.
+    ok = tgEtape('saveData', saveData) && ok;
+    ok = tgEtape('scheduleCalculation', scheduleCalculation) && ok;  // LOURD : différé de 200 ms
+    if (!ok && window.ktWarnStale) window.ktWarnStale();
 }
 
 function runCalculator() {
