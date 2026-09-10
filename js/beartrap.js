@@ -376,7 +376,7 @@ const organizerTierList = {
     4: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Rosa", "Marlin", "Quinn"] },
     5: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Rosa", "Marlin", "Quinn"] },
     6: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Yang", "Rosa", "Marlin", "Quinn"] },
-    7: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Ava", "Petra", "Hilde", "Jabel"], arc: ["Yang", "Rosa", "Marlin", "Quinn"] }
+    7: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Ava", "Petra", "Hilde", "Jabel"], arc: ["Yang", "Wee & Woo", "Rosa", "Marlin", "Quinn"] }
 };
 
 const heroCapacityByLevel = {
