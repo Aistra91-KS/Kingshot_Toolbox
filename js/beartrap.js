@@ -374,8 +374,8 @@ function resyncBonus(field) {
 // tableau EST le rang (index 0 = meilleur), un héros absent compte comme 999.
 const organizerTierList = {
     1: { inf: ["Amadeus", "Helga", "Howard"], cav: ["Jabel", "Gordon", "Chenko"], arc: ["Saul", "Quinn", "Yeonwoo", "Amane"] },
-    2: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Jabel", "Hilde"], arc: ["Marlin", "Saul"] },
-    3: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Petra", "Jabel", "Hilde"], arc: ["Marlin", "Jaeger"] },
+    2: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Jabel", "Hilde"], arc: ["Marlin", "Saul", "Quinn"] },
+    3: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Petra", "Jabel", "Hilde"], arc: ["Marlin", "Jaeger", "Saul", "Quinn"] },
     4: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Petra", "Margot", "Jabel", "Hilde"], arc: ["Rosa", "Marlin", "Jaeger"] },
     5: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Petra", "Thrud", "Margot"], arc: ["Rosa", "Marlin", "Vivian", "Jaeger"] },
     6: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Petra", "Thrud", "Margot"], arc: ["Yang", "Rosa", "Marlin", "Vivian"] },
