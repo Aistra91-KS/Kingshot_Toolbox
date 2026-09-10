@@ -99,13 +99,40 @@
   // migration a tourné (`mig`), et seule une page qui connaît les clés peut la poser.
   const MIGRATION = 1;
 
+  // Un registre illisible était réamorcé à UN SEUL profil, et les autres comptes
+  // devenaient inatteignables : leurs clés `kt::<id>::*` restaient en stockage sans
+  // plus rien pour les nommer ni les ouvrir. Trois profils, un registre tronqué, et
+  // il n'en restait qu'un à l'écran, sans un mot. On relit donc les identifiants
+  // directement dans le stockage : le joueur reperd ses noms et ses couleurs, jamais
+  // ses données. Limite assumée : un profil créé mais jamais rempli ne laisse aucune
+  // clé derrière lui, donc rien ne permet de le retrouver. Il n'y a rien à y perdre.
+  function scanProfileIds() {
+    const ids = [];
+    try {
+      for (let i = 0; i < LS.length; i++) {
+        const k = _key.call(LS, i);
+        const m = k && k.match(/^kt::([^:]+)::/);
+        if (m && ids.indexOf(m[1]) === -1) ids.push(m[1]);
+      }
+    } catch (e) { /* stockage capricieux : on repart au moins avec p1 */ }
+    ids.sort();                                   // ordre stable d'un chargement à l'autre
+    const i1 = ids.indexOf('p1');
+    if (i1 !== -1) ids.splice(i1, 1);
+    ids.unshift('p1');                            // profil d'origine, toujours en tête
+    return ids;
+  }
+
   let registry = readRegistry();
   if (!registry) {
     // `p1` est un id FIXE, pas un hasard : si la migration s'interrompt avant d'avoir
     // fini, le chargement suivant retrouve le même espace et reprend là où elle en était.
-    registry = { v: 1, activeId: 'p1',
-                 profiles: [{ id: 'p1', name: defaultName(1), color: COLORS[0] }] };
+    const ids = scanProfileIds();
+    registry = { v: 1, activeId: ids[0],
+                 profiles: ids.map((id, i) => ({ id: id, name: defaultName(i + 1), color: COLORS[i % COLORS.length] })) };
     writeRegistry();
+    // Un seul profil retrouvé : c'est le premier passage sur le site, il n'y a rien
+    // à signaler. Plusieurs : le joueur doit savoir pourquoi ses noms ont sauté.
+    if (ids.length > 1 && window.ktWarnProfilesReset) window.ktWarnProfilesReset();
   }
 
   // Migration idempotente, reprenable, et qui ne détruit rien : elle ne s'exécute que
