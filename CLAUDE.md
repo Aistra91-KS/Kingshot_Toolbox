@@ -19,6 +19,12 @@
    - `dataviz` → tout graphique / visualisation de données.
    - `docx` / `pdf` / `pptx` / `xlsx` → dès qu'un de ces formats est en entrée ou en sortie.
    - `/security-review` → audit sécurité (peu pertinent sur ce site statique, mais à garder en tête).
+   - `/ecc-review` → revue du diff avec la grille ECC. En plus de `/code-review` quand le diff touche un moteur de calcul ou une boutique.
+   - `/ecc-silent-failures` → dès qu'on touche à `js/` : erreurs avalées, `catch` vides, replis qui masquent un bug.
+   - `/ecc-seo` → toute modification de balises, de canoniques, de `sitemap.xml`, de `robots.txt` ou de `llms.txt`.
+   - `/ecc-a11y` → toute page ou composant manipulé au clavier, tout tableau, tout formulaire.
+
+   Les quatre commandes `/ecc-*` s'invoquent d'elles-mêmes dès que le travail en cours les concerne, sauf indication contraire d'Aistra. Elles viennent d'ECC (`github.com/affaan-m/ECC`, licence MIT), posé dans l'environnement cloud par un script de démarrage et non dans le dépôt : ni plugin ni hooks, rien en contexte tant qu'elles ne servent pas. Si elles manquent, c'est que l'environnement n'a pas le script, et la grille se lit alors directement sous `/opt/ecc/agents/`.
 5. **Vérifier avant de conclure** : tester/valider (navigateur, checks, comparaison avant/après) et rapporter fidèlement — y compris les échecs ou ce qui n'a pas été fait.
 6. **Tenir `MAP.md` à jour** à chaque changement de fichiers / d'architecture.
 7. **Écrire humain, jamais « IA »** : tout texte destiné à être lu (site, commits, annonces, livrables) évite les marqueurs d'écriture LLM catalogués par [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing). Les sections « Markup », « Citations » et « Discrepancies » de cette page sont propres à Wikipédia et ne s'appliquent pas ici. Le reste, si :
