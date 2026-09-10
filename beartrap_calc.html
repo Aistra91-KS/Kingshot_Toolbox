@@ -164,16 +164,18 @@
                     <option value="organizer">Organisateur</option>
                 </select>
             </div>
-            <div class="control-row" style="margin-top: 10px;">
+            <div class="control-row" style="margin-top: 10px; gap: 10px;">
                 <label for="server-generation" data-i18n="lblGen">Server Generation i</label>
-                <select id="server-generation" class="table-select" style="width: 120px;">
-                    <option value="1">Génération 1</option>
-                    <option value="2">Génération 2</option>
-                    <option value="3">Génération 3</option>
-                    <option value="4">Génération 4</option>
-                    <option value="5">Génération 5</option>
-                    <option value="6" selected>Génération 6</option>
-                    <option value="7">Génération 7</option>
+                <!-- Le libellé de la ligne dit déjà "Génération du serveur" : répéter le mot
+                     dans chaque option débordait de la case et cachait le numéro. -->
+                <select id="server-generation" class="table-select" style="width: 120px; flex: 0 0 120px;">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6" selected>6</option>
+                    <option value="7">7</option>
                 </select>
             </div>
             <div class="control-row">

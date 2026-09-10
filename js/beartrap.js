@@ -369,14 +369,17 @@ function resyncBonus(field) {
 // DONNÉES DES HÉROS (Tier Lists & Capacités)
 // ========================================
 
+// Tier-list des meneurs de rally du Piège à Ours, une entrée par génération de serveur.
+// Seuls les héros classés S, A et B y figurent, dans cet ordre : la position dans le
+// tableau EST le rang (index 0 = meilleur), un héros absent compte comme 999.
 const organizerTierList = {
-    1: { inf: ["Amadeus", "Helga", "Howard"], cav: ["Jabel"], arc: ["Quinn"] },
-    2: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Hilde", "Jabel"], arc: ["Marlin", "Quinn"] },
-    3: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Marlin", "Quinn"] },
-    4: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Rosa", "Marlin", "Quinn"] },
-    5: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Rosa", "Marlin", "Quinn"] },
-    6: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Petra", "Hilde", "Jabel"], arc: ["Yang", "Rosa", "Marlin", "Quinn"] },
-    7: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Howard"], cav: ["Ava", "Petra", "Hilde", "Jabel"], arc: ["Yang", "Rosa", "Marlin", "Quinn"] }
+    1: { inf: ["Amadeus", "Helga"], cav: ["Jabel", "Gordon", "Chenko"], arc: ["Saul", "Quinn", "Yeonwoo", "Amane"] },
+    2: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Jabel", "Hilde"], arc: ["Marlin", "Saul"] },
+    3: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Petra", "Jabel", "Hilde"], arc: ["Marlin", "Jaeger"] },
+    4: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Petra", "Margot", "Jabel", "Hilde"], arc: ["Rosa", "Marlin", "Jaeger"] },
+    5: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Petra", "Thrud", "Margot"], arc: ["Rosa", "Marlin", "Vivian", "Jaeger"] },
+    6: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Petra", "Thrud", "Margot"], arc: ["Yang", "Rosa", "Marlin", "Vivian"] },
+    7: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Ava", "Petra", "Thrud"], arc: ["Yang", "Wee & Woo", "Rosa", "Vivian"] }
 };
 
 const heroCapacityByLevel = {
