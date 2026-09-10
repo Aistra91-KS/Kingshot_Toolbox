@@ -596,10 +596,14 @@ function renderModalWidget() {
         let nameConquest = dbHero.widget.effectConquest.name[currentLang] || dbHero.widget.effectConquest.name['EN'];
         let nameExpe = dbHero.widget.effectExpe.name[currentLang] || dbHero.widget.effectExpe.name['EN'];
 
-        // Noms EN sécurisés pour les chemins d'images (remplacement des apostrophes)
-        const safeWidgetImg = encodeURIComponent(dbHero.widget.name['EN']);
-        const safeConquestImg = encodeURIComponent(dbHero.widget.effectConquest.name['EN']);
-        const safeExpeImg = encodeURIComponent(dbHero.widget.effectExpe.name['EN']);
+        // Noms EN sécurisés pour les chemins d'images. encodeURIComponent laisse
+        // l'apostrophe intacte : dans url('...') elle refermerait la chaîne CSS et la
+        // règle entière serait ignorée, l'icône resterait vide sans même un 404.
+        // Concerne "Berserker's Edge", "Fate's Writ" et "Immortal's Flask".
+        const safeImgName = (name) => encodeURIComponent(name).replace(/'/g, '%27');
+        const safeWidgetImg = safeImgName(dbHero.widget.name['EN']);
+        const safeConquestImg = safeImgName(dbHero.widget.effectConquest.name['EN']);
+        const safeExpeImg = safeImgName(dbHero.widget.effectExpe.name['EN']);
 
         let savedWidgetLevel = modalState.widgetLevel;
         
