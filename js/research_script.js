@@ -99,18 +99,20 @@ async function loadInitialDb() {
         console.log(`✅ Base de données chargée : ${initialDb.length} recherches`);
     } catch (e) {
         console.error('❌ Erreur de chargement du JSON :', e);
-        // Affiche l'alerte UNIQUEMENT si la BDD est vraiment vide
+        // L'alerte était en français seulement, sur un site bilingue, et elle recopiait
+        // le message d'exception à l'écran. Le bandeau dit la même chose dans les deux
+        // langues, avec un bouton Réessayer ; le détail technique reste en console.
         if (!initialDb || initialDb.length === 0) {
-            showAppAlert(`Impossible de charger la base de données.<br><small>${e.message}</small>`);
+            if (window.ktWarnDataFailure) window.ktWarnDataFailure();
         }
     }
 }
 
 function initData() {
-    const savedDb = localStorage.getItem(STORAGE_KEYS.researchDb);
-    if (savedDb) {
+    const savedDb = safeParse(STORAGE_KEYS.researchDb, null);
+    if (Array.isArray(savedDb)) {
         try {
-            db = JSON.parse(savedDb);
+            db = savedDb;
             const refMap = {};
             initialDb.forEach(d => { refMap[d.Tree + '_' + d.Name + '_' + d.Level] = {r: d.reqs, e: d.Etage}; });
             db.forEach(d => {
@@ -127,27 +129,27 @@ function initData() {
         db = JSON.parse(JSON.stringify(initialDb));
     }
 
-    const savedInputs = localStorage.getItem(STORAGE_KEYS.researchInputs);
-    if (savedInputs) {
-        try {
-            const parsedInputs = JSON.parse(savedInputs);
-            // Le bonus de base se saisissait en fraction (0,753) ; il se saisit maintenant
-            // en pourcentage (75,3), comme sur TrueGold et l'Académie de Guerre. Les réglages
-            // enregistrés avant ce changement sont convertis une fois, au chargement — sans
-            // quoi un 0,753 déjà en place serait relu comme 0,753 % et fausserait tous les temps.
-            if (!parsedInputs.bonusAsPercent && parsedInputs.baseBonus !== undefined) {
-                parsedInputs.baseBonus = (parseFloat(parsedInputs.baseBonus) || 0) * 100;
-            }
-            Object.keys(parsedInputs).forEach(key => {
-                if (inputs[key]) {
-                    if (inputs[key].type === 'checkbox') {
-                        inputs[key].checked = parsedInputs[key];
-                    } else {
-                        inputs[key].value = parsedInputs[key];
-                    }
-                }
-            });
-        } catch(e) {}
+    const parsedInputs = safeParse(STORAGE_KEYS.researchInputs, null);
+    if (parsedInputs && typeof parsedInputs === 'object') {
+        // Le bonus de base se saisissait en fraction (0,753) ; il se saisit maintenant
+        // en pourcentage (75,3), comme sur TrueGold et l'Académie de Guerre. Les réglages
+        // enregistrés avant ce changement sont convertis une fois, au chargement — sans
+        // quoi un 0,753 déjà en place serait relu comme 0,753 % et fausserait tous les temps.
+        if (!parsedInputs.bonusAsPercent && parsedInputs.baseBonus !== undefined) {
+            parsedInputs.baseBonus = (parseFloat(parsedInputs.baseBonus) || 0) * 100;
+        }
+        // Un champ par tour, chacun sous sa propre garde. Le `catch(e) {}` global
+        // d'avant abandonnait la restauration là où elle levait : les premiers
+        // champs portaient les valeurs du joueur, les suivants celles du HTML,
+        // et rien ne permettait de les distinguer à l'écran.
+        Object.keys(parsedInputs).forEach(key => {
+            const el = inputs[key];
+            if (!el) return;
+            try {
+                if (el.type === 'checkbox') el.checked = parsedInputs[key];
+                else el.value = parsedInputs[key];
+            } catch (e) { console.warn('réglage non restauré :', key, e); }
+        });
     }
 }
 

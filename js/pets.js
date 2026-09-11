@@ -43,7 +43,8 @@
          advance:"Avancement", advDone:"Avancement effectué",
          skillLocked:"Compétence verrouillée, débloquée au 1er avancement (niv. 10)",
          matFood:"Nourriture", matManual:"Manuel", matPotion:"Potion", matMedallion:"Médaille",
-         hint:"Molette pour descendre" },
+         hint:"Molette pour descendre",
+         loadErr:"Les familiers n'ont pas pu être chargés." },
     EN:{ collection:"Collection", genWord:"Generation", yourLevel:"Your level", levelWord:"Level",
          tierWord:"Tier", skill:"Skill", progression:"Progression",
          nextLevel:"Next level", nextCap:"Next cap", levelsRange:"lvl",
@@ -51,7 +52,8 @@
          advance:"Advancement", advDone:"Advancement done",
          skillLocked:"Skill locked, unlocks at the 1st advancement (lvl 10)",
          matFood:"Pet Food", matManual:"Manual", matPotion:"Potion", matMedallion:"Medallion",
-         hint:"Scroll to descend" },
+         hint:"Scroll to descend",
+         loadErr:"The pets could not be loaded." },
   };
 
   /* -------- Réglages promenade -------- */
@@ -473,7 +475,11 @@
       })
       .catch(err => {
         console.error("pets_db.json:", err);
-        if (petCost) petCost.textContent = "Erreur de chargement de data/pets_db.json";
+        // Le message était en français sur un site bilingue, et il nommait un chemin
+        // de fichier qui ne dit rien au joueur. Le bandeau porte le « pourquoi » et
+        // le bouton Réessayer ; ce texte-ci dit seulement ce qui manque à l'écran.
+        if (petCost) petCost.textContent = (i18n[L()] || i18n.EN).loadErr;
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
       });
   }
   document.addEventListener("DOMContentLoaded", boot);

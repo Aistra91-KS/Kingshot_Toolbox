@@ -119,6 +119,7 @@ function parseBonusValue(v) {
 async function loadAnimalBonus() {
     try {
         const res = await fetch('data/pets_db.json');
+        if (!res.ok) throw new Error('pets_db.json : HTTP ' + res.status);
         const db = await res.json();
         const bison = (db.pets || []).find(p => p.id === 'mighty-bison');
         const petData = safeParse(STORAGE_KEYS.pets, {});
@@ -133,6 +134,9 @@ async function loadAnimalBonus() {
     } catch (e) {
         console.error('Animal (Bison) bonus load failed', e);
         animalAutoVal = null;
+        // Le badge dira « pas de source » : sans le bandeau, le joueur le lit comme
+        // « je n'ai pas renseigné mon Bison » et cherche là où il n'y a rien.
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
     }
 }
 

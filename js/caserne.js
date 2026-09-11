@@ -213,10 +213,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!response.ok) throw new Error("Fichier JSON introuvable");
         
         heroesDB = await response.json(); 
-        renderHeroes(); 
     } catch (error) {
         console.error("Erreur de chargement :", error);
+        // La grille reste vide : sans ce bandeau, le joueur ne distingue pas
+        // « le fichier n'est pas arrivé » de « je n'ai aucun héros débloqué ».
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
     }
+    // Rendu hors du `catch` : une exception ici n'est pas une panne de chargement.
+    if (heroesDB && heroesDB.length) renderHeroes();
 
     // 4. Écouteurs pour tous les filtres
     document.getElementById('sort-by').addEventListener('change', handleFilterChange);

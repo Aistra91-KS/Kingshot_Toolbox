@@ -158,14 +158,21 @@ let modalState = { displayLevel: 0, breakthroughs: {}, relLevel: 0, skills: {} }
 
 async function initMasters() {
     try {
+        // Statut contrôlé : une page d'erreur HTML servie en 503 ne se distinguait
+        // d'un fichier vide que par l'exception de `json()`, dans la console.
         const response = await fetch('data/masters_db.json');
+        if (!response.ok) throw new Error('masters_db.json : HTTP ' + response.status);
         mastersDB = await response.json();
-        renderMastersGrid();
-        applyTranslations();
-        bindMasterControls();
     } catch (e) {
         console.error("Erreur de chargement de masters_db.json", e);
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
+        return;   // le rendu n'a rien à rendre
     }
+    // Hors du `catch` : une exception de rendu n'est pas une panne de chargement, et
+    // l'annoncer comme telle envoyait le joueur recharger la page indéfiniment.
+    renderMastersGrid();
+    applyTranslations();
+    bindMasterControls();
 }
 
 function bindMasterControls() {

@@ -289,6 +289,7 @@ function parseBonusValue(v) {
 async function loadExpertBonus() {
     try {
         const res = await fetch('data/masters_db.json');
+        if (!res.ok) throw new Error('masters_db.json : HTTP ' + res.status);
         const db = await res.json();
         const valora = db.find(m => m.id === 'valora');
         const skill = valora && valora.skills.find(s => s.id === 'savage_advantage');
@@ -300,12 +301,14 @@ async function loadExpertBonus() {
     } catch (e) {
         console.error('Expert (Valora) bonus load failed', e);
         expertAutoVal = null;
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
     }
 }
 
 async function loadAnimalBonus() {
     try {
         const res = await fetch('data/pets_db.json');
+        if (!res.ok) throw new Error('pets_db.json : HTTP ' + res.status);
         const db = await res.json();
         const bison = (db.pets || []).find(p => p.id === 'mighty-bison');
         const petData = safeParse(STORAGE_KEYS.pets, {});
@@ -320,6 +323,7 @@ async function loadAnimalBonus() {
     } catch (e) {
         console.error('Animal (Bison) bonus load failed', e);
         animalAutoVal = null;
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
     }
 }
 
@@ -478,11 +482,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     try {
         const response = await fetch('data/heroes_db.json');
-        if (response.ok) {
-            heroesDB = await response.json();
-            populateHeroDropdowns();
-        }
-    } catch (e) { console.error("Erreur DB", e); }
+        if (!response.ok) throw new Error('heroes_db.json : HTTP ' + response.status);
+        heroesDB = await response.json();
+    } catch (e) {
+        console.error("Erreur DB", e);
+        // Sans héros, les menus déroulants restent vides et l'optimiseur tourne à
+        // vide : le dire vaut mieux qu'une page qui a l'air simplement inutilisable.
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
+    }
+    // Rendu hors du `catch` : une exception de `populateHeroDropdowns` n'est pas une
+    // panne de chargement, et l'annoncer comme telle enverrait recharger pour rien.
+    if (heroesDB && heroesDB.length) populateHeroDropdowns();
 
     // Liaison des bonus Expert (Valora) & Animal (Puissant Bison)
     await Promise.all([loadExpertBonus(), loadAnimalBonus()]);
@@ -493,8 +503,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     joinerAuth = safeParse(STORAGE_KEYS.beartrapJoiners, {}) || {};
     try {
         const rj = await fetch('data/beartrap_joiners_db.json');
-        if (rj.ok) joinersTierDB = await rj.json();
-    } catch (e) { console.error('Tier-list joiners load failed', e); }
+        if (!rj.ok) throw new Error('beartrap_joiners_db.json : HTTP ' + rj.status);
+        joinersTierDB = await rj.json();
+    } catch (e) {
+        console.error('Tier-list joiners load failed', e);
+        if (window.ktWarnDataFailure) window.ktWarnDataFailure();
+    }
 
     if (window.GlobalLang) {
         applyTranslations(window.GlobalLang.get());
@@ -614,9 +628,13 @@ function saveBearTrapData() {
 }
 
 function loadBearTrapData() {
-    const saved = localStorage.getItem(STORAGE_KEYS.beartrap);
-    if (saved) {
-        const data = JSON.parse(saved);
+    // `JSON.parse` nu ici, et c'était la première instruction du DOMContentLoaded :
+    // une valeur abîmée partait en rejet de promesse non capté, et TOUT ce qui suit
+    // mourait avec elle (base des héros, tier-list des joiners, traductions,
+    // écouteurs de saisie). La page gardait l'air d'un Piège à Ours neuf, avec ses
+    // valeurs par défaut et ses listes de héros vides, sans rien signaler.
+    const data = safeParse(STORAGE_KEYS.beartrap, null);
+    if (data) {
         for (const [id, val] of Object.entries(data)) {
             const el = document.getElementById(id);
             if (el) el.value = val;
