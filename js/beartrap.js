@@ -484,13 +484,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const response = await fetch('data/heroes_db.json');
         if (!response.ok) throw new Error('heroes_db.json : HTTP ' + response.status);
         heroesDB = await response.json();
-        populateHeroDropdowns();
     } catch (e) {
         console.error("Erreur DB", e);
         // Sans héros, les menus déroulants restent vides et l'optimiseur tourne à
         // vide : le dire vaut mieux qu'une page qui a l'air simplement inutilisable.
         if (window.ktWarnDataFailure) window.ktWarnDataFailure();
     }
+    // Rendu hors du `catch` : une exception de `populateHeroDropdowns` n'est pas une
+    // panne de chargement, et l'annoncer comme telle enverrait recharger pour rien.
+    if (heroesDB && heroesDB.length) populateHeroDropdowns();
 
     // Liaison des bonus Expert (Valora) & Animal (Puissant Bison)
     await Promise.all([loadExpertBonus(), loadAnimalBonus()]);

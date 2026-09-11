@@ -47,14 +47,19 @@
   const COLORS = ['#f5b840', '#4ecdc4', '#b98cff', '#ff8c42', '#5aa9e6', '#7ed957', '#e74c5c'];
 
   // ---------- Registre ----------
+  // « Absent » et « présent mais illisible » donnaient tous deux `null`, et l'appelant
+  // ne pouvait plus les distinguer : un joueur avec UN seul profil renommé perdait son
+  // nom et sa couleur sans un mot, traité comme une première visite. Le signal est gardé.
+  let registryWasDamaged = false;
   function readRegistry() {
     try {
       const raw = nativeGet(REGISTRY_KEY);
       if (raw) {
         const r = JSON.parse(raw);
         if (r && Array.isArray(r.profiles) && r.profiles.length) return r;
+        registryWasDamaged = true;        // présent, mais rien d'exploitable dedans
       }
-    } catch (e) { /* corrompu → réamorçage */ }
+    } catch (e) { registryWasDamaged = true; }
     return null;
   }
   // Un stockage plein ou interdit ne doit pas empêcher le reste de la page de vivre :
@@ -130,9 +135,10 @@
     registry = { v: 1, activeId: ids[0],
                  profiles: ids.map((id, i) => ({ id: id, name: defaultName(i + 1), color: COLORS[i % COLORS.length] })) };
     writeRegistry();
-    // Un seul profil retrouvé : c'est le premier passage sur le site, il n'y a rien
-    // à signaler. Plusieurs : le joueur doit savoir pourquoi ses noms ont sauté.
-    if (ids.length > 1 && window.ktWarnProfilesReset) window.ktWarnProfilesReset();
+    // Le compte de profils ne dit rien : un joueur qui n'en a qu'un perd tout autant
+    // son nom et sa couleur. Ce qui compte, c'est qu'il y avait un registre et qu'il
+    // était illisible. Registre simplement absent = première visite, rien à signaler.
+    if (registryWasDamaged && window.ktWarnProfilesReset) window.ktWarnProfilesReset();
   }
 
   // Migration idempotente, reprenable, et qui ne détruit rien : elle ne s'exécute que

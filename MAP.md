@@ -456,16 +456,19 @@ Lecture sûre via `safeParse(key, fallback)`. Il sépare la **lecture** de l'**a
 
 **Écriture** sûre via `window.ktSafeSet(key, value)` et `window.ktWarnUnsaved()`.
 
-Quatre bandeaux, un par nature de panne, tous dans `storage-keys.js`. Les trois premiers s'empilent en haut de page dans `#kt-alerts` (une rangée par nature, jamais deux fois la même, chacune avec sa croix : le bandeau couvre `.app-header`) ; le quatrième reste en bas.
+Cinq bandeaux, un par nature de panne, tous construits par `ktBanner()` dans `storage-keys.js`.
 
-| appel | quand | ce qu'il dit au joueur |
-|---|---|---|
-| `ktWarnCorrupt()` | une sauvegarde relue est illisible | la page est repartie de zéro, exporter avant de saisir quoi que ce soit |
-| `ktWarnDataFailure()` | un fichier de `data/` n'est pas arrivé | la page est incomplète, avec un bouton Réessayer |
-| `ktWarnStale()` | le rendu s'est interrompu en cours de route | les chiffres à l'écran ne correspondent plus à la saisie, recharger |
-| `ktWarnProfilesReset()` | le registre des profils était illisible | les données sont intactes, les noms et couleurs sont à refaire |
+| appel | position | quand | ce qu'il dit au joueur |
+|---|---|---|---|
+| `ktWarnCorrupt()` | haut | une sauvegarde relue est illisible | la page repart de zéro, la version abîmée est mise de côté |
+| `ktWarnDataFailure()` | haut | un fichier de `data/` n'est pas arrivé | la page est incomplète, avec un bouton Réessayer |
+| `ktWarnStale()` | haut | le rendu s'est interrompu en cours de route | les chiffres ne correspondent plus à la saisie, recharger |
+| `ktWarnProfilesReset()` | haut | le registre des profils était illisible | les données sont intactes, les noms et couleurs sont à refaire |
+| `ktWarnUnsaved()` | bas | une écriture en stockage a échoué | le calcul reste juste, exporter avant de quitter |
 
-`ktWarnDataFailure()` est l'équivalent, pour les pages sans `shop-core.js`, du `scWarnDataFailure()` des boutiques. `ktWarnStale()` répond au cas décrit en §9 : une exception en plein rendu laissait des chiffres périmés à l'écran sans rien afficher d'anormal.
+Les rangées du haut s'empilent dans `#kt-alerts`, une par nature, jamais deux fois la même, chacune avec sa croix (le bandeau couvre `.app-header`). Deux bandeaux en `position:fixed; top:0` se recouvraient : `scWarnDataFailure()` des boutiques passe donc par `window.ktTopBanner` quand il existe, et garde son corps d'origine en secours pour le cas où `storage-keys.js` serait en cache dans une version qui ne le connaît pas. Les textes sont portés par l'élément (`data-kt-fr` / `data-kt-en`) et rejoués sur `langChanged`, comme toute chaîne visible.
+
+`ktWarnStale()` répond au cas décrit en §9 : une exception en plein rendu laissait des chiffres périmés à l'écran sans rien afficher d'anormal. Sur TrueGold, la garde est posée dans `runCalculator()` lui-même et pas autour de `scheduleCalculation()`, qui est un debounce : il rend la main tout de suite et le calcul part 200 ms plus tard, hors de portée d'un `try` posé autour de l'appel.
 
 **Toujours les appeler par `window.` et sous condition** (`if (window.ktWarnUnsaved) …`) : sans cache-busting, une page neuve peut rencontrer un `storage-keys.js` en cache, et un nom global nu lèverait un `ReferenceError` (cf. §9).
 

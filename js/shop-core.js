@@ -781,6 +781,18 @@ async function scLoadAll(){
 // autre script ne le nomme, donc aucun risque de ReferenceError si une page neuve
 // tombe sur une version de shop-core.js encore en cache (cf. MAP.md §9).
 function scWarnDataFailure(){
+  // Deux bandeaux en `position:fixed; top:0` se recouvraient. On passe par la pile
+  // commune de `storage-keys.js` quand elle est là, SOUS GARDE `window.` : sans
+  // cache-busting, un visiteur de retour peut avoir un `storage-keys.js` en cache
+  // qui ne connaît pas encore `ktTopBanner`, et un nom nu lèverait un ReferenceError.
+  // Le corps ci-dessous reste le secours pour ce cas-là.
+  if (window.ktTopBanner) {
+    window.ktTopBanner('sc-data-error',
+      "Certaines données du site n'ont pas pu être chargées : les chiffres affichés sont incomplets.",
+      'Some site data could not be loaded: the figures shown are incomplete.',
+      true);
+    return;
+  }
   const show = () => {
    try{
     if(!document.body || document.getElementById('sc-data-error')) return;

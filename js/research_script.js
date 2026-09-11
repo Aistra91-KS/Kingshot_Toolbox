@@ -131,27 +131,25 @@ function initData() {
 
     const parsedInputs = safeParse(STORAGE_KEYS.researchInputs, null);
     if (parsedInputs && typeof parsedInputs === 'object') {
-        {
-            // Le bonus de base se saisissait en fraction (0,753) ; il se saisit maintenant
-            // en pourcentage (75,3), comme sur TrueGold et l'Académie de Guerre. Les réglages
-            // enregistrés avant ce changement sont convertis une fois, au chargement — sans
-            // quoi un 0,753 déjà en place serait relu comme 0,753 % et fausserait tous les temps.
-            if (!parsedInputs.bonusAsPercent && parsedInputs.baseBonus !== undefined) {
-                parsedInputs.baseBonus = (parseFloat(parsedInputs.baseBonus) || 0) * 100;
-            }
-            // Un champ par tour, chacun sous sa propre garde. Le `catch(e) {}` global
-            // d'avant abandonnait la restauration là où elle levait : les premiers
-            // champs portaient les valeurs du joueur, les suivants celles du HTML,
-            // et rien ne permettait de les distinguer à l'écran.
-            Object.keys(parsedInputs).forEach(key => {
-                const el = inputs[key];
-                if (!el) return;
-                try {
-                    if (el.type === 'checkbox') el.checked = parsedInputs[key];
-                    else el.value = parsedInputs[key];
-                } catch (e) { console.warn('réglage non restauré :', key, e); }
-            });
+        // Le bonus de base se saisissait en fraction (0,753) ; il se saisit maintenant
+        // en pourcentage (75,3), comme sur TrueGold et l'Académie de Guerre. Les réglages
+        // enregistrés avant ce changement sont convertis une fois, au chargement — sans
+        // quoi un 0,753 déjà en place serait relu comme 0,753 % et fausserait tous les temps.
+        if (!parsedInputs.bonusAsPercent && parsedInputs.baseBonus !== undefined) {
+            parsedInputs.baseBonus = (parseFloat(parsedInputs.baseBonus) || 0) * 100;
         }
+        // Un champ par tour, chacun sous sa propre garde. Le `catch(e) {}` global
+        // d'avant abandonnait la restauration là où elle levait : les premiers
+        // champs portaient les valeurs du joueur, les suivants celles du HTML,
+        // et rien ne permettait de les distinguer à l'écran.
+        Object.keys(parsedInputs).forEach(key => {
+            const el = inputs[key];
+            if (!el) return;
+            try {
+                if (el.type === 'checkbox') el.checked = parsedInputs[key];
+                else el.value = parsedInputs[key];
+            } catch (e) { console.warn('réglage non restauré :', key, e); }
+        });
     }
 }
 

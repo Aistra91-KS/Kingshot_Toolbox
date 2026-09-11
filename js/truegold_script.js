@@ -296,9 +296,12 @@ async function loadDatabase() {
         bldgMap             = data.bldgMap;
         defaultBuildingsRef = data.defaultBuildings;
         
-        // Si pas de buildings sauvegardés, on prend les defaults du JSON
-        const saved = localStorage.getItem(STORAGE_KEYS.truegold);
-        if (!saved) {
+        // Valeurs de départ si rien d'exploitable en stockage. Le test portait sur la
+        // simple PRÉSENCE de la clé : une valeur abîmée est présente, donc les defaults
+        // étaient sautés, et `loadData()` n'avait rien à restaurer non plus. La page
+        // s'ouvrait sans un seul bâtiment. On relit ici la même valeur, pour de vrai.
+        const saved = safeParse(STORAGE_KEYS.truegold, null);
+        if (!saved || !Array.isArray(saved.buildings)) {
             buildingsState = JSON.parse(JSON.stringify(data.defaultBuildings));
         }
         
@@ -387,19 +390,22 @@ function updateBuildingLvl(index, val, type) {
         if (buildingsState[index].target < num) {
             buildingsState[index].target = num;
         }
-        renderBuildings();
+        if (!tgEtape('renderBuildings', renderBuildings) && window.ktWarnStale) window.ktWarnStale();
     } else {
         buildingsState[index].target = num;
-        updateAllRowCosts();
+        tgEtape('updateAllRowCosts', updateAllRowCosts);
     }
-    saveData();
+    tgEtape('saveData', saveData);
     runCalculator();
 }
 
 function toggleBuildingEnabled(index, checked) {
     buildingsState[index].enabled = checked;
-    renderBuildings();
-    saveData();
+    // Même découpage que `triggerUpdate` : `renderBuildings()` vide son conteneur
+    // avant de le reconstruire, donc un échec ici laissait la liste vide ET
+    // empêchait l'enregistrement de la case cochée.
+    if (!tgEtape('renderBuildings', renderBuildings) && window.ktWarnStale) window.ktWarnStale();
+    tgEtape('saveData', saveData);
     runCalculator();
 }
 
@@ -741,7 +747,19 @@ function triggerUpdate() {
     if (!ok && window.ktWarnStale) window.ktWarnStale();
 }
 
+// `scheduleCalculation` est un debounce : il rend la main tout de suite et
+// `runCalculator` part 200 ms plus tard, depuis le timer. L'envelopper dans
+// `tgEtape` ne couvrait donc rien, et c'est pourtant l'étape qui produit les
+// chiffres à l'écran. La garde est ici, au plus près de l'exécution réelle.
 function runCalculator() {
+    try { runCalculatorInner(); }
+    catch (e) {
+        console.error('runCalculator', e);
+        if (window.ktWarnStale) window.ktWarnStale();
+    }
+}
+
+function runCalculatorInner() {
     let stockTG = Number(document.getElementById('stockTG').value);
     let stockTTG = Number(document.getElementById('stockTTG').value);
     let transfoUtilisees = Number(document.getElementById('transfoUtilisees').value);
