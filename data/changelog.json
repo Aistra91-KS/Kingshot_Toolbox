@@ -8,6 +8,60 @@
   },
   "releases": [
     {
+      "version": "1.13.6",
+      "date": "2026-09-13",
+      "changes": [
+        {
+          "type": "new",
+          "title": {
+            "EN": "Tick a research off straight from the suggestions",
+            "FR": "Coche une recherche depuis la liste des suggestions"
+          },
+          "text": {
+            "EN": "The Optimal Search Order tab gets a button on every row. One click ticks the research off without going through the tree, and the list recomputes at once on what comes next. Skip a few rows and the tool first shows you what that research required and will be ticked along with it, then waits for your confirmation.",
+            "FR": "L'onglet Ordre de recherche gagne un bouton sur chaque ligne. Un clic coche la recherche sans passer par l'arbre, et la liste se recalcule aussitôt sur ce qui vient après. Si tu sautes des lignes, l'outil te montre d'abord ce que cette recherche exigeait et qu'il va cocher avec elle, puis attend ta confirmation."
+          },
+          "href": "research_calc",
+          "linkLabel": {
+            "EN": "Research",
+            "FR": "Recherches"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Tool Enhancement now comes first",
+            "FR": "Amélioration des Outils passe devant"
+          },
+          "text": {
+            "EN": "Tool Enhancement levels raise your research speed, so everything you start after them is shorter. They now carry a lightning bolt in the suggestions and in both tree views, and the list puts them first as soon as they are reachable. KVK mode keeps the shortest-first order, since there the goal is to finish as many researches as your speedups allow.",
+            "FR": "Les niveaux d'Amélioration des Outils augmentent ta vitesse de recherche, donc tout ce que tu lances après eux est plus court. Ils portent maintenant un éclair dans les suggestions et dans les deux vues d'arbre, et la liste les place en tête dès qu'ils sont accessibles. Le mode KVK garde l'ordre du plus court d'abord, puisque là l'objectif est de finir un maximum de recherches avec tes accélérateurs."
+          },
+          "href": "research_calc",
+          "linkLabel": {
+            "EN": "Research",
+            "FR": "Recherches"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "KVK mode ends on a long research",
+            "FR": "Le mode KVK finit sur une longue recherche"
+          },
+          "text": {
+            "EN": "During KVK extra speed bonuses apply, and they take far more off a long research than off a short one. The list therefore ends with one more row, past your stock: the longest research you can reach, to launch once the short ones are done. The row also tells you how many speedups are left to put into it.",
+            "FR": "Pendant un KVK, des bonus de vitesse s'ajoutent, et ils retirent bien plus de temps à une longue recherche qu'à une courte. La liste se termine donc par une ligne de plus, au-delà de ton stock : la plus longue recherche à ta portée, à lancer une fois les courtes finies. La ligne te dit aussi combien d'accélérateurs il te reste à y mettre."
+          },
+          "href": "research_calc",
+          "linkLabel": {
+            "EN": "Research",
+            "FR": "Recherches"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.13.5",
       "date": "2026-09-09",
       "changes": [
