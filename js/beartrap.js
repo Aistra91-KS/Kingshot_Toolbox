@@ -1445,6 +1445,71 @@ function selectHeroesForMarches(marchesCount, role, generation) {
 }
 
 // ========================================
+// RÉPARTITION DES TROUPES ENTRE LES MARCHES
+// ========================================
+
+// Répartit un stock de troupes sur des marches de capacités données.
+// Fonction pure : `capacities` est un tableau (une capacité par marche, héros
+// manquants déjà déduits), `available` le stock global, et elle rend un objet
+// { inf, cav, arc } par marche.
+//
+// La règle est la PART DE CHAQUE MARCHE dans la capacité qui reste à remplir,
+// appliquée à CHAQUE type de troupe. C'est ce qui manquait : la version d'avant
+// ne plafonnait que les archers, puis comblait l'espace restant avec tout le
+// stock de cavalerie, puis d'infanterie. La 1re marche vidait donc la cavalerie
+// et la suivante héritait des restes : sur 2 marches de 18 650 avec
+// 13 718 / 12 911 / 12 758, elle rendait 10 % / 56 % / 34 % puis 52 % / 13 % / 34 %,
+// et à 4 marches les deux dernières sortaient quasi vides (2 087 puis 0).
+function btDistributeTroops(capacities, available, minInfPercent, minCavPercent) {
+    const avail = { inf: available.inf, cav: available.cav, arc: available.arc };
+    const result = [];
+
+    capacities.forEach((cap, i) => {
+        const capsLater = capacities.slice(i + 1).reduce((sum, c) => sum + c, 0);
+        const share = cap + capsLater > 0 ? cap / (cap + capsLater) : 0;
+        const fair = {
+            inf: Math.floor(avail.inf * share),
+            cav: Math.floor(avail.cav * share),
+            arc: Math.floor(avail.arc * share)
+        };
+
+        // Ordre de remplissage inchangé : minimums inf et cavalerie, puis
+        // archers, cavalerie, infanterie. Seul le plafond change.
+        const m = {
+            inf: Math.min(Math.floor(cap * (minInfPercent / 100)), fair.inf),
+            cav: Math.min(Math.floor(cap * (minCavPercent / 100)), fair.cav),
+            arc: 0
+        };
+        let space = Math.max(0, cap - m.inf - m.cav);
+
+        for (const type of ['arc', 'cav', 'inf']) {
+            const add = Math.max(0, Math.min(space, fair[type] - m[type]));
+            m[type] += add;
+            space -= add;
+        }
+
+        // Une marche ne dépasse sa part que pour ce que les marches suivantes ne
+        // pourraient de toute façon pas contenir. Ça rattrape les arrondis et le
+        // cas des marches suivantes plus petites, sans jamais priver personne.
+        const leftAfter = (avail.inf - m.inf) + (avail.cav - m.cav) + (avail.arc - m.arc);
+        let extra = Math.max(0, leftAfter - capsLater);
+        for (const type of ['arc', 'cav', 'inf']) {
+            const add = Math.max(0, Math.min(space, extra, avail[type] - m[type]));
+            m[type] += add;
+            space -= add;
+            extra -= add;
+        }
+
+        avail.inf -= m.inf;
+        avail.cav -= m.cav;
+        avail.arc -= m.arc;
+        result.push(m);
+    });
+
+    return result;
+}
+
+// ========================================
 // MOTEUR DE CALCUL (Marches automatiques)
 // ========================================
 
@@ -1480,63 +1545,31 @@ function calculateBearTrap() {
     let heroAssignments = selectHeroesForMarches(marchesCount, role, generation);
 
     let startId = customMarchesList.length + 1;
-    
-    for (let i = 0; i < marchesCount; i++) {
-        let assignment = heroAssignments[i];
-        let currentMarchCap = Math.max(0, maxMarchCapacity - assignment.penalty);
-        let marchesLeft = marchesCount - i;
 
-        let fairInf = Math.floor(availableInf / marchesLeft);
-        let fairArc = Math.floor(availableArc / marchesLeft);
-        let fairCav = Math.floor(availableCav / marchesLeft);
+    const capacities = heroAssignments
+        .slice(0, marchesCount)
+        .map(a => Math.max(0, maxMarchCapacity - a.penalty));
+    const split = btDistributeTroops(
+        capacities,
+        { inf: availableInf, cav: availableCav, arc: availableArc },
+        minInfPercent,
+        minCavPercent
+    );
 
-        let targetInf = Math.floor(currentMarchCap * (minInfPercent / 100));
-        let targetCav = Math.floor(currentMarchCap * (minCavPercent / 100));
-
-        let mInf = Math.min(targetInf, fairInf, availableInf);
-        let mCav = Math.min(targetCav, fairCav, availableCav);
-        
-        let remainingSpace = currentMarchCap - mInf - mCav;
-
-        let mArc = Math.min(remainingSpace, fairArc, availableArc);
-        remainingSpace -= mArc;
-
-        if (remainingSpace > 0) {
-            let addCav = Math.min(remainingSpace, availableCav - mCav);
-            mCav += addCav;
-            remainingSpace -= addCav;
-        }
-
-        if (remainingSpace > 0) {
-            let addInf = Math.min(remainingSpace, availableInf - mInf);
-            mInf += addInf;
-            remainingSpace -= addInf;
-        }
-
-        if (remainingSpace > 0) {
-            let addArc = Math.min(remainingSpace, availableArc - mArc);
-            mArc += addArc;
-            remainingSpace -= addArc;
-        }
-
-        let mTotal = mInf + mArc + mCav;
-
-        availableInf -= mInf;
-        availableCav -= mCav;
-        availableArc -= mArc;
-
-        marches.push({ 
-            id: startId + i, 
-            inf: mInf, 
-            arc: mArc, 
-            cav: mCav, 
-            total: mTotal,
-            capacity: currentMarchCap,
+    split.forEach((m, i) => {
+        const assignment = heroAssignments[i];
+        marches.push({
+            id: startId + i,
+            inf: m.inf,
+            arc: m.arc,
+            cav: m.cav,
+            total: m.inf + m.arc + m.cav,
+            capacity: capacities[i],
             heroes: assignment.heroes,
             missingHeroes: assignment.missingHeroes,
             isHostMarch: assignment.isHostMarch
         });
-    }
+    });
 
     displayResults(marches, maxMarchCapacity, marchesCount, theoreticalCapacity, dict);
 }
