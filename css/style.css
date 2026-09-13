@@ -863,6 +863,80 @@ tbody tr:hover {
 .resource-icon svg { vertical-align: middle; }
 
 /* ============================================================================
+   10 bis. ONGLET « ORDRE DE RECHERCHE » (page Recherches)
+   Repère des recherches de vitesse, bouton de validation par ligne, et la
+   dernière ligne du mode KVK, qui dépasse volontairement le stock.
+   ============================================================================ */
+
+.sugg-hint { margin: -8px 0 14px; max-width: 90ch; }
+
+.sugg-speed {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-left: 8px; padding: 2px 7px;
+    border: 1px solid var(--accent); border-radius: 20px;
+    background: rgba(245, 184, 64, 0.10); color: var(--accent);
+    font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+    white-space: nowrap; vertical-align: middle; cursor: help;
+}
+.sugg-speed svg { flex: none; }
+.sugg-speed.is-compact { margin: 0 5px 0 0; padding: 2px; border-radius: 50%; }
+
+/* L'or de la charte ne tient que 2,6:1 en thème clair sur du gras de 10,5px :
+   même correction que les étiquettes du pied de page et des Nouveautés. */
+[data-theme="light"] .sugg-speed {
+    border-color: var(--accent-hover); background: rgba(200, 144, 32, 0.12); color: #8a6410;
+}
+
+.sugg-done-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    min-height: 32px; padding: 6px 13px;
+    border: 1px solid var(--success); border-radius: 20px;
+    background: transparent; color: var(--success);
+    font-family: inherit; font-size: 12px; font-weight: 700;
+    white-space: nowrap; cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.sugg-done-btn:hover { background: var(--success); color: var(--bg-dark); }
+/* Même liseré de focus que le CTA des plans TrueGold / Académie : l'or de la
+   charte ne tient que 2,8:1 sur le blanc du thème clair. */
+.sugg-done-btn:focus-visible { outline: 2px solid var(--text-light); outline-offset: 2px; }
+.sugg-done-btn svg { flex: none; }
+
+/* Turquoise et orange de la charte sur fond clair : 4,3:1 et 3,6:1 en 12px gras,
+   sous la barre. Mêmes teintes assombries que les étiquettes des Nouveautés. */
+[data-theme="light"] .sugg-done-btn { border-color: #00695c; color: #00695c; }
+[data-theme="light"] .sugg-done-btn:hover { background: #00695c; color: #ffffff; }
+[data-theme="light"] tr.sugg-long td:nth-child(4) { color: #b23c00; }
+
+/* --text-muted ne tient que 4,4:1 sur --control-bg, insuffisant sous 14px :
+   les mêmes teintes dédiées que .group-hint (cf. MAP §12). */
+.sugg-sep td {
+    background: var(--control-bg); color: #908a7e;
+    font-size: 12.5px; line-height: 1.5;
+    border-top: 1px dashed var(--border);
+}
+[data-theme="light"] .sugg-sep td { color: #5f6773; }
+tr.sugg-long td:nth-child(4) { color: var(--warning); font-weight: 700; }
+
+/* L'arbre, doublé sous le nom, ne sert que quand sa colonne est repliée. */
+.sugg-tree-sm { display: none; }
+
+/* Sous 600px, six colonnes font 432px pour 318px utiles, et c'est le bouton
+   d'action qui sortait de l'écran. La colonne « Arbre » se replie sous le nom
+   et le bouton garde sa seule coche (son nom accessible reste complet). */
+@media (max-width: 600px) {
+    #optimal-table thead th:nth-child(5),
+    #optimal-table tbody td:nth-child(5) { display: none; }
+    #optimal-table th, #optimal-table td { padding: 10px 6px; }
+    .sugg-tree-sm {
+        display: block; margin-top: 3px;
+        font-size: 11.5px; font-weight: normal; color: var(--text-muted);
+    }
+    .sugg-done-btn { padding: 6px 9px; }
+    .sugg-done-btn span { display: none; }
+}
+
+/* ============================================================================
    11. TREE LAYOUT (Research - Vue arbre visuel)
    ============================================================================ */
 
