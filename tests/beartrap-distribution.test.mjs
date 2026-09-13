@@ -117,6 +117,15 @@ test('stock vide : des marches vides, pas de valeur négative', () => {
   split.forEach(m => TYPES.forEach(t => assert.equal(m[t], 0)));
 });
 
+test('un stock plus petit que le nombre de marches ne laisse pas la 1re marche vide', () => {
+  // Relevé par la revue de la PR : à l'arrondi inférieur, la part de la 1re
+  // marche tombait à 0 et tout partait sur les suivantes. displayResults()
+  // masquait alors le plan entier, le joueur ne voyait plus rien.
+  assert.deepEqual(distribute([18650, 18650], { inf: 1, cav: 0, arc: 0 }, 10, 10).map(m => m.inf + m.cav + m.arc), [1, 0]);
+  assert.deepEqual(distribute([18650, 18650], { inf: 1, cav: 1, arc: 1 }, 10, 10).map(m => m.inf + m.cav + m.arc), [3, 0]);
+  assert.deepEqual(distribute(Array(6).fill(18650), { inf: 5, cav: 0, arc: 0 }, 10, 10).map(m => m.inf + m.cav + m.arc), [1, 1, 1, 1, 1, 0]);
+});
+
 /* ---------- Les invariants, sur des tirages aléatoires ---------- */
 
 test('les invariants tiennent sur 5 000 tirages', () => {
@@ -133,7 +142,12 @@ test('les invariants tiennent sur 5 000 tirages', () => {
     // distinctes, donc ne le testeraient jamais.
     const memeCap = rnd(2) === 0;
     const caps = Array.from({ length: marches }, () => memeCap ? base : Math.max(0, base - rnd(20000)));
-    const avail = { inf: rnd(60000), cav: rnd(60000), arc: rnd(60000) };
+    // Un tirage sur trois avec un stock minuscule : c'est là que les arrondis
+    // décident seuls, et que la 1re marche partait vide.
+    const petit = rnd(3) === 0;
+    const avail = petit
+      ? { inf: rnd(12), cav: rnd(12), arc: rnd(12) }
+      : { inf: rnd(60000), cav: rnd(60000), arc: rnd(60000) };
     const minInf = rnd(41), minCav = rnd(41);
     const contexte = `marches=${JSON.stringify(caps)} stock=${JSON.stringify(avail)} min=${minInf}/${minCav}`;
 
@@ -149,6 +163,13 @@ test('les invariants tiennent sur 5 000 tirages', () => {
     assert.ok(total(split) >= total(avant), `moins de troupes envoyées qu'avant — ${contexte}`);
 
     if (marches === 1) assert.deepEqual(split, avant, `le cas à une marche a changé — ${contexte}`);
+
+    // Une 1re marche vide alors qu'une suivante est servie n'a pas de sens, et
+    // l'affichage masque tout le plan dans ce cas.
+    const totaux = split.map(m => m.inf + m.cav + m.arc);
+    if (caps[0] > 0 && totaux.some(t => t > 0)) {
+      assert.ok(totaux[0] > 0, `1re marche vide alors que les suivantes sont servies (${totaux.join(' / ')}) — ${contexte}`);
+    }
 
     if (memeCap && base > 0) {
       TYPES.forEach(t => {

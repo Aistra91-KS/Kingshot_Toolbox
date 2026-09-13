@@ -1467,10 +1467,16 @@ function btDistributeTroops(capacities, available, minInfPercent, minCavPercent)
     capacities.forEach((cap, i) => {
         const capsLater = capacities.slice(i + 1).reduce((sum, c) => sum + c, 0);
         const share = cap + capsLater > 0 ? cap / (cap + capsLater) : 0;
+        // Arrondi AU-DESSUS, et ça compte : à l'arrondi inférieur, un stock plus
+        // petit que le nombre de marches donne 0 aux premières et tout aux
+        // dernières (5 fantassins sur 6 marches rendaient 0/1/1/1/1/1). La
+        // 1re marche partait donc vide alors qu'il restait des troupes. Le
+        // dépassement est d'au plus 1 par type et par marche, et il reste borné
+        // par la place et par le stock juste en dessous.
         const fair = {
-            inf: Math.floor(avail.inf * share),
-            cav: Math.floor(avail.cav * share),
-            arc: Math.floor(avail.arc * share)
+            inf: Math.ceil(avail.inf * share),
+            cav: Math.ceil(avail.cav * share),
+            arc: Math.ceil(avail.arc * share)
         };
 
         // Ordre de remplissage inchangé : minimums inf et cavalerie, puis
@@ -1578,7 +1584,9 @@ function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalC
     const resultArea = document.getElementById('result-area');
     if (!resultArea) return;
     
-    if (marches.length === 0 || marches[0].total === 0) {
+    // Toutes les marches vides, pas seulement la première : une 1re marche sans
+    // capacité (trois héros manquants) ou sans troupes cachait tout le plan.
+    if (marches.length === 0 || marches.every(m => m.total === 0)) {
         resultArea.innerHTML = `<p style='color: var(--text-muted); padding: 15px; border-radius: 6px; border: 1px dashed var(--border);'>${dict.noTroops}</p>`;
         resultArea.style.display = 'block';
         return;
