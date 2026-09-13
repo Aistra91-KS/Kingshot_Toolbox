@@ -349,8 +349,8 @@ function ieDerivedSection(){
     // Plusieurs bases : la ligne dit d'abord CE QU'ON ADDITIONNE (les objets), puis la MÊME
     // somme en chiffres relevés. Renvoyer le lecteur au tableau pour les prix unitaires ne
     // marche pas : ils y sont arrondis à 4 décimales, et un facteur comme 400 amplifie
-    // l'arrondi au point de changer le total (400 × 0,0002 donne 0,080 là où 400 × (5 $ ÷
-    // 26 000) donne 0,0769). Seules les divisions permettent de refaire le calcul et de
+    // l'arrondi au point de changer le total (400 × 0,0001 donne 0,040 là où 400 × (5 $ ÷
+    // 36 000) donne 0,0556). Seules les divisions permettent de refaire le calcul et de
     // retomber sur le chiffre affiché.
     if(Array.isArray(d.from)) {
       const noms=[], bruts=[];
