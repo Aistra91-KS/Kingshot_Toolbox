@@ -66,9 +66,22 @@ const REL_STAGES = [
   { level: 100, FR: "Alter Ego",      EN: "Alter Ego" }
 ];
 
-// Nom de fichier image : espaces -> underscores (img/Master, img/MasterSkill)
+// Nom de fichier image : espaces -> underscores (img/Master, img/MasterSkill).
+// L'apostrophe est encodée à la main : encodeURIComponent la laisse intacte, et
+// dans url('...') elle refermerait la chaîne CSS — la règle entière serait ignorée
+// et l'icône resterait vide, sans même un 404 pour le signaler. Concerne
+// « Finder's Keepers » (Aena) ; même correctif que celui appliqué à la Caserne.
 function imgFileName(name) {
-  return encodeURIComponent(String(name).replace(/ /g, '_'));
+  return encodeURIComponent(String(name).replace(/ /g, '_')).replace(/'/g, '%27');
+}
+
+// Grands nombres d'un effet : même séparateur que partout ailleurs sur le site,
+// « 50,000 » en anglais et « 50 000 » en français. Le JSON garde la forme anglaise
+// (c'est elle qui vient du jeu), seul l'affichage suit la langue.
+function effLocale(eff, lang) {
+  return String(eff == null ? '' : eff).replace(/\d{1,3}(?:,\d{3})+/g, function (n) {
+    return Number(n.replace(/,/g, '')).toLocaleString(lang === 'FR' ? 'fr-FR' : 'en-US');
+  });
 }
 
 // Portrait d'Expert pour CETTE page : version haute définition (600x800).
@@ -358,7 +371,7 @@ function updateMasterUI() {
     
     if (passiveLvlIndex >= 0) {
         let rawEffect = master.passive.levels[passiveLvlIndex].effect;
-        let pEffect = (typeof rawEffect === 'object' && rawEffect !== null) ? (rawEffect[lang] || rawEffect['EN']) : rawEffect;
+        let pEffect = effLocale((typeof rawEffect === 'object' && rawEffect !== null) ? (rawEffect[lang] || rawEffect['EN']) : rawEffect, lang);
 
         passiveContainer.innerHTML = `
             <div class="skill-row active" style="margin: 0; padding: 0; border: none; background: transparent;">
@@ -412,7 +425,7 @@ function updateMasterUI() {
         let effectDisplay = `<span style="color:var(--text-muted);">${dict.lockedSkill} ${requiredLevel}</span>`;
         if (isUnlocked && currentSkillLevel > 0) {
             let rawEffect = skill.levels[currentSkillLevel - 1].effect;
-            let finalEffect = (typeof rawEffect === 'object' && rawEffect !== null) ? (rawEffect[lang] || rawEffect['EN']) : rawEffect;
+            let finalEffect = effLocale((typeof rawEffect === 'object' && rawEffect !== null) ? (rawEffect[lang] || rawEffect['EN']) : rawEffect, lang);
             if (skill.TextToInclude) {
                 effectDisplay = `<span style="color: var(--text-muted);">${injectValue(skill.TextToInclude, lang, finalEffect)}</span>`;
             } else {

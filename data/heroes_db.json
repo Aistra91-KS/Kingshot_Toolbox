@@ -1953,5 +1953,218 @@
         "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
       }
     }
+  },
+  {
+    "id": "0035",
+    "name": "Diego",
+    "generation": 8,
+    "rarity": "legendary",
+    "troopType": "Infantry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": {
+          "EN": "Defensive Guidance",
+          "FR": "Protection Défensive"
+        },
+        "effect": {
+          "EN": "A good offense is a good defense. Diego increases total Squad's Defense by X% and total Health by X%.",
+          "FR": "La meilleure défense, c'est l'attaque. Diego augmente la Défense totale de l'escouade de X% et sa Santé totale de X%."
+        },
+        "levels": ["(3%,2%)", "(6%,4%)", "(9%,6%)", "(12%,8%)", "(15%,10%)"]
+      },
+      {
+        "name": {
+          "EN": "Piercing Aura",
+          "FR": "Aura Perçante"
+        },
+        "effect": {
+          "EN": "Diego's pride in his craft is easily shared, granting Squad's Attack a 50% chance of dealing X% extra damage.",
+          "FR": "La fierté que Diego tire de son art est contagieuse : l'Attaque de l'escouade a 50% de chances d'infliger X% de dégâts supplémentaires."
+        },
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      },
+      {
+        "name": {
+          "EN": "Cold Frost",
+          "FR": "Froid Glacial"
+        },
+        "effect": {
+          "EN": "Even rank-and-file enemies cower in the face of Diego's awesome reputation, increasing total Squad's Lethality by X%.",
+          "FR": "Même les simples soldats ennemis tremblent devant la réputation de Diego. Augmente la Létalité totale de l'escouade de X%."
+        },
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      }
+    ],
+    "widget": {
+      "name": {
+        "EN": "Meteor Blade",
+        "FR": "Lame Météore"
+      },
+      "effectConquest": {
+        "name": {
+          "EN": "Doomblade",
+          "FR": "Lame Funeste"
+        },
+        "description": {
+          "EN": "Diego's meteor blade is a pathway to new abilities, granting extra shield protection equal to Attack * X% to \"Undefendable\" which reflects X% of damage received throughout.",
+          "FR": "La lame météore de Diego lui ouvre de nouvelles capacités : \"Imparable\" gagne une protection de bouclier supplémentaire égale à Attaque * X% et renvoie X% des dégâts subis pendant toute sa durée."
+        },
+        "levels": ["(55%,10%)", "(65%,15%)", "(75%,20%)", "(85%,25%)", "(95%,30%)"]
+      },
+      "effectExpe": {
+        "name": {
+          "EN": "Extraordinary",
+          "FR": "Extraordinaire"
+        },
+        "description": {
+          "EN": "Diego is distrustful of elaborate defenses, and his basic approach actually increases Defender Squad's Defense by X%.",
+          "FR": "Diego se méfie des défenses trop élaborées, et son approche directe augmente la Défense de l'escouade de défenseurs de X%."
+        },
+        "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+      }
+    }
+  },
+  {
+    "id": "0036",
+    "name": "Liz",
+    "generation": 8,
+    "rarity": "legendary",
+    "troopType": "Cavalry",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": {
+          "EN": "Alloyed Agent",
+          "FR": "Agent d'Alliage"
+        },
+        "effect": {
+          "EN": "\"My elixirs always work eventually. Just drink more!\" This enhanced brew has a X% chance of increasing total Squad's Lethality by 50% every turn.",
+          "FR": "\"Mes élixirs finissent toujours par marcher. Il suffit d'en boire plus !\" Cette potion améliorée a X% de chances d'augmenter la Létalité totale de l'escouade de 50% à chaque tour."
+        },
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      },
+      {
+        "name": {
+          "EN": "Vitalis Potion",
+          "FR": "Potion Vitalis"
+        },
+        "effect": {
+          "EN": "Liz's powerful revitalizing mixture increases total Squad's Health by X%.",
+          "FR": "Le puissant mélange revitalisant de Liz augmente la Santé totale de l'escouade de X%."
+        },
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": {
+          "EN": "Horsemaster",
+          "FR": "Maître Écuyer"
+        },
+        "effect": {
+          "EN": "Liz has cultivated an interest in horse feed, improvements to which gives Cavalry attacks a 50% chance of dealing X% extra damage.",
+          "FR": "Liz s'est prise de passion pour l'alimentation des chevaux, ce qui donne aux attaques de la Cavalerie 50% de chances d'infliger X% de dégâts supplémentaires."
+        },
+        "levels": ["30%", "60%", "90%", "120%", "150%"]
+      }
+    ],
+    "widget": {
+      "name": {
+        "EN": "Midas Staff",
+        "FR": "Bâton de Midas"
+      },
+      "effectConquest": {
+        "name": {
+          "EN": "Bubble Splash",
+          "FR": "Éclaboussure de Bulles"
+        },
+        "description": {
+          "EN": "Liz has improved bubble reactivity, increasing her Attack by X%. Bubbletopia now deals Attack * X% splash damage to nearby enemies when the control effect ends.",
+          "FR": "Liz a amélioré la réactivité de ses bulles, ce qui augmente son Attaque de X%. \"Bulletopia\" inflige désormais Attaque * X% de dégâts d'éclaboussure aux ennemis proches quand l'effet de contrôle prend fin."
+        },
+        "levels": ["(8%,50%)", "(12%,55%)", "(16%,60%)", "(20%,65%)", "(24%,70%)"]
+      },
+      "effectExpe": {
+        "name": {
+          "EN": "Power Mix",
+          "FR": "Mélange de Puissance"
+        },
+        "description": {
+          "EN": "Liz uses Power Mix to increase L-MAO factor activity thus improving fighting spirit, increasing Defender Squad's Lethality by X%.",
+          "FR": "Liz se sert du Mélange de Puissance pour stimuler l'activité du facteur L-MAO et donc l'esprit combatif, augmentant la Létalité de l'escouade de défenseurs de X%."
+        },
+        "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+      }
+    }
+  },
+  {
+    "id": "0037",
+    "name": "Luna",
+    "generation": 8,
+    "rarity": "legendary",
+    "troopType": "Archer",
+    "goodJoinerBear": false,
+    "skills": [
+      {
+        "name": {
+          "EN": "Driving Light",
+          "FR": "Lumière Salvatrice"
+        },
+        "effect": {
+          "EN": "Luna's lunar light drives away wickedness, increasing total Squad's Attack by X%.",
+          "FR": "La lumière lunaire de Luna repousse le mal et augmente l'Attaque totale de l'escouade de X%."
+        },
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": {
+          "EN": "Woodland Vengeance",
+          "FR": "Vengeance Sylvestre"
+        },
+        "effect": {
+          "EN": "Luna's thirst for vengeance is a snare of ill-fortune against enemies, reducing enemy Squad's Attack by X% for 1 turn every 2 turns.",
+          "FR": "La soif de vengeance de Luna est un piège funeste pour ses ennemis : réduit l'Attaque de l'escouade ennemie de X% pendant 1 tour tous les 2 tours."
+        },
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      },
+      {
+        "name": {
+          "EN": "Arrowflash",
+          "FR": "Flèche Éclair"
+        },
+        "effect": {
+          "EN": "Improvements in arrowheads have made their trajectory much less predictable, granting our archers an extra X% damage to the target with each attack.",
+          "FR": "Les pointes de flèches améliorées rendent leur trajectoire bien moins prévisible : nos archers infligent X% de dégâts supplémentaires à la cible à chaque attaque."
+        },
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      }
+    ],
+    "widget": {
+      "name": {
+        "EN": "Envoy of Ancients",
+        "FR": "Émissaire des Anciens"
+      },
+      "effectConquest": {
+        "name": {
+          "EN": "Stars' Glory",
+          "FR": "Gloire des Étoiles"
+        },
+        "description": {
+          "EN": "The crashing wrath of stars summoned in time of need can be used to draw enemy fire. The resulting spirit has X% of Luna's initial Health and exists for 5s.",
+          "FR": "La colère des étoiles, invoquée au bon moment, sert à attirer le feu ennemi. L'esprit ainsi créé possède X% de la Santé initiale de Luna et dure 5 s."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      },
+      "effectExpe": {
+        "name": {
+          "EN": "Moonlit Splendor",
+          "FR": "Splendeur Lunaire"
+        },
+        "description": {
+          "EN": "The blessed bow of the ancients is a sure sign of Luna's forthcoming victory, increasing her Rally Squad's Attack by X% when initiating a rally.",
+          "FR": "L'arc béni des Anciens annonce la victoire prochaine de Luna : augmente l'Attaque de son escouade de ralliement de X% lorsqu'elle lance un ralliement."
+        },
+        "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+      }
+    }
   }
 ]

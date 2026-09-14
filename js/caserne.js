@@ -85,7 +85,7 @@ const DEFAULT_FILTERS = {
     sortBy: 'rarity-desc',
     filterType: 'all',
     filterRarity: 'all',
-    checkedGens: ['1','2','3','4','5','6','7'],
+    checkedGens: ['1','2','3','4','5','6','7','8'],
     filterUnlocked: false
 };
 
@@ -259,8 +259,21 @@ function loadFilters() {
         document.getElementById('filter-unlocked-only').checked = saved.filterUnlocked || false;
     }
 
+    // Une génération sortie depuis la dernière visite n'a jamais pu être décochée :
+    // elle démarre cochée. Sans ça, un visiteur de retour garde les filtres enregistrés
+    // lors de sa dernière visite et les héros de la nouvelle génération restent
+    // introuvables, sans rien à l'écran pour l'expliquer.
+    // `knownGens` liste les générations proposées au moment de l'enregistrement : ce qui
+    // n'y figure pas est nouveau (donc coché), ce qui y figure sans être coché a bien été
+    // décoché par le joueur (donc respecté). Les sauvegardes d'avant ce champ n'ont pas
+    // l'information : on retombe sur « plus récent que tout ce qui est enregistré = nouveau »,
+    // le temps d'un enregistrement.
+    const savedGens = Array.isArray(saved.checkedGens) ? saved.checkedGens : DEFAULT_FILTERS.checkedGens;
+    const knownGens = Array.isArray(saved.knownGens) ? saved.knownGens : null;
+    const lastSeenGen = savedGens.length ? Math.max(...savedGens.map(Number)) : Infinity;
     document.querySelectorAll('.gen-checkbox').forEach(cb => {
-        cb.checked = saved.checkedGens.includes(cb.value);
+        const isNew = knownGens ? !knownGens.includes(cb.value) : Number(cb.value) > lastSeenGen;
+        cb.checked = savedGens.includes(cb.value) || isNew;
     });
 }
 
@@ -269,11 +282,14 @@ function saveFilters() {
     const filterType = document.getElementById('filter-type').value;
     const filterRarity = document.getElementById('filter-rarity').value;
     const checkedGens = Array.from(document.querySelectorAll('.gen-checkbox:checked')).map(cb => cb.value);
-    
+    // Les générations proposées aujourd'hui, cochées ou non : c'est ce qui permet à la
+    // prochaine visite de reconnaître une génération nouvelle d'une génération décochée.
+    const knownGens = Array.from(document.querySelectorAll('.gen-checkbox')).map(cb => cb.value);
+
     const unlockedCheckbox = document.getElementById('filter-unlocked-only');
     const filterUnlocked = unlockedCheckbox ? unlockedCheckbox.checked : false;
 
-    const filters = { sortBy, filterType, filterRarity, checkedGens, filterUnlocked };
+    const filters = { sortBy, filterType, filterRarity, checkedGens, knownGens, filterUnlocked };
     try { localStorage.setItem(STORAGE_KEYS.caserneFilters, JSON.stringify(filters)); } catch (e) { if (window.ktWarnUnsaved) window.ktWarnUnsaved(); }
 }
 

@@ -4348,5 +4348,1415 @@
         }
       ]
     }
+  },
+  {
+    "id": "isnor",
+    "name": {
+      "EN": "Isnor",
+      "FR": "Isnor"
+    },
+    "title": {
+      "EN": "Legendary Explorer",
+      "FR": "Explorateur Légendaire"
+    },
+    "affinityBonus": {
+      "EN": "Squad Lethality and Health",
+      "FR": "Létalité et Santé des escouades"
+    },
+    "TextToInclude": {
+      "FR": "Bonus de Létalité et de Santé des escouades : +X%",
+      "EN": "Squad Lethality and Health: +X%"
+    },
+    "affinityMilestones": [
+      {
+        "level": 1,
+        "affinity": 1000,
+        "emblems": 0,
+        "bonus": 1.58
+      },
+      {
+        "level": 10,
+        "affinity": 1440,
+        "emblems": 10,
+        "bonus": 2.85
+      },
+      {
+        "level": 20,
+        "affinity": 2340,
+        "emblems": 20,
+        "bonus": 4.2
+      },
+      {
+        "level": 30,
+        "affinity": 3290,
+        "emblems": 30,
+        "bonus": 5.55
+      },
+      {
+        "level": 40,
+        "affinity": 4680,
+        "emblems": 40,
+        "bonus": 6.9
+      },
+      {
+        "level": 50,
+        "affinity": 6530,
+        "emblems": 50,
+        "bonus": 8.25
+      },
+      {
+        "level": 60,
+        "affinity": 8780,
+        "emblems": 60,
+        "bonus": 9.6
+      },
+      {
+        "level": 70,
+        "affinity": 11030,
+        "emblems": 70,
+        "bonus": 10.95
+      },
+      {
+        "level": 80,
+        "affinity": 13280,
+        "emblems": 80,
+        "bonus": 12.3
+      },
+      {
+        "level": 90,
+        "affinity": 15530,
+        "emblems": 90,
+        "bonus": 13.65
+      },
+      {
+        "level": 100,
+        "affinity": 17780,
+        "emblems": 100,
+        "bonus": 15
+      }
+    ],
+    "passive": {
+      "name": {
+        "EN": "Old Hand",
+        "FR": "Vétéran"
+      },
+      "TextToInclude": {
+        "FR": "Après des années à explorer, Isnor est devenu un véritable expert en matière de ruines en tout genre. Augmente de X la Létalité et la Santé de ton Escouade au combat dans l'Éternité à Portée.",
+        "EN": "Isnor's years of exploration have made him a true expert in all kinds of ruins, increasing your Squad's Lethality and Health by X in Eternity's Reach battles."
+      },
+      "levels": [
+        {
+          "level": 1,
+          "effect": "+2%",
+          "power": 72000
+        },
+        {
+          "level": 2,
+          "effect": "+4%",
+          "power": 144000
+        },
+        {
+          "level": 3,
+          "effect": "+6%",
+          "power": 216000
+        },
+        {
+          "level": 4,
+          "effect": "+9%",
+          "power": 288000
+        },
+        {
+          "level": 5,
+          "effect": "+12%",
+          "power": 360000
+        },
+        {
+          "level": 6,
+          "effect": "+15%",
+          "power": 432000
+        },
+        {
+          "level": 7,
+          "effect": "+18%",
+          "power": 504000
+        },
+        {
+          "level": 8,
+          "effect": "+21%",
+          "power": 576000
+        },
+        {
+          "level": 9,
+          "effect": "+24%",
+          "power": 648000
+        },
+        {
+          "level": 10,
+          "effect": "+27%",
+          "power": 720000
+        },
+        {
+          "level": 11,
+          "effect": "+30%",
+          "power": 792000
+        }
+      ]
+    },
+    "skills": [
+      {
+        "id": "frontier_master",
+        "name": {
+          "EN": "Frontier Master",
+          "FR": "Maître Frontalier"
+        },
+        "TextToInclude": {
+          "FR": "Sous la direction d'Isnor, les escouades qui battent des Gardes Césarès dans l'Éternité à Portée gagnent X EXP bonus pour améliorer les Compétences Frontalières.",
+          "EN": "Under Isnor's leadership, squads that defeat Cesares Guards in Eternity's Reach gain X extra XP for Frontier Skill upgrades."
+        },
+        "unlockRelLevel": 10,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "+5%",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 18000
+          },
+          {
+            "level": 2,
+            "effect": "+10%",
+            "xpCost": 25800,
+            "manuscripts": 300,
+            "power": 36000
+          },
+          {
+            "level": 3,
+            "effect": "+15%",
+            "xpCost": 51600,
+            "manuscripts": 600,
+            "power": 54000
+          },
+          {
+            "level": 4,
+            "effect": "+20%",
+            "xpCost": 77400,
+            "manuscripts": 900,
+            "power": 72000
+          },
+          {
+            "level": 5,
+            "effect": "+25%",
+            "xpCost": 103200,
+            "manuscripts": 1200,
+            "power": 90000
+          },
+          {
+            "level": 6,
+            "effect": "+30%",
+            "xpCost": 129200,
+            "manuscripts": 1500,
+            "power": 108000
+          },
+          {
+            "level": 7,
+            "effect": "+35%",
+            "xpCost": 155143,
+            "manuscripts": 1800,
+            "power": 126000
+          },
+          {
+            "level": 8,
+            "effect": "+40%",
+            "xpCost": 181050,
+            "manuscripts": 2100,
+            "power": 144000
+          },
+          {
+            "level": 9,
+            "effect": "+45%",
+            "xpCost": 206933,
+            "manuscripts": 2400,
+            "power": 162000
+          },
+          {
+            "level": 10,
+            "effect": "+50%",
+            "xpCost": 232800,
+            "manuscripts": 2700,
+            "power": 180000
+          }
+        ]
+      },
+      {
+        "id": "survival_skills",
+        "name": {
+          "EN": "Survival Skills",
+          "FR": "Capacités de Survie"
+        },
+        "TextToInclude": {
+          "FR": "Isnor a la prévoyance d'apporter des trousses de soin sur le terrain. Augmente de X le Déploiement Max dans l'Éternité à Portée et réduit de X la récupération des héros après une défaite.",
+          "EN": "Isnor has the foresight to bring along battlefield first aid supplies, increasing Squad Deployment Capacity in Eternity's Reach by X and shortening hero recovery after defeat by X."
+        },
+        "unlockRelLevel": 20,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "(5,000;6%)",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 18000
+          },
+          {
+            "level": 2,
+            "effect": "(10,000;12%)",
+            "xpCost": 36000,
+            "manuscripts": 300,
+            "power": 36000
+          },
+          {
+            "level": 3,
+            "effect": "(15,000;18%)",
+            "xpCost": 72400,
+            "manuscripts": 600,
+            "power": 54000
+          },
+          {
+            "level": 4,
+            "effect": "(20,000;24%)",
+            "xpCost": 108600,
+            "manuscripts": 900,
+            "power": 72000
+          },
+          {
+            "level": 5,
+            "effect": "(25,000;30%)",
+            "xpCost": 144960,
+            "manuscripts": 1200,
+            "power": 90000
+          },
+          {
+            "level": 6,
+            "effect": "(30,000;36%)",
+            "xpCost": 181200,
+            "manuscripts": 1500,
+            "power": 108000
+          },
+          {
+            "level": 7,
+            "effect": "(35,000;42%)",
+            "xpCost": 217371,
+            "manuscripts": 1800,
+            "power": 126000
+          },
+          {
+            "level": 8,
+            "effect": "(40,000;48%)",
+            "xpCost": 253650,
+            "manuscripts": 2100,
+            "power": 144000
+          },
+          {
+            "level": 9,
+            "effect": "(45,000;54%)",
+            "xpCost": 289867,
+            "manuscripts": 2400,
+            "power": 162000
+          },
+          {
+            "level": 10,
+            "effect": "(50,000;60%)",
+            "xpCost": 326160,
+            "manuscripts": 2700,
+            "power": 180000
+          }
+        ]
+      },
+      {
+        "id": "unexpected_benefits",
+        "name": {
+          "EN": "Unexpected Benefits",
+          "FR": "Avantages Surprenants"
+        },
+        "TextToInclude": {
+          "FR": "Ce n'est pas pour rien qu'Isnor a la réputation d'être chanceux. Il trouve toujours le moyen d'obtenir X Plans de Talisman en obtenant 200 000 Minerais de Cuivre dans l'Éternité à Portée.",
+          "EN": "Isnor is not known as lucky for nothing, always finding ways to obtain X Charm Designs upon obtaining 200,000 Copper Ore in the Eternity's Reach event."
+        },
+        "unlockRelLevel": 30,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "6",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 70000
+          },
+          {
+            "level": 2,
+            "effect": "12",
+            "xpCost": 138000,
+            "manuscripts": 1000,
+            "power": 140000
+          },
+          {
+            "level": 3,
+            "effect": "18",
+            "xpCost": 276000,
+            "manuscripts": 2000,
+            "power": 210000
+          },
+          {
+            "level": 4,
+            "effect": "24",
+            "xpCost": 414300,
+            "manuscripts": 3000,
+            "power": 280000
+          },
+          {
+            "level": 5,
+            "effect": "30",
+            "xpCost": 552480,
+            "manuscripts": 4000,
+            "power": 350000
+          },
+          {
+            "level": 6,
+            "effect": "36",
+            "xpCost": 690800,
+            "manuscripts": 5000,
+            "power": 420000
+          },
+          {
+            "level": 7,
+            "effect": "42",
+            "xpCost": 829029,
+            "manuscripts": 6000,
+            "power": 490000
+          },
+          {
+            "level": 8,
+            "effect": "48",
+            "xpCost": 967200,
+            "manuscripts": 7000,
+            "power": 560000
+          },
+          {
+            "level": 9,
+            "effect": "54",
+            "xpCost": 1105467,
+            "manuscripts": 8000,
+            "power": 630000
+          },
+          {
+            "level": 10,
+            "effect": "60",
+            "xpCost": 1243680,
+            "manuscripts": 9000,
+            "power": 700000
+          }
+        ]
+      },
+      {
+        "id": "backchannels",
+        "name": {
+          "EN": "Backchannels",
+          "FR": "Sources Parallèles"
+        },
+        "TextToInclude": {
+          "FR": "Grâce à divers moyens, Isnor continuera d'obtenir X Minerai(s) de Cuivre par minute. Il obtiendra aussi X Guide(s) des Talismans bonus en sécurisant 200 000 Minerais de Cuivre dans l'Éternité à Portée.",
+          "EN": "Isnor will continue to obtain Copper Ore through various channels at X per minute. He will also obtain X additional Charm Guide(s) on securing 200,000 Copper Ore in the Eternity's Reach event."
+        },
+        "unlockRelLevel": 40,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "(500;10)",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 98000
+          },
+          {
+            "level": 2,
+            "effect": "(1,000;20)",
+            "xpCost": 186600,
+            "manuscripts": 1200,
+            "power": 196000
+          },
+          {
+            "level": 3,
+            "effect": "(1,500;30)",
+            "xpCost": 373200,
+            "manuscripts": 2400,
+            "power": 294000
+          },
+          {
+            "level": 4,
+            "effect": "(2,000;40)",
+            "xpCost": 559800,
+            "manuscripts": 3600,
+            "power": 392000
+          },
+          {
+            "level": 5,
+            "effect": "(2,500;50)",
+            "xpCost": 746400,
+            "manuscripts": 4800,
+            "power": 490000
+          },
+          {
+            "level": 6,
+            "effect": "(3,000;60)",
+            "xpCost": 933000,
+            "manuscripts": 6000,
+            "power": 588000
+          },
+          {
+            "level": 7,
+            "effect": "(3,500;70)",
+            "xpCost": 1119600,
+            "manuscripts": 7200,
+            "power": 686000
+          },
+          {
+            "level": 8,
+            "effect": "(4,000;80)",
+            "xpCost": 1306200,
+            "manuscripts": 8400,
+            "power": 784000
+          },
+          {
+            "level": 9,
+            "effect": "(4,500;90)",
+            "xpCost": 1492800,
+            "manuscripts": 9600,
+            "power": 882000
+          },
+          {
+            "level": 10,
+            "effect": "(5,000;100)",
+            "xpCost": 1679400,
+            "manuscripts": 10800,
+            "power": 980000
+          }
+        ]
+      }
+    ],
+    "affinity": {
+      "levelBonus": [
+        1.58,
+        1.65,
+        1.73,
+        1.8,
+        1.88,
+        1.95,
+        2.03,
+        2.1,
+        2.18,
+        2.85,
+        2.93,
+        3,
+        3.08,
+        3.15,
+        3.23,
+        3.3,
+        3.38,
+        3.45,
+        3.53,
+        4.2,
+        4.28,
+        4.35,
+        4.43,
+        4.5,
+        4.58,
+        4.65,
+        4.73,
+        4.8,
+        4.88,
+        5.55,
+        5.63,
+        5.7,
+        5.78,
+        5.85,
+        5.93,
+        6,
+        6.08,
+        6.15,
+        6.23,
+        6.9,
+        6.98,
+        7.05,
+        7.13,
+        7.2,
+        7.28,
+        7.35,
+        7.43,
+        7.5,
+        7.58,
+        8.25,
+        8.33,
+        8.4,
+        8.48,
+        8.55,
+        8.63,
+        8.7,
+        8.78,
+        8.85,
+        8.93,
+        9.6,
+        9.68,
+        9.75,
+        9.83,
+        9.9,
+        9.98,
+        10.05,
+        10.13,
+        10.2,
+        10.28,
+        10.95,
+        11.03,
+        11.1,
+        11.18,
+        11.25,
+        11.33,
+        11.4,
+        11.48,
+        11.55,
+        11.63,
+        12.3,
+        12.38,
+        12.45,
+        12.53,
+        12.6,
+        12.68,
+        12.75,
+        12.83,
+        12.9,
+        12.98,
+        13.65,
+        13.73,
+        13.8,
+        13.88,
+        13.95,
+        14.03,
+        14.1,
+        14.18,
+        14.25,
+        14.33,
+        15
+      ],
+      "gates": [
+        {
+          "level": 10,
+          "emblems": 10,
+          "lockedBonus": 2.25
+        },
+        {
+          "level": 20,
+          "emblems": 20,
+          "lockedBonus": 3.6
+        },
+        {
+          "level": 30,
+          "emblems": 30,
+          "lockedBonus": 4.95
+        },
+        {
+          "level": 40,
+          "emblems": 40,
+          "lockedBonus": 6.3
+        },
+        {
+          "level": 50,
+          "emblems": 50,
+          "lockedBonus": 7.65
+        },
+        {
+          "level": 60,
+          "emblems": 60,
+          "lockedBonus": 9
+        },
+        {
+          "level": 70,
+          "emblems": 70,
+          "lockedBonus": 10.35
+        },
+        {
+          "level": 80,
+          "emblems": 80,
+          "lockedBonus": 11.7
+        },
+        {
+          "level": 90,
+          "emblems": 90,
+          "lockedBonus": 13.05
+        },
+        {
+          "level": 100,
+          "emblems": 100,
+          "lockedBonus": 14.4
+        }
+      ],
+      "stages": [
+        {
+          "min": 1,
+          "FR": "Étranger",
+          "EN": "Stranger"
+        },
+        {
+          "min": 10,
+          "FR": "Relation 1",
+          "EN": "Acquaintance 1"
+        },
+        {
+          "min": 20,
+          "FR": "Relation 2",
+          "EN": "Acquaintance 2"
+        },
+        {
+          "min": 30,
+          "FR": "Relation 3",
+          "EN": "Acquaintance 3"
+        },
+        {
+          "min": 40,
+          "FR": "Connaissance 1",
+          "EN": "Casual 1"
+        },
+        {
+          "min": 50,
+          "FR": "Connaissance 2",
+          "EN": "Casual 2"
+        },
+        {
+          "min": 60,
+          "FR": "Connaissance 3",
+          "EN": "Casual 3"
+        },
+        {
+          "min": 70,
+          "FR": "Proche 1",
+          "EN": "Close 1"
+        },
+        {
+          "min": 80,
+          "FR": "Proche 2",
+          "EN": "Close 2"
+        },
+        {
+          "min": 90,
+          "FR": "Proche 3",
+          "EN": "Close 3"
+        },
+        {
+          "min": 100,
+          "FR": "Alter ego",
+          "EN": "Kindred Soul"
+        }
+      ]
+    }
+  },
+  {
+    "id": "aena",
+    "name": {
+      "EN": "Aena",
+      "FR": "Aena"
+    },
+    "title": {
+      "EN": "Caravan Queen",
+      "FR": "Reine Caravanière"
+    },
+    "affinityBonus": {
+      "EN": "Squad Attack and Defense",
+      "FR": "Attaque et Défense des escouades"
+    },
+    "TextToInclude": {
+      "FR": "Bonus d'Attaque et de Défense des escouades : +X%",
+      "EN": "Squad Attack and Defense: +X%"
+    },
+    "affinityMilestones": [
+      {
+        "level": 1,
+        "affinity": 1000,
+        "emblems": 0,
+        "bonus": 1.58
+      },
+      {
+        "level": 10,
+        "affinity": 960,
+        "emblems": 8,
+        "bonus": 2.85
+      },
+      {
+        "level": 20,
+        "affinity": 1560,
+        "emblems": 16,
+        "bonus": 4.2
+      },
+      {
+        "level": 30,
+        "affinity": 2190,
+        "emblems": 24,
+        "bonus": 5.55
+      },
+      {
+        "level": 40,
+        "affinity": 3120,
+        "emblems": 32,
+        "bonus": 6.9
+      },
+      {
+        "level": 50,
+        "affinity": 4350,
+        "emblems": 40,
+        "bonus": 8.25
+      },
+      {
+        "level": 60,
+        "affinity": 5850,
+        "emblems": 48,
+        "bonus": 9.6
+      },
+      {
+        "level": 70,
+        "affinity": 7350,
+        "emblems": 56,
+        "bonus": 10.95
+      },
+      {
+        "level": 80,
+        "affinity": 8850,
+        "emblems": 64,
+        "bonus": 12.3
+      },
+      {
+        "level": 90,
+        "affinity": 10350,
+        "emblems": 72,
+        "bonus": 13.65
+      },
+      {
+        "level": 100,
+        "affinity": 11850,
+        "emblems": 80,
+        "bonus": 15
+      }
+    ],
+    "passive": {
+      "name": {
+        "EN": "Beneficent Mogul",
+        "FR": "Moghol Généreux"
+      },
+      "TextToInclude": {
+        "FR": "Aena soutient généreusement ses propres caravaniers. Augmente de X l'Attaque et la Défense de l'Escouade lorsqu'elle subit ou mène des pillages.",
+        "EN": "Aena's generous support of her own caravaneers increases Squad's Attack and Defense by X when suffering or conducting raids."
+      },
+      "levels": [
+        {
+          "level": 1,
+          "effect": "+2%",
+          "power": 58000
+        },
+        {
+          "level": 2,
+          "effect": "+4%",
+          "power": 116000
+        },
+        {
+          "level": 3,
+          "effect": "+6%",
+          "power": 174000
+        },
+        {
+          "level": 4,
+          "effect": "+9%",
+          "power": 232000
+        },
+        {
+          "level": 5,
+          "effect": "+12%",
+          "power": 290000
+        },
+        {
+          "level": 6,
+          "effect": "+15%",
+          "power": 348000
+        },
+        {
+          "level": 7,
+          "effect": "+18%",
+          "power": 406000
+        },
+        {
+          "level": 8,
+          "effect": "+21%",
+          "power": 464000
+        },
+        {
+          "level": 9,
+          "effect": "+24%",
+          "power": 522000
+        },
+        {
+          "level": 10,
+          "effect": "+27%",
+          "power": 580000
+        },
+        {
+          "level": 11,
+          "effect": "+30%",
+          "power": 638000
+        }
+      ]
+    },
+    "skills": [
+      {
+        "id": "shortcuts",
+        "name": {
+          "EN": "Shortcuts",
+          "FR": "Raccourcis"
+        },
+        "TextToInclude": {
+          "FR": "Aena maîtrise les routes secrètes des caravanes. Réduit de X les temps de trajet. Sa solide réputation auprès des clients lui octroie +X actualisations gratuites par caravane.",
+          "EN": "Aena's mastery of secret caravan routes shortens journey times by X. Her resulting strong reputation with clients allows X more free refreshes per caravan."
+        },
+        "unlockRelLevel": 10,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "(2%;1)",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 18000
+          },
+          {
+            "level": 2,
+            "effect": "(4%;1)",
+            "xpCost": 25800,
+            "manuscripts": 300,
+            "power": 36000
+          },
+          {
+            "level": 3,
+            "effect": "(6%;1)",
+            "xpCost": 51600,
+            "manuscripts": 600,
+            "power": 54000
+          },
+          {
+            "level": 4,
+            "effect": "(8%;1)",
+            "xpCost": 77400,
+            "manuscripts": 900,
+            "power": 72000
+          },
+          {
+            "level": 5,
+            "effect": "(10%;1)",
+            "xpCost": 103200,
+            "manuscripts": 1200,
+            "power": 90000
+          },
+          {
+            "level": 6,
+            "effect": "(12%;2)",
+            "xpCost": 129200,
+            "manuscripts": 1500,
+            "power": 108000
+          },
+          {
+            "level": 7,
+            "effect": "(14%;2)",
+            "xpCost": 155143,
+            "manuscripts": 1800,
+            "power": 126000
+          },
+          {
+            "level": 8,
+            "effect": "(16%;2)",
+            "xpCost": 181050,
+            "manuscripts": 2100,
+            "power": 144000
+          },
+          {
+            "level": 9,
+            "effect": "(18%;2)",
+            "xpCost": 206933,
+            "manuscripts": 2400,
+            "power": 162000
+          },
+          {
+            "level": 10,
+            "effect": "(20%;3)",
+            "xpCost": 232800,
+            "manuscripts": 2700,
+            "power": 180000
+          }
+        ]
+      },
+      {
+        "id": "finders_keepers",
+        "name": {
+          "EN": "Finder's Keepers",
+          "FR": "Qui Trouve, Garde"
+        },
+        "TextToInclude": {
+          "FR": "Aena a un don exceptionnel pour dénicher des trésors cachés. Octroie X de chances de trouver 1 objet de cargaison bonus lors des pillages réussis.",
+          "EN": "Aena's extraordinary instincts for hidden treasure gives a X chance of finding 1 extra cargo item during successful raids."
+        },
+        "unlockRelLevel": 20,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "10%",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 18000
+          },
+          {
+            "level": 2,
+            "effect": "20%",
+            "xpCost": 36000,
+            "manuscripts": 300,
+            "power": 36000
+          },
+          {
+            "level": 3,
+            "effect": "30%",
+            "xpCost": 72400,
+            "manuscripts": 600,
+            "power": 54000
+          },
+          {
+            "level": 4,
+            "effect": "40%",
+            "xpCost": 108600,
+            "manuscripts": 900,
+            "power": 72000
+          },
+          {
+            "level": 5,
+            "effect": "50%",
+            "xpCost": 144960,
+            "manuscripts": 1200,
+            "power": 90000
+          },
+          {
+            "level": 6,
+            "effect": "60%",
+            "xpCost": 181200,
+            "manuscripts": 1500,
+            "power": 108000
+          },
+          {
+            "level": 7,
+            "effect": "70%",
+            "xpCost": 217371,
+            "manuscripts": 1800,
+            "power": 126000
+          },
+          {
+            "level": 8,
+            "effect": "80%",
+            "xpCost": 253650,
+            "manuscripts": 2100,
+            "power": 144000
+          },
+          {
+            "level": 9,
+            "effect": "90%",
+            "xpCost": 289867,
+            "manuscripts": 2400,
+            "power": 162000
+          },
+          {
+            "level": 10,
+            "effect": "100%",
+            "xpCost": 326160,
+            "manuscripts": 2700,
+            "power": 180000
+          }
+        ]
+      },
+      {
+        "id": "delivery_drive",
+        "name": {
+          "EN": "Delivery Drive",
+          "FR": "Livraison à Domicile"
+        },
+        "TextToInclude": {
+          "FR": "Aena riposte lors d'un pillage. Reçoit X de chances de récupérer 1 objet de cargaison. Elle escorte aussi des \"Coffre-forts d'Élite\" bonus qui ne peuvent pas être pillés.",
+          "EN": "Upon being raided, Aena has a X chance of turning the tables on raiding parties and recovering 1 item of cargo. At Skill Lv. 6, Aena also escorts additional \"Elite Strongboxes\", which cannot be raided."
+        },
+        "unlockRelLevel": 30,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "5%",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 42000
+          },
+          {
+            "level": 2,
+            "effect": "10%",
+            "xpCost": 82800,
+            "manuscripts": 600,
+            "power": 84000
+          },
+          {
+            "level": 3,
+            "effect": "15%",
+            "xpCost": 165600,
+            "manuscripts": 1200,
+            "power": 126000
+          },
+          {
+            "level": 4,
+            "effect": "20%",
+            "xpCost": 248400,
+            "manuscripts": 1800,
+            "power": 168000
+          },
+          {
+            "level": 5,
+            "effect": "25%",
+            "xpCost": 331440,
+            "manuscripts": 2400,
+            "power": 210000
+          },
+          {
+            "level": 6,
+            "effect": "30%",
+            "xpCost": 414400,
+            "manuscripts": 3000,
+            "power": 252000
+          },
+          {
+            "level": 7,
+            "effect": "35%",
+            "xpCost": 497314,
+            "manuscripts": 3600,
+            "power": 294000
+          },
+          {
+            "level": 8,
+            "effect": "40%",
+            "xpCost": 580200,
+            "manuscripts": 4200,
+            "power": 336000
+          },
+          {
+            "level": 9,
+            "effect": "45%",
+            "xpCost": 663200,
+            "manuscripts": 4800,
+            "power": 378000
+          },
+          {
+            "level": 10,
+            "effect": "50%",
+            "xpCost": 746160,
+            "manuscripts": 5400,
+            "power": 420000
+          }
+        ]
+      },
+      {
+        "id": "trading_ace",
+        "name": {
+          "EN": "Trading Ace",
+          "FR": "Pro des Affaires"
+        },
+        "TextToInclude": {
+          "FR": "La réputation d'Aena est sa principale source de clients. Garantit une mission d'escorte \"Légendaire\" toutes les X missions accomplies, qui est conservée même si actualisée. Les caravanes Légendaires offriront de meilleures récompenses, surtout celles avec 3 emplacements de cargaison. Aena peut aussi escorter 1 caravane bonus par jour.",
+          "EN": "Aena's escort team is trusted by all, and clients are willing to entrust her with their most important cargo. After every X completed escort missions, the next caravan she escorts is guaranteed to be \"Legendary\" quality, and its quality will not decrease when refreshed. Legendary Caravans offer better overall rewards, with especially valuable rewards in 3 cargo slots. At Skill Lv. 10, Aena escorts 1 additional caravan each day."
+        },
+        "unlockRelLevel": 40,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "12",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 98000
+          },
+          {
+            "level": 2,
+            "effect": "11",
+            "xpCost": 186600,
+            "manuscripts": 1200,
+            "power": 196000
+          },
+          {
+            "level": 3,
+            "effect": "10",
+            "xpCost": 373200,
+            "manuscripts": 2400,
+            "power": 294000
+          },
+          {
+            "level": 4,
+            "effect": "9",
+            "xpCost": 559800,
+            "manuscripts": 3600,
+            "power": 392000
+          },
+          {
+            "level": 5,
+            "effect": "8",
+            "xpCost": 746400,
+            "manuscripts": 4800,
+            "power": 490000
+          },
+          {
+            "level": 6,
+            "effect": "7",
+            "xpCost": 933000,
+            "manuscripts": 6000,
+            "power": 588000
+          },
+          {
+            "level": 7,
+            "effect": "6",
+            "xpCost": 1119600,
+            "manuscripts": 7200,
+            "power": 686000
+          },
+          {
+            "level": 8,
+            "effect": "5",
+            "xpCost": 1306200,
+            "manuscripts": 8400,
+            "power": 784000
+          },
+          {
+            "level": 9,
+            "effect": "4",
+            "xpCost": 1492800,
+            "manuscripts": 9600,
+            "power": 882000
+          },
+          {
+            "level": 10,
+            "effect": "4",
+            "xpCost": 1679400,
+            "manuscripts": 10800,
+            "power": 980000
+          }
+        ]
+      }
+    ],
+    "affinity": {
+      "levelBonus": [
+        1.58,
+        1.65,
+        1.73,
+        1.8,
+        1.88,
+        1.95,
+        2.03,
+        2.1,
+        2.18,
+        2.85,
+        2.93,
+        3,
+        3.08,
+        3.15,
+        3.23,
+        3.3,
+        3.38,
+        3.45,
+        3.53,
+        4.2,
+        4.28,
+        4.35,
+        4.43,
+        4.5,
+        4.58,
+        4.65,
+        4.73,
+        4.8,
+        4.88,
+        5.55,
+        5.63,
+        5.7,
+        5.78,
+        5.85,
+        5.93,
+        6,
+        6.08,
+        6.15,
+        6.23,
+        6.9,
+        6.98,
+        7.05,
+        7.13,
+        7.2,
+        7.28,
+        7.35,
+        7.43,
+        7.5,
+        7.58,
+        8.25,
+        8.33,
+        8.4,
+        8.48,
+        8.55,
+        8.63,
+        8.7,
+        8.78,
+        8.85,
+        8.93,
+        9.6,
+        9.68,
+        9.75,
+        9.83,
+        9.9,
+        9.98,
+        10.05,
+        10.13,
+        10.2,
+        10.28,
+        10.95,
+        11.03,
+        11.1,
+        11.18,
+        11.25,
+        11.33,
+        11.4,
+        11.48,
+        11.55,
+        11.63,
+        12.3,
+        12.38,
+        12.45,
+        12.53,
+        12.6,
+        12.68,
+        12.75,
+        12.83,
+        12.9,
+        12.98,
+        13.65,
+        13.73,
+        13.8,
+        13.88,
+        13.95,
+        14.03,
+        14.1,
+        14.18,
+        14.25,
+        14.33,
+        15
+      ],
+      "gates": [
+        {
+          "level": 10,
+          "emblems": 8,
+          "lockedBonus": 2.25
+        },
+        {
+          "level": 20,
+          "emblems": 16,
+          "lockedBonus": 3.6
+        },
+        {
+          "level": 30,
+          "emblems": 24,
+          "lockedBonus": 4.95
+        },
+        {
+          "level": 40,
+          "emblems": 32,
+          "lockedBonus": 6.3
+        },
+        {
+          "level": 50,
+          "emblems": 40,
+          "lockedBonus": 7.65
+        },
+        {
+          "level": 60,
+          "emblems": 48,
+          "lockedBonus": 9
+        },
+        {
+          "level": 70,
+          "emblems": 56,
+          "lockedBonus": 10.35
+        },
+        {
+          "level": 80,
+          "emblems": 64,
+          "lockedBonus": 11.7
+        },
+        {
+          "level": 90,
+          "emblems": 72,
+          "lockedBonus": 13.05
+        },
+        {
+          "level": 100,
+          "emblems": 80,
+          "lockedBonus": 14.4
+        }
+      ],
+      "stages": [
+        {
+          "min": 1,
+          "FR": "Étranger",
+          "EN": "Stranger"
+        },
+        {
+          "min": 10,
+          "FR": "Relation 1",
+          "EN": "Acquaintance 1"
+        },
+        {
+          "min": 20,
+          "FR": "Relation 2",
+          "EN": "Acquaintance 2"
+        },
+        {
+          "min": 30,
+          "FR": "Relation 3",
+          "EN": "Acquaintance 3"
+        },
+        {
+          "min": 40,
+          "FR": "Connaissance 1",
+          "EN": "Casual 1"
+        },
+        {
+          "min": 50,
+          "FR": "Connaissance 2",
+          "EN": "Casual 2"
+        },
+        {
+          "min": 60,
+          "FR": "Connaissance 3",
+          "EN": "Casual 3"
+        },
+        {
+          "min": 70,
+          "FR": "Proche 1",
+          "EN": "Close 1"
+        },
+        {
+          "min": 80,
+          "FR": "Proche 2",
+          "EN": "Close 2"
+        },
+        {
+          "min": 90,
+          "FR": "Proche 3",
+          "EN": "Close 3"
+        },
+        {
+          "min": 100,
+          "FR": "Alter ego",
+          "EN": "Kindred Soul"
+        }
+      ]
+    }
   }
 ]
