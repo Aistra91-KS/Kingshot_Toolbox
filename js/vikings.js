@@ -118,7 +118,7 @@ function parseBonusValue(v) {
 
 async function loadAnimalBonus() {
     try {
-        const res = await fetch('data/pets_db.json');
+        const res = await fetch('data/pets_db.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error('pets_db.json : HTTP ' + res.status);
         const db = await res.json();
         const bison = (db.pets || []).find(p => p.id === 'mighty-bison');

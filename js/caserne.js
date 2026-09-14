@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 3. Charger le JSON
     try {
-        const response = await fetch('data/heroes_db.json'); 
+        const response = await fetch('data/heroes_db.json', { cache: 'no-cache' }); 
         if (!response.ok) throw new Error("Fichier JSON introuvable");
         
         heroesDB = await response.json(); 

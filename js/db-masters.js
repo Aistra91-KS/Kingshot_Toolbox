@@ -180,7 +180,7 @@
   window.addEventListener('langChanged', apply);
 
   if (elMile) elMile.innerHTML = statusBox(dict[L0()].loading);
-  fetch(DATA_URL).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  fetch(DATA_URL, { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then(function (list) {
       const m = (list || []).find(function (x) { return x.id === MID; });
       if (!m) { if (elMile) elMile.innerHTML = statusBox(dict[L0()].err); return; }

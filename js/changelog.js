@@ -116,7 +116,7 @@ function clRender() {
 }
 
 (function initChangelog() {
-  fetch('data/changelog.json')
+  fetch('data/changelog.json', { cache: 'no-cache' })
     .then(r => {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();

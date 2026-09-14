@@ -462,7 +462,7 @@
     petFlow=$("#petFlow"); petFlowImg=$("#petFlowImg");
     texLayers = Array.from(document.querySelectorAll("[data-rate]")).map(el => ({ el, rate:LAYER_RATES[el.dataset.rate] || 0 }));
 
-    fetch("data/pets_db.json")
+    fetch("data/pets_db.json", { cache: "no-cache" })
       .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
       .then(db => {
         PETS = db.pets || [];

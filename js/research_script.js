@@ -108,7 +108,7 @@ const inputs = {
 // ============ DATA LOADING (depuis JSON) ============
 async function loadInitialDb() {
     try {
-        const response = await fetch('data/research_db.json');
+        const response = await fetch('data/research_db.json', { cache: 'no-cache' });
         if (!response.ok) {
             throw new Error(`HTTP ${response.status} - ${response.statusText}`);
         }

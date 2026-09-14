@@ -173,7 +173,7 @@ async function initMasters() {
     try {
         // Statut contrôlé : une page d'erreur HTML servie en 503 ne se distinguait
         // d'un fichier vide que par l'exception de `json()`, dans la console.
-        const response = await fetch('data/masters_db.json');
+        const response = await fetch('data/masters_db.json', { cache: 'no-cache' });
         if (!response.ok) throw new Error('masters_db.json : HTTP ' + response.status);
         mastersDB = await response.json();
     } catch (e) {

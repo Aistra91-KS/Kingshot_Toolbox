@@ -259,7 +259,7 @@ async function loadDatabase() {
     try {
         console.log(`📂 Tentative de chargement : ${jsonPath}`);
         
-        const response = await fetch(jsonPath);
+        const response = await fetch(jsonPath, { cache: 'no-cache' });
         
         // Vérifier le statut HTTP
         if (!response.ok) {
@@ -414,7 +414,7 @@ let panAutoHours = null; // null = manuel ; nombre = auto (PAN renseigné)
 
 async function loadPanBonus() {
     try {
-        const res = await fetch('data/masters_db.json');
+        const res = await fetch('data/masters_db.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error('masters_db.json : HTTP ' + res.status);
         const db = await res.json();
         const map = {};

@@ -131,7 +131,7 @@
   window.addEventListener('langChanged', apply);
 
   if (elSkill) elSkill.innerHTML = statusBox(dict[L0()].loading);
-  fetch(DATA_URL).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  fetch(DATA_URL, { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then(function (db) {
       const p = ((db && db.pets) || []).find(function (x) { return x.id === PID; });
       if (!p) { if (elSkill) elSkill.innerHTML = statusBox(dict[L0()].err); return; }

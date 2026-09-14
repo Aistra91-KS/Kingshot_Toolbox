@@ -1140,7 +1140,7 @@
     load();
     syncInputs();
     try {
-      const r = await fetch('data/truegold_war_db.json');
+      const r = await fetch('data/truegold_war_db.json', { cache: 'no-cache' });
       DB = await r.json();
     } catch (e) {
       document.getElementById('wa-output').innerHTML = `<div class="wa-empty">${t('dbErr')}</div>`;

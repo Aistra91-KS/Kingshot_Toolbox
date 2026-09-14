@@ -840,7 +840,7 @@ function seRenderPanne(host){
   // Le `catch` était vide : la console seule ne constitue pas un retour utilisateur.
   let data = null, panne = false;
   try{
-    const r = await fetch('data/events/'+slug+'.json');
+    const r = await fetch('data/events/'+slug+'.json', { cache: 'no-cache' });
     if(r.ok) data = await r.json();
     else if(r.status !== 404) panne = true;
   }catch(e){ panne = true; }

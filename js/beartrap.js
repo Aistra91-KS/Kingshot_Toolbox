@@ -288,7 +288,7 @@ function parseBonusValue(v) {
 
 async function loadExpertBonus() {
     try {
-        const res = await fetch('data/masters_db.json');
+        const res = await fetch('data/masters_db.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error('masters_db.json : HTTP ' + res.status);
         const db = await res.json();
         const valora = db.find(m => m.id === 'valora');
@@ -307,7 +307,7 @@ async function loadExpertBonus() {
 
 async function loadAnimalBonus() {
     try {
-        const res = await fetch('data/pets_db.json');
+        const res = await fetch('data/pets_db.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error('pets_db.json : HTTP ' + res.status);
         const db = await res.json();
         const bison = (db.pets || []).find(p => p.id === 'mighty-bison');
@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadBearTrapData(); 
     
     try {
-        const response = await fetch('data/heroes_db.json');
+        const response = await fetch('data/heroes_db.json', { cache: 'no-cache' });
         if (!response.ok) throw new Error('heroes_db.json : HTTP ' + response.status);
         heroesDB = await response.json();
     } catch (e) {
@@ -520,7 +520,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Tier-list des joiners + autorisations d'alliance
     joinerAuth = safeParse(STORAGE_KEYS.beartrapJoiners, {}) || {};
     try {
-        const rj = await fetch('data/beartrap_joiners_db.json');
+        const rj = await fetch('data/beartrap_joiners_db.json', { cache: 'no-cache' });
         if (!rj.ok) throw new Error('beartrap_joiners_db.json : HTTP ' + rj.status);
         joinersTierDB = await rj.json();
     } catch (e) {
