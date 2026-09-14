@@ -298,7 +298,12 @@ function injectValue(textObj, lang, value) {
     const m = str.match(/^\((.*)\)$/);
     const parts = m ? m[1].split(';').map(s => s.trim()) : [str];
     let i = 0;
-    return txt.replace(/(?<![A-Za-z])X(?![A-Za-z])/g, () => {
+    // Pas de lookbehind : sur Safari < 16.4 et les iOS de cette génération, c'est une
+    // erreur d'ANALYSE, donc tout masters.js refuse de se charger et la page Experts
+    // reste sur son squelette statique, sans un mot à l'écran. On capture la lettre qui
+    // précède et on rend la chaîne intacte quand il y en a une, comme caserne.js.
+    return txt.replace(/([A-Za-z]?)X(?![A-Za-z])/g, (full, before) => {
+        if (before) return full;   // X collé à une lettre -> intact (EXP, max...)
         const v = parts[Math.min(i, parts.length - 1)];
         i++;
         return `<span style="color: var(--accent); font-weight: bold;">${v}</span>`;

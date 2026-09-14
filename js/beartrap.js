@@ -387,6 +387,23 @@ const organizerTierList = {
     8: { inf: ["Amadeus", "Helga", "Diego"], cav: ["Ava", "Petra", "Liz"], arc: ["Luna", "Wee & Woo", "Yang"] }
 };
 
+// Génération sans entrée : on retombe sur la plus récente connue EN DESSOUS d'elle,
+// jamais sur la 6 en dur. Le menu des générations vit dans beartrap_calc.html et cette
+// table dans ce fichier : sans cache-busting, un visiteur de retour peut recevoir le
+// HTML neuf avec le JS encore en cache. Choisir « 8 » lui donnait alors le classement
+// de la gen 6, donc les héros récents notés 999 et relégués en fin de tri, sur une
+// suggestion d'apparence parfaitement normale. Le voisin du dessous est le classement
+// le plus proche de la vérité, et le même piège se rejouera à chaque génération.
+function tierListFor(generation) {
+    const g = parseInt(generation, 10);
+    const known = Object.keys(organizerTierList).map(Number).sort(function (a, b) { return a - b; });
+    const below = known.filter(function (k) { return k <= g; });
+    // Valeur illisible (le menu n'en produit pas, mais une sauvegarde peut) : la plus
+    // récente, pas la plus ancienne. Un classement trop récent départage mal, un
+    // classement de gen 1 ignore la moitié des héros du jeu.
+    return organizerTierList[below.length ? below[below.length - 1] : known[known.length - 1]];
+}
+
 const heroCapacityByLevel = {
     1: 65, 2: 140, 3: 220, 4: 305, 5: 400, 6: 500, 7: 605, 8: 720, 9: 840, 10: 970,
     11: 1100, 12: 1240, 13: 1390, 14: 1540, 15: 1700, 16: 1870, 17: 2040, 18: 2225, 19: 2410, 20: 2605,
@@ -779,7 +796,7 @@ function suggestHeroesForModal() {
 
     const getTierScore = (heroName, typeStr) => {
         let typeShort = typeStr.substring(0, 3).toLowerCase();
-        let list = (organizerTierList[generation] || organizerTierList[6])[typeShort];
+        let list = tierListFor(generation)[typeShort];
         let idx = list ? list.indexOf(heroName) : -1;
         return idx === -1 ? 999 : idx;
     };
@@ -1329,7 +1346,7 @@ function selectHeroesForMarches(marchesCount, role, generation) {
 
     const getTierScore = (heroName, typeStr) => {
         let typeShort = typeStr.substring(0, 3).toLowerCase(); 
-        let tierList = organizerTierList[generation] || organizerTierList[6];
+        let tierList = tierListFor(generation);
         let list = tierList[typeShort];
         if (!list) return 999;
         let idx = list.indexOf(heroName);

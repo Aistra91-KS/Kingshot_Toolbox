@@ -13,6 +13,14 @@ const i18nCaserne = {
         sortGenAsc: "Génération (Plus ancienne)",
         sortName: "Nom (A-Z)",
         filterGen: "Générations (Multi-choix)",
+        gen1: "Génération 1",
+        gen2: "Génération 2",
+        gen3: "Génération 3",
+        gen4: "Génération 4",
+        gen5: "Génération 5",
+        gen6: "Génération 6",
+        gen7: "Génération 7",
+        gen8: "Génération 8",
         filterType: "Type",
         typeAll: "Tous les types",
         typeInf: "Infanterie 🛡️",
@@ -48,6 +56,14 @@ const i18nCaserne = {
         sortGenAsc: "Generation (Oldest first)",
         sortName: "Name (A-Z)",
         filterGen: "Generations (Multi-choice)",
+        gen1: "Generation 1",
+        gen2: "Generation 2",
+        gen3: "Generation 3",
+        gen4: "Generation 4",
+        gen5: "Generation 5",
+        gen6: "Generation 6",
+        gen7: "Generation 7",
+        gen8: "Generation 8",
         filterType: "Type",
         typeAll: "All types",
         typeInf: "Infantry 🛡️",
@@ -249,7 +265,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ==========================================
 
 function loadFilters() {
-    const saved = safeParse(STORAGE_KEYS.caserneFilters, DEFAULT_FILTERS);
+    // `safeParse` rend tel quel TOUT JSON valide : un `caserne_filters` contenant
+    // littéralement `null` (ou une chaîne, via un fichier de sauvegarde importé par
+    // backup.js) passe le repli et fait lever la première lecture ci-dessous. Comme
+    // loadFilters() est la première étape du DOMContentLoaded, plus rien ne s'installe
+    // ensuite : ni i18n, ni fetch des héros, ni écouteurs. La page s'affiche, les
+    // filtres ne répondent à rien et la grille reste vide, exactement comme pour un
+    // joueur qui n'aurait aucun héros — et le bandeau d'erreur n'est jamais atteint.
+    const raw = safeParse(STORAGE_KEYS.caserneFilters, DEFAULT_FILTERS);
+    const saved = (raw && typeof raw === 'object' && !Array.isArray(raw)) ? raw : DEFAULT_FILTERS;
     
     if(document.getElementById('sort-by')) document.getElementById('sort-by').value = saved.sortBy;
     if(document.getElementById('filter-type')) document.getElementById('filter-type').value = saved.filterType;
@@ -270,9 +294,15 @@ function loadFilters() {
     // le temps d'un enregistrement.
     const savedGens = Array.isArray(saved.checkedGens) ? saved.checkedGens : DEFAULT_FILTERS.checkedGens;
     const knownGens = Array.isArray(saved.knownGens) ? saved.knownGens : null;
-    const lastSeenGen = savedGens.length ? Math.max(...savedGens.map(Number)) : Infinity;
-    document.querySelectorAll('.gen-checkbox').forEach(cb => {
-        const isNew = knownGens ? !knownGens.includes(cb.value) : Number(cb.value) > lastSeenGen;
+    const boxes = Array.from(document.querySelectorAll('.gen-checkbox'));
+    // Repli des sauvegardes d'avant `knownGens` : on ne recoche QUE la génération la
+    // plus récente proposée par la page. Recocher tout ce qui dépasse la plus haute
+    // génération cochée effacerait le filtre d'un joueur qui ne garde que ses vieilles
+    // générations (sauvegarde `1,2,3` -> tout recoché), et son premier changement de
+    // filtre enregistrerait cette perte pour de bon.
+    const newestGen = boxes.length ? Math.max(...boxes.map(cb => Number(cb.value))) : 0;
+    boxes.forEach(cb => {
+        const isNew = knownGens ? !knownGens.includes(cb.value) : Number(cb.value) === newestGen;
         cb.checked = savedGens.includes(cb.value) || isNew;
     });
 }
@@ -556,8 +586,11 @@ function renderModalSkills(fullStars) {
         
         // 3. NOM DE L'IMAGE : On force TOUJOURS l'anglais pour le fichier PNG
         const imageName = typeof skill.name === 'object' ? skill.name['EN'] : skill.name;
-        // On remplace les apostrophes par leur code URL (%27) pour ne pas casser le CSS
-        const safeImageName = encodeURIComponent(imageName);
+        // On remplace les apostrophes par leur code URL (%27) pour ne pas casser le CSS :
+        // encodeURIComponent la laisse intacte, et dans url('...') elle referme la chaîne,
+        // donc la règle entière est ignorée et l'icône reste vide, sans même un 404.
+        // Concerne Forager's Luck, Defenders' Edge, Nature's Balance et Hero's Domain.
+        const safeImageName = encodeURIComponent(imageName).replace(/'/g, '%27');
 
         // Remplacement dynamique des "X%" ou "(X%, Y%)"
         if (currentLvl > 0 && skill.levels && skill.levels[currentLvl - 1]) {

@@ -90,8 +90,8 @@
         + '<td class="num tg">' + esc(pct(x.bonus)) + '</td>'
         + '</tr>';
     }).join('');
-    const bonusEN = (m.affinityBonus && m.affinityBonus.EN) || '';
-    const bonusFR = (m.affinityBonus && m.affinityBonus.FR) || '';
+    const bonusEN = (m.affinityBonus && m.affinityBonus.EN) || dict.EN.cBonus;
+    const bonusFR = (m.affinityBonus && m.affinityBonus.FR) || dict.FR.cBonus;
     return ''
       + '<table class="db-table"><thead><tr>'
       + '<th data-i18n="cLevel">Niveau</th>'
@@ -113,7 +113,7 @@
     return ''
       + '<div class="m-block">'
       + '<div class="m-block-head">'
-      + '<img class="m-ico" src="' + esc(skillImg(nameEN)) + '" alt="' + esc(nameEN) + '" onerror="this.remove()">'
+      + '<img class="m-ico" src="' + esc(skillImg(nameEN)) + '" alt="" onerror="this.remove()">'
       + '<div><div class="m-block-name" data-en="' + esc(nameEN) + '" data-fr="' + esc(nameFR) + '">' + esc(nameFR) + '</div>'
       + '<div class="m-block-desc" data-en="' + esc(dEN) + '" data-fr="' + esc(dFR) + '">' + esc(dFR) + '</div></div>'
       + '</div>'
@@ -142,7 +142,7 @@
       return ''
         + '<div class="m-block">'
         + '<div class="m-block-head">'
-        + '<img class="m-ico" src="' + esc(skillImg(nameEN)) + '" alt="' + esc(nameEN) + '" onerror="this.remove()">'
+        + '<img class="m-ico" src="' + esc(skillImg(nameEN)) + '" alt="" onerror="this.remove()">'
         + '<div><div class="m-block-name" data-en="' + esc(nameEN) + '" data-fr="' + esc(nameFR) + '">' + esc(nameFR) + '</div>'
         + (u != null ? '<div class="m-block-tag" data-en="' + esc(unlockEN) + '" data-fr="' + esc(unlockFR) + '">' + esc(unlockFR) + '</div>' : '')
         + '<div class="m-block-desc" data-en="' + esc(dEN) + '" data-fr="' + esc(dFR) + '">' + esc(dFR) + '</div></div>'
