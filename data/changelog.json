@@ -8,6 +8,76 @@
   },
   "releases": [
     {
+      "version": "1.14.0",
+      "date": "2026-09-14",
+      "changes": [
+        {
+          "type": "new",
+          "title": {
+            "EN": "Isnor and Aena join the experts",
+            "FR": "Isnor et Aena rejoignent les experts"
+          },
+          "text": {
+            "EN": "The two experts that arrived in the game are in the Masters tool and each has its own database page: the hundred affinity levels and the bonus they grant, the emblem cost of every breakthrough, the passive expertise over eleven levels, and the four skills with the effect, EXP cost, manuscripts and power of each level. Their French comes from the game itself, not from a translation of the English.",
+            "FR": "Les deux experts arrivés en jeu sont dans l'outil Experts, et chacun a sa fiche : les cent niveaux d'affinité et le bonus qu'ils donnent, le coût en emblèmes de chaque percée, l'expertise passive sur onze niveaux, et les quatre compétences avec l'effet, le coût d'EXP, les manuscrits et la puissance de chaque niveau. Leur français vient du jeu, pas d'une traduction de l'anglais."
+          },
+          "href": "database/masters/",
+          "linkLabel": {
+            "EN": "Masters database",
+            "FR": "Base de données Experts"
+          }
+        },
+        {
+          "type": "new",
+          "title": {
+            "EN": "The three generation 8 heroes",
+            "FR": "Les trois héros de génération 8"
+          },
+          "text": {
+            "EN": "Diego, Liz and Luna are in My Barracks with their expedition skills and their exclusive gear, five levels each. The generation filter gained its eighth box, and it starts ticked even if you had already saved your filters, so the new heroes cannot hide behind a setting you made before they existed.",
+            "FR": "Diego, Liz et Luna sont dans Ma Caserne avec leurs compétences d'expédition et leur équipement exclusif, cinq niveaux chacun. Le filtre de génération gagne sa huitième case, et elle démarre cochée même si tu avais déjà enregistré tes filtres : les nouveaux héros ne peuvent pas se cacher derrière un réglage pris avant leur sortie."
+          },
+          "href": "caserne",
+          "linkLabel": {
+            "EN": "My Barracks",
+            "FR": "Ma Caserne"
+          }
+        },
+        {
+          "type": "new",
+          "title": {
+            "EN": "Generation 8 servers in the Bear Trap",
+            "FR": "Les serveurs de génération 8 au Piège à Ours"
+          },
+          "text": {
+            "EN": "The server generation menu stopped at 7, so a generation 8 player had to pretend to be on 7 and the tool ignored the three newest heroes. Generation 8 is now in the menu, with its own rally leader ranking and its own joiner ranking, all thirty-seven heroes placed.",
+            "FR": "Le menu des générations de serveur s'arrêtait à 7 : un joueur de génération 8 devait se faire passer pour un 7, et l'outil ignorait les trois héros les plus récents. La génération 8 est dans le menu, avec son classement de meneurs de rally et son classement de joiners, les trente-sept héros placés."
+          },
+          "href": "beartrap_calc",
+          "linkLabel": {
+            "EN": "Bear Trap",
+            "FR": "Piège à Ours"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Big numbers written the way you read them",
+            "FR": "Les grands nombres s'écrivent comme tu les lis"
+          },
+          "text": {
+            "EN": "On an expert page, a skill granting fifty thousand deployment capacity showed \"50,000\" in the effect column while the EXP cost beside it showed \"326 160\", on the same row. The effect now follows the language of the page like every other figure. Every expert gains this, not just the two new ones.",
+            "FR": "Sur une fiche d'expert, une compétence donnant cinquante mille de déploiement affichait « 50,000 » dans la colonne Effet pendant que le coût d'EXP juste à côté affichait « 326 160 », sur la même ligne. L'effet suit maintenant la langue de la page comme tous les autres chiffres. Tous les experts en profitent, pas seulement les deux nouveaux."
+          },
+          "href": "database/masters/",
+          "linkLabel": {
+            "EN": "Masters database",
+            "FR": "Base de données Experts"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.13.6",
       "date": "2026-09-13",
       "changes": [

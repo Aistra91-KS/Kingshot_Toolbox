@@ -40,6 +40,17 @@
   function pct(b) { if (b == null) return '—'; return '+' + String(b) + '%'; }
   function skillImg(nameEN) { return 'img/MasterSkill/' + String(nameEN).replace(/ /g, '_') + '.webp'; }
 
+  // Grands nombres d'un effet : même séparateur que les colonnes chiffrées voisines,
+  // « 50,000 » en anglais et « 50 000 » en français. Sans ça, la ligne « Capacités de
+  // Survie » affichait « 50,000 » en Effet 1 et « 326 160 » en Coût EXP côte à côte,
+  // et un lecteur francophone lit « 50,000 » comme une décimale. Le JSON garde la
+  // forme anglaise (c'est elle qui vient du jeu), seul l'affichage suit la langue.
+  function effLocale(eff, L) {
+    return String(eff == null ? '' : eff).replace(/\d{1,3}(?:,\d{3})+/g, function (n) {
+      return Number(n.replace(/,/g, '')).toLocaleString(L === 'FR' ? 'fr-FR' : 'en-US');
+    });
+  }
+
   // Effet à deux valeurs : stocké « (a;b) » dans le JSON quand la phrase a deux X.
   // On l'éclate alors en deux colonnes (une par X). Format uniforme dans un bloc.
   function effIsDual(levels) { const f = (levels && levels[0] && levels[0].effect) || ''; return /^\s*\([^;]*;[^;]*\)\s*$/.test(f); }
@@ -52,9 +63,19 @@
   }
   // Cellule(s) d'effet pour une ligne. Valeurs splittées en .num (compactes) ;
   // sinon .c-eff (texte, colonne large habituelle).
+  // Les deux langues sont posées en `data-en`/`data-fr`, comme les colonnes chiffrées :
+  // `apply()` les échange au changement de langue sans relire le JSON.
   function effCells(dual, effect) {
-    if (dual) { const p = effParts(effect); return '<td class="num">' + esc(p[0]) + '</td><td class="num">' + esc(p[1] == null ? '—' : p[1]) + '</td>'; }
-    return '<td class="c-eff">' + esc(effect) + '</td>';
+    const en = effLocale(effect, 'EN'), fr = effLocale(effect, 'FR');
+    if (dual) {
+      const pe = effParts(en), pf = effParts(fr);
+      const cell = function (i) {
+        const a = pe[i] == null ? '—' : pe[i], b = pf[i] == null ? '—' : pf[i];
+        return '<td class="num" data-en="' + esc(a) + '" data-fr="' + esc(b) + '">' + esc(b) + '</td>';
+      };
+      return cell(0) + cell(1);
+    }
+    return '<td class="c-eff" data-en="' + esc(en) + '" data-fr="' + esc(fr) + '">' + esc(fr) + '</td>';
   }
 
   const L0 = () => (window.GlobalLang && GlobalLang.get && GlobalLang.get()) || 'FR';
@@ -69,8 +90,8 @@
         + '<td class="num tg">' + esc(pct(x.bonus)) + '</td>'
         + '</tr>';
     }).join('');
-    const bonusEN = (m.affinityBonus && m.affinityBonus.EN) || '';
-    const bonusFR = (m.affinityBonus && m.affinityBonus.FR) || '';
+    const bonusEN = (m.affinityBonus && m.affinityBonus.EN) || dict.EN.cBonus;
+    const bonusFR = (m.affinityBonus && m.affinityBonus.FR) || dict.FR.cBonus;
     return ''
       + '<table class="db-table"><thead><tr>'
       + '<th data-i18n="cLevel">Niveau</th>'
@@ -92,7 +113,7 @@
     return ''
       + '<div class="m-block">'
       + '<div class="m-block-head">'
-      + '<img class="m-ico" src="' + esc(skillImg(nameEN)) + '" alt="' + esc(nameEN) + '" onerror="this.remove()">'
+      + '<img class="m-ico" src="' + esc(skillImg(nameEN)) + '" alt="" onerror="this.remove()">'
       + '<div><div class="m-block-name" data-en="' + esc(nameEN) + '" data-fr="' + esc(nameFR) + '">' + esc(nameFR) + '</div>'
       + '<div class="m-block-desc" data-en="' + esc(dEN) + '" data-fr="' + esc(dFR) + '">' + esc(dFR) + '</div></div>'
       + '</div>'
@@ -121,7 +142,7 @@
       return ''
         + '<div class="m-block">'
         + '<div class="m-block-head">'
-        + '<img class="m-ico" src="' + esc(skillImg(nameEN)) + '" alt="' + esc(nameEN) + '" onerror="this.remove()">'
+        + '<img class="m-ico" src="' + esc(skillImg(nameEN)) + '" alt="" onerror="this.remove()">'
         + '<div><div class="m-block-name" data-en="' + esc(nameEN) + '" data-fr="' + esc(nameFR) + '">' + esc(nameFR) + '</div>'
         + (u != null ? '<div class="m-block-tag" data-en="' + esc(unlockEN) + '" data-fr="' + esc(unlockFR) + '">' + esc(unlockFR) + '</div>' : '')
         + '<div class="m-block-desc" data-en="' + esc(dEN) + '" data-fr="' + esc(dFR) + '">' + esc(dFR) + '</div></div>'
