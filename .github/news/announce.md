@@ -1,13 +1,11 @@
 <!-- kshub-news
-version: 1.13.5
-covers-until: 9d39424b95eaf9e9c103195c06845b98dbfa505d
-generated: 2026-09-09
+version: 1.14.0
+covers-until: bf3c084e1cbe7efa921470fe13842ca9fd2e75c8
+generated: 2026-09-14
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 🐾 Le plan d'avancement des familiers
-title-en: 🐾 The pet advancement planner
-image-fr: https://raw.githubusercontent.com/Aistra91-KS/Kingshot_Toolbox/main/.github/news/img/1.13.5-pets-plan-fr.webp
-image-en: https://raw.githubusercontent.com/Aistra91-KS/Kingshot_Toolbox/main/.github/news/img/1.13.5-pets-plan-en.webp
+title-fr: ⚔️ Deux experts, trois héros et la génération 8
+title-en: ⚔️ Two experts, three heroes and generation 8
 -->
 
 <!--
@@ -70,28 +68,40 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 🐾 Un plan d'avancement pour tes familiers
+### ⚔️ Deux experts, trois héros et la génération 8
 
-La page Familiers gagne un **second onglet**. Tu dis ce que tu as en stock — nourriture, manuels de croissance, potions nutritives, médaillons de promotion et coffres d'avancement — et l'outil cherche **quels familiers avancer, dans quel ordre**, et combien de points ça rapporte à l'**Entraînement Animalier**.
+**Isnor et Aena** rejoignent les Experts. Chacun a sa fiche complète : les cent niveaux d'affinité et le bonus qu'ils donnent, le coût en emblèmes de chaque percée, l'expertise passive sur onze niveaux, et les quatre compétences avec l'effet, le coût d'EXP, les manuscrits et la puissance de chaque niveau.
 
-Seuls les **avancements** rapportent : la nourriture n'est qu'un péage pour atteindre le cap suivant. Et le coffre est un **choix, pas un lot** — 7 manuels **ou** 2 potions **ou** 1 médaillon. C'est là qu'est tout l'arbitrage, alors l'outil tranche la répartition à ta place et te dit combien en ouvrir en quoi.
+Leur français vient du jeu, pas d'une traduction : les Gardes Césarès, l'Éternité à Portée et les Guides des Talismans s'écrivent comme tu les lis en jeu. Côté affinité, Isnor donne **Létalité et Santé des escouades** et Aena **Attaque et Défense**, 15 % chacun à l'affinité maximale.
 
-Deux choses qui font gagner du temps. **Décoche les familiers que tu n'as pas débloqués** : ils quittent d'un coup le plan, le classement et la ligne « ce qui t'arrête ». Et une fois le plan réalisé en jeu, le bouton **Appliquer les modifications** fait monter tes familiers, coche leurs avancements et met ton stock à jour — les matériaux qu'un coffre a versés en trop compris.
+👉 https://kingshottoolbox.com/database/masters/isnor
+👉 https://kingshottoolbox.com/database/masters/aena
+👉 https://kingshottoolbox.com/masters
 
-Le plan part des niveaux que tu as déjà saisis dans la promenade. Quand l'outil a eu le temps de vérifier qu'**aucun autre plan ne fait mieux** avec ton stock, il te le dit ; quand il n'a pas pu, il le dit aussi plutôt que de te promettre un maximum qu'il ne tient pas.
+**Diego, Liz et Luna** sont dans Ma Caserne, compétences d'expédition et équipement exclusif compris. Le filtre de génération gagne sa huitième case, et elle démarre cochée même si tu avais déjà réglé tes filtres : les nouveaux héros ne peuvent pas se cacher derrière un réglage pris avant leur sortie.
 
-👉 https://kingshottoolbox.com/pets
+👉 https://kingshottoolbox.com/caserne
+
+**Le Piège à Ours ouvre la génération 8.** Le menu s'arrêtait à 7 : il fallait se faire passer pour un serveur plus ancien, et les trois héros les plus récents étaient ignorés. La génération 8 a maintenant son classement de meneurs de rally et son classement de joiners, les trente-sept héros placés.
+
+👉 https://kingshottoolbox.com/beartrap_calc
 
 ## EN
 
-### 🐾 An advancement plan for your pets
+### ⚔️ Two experts, three heroes and generation 8
 
-The Pets page gets a **second tab**. Tell it what you have in stock — pet food, growth manuals, nutrient potions, promotion medallions and advancement chests — and it works out **which pets to advance, and in what order**, and how many points that scores in **Beast Training**.
+**Isnor and Aena** join the Masters. Each gets a full page: the hundred affinity levels and the bonus they grant, the emblem cost of every breakthrough, the passive expertise over eleven levels, and the four skills with the effect, EXP cost, manuscripts and power of each level.
 
-Only **advancements** score: pet food is just the toll to reach the next cap. And the chest is a **choice, not a bundle** — 7 manuals **or** 2 potions **or** 1 medallion. That is where the whole trade-off lives, so the tool decides the split for you and tells you how many to open as what.
+On affinity, Isnor grants **Squad Lethality and Health** and Aena **Squad Attack and Defense**, fifteen percent each at full affinity.
 
-Two things that save time. **Untick the pets you have not unlocked** and they leave the plan, the ranking and the "what stops you" line at once. And once you have carried the plan out in game, the **Apply these changes** button moves your pets up, ticks their advancements and updates your stock — including the spare materials a chest handed over.
+👉 https://kingshottoolbox.com/database/masters/isnor
+👉 https://kingshottoolbox.com/database/masters/aena
+👉 https://kingshottoolbox.com/masters
 
-The plan starts from the levels you already entered on the trail. When the tool has had time to check that **no other plan does better** with your stock, it says so; when it has not, it says that too, rather than promising a maximum it cannot back up.
+**Diego, Liz and Luna** are in My Barracks, expedition skills and exclusive gear included. The generation filter gained its eighth box, and it starts ticked even if you had already set your filters, so the new heroes cannot hide behind a setting you made before they existed.
 
-👉 https://kingshottoolbox.com/pets
+👉 https://kingshottoolbox.com/caserne
+
+**The Bear Trap opens generation 8.** The menu stopped at 7, so you had to pretend to be on an older server and the three newest heroes were ignored. Generation 8 now has its own rally leader ranking and its own joiner ranking, all thirty-seven heroes placed.
+
+👉 https://kingshottoolbox.com/beartrap_calc
