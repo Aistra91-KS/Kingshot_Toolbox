@@ -31,6 +31,8 @@ const i18nShopEvent = {
     evMyBuys: "Mes achats de l'événement",
     evPack: "Pack", evPrice: "Prix", evDay: "J",
     evPerDay: "max {n}/jour", evOnce: "achat unique", evMaxTotal: "{n} pour l'événement",
+    evUntilDay: "jusqu'au J{n}", evUntilDayBoth: "max {p}/jour, jusqu'au J{n}",
+    evClosedCell: "{p} : plus en vente au J{d}",
     evPurchaseChk: "Mission « {m} » validée ?",
     evExploreTiers: "{n} palier(s) sur {t}",
     evExploreTip: "Le nombre d'Amulettes que tu as DÉPENSÉES depuis le début de l'événement. C'est lui qui débloque les paliers, pas le nombre d'amulettes en poche. Les paliers se cumulent : tout ce qui est en dessous de ton total est déjà acquis.",
@@ -81,6 +83,8 @@ const i18nShopEvent = {
     evMyBuys: "My event purchases",
     evPack: "Pack", evPrice: "Price", evDay: "D",
     evPerDay: "max {n}/day", evOnce: "single purchase", evMaxTotal: "{n} for the whole event",
+    evUntilDay: "until D{n}", evUntilDayBoth: "max {p}/day, until D{n}",
+    evClosedCell: "{p}: no longer on sale on D{d}",
     evPurchaseChk: "\u201C{m}\u201D mission done?",
     evExploreTiers: "{n} of {t} milestones",
     evExploreTip: "How many Amulets you have SPENT since the event started. That is what unlocks the milestones, not how many you are holding. Milestones stack: everything below your total is already yours.",
@@ -134,6 +138,36 @@ const SE_UI = { detail:false };      // états d'affichage de session (non persi
 
 function seEventKey(){ return SE_DATA && SE_DATA._meta && SE_DATA._meta.event; }
 function seDays(){ return Math.max(1, Number(SE_DATA._meta.days)||1); }
+
+// Dernier jour où un pack est en vente. Tous les événements n'ouvrent pas leur
+// boutique et leurs packs sur la même fenêtre : au Clair de Lune, la boutique tient
+// huit jours et les packs s'arrêtent au septième. Sans `lastDay`, la grille offrait
+// une case de plus que le jeu, et le joueur pouvait budgéter un achat impossible.
+// Absent, le pack suit la durée de l'événement — comportement d'avant.
+// Objets DÉCOCHÉS à l'ouverture, listés par l'événement (`_meta.excludedByDefault`,
+// des itemId ou des clés `x:<label EN>`). Ils restent affichés et recochables : c'est
+// un point de départ, pas une suppression.
+//
+// Au Clair de Lune, les ressources et le VIP des packs sont de la garniture. Ce que le
+// joueur vient y chercher, ce sont les Lanternes, qui deviennent des Gâteaux de Lune,
+// qui deviennent ce qu'il prend dans la boutique — et ce panier-là est DÉJÀ compté
+// dans le retour. Laisser les ressources cochées en plus répondait à côté de la
+// question posée : 261 000 gemmes de pain et de bois faisaient lire 113 % de
+// valorisation à un joueur dont le vrai retour est ce qu'il sort de la boutique.
+//
+// Absent, rien n'est décoché : c'est le comportement des trois autres événements.
+function seDefaultExcluded(){
+  const ex = {};
+  const list = (SE_DATA._meta && SE_DATA._meta.excludedByDefault) || [];
+  if(Array.isArray(list)) list.forEach(k => { if(typeof k === 'string' && k) ex[k] = 1; });
+  return ex;
+}
+
+function sePackLastDay(p){
+  const n = Number(p && p.lastDay);
+  const days = seDays();
+  return (Number.isFinite(n) && n >= 1) ? Math.min(n, days) : days;
+}
 function seSave(){
   SE_PLANS[seEventKey()] = SE_PLAN;
   // Même filet que les autres écritures : le plan d'achat vaut mieux à l'écran
@@ -215,7 +249,16 @@ function seSrcList(bag){
 
 function seBuysCount(packId, day){
   const b = SE_PLAN.buys[packId];
-  return b ? (Number(b[day])||0) : 0;
+  const n = b ? (Number(b[day])||0) : 0;
+  if(!n) return 0;
+  // Un jour où le pack n'est plus en vente ne compte pas, même si le plan enregistré
+  // en porte un : le plan vit dans localStorage et survit à un changement de fichier
+  // d'événement (un `lastDay` ajouté après coup, une durée corrigée). La borne est
+  // posée ICI, à la source, plutôt que dans chacun des quatre endroits qui comptent
+  // les achats — dépense, récompenses, totaux par jour et grille.
+  const p = (SE_DATA.packs||[]).find(x=>x.id===packId);
+  if(p && Number(day) > sePackLastDay(p)) return 0;
+  return n;
 }
 function seBuysAt(day){
   return (SE_DATA.packs||[]).reduce((s,p)=> s + seBuysCount(p.id, day), 0);
@@ -485,12 +528,27 @@ function seGridHtml(c){
     const price = (scCur()==='USD') ? Number(p.priceUsd)||0 : Number(p.priceEur)||0;
     const max = p.once ? 1 : Math.max(1, Number(p.perDay)||1);
     const stock = Number(p.maxTotal) || 0;   // stock d'événement : saisie libre par jour
+    const last = sePackLastDay(p);
+    const court = last < days;               // le pack ferme avant la fin de l'événement
     const limit = p.once ? seT('evOnce')
                 : stock ? seTf('evMaxTotal',{n:stock})
+                : court ? (max>1 ? seTf('evUntilDayBoth',{p:max,n:last}) : seTf('evUntilDay',{n:last}))
                 : (max>1 ? seTf('evPerDay',{n:max}) : '');
     const note = p.note ? ` <span class="sxe-info" title="${scEscAttr(seName({name:p.note}))}">ⓘ</span>` : '';
     let cells = '', rowCount = 0;
     for(let d=1; d<=days; d++){
+      // Jour où ce pack n'est plus en vente : case inerte, et rien à cocher. Le
+      // `disabled` porte le nom du pack et le jour, sinon un lecteur d'écran n'entend
+      // qu'une suite de boutons désactivés sans savoir lesquels ni pourquoi.
+      if(d > last){
+        // Le nom va SUR la case, via `role="img"` : un texte réservé aux lecteurs
+        // d'écran serait un `position:absolute` sans ancêtre positionné, posé à sa
+        // position statique dans la grille qui défile — il élargissait la page à
+        // 689 px sur un écran de 390 (mesuré). Ici, aucun élément en plus.
+        cells += `<td class="ctr c-day"><span class="sxe-cell is-closed" role="img"`
+               + ` aria-label="${scEscAttr(seTf('evClosedCell',{p:seName(p),d:d}))}">·</span></td>`;
+        continue;
+      }
       const n = seBuysCount(p.id, d);
       rowCount += n;
       const label = `${seName(p)}, ${seT('evDay')}${d} : ${n}`;
@@ -865,7 +923,7 @@ function seRenderPanne(host){
         purchaseOk: (saved.purchaseOk!=null) ? !!saved.purchaseOk : ((Number(saved.outsideBuys)||0) > 0),
         outsideBuys: Number(saved.outsideBuys)||0,
         explore: Number(saved.explore)||0 }
-    : { played: seDays(), buys: {}, open: true, excluded: {}, purchaseOk: false, outsideBuys: 0, explore: 0 };
+    : { played: seDays(), buys: {}, open: true, excluded: seDefaultExcluded(), purchaseOk: false, outsideBuys: 0, explore: 0 };
 
   seRender();
   window.addEventListener('langChanged', seRender);
