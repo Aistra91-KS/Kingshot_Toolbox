@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 1.14.0
-covers-until: bf3c084e1cbe7efa921470fe13842ca9fd2e75c8
-generated: 2026-09-14
+version: 1.14.1
+covers-until: 96883feac29d6ad8feac752c4a9fec5e70f134b4
+generated: 2026-09-20
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: ⚔️ Deux experts, trois héros et la génération 8
-title-en: ⚔️ Two experts, three heroes and generation 8
+title-fr: 🌙 Le Magasin du Clair de Lune
+title-en: 🌙 The Moonlight Shop
 -->
 
 <!--
@@ -68,40 +68,34 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### ⚔️ Deux experts, trois héros et la génération 8
+### 🌙 Le Magasin du Clair de Lune
 
-**Isnor et Aena** rejoignent les Experts. Chacun a sa fiche complète : les cent niveaux d'affinité et le bonus qu'ils donnent, le coût en emblèmes de chaque percée, l'expertise passive sur onze niveaux, et les quatre compétences avec l'effet, le coût d'EXP, les manuscrits et la puissance de chaque niveau.
+La boutique de l'événement Moonlit Celebration a sa page. Quinze lignes payées en Gâteaux de Lune, chacune chiffrée dans les deux sens : sa valeur en gemmes et son prix en argent réel.
 
-Leur français vient du jeu, pas d'une traduction : les Gardes Césarès, l'Éternité à Portée et les Guides des Talismans s'écrivent comme tu les lis en jeu. Côté affinité, Isnor donne **Létalité et Santé des escouades** et Aena **Attaque et Défense**, 15 % chacun à l'affinité maximale.
+En tête des deux lectures, la **Caisse d'Équipement de Héros Chanceux à 18 gâteaux**, dont la réserve se recharge tous les jours : 30 par jour, 240 d'ici la fin de l'événement. Derrière elle, le **Mithril à 750 gâteaux** tient le second rang. Tout en bas du tableau, l'Or Véritable à 11 gâteaux est la ligne qui rapporte le moins.
 
-👉 https://kingshottoolbox.com/database/masters/isnor
-👉 https://kingshottoolbox.com/database/masters/aena
-👉 https://kingshottoolbox.com/masters
+Au milieu du classement, l'ordre dépend de ce que tu comptes : les Marteaux de Forge passent devant les Plans et Guides de Talisman en gemmes, derrière eux en argent réel. La page bascule d'une lecture à l'autre d'un clic.
 
-**Diego, Liz et Luna** sont dans Ma Caserne, compétences d'expédition et équipement exclusif compris. Le filtre de génération gagne sa huitième case, et elle démarre cochée même si tu avais déjà réglé tes filtres : les nouveaux héros ne peuvent pas se cacher derrière un réglage pris avant leur sortie.
+Les trois cosmétiques restent hors classement, faute de valeur de référence : le skin de ville Pavillon de Lune à 45 000 gâteaux, la Plaque Lapin Lunaire à 1 500 et l'emote Pat Pat à 500.
 
-👉 https://kingshottoolbox.com/caserne
+La boutique ferme le 28 septembre, le compte à rebours est en haut de la page.
 
-**Le Piège à Ours ouvre la génération 8.** Le menu s'arrêtait à 7 : il fallait se faire passer pour un serveur plus ancien, et les trois héros les plus récents étaient ignorés. La génération 8 a maintenant son classement de meneurs de rally et son classement de joiners, les trente-sept héros placés.
-
-👉 https://kingshottoolbox.com/beartrap_calc
+👉 https://kingshottoolbox.com/shop/moonlight-shop
+👉 https://kingshottoolbox.com/shop_calc
 
 ## EN
 
-### ⚔️ Two experts, three heroes and generation 8
+### 🌙 The Moonlight Shop
 
-**Isnor and Aena** join the Masters. Each gets a full page: the hundred affinity levels and the bonus they grant, the emblem cost of every breakthrough, the passive expertise over eleven levels, and the four skills with the effect, EXP cost, manuscripts and power of each level.
+The store of the Moonlit Celebration event has its page. Fifteen lines paid in Mooncakes, each one priced both ways: its value in gems and its price in real money.
 
-On affinity, Isnor grants **Squad Lethality and Health** and Aena **Squad Attack and Defense**, fifteen percent each at full affinity.
+Both readings put the **Lucky Hero Gear Chest at 18 mooncakes** first, and its stock refills every day: 30 a day, 240 before the event closes. Behind it, **Mithril at 750 mooncakes** holds second place. At the bottom of the table, TrueGold at 11 mooncakes is the line that returns the least.
 
-👉 https://kingshottoolbox.com/database/masters/isnor
-👉 https://kingshottoolbox.com/database/masters/aena
-👉 https://kingshottoolbox.com/masters
+In the middle of the ranking the order depends on what you are counting: Forgehammers sit above Charm Designs and Charm Guides in gems, and below them in real money. The page switches from one reading to the other in one click.
 
-**Diego, Liz and Luna** are in My Barracks, expedition skills and exclusive gear included. The generation filter gained its eighth box, and it starts ticked even if you had already set your filters, so the new heroes cannot hide behind a setting you made before they existed.
+The three cosmetics stay out of the ranking, having no reference value: the Moon Pavillon town skin at 45,000 mooncakes, the Lunar Rabbit nameplate at 1,500 and the Pat Pat emote at 500.
 
-👉 https://kingshottoolbox.com/caserne
+The shop closes on 28 September, and the countdown sits at the top of the page.
 
-**The Bear Trap opens generation 8.** The menu stopped at 7, so you had to pretend to be on an older server and the three newest heroes were ignored. Generation 8 now has its own rally leader ranking and its own joiner ranking, all thirty-seven heroes placed.
-
-👉 https://kingshottoolbox.com/beartrap_calc
+👉 https://kingshottoolbox.com/shop/moonlight-shop
+👉 https://kingshottoolbox.com/shop_calc

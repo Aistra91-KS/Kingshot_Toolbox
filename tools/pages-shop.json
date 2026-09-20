@@ -117,6 +117,19 @@
     }
   },
   {
+    "slug": "moonlight-shop",
+    "title": "Kingshot Moonlight Shop - Gem &amp; Real-Money Value",
+    "description": "Every item in the Kingshot Moonlight Shop, the Moonlit Celebration event store: Mooncake cost, stock limit and value in gems or in €/$, ranked so you see where your mooncakes go furthest.",
+    "name": {
+      "EN": "Moonlight Shop",
+      "FR": "Magasin du Clair de Lune"
+    },
+    "intro": {
+      "EN": "The full Moonlight Shop line-up for Kingshot, the store of the Moonlit Celebration event, priced in Mooncakes. Each item is set against its reference value in gems, so you can see at a glance where your mooncakes go furthest. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le contenu complet du Magasin du Clair de Lune de Kingshot, la boutique de l'événement Moonlit Celebration, payé en Gâteaux de Lune. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes gâteaux rapportent le plus. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
+    }
+  },
+  {
     "slug": "polar-shop",
     "title": "Kingshot Polar Shop - Gem &amp; Real-Money Value",
     "description": "Kingshot Polar Shop list: every item, its Twinstar Coin cost, its stock limit and its value in gems or in €/$. See which purchases give the most value per coin before the event ends.",
