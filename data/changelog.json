@@ -8,6 +8,28 @@
   },
   "releases": [
     {
+      "version": "1.14.1",
+      "date": "2026-09-20",
+      "changes": [
+        {
+          "type": "new",
+          "title": {
+            "EN": "The Moonlight Shop",
+            "FR": "Le Magasin du Clair de Lune"
+          },
+          "text": {
+            "EN": "The store of the Moonlit Celebration event has its page: fifteen lines paid in Mooncakes, each one set against its gem value and its real-money price. Both readings put the same line first, the Lucky Hero Gear Chest at 18 mooncakes, whose stock refills every day (30 a day, 240 before the event closes). Further down the two readings disagree: Forgehammers sit above Charm Designs and Charm Guides in gems and below them in euros, so the order you trust depends on what you are counting. The three cosmetics, the Moon Pavillon town skin at 45,000 mooncakes, the Lunar Rabbit nameplate at 1,500 and the Pat Pat emote at 500, have no reference value and stay out of the ranking.",
+            "FR": "La boutique de l'événement Moonlit Celebration a sa page : quinze lignes payées en Gâteaux de Lune, chacune confrontée à sa valeur en gemmes et à son prix en argent réel. Les deux lectures placent la même ligne en tête, la Caisse d'Équipement de Héros Chanceux à 18 gâteaux, dont la réserve se recharge tous les jours (30 par jour, 240 d'ici la fin de l'événement). Plus bas elles divergent : les Marteaux de Forge passent devant les Plans et Guides de Talisman en gemmes, derrière eux en euros, et l'ordre auquel se fier dépend donc de ce qu'on compte. Les trois cosmétiques, le skin de ville Pavillon de Lune à 45 000 gâteaux, la Plaque Lapin Lunaire à 1 500 et l'emote Pat Pat à 500, n'ont pas de valeur de référence et restent hors classement."
+          },
+          "href": "shop/moonlight-shop",
+          "linkLabel": {
+            "EN": "Moonlight Shop",
+            "FR": "Magasin du Clair de Lune"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.14.0",
       "date": "2026-09-14",
       "changes": [

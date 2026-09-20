@@ -815,5 +815,29 @@
       "FR": "Couronne de Givre"
     },
     "skin": true
+  },
+  {
+    "id": "moon_pavillon",
+    "name": {
+      "EN": "Moon Pavillon",
+      "FR": "Pavillon de Lune"
+    },
+    "skin": true
+  },
+  {
+    "id": "pat_pat",
+    "name": {
+      "EN": "Pat Pat",
+      "FR": "Pat Pat"
+    },
+    "skin": true
+  },
+  {
+    "id": "lunar_rabbit_nameplate",
+    "name": {
+      "EN": "Lunar Rabbit Nameplate",
+      "FR": "Plaque Lapin Lunaire"
+    },
+    "skin": true
   }
 ]

@@ -1,5 +1,114 @@
 [
   {
+    "id": "Moonlight_Shop",
+    "slug": "moonlight-shop",
+    "name": {
+      "EN": "Moonlight Shop",
+      "FR": "Magasin du Clair de Lune"
+    },
+    "endsAt": "2026-09-28T00:00:00Z",
+    "resourceName": {
+      "EN": "Mooncake",
+      "FR": "Gâteau de Lune"
+    },
+    "items": [
+      {
+        "itemId": "lucky_hero_gear_chest",
+        "qty": 1,
+        "cost": 18,
+        "qtyMax": 30,
+        "dailyReset": true
+      },
+      {
+        "itemId": "town_skin",
+        "qty": 1,
+        "cost": 45000,
+        "qtyMax": 1,
+        "skinId": "moon_pavillon"
+      },
+      {
+        "itemId": "custom_nameplate",
+        "qty": 1,
+        "cost": 1500,
+        "qtyMax": 1,
+        "skinId": "lunar_rabbit_nameplate"
+      },
+      {
+        "itemId": "emote",
+        "qty": 1,
+        "cost": 500,
+        "qtyMax": 1,
+        "skinId": "pat_pat"
+      },
+      {
+        "itemId": "truegold",
+        "qty": 1,
+        "cost": 11,
+        "qtyMax": 2000
+      },
+      {
+        "itemId": "mithril",
+        "qty": 1,
+        "cost": 750,
+        "qtyMax": 30
+      },
+      {
+        "itemId": "mythic_general_hero_shard",
+        "qty": 1,
+        "cost": 100,
+        "qtyMax": 100
+      },
+      {
+        "itemId": "lucky_hero_gear_chest",
+        "qty": 1,
+        "cost": 28,
+        "qtyMax": 720
+      },
+      {
+        "itemId": "forgehammers",
+        "qty": 1,
+        "cost": 28,
+        "qtyMax": 720
+      },
+      {
+        "itemId": "governor_gear_material_chest",
+        "qty": 1,
+        "cost": 28,
+        "qtyMax": 720
+      },
+      {
+        "itemId": "artisan_s_vision",
+        "qty": 1,
+        "cost": 11,
+        "qtyMax": 1800
+      },
+      {
+        "itemId": "charm_design",
+        "qty": 1,
+        "cost": 12,
+        "qtyMax": 1600
+      },
+      {
+        "itemId": "charm_guide",
+        "qty": 1,
+        "cost": 12,
+        "qtyMax": 1600
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 13,
+        "qtyMax": 1400
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 16,
+        "qtyMax": 9999
+      }
+    ]
+  },
+  {
     "id": "Theater_Shop",
     "slug": "theater-shop",
     "name": {
