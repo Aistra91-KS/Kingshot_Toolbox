@@ -1,0 +1,157 @@
+{
+  "_meta": {
+    "event": "Moonlight_Shop",
+    "slug": "moonlight-shop",
+    "startsAt": "2026-09-20T00:00:00Z",
+    "endsAt": "2026-09-28T00:00:00Z",
+    "days": 8,
+    "tier": "Gen 7 / TG5+",
+    "updatedAt": "2026-09-20",
+    "source": "Packs dictés par Aistra (relevé in-game du 20 septembre 2026)",
+    "currencyNote": {
+      "EN": "The packs give Wishful Lanterns, not Mooncakes: the Lanterns feed a random activity, and the shop currency comes out of that. How much is down to luck, so the tool does not guess it. Fill in your own mooncake balance in the shop table above.",
+      "FR": "Les packs donnent des Lanternes du Désireux, pas des Gâteaux de Lune : les Lanternes alimentent une activité aléatoire, et c'est de là que sort la monnaie de la boutique. Le montant dépend du hasard, l'outil ne le devine donc pas. Renseigne toi-même ton solde de gâteaux dans le tableau de la boutique ci-dessus."
+    },
+    "note": "Aucune mission, aucun pack gratuit, aucun palier : cet événement n'apporte que des packs payants. Les Lanternes du Désireux sont listées mais JAMAIS chiffrées — elles ne sont pas la monnaie de la boutique, et rien ne relie une lanterne à un nombre de Gâteaux de Lune. Elles n'ont donc pas d'itemId : l'étiquette les laisse comptées et jamais valorisées, comme les Amulettes du Théâtre.",
+    "packsNote": "L'ÉVÉNEMENT dure 8 jours (20/09 00h UTC → 28/09 00h UTC) mais les packs ne s'achètent que les 7 PREMIERS : d'où `lastDay: 7` sur chacun. Le pack à 100 $ est le seul à trois achats par jour, les six autres sont à un par jour. Prix $ = paliers de magasin dictés par Aistra ; prix € = grille Kingshot correspondante, avec 59,99 € et 119,99 € sur les deux derniers paliers (et non 54,99 / 109,99).",
+    "excludedByDefault": ["100_exp_vip", "1000_exp_vip", "10k_bread", "10k_wood", "10k_stone", "10k_iron"],
+    "excludedNote": "Les ressources et le VIP des packs sont DÉCOCHÉS à l'ouverture. Ce que le joueur vient chercher ici, ce sont les Lanternes : elles deviennent des Gâteaux de Lune, qui deviennent ce qu'il prend dans la boutique — et ce panier est déjà compté dans le retour. Les compter en plus gonflait la valorisation d'un côté qui n'est pas la question posée (261 000 gemmes de pain et de bois pour deux petits packs). Rien n'est perdu : les lignes restent affichées et se recochent d'un clic.",
+    "contentNote": "Contenus dérivés des relevés d'Aistra : le pack à 2 $ est le double du pack à 1 $ ; à partir du pack à 10 $, les ressources sont un multiple de celles du pack à 5 $ (×2), puis du pack à 10 $ (×2, ×5, ×10). Les quantités ci-dessous sont ces multiples déjà calculés, en NOMBRE D'OBJETS du référentiel (un `10k_bread` = une caisse de 10 000 pains)."
+  },
+
+  "packs": [
+    {
+      "id": "moon_1",
+      "name": { "EN": "Moonlight Pack - 1", "FR": "Pack Clair de Lune - 1" },
+      "short": { "EN": "$1", "FR": "1 $" },
+      "priceEur": 1.19,
+      "priceUsd": 1,
+      "perDay": 1,
+      "lastDay": 7,
+      "reward": {
+        "items": [
+          { "label": { "EN": "Wishful Lantern", "FR": "Lanterne du Désireux" }, "qty": 15 },
+          { "itemId": "100_exp_vip", "qty": 5 },
+          { "itemId": "10k_bread", "qty": 100 },
+          { "itemId": "10k_wood", "qty": 100 },
+          { "itemId": "10k_stone", "qty": 20 },
+          { "itemId": "10k_iron", "qty": 5 }
+        ]
+      }
+    },
+    {
+      "id": "moon_2",
+      "name": { "EN": "Moonlight Pack - 2", "FR": "Pack Clair de Lune - 2" },
+      "short": { "EN": "$2", "FR": "2 $" },
+      "priceEur": 2.39,
+      "priceUsd": 2,
+      "perDay": 1,
+      "lastDay": 7,
+      "reward": {
+        "items": [
+          { "label": { "EN": "Wishful Lantern", "FR": "Lanterne du Désireux" }, "qty": 30 },
+          { "itemId": "100_exp_vip", "qty": 10 },
+          { "itemId": "10k_bread", "qty": 200 },
+          { "itemId": "10k_wood", "qty": 200 },
+          { "itemId": "10k_stone", "qty": 40 },
+          { "itemId": "10k_iron", "qty": 10 }
+        ]
+      }
+    },
+    {
+      "id": "moon_5",
+      "name": { "EN": "Moonlight Pack - 5", "FR": "Pack Clair de Lune - 5" },
+      "short": { "EN": "$5", "FR": "5 $" },
+      "priceEur": 5.99,
+      "priceUsd": 5,
+      "perDay": 1,
+      "lastDay": 7,
+      "reward": {
+        "items": [
+          { "label": { "EN": "Wishful Lantern", "FR": "Lanterne du Désireux" }, "qty": 50 },
+          { "itemId": "100_exp_vip", "qty": 25 },
+          { "itemId": "10k_bread", "qty": 500 },
+          { "itemId": "10k_wood", "qty": 500 },
+          { "itemId": "10k_stone", "qty": 100 },
+          { "itemId": "10k_iron", "qty": 25 }
+        ]
+      }
+    },
+    {
+      "id": "moon_10",
+      "name": { "EN": "Moonlight Pack - 10", "FR": "Pack Clair de Lune - 10" },
+      "short": { "EN": "$10", "FR": "10 $" },
+      "priceEur": 11.99,
+      "priceUsd": 10,
+      "perDay": 1,
+      "lastDay": 7,
+      "reward": {
+        "items": [
+          { "label": { "EN": "Wishful Lantern", "FR": "Lanterne du Désireux" }, "qty": 90 },
+          { "itemId": "100_exp_vip", "qty": 40 },
+          { "itemId": "10k_bread", "qty": 1000 },
+          { "itemId": "10k_wood", "qty": 1000 },
+          { "itemId": "10k_stone", "qty": 200 },
+          { "itemId": "10k_iron", "qty": 50 }
+        ]
+      }
+    },
+    {
+      "id": "moon_20",
+      "name": { "EN": "Moonlight Pack - 20", "FR": "Pack Clair de Lune - 20" },
+      "short": { "EN": "$20", "FR": "20 $" },
+      "priceEur": 24.99,
+      "priceUsd": 20,
+      "perDay": 1,
+      "lastDay": 7,
+      "reward": {
+        "items": [
+          { "label": { "EN": "Wishful Lantern", "FR": "Lanterne du Désireux" }, "qty": 160 },
+          { "itemId": "100_exp_vip", "qty": 60 },
+          { "itemId": "10k_bread", "qty": 2000 },
+          { "itemId": "10k_wood", "qty": 2000 },
+          { "itemId": "10k_stone", "qty": 400 },
+          { "itemId": "10k_iron", "qty": 100 }
+        ]
+      }
+    },
+    {
+      "id": "moon_50",
+      "name": { "EN": "Moonlight Pack - 50", "FR": "Pack Clair de Lune - 50" },
+      "short": { "EN": "$50", "FR": "50 $" },
+      "priceEur": 59.99,
+      "priceUsd": 50,
+      "perDay": 1,
+      "lastDay": 7,
+      "reward": {
+        "items": [
+          { "label": { "EN": "Wishful Lantern", "FR": "Lanterne du Désireux" }, "qty": 400 },
+          { "itemId": "1000_exp_vip", "qty": 12 },
+          { "itemId": "10k_bread", "qty": 5000 },
+          { "itemId": "10k_wood", "qty": 5000 },
+          { "itemId": "10k_stone", "qty": 1000 },
+          { "itemId": "10k_iron", "qty": 250 }
+        ]
+      }
+    },
+    {
+      "id": "moon_100",
+      "name": { "EN": "Moonlight Pack - 100", "FR": "Pack Clair de Lune - 100" },
+      "short": { "EN": "$100", "FR": "100 $" },
+      "priceEur": 119.99,
+      "priceUsd": 100,
+      "perDay": 3,
+      "lastDay": 7,
+      "reward": {
+        "items": [
+          { "label": { "EN": "Wishful Lantern", "FR": "Lanterne du Désireux" }, "qty": 700 },
+          { "itemId": "1000_exp_vip", "qty": 20 },
+          { "itemId": "10k_bread", "qty": 10000 },
+          { "itemId": "10k_wood", "qty": 10000 },
+          { "itemId": "10k_stone", "qty": 2000 },
+          { "itemId": "10k_iron", "qty": 500 }
+        ]
+      }
+    }
+  ]
+}
