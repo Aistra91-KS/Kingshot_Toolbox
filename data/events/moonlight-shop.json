@@ -13,7 +13,7 @@
       "FR": "Les packs donnent des Lanternes du Désireux, pas des Gâteaux de Lune : les Lanternes alimentent une activité aléatoire, et c'est de là que sort la monnaie de la boutique. Le montant dépend du hasard, l'outil ne le devine donc pas. Renseigne toi-même ton solde de gâteaux dans le tableau de la boutique ci-dessus."
     },
     "note": "Aucune mission, aucun pack gratuit, aucun palier : cet événement n'apporte que des packs payants. Les Lanternes du Désireux sont listées mais JAMAIS chiffrées — elles ne sont pas la monnaie de la boutique, et rien ne relie une lanterne à un nombre de Gâteaux de Lune. Elles n'ont donc pas d'itemId : l'étiquette les laisse comptées et jamais valorisées, comme les Amulettes du Théâtre.",
-    "packsNote": "L'ÉVÉNEMENT dure 8 jours (20/09 00h UTC → 28/09 00h UTC) mais les packs ne s'achètent que les 7 PREMIERS : d'où `lastDay: 7` sur chacun. Le pack à 100 $ est le seul à trois achats par jour, les six autres sont à un par jour. Prix $ = paliers de magasin dictés par Aistra ; prix € = grille Kingshot correspondante, avec 59,99 € et 119,99 € sur les deux derniers paliers (et non 54,99 / 109,99).",
+    "packsNote": "L'ÉVÉNEMENT dure 8 jours (20/09 00h UTC → 28/09 00h UTC) mais les packs ne s'achètent que les 7 PREMIERS : d'où `lastDay: 7` sur chacun. Le pack à 100 $ est le seul à trois achats par jour, les six autres sont à un par jour. Prix $ = paliers de magasin dictés par Aistra ; prix € = paliers relevés par Aistra : 1,19 / 2,49 / 5,99 / 11,99 / 24,99 / 59,99 / 119,99. Deux corrections déjà faites sur cette grille (59,99 et 119,99 sur les deux derniers, puis 2,49 sur le palier à 2 $) : elle se relève en jeu, elle ne se déduit pas.",
     "excludedByDefault": ["100_exp_vip", "1000_exp_vip", "10k_bread", "10k_wood", "10k_stone", "10k_iron"],
     "excludedNote": "Les ressources et le VIP des packs sont DÉCOCHÉS à l'ouverture. Ce que le joueur vient chercher ici, ce sont les Lanternes : elles deviennent des Gâteaux de Lune, qui deviennent ce qu'il prend dans la boutique — et ce panier est déjà compté dans le retour. Les compter en plus gonflait la valorisation d'un côté qui n'est pas la question posée (261 000 gemmes de pain et de bois pour deux petits packs). Rien n'est perdu : les lignes restent affichées et se recochent d'un clic.",
     "contentNote": "Contenus dérivés des relevés d'Aistra : le pack à 2 $ est le double du pack à 1 $ ; à partir du pack à 10 $, les ressources sont un multiple de celles du pack à 5 $ (×2), puis du pack à 10 $ (×2, ×5, ×10). Les quantités ci-dessous sont ces multiples déjà calculés, en NOMBRE D'OBJETS du référentiel (un `10k_bread` = une caisse de 10 000 pains)."
@@ -43,7 +43,7 @@
       "id": "moon_2",
       "name": { "EN": "Moonlight Pack - 2", "FR": "Pack Clair de Lune - 2" },
       "short": { "EN": "$2", "FR": "2 $" },
-      "priceEur": 2.39,
+      "priceEur": 2.49,
       "priceUsd": 2,
       "perDay": 1,
       "lastDay": 7,
