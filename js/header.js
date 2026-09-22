@@ -7,6 +7,15 @@
 
 // --- Icônes SVG inline (Lucide, licence ISC/MIT) ---
 const HEADER_ICONS = {
+  // Les icônes que le manifeste déclare et que ce registre ignorait : « Valeur des
+  // Objets » et « Rentabilité des Événements » s'affichaient nues dans le header,
+  // et les trois catégories KVK / Optimiseur / Base de Données aussi.
+  // Règle (MAP.md §9) : une icône utilisée vit dans les DEUX registres.
+  "book-open": '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+  "database": '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+  "gem": '<path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>',
+  "trending-up": '<path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/>',
+  "swords": '<polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/>',
   "flask-conical": '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
   "coins": '<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>',
   "paw-print": '<circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/>',
@@ -425,7 +434,11 @@ window.addEventListener('langChanged', (e) => {
 
 // ============ THEME (gestion globale) ============
 function initHeaderTheme() {
-  const savedTheme = localStorage.getItem('hub_theme') || 'dark';
+  // Lecture gardée : l'ACCÈS à localStorage peut lever (cookies bloqués, mode
+  // strict), et cette ligne s'exécute avant tout le reste du header. Sans garde,
+  // ni navigation, ni profils, ni bandeau d'avertissement.
+  let savedTheme = 'dark';
+  try { savedTheme = localStorage.getItem('hub_theme') || 'dark'; } catch (e) { /* thème par défaut */ }
   document.documentElement.setAttribute('data-theme', savedTheme);
   updateHeaderThemeIcon(savedTheme);
 }
@@ -444,6 +457,96 @@ function updateHeaderThemeIcon(theme) {
 }
 
 // ============ MODALES GLOBALES ============
+
+// ---------- Primitive de dialogue ----------
+// Ouvrir une fenêtre ne faisait qu'ajouter la classe `active`. Le focus restait
+// dans le formulaire derrière, Tab continuait d'y circuler et d'en modifier les
+// champs, le lecteur d'écran n'annonçait aucune modale, et Échap ne fermait pas la
+// Sauvegarde Globale (constat F11 de la revue du 2026-09-20). Une seule primitive
+// pour les quatre fenêtres du site — sauvegarde, profils, alerte, confirmation —
+// parce qu'elles ont le même contrat :
+//   - la fenêtre prend le focus et le garde (Tab et Maj+Tab bouclent dedans) ;
+//   - Échap ANNULE, il ne valide jamais : un raccourci ne doit pas supprimer un
+//     profil ni appliquer un plan ;
+//   - à la fermeture, le focus revient sur ce qui l'avait ouverte.
+// `<dialog>` natif aurait fait l'essentiel, mais les quatre fenêtres sont déjà
+// peintes par `.backup-overlay` / `.custom-alert-overlay` : les y transposer
+// changerait leur rendu sans rien apporter de plus au clavier.
+//
+// Exposée sur `window` à dessein, comme les bandeaux de `storage-keys.js` : le site
+// n'a pas de cache-busting, `backup.js` l'appelle donc sous garde `window.ktModal`
+// et retombe sur l'ancien comportement si ce fichier-ci est encore en cache.
+const KT_FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]),'
+  + ' select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+// Pile des fenêtres ouvertes : une confirmation peut s'ouvrir PAR-DESSUS la modale
+// des profils, et Échap ne doit alors fermer que celle du dessus.
+const KT_MODALS = [];
+
+function ktModal(overlay, opts) {
+  const o = opts || {};
+  const box = o.box || overlay.firstElementChild || overlay;
+  box.setAttribute('role', 'dialog');
+  box.setAttribute('aria-modal', 'true');
+  if (o.labelledBy) box.setAttribute('aria-labelledby', o.labelledBy);
+  else if (o.label) box.setAttribute('aria-label', o.label);
+  if (!box.hasAttribute('tabindex')) box.setAttribute('tabindex', '-1');
+
+  const declencheur = document.activeElement;
+  const jeton = {};
+  const visible = (el) => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+  const cibles = () => Array.from(box.querySelectorAll(KT_FOCUSABLE)).filter(visible);
+
+  let ferme = false;
+  function close(parEchap) {
+    if (ferme) return;
+    ferme = true;
+    document.removeEventListener('keydown', onKey, true);
+    const i = KT_MODALS.indexOf(jeton);
+    if (i !== -1) KT_MODALS.splice(i, 1);
+    if (o.onClose) o.onClose(!!parEchap);
+    // Le focus revient au déclencheur, s'il est encore dans la page.
+    if (declencheur && declencheur.focus && document.contains(declencheur)) {
+      try { declencheur.focus(); } catch (e) { /* élément devenu infocalisable */ }
+    }
+  }
+
+  function onKey(e) {
+    if (KT_MODALS[KT_MODALS.length - 1] !== jeton) return;   // fenêtre du dessous
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(true); return; }
+    if (e.key !== 'Tab') return;
+    const f = cibles();
+    if (!f.length) { e.preventDefault(); box.focus(); return; }
+    const premier = f[0], dernier = f[f.length - 1];
+    // Le focus a pu sortir de la fenêtre (clic dans la page, extension) : on le ramène.
+    if (!box.contains(document.activeElement)) {
+      e.preventDefault(); (e.shiftKey ? dernier : premier).focus(); return;
+    }
+    if (e.shiftKey && document.activeElement === premier) { e.preventDefault(); dernier.focus(); }
+    else if (!e.shiftKey && document.activeElement === dernier) { e.preventDefault(); premier.focus(); }
+  }
+
+  KT_MODALS.push(jeton);
+  document.addEventListener('keydown', onKey, true);
+
+  // La fenêtre peut être en cours d'apparition : `.backup-overlay` passe de
+  // `visibility:hidden` à `visible` au fil d'une transition de 0,3 s, et `focus()`
+  // ne prend pas sur un élément encore invisible — un seul essai au cadre suivant
+  // laissait le focus dans le formulaire du dessous. On réessaie donc jusqu'à ce
+  // qu'il soit entré, le temps que la transition passe.
+  let essais = 0;
+  (function poserFocus() {
+    if (ferme) return;
+    const f = cibles();
+    const cible = (o.focus && box.querySelector(o.focus)) || f[0] || box;
+    try { cible.focus(); } catch (e) { /* rien de focalisable : tant pis */ }
+    if (!box.contains(document.activeElement) && ++essais < 30) requestAnimationFrame(poserFocus);
+  })();
+
+  return close;
+}
+window.ktModal = ktModal;
+
 function showAppAlert(message, isSuccess = false, callback = null) {
   const color = isSuccess ? 'var(--success)' : 'var(--warning)';
   const icon  = isSuccess ? '✅' : '⚠️';
@@ -455,15 +558,21 @@ function showAppAlert(message, isSuccess = false, callback = null) {
   overlay.innerHTML = `
       <div class="custom-alert-box" style="border-top:4px solid ${color};">
           <div class="custom-alert-icon">${icon}</div>
-          <h3 style="color:${color};margin:0 0 15px;font-size:16px;text-transform:uppercase;letter-spacing:1px;">${title}</h3>
+          <h3 class="custom-alert-title" style="color:${color};margin:0 0 15px;font-size:16px;text-transform:uppercase;letter-spacing:1px;">${title}</h3>
           <div class="custom-alert-msg">${message}</div>
           <button class="btn-modern btn-modern-secondary" style="width:100%;border-color:${color};color:${color};">OK</button>
       </div>`;
   document.body.appendChild(overlay);
-  overlay.querySelector('button').onclick = () => {
+  // Une alerte n'a qu'une issue : Échap et « OK » mènent au même endroit.
+  const fermer = ktModal(overlay, {
+    box: overlay.querySelector('.custom-alert-box'),
+    label: title,
+    onClose: () => {
       overlay.classList.remove('active');
-      setTimeout(() => { document.body.removeChild(overlay); if (callback) callback(); }, 300);
-  };
+      setTimeout(() => { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); if (callback) callback(); }, 300);
+    }
+  });
+  overlay.querySelector('button').onclick = () => fermer(false);
 }
 
 function showAppConfirm(message, onConfirm, onCancel = null) {
@@ -480,9 +589,25 @@ function showAppConfirm(message, onConfirm, onCancel = null) {
           </div>
       </div>`;
   document.body.appendChild(overlay);
-  const close = () => { overlay.classList.remove('active'); setTimeout(() => document.body.removeChild(overlay), 300); };
-  overlay.querySelector('#confirm-yes').onclick = () => { close(); onConfirm(); };
-  overlay.querySelector('#confirm-no').onclick  = () => { close(); if (onCancel) onCancel(); };
+  // Le choix est décidé AVANT la fermeture et lu après : Échap ne passe par aucun
+  // des deux boutons, il laisse donc `choix` à null et part sur l'annulation. C'est
+  // la règle : une touche ne valide jamais une suppression ni un plan.
+  let choix = null;
+  const fermer = ktModal(overlay, {
+    box: overlay.querySelector('.custom-alert-box'),
+    label: lang === 'EN' ? 'Confirmation required' : 'Confirmation demandée',
+    // Le focus se pose sur « Annuler » : ces fenêtres servent aux actions à
+    // conséquence, et Entrée tapée par réflexe ne doit pas les déclencher.
+    focus: '#confirm-no',
+    onClose: () => {
+      overlay.classList.remove('active');
+      setTimeout(() => { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 300);
+      if (choix === 'yes') onConfirm();
+      else if (onCancel) onCancel();
+    }
+  });
+  overlay.querySelector('#confirm-yes').onclick = () => { choix = 'yes'; fermer(false); };
+  overlay.querySelector('#confirm-no').onclick  = () => { choix = 'no';  fermer(false); };
 }
 
 // Retour discret après une action réussie : une modale de plus enchaînerait deux
@@ -577,7 +702,10 @@ function hdrWireProfilePanel(box) {
   box.querySelectorAll('.pfp-act').forEach((a) => {
     a.addEventListener('click', () => {
       const act = a.getAttribute('data-act');
-      if (act === 'new') { Profiles.switch(Profiles.create().id); }
+      // `create()` rend `null` quand rien n'a pu être enregistré (stockage plein ou
+      // refusé). Lire `.id` dessus levait, et le clic ne faisait plus rien du tout —
+      // sans même le bandeau que `Profiles` venait de poser.
+      if (act === 'new') { const p = Profiles.create(); if (p) Profiles.switch(p.id); }
       else if (act === 'manage') { box.classList.remove('open'); hdrOpenProfilesModal(); }
       else if (act === 'theme') {
         toggleHeaderTheme();
@@ -637,7 +765,7 @@ function hdrWireDrawerProfile() {
   wrap.querySelectorAll('.drawer-profile-manage').forEach((a) => {
     a.onclick = () => {
       const act = a.getAttribute('data-act');
-      if (act === 'new') { Profiles.switch(Profiles.create().id); }
+      if (act === 'new') { const p = Profiles.create(); if (p) Profiles.switch(p.id); }
       else { hdrCloseDrawer(); hdrOpenProfilesModal(); }
     };
   });
@@ -668,6 +796,8 @@ function hdrOpenProfilesModal() {
     overlay.addEventListener('click', (e) => { if (e.target === overlay) hdrCloseProfilesModal(); });
     document.getElementById('pfp-modal-close').onclick = hdrCloseProfilesModal;
     document.getElementById('pfp-modal-new').onclick = () => {
+      // Création refusée : la liste est réaffichée telle qu'elle est vraiment,
+      // et `Profiles` a déjà posé le bandeau « ces changements ne sont pas sauvegardés ».
       Profiles.create();
       hdrRenderProfilesModal();
       hdrBuildProfile();
@@ -676,9 +806,18 @@ function hdrOpenProfilesModal() {
   }
   hdrRenderProfilesModal();
   requestAnimationFrame(() => overlay.classList.add('active'));
+  hdrProfModalClose = ktModal(overlay, {
+    box: overlay.querySelector('.backup-modal'),
+    labelledBy: 'pfp-modal-title',
+    onClose: () => { overlay.classList.remove('active'); hdrProfModalClose = null; }
+  });
 }
 
+// Fermeture de la modale des profils. Elle passe par la primitive quand celle-ci
+// a été armée, pour que le focus revienne sur le bouton qui l'avait ouverte.
+let hdrProfModalClose = null;
 function hdrCloseProfilesModal() {
+  if (hdrProfModalClose) { hdrProfModalClose(false); return; }
   const o = document.getElementById('pfp-modal-overlay');
   if (o) o.classList.remove('active');
 }
@@ -707,10 +846,17 @@ function hdrRenderProfilesModal() {
 
   list.querySelectorAll('.pfp-manage-input').forEach((inp) => {
     const commit = () => {
-      const ok = Profiles.rename(inp.getAttribute('data-id'), inp.value);
-      if (!ok) return;
-      hdrBuildProfile();
-      hdrBuildDrawer();
+      const id = inp.getAttribute('data-id');
+      if (Profiles.rename(id, inp.value)) {
+        hdrBuildProfile();
+        hdrBuildDrawer();
+        return;
+      }
+      // Refusé (nom vide) ou non enregistré (stockage plein) : le champ revient au
+      // nom réellement en place. Le laisser afficher la saisie, c'était promettre un
+      // renommage que le prochain chargement n'aurait pas.
+      const p = Profiles.get(id);
+      if (p) inp.value = p.name;
     };
     inp.addEventListener('change', commit);
     inp.addEventListener('blur', commit);

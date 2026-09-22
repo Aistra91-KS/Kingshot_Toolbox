@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <script>/* Theme applique avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'ou un flash sombre anime de 0,3 s a chaque navigation. */
+    try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-M1QG4XSD3K');
+    </script>
+    <base href="../../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Kingshot Growth research database - costs, time and effects | Kingshot Toolbox</title>
+    <meta name="description" content="Every Growth research in the Kingshot Academy, level by level: bread, wood, stone, iron and gold cost, research time, power, required Academy level and effect.">
+    <link rel="canonical" href="https://kingshottoolbox.com/database/research/growth">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kingshot Toolbox">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:title" content="Kingshot Growth research database - costs, time and effects">
+    <meta property="og:description" content="Every Growth research in the Kingshot Academy, level by level: bread, wood, stone, iron and gold cost, research time, power, required Academy level and effect.">
+    <meta property="og:url" content="https://kingshottoolbox.com/database/research/growth">
+    <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Kingshot Toolbox - free calculators, optimizers and databases for Kingshot">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="img/logo/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo/favicon-96.png">
+    <link rel="alternate icon" type="image/png" href="img/logo/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/db.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://kingshottoolbox.com/database/research/"},{"@type":"ListItem","position":3,"name":"Growth Research","item":"https://kingshottoolbox.com/database/research/growth"}]}</script>
+</head>
+<body class="has-app-header">
+    <div class="db-page db-wide">
+        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="database/research/" data-i18n="crumbResearch">Research</a> / <span id="crumb-name">Growth</span></div>
+        <div class="db-head">
+          <img class="db-hero" src="img/research/growth/tooling-up.webp" alt="Growth" onerror="this.remove()">
+          <h1 id="tree-name" data-en="Growth" data-fr="Croissance">Growth</h1>
+        </div>
+        <p class="db-intro" data-i18n="intro">Every research in this tree, level by level: resource cost, research time, power, the Academy level it needs and what it gives. Costs and time are the raw values, before any research speed bonus.</p>
+        <nav class="db-switch" aria-label="Research trees"><span class="db-switch-item active" data-en="Growth" data-fr="Croissance">Growth</span><a class="db-switch-item" href="database/research/economy" data-en="Economy" data-fr="Économie">Economy</a><a class="db-switch-item" href="database/research/battle" data-en="Battle" data-fr="Combat">Battle</a></nav>
+        <div class="db-toolbar">
+          <label class="db-sr" for="dbr-search" data-i18n="search">Search a research</label>
+          <input class="db-search" id="dbr-search" type="search" placeholder="Search a research..." autocomplete="off">
+          <span class="db-count" id="dbr-count" role="status" aria-live="polite"></span>
+        </div>
+        <div class="table-container">
+          <table class="db-table">
+            <thead><tr>
+              <th scope="col" data-i18n="cResearch">Research</th>
+              <th scope="col" class="num" data-i18n="cLevel">Level</th>
+              <th scope="col" class="num" data-i18n="cAcademy">Academy</th>
+              <th scope="col" data-i18n="cReq">Prerequisites</th>
+              <th scope="col" class="num" data-i18n="cBread">Bread</th>
+              <th scope="col" class="num" data-i18n="cWood">Wood</th>
+              <th scope="col" class="num" data-i18n="cStone">Stone</th>
+              <th scope="col" class="num" data-i18n="cIron">Iron</th>
+              <th scope="col" class="num" data-i18n="cGold">Gold</th>
+              <th scope="col" data-i18n="cTime">Time</th>
+              <th scope="col" class="num" data-i18n="cPower">Power</th>
+              <th scope="col" data-i18n="cEffect">Effect</th>
+            </tr></thead>
+            <tbody id="dbr-rows"></tbody>
+          </table>
+        </div>
+        <nav class="db-switch footer" aria-label="Research trees"><span class="db-switch-item active" data-en="Growth" data-fr="Croissance">Growth</span><a class="db-switch-item" href="database/research/economy" data-en="Economy" data-fr="Économie">Economy</a><a class="db-switch-item" href="database/research/battle" data-en="Battle" data-fr="Combat">Battle</a></nav>
+    </div>
+
+    <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
+         etat ferme (position:fixed + translateX(100%) => hors ecran). Placee AVANT
+         les scripts : header.js la reutilise au lieu d en creer une seconde, puis
+         hdrBuildDrawer() en remplace le contenu par sa version complete. Le rendu
+         final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
+         n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
+    <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'database/research/'; window.RESEARCH_TREE = 'Growth';</script>
+    <script src="js/profiles.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/db-research.js"></script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

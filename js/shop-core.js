@@ -1,7 +1,7 @@
 // ============================================================
 //  SHOP CORE — socle partagé des pages Boutique
-//  Chargé par : shop_calc.html (sommaire), shop/*.html (pages boutique),
-//  shop/items.html (référentiel de valeurs).
+//  Chargé par : shop_calc.html et event-roi.html (les deux sommaires),
+//  shop/*.html (pages boutique), shop/items.html (référentiel de valeurs).
 //  Contient : dictionnaire i18n, chargement des 4 JSON, helpers d'affichage,
 //  compte à rebours et calcul des lignes d'une boutique.
 // ============================================================
@@ -9,12 +9,12 @@
 const i18nShop = {
   FR: {
     // — sommaire —
-    scTitle:"Valeur Boutique", scDesc:"Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires.",
+    scTitle:"Valeur Boutique", scDesc:"Boutiques permanentes et coffres personnalisés : comparez le coût de chaque objet à sa valeur en gemmes pour repérer les meilleures affaires.",
     secEvent:"Boutiques d'Événement", secClassic:"Boutiques Permanentes", secChest:"Coffres",
     secEventSub:"Offres limitées dans le temps : monnaie dédiée, stock plafonné et date de fin.",
     secClassicSub:"Boutiques toujours disponibles, alimentées par les monnaies de leurs modes de jeu.",
     secChestSub:"Coffres au choix unique : un seul objet à prendre, autant choisir le plus rentable.",
-    itemsRef:"Valeur des objets", itemsRefSub:"Le référentiel en gemmes qui alimente tous les calculs.",
+    itemsRef:"Valeur des objets",
     refsLead:"D'où viennent ces valeurs ?",
     nItems:"objets", nChoices:"choix", openShop:"Voir la boutique",
     // — statut / temps —
@@ -36,9 +36,12 @@ const i18nShop = {
     kpiCurrency:"Ma monnaie", kpiSpent:"Dépensé", kpiLeft:"Restant", kpiValue:"Valeur obtenue",
     kpiLine:"objet choisi", kpiLines:"objets choisis", kpiOver:"Dépassement",
     hAvail:"Dispo", hTake:"Je prends", hTakeCost:"Coût", hTakeValue:"Valeur",
+    hHave:"Déjà pris", ofWhichHave:"dont {n} déjà dépensés",
+    subHave:"pris",
     cartTotal:"Total du panier", clearCart:"Vider le panier",
     perDay:"/jour", unlimited:"Illimité", lots:"lots",
     tipTake:"Nombre de lots que tu prévois d'acheter. Le solde et la valeur se recalculent aussitôt.",
+    tipHave:"Ce que tu as déjà acheté dans cette boutique depuis le début de l'événement. Ces lots comptent dans la valeur obtenue, mais pas dans ton solde : ils en sont déjà sortis en jeu. Le plafond est le stock de tout l'événement, pas celui des jours qui restent.",
     tipAvail:"Quantité maximale achetable d'ici la fin de l'événement, réinitialisations quotidiennes comprises.",
     tipTier:"La boutique vend le même objet à plusieurs prix. Le palier 1 est le moins cher : il s'épuise d'abord, puis le 2, puis le 3.",
     tierOf:"Palier {n}",
@@ -67,7 +70,7 @@ const i18nShop = {
     hEur:"Valeur {c}", hTakeEur:"Valeur {c} tot.", kpiValueEur:"Valeur obtenue",
     curLabel:"Devise", noEur:"Valeur {c} inconnue pour cet objet",
     zoneEUR:"tarif zone euro TTC", zoneUSD:"tarif boutique en dollars",
-    itemsEur:"Prix réel des objets", itemsEurSub:"Ce que chaque objet coûte vraiment, d'après les packs payants.",
+    itemsEur:"Prix réel des objets",
     refsGemLead:"Ces mêmes objets, valorisés en gemmes :",
     refsEurLead:"Ces mêmes objets, valorisés en argent réel :",
     colPack:"Pack d'origine", noPack:"non précisé", multipack:"Multipack", seePack:"voir le pack",
@@ -99,12 +102,12 @@ const i18nShop = {
 
   },
   EN: {
-    scTitle:"Shop Value", scDesc:"Compare in-shop cost to gem value to spot the best deals.",
+    scTitle:"Shop Value", scDesc:"Permanent shops and custom chests: compare each item's cost to its gem value to spot the best deals.",
     secEvent:"Event Shops", secClassic:"Permanent Shops", secChest:"Chests",
     secEventSub:"Time-limited offers: dedicated currency, capped stock and an end date.",
     secClassicSub:"Always-available shops, fed by their game mode's own currency.",
     secChestSub:"Single-pick chests: only one item to take, so make it the most valuable one.",
-    itemsRef:"Item values", itemsRefSub:"The gem reference table behind every calculation.",
+    itemsRef:"Item values",
     refsLead:"Where do these values come from?",
     nItems:"items", nChoices:"choices", openShop:"Open shop",
     endsIn:"Ends in", ended:"Event ended", endedShort:"Ended", permanent:"Permanent",
@@ -122,9 +125,12 @@ const i18nShop = {
     kpiCurrency:"My currency", kpiSpent:"Spent", kpiLeft:"Remaining", kpiValue:"Value obtained",
     kpiLine:"item picked", kpiLines:"items picked", kpiOver:"Over budget",
     hAvail:"Available", hTake:"I take", hTakeCost:"Cost", hTakeValue:"Value",
+    hHave:"Already taken", ofWhichHave:"{n} of it already spent",
+    subHave:"taken",
     cartTotal:"Cart total", clearCart:"Clear cart",
     perDay:"/day", unlimited:"Unlimited", lots:"lots",
     tipTake:"How many lots you plan to buy. The balance and value update instantly.",
+    tipHave:"What you have already bought in this shop since the event opened. Those lots count towards the value you got, but not against your balance: they left it in game. The cap is the whole event's stock, not what the remaining days allow.",
     tipAvail:"Maximum buyable by the event's end, daily resets included.",
     tipTier:"The shop sells the same item at several prices. Tier 1 is the cheapest: it sells out first, then tier 2, then tier 3.",
     tierOf:"Tier {n}",
@@ -150,7 +156,7 @@ const i18nShop = {
     hEur:"{c} value", hTakeEur:"{c} value tot.", kpiValueEur:"Value obtained",
     curLabel:"Currency", noEur:"No {c} value known for this item",
     zoneEUR:"euro-zone price incl. tax", zoneUSD:"US dollar store price",
-    itemsEur:"Real-money item values", itemsEurSub:"What each item really costs, from the paid packs.",
+    itemsEur:"Real-money item values",
     refsGemLead:"These same items, valued in gems:",
     refsEurLead:"These same items, valued in real money:",
     colPack:"Source pack", noPack:"not specified", multipack:"Multipack", seePack:"see the pack",
@@ -317,12 +323,43 @@ function scEurResolve(id, seen){
     if(path.has(id)) return null;
     path.add(id);
     v = scEurDerivedValue(d, path);
+    // `ceiling: true` : la règle ne décide plus seule, elle pose un PLAFOND. Le relevé
+    // reprend la main dès qu'un pack vend l'objet moins cher que ce que la règle calcule.
+    // La Clé en Or en est le cas d'école : le relevé la sort d'un coffre à 6 € dont elle
+    // n'est qu'une ligne, ce qui lui collait le prix entier du pack, alors que ses 1 500
+    // gemmes en valent 1,29. Si un pack la descendait sous ce chiffre, ce serait lui le
+    // vrai prix — c'est tout l'objet du plafond.
+    if(d.ceiling && v!=null){
+      const brut = scEurBrutUnit(id);
+      if(brut!=null && brut < v) v = brut;
+    }
   } else {
-    v = scEurScaleUnit(id);
-    if(v==null) v = scEurAffinityUnit(id);
-    if(v==null) v = scEurRawUnit(id);
+    v = scEurBrutUnit(id);
   }
   return (v==null) ? null : v*scEurWeight(id);
+}
+
+// La valeur telle que le RELEVÉ la donne, sans passer par aucune règle de dérivation :
+// barème des accélérateurs, puis prix du point d'affinité, puis prix du pack ÷ quantité.
+function scEurBrutUnit(id){
+  let v = scEurScaleUnit(id);
+  if(v==null) v = scEurAffinityUnit(id);
+  if(v==null) v = scEurRawUnit(id);
+  return v;
+}
+
+// Laquelle des deux a décidé du prix. Une règle ordinaire décide toujours ; une règle
+// plafond ne décide que tant qu'aucun pack ne passe sous elle. Ce que la page affiche
+// en dépend : la pastille « Calculé » et le pack d'origine doivent désigner la même
+// chose que le chiffre, sans quoi l'audit d'une valeur mène au mauvais endroit.
+function scEurRuleDecides(id){
+  const d=SC_EURO_DERIVED[id];
+  if(!d) return false;
+  if(!d.ceiling) return true;
+  const der = scEurDerivedValue(d, new Set([id]));
+  if(der==null) return false;
+  const brut = scEurBrutUnit(id);
+  return brut==null || brut >= der;
 }
 
 // Prix d'un pack dans la devise active. Presque tous les packs relevés partagent le même tarif
@@ -394,7 +431,7 @@ function scEurScaleUnit(id){
   return (n>0 && u!=null) ? (u*n) : null;
 }
 // Vrai quand c'est le barème, et non le relevé, qui donne son prix à cet objet.
-function scEurIsScaled(id){ return !SC_EURO_DERIVED[id] && scEurScaleUnit(id)!=null; }
+function scEurIsScaled(id){ return !scEurRuleDecides(id) && scEurScaleUnit(id)!=null; }
 function scEurScaleHow(){ return scEurRuleTxt(SC_EURO_SPEEDUPS.how); }
 function scEurScaledIds(){ return scEurOrder(Object.keys(SC_EURO_SPEEDUPS.minutes||{}).filter(id=>scEurIsScaled(id))); }
 
@@ -429,7 +466,7 @@ function scEurAffinityUnit(id){
 // pack de base en fait partie : sa valeur ne change pas, mais elle vient bien du barème — c'est
 // déjà le cas de l'accélérateur 1h, qui porte la pastille tout en étant dans le pack de base.
 function scEurIsAffinity(id){
-  return !SC_EURO_DERIVED[id] && scEurScaleUnit(id)==null && scEurAffinityUnit(id)!=null;
+  return !scEurRuleDecides(id) && scEurScaleUnit(id)==null && scEurAffinityUnit(id)!=null;
 }
 function scEurAffinityHow(){ return scEurRuleTxt(SC_EURO_AFFINITY.how); }
 
@@ -487,7 +524,7 @@ function scEurDerivedValue(d, path){
   return total;
 }
 // Vrai quand la valeur affichée est déduite d'un autre objet — ce qui doit toujours se voir.
-function scEurIsDerived(id){ return !!SC_EURO_DERIVED[id] && scEurUnit(id)!=null; }
+function scEurIsDerived(id){ return scEurRuleDecides(id) && scEurUnit(id)!=null; }
 // Le raisonnement en toutes lettres, dans la langue active.
 function scEurHow(id){ const d=SC_EURO_DERIVED[id]; return d ? scEurRuleTxt(d.how) : ''; }
 // Objets touchés par une règle, dans l'ORDRE DU RÉFÉRENTIEL — les trois listes de l'encadré
@@ -516,8 +553,10 @@ function scEurPacks(id){
   // Une valeur déduite ne vient d'AUCUN pack : c'est un calcul, pas un relevé. Sauf quand la
   // règle en nomme un — le pack qui chiffre `fromId` vaut alors aussi pour elle (les caisses
   // de ressources, alignées sur le pain du Pack Lien Vital de la Ville).
+  // Une règle plafond battue par un pack rend la main au relevé : c'est ce pack-là
+  // qu'il faut montrer, pas le silence d'une règle qui n'a finalement rien décidé.
   const d=SC_EURO_DERIVED[id];
-  if(d) return Array.isArray(d.packs) ? d.packs : [];
+  if(d && scEurRuleDecides(id)) return Array.isArray(d.packs) ? d.packs : [];
   const r=SC_EURO[id]; return (r && Array.isArray(r.packs)) ? r.packs : [];
 }
 function scPackName(pid){
@@ -586,6 +625,15 @@ function scResShort(shop,lang){ const r=shop.resourceShort; if(r&&typeof r==='ob
 //  · scResetsLeft() = nombre de réinitialisations 00h UTC restantes (aujourd'hui inclus).
 //    C'est ce qui multiplie le stock des objets à reset quotidien -> ne sert QU'aux calculs.
 //  · scTimeLeft()   = temps réel restant (jours + heures) -> ne sert QU'à l'affichage.
+// Nombre de jours que dure l'événement, bornes comprises. Sert de plafond au
+// « Déjà pris » d'une boutique à stock quotidien : c'est le seul chiffre qui ne
+// bouge pas au fil de l'événement, contrairement aux réinitialisations restantes.
+function scEventDays(startsAt, endsAt){
+  if(!startsAt || !endsAt) return 0;
+  const a=new Date(startsAt).getTime(), b=new Date(endsAt).getTime();
+  if(isNaN(a) || isNaN(b) || b<=a) return 0;
+  return Math.max(1, Math.round((b-a)/86400000));
+}
 function scResetsLeft(endsAt){
   if(!endsAt) return 0;
   const ends=new Date(endsAt).getTime(); if(isNaN(ends)) return 0;
@@ -719,7 +767,11 @@ async function scLoadEvents(){
   // Rafraîchit les champs ADMIN depuis le fichier (jamais masqués par un vieux localStorage).
   SC_EVENTS.forEach(s=>{
     const def=SC_EVENTS_DEF.find(d=>d.id===s.id); if(!def) return;
-    s.endsAt=def.endsAt; s.resourceName=def.resourceName; s.slug=def.slug; s.name=def.name; s.img=def.img;
+    // `startsAt` et `trackOwned` sont ADMIN au même titre que la date de fin : sans ces
+    // deux lignes, un localStorage enregistré avant leur arrivée les masquerait, et la
+    // colonne « Déjà pris » ne s'afficherait jamais chez les habitués de la page.
+    s.endsAt=def.endsAt; s.startsAt=def.startsAt; s.trackOwned=!!def.trackOwned;
+    s.resourceName=def.resourceName; s.slug=def.slug; s.name=def.name; s.img=def.img;
     // Le rapprochement fichier <-> sauvegarde se fait par POSITION : il n'est fiable que
     // si la liste a gardé sa longueur. Dès qu'un objet a été ajouté ou retiré, les rangs
     // glissent — et l'égalité des `itemId` ne suffit pas à le voir quand une boutique
@@ -880,6 +932,11 @@ function scComputeRows(shop, opts){
   const o=opts||{};
   const resources=Math.max(0,Number(shop.resources)||0);
   const resets=scResetsLeft(shop.endsAt);
+  // Durée totale de l'événement, pour plafonner « Déjà pris ». Sans `startsAt` on ne
+  // sait pas combien de jours sont passés : le plafond retombe alors sur les jours
+  // restants, c'est-à-dire sur le comportement d'avant cette colonne.
+  const trackOwned = !!shop.trackOwned;
+  const joursTotal = scEventDays(shop.startsAt, shop.endsAt) || resets;
   const rows=(shop.items||[]).map((si,i)=>{
     const it=scItemById(si.itemId);
     const skin=si.skinId?scItemById(si.skinId):null;   // variante visuelle : nom + image, jamais la valeur
@@ -892,36 +949,63 @@ function scComputeRows(shop, opts){
     const qtyMax=Math.max(0,Number(si.qtyMax)||0);
     const restant=(si.restant==null||si.restant==='')?qtyMax:Math.max(0,Number(si.restant)||0);
     const daily=!!si.dailyReset;
-    const maxfin = daily ? restant*resets : restant;
+    // « Déjà pris » : ce que le joueur a sorti de la boutique depuis l'ouverture. Son
+    // plafond est le stock de TOUT l'événement (30/jour × 8 jours = 240 au Clair de
+    // Lune), et non celui des jours qui restent — au J3, le plafond d'achat est déjà
+    // tombé à 180 et refusait de recevoir ce qui était acheté au J1. `qtyMax` plutôt
+    // que `restant` : le second est le stock du jour, que le mode édition corrige.
+    const haveMax = trackOwned ? (daily ? qtyMax*joursTotal : qtyMax) : 0;
+    const have = trackOwned ? Math.max(0, Math.min(haveMax, Math.floor(Number(si.have)||0))) : 0;
+    // Ce qu'il reste à prendre. Deux bornes, et la plus basse gagne : ce que les jours
+    // restants autorisent, et ce qui reste du stock de l'événement une fois retiré le
+    // déjà pris. Sur un objet sans réinitialisation (30 Mithril pour tout l'événement),
+    // c'est la seconde qui parle : 10 pris, 20 encore disponibles. Sur un objet qui se
+    // recharge, c'est la première tant que le stock total n'est pas entamé — prendre
+    // 30 coffres hier ne retire rien aux 30 d'aujourd'hui.
+    const stockJours = daily ? restant*resets : restant;
+    const maxfin = trackOwned ? Math.max(0, Math.min(stockJours, haveMax - have)) : stockJours;
     const obtenable = cost>0 ? Math.min(maxfin, Math.floor(resources/cost)) : 0;
     const take = Math.max(0, Math.min(maxfin, Math.floor(Number(si.take)||0)));
     // Palier de prix : 0 = boutique sans palier (le cas de toutes les autres).
     const tier=Math.max(0,Number(si.tier)||0);
+    // Les colonnes de bilan d'une ligne portent le TOTAL de la ligne, déjà pris compris :
+    // « j'ai 240 coffres, ils m'ont coûté 4 320 gâteaux et valent 40 € » se lit d'un
+    // trait. Le solde de gâteaux, lui, ne voit que `take` (cf. le panier plus bas).
+    const lot = have + take;
     return { i, si, itemId: si.itemId, it, skin, qty, cost, gem, ratio: cost>0?gem/cost:0, restant, daily, maxfin, tier,
              obtenable, coutobt: obtenable*cost, cat:(it&&it.category)||'Other',
-             take, takeCost: take*cost, takeGem: take*gem,
+             take, takeCost: lot*cost, takeGem: lot*gem,
+             have, haveMax, haveCost: have*cost, haveGem: have*gem,
              eur, ratioEur: (eur!=null && cost>0) ? eur/cost : null,
-             takeEur: (eur!=null) ? take*eur : null,
+             takeEur: (eur!=null) ? lot*eur : null,
+             haveEur: (eur!=null) ? have*eur : null,
              nameTxt: scLabel(it,skin,lang), img: scImg(skin||it) };
   });
 
   // Bilan du panier, puis « encore prenable » ligne par ligne sur le solde restant.
+  // `spent` est la dépense TOTALE en monnaie d'événement, déjà pris compris : c'est
+  // ce que la boutique a coûté depuis son ouverture. Le solde, lui, ne se fait retirer
+  // que ce qui reste à prendre : les gâteaux du « déjà pris » sont partis en jeu et ne
+  // sont plus dans le solde que le joueur a saisi.
   const spent = rows.reduce((s,r)=>s+r.takeCost, 0);
+  const spentHave = rows.reduce((s,r)=>s+r.haveCost, 0);
   const gems  = rows.reduce((s,r)=>s+r.takeGem, 0);
   const eurs  = rows.reduce((s,r)=>s+(r.takeEur||0), 0);
-  const left  = resources - spent;
+  const left  = resources - (spent - spentHave);
   rows.forEach(r=>{
     r.canTake = r.cost>0 ? Math.max(0, Math.min(r.maxfin-r.take, Math.floor(Math.max(0,left)/r.cost))) : 0;
   });
-  const cart = { resources, spent, left, gems, eur: eurs, over: spent>resources,
-                 lines: rows.filter(r=>r.take>0).length,
+  const cart = { resources, spent, spentHave, left, gems, eur: eurs, over: (spent-spentHave)>resources,
+                 // Une ligne « prise » l'est qu'elle vienne du panier ou du déjà pris :
+                 // les deux pèsent dans les totaux, donc les deux comptent ici.
+                 lines: rows.filter(r=>r.take+r.have>0).length,
                  // Couverture € de la boutique : la tuile de bilan l'annonce, pour qu'un
                  // total partiel ne se lise pas comme un total complet.
                  eurCovered: rows.filter(r=>r.eur!=null).length, eurTotal: rows.length,
                  // Couverture des seules lignes PRISES : la tuile affiche le total du
                  // panier, sa réserve doit donc porter sur le panier, pas sur la boutique.
-                 takeCovered: rows.filter(r=>r.take>0 && r.eur!=null).length,
-                 takeTotal:   rows.filter(r=>r.take>0).length };
+                 takeCovered: rows.filter(r=>r.take+r.have>0 && r.eur!=null).length,
+                 takeTotal:   rows.filter(r=>r.take+r.have>0).length };
   // Top = meilleur ratio. Pas de Top si toutes les lignes sont à égalité (l'info n'apprendrait rien).
   const maxRatio=rows.length?Math.max(...rows.map(r=>r.ratio)):0;
   const topCount=rows.filter(r=>r.ratio===maxRatio&&r.ratio>0).length;

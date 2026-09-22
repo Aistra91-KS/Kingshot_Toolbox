@@ -1,0 +1,5341 @@
+{
+ "_meta": {
+  "role": "Niveaux STANDARD (avant l'ère Or Véritable) des bâtiments. Les niveaux TrueGold vivent dans truegold_db.json.",
+  "retrieved": "2026-09-20",
+  "check": "310 niveaux recoupés avec la base LordRush le 2026-09-20 : aucun écart. Les deux jeux partagent ces chiffres.",
+  "buildings": 19,
+  "levels": 450
+ },
+ "categories": {
+  "core": {
+   "EN": "Core",
+   "FR": "Cœur de ville"
+  },
+  "troops": {
+   "EN": "Troops",
+   "FR": "Troupes"
+  },
+  "defense": {
+   "EN": "Defense",
+   "FR": "Défense"
+  },
+  "residents": {
+   "EN": "Residents",
+   "FR": "Habitants"
+  },
+  "economy": {
+   "EN": "Economy",
+   "FR": "Économie"
+  }
+ },
+ "buildings": [
+  {
+   "id": "academy",
+   "name": {
+    "EN": "Academy",
+    "FR": "Académie"
+   },
+   "category": "core",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 105,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 440
+    },
+    {
+     "level": 2,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 160,
+     "stone": 0,
+     "iron": 0,
+     "time": 9,
+     "power": 836
+    },
+    {
+     "level": 3,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 725,
+     "stone": 0,
+     "iron": 0,
+     "time": 45,
+     "power": 1430
+    },
+    {
+     "level": 4,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 1600,
+     "stone": 320,
+     "iron": 0,
+     "time": 135,
+     "power": 2222
+    },
+    {
+     "level": 5,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 6800,
+     "stone": 1300,
+     "iron": 0,
+     "time": 270,
+     "power": 3410
+    },
+    {
+     "level": 6,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 17000,
+     "stone": 3400,
+     "iron": 860,
+     "time": 540,
+     "power": 5192
+    },
+    {
+     "level": 7,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 62000,
+     "stone": 12000,
+     "iron": 3100,
+     "time": 1080,
+     "power": 7766
+    },
+    {
+     "level": 8,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 110000,
+     "stone": 22000,
+     "iron": 5600,
+     "time": 1620,
+     "power": 10340
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 230000,
+     "stone": 47000,
+     "iron": 11000,
+     "time": 2430,
+     "power": 12914
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 410000,
+     "stone": 82000,
+     "iron": 20000,
+     "time": 3240,
+     "power": 16654
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 520000,
+     "wood": 520000,
+     "stone": 100000,
+     "iron": 26000,
+     "time": 4050,
+     "power": 20394
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 670000,
+     "wood": 670000,
+     "stone": 130000,
+     "iron": 33000,
+     "time": 4860,
+     "power": 24134
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 950000,
+     "wood": 950000,
+     "stone": 190000,
+     "iron": 47000,
+     "time": 5940,
+     "power": 30448
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 1200000,
+     "wood": 1200000,
+     "stone": 250000,
+     "iron": 63000,
+     "time": 7560,
+     "power": 36762
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 1800000,
+     "wood": 1800000,
+     "stone": 370000,
+     "iron": 93000,
+     "time": 9720,
+     "power": 43076
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 2300000,
+     "wood": 2300000,
+     "stone": 470000,
+     "iron": 110000,
+     "time": 16440,
+     "power": 51964
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 3700000,
+     "wood": 3700000,
+     "stone": 740000,
+     "iron": 180000,
+     "time": 19740,
+     "power": 60852
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 5000000,
+     "wood": 5000000,
+     "stone": 1000000,
+     "iron": 250000,
+     "time": 23700,
+     "power": 69740
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 6200000,
+     "wood": 6200000,
+     "stone": 1200000,
+     "iron": 310000,
+     "time": 35550,
+     "power": 82368
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 8600000,
+     "wood": 8600000,
+     "stone": 1700000,
+     "iron": 430000,
+     "time": 44430,
+     "power": 94996
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 10000000,
+     "wood": 10000000,
+     "stone": 2100000,
+     "iron": 540000,
+     "time": 57750,
+     "power": 107624
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 14000000,
+     "wood": 14000000,
+     "stone": 2800000,
+     "iron": 720000,
+     "time": 86640,
+     "power": 126566
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 17000000,
+     "wood": 17000000,
+     "stone": 3500000,
+     "iron": 890000,
+     "time": 121320,
+     "power": 145508
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 24000000,
+     "wood": 24000000,
+     "stone": 4800000,
+     "iron": 1200000,
+     "time": 169860,
+     "power": 164450
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 32000000,
+     "wood": 32000000,
+     "stone": 6500000,
+     "iron": 1600000,
+     "time": 237780,
+     "power": 183392
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 42000000,
+     "wood": 42000000,
+     "stone": 8400000,
+     "iron": 2100000,
+     "time": 273420,
+     "power": 211222
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 59000000,
+     "wood": 59000000,
+     "stone": 11000000,
+     "iron": 2900000,
+     "time": 328140,
+     "power": 239052
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 79000000,
+     "wood": 79000000,
+     "stone": 15000000,
+     "iron": 3900000,
+     "time": 377340,
+     "power": 266882
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 98000000,
+     "wood": 98000000,
+     "stone": 19000000,
+     "iron": 4900000,
+     "time": 433980,
+     "power": 294712
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 120000000,
+     "wood": 120000000,
+     "stone": 24000000,
+     "iron": 6000000,
+     "time": 520800,
+     "power": 335170
+    }
+   ]
+  },
+  {
+   "id": "barracks",
+   "name": {
+    "EN": "Infantry Camp",
+    "FR": "Camp d'Infanterie"
+   },
+   "category": "troops",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 6,
+     "req": [
+      "Watchtower"
+     ],
+     "bread": 0,
+     "wood": 0,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 400
+    },
+    {
+     "level": 2,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 140,
+     "stone": 0,
+     "iron": 0,
+     "time": 9,
+     "power": 760
+    },
+    {
+     "level": 3,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 645,
+     "stone": 0,
+     "iron": 0,
+     "time": 45,
+     "power": 1300
+    },
+    {
+     "level": 4,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 1400,
+     "stone": 285,
+     "iron": 0,
+     "time": 135,
+     "power": 2020
+    },
+    {
+     "level": 5,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 6000,
+     "stone": 1200,
+     "iron": 0,
+     "time": 270,
+     "power": 3100
+    },
+    {
+     "level": 6,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 15000,
+     "stone": 3000,
+     "iron": 765,
+     "time": 540,
+     "power": 4720
+    },
+    {
+     "level": 7,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 55000,
+     "stone": 11000,
+     "iron": 2700,
+     "time": 1080,
+     "power": 7060
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 100000,
+     "stone": 20000,
+     "iron": 5000,
+     "time": 1620,
+     "power": 9400
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 200000,
+     "stone": 41000,
+     "iron": 10000,
+     "time": 2430,
+     "power": 11740
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 360000,
+     "stone": 73000,
+     "iron": 18000,
+     "time": 3240,
+     "power": 15140
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 460000,
+     "wood": 460000,
+     "stone": 92000,
+     "iron": 23000,
+     "time": 4050,
+     "power": 18540
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 580000,
+     "wood": 580000,
+     "stone": 110000,
+     "iron": 29000,
+     "time": 4860,
+     "power": 21940
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 830000,
+     "wood": 830000,
+     "stone": 160000,
+     "iron": 41000,
+     "time": 5940,
+     "power": 27680
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 1100000,
+     "wood": 1100000,
+     "stone": 220000,
+     "iron": 55000,
+     "time": 7560,
+     "power": 33420
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 1600000,
+     "wood": 1600000,
+     "stone": 320000,
+     "iron": 81000,
+     "time": 9720,
+     "power": 39160
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 2000000,
+     "wood": 2000000,
+     "stone": 410000,
+     "iron": 100000,
+     "time": 16440,
+     "power": 47240
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 3200000,
+     "wood": 3200000,
+     "stone": 650000,
+     "iron": 160000,
+     "time": 19740,
+     "power": 55320
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 4300000,
+     "wood": 4300000,
+     "stone": 870000,
+     "iron": 210000,
+     "time": 23700,
+     "power": 63400
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 5400000,
+     "wood": 5400000,
+     "stone": 1000000,
+     "iron": 270000,
+     "time": 35550,
+     "power": 74880
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 7500000,
+     "wood": 7500000,
+     "stone": 1500000,
+     "iron": 370000,
+     "time": 44430,
+     "power": 86360
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 9500000,
+     "wood": 9500000,
+     "stone": 1900000,
+     "iron": 470000,
+     "time": 57750,
+     "power": 97840
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 12000000,
+     "wood": 12000000,
+     "stone": 2500000,
+     "iron": 630000,
+     "time": 86640,
+     "power": 115060
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 15000000,
+     "wood": 15000000,
+     "stone": 3100000,
+     "iron": 780000,
+     "time": 121320,
+     "power": 132280
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 21000000,
+     "wood": 21000000,
+     "stone": 4200000,
+     "iron": 1000000,
+     "time": 169860,
+     "power": 149500
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 28000000,
+     "wood": 28000000,
+     "stone": 5700000,
+     "iron": 1400000,
+     "time": 237780,
+     "power": 166720
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 36000000,
+     "wood": 36000000,
+     "stone": 7300000,
+     "iron": 1800000,
+     "time": 273420,
+     "power": 192020
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 52000000,
+     "wood": 52000000,
+     "stone": 10000000,
+     "iron": 2600000,
+     "time": 328140,
+     "power": 217320
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 69000000,
+     "wood": 69000000,
+     "stone": 13000000,
+     "iron": 3400000,
+     "time": 377340,
+     "power": 242620
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 86000000,
+     "wood": 86000000,
+     "stone": 17000000,
+     "iron": 4300000,
+     "time": 433980,
+     "power": 267920
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 100000000,
+     "wood": 100000000,
+     "stone": 21000000,
+     "iron": 5200000,
+     "time": 520800,
+     "power": 304700
+    }
+   ]
+  },
+  {
+   "id": "barricade",
+   "name": {
+    "EN": "Barricade",
+    "FR": "Barricade"
+   },
+   "category": "defense",
+   "maxStd": 10,
+   "levels": [
+    {
+     "level": 1,
+     "tc": null,
+     "req": [],
+     "bread": 0,
+     "wood": 20,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 60
+    },
+    {
+     "level": 2,
+     "tc": null,
+     "req": [],
+     "bread": 0,
+     "wood": 35,
+     "stone": 0,
+     "iron": 0,
+     "time": 6,
+     "power": 114
+    },
+    {
+     "level": 3,
+     "tc": null,
+     "req": [],
+     "bread": 0,
+     "wood": 160,
+     "stone": 0,
+     "iron": 0,
+     "time": 35,
+     "power": 195
+    },
+    {
+     "level": 4,
+     "tc": 4,
+     "req": [],
+     "bread": 0,
+     "wood": 360,
+     "stone": 70,
+     "iron": 0,
+     "time": 120,
+     "power": 303
+    },
+    {
+     "level": 5,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 1500,
+     "stone": 300,
+     "iron": 0,
+     "time": 240,
+     "power": 465
+    },
+    {
+     "level": 6,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 3800,
+     "stone": 765,
+     "iron": 190,
+     "time": 540,
+     "power": 708
+    },
+    {
+     "level": 7,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 13000,
+     "stone": 2700,
+     "iron": 690,
+     "time": 1200,
+     "power": 1059
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 25000,
+     "stone": 5000,
+     "iron": 1200,
+     "time": 2160,
+     "power": 1410
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 52000,
+     "stone": 10000,
+     "iron": 2600,
+     "time": 3240,
+     "power": 1761
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 92000,
+     "stone": 18000,
+     "iron": 4600,
+     "time": 4320,
+     "power": 2271
+    }
+   ]
+  },
+  {
+   "id": "clinic",
+   "name": {
+    "EN": "Clinic",
+    "FR": "Clinique"
+   },
+   "category": "residents",
+   "maxStd": 10,
+   "levels": [
+    {
+     "level": 1,
+     "tc": null,
+     "req": [],
+     "bread": 0,
+     "wood": 20,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 100
+    },
+    {
+     "level": 2,
+     "tc": null,
+     "req": [],
+     "bread": 0,
+     "wood": 50,
+     "stone": 0,
+     "iron": 0,
+     "time": 9,
+     "power": 190
+    },
+    {
+     "level": 3,
+     "tc": null,
+     "req": [],
+     "bread": 0,
+     "wood": 240,
+     "stone": 0,
+     "iron": 0,
+     "time": 45,
+     "power": 325
+    },
+    {
+     "level": 4,
+     "tc": null,
+     "req": [],
+     "bread": 0,
+     "wood": 540,
+     "stone": 105,
+     "iron": 0,
+     "time": 135,
+     "power": 505
+    },
+    {
+     "level": 5,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 2200,
+     "stone": 455,
+     "iron": 0,
+     "time": 270,
+     "power": 775
+    },
+    {
+     "level": 6,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 5700,
+     "stone": 1100,
+     "iron": 285,
+     "time": 540,
+     "power": 1180
+    },
+    {
+     "level": 7,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 20000,
+     "stone": 4100,
+     "iron": 1000,
+     "time": 1080,
+     "power": 1765
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 37000,
+     "stone": 7500,
+     "iron": 1800,
+     "time": 1620,
+     "power": 2350
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 78000,
+     "stone": 15000,
+     "iron": 3900,
+     "time": 2430,
+     "power": 2935
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 130000,
+     "stone": 27000,
+     "iron": 6900,
+     "time": 3240,
+     "power": 3785
+    }
+   ]
+  },
+  {
+   "id": "command-center",
+   "name": {
+    "EN": "Command Center",
+    "FR": "Base de commandement"
+   },
+   "category": "core",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 10,
+     "req": [
+      "Embassy Lv. 1"
+     ],
+     "bread": 0,
+     "wood": 80,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 280
+    },
+    {
+     "level": 2,
+     "tc": 10,
+     "req": [
+      "Embassy Lv. 2"
+     ],
+     "bread": 0,
+     "wood": 125,
+     "stone": 0,
+     "iron": 0,
+     "time": 8,
+     "power": 532
+    },
+    {
+     "level": 3,
+     "tc": 10,
+     "req": [
+      "Embassy Lv. 3"
+     ],
+     "bread": 0,
+     "wood": 565,
+     "stone": 0,
+     "iron": 0,
+     "time": 35,
+     "power": 910
+    },
+    {
+     "level": 4,
+     "tc": 10,
+     "req": [
+      "Embassy Lv. 4"
+     ],
+     "bread": 0,
+     "wood": 1200,
+     "stone": 250,
+     "iron": 0,
+     "time": 105,
+     "power": 1414
+    },
+    {
+     "level": 5,
+     "tc": 10,
+     "req": [
+      "Embassy Lv. 5"
+     ],
+     "bread": 0,
+     "wood": 5300,
+     "stone": 1000,
+     "iron": 0,
+     "time": 215,
+     "power": 2170
+    },
+    {
+     "level": 6,
+     "tc": 10,
+     "req": [
+      "Embassy Lv. 6"
+     ],
+     "bread": 0,
+     "wood": 13000,
+     "stone": 2600,
+     "iron": 670,
+     "time": 430,
+     "power": 3304
+    },
+    {
+     "level": 7,
+     "tc": 10,
+     "req": [
+      "Embassy Lv. 7"
+     ],
+     "bread": 0,
+     "wood": 48000,
+     "stone": 9600,
+     "iron": 2400,
+     "time": 840,
+     "power": 4942
+    },
+    {
+     "level": 8,
+     "tc": 10,
+     "req": [
+      "Embassy Lv. 8"
+     ],
+     "bread": 0,
+     "wood": 88000,
+     "stone": 17000,
+     "iron": 4400,
+     "time": 1290,
+     "power": 6580
+    },
+    {
+     "level": 9,
+     "tc": 10,
+     "req": [
+      "Embassy Lv. 9"
+     ],
+     "bread": 0,
+     "wood": 180000,
+     "stone": 36000,
+     "iron": 9100,
+     "time": 1920,
+     "power": 8218
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [
+      "Embassy Lv. 10"
+     ],
+     "bread": 0,
+     "wood": 320000,
+     "stone": 64000,
+     "iron": 16000,
+     "time": 2580,
+     "power": 10598
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [
+      "Embassy Lv. 11"
+     ],
+     "bread": 390000,
+     "wood": 390000,
+     "stone": 79000,
+     "iron": 19000,
+     "time": 3240,
+     "power": 12978
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [
+      "Embassy Lv. 12"
+     ],
+     "bread": 500000,
+     "wood": 500000,
+     "stone": 100000,
+     "iron": 25000,
+     "time": 3870,
+     "power": 15358
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [
+      "Embassy Lv. 13"
+     ],
+     "bread": 710000,
+     "wood": 710000,
+     "stone": 140000,
+     "iron": 35000,
+     "time": 4740,
+     "power": 19376
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [
+      "Embassy Lv. 14"
+     ],
+     "bread": 940000,
+     "wood": 940000,
+     "stone": 180000,
+     "iron": 47000,
+     "time": 6030,
+     "power": 23394
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [
+      "Embassy Lv. 15"
+     ],
+     "bread": 1300000,
+     "wood": 1300000,
+     "stone": 270000,
+     "iron": 69000,
+     "time": 7770,
+     "power": 27412
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [
+      "Embassy Lv. 16"
+     ],
+     "bread": 1700000,
+     "wood": 1700000,
+     "stone": 350000,
+     "iron": 89000,
+     "time": 13140,
+     "power": 33068
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [
+      "Embassy Lv. 17"
+     ],
+     "bread": 2700000,
+     "wood": 2700000,
+     "stone": 550000,
+     "iron": 130000,
+     "time": 15780,
+     "power": 38724
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [
+      "Embassy Lv. 18"
+     ],
+     "bread": 3700000,
+     "wood": 3700000,
+     "stone": 750000,
+     "iron": 180000,
+     "time": 18960,
+     "power": 44380
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [
+      "Embassy Lv. 19"
+     ],
+     "bread": 4700000,
+     "wood": 4700000,
+     "stone": 940000,
+     "iron": 230000,
+     "time": 28440,
+     "power": 52416
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [
+      "Embassy Lv. 20"
+     ],
+     "bread": 6400000,
+     "wood": 6400000,
+     "stone": 1200000,
+     "iron": 320000,
+     "time": 35550,
+     "power": 60452
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [
+      "Embassy Lv. 21"
+     ],
+     "bread": 8100000,
+     "wood": 8100000,
+     "stone": 1600000,
+     "iron": 400000,
+     "time": 46200,
+     "power": 68488
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [
+      "Embassy Lv. 22"
+     ],
+     "bread": 10000000,
+     "wood": 10000000,
+     "stone": 2100000,
+     "iron": 540000,
+     "time": 69330,
+     "power": 80542
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [
+      "Embassy Lv. 23"
+     ],
+     "bread": 13000000,
+     "wood": 13000000,
+     "stone": 2600000,
+     "iron": 670000,
+     "time": 97020,
+     "power": 92596
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [
+      "Embassy Lv. 24"
+     ],
+     "bread": 18000000,
+     "wood": 18000000,
+     "stone": 3600000,
+     "iron": 900000,
+     "time": 135840,
+     "power": 104650
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [
+      "Embassy Lv. 25"
+     ],
+     "bread": 24000000,
+     "wood": 24000000,
+     "stone": 4900000,
+     "iron": 1200000,
+     "time": 190200,
+     "power": 116704
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [
+      "Embassy Lv. 26"
+     ],
+     "bread": 31000000,
+     "wood": 31000000,
+     "stone": 6300000,
+     "iron": 1500000,
+     "time": 218760,
+     "power": 134414
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [
+      "Embassy Lv. 27"
+     ],
+     "bread": 44000000,
+     "wood": 44000000,
+     "stone": 8900000,
+     "iron": 2200000,
+     "time": 262500,
+     "power": 152124
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [
+      "Embassy Lv. 28"
+     ],
+     "bread": 59000000,
+     "wood": 59000000,
+     "stone": 11000000,
+     "iron": 2900000,
+     "time": 301860,
+     "power": 169834
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [
+      "Embassy Lv. 29"
+     ],
+     "bread": 73000000,
+     "wood": 73000000,
+     "stone": 14000000,
+     "iron": 3600000,
+     "time": 347160,
+     "power": 187544
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [
+      "Embassy Lv. 30"
+     ],
+     "bread": 90000000,
+     "wood": 90000000,
+     "stone": 18000000,
+     "iron": 4500000,
+     "time": 416640,
+     "power": 213290
+    }
+   ]
+  },
+  {
+   "id": "defense-tower",
+   "name": {
+    "EN": "Defense Tower",
+    "FR": "Tour de défense"
+   },
+   "category": "defense",
+   "maxStd": 10,
+   "levels": [
+    {
+     "level": 1,
+     "tc": null,
+     "req": [
+      "Kitchen Lv. 1"
+     ],
+     "bread": 0,
+     "wood": 20,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 60
+    },
+    {
+     "level": 2,
+     "tc": 2,
+     "req": [],
+     "bread": 0,
+     "wood": 35,
+     "stone": 0,
+     "iron": 0,
+     "time": 3,
+     "power": 114
+    },
+    {
+     "level": 3,
+     "tc": 3,
+     "req": [],
+     "bread": 0,
+     "wood": 160,
+     "stone": 0,
+     "iron": 0,
+     "time": 12,
+     "power": 195
+    },
+    {
+     "level": 4,
+     "tc": 4,
+     "req": [],
+     "bread": 0,
+     "wood": 360,
+     "stone": 70,
+     "iron": 0,
+     "time": 45,
+     "power": 303
+    },
+    {
+     "level": 5,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 1500,
+     "stone": 300,
+     "iron": 0,
+     "time": 90,
+     "power": 465
+    },
+    {
+     "level": 6,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 3800,
+     "stone": 765,
+     "iron": 190,
+     "time": 210,
+     "power": 708
+    },
+    {
+     "level": 7,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 13000,
+     "stone": 2700,
+     "iron": 690,
+     "time": 480,
+     "power": 1059
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 25000,
+     "stone": 5000,
+     "iron": 1200,
+     "time": 840,
+     "power": 1410
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 52000,
+     "stone": 10000,
+     "iron": 2600,
+     "time": 1260,
+     "power": 1761
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 92000,
+     "stone": 18000,
+     "iron": 4600,
+     "time": 1680,
+     "power": 2271
+    }
+   ]
+  },
+  {
+   "id": "embassy",
+   "name": {
+    "EN": "Embassy",
+    "FR": "Ambassade"
+   },
+   "category": "core",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 60,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 440
+    },
+    {
+     "level": 2,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 90,
+     "stone": 0,
+     "iron": 0,
+     "time": 10,
+     "power": 836
+    },
+    {
+     "level": 3,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 400,
+     "stone": 0,
+     "iron": 0,
+     "time": 60,
+     "power": 1430
+    },
+    {
+     "level": 4,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 900,
+     "stone": 180,
+     "iron": 0,
+     "time": 120,
+     "power": 2222
+    },
+    {
+     "level": 5,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 3800,
+     "stone": 760,
+     "iron": 0,
+     "time": 400,
+     "power": 3410
+    },
+    {
+     "level": 6,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 9600,
+     "stone": 1900,
+     "iron": 480,
+     "time": 800,
+     "power": 5192
+    },
+    {
+     "level": 7,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 34000,
+     "stone": 6900,
+     "iron": 1700,
+     "time": 1500,
+     "power": 7766
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 63000,
+     "stone": 12000,
+     "iron": 3100,
+     "time": 2700,
+     "power": 10340
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 130000,
+     "stone": 26000,
+     "iron": 6500,
+     "time": 7200,
+     "power": 12914
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 230000,
+     "stone": 46000,
+     "iron": 11000,
+     "time": 14250,
+     "power": 16654
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 260000,
+     "wood": 260000,
+     "stone": 52000,
+     "iron": 13000,
+     "time": 17820,
+     "power": 20394
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 330000,
+     "wood": 330000,
+     "stone": 67000,
+     "iron": 16000,
+     "time": 21360,
+     "power": 24134
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 470000,
+     "wood": 470000,
+     "stone": 95000,
+     "iron": 23000,
+     "time": 26130,
+     "power": 30448
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 630000,
+     "wood": 630000,
+     "stone": 120000,
+     "iron": 31000,
+     "time": 33240,
+     "power": 36762
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 930000,
+     "wood": 930000,
+     "stone": 180000,
+     "iron": 46000,
+     "time": 42750,
+     "power": 43076
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 1100000,
+     "wood": 1100000,
+     "stone": 230000,
+     "iron": 59000,
+     "time": 72420,
+     "power": 51964
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 1800000,
+     "wood": 1800000,
+     "stone": 370000,
+     "iron": 93000,
+     "time": 86880,
+     "power": 60852
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 2500000,
+     "wood": 2500000,
+     "stone": 500000,
+     "iron": 120000,
+     "time": 104280,
+     "power": 69740
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 3100000,
+     "wood": 3100000,
+     "stone": 620000,
+     "iron": 150000,
+     "time": 156420,
+     "power": 82368
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 4300000,
+     "wood": 4300000,
+     "stone": 860000,
+     "iron": 210000,
+     "time": 195540,
+     "power": 94996
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 5400000,
+     "wood": 5400000,
+     "stone": 1000000,
+     "iron": 270000,
+     "time": 254160,
+     "power": 107624
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 7200000,
+     "wood": 7200000,
+     "stone": 1400000,
+     "iron": 360000,
+     "time": 381300,
+     "power": 126566
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 8900000,
+     "wood": 8900000,
+     "stone": 1700000,
+     "iron": 440000,
+     "time": 533820,
+     "power": 145508
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 12000000,
+     "wood": 12000000,
+     "stone": 2400000,
+     "iron": 600000,
+     "time": 747360,
+     "power": 164450
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 16000000,
+     "wood": 16000000,
+     "stone": 3200000,
+     "iron": 810000,
+     "time": 1046280,
+     "power": 183392
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 21000000,
+     "wood": 21000000,
+     "stone": 4200000,
+     "iron": 1000000,
+     "time": 1203240,
+     "power": 211222
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 29000000,
+     "wood": 29000000,
+     "stone": 5900000,
+     "iron": 1400000,
+     "time": 1443900,
+     "power": 239052
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 39000000,
+     "wood": 39000000,
+     "stone": 7900000,
+     "iron": 1900000,
+     "time": 1660500,
+     "power": 266882
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 49000000,
+     "wood": 49000000,
+     "stone": 9800000,
+     "iron": 2400000,
+     "time": 1909560,
+     "power": 294712
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 60000000,
+     "wood": 60000000,
+     "stone": 12000000,
+     "iron": 3000000,
+     "time": 2291520,
+     "power": 335170
+    }
+   ]
+  },
+  {
+   "id": "guard-station",
+   "name": {
+    "EN": "Guard Station",
+    "FR": "Poste de garde"
+   },
+   "category": "defense",
+   "maxStd": 10,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 0,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 400
+    },
+    {
+     "level": 2,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 5300,
+     "stone": 1000,
+     "iron": 0,
+     "time": 10,
+     "power": 3100
+    },
+    {
+     "level": 3,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 88000,
+     "stone": 17000,
+     "iron": 4400,
+     "time": 1290,
+     "power": 9400
+    },
+    {
+     "level": 4,
+     "tc": 13,
+     "req": [],
+     "bread": 420000,
+     "wood": 420000,
+     "stone": 84000,
+     "iron": 21000,
+     "time": 3870,
+     "power": 21940
+    },
+    {
+     "level": 5,
+     "tc": 16,
+     "req": [],
+     "bread": 1400000,
+     "wood": 1400000,
+     "stone": 290000,
+     "iron": 74000,
+     "time": 13140,
+     "power": 47240
+    },
+    {
+     "level": 6,
+     "tc": 20,
+     "req": [],
+     "bread": 5300000,
+     "wood": 5300000,
+     "stone": 1000000,
+     "iron": 260000,
+     "time": 35550,
+     "power": 86360
+    },
+    {
+     "level": 7,
+     "tc": 24,
+     "req": [],
+     "bread": 15000000,
+     "wood": 15000000,
+     "stone": 3000000,
+     "iron": 750000,
+     "time": 135840,
+     "power": 149500
+    },
+    {
+     "level": 8,
+     "tc": 27,
+     "req": [],
+     "bread": 37000000,
+     "wood": 37000000,
+     "stone": 7400000,
+     "iron": 1800000,
+     "time": 262500,
+     "power": 217320
+    },
+    {
+     "level": 9,
+     "tc": 29,
+     "req": [],
+     "bread": 61000000,
+     "wood": 61000000,
+     "stone": 12000000,
+     "iron": 3000000,
+     "time": 347160,
+     "power": 267920
+    },
+    {
+     "level": 10,
+     "tc": 30,
+     "req": [],
+     "bread": 75000000,
+     "wood": 75000000,
+     "stone": 15000000,
+     "iron": 3700000,
+     "time": 416640,
+     "power": 304700
+    }
+   ]
+  },
+  {
+   "id": "house",
+   "name": {
+    "EN": "House",
+    "FR": "Maison"
+   },
+   "category": "residents",
+   "maxStd": 10,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 1,
+     "req": [],
+     "bread": 0,
+     "wood": 20,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 60
+    },
+    {
+     "level": 2,
+     "tc": 2,
+     "req": [],
+     "bread": 0,
+     "wood": 35,
+     "stone": 0,
+     "iron": 0,
+     "time": 6,
+     "power": 114
+    },
+    {
+     "level": 3,
+     "tc": 3,
+     "req": [],
+     "bread": 0,
+     "wood": 160,
+     "stone": 0,
+     "iron": 0,
+     "time": 30,
+     "power": 195
+    },
+    {
+     "level": 4,
+     "tc": 4,
+     "req": [],
+     "bread": 0,
+     "wood": 360,
+     "stone": 70,
+     "iron": 0,
+     "time": 90,
+     "power": 303
+    },
+    {
+     "level": 5,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 1500,
+     "stone": 300,
+     "iron": 0,
+     "time": 180,
+     "power": 465
+    },
+    {
+     "level": 6,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 3800,
+     "stone": 765,
+     "iron": 190,
+     "time": 360,
+     "power": 708
+    },
+    {
+     "level": 7,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 13000,
+     "stone": 2700,
+     "iron": 690,
+     "time": 720,
+     "power": 1059
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 25000,
+     "stone": 5000,
+     "iron": 1200,
+     "time": 1080,
+     "power": 1410
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 52000,
+     "stone": 10000,
+     "iron": 2600,
+     "time": 1620,
+     "power": 1761
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 92000,
+     "stone": 18000,
+     "iron": 4600,
+     "time": 2160,
+     "power": 2271
+    }
+   ]
+  },
+  {
+   "id": "infirmary",
+   "name": {
+    "EN": "Infirmary",
+    "FR": "Infirmerie"
+   },
+   "category": "troops",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 0,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 300
+    },
+    {
+     "level": 2,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 100,
+     "stone": 0,
+     "iron": 0,
+     "time": 9,
+     "power": 570
+    },
+    {
+     "level": 3,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 460,
+     "stone": 0,
+     "iron": 0,
+     "time": 40,
+     "power": 975
+    },
+    {
+     "level": 4,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 1000,
+     "stone": 205,
+     "iron": 0,
+     "time": 125,
+     "power": 1515
+    },
+    {
+     "level": 5,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 4300,
+     "stone": 865,
+     "iron": 0,
+     "time": 250,
+     "power": 2325
+    },
+    {
+     "level": 6,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 10000,
+     "stone": 2100,
+     "iron": 545,
+     "time": 500,
+     "power": 3540
+    },
+    {
+     "level": 7,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 39000,
+     "stone": 7800,
+     "iron": 1900,
+     "time": 990,
+     "power": 5295
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 72000,
+     "stone": 14000,
+     "iron": 3600,
+     "time": 1500,
+     "power": 7050
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 140000,
+     "stone": 29000,
+     "iron": 7400,
+     "time": 2250,
+     "power": 8805
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 260000,
+     "stone": 52000,
+     "iron": 13000,
+     "time": 3000,
+     "power": 11355
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 320000,
+     "wood": 320000,
+     "stone": 65000,
+     "iron": 16000,
+     "time": 3780,
+     "power": 13905
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 420000,
+     "wood": 420000,
+     "stone": 84000,
+     "iron": 21000,
+     "time": 4530,
+     "power": 16455
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 590000,
+     "wood": 590000,
+     "stone": 110000,
+     "iron": 29000,
+     "time": 5520,
+     "power": 20760
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 780000,
+     "wood": 780000,
+     "stone": 150000,
+     "iron": 39000,
+     "time": 7050,
+     "power": 25065
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 1100000,
+     "wood": 1100000,
+     "stone": 230000,
+     "iron": 58000,
+     "time": 9060,
+     "power": 29370
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 1400000,
+     "wood": 1400000,
+     "stone": 290000,
+     "iron": 74000,
+     "time": 15360,
+     "power": 35430
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 2300000,
+     "wood": 2300000,
+     "stone": 460000,
+     "iron": 110000,
+     "time": 18420,
+     "power": 41490
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 3100000,
+     "wood": 3100000,
+     "stone": 620000,
+     "iron": 150000,
+     "time": 22110,
+     "power": 47550
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 3900000,
+     "wood": 3900000,
+     "stone": 780000,
+     "iron": 190000,
+     "time": 33180,
+     "power": 56160
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 5300000,
+     "wood": 5300000,
+     "stone": 1000000,
+     "iron": 260000,
+     "time": 41460,
+     "power": 64770
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 6800000,
+     "wood": 6800000,
+     "stone": 1300000,
+     "iron": 340000,
+     "time": 53910,
+     "power": 73380
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 9000000,
+     "wood": 9000000,
+     "stone": 1800000,
+     "iron": 450000,
+     "time": 80880,
+     "power": 86295
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 11000000,
+     "wood": 11000000,
+     "stone": 2200000,
+     "iron": 560000,
+     "time": 113220,
+     "power": 99210
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 15000000,
+     "wood": 15000000,
+     "stone": 3000000,
+     "iron": 750000,
+     "time": 158520,
+     "power": 112125
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 20000000,
+     "wood": 20000000,
+     "stone": 4000000,
+     "iron": 1000000,
+     "time": 221940,
+     "power": 125040
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 26000000,
+     "wood": 26000000,
+     "stone": 5200000,
+     "iron": 1300000,
+     "time": 255240,
+     "power": 144015
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 37000000,
+     "wood": 37000000,
+     "stone": 7400000,
+     "iron": 1800000,
+     "time": 306240,
+     "power": 162990
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 49000000,
+     "wood": 49000000,
+     "stone": 9900000,
+     "iron": 2400000,
+     "time": 352200,
+     "power": 181965
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 61000000,
+     "wood": 61000000,
+     "stone": 12000000,
+     "iron": 3000000,
+     "time": 405060,
+     "power": 200940
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 75000000,
+     "wood": 75000000,
+     "stone": 15000000,
+     "iron": 3700000,
+     "time": 486060,
+     "power": 228525
+    }
+   ]
+  },
+  {
+   "id": "iron-mine",
+   "name": {
+    "EN": "Iron Mine",
+    "FR": "Mine de fer"
+   },
+   "category": "economy",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 30,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 40
+    },
+    {
+     "level": 2,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 45,
+     "stone": 0,
+     "iron": 0,
+     "time": 3,
+     "power": 76
+    },
+    {
+     "level": 3,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 200,
+     "stone": 0,
+     "iron": 0,
+     "time": 10,
+     "power": 130
+    },
+    {
+     "level": 4,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 450,
+     "stone": 90,
+     "iron": 0,
+     "time": 35,
+     "power": 202
+    },
+    {
+     "level": 5,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 1900,
+     "stone": 380,
+     "iron": 0,
+     "time": 70,
+     "power": 310
+    },
+    {
+     "level": 6,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 4800,
+     "stone": 960,
+     "iron": 240,
+     "time": 140,
+     "power": 472
+    },
+    {
+     "level": 7,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 17000,
+     "stone": 3400,
+     "iron": 865,
+     "time": 285,
+     "power": 706
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 31000,
+     "stone": 6300,
+     "iron": 1500,
+     "time": 430,
+     "power": 940
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 65000,
+     "stone": 13000,
+     "iron": 3200,
+     "time": 630,
+     "power": 1174
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 110000,
+     "stone": 23000,
+     "iron": 5700,
+     "time": 840,
+     "power": 1514
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 110000,
+     "wood": 110000,
+     "stone": 23000,
+     "iron": 5900,
+     "time": 1080,
+     "power": 1854
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 150000,
+     "wood": 150000,
+     "stone": 30000,
+     "iron": 7500,
+     "time": 1290,
+     "power": 2194
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 210000,
+     "wood": 210000,
+     "stone": 42000,
+     "iron": 10000,
+     "time": 1560,
+     "power": 2768
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 280000,
+     "wood": 280000,
+     "stone": 56000,
+     "iron": 14000,
+     "time": 2010,
+     "power": 3342
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 410000,
+     "wood": 410000,
+     "stone": 83000,
+     "iron": 20000,
+     "time": 2580,
+     "power": 3916
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 530000,
+     "wood": 530000,
+     "stone": 100000,
+     "iron": 26000,
+     "time": 4380,
+     "power": 4724
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 830000,
+     "wood": 830000,
+     "stone": 160000,
+     "iron": 41000,
+     "time": 5250,
+     "power": 5532
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 1100000,
+     "wood": 1100000,
+     "stone": 220000,
+     "iron": 56000,
+     "time": 6300,
+     "power": 6340
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 1400000,
+     "wood": 1400000,
+     "stone": 280000,
+     "iron": 70000,
+     "time": 9480,
+     "power": 7488
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 1900000,
+     "wood": 1900000,
+     "stone": 380000,
+     "iron": 96000,
+     "time": 11850,
+     "power": 8636
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 2400000,
+     "wood": 2400000,
+     "stone": 490000,
+     "iron": 120000,
+     "time": 15390,
+     "power": 9784
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 3200000,
+     "wood": 3200000,
+     "stone": 640000,
+     "iron": 160000,
+     "time": 23100,
+     "power": 11506
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 4000000,
+     "wood": 4000000,
+     "stone": 800000,
+     "iron": 200000,
+     "time": 32340,
+     "power": 13228
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 5400000,
+     "wood": 5400000,
+     "stone": 1000000,
+     "iron": 270000,
+     "time": 45270,
+     "power": 14950
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 7300000,
+     "wood": 7300000,
+     "stone": 1400000,
+     "iron": 360000,
+     "time": 63390,
+     "power": 16672
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 9400000,
+     "wood": 9400000,
+     "stone": 1800000,
+     "iron": 470000,
+     "time": 72900,
+     "power": 19202
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 13000000,
+     "wood": 13000000,
+     "stone": 2600000,
+     "iron": 670000,
+     "time": 87480,
+     "power": 21732
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 17000000,
+     "wood": 17000000,
+     "stone": 3500000,
+     "iron": 890000,
+     "time": 100620,
+     "power": 24262
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 22000000,
+     "wood": 22000000,
+     "stone": 4400000,
+     "iron": 1100000,
+     "time": 115680,
+     "power": 26792
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 27000000,
+     "wood": 27000000,
+     "stone": 5400000,
+     "iron": 1300000,
+     "time": 138840,
+     "power": 30470
+    }
+   ]
+  },
+  {
+   "id": "kitchen",
+   "name": {
+    "EN": "Kitchen",
+    "FR": "Cuisine"
+   },
+   "category": "residents",
+   "maxStd": 10,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 1,
+     "req": [],
+     "bread": 0,
+     "wood": 35,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 100
+    },
+    {
+     "level": 2,
+     "tc": 2,
+     "req": [],
+     "bread": 0,
+     "wood": 50,
+     "stone": 0,
+     "iron": 0,
+     "time": 9,
+     "power": 190
+    },
+    {
+     "level": 3,
+     "tc": 3,
+     "req": [],
+     "bread": 0,
+     "wood": 240,
+     "stone": 0,
+     "iron": 0,
+     "time": 45,
+     "power": 325
+    },
+    {
+     "level": 4,
+     "tc": 4,
+     "req": [],
+     "bread": 0,
+     "wood": 540,
+     "stone": 105,
+     "iron": 0,
+     "time": 135,
+     "power": 505
+    },
+    {
+     "level": 5,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 2200,
+     "stone": 455,
+     "iron": 0,
+     "time": 270,
+     "power": 775
+    },
+    {
+     "level": 6,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 5700,
+     "stone": 1100,
+     "iron": 285,
+     "time": 540,
+     "power": 1180
+    },
+    {
+     "level": 7,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 20000,
+     "stone": 4100,
+     "iron": 1000,
+     "time": 1080,
+     "power": 1765
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 37000,
+     "stone": 7500,
+     "iron": 1800,
+     "time": 1620,
+     "power": 2350
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 78000,
+     "stone": 15000,
+     "iron": 3900,
+     "time": 2430,
+     "power": 2935
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 130000,
+     "stone": 27000,
+     "iron": 6900,
+     "time": 3240,
+     "power": 3785
+    }
+   ]
+  },
+  {
+   "id": "mill",
+   "name": {
+    "EN": "Mill",
+    "FR": "Moulin"
+   },
+   "category": "economy",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": null,
+     "req": [
+      "Defense Tower Lv. 1"
+     ],
+     "bread": 0,
+     "wood": 30,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 40
+    },
+    {
+     "level": 2,
+     "tc": 2,
+     "req": [],
+     "bread": 0,
+     "wood": 45,
+     "stone": 0,
+     "iron": 0,
+     "time": 3,
+     "power": 76
+    },
+    {
+     "level": 3,
+     "tc": 3,
+     "req": [],
+     "bread": 0,
+     "wood": 200,
+     "stone": 0,
+     "iron": 0,
+     "time": 10,
+     "power": 130
+    },
+    {
+     "level": 4,
+     "tc": 4,
+     "req": [],
+     "bread": 0,
+     "wood": 450,
+     "stone": 90,
+     "iron": 0,
+     "time": 35,
+     "power": 202
+    },
+    {
+     "level": 5,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 1900,
+     "stone": 380,
+     "iron": 0,
+     "time": 70,
+     "power": 310
+    },
+    {
+     "level": 6,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 4800,
+     "stone": 960,
+     "iron": 240,
+     "time": 140,
+     "power": 472
+    },
+    {
+     "level": 7,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 17000,
+     "stone": 3400,
+     "iron": 865,
+     "time": 285,
+     "power": 706
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 31000,
+     "stone": 6300,
+     "iron": 1500,
+     "time": 430,
+     "power": 940
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 65000,
+     "stone": 13000,
+     "iron": 3200,
+     "time": 630,
+     "power": 1174
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 110000,
+     "stone": 23000,
+     "iron": 5700,
+     "time": 840,
+     "power": 1514
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 110000,
+     "wood": 110000,
+     "stone": 23000,
+     "iron": 5900,
+     "time": 1080,
+     "power": 1854
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 150000,
+     "wood": 150000,
+     "stone": 30000,
+     "iron": 7500,
+     "time": 1290,
+     "power": 2194
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 210000,
+     "wood": 210000,
+     "stone": 42000,
+     "iron": 10000,
+     "time": 1560,
+     "power": 2768
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 280000,
+     "wood": 280000,
+     "stone": 56000,
+     "iron": 14000,
+     "time": 2010,
+     "power": 3342
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 410000,
+     "wood": 410000,
+     "stone": 83000,
+     "iron": 20000,
+     "time": 2580,
+     "power": 3916
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 530000,
+     "wood": 530000,
+     "stone": 100000,
+     "iron": 26000,
+     "time": 4380,
+     "power": 4724
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 830000,
+     "wood": 830000,
+     "stone": 160000,
+     "iron": 41000,
+     "time": 5250,
+     "power": 5532
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 1100000,
+     "wood": 1100000,
+     "stone": 220000,
+     "iron": 56000,
+     "time": 6300,
+     "power": 6340
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 1400000,
+     "wood": 1400000,
+     "stone": 280000,
+     "iron": 70000,
+     "time": 9480,
+     "power": 7488
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 1900000,
+     "wood": 1900000,
+     "stone": 380000,
+     "iron": 96000,
+     "time": 11850,
+     "power": 8636
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 2400000,
+     "wood": 2400000,
+     "stone": 490000,
+     "iron": 120000,
+     "time": 15390,
+     "power": 9784
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 3200000,
+     "wood": 3200000,
+     "stone": 640000,
+     "iron": 160000,
+     "time": 23100,
+     "power": 11506
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 4000000,
+     "wood": 4000000,
+     "stone": 800000,
+     "iron": 200000,
+     "time": 32340,
+     "power": 13228
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 5400000,
+     "wood": 5400000,
+     "stone": 1000000,
+     "iron": 270000,
+     "time": 45270,
+     "power": 14950
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 7300000,
+     "wood": 7300000,
+     "stone": 1400000,
+     "iron": 360000,
+     "time": 63390,
+     "power": 16672
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 9400000,
+     "wood": 9400000,
+     "stone": 1800000,
+     "iron": 470000,
+     "time": 72900,
+     "power": 19202
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 13000000,
+     "wood": 13000000,
+     "stone": 2600000,
+     "iron": 670000,
+     "time": 87480,
+     "power": 21732
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 17000000,
+     "wood": 17000000,
+     "stone": 3500000,
+     "iron": 890000,
+     "time": 100620,
+     "power": 24262
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 22000000,
+     "wood": 22000000,
+     "stone": 4400000,
+     "iron": 1100000,
+     "time": 115680,
+     "power": 26792
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 27000000,
+     "wood": 27000000,
+     "stone": 5400000,
+     "iron": 1300000,
+     "time": 138840,
+     "power": 30470
+    }
+   ]
+  },
+  {
+   "id": "quarry",
+   "name": {
+    "EN": "Quarry",
+    "FR": "Carrière"
+   },
+   "category": "economy",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 3,
+     "req": [],
+     "bread": 0,
+     "wood": 30,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 40
+    },
+    {
+     "level": 2,
+     "tc": 3,
+     "req": [],
+     "bread": 0,
+     "wood": 45,
+     "stone": 0,
+     "iron": 0,
+     "time": 3,
+     "power": 76
+    },
+    {
+     "level": 3,
+     "tc": 3,
+     "req": [],
+     "bread": 0,
+     "wood": 200,
+     "stone": 0,
+     "iron": 0,
+     "time": 10,
+     "power": 130
+    },
+    {
+     "level": 4,
+     "tc": 4,
+     "req": [],
+     "bread": 0,
+     "wood": 450,
+     "stone": 90,
+     "iron": 0,
+     "time": 35,
+     "power": 202
+    },
+    {
+     "level": 5,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 1900,
+     "stone": 380,
+     "iron": 0,
+     "time": 70,
+     "power": 310
+    },
+    {
+     "level": 6,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 4800,
+     "stone": 960,
+     "iron": 240,
+     "time": 140,
+     "power": 472
+    },
+    {
+     "level": 7,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 17000,
+     "stone": 3400,
+     "iron": 865,
+     "time": 285,
+     "power": 706
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 31000,
+     "stone": 6300,
+     "iron": 1500,
+     "time": 430,
+     "power": 940
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 65000,
+     "stone": 13000,
+     "iron": 3200,
+     "time": 630,
+     "power": 1174
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 110000,
+     "stone": 23000,
+     "iron": 5700,
+     "time": 840,
+     "power": 1514
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 110000,
+     "wood": 110000,
+     "stone": 23000,
+     "iron": 5900,
+     "time": 1080,
+     "power": 1854
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 150000,
+     "wood": 150000,
+     "stone": 30000,
+     "iron": 7500,
+     "time": 1290,
+     "power": 2194
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 210000,
+     "wood": 210000,
+     "stone": 42000,
+     "iron": 10000,
+     "time": 1560,
+     "power": 2768
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 280000,
+     "wood": 280000,
+     "stone": 56000,
+     "iron": 14000,
+     "time": 2010,
+     "power": 3342
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 410000,
+     "wood": 410000,
+     "stone": 83000,
+     "iron": 20000,
+     "time": 2580,
+     "power": 3916
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 530000,
+     "wood": 530000,
+     "stone": 100000,
+     "iron": 26000,
+     "time": 4380,
+     "power": 4724
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 830000,
+     "wood": 830000,
+     "stone": 160000,
+     "iron": 41000,
+     "time": 5250,
+     "power": 5532
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 1100000,
+     "wood": 1100000,
+     "stone": 220000,
+     "iron": 56000,
+     "time": 6300,
+     "power": 6340
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 1400000,
+     "wood": 1400000,
+     "stone": 280000,
+     "iron": 70000,
+     "time": 9480,
+     "power": 7488
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 1900000,
+     "wood": 1900000,
+     "stone": 380000,
+     "iron": 96000,
+     "time": 11850,
+     "power": 8636
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 2400000,
+     "wood": 2400000,
+     "stone": 490000,
+     "iron": 120000,
+     "time": 15390,
+     "power": 9784
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 3200000,
+     "wood": 3200000,
+     "stone": 640000,
+     "iron": 160000,
+     "time": 23100,
+     "power": 11506
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 4000000,
+     "wood": 4000000,
+     "stone": 800000,
+     "iron": 200000,
+     "time": 32340,
+     "power": 13228
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 5400000,
+     "wood": 5400000,
+     "stone": 1000000,
+     "iron": 270000,
+     "time": 45270,
+     "power": 14950
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 7300000,
+     "wood": 7300000,
+     "stone": 1400000,
+     "iron": 360000,
+     "time": 63390,
+     "power": 16672
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 9400000,
+     "wood": 9400000,
+     "stone": 1800000,
+     "iron": 470000,
+     "time": 72900,
+     "power": 19202
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 13000000,
+     "wood": 13000000,
+     "stone": 2600000,
+     "iron": 670000,
+     "time": 87480,
+     "power": 21732
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 17000000,
+     "wood": 17000000,
+     "stone": 3500000,
+     "iron": 890000,
+     "time": 100620,
+     "power": 24262
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 22000000,
+     "wood": 22000000,
+     "stone": 4400000,
+     "iron": 1100000,
+     "time": 115680,
+     "power": 26792
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 27000000,
+     "wood": 27000000,
+     "stone": 5400000,
+     "iron": 1300000,
+     "time": 138840,
+     "power": 30470
+    }
+   ]
+  },
+  {
+   "id": "range",
+   "name": {
+    "EN": "Archer Camp",
+    "FR": "Camp d'Archers"
+   },
+   "category": "troops",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 95,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 400
+    },
+    {
+     "level": 2,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 140,
+     "stone": 0,
+     "iron": 0,
+     "time": 9,
+     "power": 760
+    },
+    {
+     "level": 3,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 645,
+     "stone": 0,
+     "iron": 0,
+     "time": 45,
+     "power": 1300
+    },
+    {
+     "level": 4,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 1400,
+     "stone": 285,
+     "iron": 0,
+     "time": 135,
+     "power": 2020
+    },
+    {
+     "level": 5,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 6000,
+     "stone": 1200,
+     "iron": 0,
+     "time": 270,
+     "power": 3100
+    },
+    {
+     "level": 6,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 15000,
+     "stone": 3000,
+     "iron": 765,
+     "time": 540,
+     "power": 4720
+    },
+    {
+     "level": 7,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 55000,
+     "stone": 11000,
+     "iron": 2700,
+     "time": 1080,
+     "power": 7060
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 100000,
+     "stone": 20000,
+     "iron": 5000,
+     "time": 1620,
+     "power": 9400
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 200000,
+     "stone": 41000,
+     "iron": 10000,
+     "time": 2430,
+     "power": 11740
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 360000,
+     "stone": 73000,
+     "iron": 18000,
+     "time": 3240,
+     "power": 15140
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 460000,
+     "wood": 460000,
+     "stone": 92000,
+     "iron": 23000,
+     "time": 4050,
+     "power": 18540
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 580000,
+     "wood": 580000,
+     "stone": 110000,
+     "iron": 29000,
+     "time": 4860,
+     "power": 21940
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 830000,
+     "wood": 830000,
+     "stone": 160000,
+     "iron": 41000,
+     "time": 5940,
+     "power": 27680
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 1100000,
+     "wood": 1100000,
+     "stone": 220000,
+     "iron": 55000,
+     "time": 7560,
+     "power": 33420
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 1600000,
+     "wood": 1600000,
+     "stone": 320000,
+     "iron": 81000,
+     "time": 9720,
+     "power": 39160
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 2000000,
+     "wood": 2000000,
+     "stone": 410000,
+     "iron": 100000,
+     "time": 16440,
+     "power": 47240
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 3200000,
+     "wood": 3200000,
+     "stone": 650000,
+     "iron": 160000,
+     "time": 19740,
+     "power": 55320
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 4300000,
+     "wood": 4300000,
+     "stone": 870000,
+     "iron": 210000,
+     "time": 23700,
+     "power": 63400
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 5400000,
+     "wood": 5400000,
+     "stone": 1000000,
+     "iron": 270000,
+     "time": 35550,
+     "power": 74880
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 7500000,
+     "wood": 7500000,
+     "stone": 1500000,
+     "iron": 370000,
+     "time": 44430,
+     "power": 86360
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 9500000,
+     "wood": 9500000,
+     "stone": 1900000,
+     "iron": 470000,
+     "time": 57750,
+     "power": 97840
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 12000000,
+     "wood": 12000000,
+     "stone": 2500000,
+     "iron": 630000,
+     "time": 86640,
+     "power": 115060
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 15000000,
+     "wood": 15000000,
+     "stone": 3100000,
+     "iron": 780000,
+     "time": 121320,
+     "power": 132280
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 21000000,
+     "wood": 21000000,
+     "stone": 4200000,
+     "iron": 1000000,
+     "time": 169860,
+     "power": 149500
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 28000000,
+     "wood": 28000000,
+     "stone": 5700000,
+     "iron": 1400000,
+     "time": 237780,
+     "power": 166720
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 36000000,
+     "wood": 36000000,
+     "stone": 7300000,
+     "iron": 1800000,
+     "time": 273420,
+     "power": 192020
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 52000000,
+     "wood": 52000000,
+     "stone": 10000000,
+     "iron": 2600000,
+     "time": 328140,
+     "power": 217320
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 69000000,
+     "wood": 69000000,
+     "stone": 13000000,
+     "iron": 3400000,
+     "time": 377340,
+     "power": 242620
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 86000000,
+     "wood": 86000000,
+     "stone": 17000000,
+     "iron": 4300000,
+     "time": 433980,
+     "power": 267920
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 100000000,
+     "wood": 100000000,
+     "stone": 21000000,
+     "iron": 5200000,
+     "time": 520800,
+     "power": 304700
+    }
+   ]
+  },
+  {
+   "id": "sawmill",
+   "name": {
+    "EN": "Sawmill",
+    "FR": "Scierie"
+   },
+   "category": "economy",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": null,
+     "req": [
+      "Defense Tower Lv. 1"
+     ],
+     "bread": 0,
+     "wood": 30,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 40
+    },
+    {
+     "level": 2,
+     "tc": 2,
+     "req": [],
+     "bread": 0,
+     "wood": 45,
+     "stone": 0,
+     "iron": 0,
+     "time": 3,
+     "power": 76
+    },
+    {
+     "level": 3,
+     "tc": 3,
+     "req": [],
+     "bread": 0,
+     "wood": 200,
+     "stone": 0,
+     "iron": 0,
+     "time": 10,
+     "power": 130
+    },
+    {
+     "level": 4,
+     "tc": 4,
+     "req": [],
+     "bread": 0,
+     "wood": 450,
+     "stone": 90,
+     "iron": 0,
+     "time": 35,
+     "power": 202
+    },
+    {
+     "level": 5,
+     "tc": 5,
+     "req": [],
+     "bread": 0,
+     "wood": 1900,
+     "stone": 380,
+     "iron": 0,
+     "time": 70,
+     "power": 310
+    },
+    {
+     "level": 6,
+     "tc": 6,
+     "req": [],
+     "bread": 0,
+     "wood": 4800,
+     "stone": 960,
+     "iron": 240,
+     "time": 140,
+     "power": 472
+    },
+    {
+     "level": 7,
+     "tc": 7,
+     "req": [],
+     "bread": 0,
+     "wood": 17000,
+     "stone": 3400,
+     "iron": 865,
+     "time": 285,
+     "power": 706
+    },
+    {
+     "level": 8,
+     "tc": 8,
+     "req": [],
+     "bread": 0,
+     "wood": 31000,
+     "stone": 6300,
+     "iron": 1500,
+     "time": 430,
+     "power": 940
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 65000,
+     "stone": 13000,
+     "iron": 3200,
+     "time": 630,
+     "power": 1174
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 110000,
+     "stone": 23000,
+     "iron": 5700,
+     "time": 840,
+     "power": 1514
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 110000,
+     "wood": 110000,
+     "stone": 23000,
+     "iron": 5900,
+     "time": 1080,
+     "power": 1854
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 150000,
+     "wood": 150000,
+     "stone": 30000,
+     "iron": 7500,
+     "time": 1290,
+     "power": 2194
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 210000,
+     "wood": 210000,
+     "stone": 42000,
+     "iron": 10000,
+     "time": 1560,
+     "power": 2768
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 280000,
+     "wood": 280000,
+     "stone": 56000,
+     "iron": 14000,
+     "time": 2010,
+     "power": 3342
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 410000,
+     "wood": 410000,
+     "stone": 83000,
+     "iron": 20000,
+     "time": 2580,
+     "power": 3916
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 530000,
+     "wood": 530000,
+     "stone": 100000,
+     "iron": 26000,
+     "time": 4380,
+     "power": 4724
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 830000,
+     "wood": 830000,
+     "stone": 160000,
+     "iron": 41000,
+     "time": 5250,
+     "power": 5532
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 1100000,
+     "wood": 1100000,
+     "stone": 220000,
+     "iron": 56000,
+     "time": 6300,
+     "power": 6340
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 1400000,
+     "wood": 1400000,
+     "stone": 280000,
+     "iron": 70000,
+     "time": 9480,
+     "power": 7488
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 1900000,
+     "wood": 1900000,
+     "stone": 380000,
+     "iron": 96000,
+     "time": 11850,
+     "power": 8636
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 2400000,
+     "wood": 2400000,
+     "stone": 490000,
+     "iron": 120000,
+     "time": 15390,
+     "power": 9784
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 3200000,
+     "wood": 3200000,
+     "stone": 640000,
+     "iron": 160000,
+     "time": 23100,
+     "power": 11506
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 4000000,
+     "wood": 4000000,
+     "stone": 800000,
+     "iron": 200000,
+     "time": 32340,
+     "power": 13228
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 5400000,
+     "wood": 5400000,
+     "stone": 1000000,
+     "iron": 270000,
+     "time": 45270,
+     "power": 14950
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 7300000,
+     "wood": 7300000,
+     "stone": 1400000,
+     "iron": 360000,
+     "time": 63390,
+     "power": 16672
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 9400000,
+     "wood": 9400000,
+     "stone": 1800000,
+     "iron": 470000,
+     "time": 72900,
+     "power": 19202
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 13000000,
+     "wood": 13000000,
+     "stone": 2600000,
+     "iron": 670000,
+     "time": 87480,
+     "power": 21732
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 17000000,
+     "wood": 17000000,
+     "stone": 3500000,
+     "iron": 890000,
+     "time": 100620,
+     "power": 24262
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 22000000,
+     "wood": 22000000,
+     "stone": 4400000,
+     "iron": 1100000,
+     "time": 115680,
+     "power": 26792
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 27000000,
+     "wood": 27000000,
+     "stone": 5400000,
+     "iron": 1300000,
+     "time": 138840,
+     "power": 30470
+    }
+   ]
+  },
+  {
+   "id": "stable",
+   "name": {
+    "EN": "Lancer Camp",
+    "FR": "Camp de Lanciers"
+   },
+   "category": "troops",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 95,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 400
+    },
+    {
+     "level": 2,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 140,
+     "stone": 0,
+     "iron": 0,
+     "time": 9,
+     "power": 760
+    },
+    {
+     "level": 3,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 645,
+     "stone": 0,
+     "iron": 0,
+     "time": 45,
+     "power": 1300
+    },
+    {
+     "level": 4,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 1400,
+     "stone": 285,
+     "iron": 0,
+     "time": 135,
+     "power": 2020
+    },
+    {
+     "level": 5,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 6000,
+     "stone": 1200,
+     "iron": 0,
+     "time": 270,
+     "power": 3100
+    },
+    {
+     "level": 6,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 15000,
+     "stone": 3000,
+     "iron": 765,
+     "time": 540,
+     "power": 4720
+    },
+    {
+     "level": 7,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 55000,
+     "stone": 11000,
+     "iron": 2700,
+     "time": 1080,
+     "power": 7060
+    },
+    {
+     "level": 8,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 100000,
+     "stone": 20000,
+     "iron": 5000,
+     "time": 1620,
+     "power": 9400
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 200000,
+     "stone": 41000,
+     "iron": 10000,
+     "time": 2430,
+     "power": 11740
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 360000,
+     "stone": 73000,
+     "iron": 18000,
+     "time": 3240,
+     "power": 15140
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 460000,
+     "wood": 460000,
+     "stone": 92000,
+     "iron": 23000,
+     "time": 4050,
+     "power": 18540
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 580000,
+     "wood": 580000,
+     "stone": 110000,
+     "iron": 29000,
+     "time": 4860,
+     "power": 21940
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 830000,
+     "wood": 830000,
+     "stone": 160000,
+     "iron": 41000,
+     "time": 5940,
+     "power": 27680
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 1100000,
+     "wood": 1100000,
+     "stone": 220000,
+     "iron": 55000,
+     "time": 7560,
+     "power": 33420
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 1600000,
+     "wood": 1600000,
+     "stone": 320000,
+     "iron": 81000,
+     "time": 9720,
+     "power": 39160
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 2000000,
+     "wood": 2000000,
+     "stone": 410000,
+     "iron": 100000,
+     "time": 16440,
+     "power": 47240
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 3200000,
+     "wood": 3200000,
+     "stone": 650000,
+     "iron": 160000,
+     "time": 19740,
+     "power": 55320
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 4300000,
+     "wood": 4300000,
+     "stone": 870000,
+     "iron": 210000,
+     "time": 23700,
+     "power": 63400
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 5400000,
+     "wood": 5400000,
+     "stone": 1000000,
+     "iron": 270000,
+     "time": 35550,
+     "power": 74880
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 7500000,
+     "wood": 7500000,
+     "stone": 1500000,
+     "iron": 370000,
+     "time": 44430,
+     "power": 86360
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 9500000,
+     "wood": 9500000,
+     "stone": 1900000,
+     "iron": 470000,
+     "time": 57750,
+     "power": 97840
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 12000000,
+     "wood": 12000000,
+     "stone": 2500000,
+     "iron": 630000,
+     "time": 86640,
+     "power": 115060
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 15000000,
+     "wood": 15000000,
+     "stone": 3100000,
+     "iron": 780000,
+     "time": 121320,
+     "power": 132280
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 21000000,
+     "wood": 21000000,
+     "stone": 4200000,
+     "iron": 1000000,
+     "time": 169860,
+     "power": 149500
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 28000000,
+     "wood": 28000000,
+     "stone": 5700000,
+     "iron": 1400000,
+     "time": 237780,
+     "power": 166720
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 36000000,
+     "wood": 36000000,
+     "stone": 7300000,
+     "iron": 1800000,
+     "time": 273420,
+     "power": 192020
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 52000000,
+     "wood": 52000000,
+     "stone": 10000000,
+     "iron": 2600000,
+     "time": 328140,
+     "power": 217320
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 69000000,
+     "wood": 69000000,
+     "stone": 13000000,
+     "iron": 3400000,
+     "time": 377340,
+     "power": 242620
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 86000000,
+     "wood": 86000000,
+     "stone": 17000000,
+     "iron": 4300000,
+     "time": 433980,
+     "power": 267920
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 100000000,
+     "wood": 100000000,
+     "stone": 21000000,
+     "iron": 5200000,
+     "time": 520800,
+     "power": 304700
+    }
+   ]
+  },
+  {
+   "id": "storehouse",
+   "name": {
+    "EN": "Storehouse",
+    "FR": "Entrepôt"
+   },
+   "category": "core",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 60,
+     "stone": 0,
+     "iron": 0,
+     "time": 2,
+     "power": 440
+    },
+    {
+     "level": 2,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 90,
+     "stone": 0,
+     "iron": 0,
+     "time": 9,
+     "power": 836
+    },
+    {
+     "level": 3,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 400,
+     "stone": 0,
+     "iron": 0,
+     "time": 45,
+     "power": 1430
+    },
+    {
+     "level": 4,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 900,
+     "stone": 180,
+     "iron": 0,
+     "time": 135,
+     "power": 2222
+    },
+    {
+     "level": 5,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 3800,
+     "stone": 760,
+     "iron": 0,
+     "time": 270,
+     "power": 3410
+    },
+    {
+     "level": 6,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 9600,
+     "stone": 1900,
+     "iron": 480,
+     "time": 540,
+     "power": 5192
+    },
+    {
+     "level": 7,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 34000,
+     "stone": 6900,
+     "iron": 1700,
+     "time": 1080,
+     "power": 7766
+    },
+    {
+     "level": 8,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 63000,
+     "stone": 12000,
+     "iron": 3100,
+     "time": 1620,
+     "power": 10340
+    },
+    {
+     "level": 9,
+     "tc": 9,
+     "req": [],
+     "bread": 0,
+     "wood": 130000,
+     "stone": 26000,
+     "iron": 6500,
+     "time": 2430,
+     "power": 12914
+    },
+    {
+     "level": 10,
+     "tc": 10,
+     "req": [],
+     "bread": 0,
+     "wood": 230000,
+     "stone": 46000,
+     "iron": 11000,
+     "time": 3240,
+     "power": 16654
+    },
+    {
+     "level": 11,
+     "tc": 11,
+     "req": [],
+     "bread": 280000,
+     "wood": 280000,
+     "stone": 57000,
+     "iron": 14000,
+     "time": 4050,
+     "power": 20394
+    },
+    {
+     "level": 12,
+     "tc": 12,
+     "req": [],
+     "bread": 370000,
+     "wood": 370000,
+     "stone": 74000,
+     "iron": 18000,
+     "time": 4860,
+     "power": 24134
+    },
+    {
+     "level": 13,
+     "tc": 13,
+     "req": [],
+     "bread": 520000,
+     "wood": 520000,
+     "stone": 100000,
+     "iron": 26000,
+     "time": 5940,
+     "power": 30448
+    },
+    {
+     "level": 14,
+     "tc": 14,
+     "req": [],
+     "bread": 690000,
+     "wood": 690000,
+     "stone": 130000,
+     "iron": 34000,
+     "time": 7560,
+     "power": 36762
+    },
+    {
+     "level": 15,
+     "tc": 15,
+     "req": [],
+     "bread": 1000000,
+     "wood": 1000000,
+     "stone": 200000,
+     "iron": 51000,
+     "time": 9720,
+     "power": 43076
+    },
+    {
+     "level": 16,
+     "tc": 16,
+     "req": [],
+     "bread": 1300000,
+     "wood": 1300000,
+     "stone": 260000,
+     "iron": 65000,
+     "time": 16440,
+     "power": 51964
+    },
+    {
+     "level": 17,
+     "tc": 17,
+     "req": [],
+     "bread": 2000000,
+     "wood": 2000000,
+     "stone": 400000,
+     "iron": 100000,
+     "time": 19740,
+     "power": 60852
+    },
+    {
+     "level": 18,
+     "tc": 18,
+     "req": [],
+     "bread": 2700000,
+     "wood": 2700000,
+     "stone": 550000,
+     "iron": 130000,
+     "time": 23700,
+     "power": 69740
+    },
+    {
+     "level": 19,
+     "tc": 19,
+     "req": [],
+     "bread": 3400000,
+     "wood": 3400000,
+     "stone": 690000,
+     "iron": 170000,
+     "time": 35550,
+     "power": 82368
+    },
+    {
+     "level": 20,
+     "tc": 20,
+     "req": [],
+     "bread": 4700000,
+     "wood": 4700000,
+     "stone": 940000,
+     "iron": 230000,
+     "time": 44430,
+     "power": 94996
+    },
+    {
+     "level": 21,
+     "tc": 21,
+     "req": [],
+     "bread": 6000000,
+     "wood": 6000000,
+     "stone": 1200000,
+     "iron": 300000,
+     "time": 57750,
+     "power": 107624
+    },
+    {
+     "level": 22,
+     "tc": 22,
+     "req": [],
+     "bread": 7900000,
+     "wood": 7900000,
+     "stone": 1500000,
+     "iron": 390000,
+     "time": 86640,
+     "power": 126566
+    },
+    {
+     "level": 23,
+     "tc": 23,
+     "req": [],
+     "bread": 9800000,
+     "wood": 9800000,
+     "stone": 1900000,
+     "iron": 490000,
+     "time": 121320,
+     "power": 145508
+    },
+    {
+     "level": 24,
+     "tc": 24,
+     "req": [],
+     "bread": 13000000,
+     "wood": 13000000,
+     "stone": 2600000,
+     "iron": 660000,
+     "time": 169860,
+     "power": 164450
+    },
+    {
+     "level": 25,
+     "tc": 25,
+     "req": [],
+     "bread": 17000000,
+     "wood": 17000000,
+     "stone": 3500000,
+     "iron": 890000,
+     "time": 237780,
+     "power": 183392
+    },
+    {
+     "level": 26,
+     "tc": 26,
+     "req": [],
+     "bread": 23000000,
+     "wood": 23000000,
+     "stone": 4600000,
+     "iron": 1100000,
+     "time": 273420,
+     "power": 211222
+    },
+    {
+     "level": 27,
+     "tc": 27,
+     "req": [],
+     "bread": 32000000,
+     "wood": 32000000,
+     "stone": 6500000,
+     "iron": 1600000,
+     "time": 328140,
+     "power": 239052
+    },
+    {
+     "level": 28,
+     "tc": 28,
+     "req": [],
+     "bread": 43000000,
+     "wood": 43000000,
+     "stone": 8700000,
+     "iron": 2100000,
+     "time": 377340,
+     "power": 266882
+    },
+    {
+     "level": 29,
+     "tc": 29,
+     "req": [],
+     "bread": 54000000,
+     "wood": 54000000,
+     "stone": 10000000,
+     "iron": 2700000,
+     "time": 433980,
+     "power": 294712
+    },
+    {
+     "level": 30,
+     "tc": 30,
+     "req": [],
+     "bread": 66000000,
+     "wood": 66000000,
+     "stone": 13000000,
+     "iron": 3300000,
+     "time": 520800,
+     "power": 335170
+    }
+   ]
+  },
+  {
+   "id": "town-center",
+   "name": {
+    "EN": "Town Center",
+    "FR": "Centre-ville"
+   },
+   "category": "core",
+   "maxStd": 30,
+   "levels": [
+    {
+     "level": 1,
+     "tc": null,
+     "req": [],
+     "bread": 0,
+     "wood": 0,
+     "stone": 0,
+     "iron": 0,
+     "time": 0,
+     "power": 2000
+    },
+    {
+     "level": 2,
+     "tc": null,
+     "req": [
+      "Sawmill Lv. 1"
+     ],
+     "bread": 0,
+     "wood": 180,
+     "stone": 0,
+     "iron": 0,
+     "time": 6,
+     "power": 3800
+    },
+    {
+     "level": 3,
+     "tc": null,
+     "req": [
+      "House 1 Lv. 2"
+     ],
+     "bread": 0,
+     "wood": 805,
+     "stone": 0,
+     "iron": 0,
+     "time": 60,
+     "power": 6500
+    },
+    {
+     "level": 4,
+     "tc": null,
+     "req": [
+      "Quarry Lv. 3"
+     ],
+     "bread": 0,
+     "wood": 1800,
+     "stone": 360,
+     "iron": 0,
+     "time": 180,
+     "power": 10100
+    },
+    {
+     "level": 5,
+     "tc": null,
+     "req": [
+      "Hero Hall",
+      "House 3 Lv. 3"
+     ],
+     "bread": 0,
+     "wood": 7600,
+     "stone": 1500,
+     "iron": 0,
+     "time": 600,
+     "power": 15500
+    },
+    {
+     "level": 6,
+     "tc": null,
+     "req": [
+      "Iron Mine Lv. 5"
+     ],
+     "bread": 0,
+     "wood": 19000,
+     "stone": 3800,
+     "iron": 960,
+     "time": 1800,
+     "power": 23600
+    },
+    {
+     "level": 7,
+     "tc": null,
+     "req": [
+      "Mill Lv. 6"
+     ],
+     "bread": 0,
+     "wood": 69000,
+     "stone": 13000,
+     "iron": 3400,
+     "time": 3600,
+     "power": 35300
+    },
+    {
+     "level": 8,
+     "tc": null,
+     "req": [
+      "Infantry Camp Lv. 7"
+     ],
+     "bread": 0,
+     "wood": 120000,
+     "stone": 25000,
+     "iron": 6300,
+     "time": 9000,
+     "power": 47000
+    },
+    {
+     "level": 9,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 8",
+      "Infirmary Lv. 1"
+     ],
+     "bread": 0,
+     "wood": 260000,
+     "stone": 52000,
+     "iron": 13000,
+     "time": 16200,
+     "power": 58700
+    },
+    {
+     "level": 10,
+     "tc": null,
+     "req": [
+      "Archer Camp Lv. 9",
+      "Academy Lv. 1"
+     ],
+     "bread": 0,
+     "wood": 460000,
+     "stone": 92000,
+     "iron": 23000,
+     "time": 21600,
+     "power": 75700
+    },
+    {
+     "level": 11,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 10",
+      "Lancer Camp Lv. 10"
+     ],
+     "bread": 1300000,
+     "wood": 1300000,
+     "stone": 260000,
+     "iron": 65000,
+     "time": 27000,
+     "power": 92700
+    },
+    {
+     "level": 12,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 11",
+      "Command Center Lv. 1"
+     ],
+     "bread": 1600000,
+     "wood": 1600000,
+     "stone": 330000,
+     "iron": 84000,
+     "time": 32400,
+     "power": 109700
+    },
+    {
+     "level": 13,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 12",
+      "Infantry Camp Lv. 12"
+     ],
+     "bread": 2300000,
+     "wood": 2300000,
+     "stone": 470000,
+     "iron": 110000,
+     "time": 39600,
+     "power": 138400
+    },
+    {
+     "level": 14,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 13",
+      "Archer Camp Lv. 13"
+     ],
+     "bread": 3100000,
+     "wood": 3100000,
+     "stone": 630000,
+     "iron": 150000,
+     "time": 50400,
+     "power": 167100
+    },
+    {
+     "level": 15,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 14",
+      "Lancer Camp Lv. 14"
+     ],
+     "bread": 4600000,
+     "wood": 4600000,
+     "stone": 930000,
+     "iron": 230000,
+     "time": 64800,
+     "power": 195800
+    },
+    {
+     "level": 16,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 15",
+      "Academy Lv. 15"
+     ],
+     "bread": 5900000,
+     "wood": 5900000,
+     "stone": 1100000,
+     "iron": 290000,
+     "time": 109680,
+     "power": 236200
+    },
+    {
+     "level": 17,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 16",
+      "Infantry Camp Lv. 16"
+     ],
+     "bread": 9300000,
+     "wood": 9300000,
+     "stone": 1800000,
+     "iron": 460000,
+     "time": 131640,
+     "power": 276600
+    },
+    {
+     "level": 18,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 17",
+      "Archer Camp Lv. 17"
+     ],
+     "bread": 12000000,
+     "wood": 12000000,
+     "stone": 2500000,
+     "iron": 620000,
+     "time": 157980,
+     "power": 317000
+    },
+    {
+     "level": 19,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 18",
+      "Lancer Camp Lv. 18"
+     ],
+     "bread": 15000000,
+     "wood": 15000000,
+     "stone": 3100000,
+     "iron": 780000,
+     "time": 237000,
+     "power": 374400
+    },
+    {
+     "level": 20,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 19",
+      "Academy Lv. 19"
+     ],
+     "bread": 21000000,
+     "wood": 21000000,
+     "stone": 4300000,
+     "iron": 1000000,
+     "time": 296280,
+     "power": 431800
+    },
+    {
+     "level": 21,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 20",
+      "Infantry Camp Lv. 20"
+     ],
+     "bread": 27000000,
+     "wood": 27000000,
+     "stone": 5400000,
+     "iron": 1300000,
+     "time": 385140,
+     "power": 489200
+    },
+    {
+     "level": 22,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 21",
+      "Archer Camp Lv. 21"
+     ],
+     "bread": 36000000,
+     "wood": 36000000,
+     "stone": 7200000,
+     "iron": 1800000,
+     "time": 577740,
+     "power": 575300
+    },
+    {
+     "level": 23,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 22",
+      "Lancer Camp Lv. 22"
+     ],
+     "bread": 44000000,
+     "wood": 44000000,
+     "stone": 8900000,
+     "iron": 2200000,
+     "time": 808800,
+     "power": 661400
+    },
+    {
+     "level": 24,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 23",
+      "Academy Lv. 23"
+     ],
+     "bread": 60000000,
+     "wood": 60000000,
+     "stone": 12000000,
+     "iron": 3000000,
+     "time": 1132380,
+     "power": 747500
+    },
+    {
+     "level": 25,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 24",
+      "Infantry Camp Lv. 24"
+     ],
+     "bread": 81000000,
+     "wood": 81000000,
+     "stone": 16000000,
+     "iron": 4000000,
+     "time": 1585320,
+     "power": 833600
+    },
+    {
+     "level": 26,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 25",
+      "Archer Camp Lv. 25"
+     ],
+     "bread": 100000000,
+     "wood": 100000000,
+     "stone": 21000000,
+     "iron": 5200000,
+     "time": 1823160,
+     "power": 960100
+    },
+    {
+     "level": 27,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 26",
+      "Lancer Camp Lv. 26"
+     ],
+     "bread": 140000000,
+     "wood": 140000000,
+     "stone": 29000000,
+     "iron": 7400000,
+     "time": 2187780,
+     "power": 1086600
+    },
+    {
+     "level": 28,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 27",
+      "Academy Lv. 27"
+     ],
+     "bread": 190000000,
+     "wood": 190000000,
+     "stone": 39000000,
+     "iron": 9900000,
+     "time": 2515920,
+     "power": 1213100
+    },
+    {
+     "level": 29,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 28",
+      "Infantry Camp Lv. 28"
+     ],
+     "bread": 240000000,
+     "wood": 240000000,
+     "stone": 49000000,
+     "iron": 12000000,
+     "time": 2893320,
+     "power": 1339600
+    },
+    {
+     "level": 30,
+     "tc": null,
+     "req": [
+      "Embassy Lv. 29",
+      "Archer Camp Lv. 29"
+     ],
+     "bread": 300000000,
+     "wood": 300000000,
+     "stone": 60000000,
+     "iron": 15000000,
+     "time": 3472020,
+     "power": 1523500
+    }
+   ]
+  }
+ ]
+}

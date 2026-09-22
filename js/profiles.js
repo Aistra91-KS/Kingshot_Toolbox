@@ -47,16 +47,42 @@
   const COLORS = ['#f5b840', '#4ecdc4', '#b98cff', '#ff8c42', '#5aa9e6', '#7ed957', '#e74c5c'];
 
   // ---------- Registre ----------
+  // Un identifiant est la seule carte de l'espace `kt::<id>::` où vivent les données
+  // du profil. Absent, dupliqué, ou porteur du « : » qui sert de séparateur, il rend
+  // ces données inatteignables — et `registry.profiles[0].id` levait dès la migration.
+  // Le contrôle portait seulement sur « profiles est un tableau non vide » : un
+  // `{profiles:[null]}` passait, `window.Profiles` n'était jamais installé, et la
+  // page s'arrêtait là (constat F07 de la revue du 2026-09-20).
+  const idOk = (v) => typeof v === 'string' && v.length > 0 && v.length <= 64 && v.indexOf(':') === -1;
+  const validProfile = (p) => !!p && typeof p === 'object' && !Array.isArray(p) && idOk(p.id);
+
+  // Le nom et la couleur, eux, se réparent sur place : ils ne servent qu'à l'affichage,
+  // et jeter pour ça un registre par ailleurs exploitable coûterait au joueur tous ses
+  // autres noms. Seul l'identifiant fait basculer en récupération.
+  function repairProfile(p, i) {
+    if (typeof p.name !== 'string' || !p.name.trim()) p.name = defaultName(i + 1);
+    if (typeof p.color !== 'string' || !p.color) p.color = COLORS[i % COLORS.length];
+    return p;
+  }
+
   // « Absent » et « présent mais illisible » donnaient tous deux `null`, et l'appelant
   // ne pouvait plus les distinguer : un joueur avec UN seul profil renommé perdait son
   // nom et sa couleur sans un mot, traité comme une première visite. Le signal est gardé.
   let registryWasDamaged = false;
+  let registryRaw = null;          // le texte d'origine, mis de côté avant remplacement
   function readRegistry() {
     try {
       const raw = nativeGet(REGISTRY_KEY);
       if (raw) {
+        registryRaw = raw;
         const r = JSON.parse(raw);
-        if (r && Array.isArray(r.profiles) && r.profiles.length) return r;
+        const list = (r && Array.isArray(r.profiles)) ? r.profiles : null;
+        const ids = list ? list.map((p) => (p && typeof p === 'object') ? p.id : null) : [];
+        const uniques = new Set(ids).size === ids.length;
+        if (list && list.length && list.every(validProfile) && uniques) {
+          list.forEach(repairProfile);
+          return r;
+        }
         registryWasDamaged = true;        // présent, mais rien d'exploitable dedans
       }
     } catch (e) { registryWasDamaged = true; }
@@ -85,7 +111,7 @@
     const seul = { id: 'p1', name: defaultName(1), color: COLORS[0] };
     window.Profiles = {
       list: () => [seul], get: () => seul, active: () => seul, activeId: () => seul.id,
-      create: () => false, rename: () => false, remove: () => false,
+      create: () => null, rename: () => false, remove: () => false,
       switch: () => {}, consumeSwitchToast: () => null,
       storageOk: () => false, colors: COLORS.slice()
     };
@@ -132,6 +158,13 @@
     // `p1` est un id FIXE, pas un hasard : si la migration s'interrompt avant d'avoir
     // fini, le chargement suivant retrouve le même espace et reprend là où elle en était.
     const ids = scanProfileIds();
+    // Le registre abîmé est mis de côté AVANT d'être remplacé, comme `safeParse` le
+    // fait pour les données métier : les noms et les couleurs y sont encore, et rien
+    // d'autre ne les porte.
+    if (registryWasDamaged && registryRaw) {
+      try { nativeSet(REGISTRY_KEY + '__corrompu', registryRaw); }
+      catch (e) { /* plus de place : l'avertissement reste le vrai filet */ }
+    }
     registry = { v: 1, activeId: ids[0],
                  profiles: ids.map((id, i) => ({ id: id, name: defaultName(i + 1), color: COLORS[i % COLORS.length] })) };
     writeRegistry();
@@ -188,12 +221,32 @@
   function active()   { return get(activeId) || registry.profiles[0]; }
   function getActiveId() { return activeId; }
 
+  // ---------- Mutations : mémoire et stockage, ou ni l'un ni l'autre ----------
+  // Les trois mutations modifiaient l'état en mémoire PUIS appelaient `writeRegistry()`
+  // sans regarder ce qu'il renvoyait. Quota atteint ou écriture refusée : l'interface
+  // affichait un profil créé — `list()` en comptait deux — quand le registre enregistré
+  // n'en portait toujours qu'un, et le rechargement suivant le faisait disparaître
+  // (constat F08 de la revue du 2026-09-20). On travaille donc sur une copie, et on ne
+  // la publie qu'une fois l'écriture réussie.
+  const cloneRegistry = () => JSON.parse(JSON.stringify(registry));
+
+  function commit(next) {
+    const avant = registry;
+    registry = next;
+    if (writeRegistry()) return true;
+    registry = avant;                       // rien n'est parti : on ne garde rien
+    if (window.ktWarnUnsaved) window.ktWarnUnsaved();
+    return false;
+  }
+
+  // Rend le profil créé, ou `null` si rien n'a pu être enregistré.
   function create(name) {
     const id = genId();
     const color = COLORS[registry.profiles.length % COLORS.length];
     const nm = (name && name.trim()) ? name.trim().slice(0, 40) : defaultName(registry.profiles.length + 1);
-    registry.profiles.push({ id, name: nm, color });
-    writeRegistry();
+    const next = cloneRegistry();
+    next.profiles.push({ id, name: nm, color });
+    if (!commit(next)) return null;
     return get(id);
   }
 
@@ -202,9 +255,12 @@
     if (!p) return false;
     const nm = (name || '').trim().slice(0, 40);
     if (!nm) return false;
-    p.name = nm;
-    writeRegistry();
-    return true;
+    if (nm === p.name) return true;         // rien à écrire, rien à signaler
+    const next = cloneRegistry();
+    const cible = next.profiles.find((x) => x.id === id);
+    if (!cible) return false;
+    cible.name = nm;
+    return commit(next);
   }
 
   // Supprime un profil ET toutes ses données namespacées.
@@ -212,13 +268,18 @@
     if (registry.profiles.length <= 1) return false; // jamais 0 profil
     const idx = registry.profiles.findIndex((p) => p.id === id);
     if (idx === -1) return false;
+    // Le REGISTRE part en premier, la purge ensuite. Purger d'abord, c'était effacer
+    // les données d'un profil pour un retrait que le stockage pouvait refuser juste
+    // après : le profil réapparaissait au rechargement, vide. Dans cet ordre, un échec
+    // d'écriture ne touche à rien, et un échec de purge ne laisse que des clés
+    // orphelines — invisibles, sans effet sur le reste.
+    const next = cloneRegistry();
+    next.profiles.splice(idx, 1);
+    const etaitActif = (activeId === id);
+    if (etaitActif) next.activeId = next.profiles[0].id;
+    if (!commit(next)) return false;
+    if (etaitActif) activeId = next.activeId;
     purge(id);
-    registry.profiles.splice(idx, 1);
-    if (activeId === id) {
-      activeId = registry.profiles[0].id;
-      registry.activeId = activeId;
-    }
-    writeRegistry();
     return true;
   }
 
@@ -235,9 +296,12 @@
   // Bascule de profil : persiste, arme le toast, recharge la page.
   function switchTo(id) {
     if (!get(id) || id === activeId) return;
+    const next = cloneRegistry();
+    next.activeId = id;
+    // Une bascule non enregistrée, c'est un rechargement dans l'ANCIEN profil : mieux
+    // vaut ne pas recharger et prévenir, qu'afficher le mauvais compte sans un mot.
+    if (!commit(next)) return;
     activeId = id;
-    registry.activeId = id;
-    writeRegistry();
     try { sessionStorage.setItem('kt_switched', id); } catch (e) { /* privé */ }
     location.reload();
   }

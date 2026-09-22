@@ -26,7 +26,11 @@
     var instances = [];
 
     function currentLang() {
-        var l = window.GlobalLang ? window.GlobalLang.get() : (localStorage.getItem('hub_lang') || 'EN');
+        var l = 'EN';
+        // Le repli ne sert que si `lang.js` manque. Il lit alors la préférence
+        // directement, sous garde : un stockage interdit fait lever `getItem`.
+        if (window.GlobalLang) l = window.GlobalLang.get();
+        else { try { l = localStorage.getItem('hub_lang') || 'EN'; } catch (e) { l = 'EN'; } }
         return String(l).toUpperCase() === 'FR' ? 'FR' : 'EN';
     }
 

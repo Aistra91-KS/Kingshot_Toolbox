@@ -15,15 +15,15 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Kingshot Shops - Event &amp; Permanent Shop Value | Kingshot Toolbox</title>
-    <meta name="description" content="Every Kingshot shop in one place: event shops (Polar Shop, Summit Contest…), permanent shops (Arena, Swordland, Tidal Shop…) and custom chests. Compare each item's cost to its gem value to spot the best deals.">
+    <title>Kingshot Permanent Shops &amp; Custom Chests - Gem Value | Kingshot Toolbox</title>
+    <meta name="description" content="Kingshot's always-available shops - Arena, Alliance Championship, Swordland, Kingdom of Power, Tidal Shop, Trial Shop - and the custom chests. Compare each item's cost to its gem value to spot the best deals.">
     <link rel="canonical" href="https://kingshottoolbox.com/shop_calc">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
-    <meta property="og:title" content="Kingshot Shops - Event &amp; Permanent Shop Value">
-    <meta property="og:description" content="Every Kingshot shop in one place: event shops (Polar Shop, Summit Contest…), permanent shops (Arena, Swordland, Tidal Shop…) and custom chests. Compare each item's cost to its gem value to spot the best deals.">
+    <meta property="og:title" content="Kingshot Permanent Shops &amp; Custom Chests - Gem Value">
+    <meta property="og:description" content="Kingshot's always-available shops - Arena, Alliance Championship, Swordland, Kingdom of Power, Tidal Shop, Trial Shop - and the custom chests. Compare each item's cost to its gem value to spot the best deals.">
     <meta property="og:url" content="https://kingshottoolbox.com/shop_calc">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -46,116 +46,24 @@
         <h1 data-i18n="scTitle">Shop Value</h1>
         <p class="db-intro" data-i18n="scDesc">Compare in-shop cost to gem value to spot the best deals.</p>
 
-        <!-- Référentiel de valeurs : socle de tous les calculs, donc mis en avant hors des 3 familles. -->
-        <a class="sx-card sx-ref" href="shop/items" style="margin-bottom:8px;">
-          <span class="sx-thumb"><span class="sx-ref-glyph">💎</span></span>
+        <!-- Les deux autres pages du bloc « Valeur et Rentabilité ». Écrites en dur,
+             comme le reste du maillage interne (cf. MAP.md §9). Les boutiques d'événement
+             vivaient ici jusqu'en septembre 2026 : cette carte est le chemin qu'un ancien
+             signet doit trouver du premier coup d'oeil, d'où sa place en tête de page. -->
+        <a class="sx-card sx-ref sx-ref-evt" href="event-roi" style="margin-bottom:8px;">
+          <span class="sx-thumb"><span class="sx-ref-glyph">&#128200;</span></span>
+          <span class="sx-body">
+            <span class="sx-name" data-en="Event shops and ROI" data-fr="Boutiques d'événement et rentabilité">Event shops and ROI</span>
+            <span class="sx-meta"><span data-en="Theater, Blizzard, Adventure Stall and the others, plus what an event really pays back." data-fr="Théâtre, Blizzard, Stand d'Aventure et les autres, plus ce qu'un événement rapporte vraiment.">Theater, Blizzard, Adventure Stall and the others, plus what an event really pays back.</span></span>
+          </span>
+        </a>
+        <a class="sx-card sx-ref" href="item-values" style="margin-bottom:8px;">
+          <span class="sx-thumb"><span class="sx-ref-glyph">&#128142;</span></span>
           <span class="sx-body">
             <span class="sx-name" data-i18n="itemsRef">Item values</span>
-            <span class="sx-meta"><span data-i18n="itemsRefSub">The gem reference table behind every calculation.</span></span>
+            <span class="sx-meta"><span data-en="The gem and real-money reference tables behind every figure on this page." data-fr="Les tables de référence, en gemmes et en argent réel, derrière chaque chiffre de cette page.">The gem and real-money reference tables behind every figure on this page.</span></span>
           </span>
         </a>
-        <a class="sx-card sx-ref sx-ref-eur" href="shop/items-euro" style="margin-bottom:8px;">
-          <span class="sx-thumb"><span class="sx-ref-glyph">&euro;</span></span>
-          <span class="sx-body">
-            <span class="sx-name" data-i18n="itemsEur">Real-money item values</span>
-            <span class="sx-meta"><span data-i18n="itemsEurSub">What each item really costs, from the paid packs.</span></span>
-          </span>
-        </a>
-
-        <!-- ===== BOUTIQUES D'ÉVÉNEMENT ===== -->
-        <section class="sx-section">
-          <h2><span data-i18n="secEvent">Event Shops</span><span class="sx-count" data-count-event></span></h2>
-          <p class="sx-section-sub" data-i18n="secEventSub">Time-limited offers: dedicated currency, capped stock and an end date.</p>
-          <!-- Bascule « Voir plus » SANS JavaScript : la case, la grille, puis le libellé.
-               Un <button> piloté en JS repliait la page APRÈS son premier affichage, d'où un
-               saut de mise en page (CLS mesuré à 0,68 sur mobile) ; et un `shop_calc.js` encore
-               en cache laissait les cartes masquées derrière un bouton inerte. Ici le repli tient
-               dans le HTML et le CSS : en place dès le premier pixel, et sans script à périmer.
-               `hidden` est le garde-fou du CSS en cache — seule la feuille qui sait replier le
-               lève. Sans elle : ni case, ni libellé, et la grille entière. -->
-          <input type="checkbox" id="more-grid-event" class="sx-more-cb" hidden>
-          <div class="sx-grid is-clamped" id="grid-event">
-            <a class="sx-card" href="shop/moonlight-shop" data-shop-slug="moonlight-shop">
-              <span class="sx-thumb-slot"></span>
-              <span class="sx-body">
-                <span class="sx-name" data-en="Moonlight Shop" data-fr="Magasin du Clair de Lune">Moonlight Shop</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Mooncake" data-fr="Gâteau de Lune">Mooncake</span><span class="sx-dot">·</span><span data-count-slot></span></span>
-              </span>
-            </a>
-            <a class="sx-card" href="shop/theater-shop" data-shop-slug="theater-shop">
-              <span class="sx-thumb-slot"></span>
-              <span class="sx-body">
-                <span class="sx-name" data-en="Theater Shop" data-fr="Magasin du Théâtre">Theater Shop</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Fantasy Token" data-fr="Jeton Fantaisie">Fantasy Token</span><span class="sx-dot">·</span><span data-count-slot></span></span>
-              </span>
-            </a>
-            <a class="sx-card" href="shop/blizzard-shop" data-shop-slug="blizzard-shop">
-              <span class="sx-thumb-slot"></span>
-              <span class="sx-body">
-                <span class="sx-name" data-en="Blizzard Shop" data-fr="Magasin du Blizzard">Blizzard Shop</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Brawl Emblem" data-fr="Emblème de Duel">Brawl Emblem</span><span class="sx-dot">·</span><span data-count-slot></span></span>
-              </span>
-            </a>
-            <a class="sx-card" href="shop/flamedragon-tyrant-prediction" data-shop-slug="flamedragon-tyrant-prediction">
-              <span class="sx-thumb-slot"></span>
-              <span class="sx-body">
-                <span class="sx-name" data-en="Flamedragon Tyrant - Prediction Shop" data-fr="Tyran - Magasin de Pronostique">Flamedragon Tyrant - Prediction Shop</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Dragonclaw Mark" data-fr="Marque Draconique">Dragonclaw Mark</span><span class="sx-dot">·</span><span data-count-slot></span></span>
-              </span>
-            </a>
-            <a class="sx-card" href="shop/dragons-caravan" data-shop-slug="dragons-caravan">
-              <span class="sx-thumb-slot"></span>
-              <span class="sx-body">
-                <span class="sx-name" data-en="Dragon's Caravan" data-fr="Caravane du Dragon">Dragon's Caravan</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Dragon Essence" data-fr="Essence Draconique">Dragon Essence</span><span class="sx-dot">·</span><span data-count-slot></span></span>
-              </span>
-            </a>
-            <a class="sx-card" href="shop/adventure-stall" data-shop-slug="adventure-stall">
-              <span class="sx-thumb-slot"></span>
-              <span class="sx-body">
-                <span class="sx-name" data-en="Adventure Stall" data-fr="Stand d'Aventure">Adventure Stall</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Adventure Coin" data-fr="Pièce d'Aventure">Adventure Coin</span><span class="sx-dot">·</span><span data-count-slot></span></span>
-              </span>
-            </a>
-            <a class="sx-card" href="shop/polar-shop" data-shop-slug="polar-shop">
-              <span class="sx-thumb-slot"></span>
-              <span class="sx-body">
-                <span class="sx-name" data-en="Polar Shop" data-fr="Magasin Polaire">Polar Shop</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Twinstar Coin" data-fr="Pièces des Étoiles Jumelles">Twinstar Coin</span><span class="sx-dot">·</span><span data-count-slot></span></span>
-              </span>
-            </a>
-            <a class="sx-card" href="shop/summit-contest-champion" data-shop-slug="summit-contest-champion">
-              <span class="sx-thumb-slot"></span>
-              <span class="sx-body">
-                <span class="sx-name" data-en="Summit Contest Champion Shop" data-fr="Magasin Champion de la Ligue Suprême">Summit Contest Champion Shop</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Champion token" data-fr="Jeton de Champion">Champion token</span><span class="sx-dot">·</span><span data-count-slot></span></span>
-              </span>
-            </a>
-            <a class="sx-card" href="shop/summit-contest-ordinary" data-shop-slug="summit-contest-ordinary">
-              <span class="sx-thumb-slot"></span>
-              <span class="sx-body">
-                <span class="sx-name" data-en="Summit Contest Ordinary Shop" data-fr="Magasin Ordinaire de la Ligue Suprême">Summit Contest Ordinary Shop</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="League token" data-fr="Jeton de Ligue">League token</span><span class="sx-dot">·</span><span data-count-slot></span></span>
-              </span>
-            </a>
-            <a class="sx-card" href="shop/golden-ball-shop" data-shop-slug="golden-ball-shop">
-              <span class="sx-thumb-slot"></span>
-              <span class="sx-body">
-                <span class="sx-name" data-en="Golden Ball Shop" data-fr="Magasin du ballon d'or">Golden Ball Shop</span>
-                <span class="sx-meta"><span class="sx-cur" data-en="Ballon d'Or brand" data-fr="Marque du ballon d'or">Ballon d'Or brand</span><span class="sx-dot">·</span><span data-count-slot></span></span>
-              </span>
-            </a>
-          </div>
-
-          <label class="sx-more" for="more-grid-event" hidden>
-            <span class="sx-more-all" data-en="Show all" data-fr="Voir plus">Show all</span>
-            <span class="sx-more-less" data-en="Show less" data-fr="Voir moins">Show less</span>
-            <!-- Lu, jamais vu : sans lui, les trois libellés s'annoncent à l'identique.
-                 Rien ne dirait lequel déplie quelle catégorie (rotor, commande vocale). -->
-            <span class="sx-more-cat" data-en="event shops" data-fr="de boutiques d'événement">event shops</span>
-            <span class="sx-more-chev" aria-hidden="true"></span>
-          </label>
-        </section>
 
         <!-- ===== BOUTIQUES PERMANENTES ===== -->
         <section class="sx-section">
@@ -217,8 +125,8 @@
           <label class="sx-more" for="more-grid-classic" hidden>
             <span class="sx-more-all" data-en="Show all" data-fr="Voir plus">Show all</span>
             <span class="sx-more-less" data-en="Show less" data-fr="Voir moins">Show less</span>
-            <!-- Lu, jamais vu : sans lui, les trois libellés s'annoncent à l'identique.
-                 Rien ne dirait lequel déplie quelle catégorie (rotor, commande vocale). -->
+            <!-- Lu, jamais vu : sans lui, les libellés « Voir plus » de la page s'annoncent
+                 à l'identique. Rien ne dirait lequel déplie quelle catégorie (rotor, commande vocale). -->
             <span class="sx-more-cat" data-en="permanent shops" data-fr="de boutiques permanentes">permanent shops</span>
             <span class="sx-more-chev" aria-hidden="true"></span>
           </label>
@@ -263,8 +171,8 @@
           <label class="sx-more" for="more-grid-chest" hidden>
             <span class="sx-more-all" data-en="Show all" data-fr="Voir plus">Show all</span>
             <span class="sx-more-less" data-en="Show less" data-fr="Voir moins">Show less</span>
-            <!-- Lu, jamais vu : sans lui, les trois libellés s'annoncent à l'identique.
-                 Rien ne dirait lequel déplie quelle catégorie (rotor, commande vocale). -->
+            <!-- Lu, jamais vu : sans lui, les libellés « Voir plus » de la page s'annoncent
+                 à l'identique. Rien ne dirait lequel déplie quelle catégorie (rotor, commande vocale). -->
             <span class="sx-more-cat" data-en="chests" data-fr="de coffres">chests</span>
             <span class="sx-more-chev" aria-hidden="true"></span>
           </label>
@@ -278,7 +186,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Guide</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>TrueGold</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span><span class="hdr-badge">Beta</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Pack / Shop Calculation</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

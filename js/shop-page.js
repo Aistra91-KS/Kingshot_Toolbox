@@ -162,7 +162,11 @@ function spRenderCart(){
       <div class="sx-kpi">
         <span class="sx-kpi-lbl">${scT('kpiSpent')}</span>
         <span class="sx-kpi-val">${spNum(cart.spent)}</span>
-        <span class="sx-kpi-sub">${cart.lines} ${scT(cart.lines>1?'kpiLines':'kpiLine')}</span>
+        <span class="sx-kpi-sub">${cart.lines} ${scT(cart.lines>1?'kpiLines':'kpiLine')}${
+          // La dépense affichée couvre tout l'événement, déjà pris compris, alors que
+          // le solde à côté ne voit que ce qui reste à prendre. Sans cette mention, les
+          // deux tuiles se contredisent à l'écran.
+          cart.spentHave>0?` · ${scT('ofWhichHave').replace('{n}', spNum(cart.spentHave))}`:''}</span>
       </div>
       <div class="sx-kpi ${cart.over?'bad':'good'} sx-kpi-hero">
         <span class="sx-kpi-lbl">${cart.over?scT('kpiOver'):scT('kpiLeft')}</span>
@@ -260,6 +264,21 @@ function spRestoreTable(host, snap){
   }
 }
 
+// Nom accessible d'un champ répété du tableau. Les en-têtes de colonne nomment la
+// COLONNE, pas la ligne : un lecteur d'écran n'entendait que « spinbutton, 0 », 28
+// fois de suite sur le Théâtre, sans jamais savoir de quel objet il s'agissait
+// (constat F12 de la revue du 2026-09-20). Le palier entre dans le nom quand la
+// boutique en a un : le même objet y est vendu trois fois, à trois prix.
+//
+// Les libellés sortent du dictionnaire DÉJÀ en place (`hQty`, `hCost`, `hTake`,
+// `hRestant`, `hTier`) : aucune clé nouvelle, pour qu'un `shop-core.js` encore en
+// cache sache toujours les rendre (cf. MAP.md §9).
+function spFieldLabel(col, r){
+  const sep = scLang()==='FR' ? ' : ' : ': ';
+  const palier = r.tier>0 ? ' — ' + scT('hTier') + ' ' + r.tier : '';
+  return scEscAttr(col + sep + r.nameTxt + palier);
+}
+
 function spRenderTable(){
   const host=spEl('sp-table'); if(!host) return;
   const snap=spSnapshotTable(host);
@@ -295,6 +314,11 @@ function spRenderTable(){
   const edit = SP_EDIT;
   const shopping = spIsEvent() && !edit;   // colonnes du panier
   const stock    = spIsEvent();            // colonnes de stock (dispo / restant)
+  // « Déjà pris » : réservé aux boutiques dont le fichier le demande (`trackOwned`).
+  // Le `rows[0].haveMax != null` garde la page vivante si shop-core.js est encore en
+  // cache et ne renvoie pas encore ce champ : la colonne ne s'affiche simplement pas.
+  const owned    = shopping && !!(spShop() || {}).trackOwned && rows.length > 0
+                   && rows[0].haveMax != null;
   // Colonne « Palier » seulement si la boutique en a : les autres gardent leur tableau tel quel.
   const tiered   = rows.some(r=>r.tier>0);
 
@@ -311,6 +335,7 @@ function spRenderTable(){
       ${stock ? (edit
         ? spTh('restant',scT('hRestant')+scTip('tipRestant'),'ctr','srt sep')
         : spTh('maxfin',scT('hAvail')+scTip('tipAvail'),'ctr','srt sep')) : ''}
+      ${owned?`<th class="ctr c-take">${scT('hHave')}${scTip('tipHave')}</th>`:''}
       ${shopping?`
       <th class="ctr c-take">${scT('hTake')}${scTip('tipTake')}</th>
       ${spTh('takeCost',scT('hTakeCost'),'rgt','srt')}
@@ -321,10 +346,10 @@ function spRenderTable(){
 
   const body = rows.map(r=>{
     const qtyCell = edit
-      ? `<td class="ctr"><input type="number" min="1" step="1" inputmode="numeric" value="${r.qty}" onchange="spEditQty(${r.i},this.value)"></td>`
+      ? `<td class="ctr"><input type="number" min="1" step="1" inputmode="numeric" aria-label="${spFieldLabel(scT('hQty'),r)}" value="${r.qty}" onchange="spEditQty(${r.i},this.value)"></td>`
       : `<td class="ctr">${spNum(r.qty)}</td>`;
     const costCell = edit
-      ? `<td class="rgt"><input type="number" min="0" step="1" inputmode="numeric" value="${r.cost}" onchange="spEditCost(${r.i},this.value)"></td>`
+      ? `<td class="rgt"><input type="number" min="0" step="1" inputmode="numeric" aria-label="${spFieldLabel(scT('hCost'),r)}" value="${r.cost}" onchange="spEditCost(${r.i},this.value)"></td>`
       : `<td class="rgt">${spNum(r.cost)}</td>`;
 
     // Stock : en lecture on montre le plafond atteignable et d'où il sort ; en édition
@@ -332,27 +357,45 @@ function spRenderTable(){
     let stockCell='';
     if(stock){
       stockCell = edit
-        ? `<td class="ctr sep"><input type="number" min="0" step="1" inputmode="numeric" value="${r.restant}" onchange="spEditRestant(${r.i},this.value)"></td>`
-        : `<td class="ctr sep">${spNum(r.maxfin)}${r.daily?`<span class="sx-sub">${spNum(r.restant)}${scT('perDay')} × ${resets}${scT('days')}</span>`:''}</td>`;
+        ? `<td class="ctr sep"><input type="number" min="0" step="1" inputmode="numeric" aria-label="${spFieldLabel(scT('hRestant'),r)}" value="${r.restant}" onchange="spEditRestant(${r.i},this.value)"></td>`
+        // Sous le chiffre : d'où sort le plafond. Pour un stock qui se recharge, le
+        // rythme et les jours restants ; dès qu'un « déjà pris » entame le stock de
+        // l'événement, ce qu'il en a retiré. Les deux tiennent sur la même ligne.
+        : `<td class="ctr sep">${spNum(r.maxfin)}${(()=>{
+            const bouts = [];
+            if(r.daily) bouts.push(`${spNum(r.restant)}${scT('perDay')} × ${resets}${scT('days')}`);
+            if(r.have>0) bouts.push(`−${spNum(r.have)} ${scT('subHave')}`);
+            return bouts.length ? `<span class="sx-sub">${bouts.join(' · ')}</span>` : '';
+          })()}</td>`;
     }
 
     // Panier : stepper + ce que la ligne coûte et rapporte. Une ligne non prise affiche « — ».
+    // Déjà pris : un champ nu, sans stepper ni MAX. On ne le règle pas au clic un par
+    // un, on y recopie un nombre relevé en jeu.
+    let haveCell='';
+    if(owned){
+      haveCell = `<td class="ctr c-take"><span class="sx-take${r.have>0?' on':''}">
+          <input type="number" min="0" max="${r.haveMax}" step="1" inputmode="numeric" data-i="${r.i}" data-role="have"
+            aria-label="${spFieldLabel(scT('hHave'),r)}" value="${r.have}" onchange="spSetHave(${r.i},this.value)">
+        </span></td>`;
+    }
+
     let cartCells='';
     if(shopping){
       const atMax = r.take>0 && r.canTake===0;
       cartCells = `
       <td class="ctr c-take">
         <span class="sx-take${r.take>0?' on':''}">
-          <button type="button" data-i="${r.i}" data-role="minus" ${r.take<=0?'disabled':''} onclick="spTakeStep(${r.i},-1)" aria-label="−">−</button>
-          <input type="number" min="0" step="1" inputmode="numeric" data-i="${r.i}" data-role="take" value="${r.take}" onchange="spSetTake(${r.i},this.value)">
-          <button type="button" data-i="${r.i}" data-role="plus" ${r.canTake<=0?'disabled':''} onclick="spTakeStep(${r.i},1)" aria-label="+">+</button>
+          <button type="button" data-i="${r.i}" data-role="minus" ${r.take<=0?'disabled':''} onclick="spTakeStep(${r.i},-1)" aria-label="${spFieldLabel('−',r)}">−</button>
+          <input type="number" min="0" step="1" inputmode="numeric" data-i="${r.i}" data-role="take" aria-label="${spFieldLabel(scT('hTake'),r)}" value="${r.take}" onchange="spSetTake(${r.i},this.value)">
+          <button type="button" data-i="${r.i}" data-role="plus" ${r.canTake<=0?'disabled':''} onclick="spTakeStep(${r.i},1)" aria-label="${spFieldLabel('+',r)}">+</button>
         </span>
-        <button type="button" class="sx-maxbtn" data-i="${r.i}" data-role="max" ${(r.canTake<=0&&!atMax)?'disabled':''} onclick="spTakeMax(${r.i})">MAX</button>
+        <button type="button" class="sx-maxbtn" data-i="${r.i}" data-role="max" ${(r.canTake<=0&&!atMax)?'disabled':''} onclick="spTakeMax(${r.i})" aria-label="${spFieldLabel('MAX',r)}">MAX</button>
       </td>
-      <td class="rgt ${r.take>0?'':'dash'}">${r.take>0?spNum(r.takeCost):'—'}</td>
+      <td class="rgt ${(r.take+r.have)>0?'':'dash'}">${(r.take+r.have)>0?spNum(r.takeCost):'—'}</td>
       ${eurV
-        ? `<td class="rgt eur ${(r.take>0&&r.takeEur!=null)?'':'dash'}">${(r.take>0&&r.takeEur!=null)?scFmtEur(r.takeEur):'—'}</td>`
-        : `<td class="rgt gem ${r.take>0?'':'dash'}">${r.take>0?spNum(r.takeGem):'—'}</td>`}`;
+        ? `<td class="rgt eur ${((r.take+r.have)>0&&r.takeEur!=null)?'':'dash'}">${((r.take+r.have)>0&&r.takeEur!=null)?scFmtEur(r.takeEur):'—'}</td>`
+        : `<td class="rgt gem ${(r.take+r.have)>0?'':'dash'}">${(r.take+r.have)>0?spNum(r.takeGem):'—'}</td>`}`;
     }
 
     // Règle du « — » : une valeur € absente n'est jamais 0. Elle s'affiche « — », sort du
@@ -370,7 +413,7 @@ function spRenderTable(){
       : `<td class="c-ratio"><span class="dash"${(eurV&&r.eur==null)?` title="${scEscAttr(scTc('noEur'))}"`:''}>—</span></td>`;
     const isTopV = eurV ? r.isTopEur : r.isTop;
 
-    return `<tr class="${isTopV?'is-top':''}${r.take>0?' in-cart':''}" style="--cat:${scCatColor(r.cat)};">
+    return `<tr class="${isTopV?'is-top':''}${(r.take+r.have)>0?' in-cart':''}" style="--cat:${scCatColor(r.cat)};">
       <td class="c-img"><span class="sx-ico" style="background-image:url('img/Item/${r.img}.webp');"></span></td>
       <td class="c-name">${scEscAttr(r.nameTxt)}${isTopV?`<span class="sx-tag">${scT('best')}</span>`:''}</td>
       ${tiered?`<td class="ctr c-tier">${spTierHtml(r.tier)}</td>`:''}
@@ -379,6 +422,7 @@ function spRenderTable(){
       ${valCell}
       ${ratioCell}
       ${stockCell}
+      ${haveCell}
       ${cartCells}
       ${edit?`<td class="c-act"><button type="button" class="sx-del" title="${scEscAttr(scT('del'))}" onclick="spRemoveItem(${r.i})">✕</button></td>`:''}
     </tr>`;
@@ -390,7 +434,9 @@ function spRenderTable(){
   // tableau déborde horizontalement.
   const bar = (shopping && cart.lines>0) ? `<div class="sx-cartbar${cart.over?' is-over':''}">
       <span class="sx-cartbar-lbl">${scT('cartTotal')}</span>
-      <span class="sx-cartbar-item"><b>${spNum(rows.reduce((s,r)=>s+r.take,0))}</b> ${scT('lots')}</span>
+      <!-- Lots comptés comme le coût juste à côté : déjà pris compris, sinon la barre
+           annonce 20 lots pour 4 680 gâteaux. -->
+      <span class="sx-cartbar-item"><b>${spNum(rows.reduce((s,r)=>s+r.take+r.have,0))}</b> ${scT('lots')}</span>
       <span class="sx-cartbar-item"><b>${spNum(cart.spent)}</b> ${scEscAttr(scResShort(shop,scLang()))}</span>
       <span class="sx-cartbar-item ${eurV?'eur':'gem'}"><b>${eurV?scFmtEur(cart.eur):'💎 '+spNum(cart.gems)}</b></span>
       <span class="sx-cartbar-left ${cart.over?'bad':''}">${cart.over?scT('kpiOver'):scT('kpiLeft')} <b>${spNum(Math.abs(cart.left))}</b></span>
@@ -407,12 +453,14 @@ function spAddFormHtml(){
   const opts=SC_ITEMS.filter(it=>!it.skin)
     .sort((a,b)=>scName(a,lang).localeCompare(scName(b,lang)))
     .map(it=>`<option value="${scEscAttr(scName(it,lang))}"></option>`).join('');
+  // `placeholder` n'est pas un nom accessible, et `title` n'en est qu'un repli que
+  // toutes les aides techniques ne lisent pas : chaque champ porte le sien.
   return `<div class="sx-add">
-      <input class="sx-add-item" list="sx-items-dl" placeholder="${scEscAttr(scT('chooseItem'))}" autocomplete="off">
+      <input class="sx-add-item" list="sx-items-dl" aria-label="${scEscAttr(scT('chooseItem'))}" placeholder="${scEscAttr(scT('chooseItem'))}" autocomplete="off">
       <datalist id="sx-items-dl">${opts}</datalist>
-      <input class="sx-add-qty" type="number" min="1" value="1" inputmode="numeric" title="${scEscAttr(scT('hQty'))}" placeholder="${scEscAttr(scT('hQty'))}">
-      <input class="sx-add-cost" type="number" min="0" inputmode="numeric" title="${scEscAttr(scT('hCost'))}" placeholder="${scEscAttr(scT('hCost'))}">
-      <input class="sx-add-restant" type="number" min="0" value="0" inputmode="numeric" title="${scEscAttr(scT('hRestant'))}" placeholder="${scEscAttr(scT('hRestant'))}">
+      <input class="sx-add-qty" type="number" min="1" value="1" inputmode="numeric" aria-label="${scEscAttr(scT('hQty'))}" title="${scEscAttr(scT('hQty'))}" placeholder="${scEscAttr(scT('hQty'))}">
+      <input class="sx-add-cost" type="number" min="0" inputmode="numeric" aria-label="${scEscAttr(scT('hCost'))}" title="${scEscAttr(scT('hCost'))}" placeholder="${scEscAttr(scT('hCost'))}">
+      <input class="sx-add-restant" type="number" min="0" value="0" inputmode="numeric" aria-label="${scEscAttr(scT('hRestant'))}" title="${scEscAttr(scT('hRestant'))}" placeholder="${scEscAttr(scT('hRestant'))}">
       <label class="sx-add-daily-lbl"><input class="sx-add-daily" type="checkbox"> ${scT('daily')}</label>
       <button type="button" class="sx-btn primary" onclick="spAddItem(this)">+ ${scT('addItem')}</button>
     </div>`;
@@ -453,6 +501,16 @@ function spTakeSet(i, n){
   spAfterEdit();
 }
 window.spSetTake=function(i,val){ spTakeSet(i, parseInt(String(val).replace(/\s/g,''))||0); };
+// « Déjà pris » : même écriture que `take`, dans le même objet ligne, donc la même
+// sauvegarde le porte. Le plafond est appliqué par scCompute, pas ici : un nombre
+// relevé en jeu peut dépasser ce que le fichier prévoit, et c'est au calcul de le
+// borner plutôt qu'au champ de refuser la frappe.
+function spHaveSet(i, n){
+  const s=spShop(); if(!s||!s.items[i]) return;
+  s.items[i].have = Math.max(0, Math.floor(n)||0);
+  spAfterEdit();
+}
+window.spSetHave=function(i,val){ spHaveSet(i, parseInt(String(val).replace(/\s/g,''))||0); };
 window.spTakeStep=function(i,d){
   const r=scComputeRows(spShop()).all.find(x=>x.i===i); if(!r) return;
   spTakeSet(i, d>0 ? r.take + Math.min(1, r.canTake) : r.take - 1);
@@ -568,7 +626,11 @@ function spNotifyEvent(){ if(window.ShopEvent) ShopEvent.refresh(); }
           "Gem values are edited on the “Item values” page, and the change applies to every shop.",
           "The “💵 $ / €” and “💎 Gems” pills open two independent readings of the same shop. Real money, shown first, is based on the price of the paid packs; a “—” marks an item no pack can put a price on. The € / $ pills next to them switch currency."]
     },
-    links:[{label:{FR:'Toutes les boutiques', EN:'All shops'}, href:'shop_calc'},
+    // Le sommaire de la famille, pas « les boutiques » en bloc : depuis une boutique
+    // d'événement, shop_calc ne la liste plus (cf. MAP.md §13).
+    links:[spIsEvent()
+             ? {label:{FR:"Toutes les boutiques d'événement", EN:'All event shops'}, href:'event-roi'}
+             : {label:{FR:'Toutes les boutiques', EN:'All shops'}, href:'shop_calc'},
            {label:{FR:'Valeur des objets', EN:'Item values'}, href:'shop/items'}]
   };
   if (typeof window.spHelpExtras === 'function') {

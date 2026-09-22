@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
+    try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-M1QG4XSD3K');
+    </script>
+    <base href="../../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Storehouse - Upgrade Costs (Resources, Time, Power) | Kingshot Toolbox</title>
+    <meta name="description" content="Complete Storehouse upgrade table for Kingshot: resources, build time, power and Town Center requirement for every level.">
+    <link rel="canonical" href="https://kingshottoolbox.com/database/buildings/storehouse">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kingshot Toolbox">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:title" content="Storehouse - Upgrade Costs (Resources, Time, Power)">
+    <meta property="og:description" content="Complete Storehouse upgrade table for Kingshot: resources, build time, power and Town Center requirement for every level.">
+    <meta property="og:url" content="https://kingshottoolbox.com/database/buildings/storehouse">
+    <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Kingshot Toolbox - free calculators, optimizers and databases for Kingshot">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="img/logo/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo/favicon-96.png">
+    <link rel="alternate icon" type="image/png" href="img/logo/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/db.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Buildings","item":"https://kingshottoolbox.com/database/buildings/"},{"@type":"ListItem","position":3,"name":"Storehouse","item":"https://kingshottoolbox.com/database/buildings/storehouse"}]}</script>
+</head>
+<body class="has-app-header">
+    <div class="db-page">
+        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="database/buildings/" data-i18n="crumbBuildings">Buildings</a> / <span id="crumb-name">Entrepôt</span></div>
+        <div class="db-head">
+          <img class="db-hero" src="img/buildings/storehouse.webp" alt="Storehouse" onerror="this.remove()">
+          <h1 id="bldg-name" data-en="Storehouse" data-fr="Entrepôt">Storehouse</h1>
+        </div>
+        <p class="db-intro" data-i18n="bldgIntroStd">Full per-level upgrade costs: resources, build time and the power each level adds. This building has no TrueGold levels.</p>
+        <nav class="db-switch " aria-label="Buildings"><span class="db-switch-label" data-en="TrueGold" data-fr="Or Véritable">TrueGold</span><a class="db-switch-item" href="database/buildings/town-center" data-en="Town Center" data-fr="Centre-ville">Town Center</a><a class="db-switch-item" href="database/buildings/embassy" data-en="Embassy" data-fr="Ambassade">Embassy</a><a class="db-switch-item" href="database/buildings/command-center" data-en="Command Center" data-fr="Base de commandement">Command Center</a><a class="db-switch-item" href="database/buildings/war-academy" data-en="War Academy" data-fr="Académie de Guerre">War Academy</a><a class="db-switch-item" href="database/buildings/infirmary" data-en="Infirmary" data-fr="Infirmerie">Infirmary</a><a class="db-switch-item" href="database/buildings/barracks" data-en="Infantry Camp" data-fr="Camp d'Infanterie">Infantry Camp</a><a class="db-switch-item" href="database/buildings/stable" data-en="Lancer Camp" data-fr="Camp de Lanciers">Lancer Camp</a><a class="db-switch-item" href="database/buildings/range" data-en="Archer Camp" data-fr="Camp d'Archers">Archer Camp</a><span class="db-switch-label" data-en="Before TrueGold" data-fr="Avant l'Or Véritable">Before TrueGold</span><span class="db-switch-item active" data-en="Storehouse" data-fr="Entrepôt">Storehouse</span><a class="db-switch-item" href="database/buildings/mill" data-en="Mill" data-fr="Moulin">Mill</a><a class="db-switch-item" href="database/buildings/sawmill" data-en="Sawmill" data-fr="Scierie">Sawmill</a><a class="db-switch-item" href="database/buildings/quarry" data-en="Quarry" data-fr="Carrière">Quarry</a><a class="db-switch-item" href="database/buildings/iron-mine" data-en="Iron Mine" data-fr="Mine de fer">Iron Mine</a><a class="db-switch-item" href="database/buildings/guard-station" data-en="Guard Station" data-fr="Poste de garde">Guard Station</a></nav>
+        <div class="table-container">
+          <table class="db-table">
+            <thead><tr>
+              <th scope="col" class="num" data-i18n="cLvl">Level</th>
+              <th scope="col" data-i18n="cReq">Requirements</th>
+              <th scope="col" class="num" data-i18n="cBread">Bread</th>
+              <th scope="col" class="num" data-i18n="cWood">Wood</th>
+              <th scope="col" class="num" data-i18n="cStone">Stone</th>
+              <th scope="col" class="num" data-i18n="cIron">Iron</th>
+              <th scope="col" data-i18n="cTime">Time</th>
+              <th scope="col" class="num" data-i18n="cPower">Power</th>
+            </tr></thead>
+            <tbody>
+        <tr>
+          <td class="num c-lbl">1</td>
+          <td class="c-req" data-en="Town Center Lv. 9" data-fr="Centre-ville Niv. 9">Town Center Lv. 9</td>
+          <td class="num">—</td>
+          <td class="num">60</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="c-time" data-en="2s" data-fr="2s">2s</td>
+          <td class="num" data-en="440" data-fr="440">440</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">2</td>
+          <td class="c-req" data-en="Town Center Lv. 9" data-fr="Centre-ville Niv. 9">Town Center Lv. 9</td>
+          <td class="num">—</td>
+          <td class="num">90</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="c-time" data-en="9s" data-fr="9s">9s</td>
+          <td class="num" data-en="836" data-fr="836">836</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">3</td>
+          <td class="c-req" data-en="Town Center Lv. 9" data-fr="Centre-ville Niv. 9">Town Center Lv. 9</td>
+          <td class="num">—</td>
+          <td class="num">400</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="c-time" data-en="45s" data-fr="45s">45s</td>
+          <td class="num" data-en="1,430" data-fr="1 430">1,430</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">4</td>
+          <td class="c-req" data-en="Town Center Lv. 9" data-fr="Centre-ville Niv. 9">Town Center Lv. 9</td>
+          <td class="num">—</td>
+          <td class="num">900</td>
+          <td class="num">180</td>
+          <td class="num">—</td>
+          <td class="c-time" data-en="2m 15s" data-fr="2m 15s">2m 15s</td>
+          <td class="num" data-en="2,222" data-fr="2 222">2,222</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">5</td>
+          <td class="c-req" data-en="Town Center Lv. 9" data-fr="Centre-ville Niv. 9">Town Center Lv. 9</td>
+          <td class="num">—</td>
+          <td class="num">3.8k</td>
+          <td class="num">760</td>
+          <td class="num">—</td>
+          <td class="c-time" data-en="4m 30s" data-fr="4m 30s">4m 30s</td>
+          <td class="num" data-en="3,410" data-fr="3 410">3,410</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">6</td>
+          <td class="c-req" data-en="Town Center Lv. 9" data-fr="Centre-ville Niv. 9">Town Center Lv. 9</td>
+          <td class="num">—</td>
+          <td class="num">9.6k</td>
+          <td class="num">1.9k</td>
+          <td class="num">480</td>
+          <td class="c-time" data-en="9m" data-fr="9m">9m</td>
+          <td class="num" data-en="5,192" data-fr="5 192">5,192</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">7</td>
+          <td class="c-req" data-en="Town Center Lv. 9" data-fr="Centre-ville Niv. 9">Town Center Lv. 9</td>
+          <td class="num">—</td>
+          <td class="num">34k</td>
+          <td class="num">6.9k</td>
+          <td class="num">1.7k</td>
+          <td class="c-time" data-en="18m" data-fr="18m">18m</td>
+          <td class="num" data-en="7,766" data-fr="7 766">7,766</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">8</td>
+          <td class="c-req" data-en="Town Center Lv. 9" data-fr="Centre-ville Niv. 9">Town Center Lv. 9</td>
+          <td class="num">—</td>
+          <td class="num">63k</td>
+          <td class="num">12k</td>
+          <td class="num">3.1k</td>
+          <td class="c-time" data-en="27m" data-fr="27m">27m</td>
+          <td class="num" data-en="10,340" data-fr="10 340">10,340</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">9</td>
+          <td class="c-req" data-en="Town Center Lv. 9" data-fr="Centre-ville Niv. 9">Town Center Lv. 9</td>
+          <td class="num">—</td>
+          <td class="num">130k</td>
+          <td class="num">26k</td>
+          <td class="num">6.5k</td>
+          <td class="c-time" data-en="40m 30s" data-fr="40m 30s">40m 30s</td>
+          <td class="num" data-en="12,914" data-fr="12 914">12,914</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">10</td>
+          <td class="c-req" data-en="Town Center Lv. 10" data-fr="Centre-ville Niv. 10">Town Center Lv. 10</td>
+          <td class="num">—</td>
+          <td class="num">230k</td>
+          <td class="num">46k</td>
+          <td class="num">11k</td>
+          <td class="c-time" data-en="54m" data-fr="54m">54m</td>
+          <td class="num" data-en="16,654" data-fr="16 654">16,654</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">11</td>
+          <td class="c-req" data-en="Town Center Lv. 11" data-fr="Centre-ville Niv. 11">Town Center Lv. 11</td>
+          <td class="num">280k</td>
+          <td class="num">280k</td>
+          <td class="num">57k</td>
+          <td class="num">14k</td>
+          <td class="c-time" data-en="1h 7m 30s" data-fr="1h 7m 30s">1h 7m 30s</td>
+          <td class="num" data-en="20,394" data-fr="20 394">20,394</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">12</td>
+          <td class="c-req" data-en="Town Center Lv. 12" data-fr="Centre-ville Niv. 12">Town Center Lv. 12</td>
+          <td class="num">370k</td>
+          <td class="num">370k</td>
+          <td class="num">74k</td>
+          <td class="num">18k</td>
+          <td class="c-time" data-en="1h 21m" data-fr="1h 21m">1h 21m</td>
+          <td class="num" data-en="24,134" data-fr="24 134">24,134</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">13</td>
+          <td class="c-req" data-en="Town Center Lv. 13" data-fr="Centre-ville Niv. 13">Town Center Lv. 13</td>
+          <td class="num">520k</td>
+          <td class="num">520k</td>
+          <td class="num">100k</td>
+          <td class="num">26k</td>
+          <td class="c-time" data-en="1h 39m" data-fr="1h 39m">1h 39m</td>
+          <td class="num" data-en="30,448" data-fr="30 448">30,448</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">14</td>
+          <td class="c-req" data-en="Town Center Lv. 14" data-fr="Centre-ville Niv. 14">Town Center Lv. 14</td>
+          <td class="num">690k</td>
+          <td class="num">690k</td>
+          <td class="num">130k</td>
+          <td class="num">34k</td>
+          <td class="c-time" data-en="2h 6m" data-fr="2h 6m">2h 6m</td>
+          <td class="num" data-en="36,762" data-fr="36 762">36,762</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">15</td>
+          <td class="c-req" data-en="Town Center Lv. 15" data-fr="Centre-ville Niv. 15">Town Center Lv. 15</td>
+          <td class="num">1M</td>
+          <td class="num">1M</td>
+          <td class="num">200k</td>
+          <td class="num">51k</td>
+          <td class="c-time" data-en="2h 42m" data-fr="2h 42m">2h 42m</td>
+          <td class="num" data-en="43,076" data-fr="43 076">43,076</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">16</td>
+          <td class="c-req" data-en="Town Center Lv. 16" data-fr="Centre-ville Niv. 16">Town Center Lv. 16</td>
+          <td class="num">1.3M</td>
+          <td class="num">1.3M</td>
+          <td class="num">260k</td>
+          <td class="num">65k</td>
+          <td class="c-time" data-en="4h 34m" data-fr="4h 34m">4h 34m</td>
+          <td class="num" data-en="51,964" data-fr="51 964">51,964</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">17</td>
+          <td class="c-req" data-en="Town Center Lv. 17" data-fr="Centre-ville Niv. 17">Town Center Lv. 17</td>
+          <td class="num">2M</td>
+          <td class="num">2M</td>
+          <td class="num">400k</td>
+          <td class="num">100k</td>
+          <td class="c-time" data-en="5h 29m" data-fr="5h 29m">5h 29m</td>
+          <td class="num" data-en="60,852" data-fr="60 852">60,852</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">18</td>
+          <td class="c-req" data-en="Town Center Lv. 18" data-fr="Centre-ville Niv. 18">Town Center Lv. 18</td>
+          <td class="num">2.7M</td>
+          <td class="num">2.7M</td>
+          <td class="num">550k</td>
+          <td class="num">130k</td>
+          <td class="c-time" data-en="6h 35m" data-fr="6h 35m">6h 35m</td>
+          <td class="num" data-en="69,740" data-fr="69 740">69,740</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">19</td>
+          <td class="c-req" data-en="Town Center Lv. 19" data-fr="Centre-ville Niv. 19">Town Center Lv. 19</td>
+          <td class="num">3.4M</td>
+          <td class="num">3.4M</td>
+          <td class="num">690k</td>
+          <td class="num">170k</td>
+          <td class="c-time" data-en="9h 52m 30s" data-fr="9h 52m 30s">9h 52m 30s</td>
+          <td class="num" data-en="82,368" data-fr="82 368">82,368</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">20</td>
+          <td class="c-req" data-en="Town Center Lv. 20" data-fr="Centre-ville Niv. 20">Town Center Lv. 20</td>
+          <td class="num">4.7M</td>
+          <td class="num">4.7M</td>
+          <td class="num">940k</td>
+          <td class="num">230k</td>
+          <td class="c-time" data-en="12h 20m 30s" data-fr="12h 20m 30s">12h 20m 30s</td>
+          <td class="num" data-en="94,996" data-fr="94 996">94,996</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">21</td>
+          <td class="c-req" data-en="Town Center Lv. 21" data-fr="Centre-ville Niv. 21">Town Center Lv. 21</td>
+          <td class="num">6M</td>
+          <td class="num">6M</td>
+          <td class="num">1.2M</td>
+          <td class="num">300k</td>
+          <td class="c-time" data-en="16h 2m 30s" data-fr="16h 2m 30s">16h 2m 30s</td>
+          <td class="num" data-en="107,624" data-fr="107 624">107,624</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">22</td>
+          <td class="c-req" data-en="Town Center Lv. 22" data-fr="Centre-ville Niv. 22">Town Center Lv. 22</td>
+          <td class="num">7.9M</td>
+          <td class="num">7.9M</td>
+          <td class="num">1.5M</td>
+          <td class="num">390k</td>
+          <td class="c-time" data-en="1d 4m" data-fr="1j 4m">1d 4m</td>
+          <td class="num" data-en="126,566" data-fr="126 566">126,566</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">23</td>
+          <td class="c-req" data-en="Town Center Lv. 23" data-fr="Centre-ville Niv. 23">Town Center Lv. 23</td>
+          <td class="num">9.8M</td>
+          <td class="num">9.8M</td>
+          <td class="num">1.9M</td>
+          <td class="num">490k</td>
+          <td class="c-time" data-en="1d 9h 42m" data-fr="1j 9h 42m">1d 9h 42m</td>
+          <td class="num" data-en="145,508" data-fr="145 508">145,508</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">24</td>
+          <td class="c-req" data-en="Town Center Lv. 24" data-fr="Centre-ville Niv. 24">Town Center Lv. 24</td>
+          <td class="num">13M</td>
+          <td class="num">13M</td>
+          <td class="num">2.6M</td>
+          <td class="num">660k</td>
+          <td class="c-time" data-en="1d 23h 11m" data-fr="1j 23h 11m">1d 23h 11m</td>
+          <td class="num" data-en="164,450" data-fr="164 450">164,450</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">25</td>
+          <td class="c-req" data-en="Town Center Lv. 25" data-fr="Centre-ville Niv. 25">Town Center Lv. 25</td>
+          <td class="num">17M</td>
+          <td class="num">17M</td>
+          <td class="num">3.5M</td>
+          <td class="num">890k</td>
+          <td class="c-time" data-en="2d 18h 3m" data-fr="2j 18h 3m">2d 18h 3m</td>
+          <td class="num" data-en="183,392" data-fr="183 392">183,392</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">26</td>
+          <td class="c-req" data-en="Town Center Lv. 26" data-fr="Centre-ville Niv. 26">Town Center Lv. 26</td>
+          <td class="num">23M</td>
+          <td class="num">23M</td>
+          <td class="num">4.6M</td>
+          <td class="num">1.1M</td>
+          <td class="c-time" data-en="3d 3h 57m" data-fr="3j 3h 57m">3d 3h 57m</td>
+          <td class="num" data-en="211,222" data-fr="211 222">211,222</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">27</td>
+          <td class="c-req" data-en="Town Center Lv. 27" data-fr="Centre-ville Niv. 27">Town Center Lv. 27</td>
+          <td class="num">32M</td>
+          <td class="num">32M</td>
+          <td class="num">6.5M</td>
+          <td class="num">1.6M</td>
+          <td class="c-time" data-en="3d 19h 9m" data-fr="3j 19h 9m">3d 19h 9m</td>
+          <td class="num" data-en="239,052" data-fr="239 052">239,052</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">28</td>
+          <td class="c-req" data-en="Town Center Lv. 28" data-fr="Centre-ville Niv. 28">Town Center Lv. 28</td>
+          <td class="num">43M</td>
+          <td class="num">43M</td>
+          <td class="num">8.7M</td>
+          <td class="num">2.1M</td>
+          <td class="c-time" data-en="4d 8h 49m" data-fr="4j 8h 49m">4d 8h 49m</td>
+          <td class="num" data-en="266,882" data-fr="266 882">266,882</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">29</td>
+          <td class="c-req" data-en="Town Center Lv. 29" data-fr="Centre-ville Niv. 29">Town Center Lv. 29</td>
+          <td class="num">54M</td>
+          <td class="num">54M</td>
+          <td class="num">10M</td>
+          <td class="num">2.7M</td>
+          <td class="c-time" data-en="5d 33m" data-fr="5j 33m">5d 33m</td>
+          <td class="num" data-en="294,712" data-fr="294 712">294,712</td>
+        </tr>
+        <tr>
+          <td class="num c-lbl">30</td>
+          <td class="c-req" data-en="Town Center Lv. 30" data-fr="Centre-ville Niv. 30">Town Center Lv. 30</td>
+          <td class="num">66M</td>
+          <td class="num">66M</td>
+          <td class="num">13M</td>
+          <td class="num">3.3M</td>
+          <td class="c-time" data-en="6d 40m" data-fr="6j 40m">6d 40m</td>
+          <td class="num" data-en="335,170" data-fr="335 170">335,170</td>
+        </tr>
+      </tbody>
+          </table>
+        </div>
+        <nav class="db-switch footer" aria-label="More buildings"><span class="db-switch-label" data-en="TrueGold" data-fr="Or Véritable">TrueGold</span><a class="db-switch-item" href="database/buildings/town-center" data-en="Town Center" data-fr="Centre-ville">Town Center</a><a class="db-switch-item" href="database/buildings/embassy" data-en="Embassy" data-fr="Ambassade">Embassy</a><a class="db-switch-item" href="database/buildings/command-center" data-en="Command Center" data-fr="Base de commandement">Command Center</a><a class="db-switch-item" href="database/buildings/war-academy" data-en="War Academy" data-fr="Académie de Guerre">War Academy</a><a class="db-switch-item" href="database/buildings/infirmary" data-en="Infirmary" data-fr="Infirmerie">Infirmary</a><a class="db-switch-item" href="database/buildings/barracks" data-en="Infantry Camp" data-fr="Camp d'Infanterie">Infantry Camp</a><a class="db-switch-item" href="database/buildings/stable" data-en="Lancer Camp" data-fr="Camp de Lanciers">Lancer Camp</a><a class="db-switch-item" href="database/buildings/range" data-en="Archer Camp" data-fr="Camp d'Archers">Archer Camp</a><span class="db-switch-label" data-en="Before TrueGold" data-fr="Avant l'Or Véritable">Before TrueGold</span><span class="db-switch-item active" data-en="Storehouse" data-fr="Entrepôt">Storehouse</span><a class="db-switch-item" href="database/buildings/mill" data-en="Mill" data-fr="Moulin">Mill</a><a class="db-switch-item" href="database/buildings/sawmill" data-en="Sawmill" data-fr="Scierie">Sawmill</a><a class="db-switch-item" href="database/buildings/quarry" data-en="Quarry" data-fr="Carrière">Quarry</a><a class="db-switch-item" href="database/buildings/iron-mine" data-en="Iron Mine" data-fr="Mine de fer">Iron Mine</a><a class="db-switch-item" href="database/buildings/guard-station" data-en="Guard Station" data-fr="Poste de garde">Guard Station</a></nav>
+    </div>
+
+    <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
+         etat ferme (position:fixed + translateX(100%) => hors ecran). Placee AVANT
+         les scripts : header.js la reutilise au lieu d en creer une seconde, puis
+         hdrBuildDrawer() en remplace le contenu par sa version complete. Le rendu
+         final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
+         n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
+    <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'database/buildings/';</script>
+    <script src="js/profiles.js"></script>
+    <script src="js/header.js"></script>
+    <script>
+    (function(){
+      const dict = {
+        FR: { crumbBuildings:"Bâtiments", bldgIntro:"Coûts d'amélioration complets par palier : TrueGold, Or Véritable Trempé, ressources et temps de construction.", bldgIntroStd:"Coûts d'amélioration complets, niveau par niveau : ressources, temps de construction et puissance gagnée. Ce bâtiment n'a pas de niveaux Or Véritable.", cLevel:"Palier", cLvl:"Niveau", cReq:"Prérequis", cTG:"TrueGold", cTTG:"TG Trempé", cBread:"Pain", cWood:"Bois", cStone:"Pierre", cIron:"Fer", cTime:"Temps", cPower:"Puissance" },
+        EN: { crumbBuildings:"Buildings", bldgIntro:"Full per-level upgrade costs: TrueGold, Tempered TrueGold, resources and build time.", bldgIntroStd:"Full per-level upgrade costs: resources, build time and the power each level adds. This building has no TrueGold levels.", cLevel:"Level", cLvl:"Level", cReq:"Requirements", cTG:"TrueGold", cTTG:"Tempered TG", cBread:"Bread", cWood:"Wood", cStone:"Stone", cIron:"Iron", cTime:"Time", cPower:"Power" }
+      };
+      function apply(){
+        const lang = (window.GlobalLang && GlobalLang.get && GlobalLang.get()) || 'FR';
+        if (window.GlobalLang && GlobalLang.applyI18n) GlobalLang.applyI18n(dict[lang]||dict.FR);
+        document.querySelectorAll('[data-en][data-fr]').forEach(el=>{ el.textContent = el.getAttribute('data-'+lang.toLowerCase()) || el.textContent; });
+        const n=document.getElementById('bldg-name'); const c=document.getElementById('crumb-name');
+        if(n&&c) c.textContent=n.textContent;
+        document.documentElement.lang = lang.toLowerCase();
+      }
+      window.addEventListener('langChanged', apply);
+      apply();
+    })();
+    </script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
    On descend le chemin (molette/flèches) ; les familiers
    montent à notre rencontre puis passent derrière. Le décor
    (champs, grain, pointillés, traces de pas) défile en Y.
-   Données : fetch('data/pets_db.json').
+   Données : fetch('data/pets_db.json', { cache: 'no-cache' }).
    Carte : niveau + avancement par cap -> palier, X du skill, coûts.
 
    Modèle (miroir des Masters) : 2 statuts indépendants.

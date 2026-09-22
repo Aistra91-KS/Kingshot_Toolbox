@@ -46,29 +46,83 @@
   },
   {
     "slug": "barracks",
-    "title": "Barracks - Upgrade Costs (TrueGold, Resources, Time)",
-    "description": "Complete Barracks upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "title": "Infantry Camp - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete Infantry Camp upgrade table for Kingshot, the infantry barracks: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
-      "EN": "Barracks",
-      "FR": "Quartiers"
+      "EN": "Infantry Camp",
+      "FR": "Camp d'Infanterie"
     }
   },
   {
     "slug": "stable",
-    "title": "Stable - Upgrade Costs (TrueGold, Resources, Time)",
-    "description": "Complete Stable upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "title": "Lancer Camp - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete Lancer Camp upgrade table for Kingshot, the cavalry stable: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
-      "EN": "Stable",
-      "FR": "Ecurie"
+      "EN": "Lancer Camp",
+      "FR": "Camp de Lanciers"
     }
   },
   {
     "slug": "range",
-    "title": "Range - Upgrade Costs (TrueGold, Resources, Time)",
-    "description": "Complete Range upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
+    "title": "Archer Camp - Upgrade Costs (TrueGold, Resources, Time)",
+    "description": "Complete Archer Camp upgrade table for Kingshot, the archer range: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
-      "EN": "Range",
-      "FR": "Stand de Tir"
+      "EN": "Archer Camp",
+      "FR": "Camp d'Archers"
+    }
+  },
+  {
+    "slug": "storehouse",
+    "title": "Storehouse - Upgrade Costs (Resources, Time, Power)",
+    "description": "Complete Storehouse upgrade table for Kingshot: resources, build time, power and Town Center requirement for every level.",
+    "name": {
+      "EN": "Storehouse",
+      "FR": "Entrepôt"
+    }
+  },
+  {
+    "slug": "mill",
+    "title": "Mill - Upgrade Costs (Resources, Time, Power)",
+    "description": "Complete Mill upgrade table for Kingshot, the bread farm: resources, build time, power and requirements for every level.",
+    "name": {
+      "EN": "Mill",
+      "FR": "Moulin"
+    }
+  },
+  {
+    "slug": "sawmill",
+    "title": "Sawmill - Upgrade Costs (Resources, Time, Power)",
+    "description": "Complete Sawmill upgrade table for Kingshot, the wood producer: resources, build time, power and requirements for every level.",
+    "name": {
+      "EN": "Sawmill",
+      "FR": "Scierie"
+    }
+  },
+  {
+    "slug": "quarry",
+    "title": "Quarry - Upgrade Costs (Resources, Time, Power)",
+    "description": "Complete Quarry upgrade table for Kingshot, the stone producer: resources, build time, power and requirements for every level.",
+    "name": {
+      "EN": "Quarry",
+      "FR": "Carrière"
+    }
+  },
+  {
+    "slug": "iron-mine",
+    "title": "Iron Mine - Upgrade Costs (Resources, Time, Power)",
+    "description": "Complete Iron Mine upgrade table for Kingshot, the iron producer: resources, build time, power and requirements for every level.",
+    "name": {
+      "EN": "Iron Mine",
+      "FR": "Mine de fer"
+    }
+  },
+  {
+    "slug": "guard-station",
+    "title": "Guard Station - Upgrade Costs (Resources, Time, Power)",
+    "description": "Complete Guard Station upgrade table for Kingshot: resources, build time, power and Town Center requirement for all ten levels.",
+    "name": {
+      "EN": "Guard Station",
+      "FR": "Poste de garde"
     }
   }
 ]

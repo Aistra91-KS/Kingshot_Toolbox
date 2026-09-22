@@ -59,13 +59,24 @@ const i18nBackup = {
     }
 };
 
+// Langue d'affichage. Le repli ne sert que si `lang.js` manque (chargement
+// échoué, fichier encore en cache) : il lit alors la préférence directement, sous
+// garde — un stockage interdit fait lever `getItem` lui-même, et la page mourait là.
+function bkLang() {
+    if (window.GlobalLang) return window.GlobalLang.get();
+    try { return localStorage.getItem('hub_lang') || 'EN'; } catch (e) { return 'EN'; }
+}
+
 // Liste des modules sauvegardables (Clés exactes du localStorage ciblées)
 const BACKUP_MODULES = [
     { id: 'module-caserne',  labelKey: 'modCaserne',  keys: [STORAGE_KEYS.caserneHeroes, STORAGE_KEYS.caserneFilters] },
     { id: 'module-masters',  labelKey: 'modMasters',  keys: [STORAGE_KEYS.masters] },
     { id: 'module-research', labelKey: 'modResearch', keys: [STORAGE_KEYS.researchDb, STORAGE_KEYS.researchInputs] },
     { id: 'module-beartrap', labelKey: 'modBeartrap', keys: [STORAGE_KEYS.beartrap, STORAGE_KEYS.beartrapJoiners] },
-    { id: 'module-truegold', labelKey: 'modTrueGold', keys: [STORAGE_KEYS.truegold] },
+    // Les DEUX onglets de la page TrueGold, sous un seul module : le joueur
+    // sauvegarde « TrueGold », pas « TrueGold sauf l'onglet de gauche ». Ajouter
+    // l'onglet sans l'inscrire ici le laissait tomber en silence à l'export.
+    { id: 'module-truegold', labelKey: 'modTrueGold', keys: [STORAGE_KEYS.truegold, STORAGE_KEYS.truegoldPre] },
     { id: 'module-vikings',  labelKey: 'modVikings',  keys: [STORAGE_KEYS.vikings] },
     { id: 'module-waracademy', labelKey: 'modWaracademy', keys: [STORAGE_KEYS.waracademy] },
     { id: 'module-shopcalc', labelKey: 'modShopcalc', keys: [STORAGE_KEYS.shopcalcItems, STORAGE_KEYS.shopcalcEvents, STORAGE_KEYS.shopcalcEventPlans] },
@@ -78,6 +89,70 @@ const BACKUP_MODULES = [
     { id: 'module-theater',  labelKey: 'modTheater',  keys: [STORAGE_KEYS.theaterOptimizer] }
 ];
 
+
+// ============================================================
+//  FORME ATTENDUE DE CHAQUE CLÉ
+//  L'import ne contrôlait que l'enveloppe et le premier niveau : « un objet ou
+//  un tableau » suffisait à passer. Un `custom-marches` livré en objet au lieu
+//  de tableau était donc écrit en stockage, et le Piège à Ours mourait au
+//  rechargement suivant sur `customMarchesList.forEach is not a function` — le
+//  retour arrière ne se déclenchait pas, l'écriture ayant réussi (constat F02 de
+//  la revue du 2026-09-20).
+//
+//  Chaque validateur décrit ce que le module SAIT relire, pas davantage : les
+//  champs inconnus passent, pour qu'une sauvegarde faite par une version
+//  précédente (ou par une version suivante) reste importable. Ce qui est refusé,
+//  c'est la forme qui casse un consommateur : un tableau attendu, un
+//  dictionnaire attendu, un nombre attendu.
+// ============================================================
+const bkObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
+const bkArr = Array.isArray;
+// Une valeur absente est valide : tous ces champs sont facultatifs dans une
+// sauvegarde. C'est leur PRÉSENCE sous une forme inattendue qui est refusée.
+const bkOptArr = (v) => v === undefined || bkArr(v);
+const bkOptObj = (v) => v === undefined || bkObj(v);
+const bkOptNum = (v) => v === undefined || (typeof v === 'number' && Number.isFinite(v));
+const bkObjOf = (v, ok) => bkObj(v) && Object.keys(v).every(k => ok(v[k]));
+const bkArrOf = (v, ok) => bkArr(v) && v.every(ok);
+
+// Une fiche de héros : c'est elle que la Caserne interpole dans sa grille. Un
+// niveau livré en chaîne y entrait tel quel, balisage compris.
+function bkHeroEntry(h) {
+    return bkObj(h) && bkOptNum(h.level) && bkOptNum(h.shards) && bkOptNum(h.widgetLevel)
+        && (h.skills === undefined || bkArrOf(h.skills, bkOptNum));
+}
+
+const BACKUP_SHAPES = {
+    [STORAGE_KEYS.caserneHeroes]:  (v) => bkObjOf(v, bkHeroEntry),
+    [STORAGE_KEYS.caserneFilters]: bkObj,
+    [STORAGE_KEYS.masters]:        (v) => bkObjOf(v, bkObj),
+    // Depuis l'allègement de la sauvegarde, la clé ne porte plus que les lignes
+    // cochées — mais c'est toujours un TABLEAU, et un export d'avant en est un aussi.
+    [STORAGE_KEYS.researchDb]:     (v) => bkArrOf(v, bkObj),
+    [STORAGE_KEYS.researchInputs]: bkObj,
+    [STORAGE_KEYS.beartrap]:       (v) => bkObj(v) && bkOptArr(v['custom-marches']),
+    [STORAGE_KEYS.beartrapJoiners]: bkObj,
+    [STORAGE_KEYS.truegold]:       (v) => bkObj(v) && bkOptArr(v.buildings),
+    [STORAGE_KEYS.truegoldPre]:    (v) => bkObj(v) && bkOptObj(v.rows) && bkOptObj(v.stock),
+    [STORAGE_KEYS.waracademy]:     (v) => bkObj(v) && bkOptObj(v.enabled) && bkOptObj(v.tradeUse) && bkOptObj(v.levels),
+    [STORAGE_KEYS.vikings]:        bkObj,
+    [STORAGE_KEYS.shopcalcItems]:  (v) => bkArrOf(v, bkObj),
+    [STORAGE_KEYS.shopcalcEvents]: (v) => bkArrOf(v, bkObj),
+    [STORAGE_KEYS.shopcalcEventPlans]: bkObj,
+    // Ancien format toléré : `{ petId: 12 }` au lieu de `{ petId: {lvl, adv} }`.
+    // `pets.js` le migre au chargement, refuser l'import le priverait de sa matière.
+    [STORAGE_KEYS.pets]:           (v) => bkObjOf(v, (x) => bkObj(x) || (typeof x === 'number' && Number.isFinite(x))),
+    [STORAGE_KEYS.petsPlan]:       bkObj,
+    [STORAGE_KEYS.petsPlanOff]:    bkArr,
+    [STORAGE_KEYS.theaterOptimizer]: (v) => bkObj(v) && bkOptObj(v.tokens)
+};
+
+// Une clé sans validateur déclaré retombe sur l'ancienne règle, plutôt que de
+// refuser un module que ce fichier ne connaîtrait pas encore.
+function backupShapeOk(key, value) {
+    const check = BACKUP_SHAPES[key];
+    return check ? !!check(value) : (bkObj(value) || bkArr(value));
+}
 
 function initBackupSystem() {
     // Sécurité pour ne pas injecter deux fois
@@ -153,8 +228,7 @@ function initBackupSystem() {
 
 // --- GESTION DE LA TRADUCTION ---
 function updateBackupLanguage() {
-    let lang = window.GlobalLang ? window.GlobalLang.get() : (localStorage.getItem('hub_lang') || 'EN');
-    lang = lang.toUpperCase();
+    let lang = bkLang().toUpperCase();
     const dict = i18nBackup[lang] || i18nBackup['FR'];
 
     const setContent = (id, text) => {
@@ -180,18 +254,34 @@ window.addEventListener('storage', (e) => {
 });
 
 // --- INTERACTIONS UI ---
+// Fermeture rendue par `ktModal` (header.js), tant que la fenêtre est ouverte.
+let bkCloseModal = null;
+
 function openBackupModal() {
     updateBackupLanguage(); // On force la mise à jour à l'ouverture par sécurité
-    document.getElementById('global-backup-overlay').classList.add('active');
+    const overlay = document.getElementById('global-backup-overlay');
+    if (!overlay) return;
+    overlay.classList.add('active');
+    // Sous garde `window.` : sans cache-busting, cette page peut tourner avec un
+    // `header.js` antérieur à la primitive. On retombe alors sur l'ancien
+    // comportement (fenêtre ouverte, focus inchangé) plutôt que sur une erreur.
+    if (window.ktModal) {
+        bkCloseModal = ktModal(overlay, {
+            box: overlay.querySelector('.backup-modal'),
+            labelledBy: 'backup-modal-title',
+            onClose: () => { overlay.classList.remove('active'); bkCloseModal = null; }
+        });
+    }
 }
 
 function closeBackupModal() {
-    document.getElementById('global-backup-overlay').classList.remove('active');
+    if (bkCloseModal) { bkCloseModal(false); return; }
+    const overlay = document.getElementById('global-backup-overlay');
+    if (overlay) overlay.classList.remove('active');
 }
 
 function getCurrentDict() {
-    let lang = window.GlobalLang ? window.GlobalLang.get() : (localStorage.getItem('hub_lang') || 'EN');
-    return i18nBackup[lang.toUpperCase()] || i18nBackup['FR'];
+    return i18nBackup[bkLang().toUpperCase()] || i18nBackup['FR'];
 }
 
 // --- LOGIQUE D'EXPORT ---
@@ -219,13 +309,19 @@ function executeExport() {
         const mod = BACKUP_MODULES.find(m => m.id === cb.value);
         if (!mod) return;
         mod.keys.forEach(key => {
-            const storedValue = localStorage.getItem(key);
-            if (!storedValue) return;
+            const label = dict[mod.labelKey];
+            const exclure = () => { if (skipped.indexOf(label) === -1) skipped.push(label); };
+            // La LECTURE peut lever, pas seulement l'analyse (stockage interdit). Le
+            // module rejoint alors la liste des exclus : sortir un fichier amputé sans
+            // le dire, c'est promettre une sauvegarde complète qui n'en est pas une.
+            let storedValue = null;
+            try { storedValue = localStorage.getItem(key); }
+            catch (e) { exclure(); return; }
+            if (!storedValue) return;          // rien d'enregistré : ce n'est pas une panne
             try {
                 backupData.data[key] = JSON.parse(storedValue);
             } catch (e) {
-                const label = dict[mod.labelKey];
-                if (skipped.indexOf(label) === -1) skipped.push(label);
+                exclure();
             }
         });
     });
@@ -295,9 +391,10 @@ function executeImport(event) {
         }
 
         // --- 2. Le CONTENU de chaque module coché, avant la moindre écriture.
-        //        Les quinze clés sauvegardées stockent toutes un objet ou un tableau ;
-        //        une chaîne, un nombre ou `null` à leur place ne vient pas du site, et
-        //        l'écrire remplaçait des données exploitables par un type incompatible.
+        //        Chaque clé a sa forme (cf. BACKUP_SHAPES) : « un objet ou un tableau »
+        //        ne suffisait pas, le module d'en face attend un tableau ICI et un
+        //        dictionnaire LÀ. Un seul module refusé annule tout l'import, avant
+        //        que quoi que ce soit ne soit écrit.
         const pending = [];   // { key, raw } prêts à écrire
         const invalid = [];   // libellés des modules refusés
         BACKUP_MODULES.forEach(mod => {
@@ -307,7 +404,7 @@ function executeImport(event) {
             mod.keys.forEach(key => {
                 const value = importedData.data[key];
                 if (value === undefined) return;   // absent du fichier : rien à restaurer, ce n'est pas une faute
-                if (value === null || typeof value !== 'object') { bad = true; return; }
+                if (!backupShapeOk(key, value)) { bad = true; return; }
                 own.push({ key: key, raw: JSON.stringify(value) });
             });
             if (bad) invalid.push(dict[mod.labelKey]);
@@ -330,7 +427,14 @@ function executeImport(event) {
         // --- 3. L'écriture, avec retour arrière. Les écritures sont successives : sans
         //        cela, un quota atteint à mi-import laissait les premiers modules
         //        remplacés et les suivants intacts, sans aucun moyen de revenir en arrière.
-        const undo = pending.map(item => ({ key: item.key, before: localStorage.getItem(item.key) }));
+        // Photo de l'état d'avant, pour le retour arrière. Lecture gardée : sur un
+        // stockage interdit, l'écriture qui suit échouera de toute façon, et ce sont
+        // ses `catch` qui doivent parler — pas une exception jetée d'ici.
+        const undo = pending.map(item => {
+            let before = null;
+            try { before = localStorage.getItem(item.key); } catch (e) { before = null; }
+            return { key: item.key, before: before };
+        });
         try {
             pending.forEach(item => localStorage.setItem(item.key, item.raw));
         } catch (error) {
@@ -379,20 +483,25 @@ function showBackupAlert(message, isSuccess = false, callback = null) {
     overlay.innerHTML = `
         <div class="custom-alert-box" style="border-top: 4px solid ${color};">
             <div class="custom-alert-icon">${icon}</div>
-            <h3 style="color: ${color}; margin-top: 0; margin-bottom: 15px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;">${title}</h3>
+            <h3 class="custom-alert-title" style="color: ${color}; margin-top: 0; margin-bottom: 15px; font-size: 16px; text-transform: uppercase; letter-spacing: 1px;">${title}</h3>
             <div class="custom-alert-msg">${message}</div>
             <button class="btn-modern btn-modern-secondary" style="width: 100%; border-color: ${color}; color: ${color};">OK</button>
         </div>
     `;
     
     document.body.appendChild(overlay);
-    
-    const btn = overlay.querySelector('button');
-    btn.onclick = () => {
+
+    const fermeture = () => {
         overlay.classList.remove('active');
         setTimeout(() => {
-            document.body.removeChild(overlay);
+            if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
             if (callback) callback(); // Déclenche le rechargement de la page si besoin
         }, 300);
     };
+    // Même contrat que les autres fenêtres : le focus entre, Échap ferme, le focus
+    // revient. Une alerte n'a qu'une issue, Échap et « OK » mènent donc au même endroit.
+    const fermer = window.ktModal
+        ? ktModal(overlay, { box: overlay.querySelector('.custom-alert-box'), label: title, onClose: fermeture })
+        : fermeture;
+    overlay.querySelector('button').onclick = () => fermer(false);
 }

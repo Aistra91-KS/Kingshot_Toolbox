@@ -292,6 +292,33 @@
     }
   },
   "derived": {
+    "gold_key": {
+      "fromId": "gem",
+      "factor": 1500,
+      "ceiling": true,
+      "how": {
+        "FR": "La Cl\u00e9 en Or co\u00fbte 1 500 gemmes en jeu : c'est ce que vaut sa monnaie d'achat, donc son prix r\u00e9el. Le relev\u00e9 seul la sortait d'un coffre personnalis\u00e9 \u00e0 6 \u20ac dont elle n'est qu'une ligne parmi d'autres, et lui collait le prix entier du pack, soit 4,7 fois trop. La r\u00e8gle est un plafond : si un pack la descend un jour sous les 1 500 gemmes, c'est ce pack qui fera le prix.",
+        "EN": "The Gold Key costs 1,500 gems in game: that is what its purchase currency is worth, so that is its real price. The survey alone had it coming out of a 6 euro custom chest where it is only one line among several, which handed it the whole pack price, 4.7 times too much. The rule is a ceiling: the day a pack sells it for less than 1,500 gems, that pack sets the price."
+      }
+    },
+    "10_exp_vip": {
+      "fromId": "gem",
+      "factor": 20,
+      "ceiling": true,
+      "how": {
+        "FR": "Un point d'EXP VIP vaut 2 gemmes, ce lot de 10 en vaut donc 20 : c'est d\u00e9j\u00e0 le rapport du r\u00e9f\u00e9rentiel gemmes. Le relev\u00e9 le chiffrait 0,020 \u20ac contre 0,017 \u20ac par la gemme. La r\u00e8gle est un plafond : un pack qui ferait moins cher reprendrait la main.",
+        "EN": "One VIP EXP point is worth 2 gems, so this bundle of 10 is worth 20: that is already the gem reference ratio. The survey priced it at 0.020 euro against 0.017 by the gem. The rule is a ceiling: a pack selling it for less would take over."
+      }
+    },
+    "100_exp_vip": {
+      "fromId": "gem",
+      "factor": 200,
+      "ceiling": true,
+      "how": {
+        "FR": "Un point d'EXP VIP vaut 2 gemmes, ce lot de 100 en vaut donc 200, comme dans le r\u00e9f\u00e9rentiel gemmes. Le relev\u00e9 le chiffrait 0,200 \u20ac contre 0,171 \u20ac par la gemme. Les lots de 1 000 et de 10 000 se d\u00e9duisant de celui-ci, ils suivent le m\u00eame prix sans r\u00e8gle de plus. Plafond l\u00e0 aussi : un pack moins cher reprendrait la main.",
+        "EN": "One VIP EXP point is worth 2 gems, so this bundle of 100 is worth 200, as in the gem reference. The survey priced it at 0.200 euro against 0.171 by the gem. The 1,000 and 10,000 bundles follow from this one, so they take the same price with no further rule. A ceiling here too: a cheaper pack would take over."
+      }
+    },
     "custom_mythic_hero_gear_chest": {
       "fromId": "lucky_hero_gear_chest",
       "factor": 100,

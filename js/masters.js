@@ -149,6 +149,14 @@ window.toggleBreakthrough = function(g) {
   updateMasterUI();
 };
 
+// Langue d'affichage. Le repli ne sert que si `lang.js` manque (chargement
+// échoué, fichier encore en cache) : il lit alors la préférence directement, sous
+// garde — un stockage interdit fait lever `getItem` lui-même, et la page mourait là.
+function msLang() {
+    if (window.GlobalLang) return window.GlobalLang.get();
+    try { return localStorage.getItem('hub_lang') || 'EN'; } catch (e) { return 'EN'; }
+}
+
 let mastersDB = [];
 let userMasters = safeParse(STORAGE_KEYS.masters, {});
 // Migration : ancien format {relLevel} -> {displayLevel, breakthroughs}
@@ -198,14 +206,14 @@ function bindMasterControls() {
 }
 
 function applyTranslations() {
-    let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
+    let lang = msLang().toUpperCase();
     GlobalLang.applyI18n(i18nMasters[lang] || i18nMasters['FR']);
 }
 
 function renderMastersGrid() {
     const grid = document.getElementById('masters-grid');
     grid.innerHTML = '';
-    let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
+    let lang = msLang().toUpperCase();
     const dict = i18nMasters[lang] || i18nMasters['FR'];
 
     // --- Lecture des contrôles sidebar ---
@@ -271,7 +279,7 @@ function openMasterModal(master, userData) {
         skills: { ...userData.skills }
     };
 
-    let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
+    let lang = msLang().toUpperCase();
 
     document.getElementById('modal-header-bg').style.backgroundImage = `url('${masterPortrait(master.name['EN'])}')`;
     document.getElementById('modal-master-name').textContent = master.name[lang] || master.name['EN'];
@@ -314,7 +322,7 @@ function updateMasterUI() {
     const master = mastersDB.find(m => m.id === currentMasterId);
     if (!master) return;
 
-    let lang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
+    let lang = msLang().toUpperCase();
     const dict = i18nMasters[lang] || i18nMasters['FR'];
     
     // Niveau saisi (1-100) + paliers débloqués → pilote tout

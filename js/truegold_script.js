@@ -51,8 +51,7 @@ const i18n = {
         'lang': 'Language',
         'currentStocks': "💰 Current Stocks:",
         'baseBonus': 'Bonus Speed (%)',
-        'groundWorks': 'Ground Works (+10%)',
-        'kvkBonus': 'KVK Bonus (+5%)',
+        'baseBonusHint': 'Copy the figure your city shows in game. It already counts Ground Works and the KVK bonus when they are active.',
         'greyWolf': 'Grey Wolf Bonus (%)',
         'doubleTime': 'Double Time (−20% time)',
         'totalBonus': 'Speed bonus',
@@ -132,7 +131,8 @@ const i18n = {
         'applyNone': "none left",
         'applyWarn': "⚠️ Your current levels and stocks will be replaced.",
         'applyWarnTransfo': "The TTG gained from transformations is the expected average. Adjust it if your rolls differed.",
-        'applyDone': "✅ Plan applied: levels and stocks updated."
+        'applyDone': "✅ Plan applied: levels and stocks updated.",
+        'applyStale': "Your entries changed while the window was open: this plan no longer matches them. Nothing was applied."
     },
     'FR': {
         'ctrlPanel': 'Panneau de Contrôle',
@@ -145,8 +145,7 @@ const i18n = {
         'tierOverEndMany': ", ils sont donc ignorés par les suggestions.",
         'lang': 'Langue',
         'baseBonus': 'Bonus Vitesse (%)',
-        'groundWorks': '1er Ministre (+10%)',
-        'kvkBonus': 'Bonus KVK (+5%)',
+        'baseBonusHint': "Recopie le chiffre affiché par ta ville en jeu. Il compte déjà le 1er Ministre et le bonus KVK quand ils sont actifs.",
         'greyWolf': 'Bonus Loup Gris (%)',
         'doubleTime': 'Bouchées Doubles (−20 % de temps)',
         'totalBonus': 'Bonus vitesse',
@@ -227,7 +226,8 @@ const i18n = {
         'applyNone': "plus rien",
         'applyWarn': "⚠️ Tes niveaux et tes stocks actuels seront remplacés.",
         'applyWarnTransfo': "Le TTG gagné par les transformations est la moyenne attendue. Corrige-le si tes tirages ont été différents.",
-        'applyDone': "✅ Plan appliqué : niveaux et stocks mis à jour."
+        'applyDone': "✅ Plan appliqué : niveaux et stocks mis à jour.",
+        'applyStale': "Ta saisie a changé pendant que la fenêtre était ouverte : ce plan ne lui correspond plus. Rien n'a été appliqué."
     }
 };
 
@@ -437,6 +437,7 @@ function applyPanUI() {
     const badge = document.getElementById('pan-source-badge');
     if (!input || !badge) return;
     const tx = i18n[GlobalLang.get()];
+    const avant = input.value;
     if (panAutoHours !== null) {
         input.value = panAutoHours;
         input.disabled = true;
@@ -449,6 +450,13 @@ function applyPanUI() {
         badge.textContent = '✏️ ' + tx.panManual;
         badge.style.color = 'var(--text-muted)';
     }
+    // L'onglet « Avant l'Or Véritable » compte lui aussi les heures de PAN et lit ce
+    // champ. Quand c'est le Conseil des Experts qui le remplit, il n'y a aucune saisie
+    // à écouter : sans ce signal, son tableau resterait sur un PAN à zéro jusqu'à la
+    // prochaine frappe du joueur. Un événement plutôt qu'un appel de fonction : si l'un
+    // des deux fichiers est encore en cache, il n'y a ni émetteur ni écouteur, et rien
+    // ne lève (cf. MAP.md §9, le piège du cache décalé).
+    if (input.value !== avant) window.dispatchEvent(new CustomEvent('panChanged'));
 }
 
 // ============ PALIER SERVEUR ============
@@ -585,8 +593,6 @@ function computeTotalVitesse() {
     if (elTransfo.value < 0) elTransfo.value = 0;
 
     let total = base;
-    if (document.getElementById('bonusGround').checked) total += 10;
-    if (document.getElementById('bonusKvk').checked) total += 5;
     if (document.getElementById('bonusWolfCheck').checked) {
         total += parseFloat(document.getElementById('bonusWolfVal').value) || 0;
     }
@@ -606,8 +612,7 @@ function getTotalVitesse() {
 function saveData() {
     const data = {
         baseVitesse: document.getElementById('baseVitesse').value,
-        bonusGround: document.getElementById('bonusGround').checked,
-        bonusKvk: document.getElementById('bonusKvk').checked,
+        bonusFolded: true,
         bonusWolfCheck: document.getElementById('bonusWolfCheck').checked,
         bonusWolfVal: document.getElementById('bonusWolfVal').value,
         bonusDouble: document.getElementById('bonusDouble').checked,
@@ -615,7 +620,7 @@ function saveData() {
         stockTG: document.getElementById('stockTG').value,
         stockTTG: document.getElementById('stockTTG').value,
         transfoUtilisees: document.getElementById('transfoUtilisees').value,
-        mode: (document.getElementById('modeSelect') || {}).value || 'qty',
+        mode: (document.getElementById('modeSelect') || {}).value || 'kvk',   // même défaut que l'option `selected` du HTML
         scoreCible: (document.getElementById('scoreCible') || {}).value || '1000000',
         accelJours: document.getElementById('accelJours').value,
         accelHeures: document.getElementById('accelHeures').value,
@@ -642,9 +647,20 @@ function loadData() {
     const data = safeParse(STORAGE_KEYS.truegold, null);
     if (data) {
         try {
+            // Les cases « 1er Ministre » (+10) et « Bonus KVK » (+5) ont disparu : la
+            // statistique de vitesse affichée par la ville les compte déjà, et les
+            // recocher à côté les comptait deux fois. Les réglages enregistrés AVANT
+            // ce changement, eux, portaient un bonus qui les excluait : on replie leur
+            // valeur dans le champ, une seule fois, sinon le total d'un habitué chute
+            // sans prévenir et tous ses temps de construction s'allongent. La clé
+            // `bonusFolded` (écrite par saveData) marque le repli comme fait.
+            if (!data.bonusFolded) {
+                let extra = 0;
+                if (data.bonusGround) extra += 10;
+                if (data.bonusKvk) extra += 5;
+                if (extra) data.baseVitesse = (parseFloat(data.baseVitesse) || 0) + extra;
+            }
             tgPut('baseVitesse', data.baseVitesse);
-            tgPut('bonusGround', data.bonusGround, 'checked');
-            tgPut('bonusKvk', data.bonusKvk, 'checked');
             tgPut('bonusWolfCheck', data.bonusWolfCheck, 'checked');
             tgPut('bonusWolfVal', data.bonusWolfVal);
             tgPut('bonusDouble', data.bonusDouble, 'checked');
@@ -737,6 +753,9 @@ function tgEtape(nom, fn) {
 
 function triggerUpdate() {
     let ok = true;
+    // EN PREMIER, et hors `tgEtape` : même si un rendu lâche ensuite, le plan
+    // affiché ne doit plus pouvoir être appliqué à la saisie qui vient de changer.
+    ok = tgEtape('invalidatePlan', tgInvalidatePlan) && ok;
     ok = tgEtape('getTotalVitesse', getTotalVitesse) && ok;   // bonus total affiché (immédiat)
     ok = tgEtape('applyTranslations', applyTranslations) && ok;
     ok = tgEtape('applyPanUI', applyPanUI) && ok;
@@ -805,6 +824,25 @@ function tgRememberOpen(el) {
 // plan n'a été produit, ce qui suffit à garder le bouton « Appliquer » et le plan
 // affiché parfaitement synchronisés : les deux naissent du même calcul.
 let TG_LAST_PLAN = null;
+
+// Numéro de la saisie en cours. Il change à CHAQUE modification du formulaire,
+// et le plan produit porte celui de la saisie dont il sort : les comparer dit si
+// ce qui est affiché correspond encore à ce qui est saisi.
+let TG_INPUT_REV = 0;
+
+// Le plan appartient à la saisie qui l'a produit. `scheduleCalculation` étant
+// différé de 200 ms, l'ancien plan restait applicable pendant ce temps : avec un
+// stock remis à zéro, « Appliquer » confirmait « TG 0 → 401 », enregistrait 401
+// et montait deux bâtiments sur un budget qui n'existait plus (constat F03 de la
+// revue du 2026-09-20). On le jette donc tout de suite, sans attendre le recalcul.
+function tgInvalidatePlan() {
+    TG_INPUT_REV++;
+    TG_LAST_PLAN = null;
+    // Le panneau de résultat n'est réécrit qu'au recalcul : d'ici là son bouton
+    // est encore à l'écran, il ne doit plus répondre.
+    const btn = document.querySelector('#output .plan-apply-btn');
+    if (btn) btn.disabled = true;
+}
 
 function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, accelJours, accelHeures, accelMinutes, mode, scoreCible, tx, rangeTableur, rangeDatabase, rangeDataTTG, lang, serverTier) {
     TG_LAST_PLAN = null;
@@ -1640,6 +1678,7 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
         }
     }
     TG_LAST_PLAN = {
+        revision: TG_INPUT_REV,
         parBatiment: parBatiment,
         nbTransfos: meilleurScenario.nbTransfos,
         stockTGFinal: Math.max(0, meilleurScenario.nouveauStockTG - meilleurScenario.tgUtilisesAmelio),
@@ -1801,7 +1840,8 @@ function tgFmt(n) {
 
 function tgApplyPlan() {
     const plan = TG_LAST_PLAN;
-    if (!plan) return;
+    // Premier contrôle : le plan existe, et il sort bien de la saisie actuelle.
+    if (!plan || plan.revision !== TG_INPUT_REV) return;
     const lang = GlobalLang.get();
     const tx = i18n[lang];
 
@@ -1837,6 +1877,10 @@ function tgApplyPlan() {
     recap += `</div><div class="apply-warn">${avert}</div>`;
 
     showAppConfirm(`<strong>${tx.applyAsk}</strong>${recap}`, () => {
+        // Second contrôle, et c'est celui qui compte : la fenêtre de confirmation
+        // reste ouverte aussi longtemps que le joueur veut, et rien n'empêche une
+        // saisie de bouger derrière elle. Un plan devenu périmé n'est pas appliqué.
+        if (plan.revision !== TG_INPUT_REV) { showAppToast(tx.applyStale, false); return; }
         buildingsState.forEach(b => {
             const e = plan.parBatiment[b.name];
             if (!e || e.niveau <= b.current) return;
@@ -1871,7 +1915,7 @@ function tgInitHelp() {
             FR: [
                 "Choisis le « Palier serveur » : c'est le palier le plus haut ouvert sur ton serveur (TG3, TG5, TG8 ou TG10). Au palier TG8, par exemple, un bâtiment peut monter au maximum en TG8-0, car le TG8-1 n'existe pas encore en jeu. Ce réglage ne limite que les suggestions, pas les niveaux que tu peux sélectionner dans le tableau.",
                 "Renseigne tes stocks de TrueGold (TG) et Or Véritable Trempé (TTG), et le nombre de transformations déjà utilisées (max 100).",
-                "Deux types de bonus. Les bonus de vitesse (Bonus Vitesse, 1er Ministre, KVK et Loup Gris) s'additionnent et divisent le temps de base : le Loup Gris annonce « +15 % de vitesse de construction », c'est un bonus de vitesse comme les autres. Attention, la stat de vitesse affichée en jeu l'inclut déjà quand il est actif. Si tu l'as relevée à ce moment-là, laisse la case décochée pour ne pas le compter deux fois. Les Bouchées Doubles, elles, sont à part : elles coupent 20 % du temps de base en plus de tout le reste. Indique aussi tes accélérateurs (jours / heures / minutes).",
+                "Deux types de bonus. Les bonus de vitesse s'additionnent et divisent le temps de base. Recopie dans « Bonus Vitesse » la statistique affichée par ta ville : elle compte déjà le 1er Ministre et le bonus KVK, il n'y a plus de case pour eux et plus moyen de les compter deux fois. Reste le Loup Gris : le Loup Gris annonce « +15 % de vitesse de construction », c'est un bonus de vitesse comme les autres. Attention, la stat de vitesse affichée en jeu l'inclut déjà quand il est actif. Si tu l'as relevée à ce moment-là, laisse la case décochée pour ne pas le compter deux fois. Les Bouchées Doubles, elles, sont à part : elles coupent 20 % du temps de base en plus de tout le reste. Indique aussi tes accélérateurs (jours / heures / minutes).",
                 "Pour chaque bâtiment, mets son niveau actuel et le niveau cible que tu veux atteindre.",
                 "Décoche la case devant un bâtiment pour l'exclure des suggestions (quel que soit le mode) : il reste figé à son niveau actuel et sert toujours de prérequis aux autres.",
                 "Choisis le mode : « Max points KVK » (rentabilité maximale en points), « Max bâtiments » (en monter le plus possible), ou « Score cible » (atteindre un score précis au coût le plus bas).",
@@ -1883,7 +1927,7 @@ function tgInitHelp() {
             EN: [
                 "Pick your “Server tier”: the highest tier open on your server (TG3, TG5, TG8 or TG10). At tier TG8 for instance, a building can only go up to TG8-0, because TG8-1 isn't in the game yet. This setting only limits the suggestions, not the levels you can pick in the table.",
                 "Enter your TrueGold (TG) and Tempered TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
-                "Two kinds of bonus. Speed bonuses (Speed, Ground Works, KVK and Grey Wolf) add up and divide the base time: the Grey Wolf reads “+15% construction speed”, so it is a speed bonus like the others. Careful, your in-game speed stat already includes it while it is active. If that is when you read it, leave the box unchecked so it isn't counted twice. Double Time is the odd one out: it cuts 20% off the base time on top of everything else. Also set your speedups (days / hours / minutes).",
+                "Two kinds of bonus. Speed bonuses add up and divide the base time. Copy into “Bonus Speed” the stat your city shows: it already counts Ground Works and the KVK bonus, there is no box for them any more and no way to count them twice. That leaves the Grey Wolf: the Grey Wolf reads “+15% construction speed”, so it is a speed bonus like the others. Careful, your in-game speed stat already includes it while it is active. If that is when you read it, leave the box unchecked so it isn't counted twice. Double Time is the odd one out: it cuts 20% off the base time on top of everything else. Also set your speedups (days / hours / minutes).",
                 "For each building, set its current level and the target level you want to reach.",
                 "Uncheck the box next to a building to exclude it from the suggestions (in any mode): it stays frozen at its current level and still counts as a prerequisite for the others.",
                 "Pick a mode: “Max KVK points” (best points value), “Max buildings” (upgrade as many as possible), or “Target score” (reach a specific score at the lowest cost).",

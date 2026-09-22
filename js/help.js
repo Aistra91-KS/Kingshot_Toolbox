@@ -164,7 +164,11 @@
     document.querySelectorAll('.help-banner[data-help]').forEach(b => b.remove());
     if (!CFG.banner) return;
     const key = 'help_seen_' + (CFG.id || 'page');
-    if (localStorage.getItem(key) === '1') return;
+    // Stockage refusé : on ne sait pas si le bandeau a déjà été vu, on le montre.
+    // Lever ici arrêtait `HelpSystem.init()`, et avec lui la fin du script de page.
+    let seen = null;
+    try { seen = localStorage.getItem(key); } catch (e) { /* jamais vu, donc */ }
+    if (seen === '1') return;
     const a = anchorEl();
     if (!a) return;
     const bn = document.createElement('div');

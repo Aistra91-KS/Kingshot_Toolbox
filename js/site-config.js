@@ -26,7 +26,7 @@ const SITE = {
 
   // Version affichée dans le pied de page. À incrémenter EN MÊME TEMPS
   // qu'on ajoute une entrée en tête de data/changelog.json (même numéro).
-  version: "1.14.1",
+  version: "1.14.2",
 
   // Invitation Discord. Tant que la chaîne est vide, le pied de page
   // n'affiche pas le lien du tout (rien d'inachevé à l'écran).
@@ -60,7 +60,7 @@ const SITE = {
   categories: [
     {
       id: "kvk-guide",
-      name: { EN: "KVK Guide", FR: "Guide KVK" },
+      name: { EN: "KVK Tools & Calculators", FR: "Outils et calculateurs KVK" },
       icon: "book-open",
       status: "active",
       tools: ["research", "truegold", "waracademy"]
@@ -73,18 +73,18 @@ const SITE = {
       tools: ["beartrap", "vikings", "heroes", "masters", "pets"]
     },
     {
-      id: "pack-shop",
-      name: { EN: "Pack / Shop Calculation", FR: "Calcul Packs / Boutique" },
+      id: "value-roi",
+      name: { EN: "Value & ROI", FR: "Valeur et Rentabilité" },
       icon: "shopping-cart",
       status: "active",
-      tools: ["shopcalc"]
+      tools: ["shopcalc", "eventroi", "itemvalues"]
     },
     {
       id: "database",
       name: { EN: "Database", FR: "Base de Données" },
       icon: "database",
       status: "active",
-      tools: ["buildings", "waresearch", "mastersdb", "petsdb"]
+      tools: ["buildings", "researchdb", "waresearch", "mastersdb", "petsdb"]
     }
   ],
 
@@ -103,12 +103,12 @@ const SITE = {
       href: "research_calc"
     },
     truegold: {
-      name: { EN: "TrueGold", FR: "TrueGold" },
+      name: { EN: "Building Planner", FR: "Planificateur de Bâtiments" },
       desc: {
-        EN: "Plan the upgrade of your TrueGold buildings. Calculate your needed resources and speedups.",
-        FR: "Planifiez l'amélioration de vos bâtiments TrueGold. Calculez vos ressources et accélérateurs nécessaires."
+        EN: "Plan every building upgrade, from level 1 to Tempered TrueGold. Two tabs: before TrueGold, where the wall is resources, and the TrueGold era.",
+        FR: "Planifiez l'amélioration de tous vos bâtiments, du niveau 1 à l'Or Véritable Trempé. Deux onglets : avant l'Or Véritable, où le mur est la ressource, et l'ère Or Véritable."
       },
-      icon: "coins",
+      icon: "building-2",
       href: "truegold_calc"
     },
     waracademy: {
@@ -128,6 +128,15 @@ const SITE = {
       },
       icon: "building-2",
       href: "database/buildings/"
+    },
+    researchdb: {
+      name: { EN: "Research DB", FR: "Recherches (BDD)" },
+      desc: {
+        EN: "Every Academy research, level by level: bread, wood, stone, iron and gold cost, research time, power, the Academy level it needs and the bonus it gives, across the Growth, Economy and Battle trees.",
+        FR: "Toutes les recherches de l'Académie, palier par palier : coût en pain, bois, pierre, fer et or, temps de recherche, puissance, niveau d'Académie exigé et bonus obtenu, sur les arbres Croissance, Économie et Combat."
+      },
+      icon: "flask-conical",
+      href: "database/research/"
     },
     waresearch: {
       name: { EN: "War Academy Research", FR: "Recherches Académie" },
@@ -190,8 +199,7 @@ const SITE = {
         FR: "Consultez les experts, leurs compétences et leurs paliers d'affinité pour optimiser vos bonus."
       },
       icon: "crown",
-      href: "masters",
-      badge: "beta"
+      href: "masters"
     },
     pets: {
       name: { EN: "Pets", FR: "Familiers" },
@@ -205,12 +213,30 @@ const SITE = {
     shopcalc: {
       name: { EN: "Shop Value", FR: "Valeur Boutique" },
       desc: {
-        EN: "Compare in-shop cost to gem value to spot the best deals.",
-        FR: "Comparez le coût des objets en boutique à leur valeur en gemmes pour repérer les meilleures affaires."
+        EN: "Permanent shops and custom chests: compare each item's cost to its gem value to spot the best deals.",
+        FR: "Boutiques permanentes et coffres personnalisés : comparez le coût de chaque objet à sa valeur en gemmes pour repérer les meilleures affaires."
       },
       icon: "shopping-cart",
       href: "shop_calc",
       badge: "beta"
+    },
+    eventroi: {
+      name: { EN: "Event ROI", FR: "Rentabilité des Événements" },
+      desc: {
+        EN: "Every event shop in one place, and what an event really pays back: what it cost you in real money against the value of everything it gave.",
+        FR: "Toutes les boutiques d'événement au même endroit, et ce qu'un événement rapporte vraiment : ce qu'il vous a coûté en argent réel face à la valeur de tout ce qu'il vous a donné."
+      },
+      icon: "trending-up",
+      href: "event-roi"
+    },
+    itemvalues: {
+      name: { EN: "Item Values", FR: "Valeur des Objets" },
+      desc: {
+        EN: "The two reference tables behind every figure on the site: each item's value in gems, and what it really costs in euros in the paid packs.",
+        FR: "Les deux tables de référence derrière chaque chiffre du site : la valeur en gemmes de chaque objet, et ce qu'il coûte réellement en euros dans les packs payants."
+      },
+      icon: "gem",
+      href: "item-values"
     }
   },
   // ---------------------------------------------------------
@@ -227,6 +253,11 @@ const SITE = {
 
 // ---------- Icônes partagées (Lucide, inline, offline) ----------
 const SITE_ICONS = {
+  // Icônes de CATÉGORIE (hub et header). Elles manquaient aux deux registres :
+  // `iconSvg()` rend alors une chaîne vide, et la carte comme l'entrée de
+  // navigation s'affichent sans icône, sans rien signaler.
+  "book-open": '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+  "database": '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
   "flask-conical": '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
   "coins": '<circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/>',
   "paw-print": '<circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/>',
@@ -249,6 +280,7 @@ const SITE_ICONS = {
   "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
   "building-2": '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
   "shopping-cart": '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
+  "gem": '<path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>',
   "circle-check-big": '<path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/>'
 };
 

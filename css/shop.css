@@ -1052,3 +1052,86 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 @media (max-width: 560px) {
   .stx-root { margin-left: 10px; margin-right: 10px; }
 }
+
+/* ============================================================
+   BLOC « VALEUR ET RENTABILITÉ » — les liens entre ses trois pages
+   et les deux nouvelles pages elles-mêmes (event-roi, item-values).
+   ============================================================ */
+
+/* Carte d'accès aux boutiques d'événement, depuis le sommaire des permanentes.
+   L'orange des échéances, face au turquoise du référentiel gemmes et à l'or du prix réel :
+   les trois cartes transverses se distinguent à la teinte comme les trois lectures du site. */
+.sx-card.sx-ref-evt { border-top-color: var(--warning); }
+.sx-card.sx-ref-evt .sx-thumb {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--warning) 16%, transparent), var(--bg-panel));
+  border-right-color: var(--border);
+}
+.sx-card.sx-ref-evt .sx-ref-glyph { color: var(--warning); }
+
+/* Pastille « Rentabilité » dans la méta d'une carte : signale les événements dont la page
+   porte le détail jour par jour. Un mot, pas une couleur seule — la pastille est lisible
+   en noir et blanc, et son libellé est traduit comme le reste de la carte. */
+.sx-roi {
+  font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 999px; white-space: nowrap;
+  color: var(--success);
+  border: 1px solid color-mix(in srgb, var(--success) 45%, transparent);
+  background: color-mix(in srgb, var(--success) 12%, transparent);
+}
+
+/* ---------- event-roi : le bloc qui explique la lecture du pourcentage ---------- */
+.sxe-explain {
+  background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px 18px; line-height: 1.6; font-size: 13.5px;
+}
+.sxe-explain > p { margin: 0 0 12px; color: var(--text-muted); }
+.sxe-explain > p:last-child { margin-bottom: 0; }
+.sxe-explain-note { border-top: 1px solid var(--border); padding-top: 12px; }
+
+/* Les cinq crans du pourcentage. Chaque ligne porte sa classe `.sxe-t-*`, la même que la
+   tuile de la page boutique : une seule vérité pour les seuils et pour les teintes. La
+   couleur n'est jamais seule — le libellé du cran la double toujours (cf. MAP.md §13). */
+.sxe-legend { list-style: none; margin: 4px 0 14px; padding: 0; display: grid; gap: 7px; }
+.sxe-legend li {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
+  color: var(--text-muted); border: none;
+}
+.sxe-lg-pct { flex: 0 0 92px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.sxe-lg-name { font-weight: 600; color: var(--text-light); }
+.sxe-legend li.sxe-t-bad   .sxe-lg-pct { color: #ec5c60; }
+.sxe-legend li.sxe-t-warn  .sxe-lg-pct { color: var(--warning); }
+.sxe-legend li.sxe-t-mid   .sxe-lg-pct { color: var(--text-light); }
+.sxe-legend li.sxe-t-good  .sxe-lg-pct { color: #8fd14f; }
+.sxe-legend li.sxe-t-great .sxe-lg-pct { color: #34d17a; }
+[data-theme="light"] .sxe-legend li.sxe-t-bad   .sxe-lg-pct { color: #c0272d; }
+[data-theme="light"] .sxe-legend li.sxe-t-warn  .sxe-lg-pct { color: #b23c00; }
+[data-theme="light"] .sxe-legend li.sxe-t-good  .sxe-lg-pct { color: #4a7c14; }
+[data-theme="light"] .sxe-legend li.sxe-t-great .sxe-lg-pct { color: #0f7a3d; }
+@media (max-width: 560px) { .sxe-lg-pct { flex-basis: 100%; } }
+
+/* ---------- item-values : la méthode, en texte ---------- */
+.sxv-method { line-height: 1.65; font-size: 13.5px; color: var(--text-muted); }
+.sxv-method > p { margin: 0 0 12px; }
+.sxv-method > p:last-child { margin-bottom: 0; }
+/* Les quatre corrections, en blocs et non en tableau. Un tableau les faisait tomber dans
+   `.db-page .table-container` (max-height: 72vh, overflow: auto) : cette boîte est faite
+   pour une base de plusieurs centaines de lignes, elle enfermait ici quatre lignes de texte
+   derrière un ascenseur, et trois colonnes de prose devenaient illisibles à 390 px.
+   Des blocs se reflowent d'eux-mêmes : plusieurs colonnes au large, une seule sur téléphone. */
+/* Deux colonnes fixes plutôt qu'`auto-fit` : quatre blocs sur trois colonnes laissent le
+   quatrième seul sur sa ligne, avec deux tiers de page vides à côté. 2 x 2, ou 1 x 4. */
+.sxv-rules { display: grid; gap: 14px; }
+@media (min-width: 760px) { .sxv-rules { grid-template-columns: 1fr 1fr; } }
+.sxv-rule {
+  background: var(--bg-panel); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 10px; padding: 14px 16px;
+}
+.sxv-rule h3 { margin: 0 0 8px; font-size: 14px; font-weight: 700; color: var(--text-light); line-height: 1.3; }
+.sxv-rule p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--text-muted); }
+.sxv-rule-ex { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.sxv-rule-lbl {
+  display: block; margin-bottom: 3px;
+  font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--accent);
+}
+.sxv-note { margin: 12px 0 0; font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }

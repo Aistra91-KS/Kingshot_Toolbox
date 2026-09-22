@@ -6,7 +6,9 @@
       "EN": "Moonlight Shop",
       "FR": "Magasin du Clair de Lune"
     },
+    "startsAt": "2026-09-20T00:00:00Z",
     "endsAt": "2026-09-28T00:00:00Z",
+    "trackOwned": true,
     "resourceName": {
       "EN": "Mooncake",
       "FR": "Gâteau de Lune"

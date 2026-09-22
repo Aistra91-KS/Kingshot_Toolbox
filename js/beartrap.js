@@ -67,6 +67,16 @@ const i18nBearTrap = {
         optNone: "Aucun",
         txtAvailable: "Disponibles :",
         errDuplicateHero: "Un héros ne peut être sélectionné qu'une seule fois dans la même marche.",
+        errSameClass: "Vous ne pouvez pas sélectionner plusieurs héros de la même classe.",
+        noHeroSuggestion: "Aucun héros disponible pour cette suggestion.",
+        defaultMarchName: "Marche Spéciale",
+        errHeroTaken: "Ce héros est déjà dans une autre marche. Seule la marche Hôte peut le reprendre.",
+        heldBy: "déjà dans « %m »",
+        moveAsk: "Ces héros changeront de marche quand tu enregistreras :",
+        moveLeaves: "%h quitte « %m »",
+        moveRepl: "remplacé par",
+        moveEmptySlot: "personne pour le remplacer, le créneau reste vide",
+        moveDropped: "Héros retiré : seule la marche Hôte peut reprendre un héros d'une autre marche.",
         linkAuto: "Auto",
         linkManual: "Manuel",
         linkNoSource: "Auto (non configuré)",
@@ -146,6 +156,16 @@ const i18nBearTrap = {
         optNone: "None",
         txtAvailable: "Available:",
         errDuplicateHero: "A hero can only be selected once in the same march.",
+        errSameClass: "You cannot pick several heroes of the same class.",
+        noHeroSuggestion: "No hero is available for this suggestion.",
+        defaultMarchName: "Special March",
+        errHeroTaken: "This hero is already in another march. Only the Host march may take them.",
+        heldBy: 'already in "%m"',
+        moveAsk: "These heroes will change march when you save:",
+        moveLeaves: '%h leaves "%m"',
+        moveRepl: "replaced by",
+        moveEmptySlot: "nobody left to replace them, the slot stays empty",
+        moveDropped: "Hero removed: only the Host march may take a hero from another march.",
         linkAuto: "Auto",
         linkManual: "Manual",
         linkNoSource: "Auto (not set)",
@@ -166,6 +186,11 @@ const i18nBearTrap = {
 let customMarchesList = [];
 let editingMarchId = null;
 let heroesDB = [];
+
+// Déplacements de héros décidés dans la modale ouverte, en attente d'enregistrement.
+// Rien n'est appliqué tant que le joueur n'a pas enregistré la marche : fermer la
+// modale ne doit pas laisser une autre marche amputée d'un héros.
+let pendingHeroMoves = [];
 
 // ========================================
 // TIER-LIST DES HÉROS JOINERS (rang par génération) + AUTORISATIONS ALLIANCE
@@ -652,14 +677,28 @@ function loadBearTrapData() {
     // écouteurs de saisie). La page gardait l'air d'un Piège à Ours neuf, avec ses
     // valeurs par défaut et ses listes de héros vides, sans rien signaler.
     const data = safeParse(STORAGE_KEYS.beartrap, null);
-    if (data) {
+    if (data && typeof data === 'object' && !Array.isArray(data)) {
         for (const [id, val] of Object.entries(data)) {
             const el = document.getElementById(id);
-            if (el) el.value = val;
+            // Un champ de saisie reçoit du texte : lui assigner un objet écrivait
+            // « [object Object] » dans la case, et le calcul repartait de là.
+            if (el && (val === null || typeof val !== 'object')) el.value = val;
         }
 
-        if (data['custom-marches']) {
+        // La liste des marches est un TABLEAU, et tout le reste du fichier l'utilise
+        // comme tel (`forEach`, `push`, `.length`). Une sauvegarde qui livrait autre
+        // chose tuait la page au chargement suivant — backup.js le refuse désormais à
+        // l'import, mais une valeur déjà en place, elle, est encore là.
+        if (Array.isArray(data['custom-marches'])) {
             customMarchesList = data['custom-marches'];
+        } else if (data['custom-marches'] !== undefined) {
+            // Écarter la liste en silence, c'est afficher un Piège à Ours sans marches
+            // qui a l'air normal — et la première sauvegarde de la page écraserait
+            // l'original. On met donc la valeur de côté et on le dit, comme `safeParse`
+            // le fait pour un JSON illisible.
+            console.warn('custom-marches ignoré : tableau attendu, reçu', typeof data['custom-marches']);
+            if (window.ktKeepCorrupt) ktKeepCorrupt(STORAGE_KEYS.beartrap, JSON.stringify(data));
+            if (window.ktWarnCorrupt) ktWarnCorrupt();
         }
         // Modes de liaison (défaut : auto) — booléens hors champ de saisie
         expertAutoMode = data['cap-expert-auto'] !== false;
@@ -700,14 +739,23 @@ function populateHeroDropdowns() {
     availableHeroes.forEach(h => {
         const hClass = h.troopType.toLowerCase();
         const emoji = classEmojis[hClass] || '';
-        optionsHTML += `<option value="${h.id}" data-class="${hClass}">${emoji} ${h.name}</option>`;
+        // `data-label` garde le libellé nu : la liste y ajoute au besoin la marche
+        // qui détient le héros, et il faut pouvoir le retirer au rafraîchissement suivant.
+        const label = `${emoji} ${escapeHTML(h.name)}`;
+        optionsHTML += `<option value="${h.id}" data-class="${hClass}" data-label="${label}">${label}</option>`;
     });
 
     ['cm-hero-1', 'cm-hero-2', 'cm-hero-3'].forEach(id => {
         const sel = document.getElementById(id);
         if (sel) {
             sel.innerHTML = optionsHTML;
-            sel.addEventListener('change', updateHeroDropdownsState);
+            // Une seule fois : cette fonction est rappelée à chaque changement de
+            // génération, et un écouteur de plus par appel finirait par ouvrir la
+            // même demande de confirmation deux ou trois fois de suite.
+            if (!sel.dataset.heroBound) {
+                sel.addEventListener('change', onHeroSelectChange);
+                sel.dataset.heroBound = '1';
+            }
         }
     });
     
@@ -720,7 +768,12 @@ function updateHeroDropdownsState() {
         document.getElementById('cm-hero-2'),
         document.getElementById('cm-hero-3')
     ];
-    
+    if (selects.some(sel => !sel)) return;
+
+    const hostCheck = document.getElementById('cm-is-host');
+    const isHost = hostCheck ? hostCheck.checked : false;
+    const dict = i18nBearTrap[window.GlobalLang ? GlobalLang.get() : 'EN'] || i18nBearTrap.EN;
+
     const selections = selects.map(sel => {
         if (!sel.value) return null;
         const opt = sel.querySelector(`option[value="${sel.value}"]`);
@@ -744,16 +797,183 @@ function updateHeroDropdownsState() {
 
             const optClass = opt.getAttribute('data-class');
             const optId = opt.value;
+            const label = opt.getAttribute('data-label') || opt.textContent;
+
+            // Un héros tenu par une autre marche personnalisée : la marche Hôte a le
+            // droit de le reprendre, et l'option dit alors d'où il vient. Partout
+            // ailleurs il est masqué, comme l'est déjà un héros du même type.
+            const holder = marchHolding(optId, editingMarchId);
+            if (holder && !isHost) {
+                opt.textContent = label;
+                opt.disabled = true;
+                opt.hidden = true;
+                return;
+            }
+            opt.textContent = holder ? `${label} — ${dict.heldBy.replace('%m', holder.name)}` : label;
 
             if (forbiddenIds.includes(optId) || forbiddenClasses.includes(optClass)) {
                 opt.disabled = true;
-                opt.hidden = true; 
+                opt.hidden = true;
             } else {
                 opt.disabled = false;
                 opt.hidden = false;
             }
         });
     });
+}
+
+// ========================================
+// PRIORITÉ DE LA MARCHE HÔTE
+// ----------------------------------------
+// Un héros ne peut mener ou renforcer qu'une seule marche. La marche Hôte est celle
+// qui porte le rally : elle passe avant les marches de joiner, et peut donc reprendre
+// un héros qu'une autre marche personnalisée détient déjà. La marche dépouillée n'est
+// pas laissée en plan, elle reçoit le meilleur héros libre du même type. Rien ne bouge
+// sans que le joueur l'ait lu et accepté.
+// ========================================
+
+// La marche personnalisée qui détient ce héros, celle qu'on édite mise à part.
+function marchHolding(heroId, exceptId) {
+    if (!heroId) return null;
+    return customMarchesList.find(m => m.id !== exceptId
+        && (m.h1 === heroId || m.h2 === heroId || m.h3 === heroId)) || null;
+}
+
+function slotOfHero(march, heroId) {
+    if (march.h1 === heroId) return 'h1';
+    if (march.h2 === heroId) return 'h2';
+    return 'h3';
+}
+
+// Le remplaçant d'un héros qui s'en va : même type de troupe, puisque les trois héros
+// d'une marche sont de types distincts, et libre de toute marche. `preferAuth` vaut
+// pour le créneau de capitaine d'une marche de joiner : lui seul porte l'effet du
+// rally, un héros non autorisé par l'alliance n'y a rien à faire tant qu'il en reste.
+function bestFreeHero(troopType, takenIds, maxGen, gen, preferAuth) {
+    const userHeroes = safeParse(STORAGE_KEYS.caserneHeroes, {});
+    const pool = [];
+    for (const id in userHeroes) {
+        if (!userHeroes[id].unlocked || takenIds.has(id)) continue;
+        const db = heroesDB.find(h => h.id === id);
+        if (!db || db.generation > maxGen) continue;
+        if (db.troopType.toLowerCase() !== troopType) continue;
+        pool.push({ ...db, level: userHeroes[id].level || 1, skills: userHeroes[id].skills || [0, 0, 0] });
+    }
+    if (!pool.length) return null;
+    pool.sort((a, b) => {
+        if (preferAuth) {
+            const authA = isHeroAuthorized(a.id, gen) ? 0 : 1;
+            const authB = isHeroAuthorized(b.id, gen) ? 0 : 1;
+            if (authA !== authB) return authA - authB;
+            const sk = (b.skills[0] || 0) - (a.skills[0] || 0);
+            if (sk) return sk;
+        }
+        if (b.level !== a.level) return b.level - a.level;   // renfort : la capacité, rien d'autre
+        return tierScoreOf(a.id, gen) - tierScoreOf(b.id, gen);
+    });
+    return pool[0];
+}
+
+// Ce qu'il faudrait déplacer pour que la marche en cours obtienne ces héros.
+// Rend une liste vide quand aucun d'eux n'appartient à une autre marche.
+function planHeroMoves(heroIds) {
+    const gen = currentGen();
+    // Tout ce qui est déjà pris : les héros de toutes les marches personnalisées, ceux
+    // que la marche en cours réclame, et les remplaçants déjà promis par un autre
+    // déplacement. Sans quoi on déboucherait un trou en en creusant un autre.
+    const wanted = heroIds.filter(Boolean);
+    const taken = new Set(wanted);
+    customMarchesList.forEach(m => ['h1', 'h2', 'h3'].forEach(k => { if (m[k]) taken.add(m[k]); }));
+    pendingHeroMoves.forEach(mv => { if (mv.replacementId) taken.add(mv.replacementId); });
+
+    const moves = [];
+    wanted.forEach(hid => {
+        if (pendingHeroMoves.some(mv => mv.heroId === hid)) return;   // déjà accepté
+        const from = marchHolding(hid, editingMarchId);
+        if (!from) return;
+        const slot = slotOfHero(from, hid);
+        const db = heroesDB.find(h => h.id === hid);
+        const repl = db
+            ? bestFreeHero(db.troopType.toLowerCase(), taken, gen, gen, slot === 'h1' && !from.isHost)
+            : null;
+        if (repl) taken.add(repl.id);
+        moves.push({
+            heroId: hid, fromId: from.id, fromName: from.name,
+            slot: slot, replacementId: repl ? repl.id : ''
+        });
+    });
+    return moves;
+}
+
+function heroNameOf(id) {
+    const h = heroesDB.find(x => x.id === id);
+    return h ? h.name : id;
+}
+
+function moveRecapHTML(moves) {
+    const dict = i18nBearTrap[window.GlobalLang ? GlobalLang.get() : 'EN'] || i18nBearTrap.EN;
+    let html = `<strong>${escapeHTML(dict.moveAsk)}</strong>`
+             + '<ul style="text-align:left;margin:12px 0 0;padding-left:18px;font-size:13px;">';
+    moves.forEach(mv => {
+        const tail = mv.replacementId
+            ? `${escapeHTML(dict.moveRepl)} <strong>${escapeHTML(heroNameOf(mv.replacementId))}</strong>`
+            : escapeHTML(dict.moveEmptySlot);
+        // Le gabarit porte ses propres guillemets : le français met des chevrons là
+        // où l'anglais met des droits, et un modèle figé dans le code donnerait l'un
+        // des deux à l'autre langue.
+        const line = escapeHTML(dict.moveLeaves)
+            .replace('%h', `<strong>${escapeHTML(heroNameOf(mv.heroId))}</strong>`)
+            .replace('%m', escapeHTML(mv.fromName));
+        html += `<li>${line} — ${tail}</li>`;
+    });
+    return html + '</ul>';
+}
+
+function stageHeroMove(mv) {
+    if (!pendingHeroMoves.some(x => x.heroId === mv.heroId)) pendingHeroMoves.push(mv);
+}
+
+// Un déplacement noté pour un héros qu'on a depuis désélectionné n'a plus lieu d'être.
+function prunePendingMoves() {
+    const picked = ['cm-hero-1', 'cm-hero-2', 'cm-hero-3']
+        .map(id => { const el = document.getElementById(id); return el ? el.value : ''; })
+        .filter(Boolean);
+    pendingHeroMoves = pendingHeroMoves.filter(mv => picked.indexOf(mv.heroId) !== -1);
+}
+
+// Applique à la modale l'équipe suggérée, en demandant d'abord au joueur s'il accepte
+// les déplacements qu'elle implique. Refus : la modale ne bouge pas.
+function applyTeamToModal(team) {
+    const dropdowns = ['cm-hero-1', 'cm-hero-2', 'cm-hero-3'];
+    const moves = planHeroMoves(team.map(h => h.id));
+    const put = () => {
+        dropdowns.forEach(id => document.getElementById(id).value = "");
+        updateHeroDropdownsState();
+        team.forEach((hero, idx) => { if (idx < 3) document.getElementById(dropdowns[idx]).value = hero.id; });
+        moves.forEach(stageHeroMove);
+        prunePendingMoves();
+        updateHeroDropdownsState();
+    };
+    if (!moves.length) { put(); return; }
+    if (window.showAppConfirm) showAppConfirm(moveRecapHTML(moves), put); else put();
+}
+
+// Choix à la main d'un héros : même règle que le bouton « Suggérer ».
+function onHeroSelectChange(e) {
+    const sel = e.target;
+    updateHeroDropdownsState();
+    prunePendingMoves();
+
+    const hid = sel.value;
+    if (!hid) return;
+    if (pendingHeroMoves.some(mv => mv.heroId === hid)) return;
+    if (!marchHolding(hid, editingMarchId)) return;
+
+    const moves = planHeroMoves([hid]);
+    if (!moves.length) return;
+    const accept = () => { moves.forEach(stageHeroMove); updateHeroDropdownsState(); };
+    const refuse = () => { sel.value = ''; updateHeroDropdownsState(); };
+    if (window.showAppConfirm) showAppConfirm(moveRecapHTML(moves), accept, refuse); else accept();
 }
 
 // NOUVEAU : Fonction du bouton "Suggérer"
@@ -764,14 +984,19 @@ function suggestHeroesForModal() {
     const maxGen = parseInt(generation, 10) || 6; // NOUVEAU
     const isHost = document.getElementById('cm-is-host').checked;
 
+    // La marche Hôte porte le rally : elle a droit aux meilleurs héros, même déjà
+    // placés ailleurs. Une marche de joiner, elle, continue de céder — sinon le
+    // dernier qui édite gagne, et le joueur ne sait plus qui tient quoi.
     let usedHeroIds = new Set();
-    customMarchesList.forEach(m => {
-        if (m.id !== editingMarchId) {
-            if (m.h1) usedHeroIds.add(m.h1);
-            if (m.h2) usedHeroIds.add(m.h2);
-            if (m.h3) usedHeroIds.add(m.h3);
-        }
-    });
+    if (!isHost) {
+        customMarchesList.forEach(m => {
+            if (m.id !== editingMarchId) {
+                if (m.h1) usedHeroIds.add(m.h1);
+                if (m.h2) usedHeroIds.add(m.h2);
+                if (m.h3) usedHeroIds.add(m.h3);
+            }
+        });
+    }
 
     let pool = [];
     for (let id in userHeroes) {
@@ -816,9 +1041,14 @@ function suggestHeroesForModal() {
                 let scoreA = getTierScore(a.name, a.troopType);
                 let scoreB = getTierScore(b.name, b.troopType);
                 if (scoreA !== scoreB) return scoreA - scoreB;
-                
-                // 3. Enfin le niveau
-                return b.level - a.level;
+
+                // 3. Le niveau
+                if (b.level !== a.level) return b.level - a.level;
+
+                // 4. À valeur strictement égale, le héros libre : déranger une autre
+                //    marche pour le même résultat ne sert à rien.
+                return (marchHolding(a.id, editingMarchId) ? 1 : 0)
+                     - (marchHolding(b.id, editingMarchId) ? 1 : 0);
             });
             if (classes[cls].length > 0) team.push(classes[cls].shift());
         });
@@ -885,21 +1115,15 @@ function suggestHeroesForModal() {
     }
 
     if (team.length === 0) {
-        showAppAlert("Aucun héros disponible pour cette suggestion.");
+        // Message écrit en dur, servi tel quel à un joueur anglophone : c'est ce que
+        // TRAVAUX partie D5 signalait déjà, et il était encore là (constat F15 de la
+        // revue du 2026-09-20).
+        const dict = i18nBearTrap[window.GlobalLang ? GlobalLang.get() : 'EN'] || i18nBearTrap.EN;
+        showAppAlert(dict.noHeroSuggestion);
         return;
     }
 
-    // Réinitialise les dropdowns pour éviter les conflits
-    const dropdowns = ['cm-hero-1', 'cm-hero-2', 'cm-hero-3'];
-    dropdowns.forEach(id => document.getElementById(id).value = "");
-    updateHeroDropdownsState();
-
-    // Applique les valeurs suggérées
-    team.forEach((hero, idx) => {
-        if (idx < 3) document.getElementById(dropdowns[idx]).value = hero.id;
-    });
-
-    updateHeroDropdownsState();
+    applyTeamToModal(team);
 }
 
 function updateHostCheckboxState() {
@@ -979,7 +1203,8 @@ function initStudioModal() {
             return;
         }
         
-        editingMarchId = null; 
+        editingMarchId = null;
+        pendingHeroMoves = [];
         document.getElementById('cm-name').value = '';
         document.getElementById('cm-inf').value = '0';
         document.getElementById('cm-cav').value = '0';
@@ -1002,6 +1227,29 @@ function initStudioModal() {
     btnCancel.addEventListener('click', () => {
         modal.classList.remove('active');
         editingMarchId = null;
+        pendingHeroMoves = [];       // rien n'a été enregistré : rien ne doit bouger
+    });
+
+    // Décocher « Hôte » retire le privilège : un héros repris à une autre marche
+    // repart, sans quoi la marche garderait un doublon que le jeu n'accepte pas.
+    const hostCheck = document.getElementById('cm-is-host');
+    if (hostCheck) hostCheck.addEventListener('change', () => {
+        if (!hostCheck.checked) {
+            let dropped = false;
+            ['cm-hero-1', 'cm-hero-2', 'cm-hero-3'].forEach(id => {
+                const sel = document.getElementById(id);
+                if (sel && sel.value && marchHolding(sel.value, editingMarchId)) {
+                    sel.value = '';
+                    dropped = true;
+                }
+            });
+            pendingHeroMoves = [];
+            if (dropped) {
+                const dict = i18nBearTrap[GlobalLang.get()] || i18nBearTrap.EN;
+                showAppAlert(dict.moveDropped);
+            }
+        }
+        updateHeroDropdownsState();
     });
 
     btnSave.addEventListener('click', () => {
@@ -1013,7 +1261,7 @@ function initStudioModal() {
         const selectedHeroes = [h1, h2, h3].filter(v => v !== "");
         
         if (selectedHeroes.length !== new Set(selectedHeroes).size) {
-            showAppAlert(dict.errDuplicateHero || "Erreur : Un héros est sélectionné en double.");
+            showAppAlert(dict.errDuplicateHero);
             return;
         }
         
@@ -1023,11 +1271,11 @@ function initStudioModal() {
         }).filter(Boolean);
 
         if (selectedClasses.length !== new Set(selectedClasses).size) {
-            showAppAlert("Erreur : Vous ne pouvez pas sélectionner plusieurs héros de la même classe.");
+            showAppAlert(dict.errSameClass);
             return;
         }
 
-        const name = document.getElementById('cm-name').value || "Marche Spéciale";
+        const name = document.getElementById('cm-name').value || dict.defaultMarchName;
         const modeElement = document.querySelector('input[name="cm-input-mode"]:checked');
         const mode = modeElement ? modeElement.value : 'percent'; 
         
@@ -1054,6 +1302,25 @@ function initStudioModal() {
             showAppAlert(dict.errNoTroopsForCustom);
             return;
         }
+
+        // Règle de priorité : hors marche Hôte, un héros déjà placé ailleurs est
+        // refusé. La liste déroulante le masque déjà ; ce contrôle rattrape une marche
+        // enregistrée avant cette règle, ou la case « Hôte » décochée en dernier.
+        if (!isHost) {
+            const taken = selectedHeroes.find(id => marchHolding(id, editingMarchId));
+            if (taken) { showAppAlert(dict.errHeroTaken); return; }
+        }
+
+        // Les déplacements acceptés dans la modale prennent effet maintenant, et
+        // seulement pour les héros réellement retenus. On revérifie que la marche
+        // source détient toujours le héros : une suppression a pu passer entre-temps.
+        pendingHeroMoves.forEach(mv => {
+            if (selectedHeroes.indexOf(mv.heroId) === -1) return;
+            const from = customMarchesList.find(m => m.id === mv.fromId);
+            if (!from || from[mv.slot] !== mv.heroId) return;
+            from[mv.slot] = mv.replacementId || '';
+        });
+        pendingHeroMoves = [];
 
         if (isHost) {
             customMarchesList.forEach(m => {
@@ -1261,7 +1528,8 @@ function editCustomMarch(id) {
     const march = customMarchesList.find(m => m.id === id);
     if (!march) return;
 
-    editingMarchId = id; 
+    editingMarchId = id;
+    pendingHeroMoves = [];
 
     document.getElementById('cm-name').value = march.name;
     const mode = march.mode || 'number';

@@ -15,15 +15,15 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Kingshot TrueGold Calculator - Building Upgrade Planner | Kingshot Toolbox</title>
-    <meta name="description" content="Plan your Kingshot TrueGold building upgrades: pick your targets, get every resource, TrueGold and speedup needed, and track progress building by building.">
+    <title>Kingshot Building Planner - Upgrade Costs Before and After TrueGold | Kingshot Toolbox</title>
+    <meta name="description" content="Plan every Kingshot building upgrade, from level 1 to Tempered TrueGold: set where each building stands and where you want it, and get the bread, wood, stone, iron, TrueGold and speedups it takes.">
     <link rel="canonical" href="https://kingshottoolbox.com/truegold_calc">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
-    <meta property="og:title" content="Kingshot TrueGold Calculator - Building Upgrade Planner">
-    <meta property="og:description" content="Plan your Kingshot TrueGold building upgrades: pick your targets, get every resource, TrueGold and speedup needed, and track progress building by building.">
+    <meta property="og:title" content="Kingshot Building Planner - Upgrade Costs Before and After TrueGold">
+    <meta property="og:description" content="Plan every Kingshot building upgrade, from level 1 to Tempered TrueGold: set where each building stands and where you want it, and get the bread, wood, stone, iron, TrueGold and speedups it takes.">
     <meta property="og:url" content="https://kingshottoolbox.com/truegold_calc">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -35,11 +35,11 @@
     <link rel="alternate icon" type="image/png" href="img/logo/favicon-32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
     <link rel="stylesheet" href="css/style.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kingshot TrueGold Calculator - Building Upgrade Planner","url":"https://kingshottoolbox.com/truegold_calc","description":"Plan your Kingshot TrueGold building upgrades: pick your targets, get every resource, TrueGold and speedup needed, and track progress building by building.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":["en","fr"],"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"publisher":{"@type":"Organization","name":"Kingshot Toolbox","url":"https://kingshottoolbox.com/"}}</script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"TrueGold","item":"https://kingshottoolbox.com/truegold_calc"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kingshot Building Planner - Upgrade Costs Before and After TrueGold","url":"https://kingshottoolbox.com/truegold_calc","description":"Plan every Kingshot building upgrade, from level 1 to Tempered TrueGold: set where each building stands and where you want it, and get the bread, wood, stone, iron, TrueGold and speedups it takes.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","isAccessibleForFree":true,"inLanguage":["en","fr"],"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"publisher":{"@type":"Organization","name":"Kingshot Toolbox","url":"https://kingshottoolbox.com/"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Building Planner","item":"https://kingshottoolbox.com/truegold_calc"}]}</script>
 </head>
 <body>
-    <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Kingshot TrueGold Calculator</h1>
+    <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Kingshot Building Planner</h1>
 
     <div class="sidebar">
         <h2 data-i18n="ctrlPanel">Control Panel</h2>
@@ -47,7 +47,7 @@
         <div class="control-group">
             <h3 data-i18n="config">Configuration</h3>
 
-            <div class="control-row">
+            <div class="control-row" id="serverTierRow">
                 <label for="serverTier" data-i18n="serverTier">Server tier</label>
                 <select id="serverTier" onchange="triggerUpdate()">
                     <option value="3">TG3</option>
@@ -56,21 +56,14 @@
                     <option value="10">TG10</option>
                 </select>
             </div>
-            <div data-i18n="serverTierHint" style="color:var(--text-muted); font-size:11px; margin:-4px 0 10px;">Highest tier open on your server</div>
+            <div id="serverTierHint" data-i18n="serverTierHint" style="color:var(--text-muted); font-size:11px; margin:-4px 0 10px;">Highest tier open on your server</div>
 
             <div data-i18n="grpSpeed" style="color:var(--text-muted); font-weight:bold; font-size:12px;">Construction speed (÷ base time)</div>
             <div class="control-row">
                 <label for="baseVitesse" data-i18n="baseBonus">Bonus Speed (%)</label>
                 <input type="number" id="baseVitesse" value="76.5" step="0.1" oninput="triggerUpdate()" onchange="triggerUpdate()">
             </div>
-            <div class="control-row">
-                <label for="bonusGround" data-i18n="groundWorks">Ground Works (+10%)</label>
-                <input type="checkbox" id="bonusGround" onchange="triggerUpdate()">
-            </div>
-            <div class="control-row">
-                <label for="bonusKvk" data-i18n="kvkBonus">KVK Bonus (+5%)</label>
-                <input type="checkbox" id="bonusKvk" onchange="triggerUpdate()">
-            </div>
+            <div data-i18n="baseBonusHint" style="color:var(--text-muted); font-size:11px; margin:-4px 0 8px;">Copy the figure your city shows in game. It already counts Ground Works and the KVK bonus when they are active.</div>
             <div class="control-row">
                 <label id="lbl-greyWolf" for="bonusWolfCheck" data-i18n="greyWolf">Grey Wolf Bonus (%)</label>
                 <div style="display:flex; align-items:center; gap:5px;">
@@ -101,29 +94,18 @@
             </div>
         </div>
 
-        <div class="control-group">
-            <h3 data-i18n="resources">Resources</h3>
-            <div class="control-row">
-                <label for="stockTG">TrueGold (TG)</label>
-                <input type="number" id="stockTG" value="541" min="0" oninput="triggerUpdate()" onchange="triggerUpdate()">
-            </div>
-            <div class="control-row">
-                <label for="stockTTG">Tempered TG (TTG)</label>
-                <input type="number" id="stockTTG" value="15" min="0" oninput="triggerUpdate()" onchange="triggerUpdate()">
-            </div>
-            <div class="control-row">
-                <label for="transfoUtilisees" data-i18n="transfoUsed">Used transformation (max 100)</label>
-                <input type="number" id="transfoUtilisees" value="0" min="0" max="100" oninput="triggerUpdate()" onchange="triggerUpdate()">
-            </div>
-        </div>
-
+        <!-- ===== Mode, score cible et accélérateurs : COMMUNS aux deux onglets =====
+             Les points de la phase Construction viennent des minutes d'accélérateur
+             (30 points la minute), des deux côtés de l'Or Véritable. Le stock saisi
+             est donc le même — c'est le même en jeu — et le mode vaut pour les deux
+             optimiseurs. -->
         <div class="control-group">
             <h3 data-i18n="kvkTitle">KVK & Speedups</h3>
             <div class="control-row">
                 <label for="modeSelect" style="color:var(--accent); font-weight:bold;" data-i18n="modeLabel">Mode</label>
                 <select id="modeSelect" onchange="onModeChange()">
                     <option value="qty" data-i18n="modeQty">Max buildings</option>
-                    <option value="kvk" data-i18n="modeKvkOpt">KVK (max points)</option>
+                    <option value="kvk" data-i18n="modeKvkOpt" selected>KVK (max points)</option>
                     <option value="target" data-i18n="modeTarget">Target score</option>
                 </select>
             </div>
@@ -144,9 +126,102 @@
                 <input type="number" id="accelMinutes" value="10" min="0" oninput="triggerUpdate()" onchange="triggerUpdate()">
             </div>
         </div>
+
+        <!-- ===== Bloc UNIQUEMENT sur « Avant l'Or Véritable » ===== -->
+        <div id="pre-options-group" style="display:none;">
+            <div class="control-group">
+                <h3 data-i18n="preStock">Resources in store</h3>
+                <div class="control-row">
+                    <label for="pre-stock-bread" data-i18n="bread">Bread</label>
+                    <input type="text" autocomplete="off" id="pre-stock-bread" placeholder="0">
+                </div>
+                <div class="control-row">
+                    <label for="pre-stock-wood" data-i18n="wood">Wood</label>
+                    <input type="text" autocomplete="off" id="pre-stock-wood" placeholder="0">
+                </div>
+                <div class="control-row">
+                    <label for="pre-stock-stone" data-i18n="stone">Stone</label>
+                    <input type="text" autocomplete="off" id="pre-stock-stone" placeholder="0">
+                </div>
+                <div class="control-row">
+                    <label for="pre-stock-iron" data-i18n="iron">Iron</label>
+                    <input type="text" autocomplete="off" id="pre-stock-iron" placeholder="0">
+                </div>
+                <p class="group-hint" data-i18n="stockHint">Short forms work: 500k, 1.5M, 2B. The field rewrites itself in full when you leave it.</p>
+                <button type="button" class="btn-modern btn-modern-secondary pre-btn" id="pre-all-30" data-i18n="to30">Everything to level 30</button>
+                <button type="button" class="btn-reset" id="pre-reset" data-i18n="resetPre">Reset this tab</button>
+            </div>
+        </div>
+
+        <!-- ===== Blocs UNIQUEMENT sur « Or Véritable » ===== -->
+        <div id="tg-options-group">
+        <div class="control-group">
+            <h3 data-i18n="resources">Resources</h3>
+            <div class="control-row">
+                <label for="stockTG">TrueGold (TG)</label>
+                <input type="number" id="stockTG" value="541" min="0" oninput="triggerUpdate()" onchange="triggerUpdate()">
+            </div>
+            <div class="control-row">
+                <label for="stockTTG">Tempered TG (TTG)</label>
+                <input type="number" id="stockTTG" value="15" min="0" oninput="triggerUpdate()" onchange="triggerUpdate()">
+            </div>
+            <div class="control-row">
+                <label for="transfoUtilisees" data-i18n="transfoUsed">Used transformation (max 100)</label>
+                <input type="number" id="transfoUtilisees" value="0" min="0" max="100" oninput="triggerUpdate()" onchange="triggerUpdate()">
+            </div>
+        </div>
+
+
+        </div>
     </div>
 
     <div class="main-content flow">
+        <div class="tabs" id="tg-tabs" role="tablist" aria-label="Building planner views">
+            <button type="button" class="tab" role="tab" id="tab-pre-btn" aria-controls="tab-pre" aria-selected="false" tabindex="-1" data-target="tab-pre" data-i18n="tabPre">Before TrueGold</button>
+            <button type="button" class="tab active" role="tab" id="tab-tg-btn" aria-controls="tab-tg" aria-selected="true" tabindex="0" data-target="tab-tg" data-i18n="tabTg">TrueGold</button>
+        </div>
+
+        <!-- ===== Partie 1 : les niveaux 1 a 30, ou le mur est la ressource ===== -->
+        <div id="tab-pre" class="tab-content" role="tabpanel" tabindex="0" aria-labelledby="tab-pre-btn">
+            <p class="pre-intro" data-i18n="preIntro">Levels 1 to 30, the stretch before TrueGold unlocks. Here the wall is resources, not TrueGold: set where each building stands and where you want it, and the plan tells you what you are short of.</p>
+            <div class="panel">
+                <h2 data-i18n="preBuildings">My buildings</h2>
+                <!-- Rempli par truegold_pre.js (barre de modification groupée). Vide si le
+                     script est encore en cache dans une version qui ne la connaît pas. -->
+                <div id="pre-bulk" class="pre-bulk"></div>
+                <div class="table-container">
+                    <table id="pre-table" class="db-table">
+                        <thead><tr>
+                            <th data-i18n="bldg">Building</th>
+                            <th data-i18n="cur">Current</th>
+                            <th data-i18n="tgt">Target</th>
+                            <th class="num" data-i18n="bread">Bread</th>
+                            <th class="num" data-i18n="wood">Wood</th>
+                            <th class="num" data-i18n="stone">Stone</th>
+                            <th class="num" data-i18n="iron">Iron</th>
+                            <th class="num" data-i18n="time">Build time</th>
+                            <th class="num" data-i18n="power">Power</th>
+                        </tr></thead>
+                        <tbody id="pre-rows"></tbody>
+                        <tfoot id="pre-foot"></tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="panel">
+                <h2 data-i18n="prePlan">What it takes</h2>
+                <div id="pre-output" class="result-box"></div>
+            </div>
+            <!-- Stratégie de la phase Construction : ce que le stock permet DÉJÀ, et
+                 ce que ça rapporte en points. Rempli par truegold_pre.js ; vide si le
+                 script est encore en cache dans une version qui ne la connaît pas. -->
+            <div class="panel" id="pre-strategy-panel">
+                <h2 data-i18n="stratTitle">Strategy Output</h2>
+                <div id="pre-strategy" class="result-box"></div>
+            </div>
+        </div>
+
+        <!-- ===== Partie 2 : l'ere Or Veritable, inchangee ===== -->
+        <div id="tab-tg" class="tab-content active" role="tabpanel" tabindex="0" aria-labelledby="tab-tg-btn">
         <div class="panel">
             <h2 data-i18n="myBuildings">My Buildings</h2>
             <div class="table-container">
@@ -180,6 +255,7 @@
             <h2 data-i18n="strategyOutput">Strategy Output</h2>
             <div id="output" class="result-box" style="flex:1;"></div>
         </div>
+        </div>
 </div>
 
     <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
@@ -189,7 +265,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Guide</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>TrueGold</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span><span class="hdr-badge">Beta</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Pack / Shop Calculation</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>
@@ -197,6 +273,7 @@
     <script src="js/lang.js"></script>
     <script src="js/help.js"></script>
     <script src="js/truegold_script.js"></script>
+    <script src="js/truegold_pre.js"></script>
     <script src="js/header.js"></script>
     <script src="js/backup.js"></script>
     <script src="js/footer.js"></script>

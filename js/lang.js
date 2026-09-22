@@ -8,12 +8,30 @@ const GlobalLang = {
     STORAGE_KEY: 'hub_lang',
     DEFAULT_LANG: 'EN',
 
+    // Langue retenue pour la visite en cours. Elle ne remplace pas le stockage,
+    // elle prend le relais quand il est refusé : la bascule FR/EN fonctionne alors
+    // à l'écran, seule la mémorisation d'une visite à l'autre est perdue.
+    sessionLang: null,
+
     /**
      * Récupère la langue actuelle depuis le localStorage
      * @returns {string} 'FR' ou 'EN'
+     *
+     * L'ACCÈS lui-même peut lever, pas seulement l'écriture : cookies bloqués,
+     * modes stricts, certaines navigations privées. `profiles.js` avait déjà son
+     * filet, pas celui-ci — et comme presque tous les scripts de page appellent
+     * `GlobalLang.get()` dans leurs premières lignes, un stockage interdit tuait
+     * l'amorçage à cet endroit précis : la page Recherches s'affichait avec son
+     * bandeau d'avertissement et zéro ligne de suggestion (constat F06 de la revue
+     * du 2026-09-20). La lecture est donc gardée, et la valeur relue est contrôlée :
+     * un `hub_lang` abîmé ne doit pas se propager en clé de dictionnaire.
      */
     get() {
-        return localStorage.getItem(this.STORAGE_KEY) || this.DEFAULT_LANG;
+        try {
+            const v = localStorage.getItem(this.STORAGE_KEY);
+            if (v === 'FR' || v === 'EN') { this.sessionLang = v; return v; }
+        } catch (e) { /* stockage refusé : on retombe sur la langue de la visite */ }
+        return this.sessionLang || this.DEFAULT_LANG;
     },
 
     /**
@@ -24,6 +42,7 @@ const GlobalLang = {
         if (lang !== 'FR' && lang !== 'EN') return;
         // Le choix de langue n'est qu'une préférence : s'il ne peut pas être écrit
         // (navigation privée, quota), la bascule doit tout de même avoir lieu à l'écran.
+        this.sessionLang = lang;
         try { localStorage.setItem(this.STORAGE_KEY, lang); } catch (e) { /* préférence non retenue */ }
         // Émet un événement custom pour notifier d'autres scripts
         window.dispatchEvent(new CustomEvent('langChanged', { detail: { lang } }));

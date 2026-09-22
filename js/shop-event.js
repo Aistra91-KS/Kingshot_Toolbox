@@ -33,6 +33,7 @@ const i18nShopEvent = {
     evPerDay: "max {n}/jour", evOnce: "achat unique", evMaxTotal: "{n} pour l'événement",
     evUntilDay: "jusqu'au J{n}", evUntilDayBoth: "max {p}/jour, jusqu'au J{n}",
     evClosedCell: "{p} : plus en vente au J{d}",
+    evNeeds: "après {p}", evLockedCell: "{p} : à débloquer en achetant {r}",
     evPurchaseChk: "Mission « {m} » validée ?",
     evExploreTiers: "{n} palier(s) sur {t}",
     evExploreTip: "Le nombre d'Amulettes que tu as DÉPENSÉES depuis le début de l'événement. C'est lui qui débloque les paliers, pas le nombre d'amulettes en poche. Les paliers se cumulent : tout ce qui est en dessous de ton total est déjà acquis.",
@@ -85,6 +86,7 @@ const i18nShopEvent = {
     evPerDay: "max {n}/day", evOnce: "single purchase", evMaxTotal: "{n} for the whole event",
     evUntilDay: "until D{n}", evUntilDayBoth: "max {p}/day, until D{n}",
     evClosedCell: "{p}: no longer on sale on D{d}",
+    evNeeds: "after {p}", evLockedCell: "{p}: unlocked by buying {r}",
     evPurchaseChk: "\u201C{m}\u201D mission done?",
     evExploreTiers: "{n} of {t} milestones",
     evExploreTip: "How many Amulets you have SPENT since the event started. That is what unlocks the milestones, not how many you are holding. Milestones stack: everything below your total is already yours.",
@@ -155,11 +157,25 @@ function seDays(){ return Math.max(1, Number(SE_DATA._meta.days)||1); }
 // question posée : 261 000 gemmes de pain et de bois faisaient lire 113 % de
 // valorisation à un joueur dont le vrai retour est ce qu'il sort de la boutique.
 //
+// `excludePackItemsByDefault: true` dit la même chose SANS liste : tout objet versé
+// par un pack part décoché. Une liste d'itemId oblige à penser à chaque nouveau pack
+// relevé, et un oubli gonfle le retour en silence — c'est la règle qui tient, pas
+// l'inventaire. Les objets sans itemId (les Lanternes) ne sont pas décochés : ils ne
+// sont jamais chiffrés, les griser masquerait une information sans changer un total.
+//
 // Absent, rien n'est décoché : c'est le comportement des trois autres événements.
 function seDefaultExcluded(){
   const ex = {};
-  const list = (SE_DATA._meta && SE_DATA._meta.excludedByDefault) || [];
+  const meta = SE_DATA._meta || {};
+  const list = meta.excludedByDefault || [];
   if(Array.isArray(list)) list.forEach(k => { if(typeof k === 'string' && k) ex[k] = 1; });
+  if(meta.excludePackItemsByDefault){
+    (SE_DATA.packs||[]).forEach(p=>{
+      [p.reward, p.immediate, p.daily].forEach(bag=>{
+        ((bag||{}).items||[]).forEach(it=>{ if(it.itemId) ex[it.itemId] = 1; });
+      });
+    });
+  }
   return ex;
 }
 
@@ -247,6 +263,29 @@ function seSrcList(bag){
     .sort((a,b)=> b.qty - a.qty);
 }
 
+// Pack conditionné à un autre (`requires`) : au Clair de Lune, « Grands Desseins »
+// ne s'ouvre qu'une fois « Désirs du Cœur » acheté. Le prérequis vaut pour tout
+// l'événement, pas pour un jour donné : acheté au J2, il ouvre le second pack du J1
+// au dernier jour. Un `requires` qui ne désigne aucun pack du fichier ne bloque
+// rien — mieux vaut une grille complète qu'une ligne morte sans explication.
+const SE_PREREQ_VUS = new Set();
+function sePrereqOk(p){
+  if(!p || !p.requires) return true;
+  // Deux packs qui s'exigeraient l'un l'autre feraient tourner seBuysCount en rond :
+  // la chaîne déjà en cours d'évaluation est déclarée remplie et s'arrête là.
+  if(SE_PREREQ_VUS.has(p.id)) return true;
+  const req = (SE_DATA.packs||[]).find(x=>x.id===p.requires);
+  if(!req) return true;
+  SE_PREREQ_VUS.add(p.id);
+  try {
+    for(let d=1; d<=seDays(); d++) if(seBuysCount(req.id, d) > 0) return true;
+    return false;
+  } finally { SE_PREREQ_VUS.delete(p.id); }
+}
+function sePrereqPack(p){
+  return (p && p.requires) ? (SE_DATA.packs||[]).find(x=>x.id===p.requires) || null : null;
+}
+
 function seBuysCount(packId, day){
   const b = SE_PLAN.buys[packId];
   const n = b ? (Number(b[day])||0) : 0;
@@ -258,6 +297,7 @@ function seBuysCount(packId, day){
   // les achats — dépense, récompenses, totaux par jour et grille.
   const p = (SE_DATA.packs||[]).find(x=>x.id===packId);
   if(p && Number(day) > sePackLastDay(p)) return 0;
+  if(p && !sePrereqOk(p)) return 0;
   return n;
 }
 function seBuysAt(day){
@@ -530,16 +570,35 @@ function seGridHtml(c){
     const stock = Number(p.maxTotal) || 0;   // stock d'événement : saisie libre par jour
     const last = sePackLastDay(p);
     const court = last < days;               // le pack ferme avant la fin de l'événement
-    const limit = p.once ? seT('evOnce')
-                : stock ? seTf('evMaxTotal',{n:stock})
-                : court ? (max>1 ? seTf('evUntilDayBoth',{p:max,n:last}) : seTf('evUntilDay',{n:last}))
-                : (max>1 ? seTf('evPerDay',{n:max}) : '');
+    const verrou = sePrereqPack(p) && !sePrereqOk(p) ? sePrereqPack(p) : null;
+    const limit = [
+      p.once ? seT('evOnce')
+             : stock ? seTf('evMaxTotal',{n:stock})
+             : court ? (max>1 ? seTf('evUntilDayBoth',{p:max,n:last}) : seTf('evUntilDay',{n:last}))
+             : (max>1 ? seTf('evPerDay',{n:max}) : ''),
+      // Un pack à achat unique peut lui aussi fermer avant la fin de l'événement :
+      // au Clair de Lune, les deux ferment au J7 comme les quotidiens, la boutique
+      // seule tenant un jour de plus. Sans ce segment, « achat unique » laissait la
+      // case du J8 grise sans que rien à l'écran ne dise pourquoi.
+      p.once && court ? seTf('evUntilDay',{n:last}) : '',
+      // Condition d'achat : affichée en permanence, remplie ou non. Un joueur qui lit
+      // « après Désirs du Cœur » comprend une ligne grisée ; sans elle, il ne voit
+      // qu'un pack qui refuse les clics.
+      sePrereqPack(p) ? seTf('evNeeds',{p:seName(sePrereqPack(p))}) : '',
+    ].filter(Boolean).join(' · ');
     const note = p.note ? ` <span class="sxe-info" title="${scEscAttr(seName({name:p.note}))}">ⓘ</span>` : '';
     let cells = '', rowCount = 0;
     for(let d=1; d<=days; d++){
       // Jour où ce pack n'est plus en vente : case inerte, et rien à cocher. Le
       // `disabled` porte le nom du pack et le jour, sinon un lecteur d'écran n'entend
       // qu'une suite de boutons désactivés sans savoir lesquels ni pourquoi.
+      // Pack dont le prérequis n'est pas rempli : même case inerte qu'un pack fermé,
+      // avec le pack à acheter d'abord dans l'étiquette du lecteur d'écran.
+      if(verrou){
+        cells += `<td class="ctr c-day"><span class="sxe-cell is-closed" role="img"`
+               + ` aria-label="${scEscAttr(seTf('evLockedCell',{p:seName(p),r:seName(verrou)}))}">·</span></td>`;
+        continue;
+      }
       if(d > last){
         // Le nom va SUR la case, via `role="img"` : un texte réservé aux lecteurs
         // d'écran serait un `position:absolute` sans ancêtre positionné, posé à sa
@@ -760,6 +819,10 @@ function seRender(){
 // jour y déplace l'achat.
 window.seToggle = function(packId, day){
   const p = (SE_DATA.packs||[]).find(x=>x.id===packId); if(!p) return;
+  // Pack encore verrouillé : ne rien écrire dans le plan. Sans ce retour, le clic
+  // enregistrait un achat que `seBuysCount` refuse de lire — la case restait vide
+  // et le joueur cliquait dans le vide, sans rien pour le lui dire.
+  if(!sePrereqOk(p)) return;
   const max = p.once ? 1 : Math.max(1, Number(p.perDay)||1);
   const cur = seBuysCount(packId, day);
   const next = (cur + 1) > max ? 0 : cur + 1;
