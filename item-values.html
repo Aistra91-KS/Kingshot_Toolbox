@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
+    try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-M1QG4XSD3K');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Kingshot Item Values - Gem Value and Real Price of Every Item | Kingshot Toolbox</title>
+    <meta name="description" content="What every Kingshot item is worth: its value in gems, and what it really costs in euros in the paid packs. Two reference tables, the method behind each figure, and the rules that fix what a raw reading gets wrong.">
+    <link rel="canonical" href="https://kingshottoolbox.com/item-values">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kingshot Toolbox">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:title" content="Kingshot Item Values - Gem Value and Real Price of Every Item">
+    <meta property="og:description" content="What every Kingshot item is worth: its value in gems, and what it really costs in euros in the paid packs. Two reference tables, the method behind each figure, and the rules that fix what a raw reading gets wrong.">
+    <meta property="og:url" content="https://kingshottoolbox.com/item-values">
+    <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Kingshot Toolbox - free calculators, optimizers and databases for Kingshot">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="img/logo/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo/favicon-96.png">
+    <link rel="alternate icon" type="image/png" href="img/logo/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/db.css">
+    <link rel="stylesheet" href="css/shop.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Item Values","item":"https://kingshottoolbox.com/item-values"}]}</script>
+</head>
+<body class="has-app-header">
+
+    <div class="db-page">
+        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <span data-en="Item Values" data-fr="Valeur des Objets">Item Values</span></div>
+        <h1 data-en="Item Values" data-fr="Valeur des Objets">Item Values</h1>
+        <p class="db-intro" data-en="Every figure on this site comes from one of the two tables below. The first says what an item is worth in gems, the second what it really costs in euros in the paid packs. They are read separately and never converted into one another." data-fr="Chaque chiffre du site sort de l'une des deux tables ci-dessous. La première dit ce qu'un objet vaut en gemmes, la seconde ce qu'il coûte réellement en euros dans les packs payants. Elles se lisent séparément et ne se convertissent jamais l'une dans l'autre.">Every figure on this site comes from one of the two tables below. The first says what an item is worth in gems, the second what it really costs in euros in the paid packs. They are read separately and never converted into one another.</p>
+
+        <a class="sx-card sx-ref" href="shop/items" style="margin-bottom:8px;">
+          <span class="sx-thumb"><span class="sx-ref-glyph">&#128142;</span></span>
+          <span class="sx-body">
+            <span class="sx-name" data-en="Item values (gems)" data-fr="Valeur des objets (gemmes)">Item values (gems)</span>
+            <span class="sx-meta"><span data-en="The gem reference table behind every calculation. Editable: change a value and every shop recalculates." data-fr="Le référentiel en gemmes qui alimente tous les calculs. Modifiable : changez une valeur et toutes les boutiques se recalculent.">The gem reference table behind every calculation. Editable: change a value and every shop recalculates.</span></span>
+          </span>
+        </a>
+        <a class="sx-card sx-ref sx-ref-eur" href="shop/items-euro" style="margin-bottom:8px;">
+          <span class="sx-thumb"><span class="sx-ref-glyph">&euro;</span></span>
+          <span class="sx-body">
+            <span class="sx-name" data-en="Real-money item values" data-fr="Prix réel des objets">Real-money item values</span>
+            <span class="sx-meta"><span data-en="What each item costs in the paid packs, in euros and dollars. Read-only, with the source pack shown for every line." data-fr="Ce que coûte chaque objet dans les packs payants, en euros et en dollars. Lecture seule, avec le pack d'origine affiché sur chaque ligne.">What each item costs in the paid packs, in euros and dollars. Read-only, with the source pack shown for every line.</span></span>
+          </span>
+        </a>
+
+        <!-- ===== D'OÙ VIENT UN CHIFFRE ===== -->
+        <section class="sx-section">
+          <h2><span data-en="Where a figure comes from" data-fr="D'où vient un chiffre">Where a figure comes from</span></h2>
+
+          <div class="sxv-method">
+            <p data-en="The gem value is the reference the whole site is built on. It is an estimate, kept deliberately simple so that two items of the same kind stay comparable, and you can overwrite any of it: the table is editable, your changes stay in your browser, and every shop page recalculates from them." data-fr="La valeur en gemmes est la référence sur laquelle tout le site est bâti. C'est une estimation, tenue volontairement simple pour que deux objets de même nature restent comparables, et vous pouvez tout réécrire : la table est modifiable, vos changements restent dans votre navigateur, et chaque page de boutique se recalcule dessus.">The gem value is the reference the whole site is built on. It is an estimate, kept deliberately simple so that two items of the same kind stay comparable, and you can overwrite any of it: the table is editable, your changes stay in your browser, and every shop page recalculates from them.</p>
+
+            <p data-en="The real price is a survey, not an estimate. Only packs you can buy at least once a month are counted - event packs, VIP packs and one-off packs are left out, because a price you cannot get again is not a price. An item's unit price is the pack price divided by the quantity it hands out, and when several packs sell the same item, the one with the best unit price wins. At equal unit price, the cheaper ticket is kept." data-fr="Le prix réel est un relevé, pas une estimation. Seuls les packs achetables au moins une fois par mois y entrent : packs d'événement, packs VIP et packs à passage unique sont écartés, parce qu'un prix qu'on ne peut plus obtenir n'est pas un prix. Le prix unitaire d'un objet, c'est le prix du pack divisé par la quantité qu'il donne, et quand plusieurs packs vendent le même objet, c'est le meilleur prix unitaire qui l'emporte. À prix unitaire égal, on garde le petit ticket.">The real price is a survey, not an estimate. Only packs you can buy at least once a month are counted - event packs, VIP packs and one-off packs are left out, because a price you cannot get again is not a price. An item's unit price is the pack price divided by the quantity it hands out, and when several packs sell the same item, the one with the best unit price wins. At equal unit price, the cheaper ticket is kept.</p>
+
+            <p data-en="The survey does not cover everything, and an item nobody sells shows a dash, never a zero. A zero would quietly drag down the value of a whole shop; a dash says the figure is missing and leaves the rest of the line readable." data-fr="Le relevé ne couvre pas tout, et un objet que personne ne vend affiche un tiret, jamais un zéro. Un zéro tirerait en silence la valeur d'une boutique entière vers le bas ; le tiret dit que le chiffre manque et laisse le reste de la ligne lisible.">The survey does not cover everything, and an item nobody sells shows a dash, never a zero. A zero would quietly drag down the value of a whole shop; a dash says the figure is missing and leaves the rest of the line readable.</p>
+
+            <p data-en="No exchange rate is ever computed between the two. Nowhere on the site does a gem become a euro cent: a shop table shows the two readings side by side and lets you decide which one you are shopping on." data-fr="Aucun taux de change n'est jamais calculé entre les deux. Nulle part sur le site une gemme ne devient un centime d'euro : un tableau de boutique affiche les deux lectures côte à côte et vous laisse décider sur laquelle vous achetez.">No exchange rate is ever computed between the two. Nowhere on the site does a gem become a euro cent: a shop table shows the two readings side by side and lets you decide which one you are shopping on.</p>
+          </div>
+        </section>
+
+        <!-- ===== LES QUATRE CORRECTIONS ===== -->
+        <section class="sx-section">
+          <h2><span data-en="The four corrections" data-fr="Les quatre corrections">The four corrections</span></h2>
+          <p class="sx-section-sub" data-en="A raw survey can be accurate and still give an absurd unit price. Four rules run on top of it, in this order, and each one is shown on the line it corrects." data-fr="Un relevé nu peut être exact et donner malgré tout un prix unitaire absurde. Quatre règles s'appliquent par-dessus, dans cet ordre, et chacune s'affiche sur la ligne qu'elle corrige.">A raw survey can be accurate and still give an absurd unit price. Four rules run on top of it, in this order, and each one is shown on the line it corrects.</p>
+
+          <div class="sxv-rules">
+            <article class="sxv-rule">
+              <h3 data-en="Calculated from another item" data-fr="Calculé depuis un autre objet">Calculated from another item</h3>
+              <p data-en="An item no pack sells, or one whose survey price contradicts plain sense, is derived from an item that is properly priced." data-fr="Un objet qu'aucun pack ne vend, ou dont le prix relevé contredit le bon sens, est déduit d'un objet correctement chiffré.">An item no pack sells, or one whose survey price contradicts plain sense, is derived from an item that is properly priced.</p>
+              <p class="sxv-rule-ex"><span class="sxv-rule-lbl" data-en="Example" data-fr="Exemple">Example</span><span data-en="Quick March 1 removes 25% of the trip against 50% for Quick March 2, so it is worth half of it. The raw survey had it at 1.50 EUR against 1.00 EUR - the wrong way round." data-fr="La Marche Rapide 1 enlève 25 % du trajet contre 50 % pour la Marche Rapide 2 : elle en vaut donc la moitié. Le relevé nu la sortait à 1,50 € contre 1,00 €, soit l'inverse.">Quick March 1 removes 25% of the trip against 50% for Quick March 2, so it is worth half of it. The raw survey had it at 1.50 EUR against 1.00 EUR - the wrong way round.</span></p>
+            </article>
+            <article class="sxv-rule">
+              <h3 data-en="One minute is one minute" data-fr="Une minute vaut une minute">One minute is one minute</h3>
+              <p data-en="Speedups are priced by duration, not by token format. The pack giving the most minutes per euro sets the price of a minute, and every speedup is worth its length." data-fr="Les accélérateurs sont chiffrés à la durée, pas au format du jeton. Le pack qui donne le plus de minutes par euro fixe le prix de la minute, et chaque accélérateur vaut sa durée.">Speedups are priced by duration, not by token format. The pack giving the most minutes per euro sets the price of a minute, and every speedup is worth its length.</p>
+              <p class="sxv-rule-ex"><span class="sxv-rule-lbl" data-en="Example" data-fr="Exemple">Example</span><span data-en="Without it the 3h speedup came out six times dearer per minute than the 1h. It is also what prices the 8h speedup, which no pack sells." data-fr="Sans elle, l'accélérateur 3 h ressortait six fois plus cher à la minute que le 1 h. C'est aussi ce qui chiffre l'accélérateur 8 h, qu'aucun pack ne vend.">Without it the 3h speedup came out six times dearer per minute than the 1h. It is also what prices the 8h speedup, which no pack sells.</span></p>
+            </article>
+            <article class="sxv-rule">
+              <h3 data-en="One affinity point is one affinity point" data-fr="Un point d'affinité vaut un point d'affinité">One affinity point is one affinity point</h3>
+              <p data-en="The same rule applied to the three expert affinity tokens. They buy one single thing, so a point must cost the same whichever token carries it." data-fr="La même règle appliquée aux trois jetons d'affinité d'expert. Ils n'achètent qu'une chose, donc un point doit coûter pareil quel que soit le jeton qui le porte.">The same rule applied to the three expert affinity tokens. They buy one single thing, so a point must cost the same whichever token carries it.</p>
+              <p class="sxv-rule-ex"><span class="sxv-rule-lbl" data-en="Example" data-fr="Exemple">Example</span><span data-en="Surveyed token by token, the Silver Cup came out at thirty times the price per point of the Elite Spices. The rule brings all three back in line." data-fr="Relevée jeton par jeton, la Coupe en argent sortait à trente fois le prix du point des Épices d'élite. La règle réaligne les trois.">Surveyed token by token, the Silver Cup came out at thirty times the price per point of the Elite Spices. The rule brings all three back in line.</span></p>
+            </article>
+            <article class="sxv-rule">
+              <h3 data-en="Basic resources count for a quarter" data-fr="Les ressources de base comptent pour un quart">Basic resources count for a quarter</h3>
+              <p data-en="An assumed editorial choice, not a measurement: wood, bread, stone and iron pile up on their own while you play and do not decide whether a purchase was worth it." data-fr="Un choix éditorial assumé, pas une mesure : bois, pain, pierre et fer s'accumulent seuls en jouant et ne décident pas de la rentabilité d'un achat.">An assumed editorial choice, not a measurement: wood, bread, stone and iron pile up on their own while you play and do not decide whether a purchase was worth it.</p>
+              <p class="sxv-rule-ex"><span class="sxv-rule-lbl" data-en="Example" data-fr="Exemple">Example</span><span data-en="Gold and gems are left out of it: they are currencies, not building material." data-fr="L'or et les gemmes en sont exclus : ce sont des monnaies, pas du matériau de construction.">Gold and gems are left out of it: they are currencies, not building material.</span></p>
+            </article>
+          </div>
+          <p class="sxv-note" data-en="Every corrected line carries its own audit trail on the real-price table: the rule that applied, the item it was derived from and the arithmetic, so any figure can be redone by hand." data-fr="Chaque ligne corrigée porte sa propre piste d'audit sur la table des prix réels : la règle appliquée, l'objet dont elle est déduite et le calcul, pour que n'importe quel chiffre puisse être refait à la main.">Every corrected line carries its own audit trail on the real-price table: the rule that applied, the item it was derived from and the arithmetic, so any figure can be redone by hand.</p>
+        </section>
+
+        <!-- Les deux autres pages du bloc. Maillage écrit en dur (cf. MAP.md §9). -->
+        <div class="sx-reflinks">
+          <p class="sx-reflinks-lead" data-en="Elsewhere in Value &amp; ROI" data-fr="Ailleurs dans Valeur et Rentabilité">Elsewhere in Value &amp; ROI</p>
+          <div class="sx-reflinks-row">
+            <a class="sx-reflink" href="shop_calc"><span class="sx-reflink-glyph" aria-hidden="true">&#128722;</span><span data-en="Permanent shops and chests" data-fr="Boutiques permanentes et coffres">Permanent shops and chests</span></a>
+            <a class="sx-reflink is-eur" href="event-roi"><span class="sx-reflink-glyph" aria-hidden="true">&#128200;</span><span data-en="Event shops and ROI" data-fr="Boutiques d'événement et rentabilité">Event shops and ROI</span></a>
+          </div>
+        </div>
+</div>
+
+    <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
+         etat ferme (position:fixed + translateX(100%) => hors ecran). Placee AVANT
+         les scripts : header.js la reutilise au lieu d en creer une seconde, puis
+         hdrBuildDrawer() en remplace le contenu par sa version complete. Le rendu
+         final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
+         n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
+    <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+
+    <script src="js/site-config.js"></script>
+    <script src="js/storage-keys.js"></script>
+    <script src="js/profiles.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/header.js"></script>
+    <script>
+    /* Page de texte : pas de données à charger, donc pas de shop-core.js. Tout son
+       contenu est bilingue en dur (data-en/data-fr), appliqué ici. */
+    (function(){
+      function apply(){
+        const lang=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'EN';
+        const attr='data-'+lang.toLowerCase();
+        document.querySelectorAll('[data-en][data-fr]').forEach(el=>{
+          const v=el.getAttribute(attr); if(v!=null) el.textContent=v;
+        });
+        document.documentElement.lang=lang.toLowerCase();
+      }
+      window.addEventListener('langChanged', apply); apply();
+    })();
+    </script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

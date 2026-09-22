@@ -48,25 +48,11 @@
     <div class="control-group">
         <h3 data-i18n="settings">Settings</h3>
         <div class="control-row">
-            <label for="base-bonus" data-i18n="baseBonus">Base Research Bonus (%)</label>
-            <input type="number" id="base-bonus" value="75.3" step="0.1">
+            <label for="base-bonus" data-i18n="baseBonus">Research Speed Bonus (%)</label>
+            <input type="number" id="base-bonus" value="75.3" step="0.1" min="0" aria-describedby="base-bonus-err">
         </div>
-        <div class="control-row">
-            <label for="chief-minister" data-i18n="chiefMinister">Chief Minister (+10%)</label>
-            <input type="checkbox" id="chief-minister">
-        </div>
-        <div class="control-row">
-            <label for="kvk-bonus" data-i18n="kvkBonus">KVK Bonus (+5%)</label>
-            <input type="checkbox" id="kvk-bonus" checked>
-        </div>
-        <div class="control-row">
-            <label for="kingdom-bonus" data-i18n="kingdomBonus">Kingdom Bonus (+10%)</label>
-            <input type="checkbox" id="kingdom-bonus" checked>
-        </div>
-        <div class="control-row">
-            <label style="color: var(--accent); font-weight: bold;" data-i18n="totalBonus">Total Bonus</label>
-            <span id="total-bonus-display" style="color: var(--accent); font-weight: bold;">0%</span>
-        </div>
+        <p class="input-error" id="base-bonus-err" data-i18n="bonusRange" aria-live="polite" hidden>Speed bonus refused: enter a positive percentage. The figures below are computed without a bonus.</p>
+        <p class="group-hint" data-i18n="baseBonusHint">Copy the figure your city shows in game. It already counts your Chief Minister, KVK and Kingdom bonuses when they are active.</p>
     </div>
 
     <!-- ===== Bloc UNIQUEMENT sur les arbres : Display Options ===== -->
@@ -106,6 +92,20 @@
                 <label for="tree-battle" class="tree-label"><svg class="res-ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/></svg> <span data-i18n="treeBattleLabel">Battle</span></label>
                 <input type="checkbox" id="tree-battle" checked>
             </div>
+        </div>
+
+        <!-- Priority researches -->
+        <div class="control-group" style="margin-bottom:20px;">
+            <h3 data-i18n="prioTitle">Priority Researches</h3>
+            <div class="control-row">
+                <label for="prio-tool-enhancement" data-i18n="prioToolEnhancement">Tool Enhancement (research speed)</label>
+                <input type="checkbox" id="prio-tool-enhancement" checked>
+            </div>
+            <div class="control-row">
+                <label for="prio-tooling-up" data-i18n="prioToolingUp">Tooling Up (construction speed)</label>
+                <input type="checkbox" id="prio-tooling-up" checked>
+            </div>
+            <p class="group-hint" data-i18n="prioHint">These two pay for everything you start after them, so the suggestions put them first. Untick one to drop it back into the normal order.</p>
         </div>
 
         <!-- KVK Mode -->
@@ -148,14 +148,14 @@
 </div>
 
     <div class="main-content">
-        <div class="tabs">
-            <div class="tab active" data-target="tab-optimal" data-i18n="tabOptimal">Optimal Search Order</div>
-            <div class="tab" data-target="tab-growth" data-i18n="tabGrowth">Growth Tree</div>
-            <div class="tab" data-target="tab-economy" data-i18n="tabEconomy">Economy Tree</div>
-            <div class="tab" data-target="tab-battle" data-i18n="tabBattle">Battle Tree</div>
+        <div class="tabs" role="tablist" aria-label="Research views">
+            <button type="button" class="tab active" role="tab" id="tab-optimal-btn" aria-controls="tab-optimal" aria-selected="true" tabindex="0" data-target="tab-optimal" data-i18n="tabOptimal">Optimal Search Order</button>
+            <button type="button" class="tab" role="tab" id="tab-growth-btn" aria-controls="tab-growth" aria-selected="false" tabindex="-1" data-target="tab-growth" data-i18n="tabGrowth">Growth Tree</button>
+            <button type="button" class="tab" role="tab" id="tab-economy-btn" aria-controls="tab-economy" aria-selected="false" tabindex="-1" data-target="tab-economy" data-i18n="tabEconomy">Economy Tree</button>
+            <button type="button" class="tab" role="tab" id="tab-battle-btn" aria-controls="tab-battle" aria-selected="false" tabindex="-1" data-target="tab-battle" data-i18n="tabBattle">Battle Tree</button>
         </div>
         
-        <div id="tab-optimal" class="tab-content active">
+        <div id="tab-optimal" class="tab-content active" role="tabpanel" tabindex="0" aria-labelledby="tab-optimal-btn">
             <h2 data-i18n="suggTitle">Suggestion for the next researches</h2>
             <p class="group-hint sugg-hint" data-i18n="suggHint">Researches that raise research speed are flagged and come first: everything you start after them is shorter. KVK mode goes back to shortest first, to finish as many as it can.</p>
             <div class="table-container">
@@ -178,7 +178,7 @@
             <div class="dashboard-grid" id="dashboard-container"></div>
         </div>
 
-        <div id="tab-growth" class="tab-content">
+        <div id="tab-growth" class="tab-content" role="tabpanel" tabindex="0" aria-labelledby="tab-growth-btn">
             <div class="layout-toggle">
                 <button class="toggle-btn tree-btn active" data-target="growth" data-i18n="btnTree">Visual Tree</button>
                 <button class="toggle-btn table-btn" data-target="growth" data-i18n="btnTable">List View</button>
@@ -201,7 +201,7 @@
             </div>
         </div>
 
-        <div id="tab-economy" class="tab-content">
+        <div id="tab-economy" class="tab-content" role="tabpanel" tabindex="0" aria-labelledby="tab-economy-btn">
             <div class="layout-toggle">
                 <button class="toggle-btn tree-btn active" data-target="economy" data-i18n="btnTree">Visual Tree</button>
                 <button class="toggle-btn table-btn" data-target="economy" data-i18n="btnTable">List View</button>
@@ -224,7 +224,7 @@
             </div>
         </div>
 
-        <div id="tab-battle" class="tab-content">
+        <div id="tab-battle" class="tab-content" role="tabpanel" tabindex="0" aria-labelledby="tab-battle-btn">
             <div class="layout-toggle">
                 <button class="toggle-btn tree-btn active" data-target="battle" data-i18n="btnTree">Visual Tree</button>
                 <button class="toggle-btn table-btn" data-target="battle" data-i18n="btnTable">List View</button>
@@ -255,7 +255,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Guide</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>TrueGold</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span><span class="hdr-badge">Beta</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Pack / Shop Calculation</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

@@ -28,9 +28,9 @@
     "Infirmary":      { "EN": "Infirmary",      "FR": "Infirmerie" },
     "Command Center": { "EN": "Command Center", "FR": "Base de commandement" },
     "War Academy":    { "EN": "War Academy",    "FR": "Académie de Guerre" },
-    "Barracks":       { "EN": "Barracks",       "FR": "Quartiers" },
-    "Stable":         { "EN": "Stable",         "FR": "Ecurie" },
-    "Range":          { "EN": "Range",          "FR": "Stand de Tir" }
+    "Barracks":       { "EN": "Infantry Camp",  "FR": "Camp d'Infanterie" },
+    "Stable":         { "EN": "Lancer Camp",    "FR": "Camp de Lanciers" },
+    "Range":          { "EN": "Archer Camp",    "FR": "Camp d'Archers" }
   },
 
   "defaultBuildings": [

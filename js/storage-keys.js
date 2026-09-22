@@ -8,6 +8,7 @@ const STORAGE_KEYS = {
     beartrap:       'beartrap_data',
     beartrapJoiners: 'beartrap_joiners',
     truegold:       'tg_calc_data_v3',
+    truegoldPre:    'tg_pre_data_v1',   // onglet « Avant l'Or Véritable » : niveaux 1→30 + stock de ressources
     waracademy:     'wa_calc_data_v1',
     vikings:        'vikings_data',
     shopcalcItems: 'shopcalc_items',
@@ -261,6 +262,13 @@ function ktSafeSet(key, value) {
     }
 }
 
+// Exposée pour les lectures qui écartent une valeur SANS passer par `safeParse` :
+// un JSON qui s'analyse très bien mais dont la forme est inutilisable (une liste
+// de marches livrée en objet, une fiche de héros qui n'en est pas une). Le
+// bandeau `ktWarnCorrupt()` promet que la version abîmée est mise de côté : sans
+// cet appel, la promesse serait fausse et l'original serait écrasé au premier
+// enregistrement de la page. Appel sous garde `window.` depuis un autre fichier.
+window.ktKeepCorrupt = ktKeepCorrupt;
 window.ktSafeSet = ktSafeSet;
 window.ktWarnUnsaved = ktWarnUnsaved;
 window.ktWarnCorrupt = ktWarnCorrupt;

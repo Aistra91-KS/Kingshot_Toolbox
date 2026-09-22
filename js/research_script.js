@@ -10,9 +10,18 @@ let totalAccSeconds = 0;
 const i18n = {
     'EN': {
         'controlPanel': 'Control Panel', 'settings': 'Settings', 'language': 'Language',
-        'baseBonus': 'Base Research Bonus (%)', 'chiefMinister': 'Chief Minister (+10%)',
-        'kvkBonus': 'KVK Bonus (+5%)', 'kingdomBonus': 'Kingdom Bonus (+10%)',
-        'totalBonus': 'Total Bonus', 'displayOptions': 'Display Options',
+        'baseBonus': 'Research Speed Bonus (%)',
+        'baseBonusHint': 'Copy the figure your city shows in game. It already counts your Chief Minister, KVK and Kingdom bonuses when they are active.',
+        'bonusRange': 'Speed bonus refused: enter a positive percentage. The figures below are computed without a bonus.',
+        'tabsLabel': 'Research views',
+        'prioTitle': 'Priority Researches',
+        'prioToolEnhancement': 'Tool Enhancement (research speed)',
+        'prioToolingUp': 'Tooling Up (construction speed)',
+        'prioHint': 'These two pay for everything you start after them, so the suggestions put them first. Untick one to drop it back into the normal order.',
+        'badgeResearchSpeed': 'Research speed', 'badgeBuildSpeed': 'Build speed',
+        'badgeResearchSpeedTitle': 'Raises research speed: every research you start after it takes less time, so it comes first.',
+        'badgeBuildSpeedTitle': 'Raises construction speed: every building you start after it takes less time, so it comes first.',
+        'displayOptions': 'Display Options',
         'hideCompleted': 'Hide completed', 'accelerators': 'Accelerators',
         'days': 'Days (d)', 'hours': 'Hours (h)', 'minutes': 'Minutes (m)',
         'totalAvailable': 'Total Available', 'targetTree': 'Target Tree',
@@ -39,9 +48,7 @@ const i18n = {
         'btnDoneTitle': 'Tick this research off. What it required gets ticked too.',
         'btnDoneAria': 'Done: {name}, step {n}',
         'toastDone': '{name} ticked off', 'toastDoneReqs': '{name} ticked off, plus {n} prerequisite(s)',
-        'speedBadge': 'Speed',
-        'speedBadgeTitle': 'Raises research speed: everything you start after it takes less time, so it comes first.',
-        'suggHint': 'Researches that raise research speed are flagged and come first: everything you start after them is shorter. KVK mode goes back to shortest first, to finish as many as it can.',
+        'suggHint': 'Tool Enhancement (research speed) and Tooling Up (construction speed) are flagged and come first: everything you start after them is shorter. Untick either in the side panel to drop it back into the normal order. KVK mode goes back to shortest first, to finish as many as it can.',
         'kvkLongSep': 'Last one, once the short ones are done: the longest research you can reach. KVK speed bonuses take far more off it than off a short one.',
         'kvkLongOnly': 'Your speedups do not finish a single research. Launch the longest one you can reach: KVK speed bonuses take far more off it than off a short one.',
         'kvkLongLeft': ' You still have {t} of speedups to put into it.',
@@ -49,9 +56,18 @@ const i18n = {
     },
     'FR': {
         'controlPanel': 'Panneau de Contrôle', 'settings': 'Paramètres', 'language': 'Langue',
-        'baseBonus': 'Bonus de base (%)', 'chiefMinister': 'Ministre en Chef (+10%)',
-        'kvkBonus': 'Bonus KVK (+5%)', 'kingdomBonus': 'Bonus Royaume (+10%)',
-        'totalBonus': 'Bonus Total', 'displayOptions': 'Options d\'affichage',
+        'baseBonus': 'Bonus de vitesse de recherche (%)',
+        'baseBonusHint': 'Recopie le chiffre affiché par ta ville en jeu. Il compte déjà tes bonus Ministre en Chef, KVK et Royaume quand ils sont actifs.',
+        'bonusRange': "Bonus de vitesse refusé : saisis un pourcentage positif. Les chiffres ci-dessous sont calculés sans bonus.",
+        'tabsLabel': 'Vues des recherches',
+        'prioTitle': 'Recherches prioritaires',
+        'prioToolEnhancement': 'Amélioration des Outils (vitesse de recherche)',
+        'prioToolingUp': 'Obtentions d\'Outils (vitesse de construction)',
+        'prioHint': 'Ces deux-là paient pour tout ce que tu lances ensuite, les suggestions les mettent donc en tête. Décoche l\'une pour la renvoyer dans l\'ordre normal.',
+        'badgeResearchSpeed': 'Vitesse de recherche', 'badgeBuildSpeed': 'Vitesse de construction',
+        'badgeResearchSpeedTitle': 'Augmente la vitesse de recherche : toute recherche lancée ensuite prend moins de temps, elle passe donc en tête.',
+        'badgeBuildSpeedTitle': 'Augmente la vitesse de construction : tout bâtiment lancé ensuite prend moins de temps, elle passe donc en tête.',
+        'displayOptions': 'Options d\'affichage',
         'hideCompleted': 'Masquer les terminés', 'accelerators': 'Accélérateurs',
         'days': 'Jours (j)', 'hours': 'Heures (h)', 'minutes': 'Minutes (m)',
         'totalAvailable': 'Total Disponible', 'targetTree': 'Arbres cibles',
@@ -79,9 +95,7 @@ const i18n = {
         'btnDoneTitle': 'Cocher cette recherche. Ce qu\'elle exigeait est coché avec.',
         'btnDoneAria': 'Fait : {name}, étape {n}',
         'toastDone': '{name} cochée', 'toastDoneReqs': '{name} cochée, plus {n} prérequis',
-        'speedBadge': 'Vitesse',
-        'speedBadgeTitle': 'Augmente la vitesse de recherche : tout ce que tu lances ensuite prend moins de temps, elle passe donc en tête.',
-        'suggHint': 'Les recherches qui augmentent la vitesse de recherche portent un repère et passent en tête : tout ce qui vient après est plus court. Le mode KVK revient au plus court d\'abord, pour en finir un maximum.',
+        'suggHint': 'Amélioration des Outils (vitesse de recherche) et Obtentions d\'Outils (vitesse de construction) portent un repère et passent en tête : tout ce qui vient après est plus court. Décoche l\'une dans le panneau latéral pour la renvoyer dans l\'ordre normal. Le mode KVK revient au plus court d\'abord, pour en finir un maximum.',
         'kvkLongSep': 'En dernier, une fois les courtes finies : la plus longue recherche à ta portée. Les bonus de vitesse du KVK lui retirent bien plus de temps qu\'à une courte.',
         'kvkLongOnly': 'Ton stock d\'accélérateurs ne finit aucune recherche. Lance la plus longue à ta portée : les bonus de vitesse du KVK lui retirent bien plus de temps qu\'à une courte.',
         'kvkLongLeft': ' Il te reste {t} d\'accélérateurs à y mettre.',
@@ -91,9 +105,6 @@ const i18n = {
 
 const inputs = {
     baseBonus: document.getElementById('base-bonus'),
-    chiefMinister: document.getElementById('chief-minister'),
-    kvkBonus: document.getElementById('kvk-bonus'),
-    kingdomBonus: document.getElementById('kingdom-bonus'),
     modeKvk: document.getElementById('mode-kvk'),
     days: document.getElementById('acc-days'),
     hours: document.getElementById('acc-hours'),
@@ -102,7 +113,9 @@ const inputs = {
     treeEconomy: document.getElementById('tree-economy'),
     treeBattle: document.getElementById('tree-battle'),
     hideCompleted: document.getElementById('hide-completed'),
-    autoReqs: document.getElementById('auto-reqs')
+    autoReqs: document.getElementById('auto-reqs'),
+    prioToolEnhancement: document.getElementById('prio-tool-enhancement'),
+    prioToolingUp: document.getElementById('prio-tooling-up')
 };
 
 // ============ DATA LOADING (depuis JSON) ============
@@ -130,25 +143,29 @@ async function loadInitialDb() {
     }
 }
 
+// Les recherches que la base a renommées. La sauvegarde du joueur porte les
+// anciens noms : sans cette table, sa progression sur ces lignes serait perdue.
+const RS_RENAMED = { 'Iron Gathering V': 'Iron Mining V' };
+
 function initData() {
+    // La base fait foi, la sauvegarde n'apporte QUE les cases cochées.
+    //
+    // L'ancienne version faisait l'inverse : elle repartait du tableau enregistré
+    // et n'y rafraîchissait que `reqs` et `Etage`. Tout le reste — coûts, temps,
+    // et maintenant vignette, effet, Académie, puissance — restait figé à la
+    // version du jour où le joueur avait coché sa première case. Une correction
+    // de données n'atteignait donc jamais un habitué, et c'est exactement la
+    // population qui consulte l'outil le plus souvent.
+    db = JSON.parse(JSON.stringify(initialDb));
     const savedDb = safeParse(STORAGE_KEYS.researchDb, null);
     if (Array.isArray(savedDb)) {
-        try {
-            db = savedDb;
-            const refMap = {};
-            initialDb.forEach(d => { refMap[d.Tree + '_' + d.Name + '_' + d.Level] = {r: d.reqs, e: d.Etage}; });
-            db.forEach(d => {
-                const key = d.Tree + '_' + d.Name + '_' + d.Level;
-                if(refMap[key]) {
-                    d.reqs = refMap[key].r;
-                    d.Etage = refMap[key].e;
-                }
-            });
-        } catch(e) {
-            db = JSON.parse(JSON.stringify(initialDb));
-        }
-    } else {
-        db = JSON.parse(JSON.stringify(initialDb));
+        const done = new Set();
+        savedDb.forEach(d => {
+            if (!d || !d.Researched) return;
+            const name = RS_RENAMED[d.Name] || d.Name;
+            done.add(d.Tree + '_' + name + '_' + d.Level);
+        });
+        db.forEach(d => { if (done.has(d.Tree + '_' + d.Name + '_' + d.Level)) d.Researched = true; });
     }
 
     const parsedInputs = safeParse(STORAGE_KEYS.researchInputs, null);
@@ -159,6 +176,20 @@ function initData() {
         // quoi un 0,753 déjà en place serait relu comme 0,753 % et fausserait tous les temps.
         if (!parsedInputs.bonusAsPercent && parsedInputs.baseBonus !== undefined) {
             parsedInputs.baseBonus = (parseFloat(parsedInputs.baseBonus) || 0) * 100;
+        }
+        // Les trois cases Ministre / KVK / Royaume ont disparu : le chiffre affiché
+        // par la ville les compte déjà, et les recocher les comptait deux fois. Les
+        // réglages enregistrés avant, eux, portaient un bonus qui les EXCLUAIT :
+        // on replie leur valeur dans le champ, une seule fois. Sans ça le total
+        // d'un habitué chutait d'un coup de 15 points (5 + 10, cochés par défaut)
+        // et tous ses temps s'allongeaient sans qu'il comprenne pourquoi.
+        // Doit rester APRÈS la conversion en pourcentage, qui multiplie par 100.
+        if (!parsedInputs.bonusFolded) {
+            let extra = 0;
+            if (parsedInputs.chiefMinister) extra += 10;
+            if (parsedInputs.kvkBonus) extra += 5;
+            if (parsedInputs.kingdomBonus) extra += 10;
+            if (extra) parsedInputs.baseBonus = (parseFloat(parsedInputs.baseBonus) || 0) + extra;
         }
         // Un champ par tour, chacun sous sa propre garde. Le `catch(e) {}` global
         // d'avant abandonnait la restauration là où elle levait : les premiers
@@ -176,11 +207,27 @@ function initData() {
 }
 
 function saveData() {
-    try { localStorage.setItem(STORAGE_KEYS.researchDb, JSON.stringify(db)); } catch (e) { if (window.ktWarnUnsaved) window.ktWarnUnsaved(); }
-    const inputsState = { bonusAsPercent: true };
+    // On n'enregistre QUE les cases cochees, pas la base entiere : `initData()`
+    // ne relit plus que `Researched`, et depuis l'ajout de la vignette, de
+    // l'effet, du niveau d'Academie et de la puissance, le tableau complet
+    // pesait ~360 Ko reecrits a chaque frappe dans le champ de bonus. Le
+    // format reste un TABLEAU de lignes : un export fait par une version
+    // precedente porte les memes champs plus les autres, et se relit tel quel.
+    const done = db.filter(d => d.Researched)
+                   .map(d => ({ Tree: d.Tree, Name: d.Name, Level: d.Level, Researched: true }));
+    try { localStorage.setItem(STORAGE_KEYS.researchDb, JSON.stringify(done)); } catch (e) { if (window.ktWarnUnsaved) window.ktWarnUnsaved(); }
+    const inputsState = { bonusAsPercent: true, bonusFolded: true };
     Object.keys(inputs).forEach(key => {
         inputsState[key] = inputs[key].type === 'checkbox' ? inputs[key].checked : inputs[key].value;
     });
+    // On enregistre un bonus DU DOMAINE, jamais ce que porte le champ : une valeur
+    // refusée reviendrait sinon telle quelle à la visite suivante, et la page
+    // rouvrirait en erreur sans que le joueur ait rien tapé. La valeur est relue ici
+    // et pas reprise de `rsBonusOk` : les écouteurs appellent `saveData()` AVANT
+    // `updateUI()`, donc `rsBonusOk` porte encore la frappe précédente — taper 75,3
+    // puis recharger sans quitter le champ enregistrait 75.
+    const bonusASauver = rsReadBonus();
+    inputsState.baseBonus = String(bonusASauver === null ? rsBonusOk : bonusASauver);
     try { localStorage.setItem(STORAGE_KEYS.researchInputs, JSON.stringify(inputsState)); } catch (e) { if (window.ktWarnUnsaved) window.ktWarnUnsaved(); }
 }
 
@@ -188,6 +235,10 @@ function saveData() {
 function applyTranslations() {
     const lang = GlobalLang.get();
     GlobalLang.applyI18n(i18n[lang]);
+    // `applyI18n` n'écrit que du texte : le nom de la barre d'onglets est un
+    // `aria-label`, il se pose à la main.
+    const bar = document.querySelector('.tabs[role="tablist"]');
+    if (bar) bar.setAttribute('aria-label', i18n[lang]['tabsLabel'] || i18n['EN']['tabsLabel']);
 }
 
 function formatTime(seconds) {
@@ -208,17 +259,50 @@ function formatTime(seconds) {
 
 function formatNumber(num) { return num.toLocaleString(); }
 
+// ============ DOMAINE DES SAISIES ============
+// `parseFloat(x) || 0` accepte tout ce que `parseFloat` sait lire, et le résultat
+// part directement au dénominateur : à −100 %, `1 + bonus` vaut zéro et les huit
+// suggestions affichaient « Infinityd » ; en dessous, les durées passaient
+// négatives et le budget d'accélérateurs perdait son sens (constat F09 de la revue
+// du 2026-09-20). L'attribut `min` du HTML ne valide rien par lui-même : il
+// n'empêche ni la saisie au clavier, ni une valeur restaurée d'une sauvegarde.
+const RS_BONUS_MAX = 100000;      // au-delà, la durée est déjà sous la seconde
+
+// Rend le pourcentage saisi, ou `null` s'il est hors domaine.
+function rsReadBonus() {
+    const raw = String((inputs.baseBonus && inputs.baseBonus.value) || '').trim();
+    if (raw === '') return 0;                       // champ vidé en cours de frappe
+    const n = Number(raw.replace(',', '.'));
+    if (!Number.isFinite(n) || n < 0 || n > RS_BONUS_MAX) return null;
+    return n;
+}
+
+// Dernier bonus accepté, en pourcentage. C'est lui qui est enregistré : une valeur
+// refusée ne doit pas revenir au chargement suivant.
+let rsBonusOk = 0;
+
+function rsFlagBonus(refuse) {
+    const el = inputs.baseBonus;
+    const msg = document.getElementById('base-bonus-err');
+    if (el) el.setAttribute('aria-invalid', refuse ? 'true' : 'false');
+    if (msg) msg.hidden = !refuse;
+}
+
 function calculateState() {
-    let bonus = (parseFloat(inputs.baseBonus.value) || 0) / 100;
-    if (inputs.chiefMinister.checked) bonus += 0.10;
-    if (inputs.kvkBonus.checked) bonus += 0.05;
-    if (inputs.kingdomBonus.checked) bonus += 0.10;
-    totalBonus = bonus;
-    document.getElementById('total-bonus-display').textContent = (totalBonus * 100).toFixed(1) + "%";
-    
-    const d = parseInt(inputs.days.value) || 0;
-    const h = parseInt(inputs.hours.value) || 0;
-    const m = parseInt(inputs.minutes.value) || 0;
+    const bonus = rsReadBonus();
+    rsFlagBonus(bonus === null);
+    // Valeur refusée : on calcule sans bonus plutôt que de laisser à l'écran les
+    // chiffres de la saisie d'avant. Le message sous le champ dit lequel des deux.
+    rsBonusOk = (bonus === null) ? 0 : bonus;
+    totalBonus = rsBonusOk / 100;
+
+    // Un stock d'accélérateurs négatif ferait un budget négatif, donc un plan vide
+    // sans rien pour l'expliquer. Même discipline que le bonus, en plus simple :
+    // ces trois champs n'ont pas de valeur négative qui ait un sens.
+    const pos = (v) => { const n = parseInt(v, 10); return Number.isFinite(n) && n > 0 ? n : 0; };
+    const d = pos(inputs.days.value);
+    const h = pos(inputs.hours.value);
+    const m = pos(inputs.minutes.value);
     totalAccSeconds = (d * 86400) + (h * 3600) + (m * 60);
     document.getElementById('total-acc-display').textContent = formatTime(totalAccSeconds);
     
@@ -306,15 +390,33 @@ function cascadeUncheckDeps(item) {
     return count;
 }
 
-// ============ VITESSE DE RECHERCHE ============
-// « Amélioration des Outils » est la seule branche qui augmente la vitesse de
-// recherche : tout ce qui est lancé après elle est plus court, donc elle passe
-// devant. On la reconnaît au nom anglais, le seul stable (la base écrit son
-// niveau V « Amélioration de l'outil V » et les autres « des outils »).
-const SPEED_RESEARCH_PREFIXES = ['Tool Enhancement'];
+// ============ RECHERCHES PRIORITAIRES ============
+// Deux branches paient pour la suite au lieu de rapporter une fois : « Tool
+// Enhancement » raccourcit toutes les recherches à venir, « Tooling Up » toutes
+// les constructions à venir. Elles passent donc devant — mais seulement si le
+// joueur le veut : arrivé au bout de l'une, ou pressé par un autre objectif, il
+// la renvoie dans l'ordre normal en décochant sa case.
+//
+// On les reconnaît au nom ANGLAIS, le seul stable : la base écrit le niveau V
+// d'Amélioration des Outils « Amélioration de l'outil V » et les autres
+// « des outils ». L'ordre du tableau est l'ordre de priorité — la vitesse de
+// recherche d'abord, parce qu'elle se rembourse dans cet outil-ci.
+const PRIORITY_RESEARCH = [
+    { prefix: 'Tool Enhancement', input: 'prioToolEnhancement', icon: 'zap',    key: 'badgeResearchSpeed' },
+    { prefix: 'Tooling Up',       input: 'prioToolingUp',       icon: 'hammer', key: 'badgeBuildSpeed' }
+];
 
-function isSpeedResearch(item) {
-    return SPEED_RESEARCH_PREFIXES.some(prefix => item.Name.startsWith(prefix));
+// La règle qui s'applique à cette recherche, ou null. Le rang sert au tri, donc
+// une case décochée doit rendre null et pas « rang plus grand » : la recherche
+// reprend sa place au temps, comme n'importe quelle autre.
+function priorityOf(item) {
+    for (let i = 0; i < PRIORITY_RESEARCH.length; i++) {
+        const p = PRIORITY_RESEARCH[i];
+        if (!item.Name.startsWith(p.prefix)) continue;
+        const box = inputs[p.input];
+        return (box && !box.checked) ? null : { ...p, rank: i };
+    }
+    return null;
 }
 
 // Icônes posées ici plutôt que dans le registre de site-config.js : sans
@@ -322,25 +424,39 @@ function isSpeedResearch(item) {
 // encore en cache, et l'icône sortirait vide (cf. MAP §9).
 const RS_ICONS = {
     zap: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+    hammer: '<path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/>',
     check: '<path d="M20 6 9 17l-5-5"/>'
 };
+
+// Vignette de la recherche (img/research/<arbre>/<slug>.webp, portée par la
+// base). Décorative : le nom est juste à côté, un alt le répéterait au lecteur
+// d'écran. `onerror` retire le nœud plutôt que de laisser l'icône cassée — une
+// recherche ajoutée avant son image doit s'afficher normalement, sans trou.
+function rsThumb(item, size) {
+    if (!item || !item.Image) return '';
+    return `<img class="rs-thumb" src="${item.Image}" alt="" width="${size}" height="${size}" loading="lazy" decoding="async" onerror="this.remove()">`;
+}
 
 function rsIcon(name, size) {
     return `<svg class="ic" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${RS_ICONS[name] || ''}</svg>`;
 }
 
-// Repère posé sur les recherches de vitesse. En version compacte (en-tête de
-// carte dans l'arbre visuel) l'éclair reste seul : la place y est comptée. Il
+// Repère posé sur une recherche prioritaire. En version compacte (en-tête de
+// carte dans l'arbre visuel) l'icône reste seule : la place y est comptée. Il
 // lui faut alors `role="img"` pour porter son nom — sur un <span> nu, aria-label
 // n'est pas restitué, et le repère ne serait qu'une image muette au lecteur
 // d'écran. En version longue le libellé visible suffit, il n'y a rien à ajouter.
-function speedBadgeHtml(lang, compact) {
-    const label = i18n[lang]['speedBadge'];
-    const title = i18n[lang]['speedBadgeTitle'];
+// Les deux repères se distinguent à l'icône ET au libellé : deux éclairs
+// identiques pour « recherche » et « construction » n'apprendraient rien.
+function priorityBadgeHtml(item, lang, compact) {
+    const p = priorityOf(item);
+    if (!p) return '';
+    const label = i18n[lang][p.key];
+    const title = i18n[lang][p.key + 'Title'];
     if (compact) {
-        return `<span class="sugg-speed is-compact" role="img" title="${title}" aria-label="${label}">${rsIcon('zap', 12)}</span>`;
+        return `<span class="sugg-speed is-compact" role="img" title="${title}" aria-label="${label}">${rsIcon(p.icon, 12)}</span>`;
     }
-    return `<span class="sugg-speed" title="${title}">${rsIcon('zap', 12)}<span>${label}</span></span>`;
+    return `<span class="sugg-speed" title="${title}">${rsIcon(p.icon, 12)}<span>${label}</span></span>`;
 }
 
 // Ordre des suggestions. `speedFirst` fait remonter la vitesse de recherche en
@@ -349,7 +465,10 @@ function speedBadgeHtml(lang, compact) {
 // Le reste du tri ne sert qu'à le rendre stable d'un rendu à l'autre.
 function compareCandidates(a, b, speedFirst) {
     if (speedFirst) {
-        const rank = (item) => (isSpeedResearch(item) ? 0 : 1);
+        // Deux priorités, donc trois rangs : vitesse de recherche, vitesse de
+        // construction, le reste. Une case décochée renvoie null et retombe
+        // dans le tas — c'est tout ce que veut dire « désactiver la priorité ».
+        const rank = (item) => { const p = priorityOf(item); return p ? p.rank : PRIORITY_RESEARCH.length; };
         if (rank(a) !== rank(b)) return rank(a) - rank(b);
     }
     if (Math.abs(a.discountedSeconds - b.discountedSeconds) > 0.1) return a.discountedSeconds - b.discountedSeconds;
@@ -439,10 +558,10 @@ function buildVisualTree(treeName, containerId) {
             let box = document.createElement('div');
             box.className = `research-box ${treeCssClass}`;
             let displayName = lang === 'FR' ? items[0]['Fr Name'] : items[0]['Name'];
-            let speedMark = isSpeedResearch(items[0]) ? speedBadgeHtml(lang, true) : '';
+            let speedMark = priorityBadgeHtml(items[0], lang, true);
             let header = document.createElement('div');
             header.className = 'research-box-header';
-            header.innerHTML = `<span>${speedMark}${displayName}</span> <span>(${doneCount}/${totalCount})</span>`;
+            header.innerHTML = `<span>${rsThumb(items[0], 22)}${speedMark}${displayName}</span> <span>(${doneCount}/${totalCount})</span>`;
             box.appendChild(header);
             let stepsContainer = document.createElement('div');
             stepsContainer.className = 'research-box-steps';
@@ -493,7 +612,7 @@ function renderTrees() {
             let costStr = `${resIc('wheat',13,lang)} ${formatNumber(item.Bread)} | ${resIc('tree-pine',13,lang)} ${formatNumber(item.Wood)} | ${resIc('brick-wall',13,lang)} ${formatNumber(item.Stone)} | ${resIc('pickaxe',13,lang)} ${formatNumber(item.iron)} | ${resIc('coins',13,lang)} ${formatNumber(item.Gold)}`;
             tr.innerHTML = `
                 <td><input type="checkbox" data-index="${index}" ${item.Researched ? 'checked' : ''}> ${lockIcon}</td>
-                <td>${name}${isSpeedResearch(item) ? speedBadgeHtml(lang, false) : ''}</td>
+                <td><span class="rs-name">${rsThumb(item, 20)}<span>${name}</span></span>${priorityBadgeHtml(item, lang, false)}</td>
                 <td>${item.Level}</td>
                 <td>${formatTime(item.baseSeconds)}</td>
                 <td style="color:var(--success)">${formatTime(item.discountedSeconds)}</td>
@@ -602,14 +721,14 @@ function treeLabel(tree, lang) {
 
 function suggRowCells(item, rank, lang) {
     const name = lang === 'FR' ? item['Fr Name'] : item['Name'];
-    const badge = isSpeedResearch(item) ? speedBadgeHtml(lang, false) : '';
+    const badge = priorityBadgeHtml(item, lang, false);
     const tree = treeLabel(item.Tree, lang);
     const btnLabel = i18n[lang]['btnDone'];
     // L'arbre est repris sous le nom : sous 600px sa colonne est repliée, sans
     // quoi le bouton d'action sortait de l'écran et il fallait faire défiler le
     // tableau de côté pour l'atteindre.
     return `<td>${rank}</td>
-            <td style="font-weight:bold;color:var(--accent)">${name}${badge}<span class="sugg-tree-sm">${tree}</span></td>
+            <td style="font-weight:bold;color:var(--accent)"><span class="rs-name">${rsThumb(item, 20)}<span>${name}</span></span>${badge}<span class="sugg-tree-sm">${tree}</span></td>
             <td>${item.Level}</td>
             <td>${formatTime(item.discountedSeconds)}</td>
             <td>${tree}</td>
@@ -722,25 +841,52 @@ function updateUI() {
 }
 
 // ============ EVENT LISTENERS ============
-document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', (e) => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        e.target.classList.add('active');
-        let targetId = e.target.getAttribute('data-target');
-        document.getElementById(targetId).classList.add('active');
-        let displayGroup = document.getElementById('display-options-group');
-        let selectionGroup = document.getElementById('selection-options-group');
-        let optimalGroup = document.getElementById('optimal-options-group');
-        if (targetId === 'tab-optimal') {
-            displayGroup.style.display = 'none';
-            selectionGroup.style.display = 'none';
-            optimalGroup.style.display = 'block';
-        } else {
-            displayGroup.style.display = 'flex';
-            selectionGroup.style.display = 'flex';
-            optimalGroup.style.display = 'none';
-        }
+
+// ---- Onglets ----
+// Les quatre onglets étaient des <div> : `tabIndex` à −1, aucun rôle, et un seul
+// écouteur `click`. Impossible de les atteindre avec Tab, impossible d'ouvrir un
+// arbre sans souris — un blocage, pas une gêne (constat F10 de la revue du
+// 2026-09-20). Ce sont désormais des <button> dans un `tablist` : Tab entre dans
+// la barre, les flèches passent d'un onglet à l'autre, Début et Fin vont aux
+// extrémités, Entrée et Espace sont natifs.
+const rsTabs = Array.from(document.querySelectorAll('.tabs .tab'));
+
+function rsSelectTab(tab) {
+    if (!tab) return;
+    rsTabs.forEach(t => {
+        const on = (t === tab);
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        // Tabindex glissant : la barre ne prend qu'UN arrêt de tabulation.
+        t.tabIndex = on ? 0 : -1;
+    });
+    const targetId = tab.getAttribute('data-target');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === targetId));
+
+    const isOptimal = (targetId === 'tab-optimal');
+    const displayGroup = document.getElementById('display-options-group');
+    const selectionGroup = document.getElementById('selection-options-group');
+    const optimalGroup = document.getElementById('optimal-options-group');
+    if (displayGroup) displayGroup.style.display = isOptimal ? 'none' : 'flex';
+    if (selectionGroup) selectionGroup.style.display = isOptimal ? 'none' : 'flex';
+    if (optimalGroup) optimalGroup.style.display = isOptimal ? 'block' : 'none';
+}
+
+rsTabs.forEach((tab, i) => {
+    // `tab`, pas `e.target` : une icône ajoutée dans le bouton deviendrait la cible
+    // du clic, et `getAttribute('data-target')` rendrait null.
+    tab.addEventListener('click', () => rsSelectTab(tab));
+    tab.addEventListener('keydown', (e) => {
+        const last = rsTabs.length - 1;
+        let go = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go = rsTabs[i === last ? 0 : i + 1];
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go = rsTabs[i === 0 ? last : i - 1];
+        else if (e.key === 'Home') go = rsTabs[0];
+        else if (e.key === 'End') go = rsTabs[last];
+        if (!go) return;
+        e.preventDefault();
+        rsSelectTab(go);
+        go.focus();
     });
 });
 
@@ -768,8 +914,11 @@ document.getElementById('reset-button').addEventListener('click', () => {
     const lang = GlobalLang.get();
     const confirmMsg = lang === 'FR' ? "Êtes-vous sûr de vouloir réinitialiser toutes vos cases cochées et paramètres ?" : "Are you sure you want to reset all checkboxes and settings to defaults?";
     showAppConfirm(confirmMsg, () => {
-        localStorage.removeItem(STORAGE_KEYS.researchDb);
-        localStorage.removeItem(STORAGE_KEYS.researchInputs);
+        // Stockage refusé : il n'y a rien à retirer, et le rechargement suffit.
+        try {
+            localStorage.removeItem(STORAGE_KEYS.researchDb);
+            localStorage.removeItem(STORAGE_KEYS.researchInputs);
+        } catch (e) { /* rien d'enregistré à effacer */ }
         location.reload();
     });
 });
@@ -787,21 +936,21 @@ function rsInitHelp() {
         },
         steps: {
             FR: [
-                "Renseigne ton bonus de vitesse de recherche : bonus de base + Premier Ministre (+10%), KVK (+5%), Royaume (+10%). Le « Bonus total » s'affiche automatiquement.",
+                "Recopie le bonus de vitesse de recherche affiché par ta ville en jeu. Il compte déjà le Ministre en Chef, le KVK et le Royaume quand ils sont actifs : il n'y a plus rien à cocher à côté, et plus de risque de les compter deux fois.",
                 "Choisis l'arbre cible (Croissance, Économie ou Combat) pour filtrer les suggestions, ou consulte l'onglet de chaque arbre.",
                 "Première mise en place : sur un onglet d'arbre, active « Sélection rapide » (panneau latéral) puis coche directement le plus haut niveau atteint de chaque recherche, et tous ses prérequis se cochent d'un coup. Décocher retire de même ce qui en dépend.",
                 "L'onglet « Ordre de recherche optimal » propose les prochaines recherches à faire, classées de la plus rentable à la moins rentable (temps réduit par ton bonus). Le bouton « Fait » de chaque ligne la coche sans passer par l'arbre, avec tout ce qu'elle exigeait.",
-                "Les niveaux d'« Amélioration des Outils » portent un éclair et passent en tête : ils augmentent la vitesse de recherche, donc tout ce que tu lances ensuite est plus court. L'outil les propose dès qu'ils sont débloqués, il ne force pas la suite de prérequis qui y mène.",
+                "Deux branches passent en tête : « Amélioration des Outils » (éclair) raccourcit toutes tes recherches à venir, « Obtentions d'Outils » (marteau) toutes tes constructions. Le bloc « Recherches prioritaires » du panneau latéral permet d'en désactiver une, ou les deux, quand tu as un autre objectif. L'outil les propose dès qu'elles sont débloquées, il ne force pas la suite de prérequis qui y mène.",
                 "Active le « Mode KVK » et renseigne tes accélérateurs (jours / heures / minutes) pour ne voir que ce que tu peux réellement terminer avec ton stock : l'outil indique aussi combien de recherches supplémentaires seraient possibles au-delà. La priorité à la vitesse y est levée, l'objectif étant d'en finir un maximum.",
                 "En mode KVK, la dernière ligne dépasse volontairement ton stock : c'est la plus longue recherche à ta portée, à lancer une fois les courtes finies. Les bonus de vitesse du KVK lui retirent bien plus de temps qu'à une courte.",
                 "Active « Masquer terminées » pour ne garder que ce qu'il te reste à faire."
             ],
             EN: [
-                "Set your research speed bonus: base bonus + Chief Minister (+10%), KVK (+5%), Kingdom (+10%). The “Total Bonus” updates automatically.",
+                "Copy the research speed bonus your city shows in game. It already counts Chief Minister, KVK and Kingdom when they are active, so there is nothing left to tick beside it, and no way to count them twice.",
                 "Pick a target tree (Growth, Economy or Battle) to filter the suggestions, or browse each tree's tab.",
                 "First-time setup: on a tree tab, turn on “Quick Select” (side panel) then tick the highest level you've reached in each research, and all its prerequisites get ticked at once. Unticking likewise clears what depends on it.",
                 "The “Optimal Search Order” tab lists the next researches to do, ranked from most to least efficient (time reduced by your bonus). The “Done” button on each row ticks it off without going through the tree, along with everything it required.",
-                "“Tool Enhancement” levels carry a lightning bolt and come first: they raise research speed, so everything you start after them is shorter. The tool offers them as soon as they unlock, it does not force the chain of prerequisites leading to them.",
+                "Two branches come first: “Tool Enhancement” (lightning bolt) shortens every research to come, “Tooling Up” (hammer) every build. The “Priority Researches” block in the side panel lets you switch one off, or both, when you are after something else. The tool offers them as soon as they unlock, it does not force the chain of prerequisites leading to them.",
                 "Turn on “KVK Mode” and enter your speedups (days / hours / minutes) to see only what you can actually finish within your stock: it also tells you how many more researches would be possible beyond that. Speed priority is lifted there, the goal being to finish as many as you can.",
                 "In KVK mode the last row goes past your stock on purpose: it is the longest research you can reach, to launch once the short ones are done. KVK speed bonuses take far more off it than off a short one.",
                 "Turn on “Hide completed” to keep only what's left to do."

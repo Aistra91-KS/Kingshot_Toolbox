@@ -8,6 +8,108 @@
   },
   "releases": [
     {
+      "version": "1.14.2",
+      "date": "2026-09-22",
+      "changes": [
+        {
+          "type": "new",
+          "title": {
+            "EN": "The Academy researches, level by level",
+            "FR": "Les recherches de l'Académie, palier par palier"
+          },
+          "text": {
+            "EN": "The 720 Academy researches have their database: resource cost, research time, power, the Academy level required and the bonus obtained, across the Growth, Economy and Battle trees.",
+            "FR": "Les 720 recherches de l'Académie ont leur base de données : coût en ressources, temps de recherche, puissance, niveau d'Académie exigé et bonus obtenu, sur les arbres Croissance, Économie et Combat."
+          },
+          "href": "database/research/",
+          "linkLabel": {
+            "EN": "Research database",
+            "FR": "Base de données Recherches"
+          }
+        },
+        {
+          "type": "new",
+          "title": {
+            "EN": "Six more buildings in the database",
+            "FR": "Six bâtiments de plus dans la base"
+          },
+          "text": {
+            "EN": "Storehouse, Mill, Sawmill, Quarry, Iron Mine and Guard Station have their upgrade table: resources, build time and the power each level adds. These six stop before TrueGold, so their table carries no TrueGold column.",
+            "FR": "L'Entrepôt, le Moulin, la Scierie, la Carrière, la Mine de Fer et le Poste de Garde ont leur tableau d'amélioration : ressources, temps de construction et puissance gagnée à chaque niveau. Ces six-là s'arrêtent avant l'Or Véritable, leur tableau n'a donc pas de colonne Or Véritable."
+          },
+          "href": "database/buildings/",
+          "linkLabel": {
+            "EN": "Buildings database",
+            "FR": "Base de données Bâtiments"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "TrueGold becomes the Building Planner",
+            "FR": "TrueGold devient le Planificateur de Bâtiments"
+          },
+          "text": {
+            "EN": "The page covers every level now, not only the TrueGold ones. A second tab plans what comes before, where the wall is resources and build time rather than TrueGold.",
+            "FR": "La page couvre maintenant tous les niveaux, pas seulement ceux de l'Or Véritable. Un second onglet planifie ce qui vient avant, où le mur est la ressource et le temps de construction plutôt que l'Or Véritable."
+          },
+          "href": "truegold_calc",
+          "linkLabel": {
+            "EN": "Building Planner",
+            "FR": "Planificateur de Bâtiments"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "The shops split into three pages",
+            "FR": "Les boutiques séparées en trois pages"
+          },
+          "text": {
+            "EN": "Shop Value keeps the permanent shops and the custom chests. The event shops move to Event ROI, next to what an event pays back. The two reference tables, in gems and in real money, have a page of their own.",
+            "FR": "Valeur Boutique garde les boutiques permanentes et les coffres personnalisés. Les boutiques d'événement passent sur Rentabilité des Événements, à côté de ce qu'un événement rapporte. Les deux tables de référence, en gemmes et en argent réel, ont leur propre page."
+          },
+          "href": "event-roi",
+          "linkLabel": {
+            "EN": "Event ROI",
+            "FR": "Rentabilité des Événements"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Moonlight Shop: the two one-off packs, and what you already bought",
+            "FR": "Clair de Lune : les deux packs uniques, et ce que tu as déjà pris"
+          },
+          "text": {
+            "EN": "Heartfelt Desires and Grand Visions are in the ROI, with their day 7 close and the second one locked until the first is bought. A \"Already taken\" column takes what you have picked up so far: the stock left drops by that much, and the return counts it.",
+            "FR": "Désirs du Cœur et Grands Desseins sont dans le ROI, avec leur fermeture au J7 et le second verrouillé tant que le premier n'est pas acheté. Une colonne \"Déjà pris\" prend ce que tu as déjà ramassé : le stock restant baisse d'autant, et le rendement le compte."
+          },
+          "href": "shop/moonlight-shop",
+          "linkLabel": {
+            "EN": "Moonlight Shop",
+            "FR": "Magasin du Clair de Lune"
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Two figures that read wrong",
+            "FR": "Deux chiffres qui se lisaient mal"
+          },
+          "text": {
+            "EN": "Database table headers sat on the left while their figures sat on the right; they line up again. And the Gold Key was priced at the 6.00 euro of the whole chest it came in, where its 1500 gems put it at 1.29 euro. VIP EXP follows the same rule, 1 VIP EXP being worth 2 gems.",
+            "FR": "Les en-têtes des tableaux de base de données restaient à gauche pendant que leurs chiffres allaient à droite ; ils sont alignés. Et la Clé en Or était affichée à 6,00 €, le prix du coffre entier dont elle sortait, là où ses 1500 gemmes la placent à 1,29 €. L'EXP VIP suit la même règle, 1 EXP VIP valant 2 gemmes."
+          },
+          "href": "shop/items-euro",
+          "linkLabel": {
+            "EN": "Real-money item values",
+            "FR": "Valeur des objets en argent réel"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.14.1",
       "date": "2026-09-20",
       "changes": [

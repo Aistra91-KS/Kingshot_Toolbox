@@ -438,7 +438,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Reset
     document.getElementById('vk-reset').addEventListener('click', () => {
         showAppConfirm(tr('confirmReset'), () => {
-            localStorage.removeItem(STORAGE_KEYS.vikings);
+            try { localStorage.removeItem(STORAGE_KEYS.vikings); }
+            catch (e) { /* stockage refusé : rien d'enregistré à effacer */ }
             location.reload();
         });
     });

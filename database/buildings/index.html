@@ -43,8 +43,10 @@
     <div class="db-page db-index">
         <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <span data-i18n="crumbBuildings">Buildings</span></div>
         <h1 data-i18n="idxTitle">Buildings: Upgrade Costs</h1>
-        <p class="db-intro" data-i18n="idxIntro">All Kingshot building upgrade costs, level by level: TrueGold, Tempered TrueGold, resources, time and requirements. Pick a building.</p>
-        <div class="db-grid">
+        <p class="db-intro" data-i18n="idxIntro">All Kingshot building upgrade costs: TrueGold, Tempered TrueGold, resources, time and requirements for the eight buildings that reach TrueGold; resources, time and power for the rest. Pick a building.</p>
+        <div class="db-section">
+          <h2 data-i18n="idxTG">TrueGold buildings</h2>
+          <div class="db-grid">
       <a class="db-card" href="database/buildings/town-center">
         <img class="db-card-img" src="img/buildings/town-center.webp" alt="Town Center" onerror="this.remove()">
         <span class="db-card-text">
@@ -81,26 +83,74 @@
         </span>
       </a>
       <a class="db-card" href="database/buildings/barracks">
-        <img class="db-card-img" src="img/buildings/barracks.webp" alt="Barracks" onerror="this.remove()">
+        <img class="db-card-img" src="img/buildings/barracks.webp" alt="Infantry Camp" onerror="this.remove()">
         <span class="db-card-text">
-          <span class="db-card-name" data-en="Barracks" data-fr="Quartiers">Barracks</span>
+          <span class="db-card-name" data-en="Infantry Camp" data-fr="Camp d'Infanterie">Infantry Camp</span>
           <span class="db-card-sub">50 <span data-i18n="tiers">levels</span></span>
         </span>
       </a>
       <a class="db-card" href="database/buildings/stable">
-        <img class="db-card-img" src="img/buildings/stable.webp" alt="Stable" onerror="this.remove()">
+        <img class="db-card-img" src="img/buildings/stable.webp" alt="Lancer Camp" onerror="this.remove()">
         <span class="db-card-text">
-          <span class="db-card-name" data-en="Stable" data-fr="Ecurie">Stable</span>
+          <span class="db-card-name" data-en="Lancer Camp" data-fr="Camp de Lanciers">Lancer Camp</span>
           <span class="db-card-sub">50 <span data-i18n="tiers">levels</span></span>
         </span>
       </a>
       <a class="db-card" href="database/buildings/range">
-        <img class="db-card-img" src="img/buildings/range.webp" alt="Range" onerror="this.remove()">
+        <img class="db-card-img" src="img/buildings/range.webp" alt="Archer Camp" onerror="this.remove()">
         <span class="db-card-text">
-          <span class="db-card-name" data-en="Range" data-fr="Stand de Tir">Range</span>
+          <span class="db-card-name" data-en="Archer Camp" data-fr="Camp d'Archers">Archer Camp</span>
           <span class="db-card-sub">51 <span data-i18n="tiers">levels</span></span>
         </span>
       </a>
+          </div>
+        </div>
+        <div class="db-section">
+          <h2 data-i18n="idxStd">Before TrueGold</h2>
+          <div class="db-grid">
+      <a class="db-card" href="database/buildings/storehouse">
+        <img class="db-card-img" src="img/buildings/storehouse.webp" alt="Storehouse" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Storehouse" data-fr="Entrepôt">Storehouse</span>
+          <span class="db-card-sub">30 <span data-i18n="levels">levels</span></span>
+        </span>
+      </a>
+      <a class="db-card" href="database/buildings/mill">
+        <img class="db-card-img" src="img/buildings/mill.webp" alt="Mill" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Mill" data-fr="Moulin">Mill</span>
+          <span class="db-card-sub">30 <span data-i18n="levels">levels</span></span>
+        </span>
+      </a>
+      <a class="db-card" href="database/buildings/sawmill">
+        <img class="db-card-img" src="img/buildings/sawmill.webp" alt="Sawmill" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Sawmill" data-fr="Scierie">Sawmill</span>
+          <span class="db-card-sub">30 <span data-i18n="levels">levels</span></span>
+        </span>
+      </a>
+      <a class="db-card" href="database/buildings/quarry">
+        <img class="db-card-img" src="img/buildings/quarry.webp" alt="Quarry" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Quarry" data-fr="Carrière">Quarry</span>
+          <span class="db-card-sub">30 <span data-i18n="levels">levels</span></span>
+        </span>
+      </a>
+      <a class="db-card" href="database/buildings/iron-mine">
+        <img class="db-card-img" src="img/buildings/iron-mine.webp" alt="Iron Mine" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Iron Mine" data-fr="Mine de fer">Iron Mine</span>
+          <span class="db-card-sub">30 <span data-i18n="levels">levels</span></span>
+        </span>
+      </a>
+      <a class="db-card" href="database/buildings/guard-station">
+        <img class="db-card-img" src="img/buildings/guard-station.webp" alt="Guard Station" onerror="this.remove()">
+        <span class="db-card-text">
+          <span class="db-card-name" data-en="Guard Station" data-fr="Poste de garde">Guard Station</span>
+          <span class="db-card-sub">10 <span data-i18n="levels">levels</span></span>
+        </span>
+      </a>
+          </div>
         </div>
     </div>
     <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
@@ -110,7 +160,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Guide</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>TrueGold</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span><span class="hdr-badge">Beta</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Pack / Shop Calculation</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/lang.js"></script>
@@ -120,8 +170,8 @@
     <script>
     (function(){
       const dict = {
-        FR: { crumbBuildings:"Bâtiments", idxTitle:"Bâtiments : Coûts d'amélioration", idxIntro:"Tous les coûts d'amélioration des bâtiments Kingshot, palier par palier : TrueGold, Or Véritable Trempé, ressources, temps et prérequis. Choisis un bâtiment.", tiers:"paliers" },
-        EN: { crumbBuildings:"Buildings", idxTitle:"Buildings: Upgrade Costs", idxIntro:"All Kingshot building upgrade costs, level by level: TrueGold, Tempered TrueGold, resources, time and requirements. Pick a building.", tiers:"levels" }
+        FR: { crumbBuildings:"Bâtiments", idxTitle:"Bâtiments : Coûts d'amélioration", idxIntro:"Tous les coûts d'amélioration des bâtiments Kingshot : TrueGold, Or Véritable Trempé, ressources, temps et prérequis pour les huit bâtiments qui montent à l'Or Véritable ; ressources, temps et puissance pour les autres. Choisis un bâtiment.", idxTG:"Bâtiments Or Véritable", idxStd:"Avant l'Or Véritable", tiers:"paliers", levels:"niveaux" },
+        EN: { crumbBuildings:"Buildings", idxTitle:"Buildings: Upgrade Costs", idxIntro:"All Kingshot building upgrade costs: TrueGold, Tempered TrueGold, resources, time and requirements for the eight buildings that reach TrueGold; resources, time and power for the rest. Pick a building.", idxTG:"TrueGold buildings", idxStd:"Before TrueGold", tiers:"levels", levels:"levels" }
       };
       function apply(){
         const lang=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR';

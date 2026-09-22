@@ -433,7 +433,7 @@ function ieWeightSection(){
           "This table is read-only and unrelated to the gem values, the two are read separately."]
     },
     links:[{label:{FR:'Valeur des objets (gemmes)', EN:'Item values (gems)'}, href:'shop/items'},
-           {label:{FR:'Retour aux boutiques', EN:'Back to shops'}, href:'shop_calc'}]
+           {label:{FR:"D'où viennent ces valeurs", EN:'Where these values come from'}, href:'item-values'}]
   });
 
   window.addEventListener('langChanged',()=>{ scApplyTranslations(); ieRenderCatFilter(); ieRender(); });

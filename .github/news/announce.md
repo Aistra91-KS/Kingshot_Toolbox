@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 1.14.1
-covers-until: 96883feac29d6ad8feac752c4a9fec5e70f134b4
-generated: 2026-09-20
+version: 1.14.2
+covers-until: 35c67f13e24f59dbd8f947e40aeb0c61d1ef13dc
+generated: 2026-09-22
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 🌙 Le Magasin du Clair de Lune
-title-en: 🌙 The Moonlight Shop
+title-fr: 🔬 Les Recherches, six bâtiments et trois pages Boutique
+title-en: 🔬 Academy research, six buildings and three shop pages
 -->
 
 <!--
@@ -68,34 +68,48 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 🌙 Le Magasin du Clair de Lune
+### 🔬 Les recherches de l'Académie ont leur base de données
 
-La boutique de l'événement Moonlit Celebration a sa page. Quinze lignes payées en Gâteaux de Lune, chacune chiffrée dans les deux sens : sa valeur en gemmes et son prix en argent réel.
+Les 720 recherches de l'Académie se consultent maintenant palier par palier, sur les trois arbres Croissance, Économie et Combat : coût en pain, bois, pierre, fer et or, temps de recherche, puissance gagnée, niveau d'Académie exigé et bonus obtenu.
+👉 https://kingshottoolbox.com/database/research/
 
-En tête des deux lectures, la **Caisse d'Équipement de Héros Chanceux à 18 gâteaux**, dont la réserve se recharge tous les jours : 30 par jour, 240 d'ici la fin de l'événement. Derrière elle, le **Mithril à 750 gâteaux** tient le second rang. Tout en bas du tableau, l'Or Véritable à 11 gâteaux est la ligne qui rapporte le moins.
+Six bâtiments rejoignent la base Bâtiments : l'Entrepôt, le Moulin, la Scierie, la Carrière, la Mine de Fer et le Poste de Garde. Ils s'arrêtent avant l'Or Véritable, leur tableau donne donc les ressources, le temps de construction et la puissance de chaque niveau, sans colonne Or Véritable.
+👉 https://kingshottoolbox.com/database/buildings/
 
-Au milieu du classement, l'ordre dépend de ce que tu comptes : les Marteaux de Forge passent devant les Plans et Guides de Talisman en gemmes, derrière eux en argent réel. La page bascule d'une lecture à l'autre d'un clic.
+Dans la foulée, la page TrueGold devient le **Planificateur de Bâtiments**. Elle ne couvre plus seulement les niveaux Or Véritable : un second onglet planifie tout ce qui vient avant, là où le mur est la ressource et le temps de construction.
+👉 https://kingshottoolbox.com/truegold_calc
 
-Les trois cosmétiques restent hors classement, faute de valeur de référence : le skin de ville Pavillon de Lune à 45 000 gâteaux, la Plaque Lapin Lunaire à 1 500 et l'emote Pat Pat à 500.
-
-La boutique ferme le 28 septembre, le compte à rebours est en haut de la page.
-
-👉 https://kingshottoolbox.com/shop/moonlight-shop
+Les boutiques tiennent maintenant sur trois pages plutôt qu'une. Valeur Boutique garde les boutiques permanentes et les coffres personnalisés. Les boutiques d'événement déménagent sur Rentabilité des Événements, à côté de ce qu'un événement te rend face à ce qu'il t'a coûté. Et les deux référentiels, en gemmes et en argent réel, ont leur porte d'entrée.
 👉 https://kingshottoolbox.com/shop_calc
+👉 https://kingshottoolbox.com/event-roi
+👉 https://kingshottoolbox.com/item-values
+
+Côté Clair de Lune, **Désirs du Cœur** et **Grands Desseins** entrent dans le calcul de rentabilité, avec leur fermeture au J7 et le second qui ne s'ouvre qu'une fois le premier acheté. Et si l'événement a commencé sans toi, la colonne « Déjà pris » prend ce que tu as ramassé jusque-là : le stock restant baisse d'autant, et le rendement le compte.
+👉 https://kingshottoolbox.com/shop/moonlight-shop
+
+Deux corrections pour finir. Les en-têtes des tableaux de base de données restaient à gauche pendant que leurs chiffres partaient à droite ; ils sont alignés. Et la Clé en Or s'affichait à 6,00 €, le prix du coffre entier dont elle sortait, là où ses 1 500 gemmes la placent à 1,29 €. L'EXP VIP suit la même règle, 1 EXP VIP valant 2 gemmes.
+👉 https://kingshottoolbox.com/shop/items-euro
 
 ## EN
 
-### 🌙 The Moonlight Shop
+### 🔬 The Academy researches have their database
 
-The store of the Moonlit Celebration event has its page. Fifteen lines paid in Mooncakes, each one priced both ways: its value in gems and its price in real money.
+The 720 Academy researches can now be read level by level, across the three Growth, Economy and Battle trees: bread, wood, stone, iron and gold cost, research time, power gained, the Academy level required and the bonus obtained.
+👉 https://kingshottoolbox.com/database/research/
 
-Both readings put the **Lucky Hero Gear Chest at 18 mooncakes** first, and its stock refills every day: 30 a day, 240 before the event closes. Behind it, **Mithril at 750 mooncakes** holds second place. At the bottom of the table, TrueGold at 11 mooncakes is the line that returns the least.
+Six buildings join the buildings database: Storehouse, Mill, Sawmill, Quarry, Iron Mine and Guard Station. They stop before TrueGold, so their table gives the resources, the build time and the power of every level, with no TrueGold column.
+👉 https://kingshottoolbox.com/database/buildings/
 
-In the middle of the ranking the order depends on what you are counting: Forgehammers sit above Charm Designs and Charm Guides in gems, and below them in real money. The page switches from one reading to the other in one click.
+The TrueGold page follows, and becomes the **Building Planner**. It no longer covers the TrueGold levels alone: a second tab plans everything that comes before, where the wall is resources and build time.
+👉 https://kingshottoolbox.com/truegold_calc
 
-The three cosmetics stay out of the ranking, having no reference value: the Moon Pavillon town skin at 45,000 mooncakes, the Lunar Rabbit nameplate at 1,500 and the Pat Pat emote at 500.
-
-The shop closes on 28 September, and the countdown sits at the top of the page.
-
-👉 https://kingshottoolbox.com/shop/moonlight-shop
+The shops now sit on three pages instead of one. Shop Value keeps the permanent shops and the custom chests. The event shops move to Event ROI, next to what an event hands you back against what it cost you. And the two reference tables, in gems and in real money, have a front door of their own.
 👉 https://kingshottoolbox.com/shop_calc
+👉 https://kingshottoolbox.com/event-roi
+👉 https://kingshottoolbox.com/item-values
+
+On the Moonlight side, **Heartfelt Desires** and **Grand Visions** join the return calculation, with their day 7 close and the second one locked until the first is bought. And if the event started without you, the "Already taken" column takes what you have picked up so far: the stock left drops by that much, and the return counts it.
+👉 https://kingshottoolbox.com/shop/moonlight-shop
+
+Two fixes to close. Database table headers sat on the left while their figures went to the right; they line up. And the Gold Key showed at 6.00 EUR, the price of the whole chest it came in, where its 1,500 gems put it at 1.29 EUR. VIP EXP follows the same rule, 1 VIP EXP being worth 2 gems.
+👉 https://kingshottoolbox.com/shop/items-euro

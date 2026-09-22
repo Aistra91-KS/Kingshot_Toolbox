@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
+    try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-M1QG4XSD3K');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Kingshot Event Shops &amp; Event ROI - Is the event worth it? | Kingshot Toolbox</title>
+    <meta name="description" content="Every Kingshot event shop in one place - Theater, Blizzard, Adventure Stall, Dragon's Caravan, Polar, Summit Contest - plus the return on investment of an event: what it cost in real money against the value of everything it handed out.">
+    <link rel="canonical" href="https://kingshottoolbox.com/event-roi">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kingshot Toolbox">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:title" content="Kingshot Event Shops &amp; Event ROI - Is the event worth it?">
+    <meta property="og:description" content="Every Kingshot event shop in one place - Theater, Blizzard, Adventure Stall, Dragon's Caravan, Polar, Summit Contest - plus the return on investment of an event: what it cost in real money against the value of everything it handed out.">
+    <meta property="og:url" content="https://kingshottoolbox.com/event-roi">
+    <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Kingshot Toolbox - free calculators, optimizers and databases for Kingshot">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="img/logo/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo/favicon-96.png">
+    <link rel="alternate icon" type="image/png" href="img/logo/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/db.css">
+    <link rel="stylesheet" href="css/shop.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Event ROI","item":"https://kingshottoolbox.com/event-roi"}]}</script>
+</head>
+<body class="has-app-header">
+
+    <div class="db-page">
+        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <span data-en="Event ROI" data-fr="Rentabilité des Événements">Event ROI</span></div>
+        <h1 data-en="Event ROI" data-fr="Rentabilité des Événements">Event ROI</h1>
+        <p class="db-intro" data-en="Every event shop and what the event really pays back. Each shop page ranks its items by gem value; the three events with a full breakdown also add up what you spent in real money and what you received, day by day." data-fr="Toutes les boutiques d'événement, et ce que l'événement rapporte vraiment. Chaque page de boutique classe ses objets par valeur en gemmes ; les trois événements entièrement détaillés additionnent en plus ce que vous avez dépensé en argent réel et ce que vous avez reçu, jour par jour.">Every event shop and what the event really pays back. Each shop page ranks its items by gem value; the three events with a full breakdown also add up what you spent in real money and what you received, day by day.</p>
+
+        <!-- ===== BOUTIQUES D'ÉVÉNEMENT ===== -->
+        <section class="sx-section">
+          <h2><span data-i18n="secEvent">Event Shops</span><span class="sx-count" data-count-event></span></h2>
+          <p class="sx-section-sub" data-i18n="secEventSub">Time-limited offers: dedicated currency, capped stock and an end date.</p>
+          <!-- Bascule « Voir plus » SANS JavaScript : la case, la grille, puis le libellé.
+               Un <button> piloté en JS repliait la page APRÈS son premier affichage, d'où un
+               saut de mise en page (CLS mesuré à 0,68 sur mobile) ; et un script encore en
+               cache laissait les cartes masquées derrière un bouton inerte. Ici le repli tient
+               dans le HTML et le CSS : en place dès le premier pixel, et sans script à périmer.
+               `hidden` est le garde-fou du CSS en cache — seule la feuille qui sait replier le
+               lève. Sans elle : ni case, ni libellé, et la grille entière. -->
+          <input type="checkbox" id="more-grid-event" class="sx-more-cb" hidden>
+          <div class="sx-grid is-clamped" id="grid-event">
+            <a class="sx-card" href="shop/moonlight-shop" data-shop-slug="moonlight-shop">
+              <span class="sx-thumb-slot"></span>
+              <span class="sx-body">
+                <span class="sx-name" data-en="Moonlight Shop" data-fr="Magasin du Clair de Lune">Moonlight Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Mooncake" data-fr="Gâteau de Lune">Mooncake</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+              </span>
+            </a>
+            <a class="sx-card" href="shop/theater-shop" data-shop-slug="theater-shop">
+              <span class="sx-thumb-slot"></span>
+              <span class="sx-body">
+                <span class="sx-name" data-en="Theater Shop" data-fr="Magasin du Théâtre">Theater Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Fantasy Token" data-fr="Jeton Fantaisie">Fantasy Token</span><span class="sx-dot">·</span><span data-count-slot></span><span class="sx-roi" data-en="ROI" data-fr="Rentabilité">ROI</span></span>
+              </span>
+            </a>
+            <a class="sx-card" href="shop/blizzard-shop" data-shop-slug="blizzard-shop">
+              <span class="sx-thumb-slot"></span>
+              <span class="sx-body">
+                <span class="sx-name" data-en="Blizzard Shop" data-fr="Magasin du Blizzard">Blizzard Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Brawl Emblem" data-fr="Emblème de Duel">Brawl Emblem</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+              </span>
+            </a>
+            <a class="sx-card" href="shop/flamedragon-tyrant-prediction" data-shop-slug="flamedragon-tyrant-prediction">
+              <span class="sx-thumb-slot"></span>
+              <span class="sx-body">
+                <span class="sx-name" data-en="Flamedragon Tyrant - Prediction Shop" data-fr="Tyran - Magasin de Pronostique">Flamedragon Tyrant - Prediction Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Dragonclaw Mark" data-fr="Marque Draconique">Dragonclaw Mark</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+              </span>
+            </a>
+            <a class="sx-card" href="shop/dragons-caravan" data-shop-slug="dragons-caravan">
+              <span class="sx-thumb-slot"></span>
+              <span class="sx-body">
+                <span class="sx-name" data-en="Dragon's Caravan" data-fr="Caravane du Dragon">Dragon's Caravan</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Dragon Essence" data-fr="Essence Draconique">Dragon Essence</span><span class="sx-dot">·</span><span data-count-slot></span><span class="sx-roi" data-en="ROI" data-fr="Rentabilité">ROI</span></span>
+              </span>
+            </a>
+            <a class="sx-card" href="shop/adventure-stall" data-shop-slug="adventure-stall">
+              <span class="sx-thumb-slot"></span>
+              <span class="sx-body">
+                <span class="sx-name" data-en="Adventure Stall" data-fr="Stand d'Aventure">Adventure Stall</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Adventure Coin" data-fr="Pièce d'Aventure">Adventure Coin</span><span class="sx-dot">·</span><span data-count-slot></span><span class="sx-roi" data-en="ROI" data-fr="Rentabilité">ROI</span></span>
+              </span>
+            </a>
+            <a class="sx-card" href="shop/polar-shop" data-shop-slug="polar-shop">
+              <span class="sx-thumb-slot"></span>
+              <span class="sx-body">
+                <span class="sx-name" data-en="Polar Shop" data-fr="Magasin Polaire">Polar Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Twinstar Coin" data-fr="Pièces des Étoiles Jumelles">Twinstar Coin</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+              </span>
+            </a>
+            <a class="sx-card" href="shop/summit-contest-champion" data-shop-slug="summit-contest-champion">
+              <span class="sx-thumb-slot"></span>
+              <span class="sx-body">
+                <span class="sx-name" data-en="Summit Contest Champion Shop" data-fr="Magasin Champion de la Ligue Suprême">Summit Contest Champion Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Champion token" data-fr="Jeton de Champion">Champion token</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+              </span>
+            </a>
+            <a class="sx-card" href="shop/summit-contest-ordinary" data-shop-slug="summit-contest-ordinary">
+              <span class="sx-thumb-slot"></span>
+              <span class="sx-body">
+                <span class="sx-name" data-en="Summit Contest Ordinary Shop" data-fr="Magasin Ordinaire de la Ligue Suprême">Summit Contest Ordinary Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="League token" data-fr="Jeton de Ligue">League token</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+              </span>
+            </a>
+            <a class="sx-card" href="shop/golden-ball-shop" data-shop-slug="golden-ball-shop">
+              <span class="sx-thumb-slot"></span>
+              <span class="sx-body">
+                <span class="sx-name" data-en="Golden Ball Shop" data-fr="Magasin du ballon d'or">Golden Ball Shop</span>
+                <span class="sx-meta"><span class="sx-cur" data-en="Ballon d'Or brand" data-fr="Marque du ballon d'or">Ballon d'Or brand</span><span class="sx-dot">·</span><span data-count-slot></span></span>
+              </span>
+            </a>
+          </div>
+
+          <label class="sx-more" for="more-grid-event" hidden>
+            <span class="sx-more-all" data-en="Show all" data-fr="Voir plus">Show all</span>
+            <span class="sx-more-less" data-en="Show less" data-fr="Voir moins">Show less</span>
+            <!-- Lu, jamais vu : sans lui, les libellés « Voir plus » de la page s'annoncent
+                 à l'identique. Rien ne dirait lequel déplie quelle catégorie (rotor, commande vocale). -->
+            <span class="sx-more-cat" data-en="event shops" data-fr="de boutiques d'événement">event shops</span>
+            <span class="sx-more-chev" aria-hidden="true"></span>
+          </label>
+        </section>
+
+        <!-- ===== COMMENT SE LIT LA RENTABILITÉ ===== -->
+        <section class="sx-section">
+          <h2><span data-en="Reading the return" data-fr="Comment se lit la rentabilité">Reading the return</span></h2>
+          <p class="sx-section-sub" data-en="Three events are broken down day by day: Adventure Stall, Dragon's Caravan and Theater Shop. Their page adds a section under the item table where you tick the packs you bought, and it totals what came back." data-fr="Trois événements sont détaillés jour par jour : le Stand d'Aventure, la Caravane du Dragon et le Magasin du Théâtre. Leur page ajoute une section sous le tableau des objets : vous y cochez les packs achetés, et elle totalise ce qui est revenu.">Three events are broken down day by day: Adventure Stall, Dragon's Caravan and Theater Shop. Their page adds a section under the item table where you tick the packs you bought, and it totals what came back.</p>
+
+          <div class="sxe-explain">
+            <p data-en="The percentage is the value received divided by the money spent, both in the same currency. Nothing converts gems into euros: the gem value sits beside the percentage, never inside it. Spend nothing and there is no percentage to show - the tile says F2P." data-fr="Le pourcentage, c'est la valeur reçue divisée par l'argent dépensé, les deux dans la même devise. Rien ne convertit les gemmes en euros : la valeur en gemmes s'affiche à côté du pourcentage, jamais dedans. Sans achat, il n'y a pas de pourcentage à montrer, et la tuile affiche F2P.">The percentage is the value received divided by the money spent, both in the same currency. Nothing converts gems into euros: the gem value sits beside the percentage, never inside it. Spend nothing and there is no percentage to show - the tile says F2P.</p>
+            <ul class="sxe-legend">
+              <li class="sxe-t-bad"><span class="sxe-lg-pct">&lt; 100 %</span><span class="sxe-lg-name" data-en="Bad deal" data-fr="Mauvaise affaire">Bad deal</span><span data-en="you got back less than you paid" data-fr="vous avez récupéré moins que vous n'avez payé">you got back less than you paid</span></li>
+              <li class="sxe-t-warn"><span class="sxe-lg-pct">100 - 120 %</span><span class="sxe-lg-name" data-en="Fair" data-fr="Correct">Fair</span><span data-en="roughly the price of the same items bought elsewhere" data-fr="à peu près le prix des mêmes objets achetés ailleurs">roughly the price of the same items bought elsewhere</span></li>
+              <li class="sxe-t-mid"><span class="sxe-lg-pct">120 - 140 %</span><span class="sxe-lg-name" data-en="Good" data-fr="Bon">Good</span><span data-en="a real gain, without being exceptional" data-fr="un gain réel, sans être exceptionnel">a real gain, without being exceptional</span></li>
+              <li class="sxe-t-good"><span class="sxe-lg-pct">140 - 180 %</span><span class="sxe-lg-name" data-en="Very good" data-fr="Très bon">Very good</span><span data-en="among the better events of a season" data-fr="parmi les meilleurs événements d'une saison">among the better events of a season</span></li>
+              <li class="sxe-t-great"><span class="sxe-lg-pct">180 %+</span><span class="sxe-lg-name" data-en="Excellent" data-fr="Excellent">Excellent</span><span data-en="the event pays for itself nearly twice over" data-fr="l'événement se rembourse presque deux fois">the event pays for itself nearly twice over</span></li>
+            </ul>
+            <p class="sxe-explain-note" data-en="One caveat worth knowing: an item is only worth what you would have bought anyway. A pack full of speedups you will never burn scores well and still is not a good purchase." data-fr="Une réserve à connaître : un objet ne vaut que ce que vous auriez acheté de toute façon. Un pack rempli d'accélérateurs que vous ne brûlerez jamais affiche un bon score et reste un mauvais achat.">One caveat worth knowing: an item is only worth what you would have bought anyway. A pack full of speedups you will never burn scores well and still is not a good purchase.</p>
+          </div>
+        </section>
+
+        <!-- Les deux autres pages du bloc. Maillage écrit en dur (cf. MAP.md §9). -->
+        <div class="sx-reflinks">
+          <p class="sx-reflinks-lead" data-en="Elsewhere in Value &amp; ROI" data-fr="Ailleurs dans Valeur et Rentabilité">Elsewhere in Value &amp; ROI</p>
+          <div class="sx-reflinks-row">
+            <a class="sx-reflink" href="shop_calc"><span class="sx-reflink-glyph" aria-hidden="true">&#128722;</span><span data-en="Permanent shops and chests" data-fr="Boutiques permanentes et coffres">Permanent shops and chests</span></a>
+            <a class="sx-reflink is-eur" href="item-values"><span class="sx-reflink-glyph" aria-hidden="true">&#128142;</span><span data-en="Item values" data-fr="Valeur des objets">Item values</span></a>
+          </div>
+        </div>
+</div>
+
+    <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
+         etat ferme (position:fixed + translateX(100%) => hors ecran). Placee AVANT
+         les scripts : header.js la reutilise au lieu d en creer une seconde, puis
+         hdrBuildDrawer() en remplace le contenu par sa version complete. Le rendu
+         final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
+         n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
+    <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+
+    <script src="js/site-config.js"></script>
+    <script src="js/storage-keys.js"></script>
+    <script src="js/profiles.js"></script>
+    <script src="js/lang.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/help.js"></script>
+    <script>
+    /* Dit à shop_calc.js quelle aide poser. Lu par une version récente du script ;
+       une version encore en cache l'ignore et pose l'aide des boutiques, qui reste
+       juste (cf. MAP.md §9 : jamais d'appel à un nom né dans le même lot). */
+    window.SX_INDEX = 'events';
+    </script>
+    <script src="js/shop-core.js"></script>
+    <script src="js/shop_calc.js"></script>
+    <script src="js/backup.js"></script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

@@ -6,16 +6,16 @@
     "endsAt": "2026-09-28T00:00:00Z",
     "days": 8,
     "tier": "Gen 7 / TG5+",
-    "updatedAt": "2026-09-20",
+    "updatedAt": "2026-09-21",
     "source": "Packs dictés par Aistra (relevé in-game du 20 septembre 2026)",
     "currencyNote": {
       "EN": "The packs give Wishful Lanterns, not Mooncakes: the Lanterns feed a random activity, and the shop currency comes out of that. How much is down to luck, so the tool does not guess it. Fill in your own mooncake balance in the shop table above.",
       "FR": "Les packs donnent des Lanternes du Désireux, pas des Gâteaux de Lune : les Lanternes alimentent une activité aléatoire, et c'est de là que sort la monnaie de la boutique. Le montant dépend du hasard, l'outil ne le devine donc pas. Renseigne toi-même ton solde de gâteaux dans le tableau de la boutique ci-dessus."
     },
     "note": "Aucune mission, aucun pack gratuit, aucun palier : cet événement n'apporte que des packs payants. Les Lanternes du Désireux sont listées mais JAMAIS chiffrées — elles ne sont pas la monnaie de la boutique, et rien ne relie une lanterne à un nombre de Gâteaux de Lune. Elles n'ont donc pas d'itemId : l'étiquette les laisse comptées et jamais valorisées, comme les Amulettes du Théâtre.",
-    "packsNote": "L'ÉVÉNEMENT dure 8 jours (20/09 00h UTC → 28/09 00h UTC) mais les packs ne s'achètent que les 7 PREMIERS : d'où `lastDay: 7` sur chacun. Le pack à 100 $ est le seul à trois achats par jour, les six autres sont à un par jour. Prix $ = paliers de magasin dictés par Aistra ; prix € = paliers relevés par Aistra : 1,19 / 2,49 / 5,99 / 11,99 / 24,99 / 59,99 / 119,99. Deux corrections déjà faites sur cette grille (59,99 et 119,99 sur les deux derniers, puis 2,49 sur le palier à 2 $) : elle se relève en jeu, elle ne se déduit pas.",
-    "excludedByDefault": ["100_exp_vip", "1000_exp_vip", "10k_bread", "10k_wood", "10k_stone", "10k_iron"],
-    "excludedNote": "Les ressources et le VIP des packs sont DÉCOCHÉS à l'ouverture. Ce que le joueur vient chercher ici, ce sont les Lanternes : elles deviennent des Gâteaux de Lune, qui deviennent ce qu'il prend dans la boutique — et ce panier est déjà compté dans le retour. Les compter en plus gonflait la valorisation d'un côté qui n'est pas la question posée (261 000 gemmes de pain et de bois pour deux petits packs). Rien n'est perdu : les lignes restent affichées et se recochent d'un clic.",
+    "packsNote": "L'ÉVÉNEMENT dure 8 jours (20/09 00h UTC → 28/09 00h UTC) mais les packs ne s'achètent que les 7 PREMIERS : d'où `lastDay: 7` sur chacun. Le pack à 100 $ est le seul à trois achats par jour, les six autres sont à un par jour. Prix $ = paliers de magasin dictés par Aistra ; prix € = paliers relevés par Aistra : 1,19 / 2,49 / 5,99 / 11,99 / 24,99 / 59,99 / 119,99. Deux corrections déjà faites sur cette grille (59,99 et 119,99 sur les deux derniers, puis 2,49 sur le palier à 2 $) : elle se relève en jeu, elle ne se déduit pas. Ce qui précède vaut pour les SEPT packs quotidiens. Les deux derniers, « Désirs du Cœur » et « Grands Desseins », sont d'une autre nature : un seul achat pour tout l'événement (`once`), et le second ne s'ouvre qu'une fois le premier acheté (`requires`). Aucun `lastDay` sur ces deux-là : faute de relevé contraire, ils sont réputés en vente les huit jours, là où les quotidiens ferment au septième. Leur prix € ne suit pas la grille ci-dessus : 23,99 pour « Grands Desseins » là où le palier à 20 $ des quotidiens est à 24,99. Relevé sur capture, pas déduit.",
+    "excludePackItemsByDefault": true,
+    "excludedNote": "Tout ce que les packs versent est DÉCOCHÉ à l'ouverture, pas seulement les ressources et le VIP. Ce que le joueur vient chercher ici, ce sont les Lanternes : elles deviennent des Gâteaux de Lune, qui deviennent ce qu'il prend dans la boutique — et ce panier est déjà compté dans le retour. Compter en plus le contenu des packs répondait à côté de la question posée (261 000 gemmes de pain et de bois pour deux petits packs faisaient lire 113 % à qui n'avait rien sorti de la boutique). La règle est portée par `excludePackItemsByDefault`, pas par une liste d'itemId : un pack relevé plus tard amène ses objets déjà décochés, sans qu'on ait à penser à les inscrire quelque part. Rien n'est perdu, les lignes restent affichées et se recochent d'un clic. Les libellés libres (les Lanternes) ne sont pas décochés : ils ne sont jamais chiffrés, les griser masquerait une information sans rien changer au total.",
     "contentNote": "Contenus dérivés des relevés d'Aistra : le pack à 2 $ est le double du pack à 1 $ ; à partir du pack à 10 $, les ressources sont un multiple de celles du pack à 5 $ (×2), puis du pack à 10 $ (×2, ×5, ×10). Les quantités ci-dessous sont ces multiples déjà calculés, en NOMBRE D'OBJETS du référentiel (un `10k_bread` = une caisse de 10 000 pains)."
   },
 
@@ -150,6 +150,55 @@
           { "itemId": "10k_wood", "qty": 10000 },
           { "itemId": "10k_stone", "qty": 2000 },
           { "itemId": "10k_iron", "qty": 500 }
+        ]
+      }
+    },
+    {
+      "id": "heartfelt_desires",
+      "name": { "EN": "Heartfelt Desires", "FR": "D\u00e9sirs du C\u0153ur" },
+      "short": { "EN": "Heartfelt", "FR": "D\u00e9sirs" },
+      "priceEur": 5.99,
+      "priceUsd": 5,
+      "lastDay": 7,
+      "once": true,
+      "note": {
+        "EN": "One purchase for the whole event, on top of the daily packs. The game also advertises doubled daily mission rewards: the Moonlight event has no missions in this tool, so that half is listed here and never priced. The in-game percentage counts it, this page does not.",
+        "FR": "Un seul achat pour tout l'\u00e9v\u00e9nement, en plus des packs quotidiens. Le jeu annonce aussi un doublement des r\u00e9compenses de mission quotidienne : le Clair de Lune n'a aucune mission dans cet outil, cette moiti\u00e9 est donc cit\u00e9e ici et jamais chiffr\u00e9e. Le pourcentage affich\u00e9 en jeu la compte, cette page non."
+      },
+      "immediate": {
+        "items": [
+          { "itemId": "gem", "qty": 1500 },
+          { "itemId": "mythic_general_hero_shard", "qty": 8 },
+          { "itemId": "mythic_conquest_skill_book", "qty": 5 },
+          { "itemId": "mythic_expedition_skill_manual", "qty": 5 },
+          { "label": { "EN": "Wishful Lantern", "FR": "Lanterne du D\u00e9sireux" }, "qty": 60 },
+          { "itemId": "10000_hero_xp", "qty": 3 },
+          { "itemId": "gold_key", "qty": 4 },
+          { "itemId": "100_enhancement_xp_component", "qty": 6 },
+          { "itemId": "stamina", "qty": 10 }
+        ]
+      }
+    },
+    {
+      "id": "grand_visions",
+      "name": { "EN": "Grand Visions", "FR": "Grands Desseins" },
+      "short": { "EN": "Grand", "FR": "Desseins" },
+      "priceEur": 23.99,
+      "priceUsd": 20,
+      "lastDay": 7,
+      "once": true,
+      "requires": "heartfelt_desires",
+      "note": {
+        "EN": "One purchase for the whole event, and only once Heartfelt Desires has been bought. The figures are the All Level Rewards list, what the pack gives in full; the Current Level list shown in game is the slice for the tier you are on.",
+        "FR": "Un seul achat pour tout l'\u00e9v\u00e9nement, et seulement apr\u00e8s \u00ab D\u00e9sirs du C\u0153ur \u00bb. Les chiffres sont ceux de la liste All Level Rewards, ce que le pack donne en entier ; la liste Current Level affich\u00e9e en jeu est la tranche du palier en cours."
+      },
+      "immediate": {
+        "items": [
+          { "itemId": "gem", "qty": 6000 },
+          { "itemId": "forgehammers", "qty": 120 },
+          { "label": { "EN": "Wishful Lantern", "FR": "Lanterne du D\u00e9sireux" }, "qty": 300 },
+          { "itemId": "3h_general_speedup", "qty": 30 },
+          { "itemId": "100_enhancement_xp_component", "qty": 80 }
         ]
       }
     }

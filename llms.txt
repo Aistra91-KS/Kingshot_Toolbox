@@ -9,7 +9,7 @@ Every page is available in English and French; the served HTML is English and th
 ## Tools
 
 - [Research](https://kingshottoolbox.com/research_calc): pick the order of your scientific researches and track progress across the Growth, Economy and Battle trees.
-- [TrueGold](https://kingshottoolbox.com/truegold_calc): plan TrueGold building upgrades and work out the resources and speedups needed.
+- [Building Planner](https://kingshottoolbox.com/truegold_calc): plan every building upgrade and work out the resources and speedups needed. Two tabs: before TrueGold, where resources are the wall, and the TrueGold era.
 - [War Academy](https://kingshottoolbox.com/waracademy): plan TrueGold troop research, with the optimal path to maximise researches, KvK points, or reach a target score.
 - [Bear Trap](https://kingshottoolbox.com/beartrap_calc): build rally marches from your own heroes and troops and get a deployment plan for the event.
 - [Vikings](https://kingshottoolbox.com/vikings): split your troops across marches for the Vikings event to maximise defence.
@@ -19,16 +19,17 @@ Every page is available in English and French; the served HTML is English and th
 
 ## Databases
 
-- [Buildings](https://kingshottoolbox.com/database/buildings/): every building's full upgrade table - TrueGold, Tempered TrueGold, resources, build time and requirements per level.
+- [Buildings](https://kingshottoolbox.com/database/buildings/): every building's full upgrade table - TrueGold, Tempered TrueGold, resources, build time and requirements per level, plus the six buildings that stop before TrueGold.
+- [Academy Research](https://kingshottoolbox.com/database/research/): every Academy research level by level - resource cost, research time, power, required Academy level and the bonus it grants, across the [Growth](https://kingshottoolbox.com/database/research/growth), [Economy](https://kingshottoolbox.com/database/research/economy) and [Battle](https://kingshottoolbox.com/database/research/battle) trees.
 - [War Academy Research](https://kingshottoolbox.com/database/waracademy/): every troop research level by level - TrueGold dust, resources, time, effects and requirements for the Infantry, Archer and Cavalry trees.
 - [Masters DB](https://kingshottoolbox.com/database/masters/): each expert's affinity milestones, passive expertise, and every skill's effect, EXP cost, manuscripts and power per level.
 - [Pets DB](https://kingshottoolbox.com/database/pets/): each pet's skill effect per tier, advancement costs and Pet Food required for every level.
 
-## Shop value
+## Value and ROI
 
-- [Shop Value](https://kingshottoolbox.com/shop_calc): index of every shop, grouped into event shops, permanent shops and custom chests.
-- [Item values](https://kingshottoolbox.com/shop/items): the gem-value reference used to price every shop item.
-- [Real-money item values](https://kingshottoolbox.com/shop/items-euro): the observed price of items in euros and dollars, with the pack each figure comes from.
+- [Shop Value](https://kingshottoolbox.com/shop_calc): index of the permanent shops and the custom chests.
+- [Event ROI](https://kingshottoolbox.com/event-roi): index of the event shops, plus what an event really pays back - what it cost in real money against the value of everything it handed out.
+- [Item Values](https://kingshottoolbox.com/item-values): the two reference tables behind every figure on the site - [in gems](https://kingshottoolbox.com/shop/items) and [in real money](https://kingshottoolbox.com/shop/items-euro), with the method behind each one.
 
 Event shops: [Moonlight Shop](https://kingshottoolbox.com/shop/moonlight-shop), [Theater Shop](https://kingshottoolbox.com/shop/theater-shop) (also in French at [/fr/shop/theater-shop](https://kingshottoolbox.com/fr/shop/theater-shop)), [Blizzard Shop](https://kingshottoolbox.com/shop/blizzard-shop), [Dragon's Caravan](https://kingshottoolbox.com/shop/dragons-caravan), [Adventure Stall](https://kingshottoolbox.com/shop/adventure-stall), [Polar Shop](https://kingshottoolbox.com/shop/polar-shop), [Summit Contest Champion](https://kingshottoolbox.com/shop/summit-contest-champion), [Summit Contest Ordinary](https://kingshottoolbox.com/shop/summit-contest-ordinary), [Flamedragon Tyrant Prediction](https://kingshottoolbox.com/shop/flamedragon-tyrant-prediction), [Golden Ball](https://kingshottoolbox.com/shop/golden-ball-shop) (event over, page kept as an archive).
 

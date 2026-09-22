@@ -30,7 +30,9 @@ function scRenderItems(){
       <td style="width:46px;"><div class="sc-item-img" style="background-image:url('img/Item/${img}.webp');background-color:${color}33;"></div></td>
       <td style="font-weight:600;">${scEscAttr(scName(it,lang))}</td>
       <td><span style="color:${color};font-weight:600;font-size:12px;">${scEscAttr(it.category)}</span></td>
-      <td><input type="number" min="0" step="1" inputmode="numeric" class="table-input" style="width:120px;text-align:right;" value="${it.gemValue}" onchange="scUpdateGem(${idx},this.value)"></td></tr>`;
+      <td><input type="number" min="0" step="1" inputmode="numeric" class="table-input" style="width:120px;text-align:right;"
+        aria-label="${scEscAttr(scT('hGem') + (scLang()==='FR' ? ' : ' : ': ') + scName(it,lang))}"
+        value="${it.gemValue}" onchange="scUpdateGem(${idx},this.value)"></td></tr>`;
   }).join('');
   const cnt=document.getElementById('item-count');
   if(cnt) cnt.textContent=`${rows.length} / ${SC_ITEMS.filter(i=>!i.skin).length} ${scT('count')}`;
@@ -73,7 +75,7 @@ window.scResetItems=function(){
           "Every shop uses that value to compute the “value ÷ cost” ratio.",
           "The “Reset values” button restores the site's original values."]
     },
-    links:[{label:{FR:'Retour aux boutiques', EN:'Back to shops'}, href:'shop_calc'}]
+    links:[{label:{FR:"D'où viennent ces valeurs", EN:'Where these values come from'}, href:'item-values'}]
   });
 
   window.addEventListener('langChanged',()=>{ scApplyTranslations(); scRenderCatFilter(); scRenderItems(); });

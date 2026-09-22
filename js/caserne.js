@@ -90,9 +90,77 @@ const i18nCaserne = {
     }
 };
 
+// Langue d'affichage. Le repli ne sert que si `lang.js` manque (chargement
+// échoué, fichier encore en cache) : il lit alors la préférence directement, sous
+// garde — un stockage interdit fait lever `getItem` lui-même, et la page mourait là.
+function csLang() {
+    if (window.GlobalLang) return window.GlobalLang.get();
+    try { return localStorage.getItem('hub_lang') || 'EN'; } catch (e) { return 'EN'; }
+}
+
+// ==========================================
+//  FICHES DE HÉROS RELUES DU STOCKAGE
+//  Le contenu de `caserne_user_heroes` ne vient pas forcément d'ici : `backup.js`
+//  y écrit ce que contient le fichier de sauvegarde que le joueur lui donne, et
+//  un fichier se partage. Chaque fiche est donc ramenée aux types du jeu AVANT
+//  d'être utilisée. Sans ce passage, un `level` resté chaîne traversait le
+//  gabarit `innerHTML` de la grille : une chaîne peut porter du balisage, et ce
+//  balisage s'exécutait dans l'origine du site (constat F01 de la revue du
+//  2026-09-20). Le rendu de la carte n'interprète plus ces valeurs non plus.
+//
+//  Les bornes sont celles des champs de la modale (caserne.html) : niveau 1→80,
+//  éclats 0→30, compétences 0→5, équipement exclusif 0→10.
+// ==========================================
+const HERO_BOUNDS = { level: [1, 80], shards: [0, 30], skill: [0, 5], widget: [0, 10] };
+
+function heroInt(value, [lo, hi], fallback) {
+    const n = (typeof value === 'number' || typeof value === 'string') ? Math.trunc(Number(value)) : NaN;
+    if (!Number.isFinite(n)) return fallback;
+    return Math.min(Math.max(n, lo), hi);
+}
+
+// Rend la fiche nettoyée, ou null si l'entrée n'a pas la forme attendue — auquel
+// cas le héros repart verrouillé plutôt que d'afficher des valeurs inventées.
+function normalizeHero(raw) {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+    const skills = Array.isArray(raw.skills) ? raw.skills : [];
+    return {
+        // `unlocked` absent = fiche d'avant ce champ : on la laisse absente, les deux
+        // appelants savent déjà la déduire du niveau, des éclats et des compétences.
+        unlocked: (typeof raw.unlocked === 'boolean') ? raw.unlocked : undefined,
+        level: heroInt(raw.level, HERO_BOUNDS.level, 1),
+        shards: heroInt(raw.shards, HERO_BOUNDS.shards, 0),
+        skills: [0, 1, 2].map(i => heroInt(skills[i], HERO_BOUNDS.skill, 0)),
+        widgetLevel: heroInt(raw.widgetLevel, HERO_BOUNDS.widget, 0)
+    };
+}
+
+function loadUserHeroes() {
+    const raw = safeParse(STORAGE_KEYS.caserneHeroes, {});
+    const out = {};
+    let ecartees = 0;
+    if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+        for (const id in raw) {
+            const hero = normalizeHero(raw[id]);
+            if (hero) out[id] = hero; else ecartees++;
+        }
+    } else if (raw !== null && raw !== undefined && Object.keys(raw || {}).length !== 0) {
+        ecartees++;
+    }
+    // Un héros qui disparaît de la grille sans un mot, c'est une perte que le joueur
+    // ne verra qu'en cherchant. On met la valeur d'origine de côté — sinon le premier
+    // enregistrement de la page l'écrase — et le bandeau dit ce qui s'est passé.
+    if (ecartees) {
+        const brut = JSON.stringify(raw);
+        if (window.ktKeepCorrupt) ktKeepCorrupt(STORAGE_KEYS.caserneHeroes, brut);
+        if (window.ktWarnCorrupt) ktWarnCorrupt();
+    }
+    return out;
+}
+
 // Variables globales
 let heroesDB = []; 
-let userHeroes = safeParse(STORAGE_KEYS.caserneHeroes, {});
+let userHeroes = loadUserHeroes();
 let currentEditingHeroObj = null;
 
 const rarityWeight = { "legendary": 3, "epic": 2, "rare": 1 };
@@ -150,7 +218,7 @@ function getWidgetEffectValue(levelsArray, widgetLevel, isConquest) {
 
 function initCaserneLanguage() {
     // On utilise directement ton objet GlobalLang défini dans lang.js
-    let savedLang = window.GlobalLang ? window.GlobalLang.get() : (localStorage.getItem('hub_lang') || 'EN');
+    let savedLang = csLang();
     applyCaserneTranslations(savedLang.toUpperCase());
 }
 
@@ -409,7 +477,7 @@ function renderHeroes() {
     grid.innerHTML = ''; 
 
     // Détermination de la langue pour Niv / Lv
-    let currentLang = window.GlobalLang ? window.GlobalLang.get() : (localStorage.getItem('hub_lang') || 'EN');
+    let currentLang = csLang();
     currentLang = currentLang.toUpperCase();
     const dict = i18nCaserne[currentLang] || i18nCaserne['FR'];
 
@@ -446,7 +514,7 @@ function renderHeroes() {
     const sortedHeroes = sortHeroes(filteredHeroes, sortBy);
 
     sortedHeroes.forEach(hero => {
-        const heroData = userHeroes[hero.id] || { unlocked: false, level: 1, shards: 0, skills: [0, 0, 0] };
+        const heroData = userHeroes[hero.id] || { unlocked: false, level: 1, shards: 0, skills: [0, 0, 0], widgetLevel: 0 };
         const isLocked = !heroData.unlocked; 
 
         const card = document.createElement('div');
@@ -461,13 +529,15 @@ function renderHeroes() {
             
             <div class="hero-name-row">
                 <div class="hero-name">${hero.name}</div>
-                <div class="hero-level">${dict.lvlPrefix}${heroData.level}</div>
+                <div class="hero-level"></div>
             </div>
             
             <div class="hero-shards-container">
                 ${generateStarsHTML(heroData.shards)}
             </div>
         `;
+        // Le niveau vient du stockage : il s'écrit en texte, jamais dans un gabarit.
+        card.querySelector('.hero-level').textContent = dict.lvlPrefix + heroData.level;
 
         card.addEventListener('click', () => openModal(hero, heroData));
         grid.appendChild(card);
@@ -555,7 +625,7 @@ function renderModalSkills(fullStars) {
     skillsContainer.innerHTML = '';
 
     // 1. On récupère la langue actuelle directement de la mémoire (EN par défaut)
-    let currentLang = (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
+    let currentLang = csLang().toUpperCase();
 
     // ==========================================
     // LOGIQUE DE PROGRESSION DES COMPÉTENCES
@@ -641,7 +711,7 @@ function renderModalWidget() {
     if (dbHero.widget) {
         widgetContainer.style.display = 'block';
 
-        let currentLang = window.GlobalLang ? window.GlobalLang.get().toUpperCase() : (localStorage.getItem('hub_lang') || 'EN').toUpperCase();
+        let currentLang = csLang().toUpperCase();
         let dict = i18nCaserne[currentLang] || i18nCaserne['FR'];
 
         // Noms traduits pour l'affichage textuel

@@ -32,17 +32,35 @@
 .db-card-name { font-weight: 600; }
 
 /* ---- Fiches : tableaux ---- */
-.db-page .table-container { max-height: 72vh; overflow: auto; }
+/* La fiche défile avec la PAGE, jamais dans le tableau. Un `max-height: 72vh`
+   enfermait ici les 459 paliers de l'arbre Combat dans une boîte à ascenseur
+   propre : deux barres de défilement concurrentes, la molette prisonnière du
+   tableau dès que le curseur entrait dedans, et le pied de page inatteignable
+   sans ressortir de la boîte. Le défilement HORIZONTAL, lui, reste — il vient
+   de `.table-container` (style.css) et sans lui une table large ferait déborder
+   la page entière sur mobile (cf. les règles < 820px de style.css). */
 table.db-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 table.db-table th, table.db-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
 table.db-table thead th { background: var(--control-bg); color: var(--text-muted); text-transform: uppercase; font-size: 11px; letter-spacing: .04em; }
 /* En-tête figé : les fiches Experts/Familiers héritent déjà de `th { position:sticky }`
-   (règle globale de style.css, z-index 10). Ici on ne (re)cadre que les tables à
-   conteneur scrollable (bâtiments / académie) qui redéfinissaient le z-index. */
+   (règle globale de style.css, z-index 10). Ici on ne (re)cadre que le z-index,
+   que les tables bâtiments / académie redéfinissaient. Depuis que le conteneur
+   n'a plus de hauteur plafonnée, il n'a plus de zone de défilement verticale à
+   laquelle se coller : l'en-tête suit donc la page. C'est le prix assumé du
+   défilement de page, et le `sticky` reste en place pour le jour où une table
+   retrouverait une boîte à hauteur contrainte. */
 .db-page .table-container table.db-table thead th { position: sticky; top: 0; z-index: 1; }
 .db-page.db-wide .table-container table.db-table thead th { z-index: 2; }
 table.db-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+/* Colonnes de chiffres : l'en-tête suit ses valeurs. Seul `td.num` portait
+   `text-align: right`, le `th` restant à gauche par la règle générale
+   ci-dessus : l'intitulé se retrouvait à un bout de la colonne et ses chiffres
+   à l'autre, décalage d'autant plus visible que la colonne est large
+   (« TrueGold » d'un côté, « 26 » de l'autre). Le style.css portait déjà cette
+   règle, mais limitée aux tables d'une `.db-section` — les pages Bâtiments,
+   Académie et Recherches sont dans une `.table-container` et y échappaient. */
 table.db-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.db-table thead th.num { text-align: right; }
 table.db-table td.tg { color: var(--accent); font-weight: 600; }
 table.db-table td.ttg { color: #c58cff; font-weight: 600; }
 table.db-table td.c-lbl { font-weight: 700; color: var(--text-light); }
@@ -71,8 +89,18 @@ table.db-table tr.wa-group td { background: var(--table-header); color: var(--ac
 .db-switch { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
 .db-switch-item { padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--control-bg); color: var(--text-light); text-decoration: none; font-size: 13px; font-weight: 600; transition: border-color .15s, background .15s; }
 a.db-switch-item:hover { border-color: var(--accent); }
+/* Au clavier, ces pastilles ne montraient que l'anneau par défaut du navigateur,
+   quasi invisible sur le fond sombre (mesuré : 1px #101010). Même repère que les
+   onglets et les boutons du site (WCAG 2.2, 2.4.11). */
+.db-switch-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .db-switch-item.active { border-color: var(--accent); background: rgba(245,184,64,0.15); color: var(--accent); cursor: default; }
 .db-switch.footer { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 18px; }
+/* Intitulé de famille dans une nav qui en mélange deux (pages Bâtiments : les huit
+   bâtiments qui montent à l'Or Véritable, puis les autres). `flex-basis: 100%`
+   force le retour à la ligne, donc chaque famille occupe ses propres lignes au
+   lieu de se fondre dans la précédente. */
+.db-switch-label { flex-basis: 100%; margin: 4px 0 -2px; color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.db-switch-label:first-child { margin-top: 0; }
 
 /* ---- Barre de filtres (fiche Académie « Advanced » : 92 techs) ----
    Les puces réutilisent .db-switch-item ; seul le <button> a besoin d'un
@@ -105,3 +133,40 @@ table.db-table tr.wa-group td .wg-name { display: inline-block; position: sticky
 .db-hero { width: 84px; height: 84px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 3px 8px rgba(0,0,0,.45)); }
 .db-head h1 { margin: 0; }
 @media (max-width: 520px){ .db-hero { width: 60px; height: 60px; } }
+
+/* ============================================================
+   BASE DE DONNÉES — RECHERCHES DE L'ACADÉMIE (database/research/*)
+   Trois pages, un seul rendu (js/db-research.js).
+   ============================================================ */
+
+/* Ligne de groupe : même habillage que celle de l'Académie de Guerre, mais sur
+   un <th scope="rowgroup"> — c'est un en-tête de section, pas une donnée, et le
+   lecteur d'écran annonce alors le nom de la recherche avant chacun de ses
+   paliers. Le sélecteur doit donc viser `th` ; `tr.wa-group td` ne l'attrape pas. */
+table.db-table tr.dbr-group:hover { background: var(--table-header); }
+table.db-table tr.dbr-group th {
+  background: var(--table-header); color: var(--accent);
+  font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .03em;
+  text-align: left; padding: 8px 10px;
+}
+/* Au défilement horizontal, le nom du groupe sortirait de l'écran et on ne
+   saurait plus quelle recherche on lit : il reste collé au bord gauche, comme
+   le fait déjà le nom de groupe des pages Académie de Guerre. */
+table.db-table tr.dbr-group th .dbr-name-in { position: sticky; left: 0; }
+
+/* Vignette + nom solidaires, dans l'en-tête de groupe comme dans la colonne. */
+.dbr-name-in { display: inline-flex; align-items: center; gap: 8px; }
+.dbr-icon { width: 26px; height: 26px; flex: none; object-fit: contain; }
+table.db-table td.dbr-name { white-space: nowrap; }
+
+/* Colonne Effet : le texte y est long, il respire mieux sur deux lignes que
+   dans une colonne étirée qui pousse tout le reste hors écran. */
+table.db-table td.c-eff { white-space: normal; min-width: 15ch; }
+table.db-table td.c-time { white-space: nowrap; }
+
+/* Libellé réservé au lecteur d'écran : un `placeholder` seul ne nomme pas un
+   champ de façon fiable (cf. MAP §9, « tout champ porte un nom accessible »). */
+.db-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
