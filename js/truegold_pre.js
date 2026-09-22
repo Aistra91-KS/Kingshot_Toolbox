@@ -212,8 +212,15 @@
     // importée : on le borne AVANT qu'il n'indexe les tableaux de niveaux.
     for (const b of DB.buildings) {
       const r = state.rows[b.id] || {};
-      const cur = Math.min(Math.max(parseInt(r.cur, 10) || 1, 1), b.maxStd);
-      const tgt = Math.min(Math.max(parseInt(r.tgt, 10) || cur, cur), b.maxStd);
+      // Le plancher est 0, pas 1 : un bâtiment pas encore posé est au niveau 0, et
+      // c'est de là que part son premier chantier. `parseInt(...) || 1` remontait un
+      // 0 enregistré à 1, et le niveau 1 n'était alors jamais planifié — son coût
+      // sortait du plan. Le défaut reste 1 (une ville sortie du tutoriel), seule
+      // une valeur absente ou illisible y retombe.
+      const curLu = parseInt(r.cur, 10);
+      const cur = Math.min(Math.max(Number.isFinite(curLu) ? curLu : 1, 0), b.maxStd);
+      const tgtLu = parseInt(r.tgt, 10);
+      const tgt = Math.min(Math.max(Number.isFinite(tgtLu) ? tgtLu : cur, cur), b.maxStd);
       state.rows[b.id] = { cur, tgt, on: r.on !== false };
     }
     for (const k of RES) state.stock[k] = Math.max(0, Number(state.stock[k]) || 0);
@@ -327,6 +334,18 @@
   // ============================================================
   const PTS_PAR_MINUTE = 30;
 
+  // Minutes d'accélérateur qu'une amélioration consomme VRAIMENT. Le plus petit
+  // accélérateur du jeu vaut une minute et se pose sur un seul chantier : ce qu'il
+  // reste après un chantier de 2 secondes est perdu, il n'accélère pas le suivant.
+  // Compter `sec / 60` laissait donc une minute couvrir trente chantiers de 2 s, et
+  // le plan annonçait des niveaux et des points KVK que le stock ne paie pas.
+  // L'onglet Or Véritable arrondit déjà de la même façon (`Math.ceil` dans
+  // truegold_script.js). Un chantier entièrement couvert par le PAN (`sec` à 0) ne
+  // consomme rien : l'arrondi supérieur de 0 vaut 0.
+  function minutesAccel(sec) {
+    return Math.ceil(Math.max(0, sec) / 60);
+  }
+
   // Stock d'accélérateurs, en minutes. Champs partagés, lus au DOM — même raison
   // que `speedFactor()` et `panSeconds()` : pas d'appel croisé.
   function accelMinutes() {
@@ -372,7 +391,7 @@
         jouables.push({
           b: b, next: next, lv: lv, sec: sec,
           cout: RES.reduce((a, k) => a + lv[k], 0),
-          minutes: Math.min(sec / 60, minutesLibres),
+          minutes: Math.min(minutesAccel(sec), minutesLibres),
           gain: lv.power - (prev ? prev.power : 0)
         });
       }
@@ -458,7 +477,7 @@
       };
       html += `<tr${st.on ? '' : ' class="pre-off"'}>
         <td class="pre-name"><label class="pre-check"><input type="checkbox" data-pre-on="${esc(b.id)}"${st.on ? ' checked' : ''} aria-label="${esc(bname(b))}"><span>${esc(bname(b))}</span></label></td>
-        <td><select class="table-select" data-pre-cur="${esc(b.id)}" aria-label="${esc(bname(b))} — ${esc(t('cur'))}">${opts(st.cur, 1, b.maxStd)}</select></td>
+        <td><select class="table-select" data-pre-cur="${esc(b.id)}" aria-label="${esc(bname(b))} — ${esc(t('cur'))}">${opts(st.cur, 0, b.maxStd)}</select></td>
         <td><select class="table-select" data-pre-tgt="${esc(b.id)}" aria-label="${esc(bname(b))} — ${esc(t('tgt'))}">${opts(st.tgt, st.cur, b.maxStd)}</select></td>
         <td class="num">${p ? big(p.bread) : '—'}</td>
         <td class="num">${p ? big(p.wood) : '—'}</td>
@@ -684,7 +703,9 @@
     if (!host || !DB) return;                 // HTML d'une version précédente : rien à poser
     const maxLv = DB.buildings.reduce((m, b) => Math.max(m, b.maxStd), 1);
     let lvOpts = '';
-    for (let i = 1; i <= maxLv; i++) lvOpts += `<option value="${i}"${i === bulk.level ? ' selected' : ''}>${i}</option>`;
+    // Depuis 0, comme le menu de chaque ligne : « tout au 0 » est le geste d'un
+    // joueur qui part d'une ville neuve et veut voir ce que sa pose complète coûte.
+    for (let i = 0; i <= maxLv; i++) lvOpts += `<option value="${i}"${i === bulk.level ? ' selected' : ''}>${i}</option>`;
     const opt = (v, cur, label) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(label)}</option>`;
     host.innerHTML = `
       <div class="pre-bulk-lbl">${esc(t('bulkTitle'))}</div>
@@ -763,12 +784,16 @@
       const tgt = el.getAttribute('data-pre-tgt');
       const on = el.getAttribute('data-pre-on');
       if (cur) {
-        const b = BY_ID[cur], v = parseInt(el.value, 10) || 1;
+        // `|| valeur` avalait le 0 du menu : un bâtiment remis à « pas encore posé »
+        // repartait au niveau 1. Une valeur illisible garde ce qui était là.
+        const lu = parseInt(el.value, 10);
+        const b = BY_ID[cur], v = Number.isFinite(lu) ? lu : state.rows[cur].cur;
         state.rows[cur].cur = v;
         if (state.rows[cur].tgt < v) state.rows[cur].tgt = v;
         void b;
       } else if (tgt) {
-        state.rows[tgt].tgt = parseInt(el.value, 10) || state.rows[tgt].cur;
+        const lu = parseInt(el.value, 10);
+        state.rows[tgt].tgt = Number.isFinite(lu) ? lu : state.rows[tgt].cur;
       } else if (on) {
         state.rows[on].on = el.checked;
       } else return;
@@ -793,7 +818,7 @@
       const id = e.target.id;
       if (id === 'pre-bulk-which') bulk.which = e.target.value;
       else if (id === 'pre-bulk-what') bulk.what = e.target.value;
-      else if (id === 'pre-bulk-level') bulk.level = parseInt(e.target.value, 10) || 1;
+      else if (id === 'pre-bulk-level') { const lu = parseInt(e.target.value, 10); bulk.level = Number.isFinite(lu) ? lu : bulk.level; }
     });
     if (bWhich) bWhich.addEventListener('click', e => {
       if (e.target && e.target.id === 'pre-bulk-go') bulkApply();
