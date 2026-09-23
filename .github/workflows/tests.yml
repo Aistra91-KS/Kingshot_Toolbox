@@ -8,6 +8,11 @@ on:
     branches: ['**']
   pull_request:
 
+# Lire le dépôt suffit : sans ce bloc, le jeton du job reçoit les droits par
+# défaut du dépôt, écriture comprise.
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
