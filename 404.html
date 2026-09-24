@@ -5,6 +5,7 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
     <script>
+      if (navigator.webdriver) window['ga-disable-G-M1QG4XSD3K'] = true; // navigateur piloté (robot, test automatisé) : pas de mesure
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
