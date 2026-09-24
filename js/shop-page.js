@@ -77,8 +77,8 @@ function spRenderSwitch(){
 function spViewTabsHtml(){
   const eur=scIsEur();
   let h=`<span class="db-switch sx-views" role="tablist" aria-label="${scEscAttr(scT('viewLabel'))}">
-      <button type="button" class="db-switch-item${eur?'':' active'}" role="tab" aria-selected="${eur?'false':'true'}" onclick="spSetView('gem')">&#128142; ${scT('viewGem')}</button>
-      <button type="button" class="db-switch-item${eur?' active':''}" role="tab" aria-selected="${eur?'true':'false'}" onclick="spSetView('eur')">&#128181; ${scT('viewEur')}</button>
+      <button type="button" class="db-switch-item${eur?'':' active'}" role="tab" data-tab="view-gem" aria-selected="${eur?'false':'true'}" onclick="spSetView('gem')">&#128142; ${scT('viewGem')}</button>
+      <button type="button" class="db-switch-item${eur?' active':''}" role="tab" data-tab="view-eur" aria-selected="${eur?'true':'false'}" onclick="spSetView('eur')">&#128181; ${scT('viewEur')}</button>
     </span>`;
   // Le sélecteur de devise n'a de sens que dans la lecture € : on ne l'affiche pas ailleurs.
   if(eur){

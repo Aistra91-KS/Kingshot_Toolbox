@@ -449,6 +449,7 @@ function toggleHeaderTheme() {
   document.documentElement.setAttribute('data-theme', target);
   try { localStorage.setItem('hub_theme', target); } catch (e) { if (window.ktWarnUnsaved) window.ktWarnUnsaved(); }
   updateHeaderThemeIcon(target);
+  hdrTrack('theme_change', { theme: target });
 }
 
 function updateHeaderThemeIcon(theme) {
@@ -938,3 +939,57 @@ function hdrShowSwitchToast() {
   requestAnimationFrame(() => toast.classList.add('show'));
   setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 350); }, 2600);
 }
+
+// ---------- Mesure d'audience (GA4) : ce que les visiteurs utilisent ----------
+// Les pages vues ne disent pas si un outil a servi. Trois gestes s'ajoutent ici,
+// valables pour toutes les pages qui chargent le header : le thème (ci-dessus),
+// les onglets et le premier usage d'un outil. Le mode d'emploi est suivi dans
+// help.js, la langue dans lang.js, la devise dans shop-core.js.
+// Rien de ce que le visiteur TAPE ne part : seulement le nom du champ touché, et
+// une seule fois par page (la page À propos le promet). `gtag` est défini en ligne
+// dans chaque page ; bloqué par un bloqueur de pub, l'appel ne fait rien.
+function hdrTrack(name, params) {
+  if (typeof gtag === 'function') gtag('event', name, params || {});
+}
+
+(function hdrInitTracking() {
+  // Nom stable d'un onglet, identique en FR et en EN : le texte ne sert qu'en dernier recours.
+  function tabKey(t) {
+    return t.id || t.getAttribute('data-target') || t.getAttribute('data-tab') || (t.textContent || '').trim().slice(0, 40);
+  }
+  // Onglets : clic (souris, doigt, Entrée, Espace) sur un onglet qui n'était pas déjà
+  // ouvert. Écoute en capture pour lire `aria-selected` AVANT que la page ne le change.
+  document.addEventListener('click', (e) => {
+    if (!e.isTrusted || !e.target.closest) return;
+    const t = e.target.closest('[role="tab"]');
+    if (t && t.getAttribute('aria-selected') !== 'true') hdrTrack('tab_change', { tab: tabKey(t) });
+  }, true);
+  // Flèches, Début, Fin : la page déplace le focus sur l'onglet qu'elle ouvre, on le lit après coup.
+  document.addEventListener('keydown', (e) => {
+    if (!e.isTrusted || !e.target.closest || !/^(Arrow(Left|Right|Up|Down)|Home|End)$/.test(e.key)) return;
+    const from = e.target.closest('[role="tab"]');
+    if (!from) return;
+    setTimeout(() => {
+      const t = document.activeElement;
+      if (t && t !== from && t.getAttribute('role') === 'tab' && t.getAttribute('aria-selected') === 'true') hdrTrack('tab_change', { tab: tabKey(t) });
+    }, 0);
+  }, true);
+
+  // Premier usage d'un outil : le premier champ que le visiteur modifie dans la page.
+  // Les champs du header, du tiroir, du pied de page et des fenêtres communes (profils,
+  // sauvegarde, retour, aide) ne comptent pas : ils ne disent rien de l'outil.
+  const CHROME = '.app-header, #hdr-drawer, .site-footer, .backup-overlay, .custom-alert-overlay, .help-overlay';
+  let used = false;
+  function onField(e) {
+    if (used || !e.isTrusted) return;
+    const f = e.target;
+    if (!f || !/^(INPUT|SELECT|TEXTAREA)$/.test(f.tagName) || f.closest(CHROME)) return;
+    used = true;
+    // Beaucoup de champs générés n'ont ni `name` ni `id` (lignes de tableau, cases de
+    // filtre) : on nomme alors le bloc qui les contient (`sp-table`, `filter-gen-group`).
+    const block = f.parentElement && f.parentElement.closest('[id]');
+    hdrTrack('tool_use', { field: f.name || f.id || (block && block.id) || f.type });
+  }
+  document.addEventListener('input', onField, true);
+  document.addEventListener('change', onField, true);
+})();

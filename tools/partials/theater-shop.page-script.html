@@ -11,6 +11,8 @@
       var FR = 'fr/shop/theater-shop', base = GlobalLang.set.bind(GlobalLang);
       GlobalLang.set = function(lang){
         if(lang === 'FR'){
+          // Mesure d'audience : ce départ contourne GlobalLang.set, qui compte les changements de langue.
+          if(GlobalLang.get() !== 'FR' && typeof gtag === 'function') gtag('event', 'language_change', { language: 'FR' });
           try{ localStorage.setItem(GlobalLang.STORAGE_KEY,'FR'); }catch(e){}
           location.href = FR; return;
         }

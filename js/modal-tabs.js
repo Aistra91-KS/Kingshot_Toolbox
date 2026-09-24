@@ -117,6 +117,7 @@
             btn.type = 'button';
             btn.className = 'mtab';
             btn.setAttribute('role', 'tab');
+            btn.setAttribute('data-tab', def.key); // nom stable pour la mesure d'audience (header.js)
             btn.addEventListener('click', function () { select(inst, def.key); });
             inst.tabs.push({ def: def, panel: panel, btn: btn, empty: false });
         });
