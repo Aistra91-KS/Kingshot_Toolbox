@@ -40,6 +40,9 @@ const GlobalLang = {
      */
     set(lang) {
         if (lang !== 'FR' && lang !== 'EN') return;
+        // Mesure d'audience (GA4) : seulement quand la langue change vraiment. Recliquer
+        // la langue déjà active passe aussi par ici, et ne dit rien de plus.
+        if (lang !== this.get() && typeof gtag === 'function') gtag('event', 'language_change', { language: lang });
         // Le choix de langue n'est qu'une préférence : s'il ne peut pas être écrit
         // (navigation privée, quota), la bascule doit tout de même avoir lieu à l'écran.
         this.sessionLang = lang;

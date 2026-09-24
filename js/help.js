@@ -97,6 +97,12 @@
   }
   function onEsc(e) { if (e.key === 'Escape') closeModal(); }
 
+  // Mesure d'audience (GA4) : compte les ouvertures du mode d'emploi et d'où elles
+  // viennent. Suivi posé sur les CLICS, pas dans openModal(), que le changement de
+  // langue rappelle tout seul. `gtag` est défini en ligne dans chaque page ; bloqué
+  // par un bloqueur de pub, l'appel ne fait rien.
+  function track(name, params) { if (typeof gtag === 'function') gtag('event', name, params || {}); }
+
   function openModal() {
     if (!CFG) return;
     let ov = document.getElementById('help-overlay');
@@ -155,7 +161,7 @@
     btn.className = 'help-btn';
     btn.setAttribute('data-help', '1');
     btn.innerHTML = `<span class="help-q">?</span><span class="help-btn-txt">${esc(t('how'))}</span>`;
-    btn.addEventListener('click', openModal);
+    btn.addEventListener('click', () => { openModal(); track('help_open', { source: 'button' }); });
     a.insertAdjacentElement('afterend', btn);
   }
 
@@ -177,8 +183,8 @@
     bn.innerHTML = `<span class="help-banner-txt">${esc(pick(CFG.summary) || '')}</span>
       <button class="help-banner-more" type="button">${esc(t('how'))}</button>
       <button class="help-banner-x" type="button" aria-label="${esc(t('dismiss'))}">&times;</button>`;
-    bn.querySelector('.help-banner-more').addEventListener('click', openModal);
-    bn.querySelector('.help-banner-x').addEventListener('click', () => { try { localStorage.setItem(key, '1'); } catch (e) { if (window.ktWarnUnsaved) window.ktWarnUnsaved(); } bn.remove(); });
+    bn.querySelector('.help-banner-more').addEventListener('click', () => { openModal(); track('help_open', { source: 'banner' }); });
+    bn.querySelector('.help-banner-x').addEventListener('click', () => { try { localStorage.setItem(key, '1'); } catch (e) { if (window.ktWarnUnsaved) window.ktWarnUnsaved(); } bn.remove(); track('help_banner_close'); });
     (document.querySelector('button.help-btn[data-help]') || a).insertAdjacentElement('afterend', bn);
   }
 

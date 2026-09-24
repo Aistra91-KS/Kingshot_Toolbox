@@ -284,7 +284,13 @@ function scCur(){
   if(c==='USD' || c==='EUR'){ SC_CUR=c; return SC_CUR; }
   return (scLang()==='FR') ? 'EUR' : 'USD';
 }
-function scSetCur(c){ SC_CUR = (c==='USD')?'USD':'EUR'; scChromeSet(SC_CUR_KEY, SC_CUR); }
+// Mesure d'audience (GA4) : seulement quand la devise affichée change. Le clic sur la
+// pastille déjà active fige le choix sans rien changer à l'écran, il n'est pas compté.
+function scSetCur(c){
+  const prev=scCur();
+  SC_CUR = (c==='USD')?'USD':'EUR'; scChromeSet(SC_CUR_KEY, SC_CUR);
+  if(prev!==SC_CUR && typeof gtag==='function') gtag('event','currency_change',{currency:SC_CUR});
+}
 function scCurSym(){ return scCur()==='USD' ? '$' : '\u20AC'; }
 
 // ---------- prix UNITAIRE : cinq couches, dans cet ordre ----------

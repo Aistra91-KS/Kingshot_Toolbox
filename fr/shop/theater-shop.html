@@ -112,6 +112,8 @@
       GlobalLang.get = function(){ return 'FR'; };
       GlobalLang.set = function(lang){
         if(lang === 'EN'){
+          // Mesure d'audience : ce départ contourne GlobalLang.set, qui compte les changements de langue.
+          if(typeof gtag === 'function') gtag('event', 'language_change', { language: 'EN' });
           // Enregistrer AVANT de partir : sans cela la page anglaise relit `hub_lang`,
           // y trouve encore FR, et se retraduit en français — le bouton paraîtrait cassé.
           try{ localStorage.setItem(GlobalLang.STORAGE_KEY,'EN'); }catch(e){}
