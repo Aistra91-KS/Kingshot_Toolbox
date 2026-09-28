@@ -1,7 +1,7 @@
 [
   {
     "slug": "town-center",
-    "title": "Town Center - Upgrade Costs (TrueGold, Resources, Time)",
+    "title": "Town Center - TrueGold Upgrade Costs &amp; Time",
     "description": "Complete Town Center upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
       "EN": "Town Center",
@@ -10,7 +10,7 @@
   },
   {
     "slug": "embassy",
-    "title": "Embassy - Upgrade Costs (TrueGold, Resources, Time)",
+    "title": "Embassy - TrueGold Upgrade Costs &amp; Time",
     "description": "Complete Embassy upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
       "EN": "Embassy",
@@ -19,7 +19,7 @@
   },
   {
     "slug": "command-center",
-    "title": "Command Center - Upgrade Costs (TrueGold, Resources, Time)",
+    "title": "Command Center - TrueGold Upgrade Costs &amp; Time",
     "description": "Complete Command Center upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
       "EN": "Command Center",
@@ -28,7 +28,7 @@
   },
   {
     "slug": "war-academy",
-    "title": "War Academy - Upgrade Costs (TrueGold, Resources, Time)",
+    "title": "War Academy - TrueGold Upgrade Costs &amp; Time",
     "description": "Complete War Academy upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
       "EN": "War Academy",
@@ -37,7 +37,7 @@
   },
   {
     "slug": "infirmary",
-    "title": "Infirmary - Upgrade Costs (TrueGold, Resources, Time)",
+    "title": "Infirmary - TrueGold Upgrade Costs &amp; Time",
     "description": "Complete Infirmary upgrade table for Kingshot: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
       "EN": "Infirmary",
@@ -46,7 +46,7 @@
   },
   {
     "slug": "barracks",
-    "title": "Infantry Camp - Upgrade Costs (TrueGold, Resources, Time)",
+    "title": "Infantry Camp - TrueGold Upgrade Costs &amp; Time",
     "description": "Complete Infantry Camp upgrade table for Kingshot, the infantry barracks: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
       "EN": "Infantry Camp",
@@ -55,7 +55,7 @@
   },
   {
     "slug": "stable",
-    "title": "Lancer Camp - Upgrade Costs (TrueGold, Resources, Time)",
+    "title": "Lancer Camp - TrueGold Upgrade Costs &amp; Time",
     "description": "Complete Lancer Camp upgrade table for Kingshot, the cavalry stable: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
       "EN": "Lancer Camp",
@@ -64,7 +64,7 @@
   },
   {
     "slug": "range",
-    "title": "Archer Camp - Upgrade Costs (TrueGold, Resources, Time)",
+    "title": "Archer Camp - TrueGold Upgrade Costs &amp; Time",
     "description": "Complete Archer Camp upgrade table for Kingshot, the archer range: TrueGold, Tempered TrueGold, resources and build time for every level.",
     "name": {
       "EN": "Archer Camp",
@@ -73,7 +73,7 @@
   },
   {
     "slug": "storehouse",
-    "title": "Storehouse - Upgrade Costs (Resources, Time, Power)",
+    "title": "Storehouse - Upgrade Costs, Time &amp; Power",
     "description": "Complete Storehouse upgrade table for Kingshot: resources, build time, power and Town Center requirement for every level.",
     "name": {
       "EN": "Storehouse",
@@ -82,7 +82,7 @@
   },
   {
     "slug": "mill",
-    "title": "Mill - Upgrade Costs (Resources, Time, Power)",
+    "title": "Mill - Upgrade Costs, Time &amp; Power",
     "description": "Complete Mill upgrade table for Kingshot, the bread farm: resources, build time, power and requirements for every level.",
     "name": {
       "EN": "Mill",
@@ -91,7 +91,7 @@
   },
   {
     "slug": "sawmill",
-    "title": "Sawmill - Upgrade Costs (Resources, Time, Power)",
+    "title": "Sawmill - Upgrade Costs, Time &amp; Power",
     "description": "Complete Sawmill upgrade table for Kingshot, the wood producer: resources, build time, power and requirements for every level.",
     "name": {
       "EN": "Sawmill",
@@ -100,7 +100,7 @@
   },
   {
     "slug": "quarry",
-    "title": "Quarry - Upgrade Costs (Resources, Time, Power)",
+    "title": "Quarry - Upgrade Costs, Time &amp; Power",
     "description": "Complete Quarry upgrade table for Kingshot, the stone producer: resources, build time, power and requirements for every level.",
     "name": {
       "EN": "Quarry",
@@ -109,7 +109,7 @@
   },
   {
     "slug": "iron-mine",
-    "title": "Iron Mine - Upgrade Costs (Resources, Time, Power)",
+    "title": "Iron Mine - Upgrade Costs, Time &amp; Power",
     "description": "Complete Iron Mine upgrade table for Kingshot, the iron producer: resources, build time, power and requirements for every level.",
     "name": {
       "EN": "Iron Mine",
@@ -118,7 +118,7 @@
   },
   {
     "slug": "guard-station",
-    "title": "Guard Station - Upgrade Costs (Resources, Time, Power)",
+    "title": "Guard Station - Upgrade Costs, Time &amp; Power",
     "description": "Complete Guard Station upgrade table for Kingshot: resources, build time, power and Town Center requirement for all ten levels.",
     "name": {
       "EN": "Guard Station",

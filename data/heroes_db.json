@@ -6,6 +6,30 @@
     "rarity": "Rare",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Axe Whirl",
+          "FR": "Hache Tournoyante"
+        },
+        "effect": {
+          "EN": "Forrest's axe pirouette deals Attack * X% damage to nearby enemies every 0.5s for 3s.",
+          "FR": "La hache virevolante de Forrest inflige Attque*X%  toutes les 0.5s aux ennemis proches pendant 3 s."
+        },
+        "levels": ["80%", "88%", "96%", "104%", "110%"]
+      },
+      {
+        "name": {
+          "EN": "Razor Sharp",
+          "FR": "Affûtage mortel"
+        },
+        "effect": {
+          "EN": "Forrest's sharpened axe deals X% more damage per second.",
+          "FR": "La hache aiguisée de Forrest inflige X% de dégâts en plus par seconde."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -38,26 +62,50 @@
     "rarity": "Rare",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Hammer Burn",
+          "FR": "Brûlure du Marteau"
+        },
+        "effect": {
+          "EN": "Seth swings his hammer forward in a devastating arc, dealing Attack * X% area of effect damage.",
+          "FR": "Seth balance son marteau en avant dans un arc de cercle dévastateur, infligeant Attaque*X% de dégâts."
+        },
+        "levels": ["200%", "220%", "240%", "260%", "280%"]
+      },
+      {
+        "name": {
+          "EN": "Armor Enhancement",
+          "FR": "Amélioration d'armure"
+        },
+        "effect": {
+          "EN": "Seth's upgraded armor reduces damage taken by X%.",
+          "FR": "Seth améliore son armure et réduit les dégâts subis de X%."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Burnished Iron",
-          "FR": "Fer Bruni"
+          "FR": "Fer Poli"
         },
         "effect": {
           "EN": "Seth passes on his passion for iron mining, increasing the Town's Iron Output by X%.",
-          "FR": "Seth transmet sa passion pour l'extraction de fer, augmentant la Production de Fer du Village de X%."
+          "FR": "Seth transmet sa passion pour l'extraction de fer à tout le monde, augmentant la Production de Fer de X% au Village."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
         "name": {
           "EN": "Craftsmanship",
-          "FR": "Artisanat"
+          "FR": "Savoir-Faire"
         },
         "effect": {
           "EN": "Seth has a special bond with Iron, increasing Iron Mining Speed in the Wilderness by X%.",
-          "FR": "Seth a un lien spécial avec le fer, augmentant la Vitesse de Récolte de Fer dans la nature de X%."
+          "FR": "Seth a un lien spécial avec le fer, ce qui augmente sa Vit. d'Extraction du Fer de X% dans la Nature."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
@@ -70,6 +118,30 @@
     "rarity": "Rare",
     "troopType": "Cavalry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Shrapnel Load",
+          "FR": "Charge de Shrapnel"
+        },
+        "effect": {
+          "EN": "Edwin throws out a homemade explosive, dealing Attack * X% area of effect damage to the target and nearby enemies.",
+          "FR": "Edwin lance un explosif artisanal qui inflige Attaque*X% de Dégâts de Zone d'effet à la cible et aux ennemis proches."
+        },
+        "levels": ["140%", "154%", "168%", "182%", "196%"]
+      },
+      {
+        "name": {
+          "EN": "Detonate",
+          "FR": "Détonation"
+        },
+        "effect": {
+          "EN": "Edwin's explosives have an X% chance of stunning targets for X.",
+          "FR": "Les explosifs d'Edwin ont X% de chances d'étourdir leurs cibles pendant X."
+        },
+        "levels": ["(10%,0.5s)", "(15%,0.5s)", "(15%,1s)", "(20%,1s)", "(20%,1.5s)"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -78,7 +150,7 @@
         },
         "effect": {
           "EN": "Edwin increases the Town's Quarry Output by X%.",
-          "FR": "Edwin augmente la Production de la Carrière du Village de X%."
+          "FR": "Les connaissances minéralogiques d'Edwin permettent d'augmenter la Production de la Carrière de X% au Village."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
@@ -89,7 +161,7 @@
         },
         "effect": {
           "EN": "Increase Stone Mining Speed in the Wilderness by X%.",
-          "FR": "Augmente la Vitesse de Récolte de Pierre dans la nature de X%."
+          "FR": "les technique d'extraction d'Edwin augmentent sa Vit. d'Extraction de la Pierre de X% dans la Nature."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
@@ -102,6 +174,30 @@
     "rarity": "Rare",
     "troopType": "Archer",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Rain of Arrows",
+          "FR": "Rafale de Flèches"
+        },
+        "effect": {
+          "EN": "Olive launches a hail of arrows, dealing Attack * X% area of effect damage.",
+          "FR": "Olive fait pleuvoir des flèches, infligeant Attaque*X% de Dégâts de Zone d'Effet."
+        },
+        "levels": ["180%", "198%", "216%", "234%", "252%"]
+      },
+      {
+        "name": {
+          "EN": "Target Lock",
+          "FR": "Cible Verrouillée"
+        },
+        "effect": {
+          "EN": "Olive paints a bullseye on a target, raising damage dealt to it by X%.",
+          "FR": "Olive peint une cible sur un ennemi, augmentant les dégâts infligés à ce dernier de X% pour cette attaque."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -110,18 +206,18 @@
         },
         "effect": {
           "EN": "Increases Town's Mill Output by X%.",
-          "FR": "Augmente la Production du Moulin du Village de X%."
+          "FR": "Le talent inégalié d'Olive en matière de pâtisserie augmente la Production du Moulin du Village de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
         "name": {
           "EN": "Forager's Luck",
-          "FR": "Chance du Récolteur"
+          "FR": "Récolte Chanceuse"
         },
         "effect": {
           "EN": "Increases Resource Gathering Speed in Wilderness by X%.",
-          "FR": "Augmente la Vitesse de Récolte de Ressources dans la nature de X%."
+          "FR": "l'Expertise d'Olive en logistique augmente sa vitesse de Collecte de pain dans la nature de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
@@ -134,6 +230,41 @@
     "rarity": "Epic",
     "troopType": "Archer",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Headshot",
+          "FR": "Dans le Mille"
+        },
+        "effect": {
+          "EN": "Quinn's upgraded crossbow deals Attack * X% damage.",
+          "FR": "L'arbalète améliorée inflige une Attaque*X% de dégâts."
+        },
+        "levels": ["400%", "440%", "480%", "520%", "560%"]
+      },
+      {
+        "name": {
+          "EN": "Quick Shot",
+          "FR": "Tir Rapide"
+        },
+        "effect": {
+          "EN": "Increases Quinn's Attack Speed by X%.",
+          "FR": "Les années d'entraînement de Quinn lui valent une augmentation de sa Vitesse d'Attaque de X%."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      },
+      {
+        "name": {
+          "EN": "Natural Selection",
+          "FR": "Sélection Naturelle"
+        },
+        "effect": {
+          "EN": "Increases damage dealt by X%.",
+          "FR": "Les compétences de survie de Quinn augmentent ses dégâts de X%."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -142,7 +273,7 @@
         },
         "effect": {
           "EN": "Senses for dangers ahead, reducing damage taken by X% for all troops.",
-          "FR": "Ressent les dangers à venir, réduisant les dégâts subis par toutes les troupes de X%."
+          "FR": "Son sixième sens pour le danger réduit les dégâts subis par les troupes de X%."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
@@ -153,7 +284,7 @@
         },
         "effect": {
           "EN": "Quinn grants all soldiers a 50% chance of dealing X% more damage when attacking.",
-          "FR": "Quinn accorde à tous les soldats 50% de chances d'infliger X% de dégâts supplémentaires lors d'une attaque."
+          "FR": "Quinn octroie aux soldats 50% de chances d'infliger X% de dégâts bonus lorsqu'ils attaquent."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
@@ -166,15 +297,50 @@
     "rarity": "Epic",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Shielded Strike",
+          "FR": "Coup de Bouclier"
+        },
+        "effect": {
+          "EN": "Howard gives an enemy a solid whack with his heavy shield, knocking the target back and dealing Attack * X% area of effect damage.",
+          "FR": "Howard donne un gros coup de bouclier à un ennemi, le faisant reculer tout en infligeant Attaque*X% de Dégâts de Zone d'Effet."
+        },
+        "levels": ["200%", "220%", "240%", "260%", "280%"]
+      },
+      {
+        "name": {
+          "EN": "Joint Defense",
+          "FR": "Défense Commune"
+        },
+        "effect": {
+          "EN": "Howard leads the effort to fortify defenses, increasing Defense by X% for all heroes.",
+          "FR": "Howard mène l'effort de renforcement des défenses, augmentant la Défense de X% pour tous les héros."
+        },
+        "levels": ["5%", "7.5%", "10%", "12.5%", "15%"]
+      },
+      {
+        "name": {
+          "EN": "Shield Block",
+          "FR": "Bouclier Bloqueur"
+        },
+        "effect": {
+          "EN": "Howard trades in his shield for an upgraded model, reducing damage taken by X%.",
+          "FR": "Howard échange son bouclier contre un modèle amélioré, réduisant les dégâts subis de X%."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Defenders' Edge",
-          "FR": "Atout du Défenseur"
+          "FR": "Avantage du Défenseur"
         },
         "effect": {
           "EN": "Howard guards our troops with his shield, reducing damage taken by X% for all troops.",
-          "FR": "Howard protège nos troupes avec son bouclier, réduisant les dégâts subis par toutes les troupes de X%."
+          "FR": "Howard protège nos troupes avec son bouclier, ce qui réduit leurs dégâts subis de X%."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
@@ -185,7 +351,7 @@
         },
         "effect": {
           "EN": "Howard's intimidating presence reduces the total Enemy Squads' Attack by X%.",
-          "FR": "La présence intimidante de Howard réduit l'Attaque totale des escouades ennemies de X%."
+          "FR": "La présence intimidante de Howard réduit l'Attaque totale des Escouades Ennemies totales de X%."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       }
@@ -198,26 +364,61 @@
     "rarity": "Epic",
     "troopType": "Archer",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Incendiary Arrows",
+          "FR": "Flèches Incendiaires"
+        },
+        "effect": {
+          "EN": "Diana fires an incendiary shot, dealing Attack * X% damage to the target and Attack * X% damage to nearby enemies.",
+          "FR": "Diana tire des Flèches Incendiaires, infligeant Attaque*X% de dégâts à la cible et Attaque*X% de dégâts aux ennemis proches."
+        },
+        "levels": ["(210%,70%)", "(230%,77%)", "(250%,84%)", "(270%,91%)", "(290%,98%)"]
+      },
+      {
+        "name": {
+          "EN": "Sharpshooter",
+          "FR": "Tireur d'Élite"
+        },
+        "effect": {
+          "EN": "Increases Attack Speed by X%.",
+          "FR": "Augmente la Vitesse d'Attaque de X%."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      },
+      {
+        "name": {
+          "EN": "Deadly Strike",
+          "FR": "Frappe Mortelle"
+        },
+        "effect": {
+          "EN": "Diana spots the weak point, increasing her Crit Rate by X%.",
+          "FR": "Repérant les vulnérabilités, Diana augmente son Taux de Coup Critique de X%."
+        },
+        "levels": ["7%", "10%", "13%", "16%", "20%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Iron Constitution",
-          "FR": "Constitution de Fer"
+          "FR": "Santé de Fer"
         },
         "effect": {
           "EN": "Wilderness ranger techniques reduce Governor Stamina Cost by X%.",
-          "FR": "Les techniques de ranger de la nature réduisent le Coût en Endurance du Gouverneur."
+          "FR": "L'expérience unique des rangers réduisant le Coût d'Endurance du Chef de X%."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
         "name": {
           "EN": "Quick Paced",
-          "FR": "Rythme Rapide"
+          "FR": "Rythme Soutenu"
         },
         "effect": {
           "EN": "Increases March Speed by X%.",
-          "FR": "Augmente la Vitesse de Marche de X%."
+          "FR": "Diana élimine aisément les ennemis coriaces. Augmente la Vitesse en Chasse de X%."
         },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       }
@@ -230,26 +431,61 @@
     "rarity": "Epic",
     "troopType": "Cavalry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "BBQ Feast",
+          "FR": "Barbecue Royal"
+        },
+        "effect": {
+          "EN": "Gordon prepares a lavish feast, restoring Health equal to Attack * X% to all troops and increasing their Attack by X% for 4s.",
+          "FR": "Gordon prépare un joli festin, qui réstaure la Santé des troupes de Attaque*X% en leur octroant un boost d'Attaque de X% pendant 4 s."
+        },
+        "levels": ["(200%,5%)", "(220%,5.5%)", "(240%,6%)", "(260%,6.5%)", "(280%,7%)"]
+      },
+      {
+        "name": {
+          "EN": "Culinary Chaos",
+          "FR": "Chaos Culinaire"
+        },
+        "effect": {
+          "EN": "A life spent in a chaotic kitchen reduces Gordon's damage taken by X%.",
+          "FR": "La vie de Gordon dans une cuisine chaotique réduit les dégâts subis de X%."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      },
+      {
+        "name": {
+          "EN": "Emergency Snack",
+          "FR": "Encas d'urgence"
+        },
+        "effect": {
+          "EN": "Gordon's regular snacking restores Health equal to Attack * X% every 5s.",
+          "FR": "Les collations régulières de Gordon redonnent une partie de Santé égale à Attaque*X% toutes les 5 s."
+        },
+        "levels": ["50%", "55%", "60%", "65%", "70%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Super Nutrients",
-          "FR": "Super Nutriments"
+          "FR": "Superaliments"
         },
         "effect": {
           "EN": "Gordon's culinary masterpieces invigorate soldiers, increasing total Squads' Health by X%.",
-          "FR": "Les chefs-d'œuvre culinaires de Gordon revigorent les soldats, augmentant la Santé totale des escouades de X%."
+          "FR": "Les chefs-d'œuvre culinaires de Gordon revigorent nos soldats, ce qui augmente la Santé des Escouades totales de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
         "name": {
           "EN": "Trash Talk",
-          "FR": "Provocation"
+          "FR": "Provoc' Verbale"
         },
         "effect": {
           "EN": "Beyond delicious meals, Gordon's trash talk increases total Squads' Attack by X%.",
-          "FR": "Au-delà de ses délicieux repas, les provocations de Gordon augmentent l'Attaque totale des escouades de X%."
+          "FR": "En plus des délicieux repas, la provocation de Gordon augmente l'Attaque des Escouades totales de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
@@ -263,26 +499,61 @@
     "troopType": "Cavalry",
     "goodJoinerBear": true,
     "GoodJoinerBearRank": 1,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Burst Fire",
+          "FR": "Rafale de Tirs"
+        },
+        "effect": {
+          "EN": "Chenko unleashes a rapid barrage, dealing Attack * X% damage to enemies in front every 0.5s for 2s.",
+          "FR": "Déclenche une rafale de tirs vers l'avant qui inflige Attaque*X% aux ennemis toutes les 0.5s pendant 2 s."
+        },
+        "levels": ["55%", "60%", "65%", "70%", "75%"]
+      },
+      {
+        "name": {
+          "EN": "Defense Upgrade",
+          "FR": "Amélioration de la Défense"
+        },
+        "effect": {
+          "EN": "Chenko upgrades her armor, increasing Defense by X%.",
+          "FR": "Chenko améliore son armure, augmentant la Défense de X%."
+        },
+        "levels": ["25%", "37.5%", "50%", "62.5%", "70%"]
+      },
+      {
+        "name": {
+          "EN": "Weapon Upgrade",
+          "FR": "Amélioration de l'Arme"
+        },
+        "effect": {
+          "EN": "Chenko's upgraded weapon boosts Attack by X%.",
+          "FR": "L'arme améliorée de Chenko booste l'Attaque de X%."
+        },
+        "levels": ["8%", "12%", "16%", "20%", "24%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Stand of Arms",
-          "FR": "Équipement Militaire"
+          "FR": "Arsenal"
         },
         "effect": {
           "EN": "Chenko implements advanced weaponry for our soldiers, increasing the total Squads' Lethality by X%.",
-          "FR": "Chenko fournit un armement avancé à nos soldats, augmentant la Létalité totale des escouades de X%."
+          "FR": "Chenko met en place un arsenal avancé pour nos soldats, augmente la létalité des Escouades totales de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
         "name": {
           "EN": "Shield Wall",
-          "FR": "Mur de Boucliers"
+          "FR": "Mur de Protection"
         },
         "effect": {
           "EN": "Enhances troop armor with a keen engineering eye, reducing damage taken by X% for all troops.",
-          "FR": "Améliore l'armure des troupes avec un œil d'ingénieur averti, réduisant les dégâts subis de X% pour toutes les troupes."
+          "FR": "Améliore l'armure des troupes grâce à l'ingénierie, réduisant les dégâts subis par celles-ci de X%."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       }
@@ -295,6 +566,41 @@
     "rarity": "Epic",
     "troopType": "Cavalry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Sandstorm",
+          "FR": "Tempête de Sable"
+        },
+        "effect": {
+          "EN": "Fahd raises a sandstorm, reducing the Enemy Squads' Attack by X% for 2s.",
+          "FR": "La tempête de sable aveuglante réduit l'Attaque des Escouades Ennemies de X% pendant 2 s."
+        },
+        "levels": ["1%", "2%", "3%", "4%", "5%"]
+      },
+      {
+        "name": {
+          "EN": "Eagle Wings",
+          "FR": "Ailes d'Aigle"
+        },
+        "effect": {
+          "EN": "After Sandstorm, Fahd increases his own and nearby friendly Squads' Attack by X% for 2s.",
+          "FR": "Après avoir déclenché \"Tempête de Sable\", l'aigle de Fahd dirige l'attaque des alliés. Augmente de X% son Attaque ainsi que celle des Escouades alliées proches pendant 2 s."
+        },
+        "levels": ["15%", "20%", "25%", "30%", "35%"]
+      },
+      {
+        "name": {
+          "EN": "Dune General",
+          "FR": "Général des Dunes"
+        },
+        "effect": {
+          "EN": "Increases Attack Speed by X%.",
+          "FR": "Dans le climat rude du désert, Fahd a maîtrisé l'art de savoir quand frapper. Augmente sa Vitesse d'Attaque de X%."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -303,7 +609,7 @@
         },
         "effect": {
           "EN": "A rising cloud of sand is terrible for visibility, reducing all Enemy Squads' Damage Dealt by X%.",
-          "FR": "Un nuage de sable naissant est terrible pour la visibilité, réduisant les Dégâts Infligés par toutes les escouades ennemies de X%."
+          "FR": "Le nuage de sable qui s'élève la nuit à la visibilité. Réduit de X% les Dégâts Infligés par l'escouade ennemie."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
@@ -314,7 +620,7 @@
         },
         "effect": {
           "EN": "Fahd has always been a pathfinder for his warriors, increasing Solo Hunting March Speed by X%.",
-          "FR": "Fahd a toujours été un éclaireur pour ses guerriers, augmentant la Vitesse de Marche en Chasse Solo de X%."
+          "FR": "Fahd a toujours été un éclaireur pour ses guerriers. Augmente la Vitesse de Marche de Chasse en Solo de X%."
         },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       }
@@ -328,26 +634,61 @@
     "troopType": "Archer",
     "goodJoinerBear": true,
     "GoodJoinerBearRank": 1,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Petalbloom",
+          "FR": "Pétale en Fleur"
+        },
+        "effect": {
+          "EN": "Yeonwoo arcs Petalbloom outward in three waves, dealing Attack * 100%, then Attack * X% and finally Attack * X% area of effect damage.",
+          "FR": "Yeonwoo lance 3 vagues de Pétale en Fleur. Elles infligent respectivement Attaque*100%, Attaque*X% et Attaque*X% de dégâts, la troisième vague infligeant des dégâts de zone d'effet."
+        },
+        "levels": ["(125%,150%)", "(137.5%,165%)", "(150%,180%)", "(162.5%,195%)", "(175%,210%)"]
+      },
+      {
+        "name": {
+          "EN": "Falling Swallow",
+          "FR": "Chute de L'Hirondelle"
+        },
+        "effect": {
+          "EN": "The Falling Swallow technique weaves confusion in enemy ranks, dealing Attack * X% damage and reducing the target's Attack Speed by X% for 2s.",
+          "FR": "La Chute de l'Hirrondelle sème la confusion dans les rangs ennemis. Inflige Attaque*X% de dégâts tout en réduisant la Vitesse d'Attaque de la cible de X% pendant 2 s."
+        },
+        "levels": ["(100%,30%)", "(110%,35%)", "(120%,40%)", "(130%,45%)", "(140%,50%)"]
+      },
+      {
+        "name": {
+          "EN": "Twin Fangs",
+          "FR": "Double Crocs"
+        },
+        "effect": {
+          "EN": "Yeonwoo's unusual dual form is devilishly hard to defend against, increasing Attack by X%.",
+          "FR": "La pose inhabituelle de Yeonwoo est horriblement difficile à contrer. Augmente l'Attaque de X%."
+        },
+        "levels": ["8%", "12%", "16%", "20%", "24%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "On Guard",
-          "FR": "Sur le Qui-vive"
+          "FR": "En Garde"
         },
         "effect": {
           "EN": "Raises all Squads' total Lethality by X%.",
-          "FR": "Augmente la Létalité totale de toutes les escouades de X%."
+          "FR": "\" Ma lame et moi ne faisons qu'un \". les compétences d'épéiste de Yeonwoo augmentent la létalité totale de toutes les escouades alliées de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
         "name": {
           "EN": "Well-Traveled",
-          "FR": "Grand Voyageur"
+          "FR": "Globe-trotter"
         },
         "effect": {
           "EN": "Boosts Research Speed by X%.",
-          "FR": "Augmente la Vitesse de Recherche de X%."
+          "FR": "Les voyages de Yeonwoo lui ont permis d'acquérir un avantage technologique. Augmente la Vitesse de Recherche de X%."
         },
         "levels": ["3%", "6%", "9%", "12%", "15%"]
       }
@@ -361,15 +702,50 @@
     "troopType": "Archer",
     "goodJoinerBear": true,
     "GoodJoinerBearRank": 1,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Protective Enchantment",
+          "FR": "Fleur de Sakura"
+        },
+        "effect": {
+          "EN": "Amane summons a protective enchantment, increasing all Heroes' and Escorts' Attack by X% and Attack Speed by X% for 4s.",
+          "FR": "Amane invoque un enchantement protecteur. Augmente l'Attaque de X% et la Vitesse d'Attaque de X% des Héros et des Escortes pendant 4 s."
+        },
+        "levels": ["(1.5%,2.5%)", "(2%,3%)", "(2.5%,3.5%)", "(3%,4%)", "(3.5%,4.5%)"]
+      },
+      {
+        "name": {
+          "EN": "Fiery Sigil",
+          "FR": "Sceau du Feu"
+        },
+        "effect": {
+          "EN": "Amane lobs a fiery sigil at the enemy, dealing Attack * X% damage.",
+          "FR": "Amane lance un sigil enflammé sur l'ennemi. Inflige Attaque*X% de dégâts."
+        },
+        "levels": ["150%", "165%", "180%", "195%", "210%"]
+      },
+      {
+        "name": {
+          "EN": "Blade Dance",
+          "FR": "Divine Mélodie"
+        },
+        "effect": {
+          "EN": "Every 3 basic attacks increase Amane's Attack Speed by X% until the end of the battle.",
+          "FR": "La danse du parapluie est la danse de l'Épée. Toutles les 3 Attaques de Base, la Vitesse d'Attaque de Amane augmente de X%. Dure jusqu'à la fin du combat."
+        },
+        "levels": ["1%", "2%", "3%", "4%", "5%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Tri-Phalanx",
-          "FR": "Tri-Phalange"
+          "FR": "TriPhalangie"
         },
         "effect": {
           "EN": "Trademark formation increases all Squads' total Attack by X%.",
-          "FR": "Sa formation emblématique augmente l'Attaque totale de toutes les escouades de X%."
+          "FR": "La formation distinctive de Amane augmente l'attaque totale de toutes les escouades de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
@@ -380,7 +756,7 @@
         },
         "effect": {
           "EN": "Skill at warding off evil increases Infirmary Healing Speed by X%.",
-          "FR": "Son talent pour repousser le mal augmente la Vitesse de Soin de l'Infirmerie de X%."
+          "FR": "Amane et son don pour éloigner les forces du mal augmentent la Vitesse de Soin de l'Infirmerie de X%."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
@@ -393,15 +769,50 @@
   "rarity": "legendary",
   "troopType": "Archer",
   "goodJoinerBear": false,
+  "conquestSkills": [
+    {
+      "name": {
+        "EN": "Rapidfire",
+        "FR": "Tirs en Rafale"
+      },
+      "effect": {
+        "EN": "Saul delivers multiple hits, each dealing Attack * X% damage, and stuns the target for 2s.",
+        "FR": "Effectue plusieurs tirs qui infligent Attaque*X% de dégâts chacun tout en étourdissant la cible pendant 2 s."
+      },
+      "levels": ["55%", "60%", "65%", "70%", "75%"]
+    },
+    {
+      "name": {
+        "EN": "Final Prayer",
+        "FR": "Dernière Prière"
+      },
+      "effect": {
+        "EN": "When Health is below 50%, Saul's Defense increases by X%.",
+        "FR": "Lorsque sa Santé est inférieure à 50%, la Défense de Saul augmente de X%."
+      },
+      "levels": ["50%", "75%", "100%", "125%", "150%"]
+    },
+    {
+      "name": {
+        "EN": "Superior Techniques",
+        "FR": "Techniques Avancées"
+      },
+      "effect": {
+        "EN": "Saul's training increases Attack Speed by X%.",
+        "FR": "Augmente la Vitesse d'Attaque de X%."
+      },
+      "levels": ["10%", "15%", "20%", "25%", "30%"]
+    }
+  ],
   "skills": [
     {
       "name": {
         "EN": "Taskforce Training",
-        "FR": "Entraînement de la Force d'Intervention"
+        "FR": "Entraînement du Groupe spécial"
       },
       "effect": {
         "EN": "Increases the total Squads' Defense by X% and Health by X%.",
-        "FR": "Augmente la Défense de X% et la Santé de X% de toutes les escouades."
+        "FR": "En tant que membre du groupe spécial, Saul bénéficie d'un entraînement unique qui augmente la Défense et la Santé de X% et X% pour les Escouades totales."
       },
       "levels": ["(2%,3%)", "(4%,6%)", "(6%,9%)", "(8%,12%)", "(10%,15%)"]
     },
@@ -412,18 +823,18 @@
       },
       "effect": {
         "EN": "Increases Construction Speed by X%, and reduces Construction Costs by X%.",
-        "FR": "Augmente la Vitesse de Construction de X% et réduit le Coût de Construction de X%."
+        "FR": "Saul gère efficacement la construction, ce qui augmente cette Vitesse de X%. Il maximise aussi l'utilisation des ressources, réduisant ainsi les Coûts de Constuction de X%"
       },
       "levels": ["(3%,3%)", "(6%,6%)", "(9%,9%)", "(12%,12%)", "(15%,15%)"]
     },
     {
       "name": {
         "EN": "Positional Batter",
-        "FR": "Frappeur Positionnel"
+        "FR": "Combat de Position"
       },
       "effect": {
         "EN": "Increasing the total Squads' Lethality by X%.",
-        "FR": "Augmente la Létalité totale des escouades de X%."
+        "FR": "Saul manipule le champ de bataille à la perfection, ce qui augmente la létalité des Escouades totales de X%"
       },
       "levels": ["5%", "10%", "15%", "20%", "25%"]
     }
@@ -464,6 +875,41 @@
     "rarity": "legendary",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Antler Assault",
+          "FR": "Bois Offensif"
+        },
+        "effect": {
+          "EN": "Helga performs an antler charge, dealing Attack * X% area of effect damage, knocking the targets back and stunning them for 1s.",
+          "FR": "Inflige Attaque*X% de dégâts dans la zone d'Effet, repoussant les ennemis tout en les étourdissant pendant 1 s."
+        },
+        "levels": ["160%", "176%", "192%", "208%", "224%"]
+      },
+      {
+        "name": {
+          "EN": "Spear Charge",
+          "FR": "Attaque à la Lance"
+        },
+        "effect": {
+          "EN": "Helga deals Attack * X% damage to the target.",
+          "FR": "Inflige Attque*% de dégâts à la cible"
+        },
+        "levels": ["150%", "165%", "180%", "195%", "210%"]
+      },
+      {
+        "name": {
+          "EN": "Fury",
+          "FR": "Furie"
+        },
+        "effect": {
+          "EN": "When taking damage, Helga has a 10% chance of increasing Attack by X% for 3s. Stacks up to 5 times.",
+          "FR": "En prenant des dégâts, confère 10% de chances d'augmenter l'Attaque de X% pendant 3 s. Cumulable 5x max."
+        },
+        "levels": ["4%", "6%", "8%", "10%", "12%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -472,7 +918,7 @@
         },
         "effect": {
           "EN": "Helga has a X% chance of reducing damage taken by 50% for all squads.",
-          "FR": "Helga a X% de chances de réduire les dégâts subis de 50% pour toutes les escouades."
+          "FR": "Helga a X% de chances de réduire de 50% les dégâts subis par toutes les escouades."
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
@@ -483,18 +929,18 @@
         },
         "effect": {
           "EN": "Helga blows the horn to motivate the squad, increasing the total Squads' Attack by X%.",
-          "FR": "Helga souffle dans son cor pour motiver les troupes, augmentant l'Attaque totale des escouades de X%."
+          "FR": "Helga souffle dans le cor pour motiver l'escouade, ce qui augmente l'Attaque des Escouades totales de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
         "name": {
           "EN": "Nature's Balance",
-          "FR": "Équilibre de la Nature"
+          "FR": "Équilibre Naturel"
         },
         "effect": {
           "EN": "Helga invites everyone to embrace nature, increasing the total Squads' Lethality by X%.",
-          "FR": "Helga invite tout le monde à communier avec la nature, augmentant la Létalité totale des escouades de X%."
+          "FR": "Helga invite tout le monde à s'ouvrir à la nature, ce qui augmente la Létalité des Escouades totales de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
@@ -536,37 +982,72 @@
     "troopType": "Infantry",
     "goodJoinerBear": true,
     "GoodJoinerBearRank": 1,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Combo Slash",
+          "FR": "Combo de Taillade"
+        },
+        "effect": {
+          "EN": "Amadeus casts enemies in the target area upward, then lands three slashes, each dealing Attack * X% damage.",
+          "FR": "Amadeus projette les ennemis de la zone cible dans les airs. il réalise trois taillades, chacun infligeant Attaque*X% de dégâts"
+        },
+        "levels": ["160%", "176%", "192%", "208%", "224%"]
+      },
+      {
+        "name": {
+          "EN": "Arcane Swordship",
+          "FR": "Épée Arcanique"
+        },
+        "effect": {
+          "EN": "Each sword slash releases a burst of arcane energy, dealing Attack * X% damage to frontal foes.",
+          "FR": "Amadeus libère une vague d'énergie à chaque coup d'épée, ce qui inflige Attaque*X% de dégâts aux ennemis à l'avant."
+        },
+        "levels": ["15%", "17%", "19%", "21%", "23%"]
+      },
+      {
+        "name": {
+          "EN": "Onslaught",
+          "FR": "Assaut"
+        },
+        "effect": {
+          "EN": "Increases Attack by X% when Health is below 50%.",
+          "FR": "Amadeus exploite magistralement son avantage, ce qui augmente l'Attaque de X% si la Santé est supérieure à 50%"
+        },
+        "levels": ["16%", "24%", "32%", "40%", "48%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Battle Ready",
-          "FR": "Prêt au Combat"
+          "FR": "Paré au Combat"
         },
         "effect": {
           "EN": "Excels in boosting morale, increasing the total Squads' Lethality by X%.",
-          "FR": "Excelle à remonter le moral, augmentant la Létalité totale des escouades de X%."
+          "FR": "Le jeune ranger Amadeus sait comment remonter le moral, ce qui augmente la Létalité des Escouades totales de X%"
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
         "name": {
           "EN": "Way of the Blade",
-          "FR": "Voie de la Lame"
+          "FR": "La Voie de la Lame"
         },
         "effect": {
           "EN": "Imparts the secrets of swordsmanship, increasing the total Squads' Attack by X%.",
-          "FR": "Transmet les secrets de l'art de l'épée, augmentant l'Attaque totale des escouades de X%."
+          "FR": "Amadeus est passé maître dans l'art du maniement de l'épée, ce qui augmente l'Attaque des Escouades totales de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
         "name": {
           "EN": "Unrighteous Strike",
-          "FR": "Frappe Injuste"
+          "FR": "Attaque Abusive"
         },
         "effect": {
           "EN": "Unique swordplay has a X% chance of increasing damage dealt by 50% for all squads.",
-          "FR": "Ce maniement d'épée unique a X% de chances d'augmenter les dégâts infligés de 50% pour toutes les escouades."
+          "FR": "Les coups d'épée uniques d'Amadeus ont X% de chances d'augmenter de X% les dégâts infligés par toutes les escouades."
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
@@ -607,6 +1088,41 @@
     "rarity": "legendary",
     "troopType": "Cavalry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Gallant Throw",
+          "FR": "lancer Héroïque"
+        },
+        "effect": {
+          "EN": "Jabel throws a spear that pierces defenses, dealing Attack * X% area of effect damage and pinning the targets for 1.5s.",
+          "FR": "Envoie une lance qui transperce les défenses. Inflige Attaque*X% de dégâts dans la zone d'Effet et immobilise la cible pendant 1,5 s."
+        },
+        "levels": ["180%", "198%", "216%", "234%", "252%"]
+      },
+      {
+        "name": {
+          "EN": "Brave the Storm",
+          "FR": "braver la Tempête"
+        },
+        "effect": {
+          "EN": "A true knight bravely confronts his enemies, dealing Attack * X% damage to the target.",
+          "FR": "Un vrai chevalier affronte courageusement ses ennemis. Inflige Attaque*X% de dégâts à la cible."
+        },
+        "levels": ["150%", "165%", "180%", "195%", "210%"]
+      },
+      {
+        "name": {
+          "EN": "Persistence",
+          "FR": "Persévérance"
+        },
+        "effect": {
+          "EN": "Adversity ignites endless potential, increasing Attack Speed by X% when Health is below 50%.",
+          "FR": "L'adversité libère un potentiel infini, ce qui augmente la Vitesse d'Attaque de X% quand la Santé est inférieure à 50%."
+        },
+        "levels": ["20%", "30%", "40%", "50%", "60%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -615,7 +1131,7 @@
         },
         "effect": {
           "EN": "Jabel with her banner-like red armor, has a X% chance of reducing damage taken by 50% for all squads.",
-          "FR": "Jabel, avec son armure rouge tel un étendard, a X% de chances de réduire les dégâts subis de 50% pour toutes les escouades."
+          "FR": "Jabel, avec sa bannière rouge comme armure, a X% de chances de réduire de 50% les dégâts subis par toutes les escouades."
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
@@ -626,18 +1142,18 @@
         },
         "effect": {
           "EN": "Jabel, a fearless knight, grants all squads a 50% chance of dealing X% more damage when attacking.",
-          "FR": "Jabel, un chevalier intrépide, accorde à toutes les escouades 50% de chances d'infliger X% de dégâts supplémentaires lors d'une attaque."
+          "FR": "Jabel, chevalier intrépide, octroie aux escouades 50% de chances d'infliger X% de dégâts bonus lorsqu'elles attaquent."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
         "name": {
           "EN": "Youthful Rage",
-          "FR": "Rage de Jeunesse"
+          "FR": "Rage Juvénile"
         },
         "effect": {
           "EN": "Jabel's valiant spirit inspires everyone increasing damage dealt by X% for all squads.",
-          "FR": "L'esprit vaillant de Jabel inspire tout le monde, augmentant les dégâts infligés de X% pour toutes les escouades."
+          "FR": "L'esprit courageux de Jabel inspire tout le monde, ce qui augmente la létalité de l'escouade de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
@@ -679,15 +1195,50 @@
     "troopType": "Cavalry",
     "goodJoinerBear": true,
     "GoodJoinerBearRank": 2,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Rejuvenating Plea",
+          "FR": "Plaidoyer Régénérant"
+        },
+        "effect": {
+          "EN": "Hilde immediately restores Health equal to Attack * X% to all friendly heroes.",
+          "FR": "Restaure instantanément de la Santé égale à son Attque*X% aux héros alliés."
+        },
+        "levels": ["200%", "220%", "240%", "260%", "280%"]
+      },
+      {
+        "name": {
+          "EN": "Redeemer",
+          "FR": "Rédempteur"
+        },
+        "effect": {
+          "EN": "Hilde immediately restores Health equal to Attack * X% to the weakest friendly hero.",
+          "FR": "Les blessures ne font pas le poids face aux invocations rédemptrices de Hilde. Restaure immédiatement la Santé égal à X% de son *Attaque au héros allié le plus faible"
+        },
+        "levels": ["100%", "110%", "120%", "130%", "140%"]
+      },
+      {
+        "name": {
+          "EN": "Intimidation",
+          "FR": "Intimidation"
+        },
+        "effect": {
+          "EN": "Hilde disables the enemy target for 1s while dealing Attack * X% damage.",
+          "FR": "La guerre psychologique est une tactique ancestrale. Désactive la cible ennemie pendant 1s tout en lui infligeant X% de dégâts d'Attaque*."
+        },
+        "levels": ["140%", "154%", "168%", "182%", "196%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Noble Path",
-          "FR": "Voie Noble"
+          "FR": "Noble Voie"
         },
         "effect": {
           "EN": "Increases the total squads' Attack and Defense by X% and X%",
-          "FR": "Augmente l'Attaque et la Défense totales des escouades de X% et X%."
+          "FR": "La discipline rigoureuse de Hilde transforme les soldats en véritables armes, ce qui augmente respectivement l'Attaque et la Défense de X% et X% pour les Escouades totales."
         },
         "levels": ["(2%,3%)", "(4%,6%)", "(6%,9%)", "(8%,12%)", "(10%,15%)"]
       },
@@ -698,7 +1249,7 @@
         },
         "effect": {
           "EN": "Granting all squads' attack a 25% chance of dealing X% damage",
-          "FR": "Accorde aux attaques de toutes les escouades 25% de chances d'infliger X% de dégâts."
+          "FR": "Hilde utilise son beuvrage secret pour accroître la force des guerriers, accordant à toutes les attaques de l'escouade 25% de chances d'infliger X% de dégâts."
         },
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       },
@@ -709,7 +1260,7 @@
         },
         "effect": {
           "EN": "X% chance of reducing damage taken by 50% for all squads.",
-          "FR": "X% de chances de réduire les dégâts subis de 50% pour toutes les escouades."
+          "FR": "La prière dévote de Hilde a X% de chances de réduire de 50% les dégâts subis par toutes les escouades."
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
@@ -750,15 +1301,50 @@
     "rarity": "legendary",
     "troopType": "Archer",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Tidal Rush",
+          "FR": "Raz-de-marée"
+        },
+        "effect": {
+          "EN": "Marlin unleashes a tidal rush, dealing Attack * X% area of effect damage and immobilizing the enemy for 1.5s.",
+          "FR": "Marlin est un véritable raz-de-marée sur le champ de bataille, au sens propre comme au figuré, lorsqu'il libère une impulsion qui inflige X% de dégâts de zone d'effet et immobilise l'ennemi pendant 1,5s."
+        },
+        "levels": ["200%", "220%", "240%", "260%", "280%"]
+      },
+      {
+        "name": {
+          "EN": "Fermented Blow",
+          "FR": "Souffle Fermenté"
+        },
+        "effect": {
+          "EN": "Marlin delivers a fermented blow, dealing Attack * X% area of effect damage.",
+          "FR": "Le mélange aérien mortel de Marlin inflige une Attaque* de X% de dégâts de zone d'Effet."
+        },
+        "levels": ["50%", "55%", "60%", "65%", "70%"]
+      },
+      {
+        "name": {
+          "EN": "Lucky Hits",
+          "FR": "Coups Chanceux"
+        },
+        "effect": {
+          "EN": "Marlin lands lucky hits, stunning the target for X after every X strikes.",
+          "FR": "La chance succède fatalement à la malchance. Marlin étourdit les cibles pendant X s après chaque X frappes."
+        },
+        "levels": ["(0.2s,8)", "(0.2s,7)", "(0.4s,7)", "(0.4s,6)", "(0.5s,5)"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Wild Card",
-          "FR": "Carte Joker"
+          "FR": "Joker"
         },
         "effect": {
           "EN": "X% chance of increasing damage dealt by 50% for all squads.",
-          "FR": "X% de chances d'augmenter les dégâts infligés de 50% pour toutes les escouades."
+          "FR": "Marlin, l'éternel imprévisible, a X% de chances d'augmenter de 50% les dégâts infligés par toutes les escouades."
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
@@ -769,7 +1355,7 @@
         },
         "effect": {
           "EN": "Grants all squads a 20% chance of reducing the total Enemy Squads' Lethality by X% for 2 turns when attacking.",
-          "FR": "Accorde à toutes les escouades 20% de chances de réduire la Létalité totale des escouades ennemies de X% pendant 2 tours lors d'une attaque."
+          "FR": "\"Un rhum bien costaud peut noyer n'importe quelle douleur sur le terrain\". Marlin octroie aux escouades 20% de chances de réduire la Létalité des Escouades Ennemis totales de X% pendant 2 tours lorsqu'elles attaquent."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
@@ -780,7 +1366,7 @@
         },
         "effect": {
           "EN": "50% chance of increasing damage dealt by X%.",
-          "FR": "50% de chances d'augmenter les dégâts infligés de X%."
+          "FR": "Accorde à l'attaque de tes escouades 50% de chance d'augmenter les dégâts infligés de X%."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
@@ -821,26 +1407,61 @@
     "rarity": "legendary",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Shield Strike",
+          "FR": "Frappe de Bouclier"
+        },
+        "effect": {
+          "EN": "Zoe deals Attack * X% damage every 0.5s and amplifies damage taken by the target by X% for 2s.",
+          "FR": "Les attaques imprévisibles de Zoé piègent facilement les ennemis, infligeant Attaque*X% de dégâts toutes les 0.5s et amplifie les dégâts reçus par la cible de X% pendant 2s."
+        },
+        "levels": ["(60%,10%)", "(66%,15%)", "(72%,20%)", "(78%,25%)", "(84%,30%)"]
+      },
+      {
+        "name": {
+          "EN": "Agony Rush",
+          "FR": "Ruée vers l'Agonie"
+        },
+        "effect": {
+          "EN": "Below 50% Health, Zoe immediately regains X% of max Health. Once per battle.",
+          "FR": "Zoé a besoin de douleur pour atteindre le maximum de ses performances physiques. Zoé regagne immédiatement X% de sa Santé max en dessous de 50% de Santé. Ne peut être activé qu'une seule fois par combat."
+        },
+        "levels": ["20%", "25%", "30%", "35%", "40%"]
+      },
+      {
+        "name": {
+          "EN": "Holy Might",
+          "FR": "Puissance Sacrée"
+        },
+        "effect": {
+          "EN": "Increases all heroes' Attack Speed by X%.",
+          "FR": "Zoé inspire ses camarades guerriers au combat, ce qui augmente la vitesse d'attaque de tes héros de X%."
+        },
+        "levels": ["3%", "4%", "5%", "6%", "7%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Sundering Wound",
-          "FR": "Blessure Déchirante"
+          "FR": "Blessure Affaiblissante"
         },
         "effect": {
           "EN": "20% chance of inflicting Sunder, dealing X% damage per turn for 3 turns.",
-          "FR": "20% de chances d'infliger Fracas, infligeant X% de dégâts par tour pendant 3 tours."
+          "FR": "Les attaques de ton escouades ont 20% de chances d'infliger une rupture, infligeant X% de dégâts par tour pendant 3 tours."
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
       {
         "name": {
           "EN": "Stoic",
-          "FR": "Stoïque"
+          "FR": "Charisme"
         },
         "effect": {
           "EN": "Increases total Squads' Attack by X%.",
-          "FR": "Augmente l'Attaque totale des escouades de X%."
+          "FR": "Zoé est une oratrice talentueuse, ses discours de combat enflammées augmentent de X% l'attaque de l'escouade totale."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
@@ -851,7 +1472,7 @@
         },
         "effect": {
           "EN": "50% chance of amplifying enemy squads' damage taken by X%.",
-          "FR": "50% de chances d'amplifier les dégâts subis par les escouades ennemies de X%."
+          "FR": "Zoé frappe l'ennemi avec une telle intensité que les attaques de tes escouades ont 50% de chances d'amplifier les dégâts reçus par les escouades ennemies de X%."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
@@ -892,6 +1513,41 @@
     "rarity": "legendary",
     "troopType": "Archer",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Fatal Attraction",
+          "FR": "Attirance Fatale"
+        },
+        "effect": {
+          "EN": "Jaeger deals Attack * X% damage to enemies in the target area and stuns them for 2s.",
+          "FR": "Tel le chant létal d'une sirène, jaeger inflige Attque*X% de dégâts aux ennemis de la zone cible et les étourdit 2s."
+        },
+        "levels": ["160%", "176%", "192%", "208%", "224%"]
+      },
+      {
+        "name": {
+          "EN": "Game of Chance",
+          "FR": "Jeu de Hasard"
+        },
+        "effect": {
+          "EN": "Jaeger deals Attack * X% damage, or else restores Health equal to Attack * 50% to the target.",
+          "FR": "Les performances les plus létales de Jaeger sont aussi les plus imprévisibles. S'il réussit, il inflige Attque* X% de dégâts. Sinon, il restaure une quanté de Santé égale à son Attaque* 50%."
+        },
+        "levels": ["220%", "240%", "260%", "280%", "300%"]
+      },
+      {
+        "name": {
+          "EN": "Rumormonger",
+          "FR": "Commérage"
+        },
+        "effect": {
+          "EN": "Increases Enemy Damage Taken by X% for 3s.",
+          "FR": "Un barde errant sait tirer profit des commères, en augmenant les dégâts reçus par les ennemis de X% pendant 3s."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -900,7 +1556,7 @@
         },
         "effect": {
           "EN": "20% chance of increasing Squad's damage dealt by X% for 3 turns",
-          "FR": "20% de chances d'augmenter les dégâts infligés de l'escouade de X% pendant 3 tours."
+          "FR": "La musique triomphante de Jaeger est un excellent outil d'intimidation, qui confère 20% de chances d'augmenter les dégâts infligés par les Escouades de X% pendant 3 tours."
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
@@ -911,18 +1567,18 @@
         },
         "effect": {
           "EN": "20% chance of reducing the total Enemy Squad's Lethality by X% for 2 turns.",
-          "FR": "20% de chances de réduire la Létalité totale des escouades ennemies de X% pendant 2 tours."
+          "FR": "La musique aide l'esprit du soldat à se concentrer. jaeger octroie aux escouades 20% de chances de réduire la Létalité des Escouades Ennemies totale de X% pendant 2 tours lorsqu'elles attaquent."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
         "name": {
           "EN": "The Celebration",
-          "FR": "La Célébration"
+          "FR": "Les Festivités"
         },
         "effect": {
           "EN": "Increases the total Squad's Health by X%",
-          "FR": "Augmente la Santé totale de l'escouade de X%."
+          "FR": "Une chanson entraînante débloque de nouvelles réserves de force. Augmente la Santé totale des Escouades de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
@@ -963,6 +1619,41 @@
     "rarity": "legendary",
     "troopType": "Cavalry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Dichotomy",
+          "FR": "Dichotomie"
+        },
+        "effect": {
+          "EN": "Petra throws a tarot card at an enemy, dealing Attack * X% damage and either reducing its Attack by 20% for 2s or stunning it for 1.5s.",
+          "FR": "Petra lance une carte de tarot sur un ennemi, ce qui lui inflige les dégâts équivalents à Attaque*X%, en lui appliquant l'un des effets suivants : réduction de 20% de son Attaque pendant 2 secondes, ou étourdissement pendant 1,5 secondes."
+        },
+        "levels": ["270%", "297%", "324%", "351%", "378%"]
+      },
+      {
+        "name": {
+          "EN": "Change of Fate",
+          "FR": "Altération du Destin"
+        },
+        "effect": {
+          "EN": "Petra curses an enemy, dealing floating damage based on Attack * X% (random, 5% to 600%).",
+          "FR": "Petra maudit un ennemi, infligeant les dégâts flottants basés sur une valeur de base équivalente à l'Attaque de Petra*X%. Les dégâts finaux sont un montant aléatoire variant entre 5% et 600% de cette valeur de base."
+        },
+        "levels": ["50%", "55%", "60%", "65%", "70%"]
+      },
+      {
+        "name": {
+          "EN": "Turn Card",
+          "FR": "Carte Tournante"
+        },
+        "effect": {
+          "EN": "Petra reverses misfortune, healing a friendly hero for Attack * X% (random, 5% to 400%).",
+          "FR": "Petra renverse la malchance en soignant le héros allié ayant le moins de Santé restante en fonction d'une valeur de base égale à l'Attaque de Petra*X%. La Santé finale restaurée est un montant aléatoire compris entre 5% et 400% de cette valeur de base."
+        },
+        "levels": ["100%", "110%", "120%", "130%", "140%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -971,7 +1662,7 @@
         },
         "effect": {
           "EN": "50% curse chance increasing damage taken by X%",
-          "FR": "50% de chances de maudire, augmentant les dégâts subis de X%."
+          "FR": "Donne à l'attaque des escouades 50% de chances de maudire la cible, ce qui augmente de X% les dégâts subis par l'escouade ennemie."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
@@ -982,7 +1673,7 @@
         },
         "effect": {
           "EN": "50% chance to increase Squad Attack by X%",
-          "FR": "50% de chances d'augmenter l'Attaque de l'escouade de X%."
+          "FR": "Petra est connue pour être une cartomancienne idolâtrée par ses soldats, ce qui lui confère 50% de chances d'augmenter l'Attaque des Troupes de X%."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
@@ -993,7 +1684,7 @@
         },
         "effect": {
           "EN": "40% chance to reduce damage taken by X%",
-          "FR": "40% de chances de réduire les dégâts subis de X%."
+          "FR": "La cartomancie de Petra permet d'éviter les destins tragiques avec 40% de chances de réduire les dégâts subis par les escouades de X%."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       }
@@ -1034,15 +1725,50 @@
     "rarity": "legendary",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Ground Shock",
+          "FR": "Choc terrestre"
+        },
+        "effect": {
+          "EN": "Eric deals Attack * X% damage to the target ahead and reduces its Attack Speed by 50% for 4s.",
+          "FR": "Eric frappe le sol avec son puissant marteau béni, ce qui inflige Attaque*X% de dégâts à la cible en face de lui tout en réduisant sa Vitesse d'Attaque de 50% pendant 4s."
+        },
+        "levels": ["120%", "132%", "144%", "156%", "168%"]
+      },
+      {
+        "name": {
+          "EN": "Veterancy",
+          "FR": "Vétérance"
+        },
+        "effect": {
+          "EN": "Attacks against Eric have an X% chance of increasing his Defense by X% for 2s. Stacks up to 5 times.",
+          "FR": "Les cicatrices de combat et les entailles sur l'armure ne sont que gloires pour un paladin. Les attaques contre Érice ont X% de chances d'augmenter la Défense de X% pendant 2s. Cumulable 5x max."
+        },
+        "levels": ["(8%,8%)", "(10%,11%)", "(12%,14%)", "(14%,17%)", "(16%,20%)"]
+      },
+      {
+        "name": {
+          "EN": "Hammer of Justice",
+          "FR": "Marteau de la Justice"
+        },
+        "effect": {
+          "EN": "Eric deals Attack * X% damage in a fan-shaped arc, with a 30% chance of stunning targets for 1s.",
+          "FR": "Eric projette son marteau de guerre au sol, ce qui inflige Attque*X% de dégâts dans une zone en éventail avec 30% de chances d'étourdir les cibles pendant 1s."
+        },
+        "levels": ["80%", "88%", "96%", "104%", "112%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Holy Warrior",
-          "FR": "Guerrier Saint"
+          "FR": "Guerrier Sacré"
         },
         "effect": {
           "EN": "Reducing the total Enemy Squads' Attack by X%",
-          "FR": "Réduit l'Attaque totale des escouades ennemies de X%."
+          "FR": "La pureté de la foi d'Éric peut même faire trébucher ses ennemis. Réduit l'Attaque des Escouades Ennemies totale de X%."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
@@ -1053,7 +1779,7 @@
         },
         "effect": {
           "EN": "Reducing Squads' Damage Taken by X%",
-          "FR": "Réduit les dégâts subis des escouades de X%."
+          "FR": "La conviction est un bouclier pour les justes, qui réduit les dégâts subis par les Escouades de X%."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
@@ -1064,7 +1790,7 @@
         },
         "effect": {
           "EN": "Increases the total Squads' Health by X%",
-          "FR": "Augmente la Santé totale des escouades de X%."
+          "FR": "Un meneur inspirant peut débloquer de nouvelles réserves de vitalité. Éric augmente la Santé totale des Escouades de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       }
@@ -1106,15 +1832,50 @@
     "troopType": "Cavalry",
     "goodJoinerBear": true,
     "GoodJoinerBearRank": 1,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Ambush",
+          "FR": "Embuscade"
+        },
+        "effect": {
+          "EN": "Margot ambushes an enemy with bombs, dealing Attack * X% area of effect damage.",
+          "FR": "Margot tend une embuscade à un ennemi avec des bombes, infligeant Attaque*X% de dégâts de zone d'effet."
+        },
+        "levels": ["300%", "330%", "360%", "390%", "420%"]
+      },
+      {
+        "name": {
+          "EN": "Parry",
+          "FR": "Parade"
+        },
+        "effect": {
+          "EN": "Margot has an X% chance of parrying, avoiding all damage from an enemy attack.",
+          "FR": "Les épées s'utilisent aussi bien en attaque qu'en défense. Margot a X% de chances de parer, ce qui lui permet d'éviter tous les dégâts des attaques ennemies."
+        },
+        "levels": ["5%", "10%", "15%", "20%", "25%"]
+      },
+      {
+        "name": {
+          "EN": "Stiletto",
+          "FR": "Coup de Poignard"
+        },
+        "effect": {
+          "EN": "Margot goes for the head (heroes first), dealing Attack * X% damage and immobilizing the target for 1.5s.",
+          "FR": "Margot entaille l'ennemi à la tête (les héros en premier). Inflige Attaque*X% de dégâts tout en immobilisant pendant 1.5s."
+        },
+        "levels": ["100%", "110%", "120%", "130%", "140%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Warbringer",
-          "FR": "Porte-Guerre"
+          "FR": "Porteuse de Guerre"
         },
         "effect": {
           "EN": "Increases total Squads' Attack by X%",
-          "FR": "Augmente l'Attaque totale des escouades de X%."
+          "FR": "Margot est une princesse de guerre destructrice. Augmente de X% l'attaque de l'escouade totale."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
@@ -1125,18 +1886,18 @@
         },
         "effect": {
           "EN": "X% chance to dodge Normal Attacks",
-          "FR": "X% de chances d'esquiver les Attaques Normales."
+          "FR": "Derrière l'emplacement aléatoire de Margot se cache une stratégie prudente. Sa présence donne aux Escouades X% de chances d'esquiver les Attaques Normales."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
       {
         "name": {
           "EN": "Sleight Hand",
-          "FR": "Tour de Passe-passe"
+          "FR": "Dextérité"
         },
         "effect": {
           "EN": "25% chance for extra attack dealing X% damage",
-          "FR": "25% de chances d'effectuer une attaque supplémentaire infligeant X% de dégâts."
+          "FR": "La Cavalerie de Margot a 25% de chances d'effectuer une attaque bonus, qui inflige X% de dégâts."
         },
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       }
@@ -1177,15 +1938,50 @@
     "rarity": "legendary",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Glorious Mark",
+          "FR": "Marque de la Gloire"
+        },
+        "effect": {
+          "EN": "Alcar enters an invulnerable state, unable to move or cast skills and immune to control effects, and reduces damage taken by nearby friendly squads by X% for 2s.",
+          "FR": "La grandeur d'un prétorien est sa force. Alcar passe en mode invulnérable (incapable de se déplacer ou de lancer des compétences, mais immunisé contre les effets de contrôle), et réduit de X% les Dégâts Subis par les escouades alliées proches pendant 2s."
+        },
+        "levels": ["30%", "40%", "50%", "60%", "70%"]
+      },
+      {
+        "name": {
+          "EN": "Boneshatter",
+          "FR": "Brise-Os"
+        },
+        "effect": {
+          "EN": "Alcar spears a line of enemies, dealing Attack * X% damage and increasing damage taken by those hit by 20% for 2s.",
+          "FR": "Alcar transperce une ligne d'ennemis, inflige Attaque*X% de dégâts et augmente les dégâts reçus par les ennemis touchés de 20% pendant 2s."
+        },
+        "levels": ["70%", "77%", "84%", "91%", "98%"]
+      },
+      {
+        "name": {
+          "EN": "Second Wind",
+          "FR": "Second Souffle"
+        },
+        "effect": {
+          "EN": "Glorious Mark restores Health equal to Attack * X% every second for 5s.",
+          "FR": "La loyauté d'Alcar envers les vieilles coutumes lui donne de la force. \"Marque de la Gloire\" restaure Attaque*X% de Santé par seconde pendant 5s."
+        },
+        "levels": ["30%", "33%", "36%", "39%", "42%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Rescuing Hands",
-          "FR": "Mains Salvatrices"
+          "FR": "Mains Tendues"
         },
         "effect": {
           "EN": "Reduces Infantry and Archer's Damage Taken by X% every 5 turns for 2 turns",
-          "FR": "Réduit les dégâts subis par l'Infanterie et les Archers de X% tous les 5 tours, pendant 2 tours."
+          "FR": "Le dévouement sans faille d'Alcar pour assurer la sécurité de ses hommes n'est plus à prouver. Réduit les dégâts subis par l'infanterie et les archers de X% tous les 5 tours pendant 2 tours."
         },
         "levels": ["14%", "28%", "42%", "56%", "70%"]
       },
@@ -1196,7 +1992,7 @@
         },
         "effect": {
           "EN": "Increases Infantry Damage Dealt by X% and Cavalry and Archer's Damage Dealt by 10%",
-          "FR": "Augmente les dégâts infligés par l'Infanterie de X% et ceux de la Cavalerie et des Archers de 10%."
+          "FR": "La combativité d'un prétorien est un sujet d'étude pour les autres.. Alcar augmente les Dégâts Infligés par l'Infanterie de X% et les dégâts infligés par la Cavalerie et les Archers de 10%."
         },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       },
@@ -1207,7 +2003,7 @@
         },
         "effect": {
           "EN": "Increasing Infantry Damage Dealt per attack by X% and target Damage Taken by 25% for 1 turn",
-          "FR": "Augmente les dégâts infligés par l'Infanterie par attaque de X% et les dégâts subis par la cible de 25% pendant 1 tour."
+          "FR": "Grâce à ses années d'entraînement, Alcar a appris à exploiter les faiblesses de ses ennemis. Augmente les Dégâts Infligés par l'Infanterie de X% par attaque et les Dégâts Subis par la cible de 25% pendant 1 tour."
         },
         "levels": ["12%", "24%", "36%", "48%", "60%"]
       }
@@ -1248,6 +2044,41 @@
     "rarity": "legendary",
     "troopType": "Archer",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Battle Focus",
+          "FR": "Concentration au Combat"
+        },
+        "effect": {
+          "EN": "Rosa clears all debuffs from all squads and increases their Attack by X% for 5s.",
+          "FR": "Voluptueuse, Rosa a l'habitude d'attirer l'attention sur le champ de bataille. Rosa annule tous les débuffs (effets de contrôle, etc.) des escouades et augmente leur Attaque de X% pendant 5s, durant lesquelles celles-ci restent immunisées contre les débuffs."
+        },
+        "levels": ["3%", "4%", "5%", "6%", "7%"]
+      },
+      {
+        "name": {
+          "EN": "Flutterfang",
+          "FR": "Croc Battant"
+        },
+        "effect": {
+          "EN": "Rosa deals Attack * X% damage to enemies.",
+          "FR": "Rosa fait tournoyer sa lame avec force et rapidité. Inflige Attaque*X% de dégâts aux ennemis sur son passage."
+        },
+        "levels": ["220%", "240%", "260%", "280%", "300%"]
+      },
+      {
+        "name": {
+          "EN": "Swoon Chakra",
+          "FR": "Chakra Défaillant"
+        },
+        "effect": {
+          "EN": "Reduces the target's Attack Speed by X% and the healing it receives by 60%.",
+          "FR": "La merveilleuse danse de Rosa sert de distraction sur le champ de bataille. Réduit la Vitesse d'Attaque des escouades ennemies de X% ainsi que leurs effets de soin de 60%."
+        },
+        "levels": ["1%", "1.5%", "2%", "2.5%", "3%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -1256,18 +2087,18 @@
         },
         "effect": {
           "EN": "40% chance of increasing all Squads' Damage Dealt by X%",
-          "FR": "40% de chances d'augmenter les dégâts infligés par toutes les escouades de X%."
+          "FR": "Un peu de chaos bien placé et la victoire se dessine. Rosa accorde 40% de chances d'augmenter les Dégâts Infligés par les Escouades de X%"
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
         "name": {
           "EN": "Rose of War",
-          "FR": "Rose de Guerre"
+          "FR": "Danse Envoûtante"
         },
         "effect": {
           "EN": "Reducing damage dealt by X% for all enemy squads",
-          "FR": "Réduit les dégâts infligés de X% par toutes les escouades ennemies."
+          "FR": "La danse envoûtante de Rosa réduit les dégâts infligés par toutes les escouades ennemies de X%."
         },
         "levels": ["4%", "8%", "12%", "16%", "20%"]
       },
@@ -1278,7 +2109,7 @@
         },
         "effect": {
           "EN": "Increasing Archers' total Attack by X%",
-          "FR": "Augmente l'Attaque totale des Archers de X%."
+          "FR": "Une danse divertissante est le parfait complément aux tirs des archers, augmentant leur attaque totale des archers de X%."
         },
         "levels": ["6%", "12%", "18%", "24%", "30%"]
       }
@@ -1320,15 +2151,50 @@
     "troopType": "Cavalry",
     "goodJoinerBear": true,
     "GoodJoinerBearRank": 2,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Axe Flurry",
+          "FR": "Rafale de Haches"
+        },
+        "effect": {
+          "EN": "Thrud hurls five axes at random targets (heroes first), dealing Attack * X% area of effect damage.",
+          "FR": "Thrud lance cinq haches sur des cibles aléatoires (héros en premier), infligeant Attaque*X% de Dégâts de Zone d'effet."
+        },
+        "levels": ["60%", "66%", "72%", "78%", "84%"]
+      },
+      {
+        "name": {
+          "EN": "Brutal Throw",
+          "FR": "Lancer Brutal"
+        },
+        "effect": {
+          "EN": "Thrud throws a spinning axe, dealing Attack * X% damage to enemies within range and stunning them for 1.5s.",
+          "FR": "Thrud fait tournoyer une hache, infligeant Attaque*X% de dégâts aux ennemis à portée tout en les étourdissant pendant 1,5s."
+        },
+        "levels": ["50%", "55%", "60%", "65%", "70%"]
+      },
+      {
+        "name": {
+          "EN": "Feast of the Pack",
+          "FR": "Festin de la Meute"
+        },
+        "effect": {
+          "EN": "Thrud lets out a primal howl, increasing all squads' Attack by X%.",
+          "FR": "Thrud pousse un hurlement primitif, augmentant l'attaque de toutes les escouades de X%"
+        },
+        "levels": ["3%", "3.5%", "4%", "4.5%", "5%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Battle Hunger",
-          "FR": "Soif de Combat"
+          "FR": "Combattre la Faim"
         },
         "effect": {
           "EN": "Thrud's battle fever inspires her Infantry and Archers, reducing their damage taken by X% and increasing their damage dealt by X%.",
-          "FR": "La fièvre du combat de Thrud inspire son Infanterie et ses Archers, réduisant leurs dégâts subis de X% et augmentant leurs dégâts infligés de X%."
+          "FR": "La fièvre guerrière de Thrud inspire son infanterie et ses archers, réduisant les dégâts reçus de X% et augmentant les dégâts infligés de X%."
         },
         "levels": ["(3%,3%)", "(6%,6%)", "(9%,9%)", "(12%,12%)", "(15%,15%)"]
       },
@@ -1339,18 +2205,18 @@
         },
         "effect": {
           "EN": "No plans. No finesse. Just brutally charging into battle. Thrud's Cavalry has a 20% chance of dealing X% extra damage to all enemies on attack.",
-          "FR": "Pas de plan. Pas de finesse. Juste une charge brutale. La Cavalerie de Thrud a 20% de chances d'infliger X% de dégâts supplémentaires à tous les ennemis lors d'une attaque."
+          "FR": "Aucun plan. Aucune subtilité. Rien qu'une charge brutale dans la bataille. La cavalerie de Thrud a 20% de chances d'infliger X% de dégâts bonus à l'escouade ennemie lors d'une attaque."
         },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       },
       {
         "name": {
           "EN": "Ancestral Guidance",
-          "FR": "Guide Ancestral"
+          "FR": "Conseils Ancestraux"
         },
         "effect": {
           "EN": "Ancestral spirits guide the brave to Valhalla. For every 4 attacks made by Cavalry, all squads' damage dealt is increased by X% and damage taken is reduced by X% for 2 turns.",
-          "FR": "Les esprits ancestraux guident les braves au Valhalla. Toutes les 4 attaques de la Cavalerie, les dégâts infligés par toutes les escouades augmentent de X% et les dégâts subis sont réduits de X% pendant 2 tours."
+          "FR": "Les esprits ancestraux guident les courageux vers le Valhalla. Toutes les 4 attaques portées par la cavalerie, les dégâts infligés par toutes les escouades sont augmentés de X% et les dégâts reçus sont réduits de X% pendant 2 tours."
         },
         "levels": ["(5%,5%)", "(10%,10%)", "(15%,15%)", "(20%,20%)", "(25%,25%)"]
       }
@@ -1391,26 +2257,61 @@
     "rarity": "legendary",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Ambrosia",
+          "FR": "Ambroisie"
+        },
+        "effect": {
+          "EN": "Long Fei becomes one with the battlefield after drinking his signature ambrosia, gaining X% Attack Speed and immunity to control effects for 4s.",
+          "FR": "Long Fei se fond dans le champ de bataille après avoir bu son ambroisie signature, gagnant X% de vitesse d'attaque et une immunité aux effets de contrôle pendant 4 s."
+        },
+        "levels": ["80%", "90%", "100%", "110%", "120%"]
+      },
+      {
+        "name": {
+          "EN": "Above and Beyond",
+          "FR": "Au-delà du Possible"
+        },
+        "effect": {
+          "EN": "Damage taken by Long Fei is reduced by X% when under 50% Health.",
+          "FR": "La confiance excessive des ennemis de Long Fei est leur point faible. Les dégâts subis par Long Fei sont réduits de X% lorsque sa santé est inférieure à 50%."
+        },
+        "levels": ["20%", "30%", "40%", "50%", "60%"]
+      },
+      {
+        "name": {
+          "EN": "Mountain Mover",
+          "FR": "Déplace des Montagnes"
+        },
+        "effect": {
+          "EN": "Long Fei gains X% Attack when under 50% Health.",
+          "FR": "Les guerriers de longue date ont appris à Long Fei de nombreux secrets pour survivre. Long Fei gagne X% d'attaque lorsque sa santé est inférieure à 50%."
+        },
+        "levels": ["16%", "24%", "32%", "40%", "48%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Mighty Paragon",
-          "FR": "Puissant Parangon"
+          "FR": "Puissant Paragon"
         },
         "effect": {
           "EN": "Long Fei's courage in the teeth of the enemy points the way toward the warrior within, granting a 40% chance of reducing damage taken by all squads by X%.",
-          "FR": "Le courage de Long Fei face à l'ennemi révèle le guerrier qui sommeille en lui, accordant 40% de chances de réduire les dégâts subis par toutes les escouades de X%."
+          "FR": "Le courage de Long Fei face à l'ennemi ouvre la voie au guerrier qui sommeille en toi, donnant 40% de chances de réduire les dégâts reçus par toutes les escouades de X%."
         },
         "levels": ["10%", "20%", "30%", "40%", "50%"]
       },
       {
         "name": {
           "EN": "Celestial Sustenance",
-          "FR": "Subsistance Céleste"
+          "FR": "Nourriture Céleste"
         },
         "effect": {
           "EN": "The sweet nectar of Long Fei's potions have born fruit in soldiers' vitality, increasing total Squads' Defense by X%.",
-          "FR": "Le doux nectar des potions de Long Fei a porté ses fruits sur la vitalité des soldats, augmentant la Défense totale des escouades de X%."
+          "FR": "Le nectar sucré des potions de Long Fei a porté ses fruits concernant la vitalité des soldats. Augmente de X% la défense de l'escouade totale."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
@@ -1421,7 +2322,7 @@
         },
         "effect": {
           "EN": "'All warfare is based on deception'. Long Fei's war wisdom is ingrained in his soldiers, granting all squads' attacks a 25% chance of dealing X% damage.",
-          "FR": "\"Toute guerre est basée sur la tromperie\". La sagesse martiale de Long Fei est ancrée dans ses soldats, accordant aux attaques de toutes les escouades 25% de chances d'infliger X% de dégâts."
+          "FR": "\"Toute guerre repose sur la ruse\" : la sagesse militaire de Long Fei est bien gravée dans l'esprit de ses soldats, ce qui donne à toutes les attaques de ses escouades 25% de chances d'infliger X% de dégâts supplémentaires."
         },
         "levels": ["120%", "140%", "160%", "180%", "200%"]
       }
@@ -1463,6 +2364,41 @@
     "troopType": "Archer",
     "goodJoinerBear": true,
     "GoodJoinerBearRank": 1,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Gilded Barrage",
+          "FR": "Barrage Doré"
+        },
+        "effect": {
+          "EN": "Vivian fires a coin bullet at the enemy back row (heroes first), dealing Attack * X% area of effect damage and reducing the targets' Attack Speed by 50% for 2s.",
+          "FR": "Viviane tire une balle en forme de pièce sur la ligne arrière ennemie (héros en premier), infligeant Attaque*X% de Dégâts de Zone d'effet et réduisant la vitesse d'attaque ennemie de 50% pendant 2 secondes."
+        },
+        "levels": ["180%", "198%", "216%", "234%", "252%"]
+      },
+      {
+        "name": {
+          "EN": "Lucky Strike",
+          "FR": "Coup de Chance"
+        },
+        "effect": {
+          "EN": "Vivian fires at an enemy (heroes first), dealing Attack * X% damage with a 50% chance of dealing double damage.",
+          "FR": "La chance peut changer la donne. Viviane tire sur un ennemi (héros en premier), infligeant Attaque*X% de dégâts avec 50% de chance d'infliger des dégâts doubles."
+        },
+        "levels": ["100%", "110%", "120%", "130%", "140%"]
+      },
+      {
+        "name": {
+          "EN": "Priceless Shot",
+          "FR": "Coup Inestimable"
+        },
+        "effect": {
+          "EN": "Vivian unleashes a hail of massive coin bullets, dealing Attack * X% damage per second to enemies within range for 3s.",
+          "FR": "Les nombreuses balles en forme de pièce produisent un effet dévastateur, infligeant Attaque*X% de dégâts par seconde aux ennemis à portée pendant 3s."
+        },
+        "levels": ["35%", "38.5%", "42%", "45.5%", "49%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -1471,7 +2407,7 @@
         },
         "effect": {
           "EN": "Vivian is a patient commander willing to wait for just the right moment to strike. All squads' attacks increase enemy damage taken by X%.",
-          "FR": "Vivian est un commandant patient, prêt à attendre le bon moment pour frapper. Les attaques de toutes les escouades augmentent les dégâts subis par l'ennemi de X%."
+          "FR": "Viviane est une commandante patiente qui attend le bon moment pour frapper. Toutes les attaques des escouades augmentent les dégâts infligés à l'ennemi de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
@@ -1482,18 +2418,18 @@
         },
         "effect": {
           "EN": "Vivian's sharp focus exposes enemy weaknesses, granting all squads' attack X% extra damage after every four attacks, and causes the target to receive X% extra damage for its next attack received.",
-          "FR": "La concentration de Vivian expose les faiblesses ennemies, accordant X% de dégâts supplémentaires aux attaques de toutes les escouades toutes les quatre attaques, et forçant la cible à subir X% de dégâts supplémentaires à la prochaine attaque reçue."
+          "FR": "La concentration intense de Viviane révèle les faiblesses de l'ennemi, accordant à toutes les escouades une attaque de X% de dégâts supplémentaires après chaque quatre attaques, et infligeant à la cible X% de dégâts supplémentaires pour sa prochaine attaque reçue."
         },
         "levels": ["(20%,5%)", "(40%,7.5%)", "(60%,10%)", "(80%,12.5%)", "(100%,15%)"]
       },
       {
         "name": {
           "EN": "Trap of Greed",
-          "FR": "Piège de l'Avarice"
+          "FR": "Piège de Cupidité"
         },
         "effect": {
           "EN": "Vivian equips her Archers with custom coin traps, dealing X% extra damage to all enemies on the next attack of every 4 attacks.",
-          "FR": "Vivian équipe ses Archers de pièges à pièces personnalisés, infligeant X% de dégâts supplémentaires à tous les ennemis lors de la prochaine attaque, toutes les 4 attaques."
+          "FR": "Viviane équipe ses archers de pièges personnalisés, infligeant X% de dégâts bonus à l'escouade ennemie lors de leur prochaine attaque, toutes les 4 attaques."
         },
         "levels": ["12%", "24%", "36%", "48%", "60%"]
       }
@@ -1534,6 +2470,41 @@
     "rarity": "legendary",
     "troopType": "Cavalry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Puppet Master",
+          "FR": "Marionnettiste"
+        },
+        "effect": {
+          "EN": "Sophia's subtle rose-magic saps enemy soldiers' resolve, dealing Attack * X% area of effect damage and confusing them for 1s.",
+          "FR": "La subtile magie des roses de Sophia sape la détermination des soldats ennemis. Inflige Attaque*X% de Dégâts de Zone d'Effet aux ennemis en les rendant confus pendant 1s. Les ennemis confus attaquent toutes les cibles environnantes."
+        },
+        "levels": ["100%", "110%", "120%", "130%", "140%"]
+      },
+      {
+        "name": {
+          "EN": "Scalding Mark",
+          "FR": "Marque Brûlante"
+        },
+        "effect": {
+          "EN": "Sophia attacks with her enchanted rose, dealing Attack * X% damage to the target and applying a Scalding Mark, increasing the target's damage taken by X% for 4s.",
+          "FR": "Sophia attaque avec sa rose enchantée. Inflige Attaque*X% de dégâts aux cibles et applique Marque Brûlante, ce qui augmente les dégâts subis par la cible de X% pendant 4s."
+        },
+        "levels": ["(50%,2%)", "(55%,3%)", "(60%,4%)", "(65%,5%)", "(70%,6%)"]
+      },
+      {
+        "name": {
+          "EN": "Scalding Mark - Lash",
+          "FR": "Marque Brûlante - Fouet"
+        },
+        "effect": {
+          "EN": "Scalding Marks boost Sophia's Attack by X% and allow her to lash afflicted targets, dealing X% increased damage.",
+          "FR": "Les Marques Brûlantes augmentent l'Attaque de Sophia de X% et lui permettent d'utiliser son Fouet sur les cibles affectées, leur infligeant X% de dégâts en plus."
+        },
+        "levels": ["(8%,4%)", "(12%,6%)", "(16%,8%)", "(20%,10%)", "(24%,12%)"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -1542,7 +2513,7 @@
         },
         "effect": {
           "EN": "The arcane pact grants Sophia the protection of night, and a X% chance of reducing all squad damage received by 50% every turn.",
-          "FR": "Le pacte arcanique accorde à Sophia la protection de la nuit, et X% de chances de réduire de 50% tous les dégâts subis par l'escouade à chaque tour."
+          "FR": "Le pacte arcanique accorde à Sophia la protection de la nuit ainsi que X% de chances de réduire de 50% les dégâts subis par l'escouade à chaque tour."
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       },
@@ -1564,7 +2535,7 @@
         },
         "effect": {
           "EN": "Terror increases fragility. All Squads deal X% increased damage to Terrified targets.",
-          "FR": "La terreur rend fragile. Les escouades infligent X% de dégâts en plus aux cibles Terrifiées."
+          "FR": "La terreur rend fragile. Les Escouades infligent X% de dégâts en plus aux cibles Terrifiées."
         },
         "levels": ["15%", "30%", "45%", "60%", "75%"]
       }
@@ -1605,26 +2576,61 @@
     "rarity": "legendary",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Tidewill",
+          "FR": "Volonté des Marées"
+        },
+        "effect": {
+          "EN": "Triton surrounds himself with a barrier of waves that surges forward, gaining invulnerability for 2s before dealing Attack * X% area of effect damage.",
+          "FR": "Triton s'entoure d'une barrière de vagues qui déferle vers l'avant, lui conférant l'invulnérabilité pendant 2s avant d'infliger Attaque*X% de Dégâts de Zone d'effet."
+        },
+        "levels": ["100%", "110%", "120%", "130%", "140%"]
+      },
+      {
+        "name": {
+          "EN": "Regal Wrath",
+          "FR": "Courroux Royal"
+        },
+        "effect": {
+          "EN": "Triton channels the rage of the ruler within, increasing Attack by X% and Defense by X% for 4s.",
+          "FR": "Triton canalise la rage du souverain qui sommeille en lui. Augmente l'Attaque de X% et la Défense de X% pendant 4s."
+        },
+        "levels": ["(8%,16%)", "(12%,24%)", "(16%,32%)", "(20%,40%)", "(24%,48%)"]
+      },
+      {
+        "name": {
+          "EN": "Striking Hit",
+          "FR": "Frappe Dévastatrice"
+        },
+        "effect": {
+          "EN": "Triton lashes the disobedient, dealing Attack * X% damage to a random enemy with every normal attack.",
+          "FR": "Triton fustige ceux qui désobéissent avec une violence dévastatrice. Inflige Attaque*X% de dégâts à un ennemi aléatoire à chaque attaque normale."
+        },
+        "levels": ["20%", "22%", "24%", "26%", "28%"]
+      }
+    ],
     "skills": [
       {
         "name": {
           "EN": "Command of Power",
-          "FR": "Commandement du Pouvoir"
+          "FR": "Maîtrise de Pouvoir"
         },
         "effect": {
           "EN": "Acceptance of Triton's authority enables the fruits to be shared thereof, increasing total Squads' Defense by X%.",
-          "FR": "L'acceptation de l'autorité de Triton permet d'en partager les fruits, augmentant la Défense totale des escouades de X%."
+          "FR": "Accepter l'autorité de Triton permet de profiter des avantages qui en découlent. Augmente la Défense totale des Escouades de X%."
         },
         "levels": ["5%", "10%", "15%", "20%", "25%"]
       },
       {
         "name": {
           "EN": "Warfare of Power",
-          "FR": "Guerre du Pouvoir"
+          "FR": "Guerre de Pouvoir"
         },
         "effect": {
           "EN": "The power of warfare lies in shared fearlessness in the face of battle, increasing total Squads' skill damage dealt by X%.",
-          "FR": "Le pouvoir de la guerre réside dans l'intrépidité partagée face au combat, augmentant les dégâts de compétence infligés par toutes les escouades de X%."
+          "FR": "Le pouvoir de la guerre réside dans l'intrépidité partagée face au combat. Augmente les dégâts totaux infligés par les compétences d'escouade de X%."
         },
         "levels": ["6%", "12%", "18%", "24%", "30%"]
       },
@@ -1635,7 +2641,7 @@
         },
         "effect": {
           "EN": "Great power stems from a willingness to keep oaths, increasing Infantry Health by X% as well as Cavalry and Archer Health by X%.",
-          "FR": "Un grand pouvoir découle de la volonté de tenir ses serments, augmentant la Santé de l'Infanterie de X%, ainsi que la Santé de la Cavalerie et des Archers de X%."
+          "FR": "Un grand pouvoir découle de la volonté de respecter ses serments. Augmente la Santé de l'Infanterie de X% ainsi que celle de la Cavalerie et des Archers de X%."
         },
         "levels": ["(4%,6%)", "(8%,12%)", "(12%,18%)", "(16%,24%)", "(20%,30%)"]
       }
@@ -1676,6 +2682,41 @@
     "rarity": "legendary",
     "troopType": "Archer",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Kin Throw",
+          "FR": "Lancer Puissant"
+        },
+        "effect": {
+          "EN": "Yang sends Frostkin in a straight line through the enemy, dealing Attack * X% area of effect damage, then the same again on its return path.",
+          "FR": "Yang effectue un lancer fulgurant en ligne droite contre ses ennemis. Inflige Attaque*X% de Dégâts de Zone d'effet, plus le même montant de dégâts en revenant."
+        },
+        "levels": ["100%", "110%", "120%", "130%", "140%"]
+      },
+      {
+        "name": {
+          "EN": "Combo",
+          "FR": "Combo"
+        },
+        "effect": {
+          "EN": "Yang's special firearm has an X% chance of inflicting a combo shot, dealing another round of damage to enemies.",
+          "FR": "L'arme à feu spéciale de Yang a X% de chances d'infliger un tir combiné, qui inflige une nouvelle série de dégâts aux ennemis."
+        },
+        "levels": ["15%", "20%", "25%", "30%", "35%"]
+      },
+      {
+        "name": {
+          "EN": "Deadshot",
+          "FR": "Tireur d'Élite"
+        },
+        "effect": {
+          "EN": "Yang enjoys an X% Crit Rate when dealing damage.",
+          "FR": "Toute balle peut infliger un coup critique à la proie d'une chasseuse lorsqu'elle vise bien. Yang bénéficie d'un Taux de Crit de X% lorsqu'elle inflige des dégâts."
+        },
+        "levels": ["3%", "6%", "9%", "12%", "15%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -1684,7 +2725,7 @@
         },
         "effect": {
           "EN": "An avalanche for Yang is just another weapon in his arsenal, resulting in an additional strike against a target by all Squads every 4 turns for X% damage.",
-          "FR": "Pour Yang, une avalanche n'est rien de plus qu'une arme de supplémentaire dans son arsenal, qui permet à toutes les escouades d'effectuer un coup supplémentaire contre une cible tous les 4 tours en infiligeant X% de dégâts."
+          "FR": "Pour Yang, une avalanche n'est rien de plus qu'une arme supplémentaire dans son arsenal, qui permet à toutes les escouades d'effectuer un coup supplémentaire contre une cible tous les 4 tours en infligeant X% de dégâts."
         },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       },
@@ -1695,7 +2736,7 @@
         },
         "effect": {
           "EN": "Years of arctic adversity have taught Yang to seize advantages. Yang's Archers have a 40% chance of dealing X% extra damage with every attack.",
-          "FR": "Des années passées à affronter les rigueurs de l'Arctique ont appris, à Yang à saisir les avantages, donnant à ses archers 40% de chances d'infliger X% de dégâts supplémentaires à la cible pour chaque attaque."
+          "FR": "Des années passées à affronter les rigueurs de l'Arctique ont appris, à Yang à saisir les avantages, donnant à ses Archers 40% de chances d'infliger X% de dégâts supplémentaires à la cible pour chaque attaque."
         },
         "levels": ["20%", "40%", "60%", "80%", "100%"]
       },
@@ -1706,7 +2747,7 @@
         },
         "effect": {
           "EN": "Yang is an advanced thinker who can easily grasp the principles of almost any phenomena, giving all Squads a X% chance of dealing increased damage every turn.",
-          "FR": "Yang est un penseur avancé qui comprend facilement les principes de presque tous les phénomènes. Octroie X% de chances d'augmenter de 50% les dégats de l'escouade."
+          "FR": "Yang est un penseur avancé qui comprend facilement les principes de presque tous les phénomènes. Octroie X% de chances d'augmenter de 50% les dégâts de l'escouade."
         },
         "levels": ["8%", "16%", "24%", "32%", "40%"]
       }
@@ -1748,6 +2789,41 @@
     "troopType": "Archer",
     "goodJoinerBear": true,
     "GoodJoinerBearRank": 1,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "High Ground",
+          "FR": "Terrain Élevé"
+        },
+        "effect": {
+          "EN": "Wee & Woo follow the artillery principle of high ground, long shots to the letter, dealing Attack * X% area of effect damage.",
+          "FR": "Wee & Woo suivent à la lettre l'adage des artilleurs \" terrain élevé, parfait pour tirer\". Infligent Attaque*X% de dégâts de Zone d'Effet."
+        },
+        "levels": ["300%", "330%", "360%", "390%", "420%"]
+      },
+      {
+        "name": {
+          "EN": "Incendiaries",
+          "FR": "Incendiaires"
+        },
+        "effect": {
+          "EN": "Wee & Woo fire a special incendiary round from the Royal Foundry, dealing Attack * X% area of effect damage. The flaming crater in its wake also deals Attack * X% damage to nearby enemies every 0.5s for 2s.",
+          "FR": "Wee & Woo lachent des bombes incendiaires spéciales de la Fonderie Royage. Infligeant une attque*X% de dégâts de Zone d'Effet. Le cratère enflammé qu'elles laissent derrière elles, inflige aussi Attaque*X% de dégâts aux ennemis proches toutes les 0.5s pendant 2s."
+        },
+        "levels": ["(60%,17%)", "(66%,19%)", "(72%,21%)", "(78%,23%)", "(84%,25%)"]
+      },
+      {
+        "name": {
+          "EN": "Frontal Support",
+          "FR": "Soutien Frontal"
+        },
+        "effect": {
+          "EN": "Article 30 of the artilleryman's code provides a role for non-essential personnel at the front when necessary, increasing Attack by X%.",
+          "FR": "L'article 30 du code des artilleurs prévoit un rôle pour le personnel non-essentiel au front lorsque cela est nécessaire. Augmente de X% l'Attaque."
+        },
+        "levels": ["10%", "14%", "18%", "22%", "26%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -1819,6 +2895,41 @@
     "rarity": "legendary",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Vengeance",
+          "FR": "Vengeance"
+        },
+        "effect": {
+          "EN": "Charles unleashes a Vengeance strike from the Angel of Justice against enemies in a fan-shaped area ahead, dealing Attack * X% damage, stunning targets for 1s and increasing his own Attack by X% for 2s.",
+          "FR": "Charles déclenche dans une zone en éventail une frappe vengeresse de l'Ange Justicier sur des ennemis en face de lui. Inflique Attaque*X% de dégâts et étourdit les cibles pendant 1s tout en augmentant de X% sa propre Attaque pendant 2s."
+        },
+        "levels": ["(100%,20%)", "(110%,40%)", "(120%,60%)", "(130%,80%)", "(140%,100%)"]
+      },
+      {
+        "name": {
+          "EN": "Parting Gift",
+          "FR": "Cadeau d'Adieu"
+        },
+        "effect": {
+          "EN": "Charles mines the area after his mech is destroyed, dealing Attack * X% area of effect damage to nearby enemies.",
+          "FR": "Charles transforme la zone en champ de mines après la destruction de son mécha. Inflige Attaque*X% de dégâts de Zone d'Effet aux ennemis proches en cadeau d'adieu."
+        },
+        "levels": ["200%", "220%", "240%", "260%", "280%"]
+      },
+      {
+        "name": {
+          "EN": "Nimble Soul",
+          "FR": "Âme Vive"
+        },
+        "effect": {
+          "EN": "Charles has always been gifted with lightning-fast reactions, granting an X% chance of reducing damage taken by 50%.",
+          "FR": "Charles a toujours été extrêmement réactif. Octroie X% de chances de réduire de 50% les dégâts subis."
+        },
+        "levels": ["10%", "20%", "30%", "40%", "50%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -1890,6 +3001,41 @@
     "rarity": "legendary",
     "troopType": "Cavalry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Color Bomb",
+          "FR": "Bombe de Couleur"
+        },
+        "effect": {
+          "EN": "Ava's color bomb envelops an area, dealing Attack * X% damage to nearby enemies every 0.5s for 3s.",
+          "FR": "Certaines couleurs les plus visibles peuvent être les plus toxiques. La bombe de couleur d'Ava recouvre une zone et inflige Attaque*X% de dégâts aux ennemis proches toutes les 0,5 s pendant 3 s."
+        },
+        "levels": ["50%", "55%", "60%", "65%", "70%"]
+      },
+      {
+        "name": {
+          "EN": "Corruption Bomb",
+          "FR": "Bombe de Corruption"
+        },
+        "effect": {
+          "EN": "Ava detonates a corrosive pigment combo in the target's face, dealing Attack * X% damage every 0.5s and increasing the target's damage taken by X% for 2s.",
+          "FR": "Le pigment d'Ava empoisonne la cible, infligeant Attaque*X% de dégâts toutes les 0,5s tout en augmentant de X% les dégâts subis par la cible pendant 2 s."
+        },
+        "levels": ["(25%,5%)", "(27.5%,10%)", "(30%,15%)", "(32.5%,20%)", "(35%,25%)"]
+      },
+      {
+        "name": {
+          "EN": "Disguise Pigment",
+          "FR": "Pigment Camouflant"
+        },
+        "effect": {
+          "EN": "Ava blends into her own colors, increasing Defense by X%.",
+          "FR": "La bonne combinaison de couleurs perturbera les ennemis. Octroie à Ava X% de Défense en plus."
+        },
+        "levels": ["25%", "37.5%", "50%", "62.5%", "75%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -1961,6 +3107,41 @@
     "rarity": "legendary",
     "troopType": "Infantry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Undefendable",
+          "FR": "Indéfendable"
+        },
+        "effect": {
+          "EN": "Diego raises a shield absorbing damage equal to Attack * X% for 5s.",
+          "FR": "Diego lève un bouclier qui absorbe des dégâts égaux à X% de son Attaque pendant 5 s."
+        },
+        "levels": ["220%", "260%", "300%", "340%", "380%"]
+      },
+      {
+        "name": {
+          "EN": "Blade Soul",
+          "FR": "Âme de la Lame"
+        },
+        "effect": {
+          "EN": "For 3s, Diego lowers enemy heroes' Attack by X% and raises his own Attack by X% for each hero affected.",
+          "FR": "Pendant 3 s, Diego réduit l'Attaque des héros ennemis de X% et augmente la sienne de X% par héros touché."
+        },
+        "levels": ["(1%,1%)", "(2%,2%)", "(3%,3%)", "(4%,4%)", "(5%,5%)"]
+      },
+      {
+        "name": {
+          "EN": "Shadow Flicker",
+          "FR": "Vacillement d'Ombre"
+        },
+        "effect": {
+          "EN": "Diego gains an X% chance of dodging normal attacks and an X% Crit Rate.",
+          "FR": "Diego gagne X% de chances d'esquiver les attaques de base et X% de Taux de Critique."
+        },
+        "levels": ["(3%,4%)", "(6%,8%)", "(9%,12%)", "(12%,16%)", "(15%,20%)"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -2032,6 +3213,41 @@
     "rarity": "legendary",
     "troopType": "Cavalry",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Bubbletopia",
+          "FR": "Bullotopie"
+        },
+        "effect": {
+          "EN": "Liz flings a great gaseous bubble toward the enemy, disabling the target for 1.5s and dealing Attack * X% area of effect damage to it and nearby enemies.",
+          "FR": "Liz projette une grosse bulle de gaz sur l'ennemi, neutralise sa cible pendant 1,5 s et inflige X% de son Attaque en dégâts de zone à elle et aux ennemis proches."
+        },
+        "levels": ["220%", "240%", "260%", "280%", "300%"]
+      },
+      {
+        "name": {
+          "EN": "Slow Medicine",
+          "FR": "Remède Lent"
+        },
+        "effect": {
+          "EN": "Liz launches an extremely special slowing concoction, dealing Attack * X% damage to an enemy and reducing the Attack Speed of surrounding enemies by 50% for 3s.",
+          "FR": "Liz lance une mixture ralentissante très particulière, inflige X% de son Attaque à un ennemi et réduit la Vitesse d'Attaque des ennemis proches de 50% pendant 3 s."
+        },
+        "levels": ["100%", "110%", "120%", "130%", "140%"]
+      },
+      {
+        "name": {
+          "EN": "Quick Brew",
+          "FR": "Potion Vive"
+        },
+        "effect": {
+          "EN": "Liz drinks her own nimble potion, increasing her Attack Speed by X%.",
+          "FR": "Liz boit sa propre potion d'agilité et augmente sa Vitesse d'Attaque de X%."
+        },
+        "levels": ["10%", "15%", "20%", "25%", "30%"]
+      }
+    ],
     "skills": [
       {
         "name": {
@@ -2103,6 +3319,41 @@
     "rarity": "legendary",
     "troopType": "Archer",
     "goodJoinerBear": false,
+    "conquestSkills": [
+      {
+        "name": {
+          "EN": "Starfall",
+          "FR": "Chute d'Étoiles"
+        },
+        "effect": {
+          "EN": "Luna channels the stars of heaven against a wicked enemy, dealing Attack * X% damage to enemies within range and stunning them for 1.5s.",
+          "FR": "Luna appelle les étoiles du ciel sur un ennemi impie, inflige X% de son Attaque aux ennemis à portée et les étourdit pendant 1,5 s."
+        },
+        "levels": ["220%", "240%", "260%", "280%", "300%"]
+      },
+      {
+        "name": {
+          "EN": "Arrow Storm",
+          "FR": "Pluie de Flèches"
+        },
+        "effect": {
+          "EN": "Luna looses a particularly brutal arrow against an enemy, dealing Attack * X% damage to enemies within range.",
+          "FR": "Luna décoche une flèche particulièrement brutale et inflige X% de son Attaque aux ennemis à portée."
+        },
+        "levels": ["100%", "110%", "120%", "130%", "140%"]
+      },
+      {
+        "name": {
+          "EN": "One Hunt",
+          "FR": "Chasse Unique"
+        },
+        "effect": {
+          "EN": "Luna's career exterminating the disciples of evil has done wonders for her skills, increasing her Attack by X% for each enemy defeated, up to 15 stacks.",
+          "FR": "La carrière de Luna à exterminer les disciples du mal a fait des merveilles : son Attaque augmente de X% par ennemi vaincu, cumulable 15 fois."
+        },
+        "levels": ["0.5%", "1%", "1.5%", "2%", "2.5%"]
+      }
+    ],
     "skills": [
       {
         "name": {

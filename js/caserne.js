@@ -265,7 +265,7 @@ function csInitHelp() {
             EN: [
                 "Use the search, sort and filters (generation, type, rarity) to find a hero.",
                 "Click a hero to open its card, mark whether it's unlocked and set its level.",
-                "Tick “Unlocked only” to see just the heroes you own.",
+                "Tick \"Unlocked only\" to see just the heroes you own.",
                 "Important: the levels you set here are reused by the Bear Trap and Vikings tools. Keep them up to date so those calculations stay accurate."
             ]
         },

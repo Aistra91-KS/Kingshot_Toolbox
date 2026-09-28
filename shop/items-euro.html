@@ -18,14 +18,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
     <title>Kingshot Item Real-Money Values - Pack Prices | Kingshot Toolbox</title>
-    <meta name="description" content="What every Kingshot item really costs in euros or dollars, worked out from the paid pack it appears in. Each price shows the pack it comes from, so any figure can be checked.">
+    <meta name="description" content="What every Kingshot item really costs in euros or dollars, worked out from the paid pack it comes in. Each price names its pack, so any figure can be checked.">
     <link rel="canonical" href="https://kingshottoolbox.com/shop/items-euro">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
     <meta property="og:title" content="Kingshot Item Real-Money Values - Pack Prices">
-    <meta property="og:description" content="What every Kingshot item really costs in euros or dollars, worked out from the paid pack it appears in. Each price shows the pack it comes from, so any figure can be checked.">
+    <meta property="og:description" content="What every Kingshot item really costs in euros or dollars, worked out from the paid pack it comes in. Each price names its pack, so any figure can be checked.">
     <meta property="og:url" content="https://kingshottoolbox.com/shop/items-euro">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -45,15 +45,20 @@
     <div class="db-page">
         <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="item-values" data-en="Item values" data-fr="Valeur des objets">Item values</a> / <span data-i18n="itemsEur">Real-money item values</span></div>
         <h1 data-i18n="itemsEur">Real-money item values</h1>
+        <button type="button" class="help-btn" data-help="1"><span class="help-q">?</span><span class="help-btn-txt" data-en="How does it work?" data-fr="Comment ça marche ?">How does it work?</span></button>
+        <!-- Aide écrite en dur pour tenir sa place dès le premier affichage (MAP.md §9) ; help.js la reprend. -->
+        <div class="help-banner" data-help="1" hidden><span class="help-banner-txt" data-en="This table gives what each item costs in real money, based on the paid pack it appears in." data-fr="Ce tableau donne ce que chaque objet coûte en argent réel, d&#x27;après le pack payant où il apparaît.">This table gives what each item costs in real money, based on the paid pack it appears in.</span><button class="help-banner-more" type="button">How does it work?</button><button class="help-banner-x" type="button" aria-label="Don't show again">&times;</button></div>
+        <script>(function(b){try{if(localStorage.getItem('help_seen_shop-items-euro')==='1')return}catch(e){}b.hidden=false})(document.currentScript.previousElementSibling)</script>
         <p class="db-intro" data-en="What each item really costs, worked out from the paid pack it appears in: the pack's price divided by how many you get. Only packs you can buy at least once a month are counted: event packs, VIP packs and one-off offers are left out, because a price you cannot get again next month is not a reference price. Three rules correct what that sum alone gets wrong: speedups follow a per-minute scale, a few items are worked out from another one, and raw resources are weighted down. A pill marks them in the table and every rule is spelled out below. This table is read-only and independent from the gem values, and no exchange rate is ever worked out between the two." data-fr="Ce que chaque objet coûte réellement, calculé depuis le pack payant où il apparaît : le prix du pack divisé par la quantité obtenue. Seuls comptent les packs achetables au moins une fois par mois : les packs d'événement, les packs VIP et ceux qui ne passent qu'une seule fois sont écartés, car un prix qu'on ne peut pas refaire le mois suivant n'est pas un prix de référence. Trois règles corrigent ce que ce seul calcul dit mal : les accélérateurs suivent un barème à la minute, quelques objets se déduisent d'un autre, et les ressources brutes sont pondérées. Une pastille les signale dans le tableau et chaque règle est détaillée dessous. Ce tableau est en lecture seule et indépendant des valeurs en gemmes, et aucun taux de change n'est jamais calculé entre les deux.">What each item really costs, worked out from the paid pack it appears in: the pack's price divided by how many you get. Only packs you can buy at least once a month are counted: event packs, VIP packs and one-off offers are left out, because a price you cannot get again next month is not a reference price. Three rules correct what that sum alone gets wrong: speedups follow a per-minute scale, a few items are worked out from another one, and raw resources are weighted down. A pill marks them in the table and every rule is spelled out below. This table is read-only and independent from the gem values, and no exchange rate is ever worked out between the two.</p>
 
         <div class="shop-toolbar">
             <input id="ie-search" class="table-input" data-i18n-placeholder="search" placeholder="Search…">
+            <label class="kt-sr" for="ie-cat-filter" data-en="Filter by category" data-fr="Filtrer par catégorie">Filter by category</label>
             <select id="ie-cat-filter" class="table-select"></select>
             <span class="db-switch sx-cur" id="ie-cur" role="group"></span>
         </div>
         <div id="ie-count" style="color:var(--text-muted);font-size:13px;margin-bottom:8px;"></div>
-        <div class="table-container">
+        <div class="table-container is-loading">
             <table class="db-table">
                 <thead>
                     <tr>
@@ -91,7 +96,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

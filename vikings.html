@@ -57,7 +57,7 @@
         /* Badge de liaison compétence (Bonus animal ← Puissant Bison) */
         .link-row { display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-top: -4px; margin-bottom: 6px; min-height: 16px; font-size: 11px; }
         .link-badge { font-weight: bold; }
-        .link-sync { background: transparent; border: 1px solid var(--border); color: var(--accent); border-radius: 4px; cursor: pointer; padding: 0 6px; font-size: 12px; line-height: 1.5; display: none; align-items: center; transition: background 0.2s; }
+        .link-sync { background: transparent; border: 1px solid var(--border); color: var(--accent-text, var(--accent)); border-radius: 4px; cursor: pointer; padding: 0 6px; font-size: 12px; line-height: 1.5; display: none; align-items: center; transition: background 0.2s; }
         .link-sync:hover { background: rgba(245, 184, 64, 0.12); }
 
         /* Bandeau de synthèse */
@@ -67,7 +67,7 @@
         .vk-summary-item { display: flex; flex-direction: column; gap: 2px; }
         .vk-summary-item .vk-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         .vk-summary-item .vk-value { font-size: 18px; font-weight: bold; color: var(--text-light); }
-        .vk-summary-item .vk-value.accent { color: var(--accent); }
+        .vk-summary-item .vk-value.accent { color: var(--accent-text, var(--accent)); }
 
         /* Encart garnison */
         .vk-garrison { padding: 12px 15px; background: var(--control-bg);
@@ -79,7 +79,7 @@
         .vk-pct { color: var(--text-muted); font-size: 12px; }
         td.vk-num { text-align: right; }
         tr.vk-total-row { font-weight: bold; border-top: 2px solid var(--border); }
-        tr.vk-total-row td { color: var(--accent); }
+        tr.vk-total-row td { color: var(--accent-text, var(--accent)); }
 
         /* Encart pédagogique : saisir le nombre exact plutôt que le % */
         .vk-tip { display: flex; align-items: flex-start; gap: 8px;
@@ -95,7 +95,7 @@
         .vk-copy { display: none; }
         @media (max-width: 768px) {
             .vk-copy { display: inline-flex; align-items: center; justify-content: center;
-                background: transparent; border: 1px solid var(--border); color: var(--accent);
+                background: transparent; border: 1px solid var(--border); color: var(--accent-text, var(--accent));
                 border-radius: 4px; cursor: pointer; font-size: 12px; line-height: 1;
                 padding: 3px 5px; margin-left: 6px; vertical-align: middle;
                 -webkit-tap-highlight-color: transparent; }
@@ -110,7 +110,7 @@
     <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Kingshot Vikings Calculator</h1>
     <!-- SIDEBAR : Saisies -->
     <aside class="sidebar">
-        <h2 data-i18n="titleParams" style="color: var(--accent); margin-top: 0;">Parameters</h2>
+        <h2 data-i18n="titleParams" style="color: var(--accent-text, var(--accent)); margin-top: 0;">Parameters</h2>
 
         <!-- Bloc 1 : Troupes -->
         <div class="control-group">
@@ -160,7 +160,7 @@
         </div>
 
         <button id="vk-import-bt" data-i18n="btnImportBT"
-            style="width:100%; padding:10px; background:transparent; border:1px dashed var(--accent); color:var(--accent); border-radius:4px; cursor:pointer; font-weight:bold; font-size:13px; margin-top:5px;">⤵ Import from Bear Trap</button>
+            style="width:100%; padding:10px; background:transparent; border:1px dashed var(--accent); color:var(--accent-text, var(--accent)); border-radius:4px; cursor:pointer; font-weight:bold; font-size:13px; margin-top:5px;">⤵ Import from Bear Trap</button>
 
         <button id="vk-reset" class="btn-reset" data-i18n="btnReset" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 14px;">Reset</button>
     </aside>
@@ -168,7 +168,7 @@
     <!-- MAIN CONTENT : Résultats -->
     <main class="main-content flow">
         <div class="panel">
-            <h2 data-i18n="planTitle" style="color: var(--accent); margin-top: 0;">Vikings Distribution</h2>
+            <h2 data-i18n="planTitle" style="color: var(--accent-text, var(--accent)); margin-top: 0;">Vikings Distribution</h2>
             <p data-i18n="planDesc" style="color: var(--text-muted); font-size: 14px;">Enter your troops and capacity on the left. Distribution follows the Infantry → Cavalry → Archers priority, up to your march capacity.</p>
 
             <!-- Synthèse -->
@@ -206,7 +206,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

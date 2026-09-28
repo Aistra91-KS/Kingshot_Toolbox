@@ -26,7 +26,7 @@ const SITE = {
 
   // Version affichée dans le pied de page. À incrémenter EN MÊME TEMPS
   // qu'on ajoute une entrée en tête de data/changelog.json (même numéro).
-  version: "1.14.2",
+  version: "1.15.0",
 
   // Invitation Discord. Tant que la chaîne est vide, le pied de page
   // n'affiche pas le lien du tout (rien d'inachevé à l'écran).
@@ -84,7 +84,7 @@ const SITE = {
       name: { EN: "Database", FR: "Base de Données" },
       icon: "database",
       status: "active",
-      tools: ["buildings", "researchdb", "waresearch", "mastersdb", "petsdb"]
+      tools: ["heroesdb", "buildings", "researchdb", "waresearch", "mastersdb", "petsdb"]
     }
   ],
 
@@ -119,6 +119,15 @@ const SITE = {
       },
       icon: "shield",
       href: "waracademy"
+    },
+    heroesdb: {
+      name: { EN: "Heroes DB", FR: "Héros (BDD)" },
+      desc: {
+        EN: "Every hero's full reference: conquest and expedition skills, their effect and their value at each of the five levels, and the widget that goes with them.",
+        FR: "La référence complète de chaque héros : compétences de conquête et d'expédition, leur effet et leur valeur à chacun des cinq niveaux, et le widget qui va avec."
+      },
+      icon: "users",
+      href: "database/heroes/"
     },
     buildings: {
       name: { EN: "Buildings", FR: "Bâtiments" },

@@ -16,14 +16,14 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Kingshot War Academy Planner - Optimal TrueGold Troop Research | Kingshot Toolbox</title>
+    <title>Kingshot War Academy Planner - Optimal Research | Kingshot Toolbox</title>
     <meta name="description" content="Plan your TrueGold War Academy troop research. Suggest the optimal path for Classic, KvK points, or a target score.">
     <link rel="canonical" href="https://kingshottoolbox.com/waracademy">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
-    <meta property="og:title" content="Kingshot War Academy Planner - Optimal TrueGold Troop Research">
+    <meta property="og:title" content="Kingshot War Academy Planner - Optimal Research">
     <meta property="og:description" content="Plan your TrueGold War Academy troop research. Suggest the optimal path for Classic, KvK points, or a target score.">
     <meta property="og:url" content="https://kingshottoolbox.com/waracademy">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
@@ -65,6 +65,10 @@
                 <input type="number" id="dustBudget" value="0" min="0" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()">
             </div>
             <div class="control-row">
+                <label for="ttgBudget" data-i18n="ttgBudget">Tempered TrueGold</label>
+                <input type="number" id="ttgBudget" value="0" min="0" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()">
+            </div>
+            <div class="control-row">
                 <label for="accDays" data-i18n="days">Days</label>
                 <input type="number" id="accDays" value="2" min="0" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()">
             </div>
@@ -81,7 +85,7 @@
         <div class="control-group">
             <h3 data-i18n="modesFilters">Modes &amp; Filters</h3>
             <div class="control-row">
-                <label for="modeSelect" style="color:var(--accent); font-weight:bold;" data-i18n="modeLabel">Mode</label>
+                <label for="modeSelect" style="color:var(--accent-text, var(--accent)); font-weight:bold;" data-i18n="modeLabel">Mode</label>
                 <select id="modeSelect" onchange="WA.onModeChange()">
                     <option value="classic" data-i18n="modeClassic">Max researches</option>
                     <option value="kvk" data-i18n="modeKvk">KvK (max points)</option>
@@ -111,11 +115,27 @@
         <div class="panel">
             <h2 data-i18n="researchTree">Research Tree</h2>
             <p class="wa-hint" data-i18n="treeHint">Tap a node's level to set your current progress.</p>
-            <div class="tabs" id="wa-tabs"><!-- injected --></div>
-            <div class="wa-tree-wrap">
-                <div class="wa-tree" id="wa-tree">
-                    <svg class="wa-connectors" id="wa-connectors" aria-hidden="true"></svg>
-                    <!-- nodes injected --></div>
+            <!-- L'onglet ouvert décide des arbres du plan : base seule, avancé seul, ou
+                 les deux mélangés sur la suggestion globale (cf. MAP.md §12). -->
+            <div class="tabs wa-sections" id="wa-sections" role="tablist" aria-label="Research families">
+                <button type="button" class="tab active" role="tab" id="wa-sec-base-btn" aria-controls="wa-sec-base" aria-selected="true" tabindex="0" data-section="base" data-i18n="secBase">Basic research</button>
+                <button type="button" class="tab" role="tab" id="wa-sec-adv-btn" aria-controls="wa-sec-adv" aria-selected="false" tabindex="-1" data-section="advanced" data-i18n="secAdvanced">Advanced research</button>
+                <button type="button" class="tab" role="tab" id="wa-sec-global-btn" aria-controls="wa-sec-global" aria-selected="false" tabindex="-1" data-section="global" data-i18n="secGlobal">Global suggestion</button>
+            </div>
+            <div id="wa-sec-base" class="wa-section" role="tabpanel" tabindex="0" aria-labelledby="wa-sec-base-btn">
+                <div class="tabs" id="wa-tabs"><!-- injected --></div>
+                <div class="wa-tree-wrap">
+                    <div class="wa-tree" id="wa-tree">
+                        <svg class="wa-connectors" id="wa-connectors" aria-hidden="true"></svg>
+                        <!-- nodes injected --></div>
+                </div>
+            </div>
+            <div id="wa-sec-adv" class="wa-section" role="tabpanel" tabindex="0" aria-labelledby="wa-sec-adv-btn" hidden>
+                <p class="wa-hint wa-adv-hint" data-i18n="advHint">Researches unlock from War Academy TG5 to TG8. Set the level you have reached on each one. The suggestion below only uses advanced research.</p>
+                <div id="wa-adv"><!-- injected --></div>
+            </div>
+            <div id="wa-sec-global" class="wa-section" role="tabpanel" tabindex="0" aria-labelledby="wa-sec-global-btn" hidden>
+                <p class="wa-global-hint" data-i18n="globalHint">This suggestion mixes basic and advanced research when that earns more. Dust, Tempered TrueGold, coins and speedups are shared between both. Set your levels in the other two tabs.</p>
             </div>
             <div class="wa-legend">
                 <span class="wa-legend-item"><span class="wa-swatch is-max"></span> <span data-i18n="legMax">Maxed</span></span>
@@ -127,7 +147,7 @@
         </div>
 
         <div class="panel">
-            <h2 data-i18n="tradeTitle">Dust Exchanges</h2>
+            <h2 data-i18n="tradeTitle">Dust Exchanges and Crucible</h2>
             <p class="wa-hint" data-i18n="tradeHint">Coins and TrueGold buy dust every week. Tick the exchanges you agree to make. The plan converts only what it really needs.</p>
 
             <div class="wa-trade-stocks">
@@ -174,6 +194,23 @@
                 </table>
             </div>
             <div class="wa-trade-total"><span data-i18n="tradeTotal">Dust this plan buys</span> <b id="tradeTotalDust">0</b></div>
+
+            <!-- Creuset : le même TrueGold, transformé en TTG comme sur le Planificateur
+                 de bâtiments. Le plan choisit le partage avec les échanges ci-dessus. -->
+            <div class="wa-crucible">
+                <div class="wa-crucible-head">
+                    <input type="checkbox" id="creusetUse" checked onchange="WA.triggerUpdate()">
+                    <label for="creusetUse" data-i18n="crucibleTitle">Crucible: TrueGold → Tempered TrueGold</label>
+                </div>
+                <div class="wa-crucible-row">
+                    <label for="transfoUsed" data-i18n="transfoUsed">Transformations used (max 100)</label>
+                    <input type="number" id="transfoUsed" value="0" min="0" max="100" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()">
+                </div>
+                <div class="wa-crucible-row">
+                    <span class="wa-crucible-next" id="crucibleNext"></span>
+                    <span class="wa-trades-plan" id="tradePlanCrucible">—</span>
+                </div>
+            </div>
         </div>
 
         <div class="panel">
@@ -189,7 +226,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

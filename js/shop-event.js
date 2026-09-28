@@ -78,16 +78,16 @@ const i18nShopEvent = {
     evF2p: "F2P", evF2pSub: "Everything is gained, nothing is spent",
     evFromMilestones: "incl. {n} from milestones ({r} reached)",
     evUseBudget: "Use as budget",
-    evBudgetTip: "Copies this currency into “My currency” of the table above, to see what you can actually buy.",
+    evBudgetTip: "Copies this currency into \"My currency\" of the table above, to see what you can actually buy.",
     evBudgetDone: "Shop budget updated: {n}.",
-    evBudgetOk: "copied into “My currency”",
+    evBudgetOk: "copied into \"My currency\"",
     evMyBuys: "My event purchases",
     evPack: "Pack", evPrice: "Price", evDay: "D",
     evPerDay: "max {n}/day", evOnce: "single purchase", evMaxTotal: "{n} for the whole event",
     evUntilDay: "until D{n}", evUntilDayBoth: "max {p}/day, until D{n}",
     evClosedCell: "{p}: no longer on sale on D{d}",
     evNeeds: "after {p}", evLockedCell: "{p}: unlocked by buying {r}",
-    evPurchaseChk: "\u201C{m}\u201D mission done?",
+    evPurchaseChk: "\"{m}\" mission done?",
     evExploreTiers: "{n} of {t} milestones",
     evExploreTip: "How many Amulets you have SPENT since the event started. That is what unlocks the milestones, not how many you are holding. Milestones stack: everything below your total is already yours.",
     evOutside: "Days bought elsewhere",
@@ -108,14 +108,14 @@ const i18nShopEvent = {
     evTotalRow: "Rewards total",
     evTotalCount: "{n} of {t} items counted",
     evTipChk: "Every item counts toward the total and the value ratio. Untick the ones you don't care about: they leave the math right away.",
-    evChkLbl: "Count \u201C{x}\u201D toward the value",
+    evChkLbl: "Count \"{x}\" toward the value",
     evCurrencies: "Event currencies",
     evCoinsRow: "Adventure Coins", evStallRow: "Stall Points", evTravelRow: "Travel Points",
     evCoinsRowSub: "spent in the shop above",
     evStallRowSub: "{r} milestone(s) reached → +{n} coins",
     evTravelRowSub: "{r} tier(s) passed, one every {e} points from {f} on",
     evEurExcl: "€ value left out: the source pack does not price this item in a representative way.",
-    evPurchaseNote: "The “make a purchase” mission counts {n} day(s): those ticked in the grid, plus the purchases you made elsewhere.",
+    evPurchaseNote: "The \"make a purchase\" mission counts {n} day(s): those ticked in the grid, plus the purchases you made elsewhere.",
     evCartIn: "Shop cart counted: {v} ({n} items picked)",
     evCartEmpty: "Shop cart is empty: pick items in the table above to turn your currency into value.",
     evSrcNote: "Survey {tier}. The event currency has no value of its own: it is worth what you take from the shop.",
@@ -934,9 +934,9 @@ function seRenderPanne(host){
   host.innerHTML =
     '<div role="alert" style="margin:16px 0;padding:14px 16px;border:1px solid var(--border);'
     + 'border-left:4px solid #b45309;border-radius:8px">'
-    + '<b>' + (fr ? 'Données de l\u2019événement indisponibles' : 'Event data unavailable') + '</b>'
+    + '<b>' + (fr ? 'Données de l\'événement indisponibles' : 'Event data unavailable') + '</b>'
     + '<div style="margin-top:6px;color:var(--text-muted)">'
-    + (fr ? 'Le fichier n\u2019a pas pu être chargé, le plan ne peut donc pas être calculé.'
+    + (fr ? 'Le fichier n\'a pas pu être chargé, le plan ne peut donc pas être calculé.'
           : 'The file could not be loaded, so the plan cannot be calculated.')
     + '</div></div>';
   const b = document.createElement('button');

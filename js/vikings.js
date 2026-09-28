@@ -350,7 +350,7 @@ function importFromBearTrap() {
     overlay.className = 'custom-alert-overlay active';
     overlay.innerHTML = `
         <div class="custom-alert-box">
-            <h3 style="color:var(--accent); margin:0 0 15px; font-size:16px;">${tr('importTitle')}</h3>
+            <h3 style="color:var(--accent-text, var(--accent)); margin:0 0 15px; font-size:16px;">${tr('importTitle')}</h3>
             <div style="text-align:left; display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
                 <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
                     <input type="checkbox" class="imp-opt" value="troops" checked style="width:16px;height:16px;"> ${tr('impTroops')}
@@ -469,7 +469,7 @@ function vkInitHelp() {
                 "Enter your troops (Infantry, Cavalry, Archers) on the left.",
                 "Set your march capacity, the animal bonus and enable Pet if used, then the number of marches.",
                 "The distribution is computed automatically: each march is filled in Infantry → Cavalry → Archers order, up to your capacity.",
-                "You can import your troops and capacity straight from the Bear Trap via the “Import from Bear Trap” button."
+                "You can import your troops and capacity straight from the Bear Trap via the \"Import from Bear Trap\" button."
             ]
         },
         links: [

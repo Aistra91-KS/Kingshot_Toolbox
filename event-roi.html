@@ -16,15 +16,15 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Kingshot Event Shops &amp; Event ROI - Is the event worth it? | Kingshot Toolbox</title>
-    <meta name="description" content="Every Kingshot event shop in one place - Theater, Blizzard, Adventure Stall, Dragon's Caravan, Polar, Summit Contest - plus the return on investment of an event: what it cost in real money against the value of everything it handed out.">
+    <title>Kingshot Event Shops &amp; ROI - Is the event worth it? | Kingshot Toolbox</title>
+    <meta name="description" content="Every Kingshot event shop in one place (Theater, Blizzard, Adventure Stall, Dragon's Caravan, Polar, Summit Contest) and what an event returned for its cost.">
     <link rel="canonical" href="https://kingshottoolbox.com/event-roi">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
-    <meta property="og:title" content="Kingshot Event Shops &amp; Event ROI - Is the event worth it?">
-    <meta property="og:description" content="Every Kingshot event shop in one place - Theater, Blizzard, Adventure Stall, Dragon's Caravan, Polar, Summit Contest - plus the return on investment of an event: what it cost in real money against the value of everything it handed out.">
+    <meta property="og:title" content="Kingshot Event Shops &amp; ROI - Is the event worth it?">
+    <meta property="og:description" content="Every Kingshot event shop in one place (Theater, Blizzard, Adventure Stall, Dragon's Caravan, Polar, Summit Contest) and what an event returned for its cost.">
     <meta property="og:url" content="https://kingshottoolbox.com/event-roi">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -45,6 +45,10 @@
     <div class="db-page">
         <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <span data-en="Event ROI" data-fr="Rentabilité des Événements">Event ROI</span></div>
         <h1 data-en="Event ROI" data-fr="Rentabilité des Événements">Event ROI</h1>
+        <button type="button" class="help-btn" data-help="1"><span class="help-q">?</span><span class="help-btn-txt" data-en="How does it work?" data-fr="Comment ça marche ?">How does it work?</span></button>
+        <!-- Aide écrite en dur pour tenir sa place dès le premier affichage (MAP.md §9) ; help.js la reprend. -->
+        <div class="help-banner" data-help="1" hidden><span class="help-banner-txt" data-en="Every event has its shop, its currency and its end date. Three of them are broken down day by day and say what the event pays back against what it costs." data-fr="Chaque événement a sa boutique, sa monnaie et sa date de fin. Trois d&#x27;entre eux sont détaillés jour par jour et disent ce que l&#x27;événement rapporte face à ce qu&#x27;il coûte.">Every event has its shop, its currency and its end date. Three of them are broken down day by day and say what the event pays back against what it costs.</span><button class="help-banner-more" type="button">How does it work?</button><button class="help-banner-x" type="button" aria-label="Don't show again">&times;</button></div>
+        <script>(function(b){try{if(localStorage.getItem('help_seen_shop-events')==='1')return}catch(e){}b.hidden=false})(document.currentScript.previousElementSibling)</script>
         <p class="db-intro" data-en="Every event shop and what the event really pays back. Each shop page ranks its items by gem value; the three events with a full breakdown also add up what you spent in real money and what you received, day by day." data-fr="Toutes les boutiques d'événement, et ce que l'événement rapporte vraiment. Chaque page de boutique classe ses objets par valeur en gemmes ; les trois événements entièrement détaillés additionnent en plus ce que vous avez dépensé en argent réel et ce que vous avez reçu, jour par jour.">Every event shop and what the event really pays back. Each shop page ranks its items by gem value; the three events with a full breakdown also add up what you spent in real money and what you received, day by day.</p>
 
         <!-- ===== BOUTIQUES D'ÉVÉNEMENT ===== -->
@@ -177,7 +181,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

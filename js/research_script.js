@@ -52,7 +52,7 @@ const i18n = {
         'kvkLongSep': 'Last one, once the short ones are done: the longest research you can reach. KVK speed bonuses take far more off it than off a short one.',
         'kvkLongOnly': 'Your speedups do not finish a single research. Launch the longest one you can reach: KVK speed bonuses take far more off it than off a short one.',
         'kvkLongLeft': ' You still have {t} of speedups to put into it.',
-        'confirmDone': 'Ticking \u201C{name}\u201D also ticks the {n} research(es) it required: {list}. Go ahead?'
+        'confirmDone': 'Ticking "{name}" also ticks the {n} research(es) it required: {list}. Go ahead?'
     },
     'FR': {
         'controlPanel': 'Panneau de Contrôle', 'settings': 'Paramètres', 'language': 'Langue',
@@ -523,7 +523,7 @@ function buildCardHtml(title, s, treeKey, lang) {
                 <div class="stat-item">${resIc('brick-wall',16,lang)}<span>${formatNumber(s.s)}</span></div>
                 <div class="stat-item">${resIc('pickaxe',16,lang)}<span>${formatNumber(s.i)}</span></div>
                 <div class="stat-item">${resIc('coins',16,lang)}<span>${formatNumber(s.g)}</span></div>
-                <div class="stat-item" style="color:var(--accent)">${resIc('clock',16,lang)}<b>${formatTime(s.t)}</b></div>
+                <div class="stat-item" style="color:var(--accent-text, var(--accent))">${resIc('clock',16,lang)}<b>${formatTime(s.t)}</b></div>
             </div>
             ${suggHtml}
         </div>`;
@@ -728,7 +728,7 @@ function suggRowCells(item, rank, lang) {
     // quoi le bouton d'action sortait de l'écran et il fallait faire défiler le
     // tableau de côté pour l'atteindre.
     return `<td>${rank}</td>
-            <td style="font-weight:bold;color:var(--accent)"><span class="rs-name">${rsThumb(item, 20)}<span>${name}</span></span>${badge}<span class="sugg-tree-sm">${tree}</span></td>
+            <td style="font-weight:bold;color:var(--accent-text, var(--accent))"><span class="rs-name">${rsThumb(item, 20)}<span>${name}</span></span>${badge}<span class="sugg-tree-sm">${tree}</span></td>
             <td>${item.Level}</td>
             <td>${formatTime(item.discountedSeconds)}</td>
             <td>${tree}</td>
@@ -948,12 +948,12 @@ function rsInitHelp() {
             EN: [
                 "Copy the research speed bonus your city shows in game. It already counts Chief Minister, KVK and Kingdom when they are active, so there is nothing left to tick beside it, and no way to count them twice.",
                 "Pick a target tree (Growth, Economy or Battle) to filter the suggestions, or browse each tree's tab.",
-                "First-time setup: on a tree tab, turn on “Quick Select” (side panel) then tick the highest level you've reached in each research, and all its prerequisites get ticked at once. Unticking likewise clears what depends on it.",
-                "The “Optimal Search Order” tab lists the next researches to do, ranked from most to least efficient (time reduced by your bonus). The “Done” button on each row ticks it off without going through the tree, along with everything it required.",
-                "Two branches come first: “Tool Enhancement” (lightning bolt) shortens every research to come, “Tooling Up” (hammer) every build. The “Priority Researches” block in the side panel lets you switch one off, or both, when you are after something else. The tool offers them as soon as they unlock, it does not force the chain of prerequisites leading to them.",
-                "Turn on “KVK Mode” and enter your speedups (days / hours / minutes) to see only what you can actually finish within your stock: it also tells you how many more researches would be possible beyond that. Speed priority is lifted there, the goal being to finish as many as you can.",
+                "First-time setup: on a tree tab, turn on \"Quick Select\" (side panel) then tick the highest level you've reached in each research, and all its prerequisites get ticked at once. Unticking likewise clears what depends on it.",
+                "The \"Optimal Search Order\" tab lists the next researches to do, ranked from most to least efficient (time reduced by your bonus). The \"Done\" button on each row ticks it off without going through the tree, along with everything it required.",
+                "Two branches come first: \"Tool Enhancement\" (lightning bolt) shortens every research to come, \"Tooling Up\" (hammer) every build. The \"Priority Researches\" block in the side panel lets you switch one off, or both, when you are after something else. The tool offers them as soon as they unlock, it does not force the chain of prerequisites leading to them.",
+                "Turn on \"KVK Mode\" and enter your speedups (days / hours / minutes) to see only what you can actually finish within your stock: it also tells you how many more researches would be possible beyond that. Speed priority is lifted there, the goal being to finish as many as you can.",
                 "In KVK mode the last row goes past your stock on purpose: it is the longest research you can reach, to launch once the short ones are done. KVK speed bonuses take far more off it than off a short one.",
-                "Turn on “Hide completed” to keep only what's left to do."
+                "Turn on \"Hide completed\" to keep only what's left to do."
             ]
         }
     });
@@ -961,8 +961,16 @@ function rsInitHelp() {
 
 // ============ STARTUP ============
 (async function startup() {
-    await loadInitialDb();   // 1. Charger le JSON
-    initData();              // 2. Initialiser depuis le JSON ou localStorage
-    updateUI();              // 3. Afficher
+    try {
+        await loadInitialDb();   // 1. Charger le JSON
+        initData();              // 2. Initialiser depuis le JSON ou localStorage
+        updateUI();              // 3. Afficher
+    } finally {
+        // Fin de la réserve de hauteur du tableau des suggestions (css/style.css,
+        // `.is-loading`), rendu réussi ou non : sans elle, le tableau rempli
+        // repoussait d'un bloc le pied de page déjà affiché.
+        const tc = document.querySelector('#optimal-table')?.closest('.table-container');
+        if (tc) tc.classList.remove('is-loading');
+    }
     rsInitHelp();            // 4. Aide / onboarding
 })();

@@ -17,7 +17,7 @@ body:not(.hub-body) .db-page { width: 100%; min-width: 0; }
 /* ---------- sommaire : sections ---------- */
 .sx-section { margin: 34px 0 0; }
 .sx-section > h2 {
-  color: var(--accent); font-size: 16px; text-transform: uppercase; letter-spacing: .03em;
+  color: var(--accent-text, var(--accent)); font-size: 16px; text-transform: uppercase; letter-spacing: .03em;
   margin: 0 0 4px; border-bottom: 1px solid var(--border); padding-bottom: 8px;
   display: flex; align-items: baseline; gap: 10px;
 }
@@ -119,7 +119,7 @@ body:not(.hub-body) .db-page { width: 100%; min-width: 0; }
    pointe le bouton. La bordure suffit à dire que ça réagit. */
 .sx-more:hover { border-color: var(--accent); }
 /* Le focus clavier arrive sur la CASE (invisible) : c'est le libellé qui doit le montrer. */
-.sx-more-cb:focus-visible ~ .sx-more { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sx-more-cb:focus-visible ~ .sx-more { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: 2px; }
 .sx-more:active { transform: translateY(1px); }
 
 /* Chevron dessiné en CSS plutôt qu'un emoji : il doit tourner, et suivre la couleur du texte. */
@@ -160,7 +160,7 @@ body:not(.hub-body) .db-page { width: 100%; min-width: 0; }
 }
 .sx-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px var(--shadow); }
 .sx-card:hover::before { left: 100%; }
-.sx-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sx-card:focus-visible { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: 2px; }
 
 /* Place RÉSERVÉE à la vignette, en attendant que le JS la remplace par la vraie.
    Sans elle, `.sx-thumb-slot` est un span vide de hauteur nulle : à l'arrivée des données,
@@ -204,7 +204,7 @@ body:not(.hub-body) .db-page { width: 100%; min-width: 0; }
 .sx-name { font-size: 15px; font-weight: 700; line-height: 1.25; }
 .sx-meta { font-size: 12px; color: var(--text-muted); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .sx-meta .sx-dot { opacity: .5; }
-.sx-cur { color: var(--accent); font-weight: 600; }
+.sx-cur { color: var(--accent-text, var(--accent)); font-weight: 600; }
 
 /* ---------- événement terminé : grisé mais toujours cliquable ---------- */
 .sx-card.is-ended { border-top-color: var(--border); }
@@ -252,6 +252,32 @@ body:not(.hub-body) .db-page { width: 100%; min-width: 0; }
 .sx-hero-thumb .sx-thumb { border-bottom: none; height: 100%; }
 .sx-hero-text { min-width: 0; }
 .sx-hero-text h1 { margin: 0 0 4px; }
+
+/* Réserves de hauteur tant que shop-page.js n'a rien rendu. Pastilles, barre
+   d'action, panier et podium se remplissent à l'arrivée des données et poussaient
+   toute la page vers le bas (décalage de mise en page mesuré jusqu'à 0,71 sur
+   mobile, cf. MAP.md §9). Chaque valeur est la plus PETITE hauteur rendue relevée
+   sur les 20 boutiques, en anglais comme en français : `:empty` la retire dès le
+   rendu, et le bloc ne peut alors que grandir un peu, jamais rétrécir.
+   `.sx-page-event` est posée par tools/build_pages.py (champ de monnaie et panier
+   en plus). Le panier compte les 16 px de marge haute de `.sx-kpis`, qui sortent
+   de son cadre une fois rendu. */
+.sx-facts:empty   { min-height: 25px; }
+.sx-actions:empty { min-height: 56px; }
+.sx-podium:empty  { min-height: 70px; }
+#sp-table:empty   { min-height: 100vh; }
+.sx-page-event .sx-actions:empty { min-height: 99px; }
+.sx-page-event #sp-cart:empty    { min-height: 97px; }
+@media (max-width: 480px) {
+  /* À cette largeur, le texte finit toujours sous la vignette une fois les pastilles
+     posées : on l'y met d'emblée, sans quoi il sautait de côté à dessous. */
+  .sx-hero-text { flex-basis: 100%; }
+  .sx-actions:empty { min-height: 88px; }
+  .sx-podium:empty  { min-height: 234px; }
+  .sx-page-event .sx-facts:empty   { min-height: 58px; }
+  .sx-page-event .sx-actions:empty { min-height: 182px; }
+  .sx-page-event #sp-cart:empty    { min-height: 189px; }
+}
 .sx-facts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; color: var(--text-muted); }
 .sx-fact {
   display: inline-flex; align-items: center; gap: 6px;
@@ -283,7 +309,7 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
 .sx-table td.c-name, .sx-table th:nth-child(2) { width: 100%; }
 .sx-table th { white-space: nowrap; }
 .sx-table th.srt { cursor: pointer; user-select: none; }
-.sx-table th.srt:hover { color: var(--accent); }
+.sx-table th.srt:hover { color: var(--accent-text, var(--accent)); }
 .sx-table th.ctr, .sx-table td.ctr { text-align: center; }
 .sx-table th.rgt, .sx-table td.rgt { text-align: right; }
 .sx-table td.ctr, .sx-table td.rgt { font-variant-numeric: tabular-nums; }
@@ -310,7 +336,7 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
 .sx-table tr.is-top .sx-bar > span { background: #3B82F6; }
 .sx-tag {
   display: inline-block; margin-left: 6px; vertical-align: 1px;
-  background: #3B82F6; color: #fff; font-size: 10px; font-weight: 700;
+  background: #2563EB; color: #fff; font-size: 10px; font-weight: 700;   /* #3B82F6 ne tenait que 3,7:1 */
   padding: 1px 6px; border-radius: 8px; letter-spacing: .02em;
 }
 
@@ -372,7 +398,7 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
 .sx-kpi.good .sx-kpi-val { color: var(--success); }
 .sx-kpi.bad { border-color: #e5484d; }
 .sx-kpi.bad .sx-kpi-val, .sx-kpi.bad .sx-kpi-sub { color: #e5484d; }
-.sx-kpi.gemtile .sx-kpi-val { color: var(--accent); font-size: 19px; }
+.sx-kpi.gemtile .sx-kpi-val { color: var(--accent-text, var(--accent)); font-size: 19px; }
 
 /* ---------- colonne « Je prends » ---------- */
 .sx-table th.c-take, .sx-table td.c-take { white-space: nowrap; width: 1%; }
@@ -397,7 +423,7 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
   background: transparent; color: var(--text-muted);
   border: 1px solid var(--border); border-radius: 5px; cursor: pointer; vertical-align: middle;
 }
-.sx-maxbtn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.sx-maxbtn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent-text, var(--accent)); }
 .sx-maxbtn:disabled { opacity: .3; cursor: default; }
 
 /* Ligne retenue au panier */
@@ -419,10 +445,10 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
 /* Contenu aligné à gauche : `.backup-fab` est en position:fixed à droite avec z-index 9000,
    il passera toujours devant. On lui laisse le champ libre plutôt que de rivaliser. */
 .sx-cartbar > * { flex: 0 0 auto; }
-.sx-cartbar-lbl { color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; font-size: 12px; }
+.sx-cartbar-lbl { color: var(--accent-text, var(--accent)); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; font-size: 12px; }
 .sx-cartbar-item { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .sx-cartbar-item b { color: var(--text-light); font-size: 14px; }
-.sx-cartbar-item.gem b { color: var(--accent); }
+.sx-cartbar-item.gem b { color: var(--accent-text, var(--accent)); }
 .sx-cartbar-left {
   white-space: nowrap; padding: 3px 12px; border-radius: 999px;
   background: var(--control-bg); border: 1px solid color-mix(in srgb, var(--success) 45%, transparent);
@@ -433,7 +459,7 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
 @media (max-width: 560px) {
   .sx-cartbar { gap: 6px 12px; padding: 9px 12px; font-size: 12px; }
 }
-.sx-table tfoot tr.sx-total td.c-name { font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .03em; font-size: 12px; }
+.sx-table tfoot tr.sx-total td.c-name { font-weight: 700; color: var(--accent-text, var(--accent)); text-transform: uppercase; letter-spacing: .03em; font-size: 12px; }
 .sx-table tfoot b { font-size: 14px; }
 
 /* ---------- mode édition ---------- */
@@ -474,6 +500,21 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
   font-variant-numeric: tabular-nums;
 }
 .sx-cur-field input:focus { outline: none; border-color: var(--accent); }
+/* Sur téléphone, le champ de monnaie devient une ligne de formulaire pleine largeur :
+   libellé à gauche, saisie alignée à droite. En pastille `nowrap`, un nom de monnaie
+   long (« Pièces des Étoiles Jumelles ») poussait la page de 35 px à 360 px de large
+   et coupait la saisie ; passé sur deux lignes, la pilule se déformait. Le libellé
+   seul peut aller à la ligne, la saisie reste sur la première. */
+@media (max-width: 560px) {
+  .sx-actions .sx-cur-field {
+    flex: 1 1 100%; justify-content: space-between; gap: 12px;
+    white-space: normal; border-radius: 10px; padding: 8px 10px 8px 14px; font-size: 14px;
+  }
+  .sx-cur-field .sx-cur-lbl { min-width: 0; line-height: 1.3; }
+  /* 16 px : en dessous, Safari sur iPhone zoome la page quand on touche le champ.
+     44 px de haut : la taille d'une cible au doigt. */
+  .sx-cur-field input { box-sizing: border-box; flex: none; width: 108px; min-height: 44px; padding: 6px 10px; font-size: 16px; border-radius: 8px; }
+}
 .sx-btn {
   display: inline-flex; align-items: center; gap: 7px;
   background: var(--control-bg); color: var(--text-light);
@@ -481,7 +522,7 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
   padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
   transition: border-color .15s, background .15s, color .15s;
 }
-.sx-btn:hover { border-color: var(--accent); color: var(--accent); }
+.sx-btn:hover { border-color: var(--accent); color: var(--accent-text, var(--accent)); }
 .sx-btn.on { background: var(--accent); border-color: var(--accent); color: #000; }
 .sx-btn.on:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #000; }
 .sx-btn.primary { background: var(--accent); border-color: var(--accent); color: #000; }
@@ -511,12 +552,12 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
   border-left: 4px solid var(--cat);
 }
 .sx-pod-rank { font-size: 18px; font-weight: 800; color: var(--text-muted); min-width: 22px; }
-.sx-pod:first-child .sx-pod-rank { color: var(--accent); }
+.sx-pod:first-child .sx-pod-rank { color: var(--accent-text, var(--accent)); }
 .sx-pod-img { width: 44px; height: 44px; flex: 0 0 44px; background-size: contain; background-repeat: no-repeat; background-position: center; }
 .sx-pod-txt { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .sx-pod-name { font-size: 13px; font-weight: 600; line-height: 1.25; }
 .sx-pod-val { font-size: 12px; color: var(--text-muted); }
-.sx-pod-val b { color: var(--accent); font-size: 14px; }
+.sx-pod-val b { color: var(--accent-text, var(--accent)); font-size: 14px; }
 
 /* ---------- responsive ---------- */
 @media (max-width: 560px) {
@@ -580,7 +621,7 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
 }
 .sx-reflink:hover { border-color: var(--success); background: color-mix(in srgb, var(--success) 10%, var(--control-bg)); }
 .sx-reflink:focus-visible { outline: 2px solid var(--success); outline-offset: 2px; }
-.sx-reflink.is-eur .sx-reflink-glyph { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); }
+.sx-reflink.is-eur .sx-reflink-glyph { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent-text, var(--accent)); }
 .sx-reflink.is-eur:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--control-bg)); }
 .sx-reflink.is-eur:focus-visible { outline-color: var(--accent); }
 /* Un seul filet pour tout le bas de page : celui de .sx-reflinks. */
@@ -611,9 +652,9 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
 
 /* Valeur en euros : l'or de la charte, distinct du turquoise des gemmes —
    les deux lectures ne doivent jamais se confondre d'un coup d'oeil. */
-.sx-table td.eur { color: var(--accent); font-weight: 600; }
-.sx-kpi.eurtile .sx-kpi-val { color: var(--accent); font-size: 19px; }
-.sx-cartbar-item.eur b { color: var(--accent); }
+.sx-table td.eur { color: var(--accent-text, var(--accent)); font-weight: 600; }
+.sx-kpi.eurtile .sx-kpi-val { color: var(--accent-text, var(--accent)); font-size: 19px; }
+.sx-cartbar-item.eur b { color: var(--accent-text, var(--accent)); }
 
 /* Un ratio en euros descend jusqu'à 6 décimales (Arène, Magasin des Marées) :
    la colonne doit tenir le chiffre entier sans rejeter la barre à la ligne. */
@@ -626,7 +667,7 @@ body.has-app-header .db-section table.sx-table { width: 100%; }
    Cette page utilise .db-table (comme le référentiel gemmes) et n'hérite donc d'aucun
    style .sx-table : la couleur de la valeur est à redonner ici. */
 table.db-table td.eur {
-  color: var(--accent); font-weight: 600;
+  color: var(--accent-text, var(--accent)); font-weight: 600;
   text-align: right; font-variant-numeric: tabular-nums;
 }
 table.db-table td .dash { color: var(--text-muted); opacity: .55; font-style: italic; }
@@ -642,8 +683,8 @@ button.ie-pack {
   text-decoration: underline dotted var(--border); text-underline-offset: 3px;
   transition: color .15s;
 }
-button.ie-pack:hover, button.ie-pack:focus-visible { color: var(--accent); text-decoration-color: var(--accent); }
-button.ie-pack:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+button.ie-pack:hover, button.ie-pack:focus-visible { color: var(--accent-text, var(--accent)); text-decoration-color: var(--accent); }
+button.ie-pack:focus-visible { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: 2px; border-radius: 3px; }
 button.ie-pack .ic-img { opacity: .5; flex: 0 0 auto; transition: opacity .15s; }
 button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1; }
 
@@ -668,7 +709,7 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
   background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 16%, transparent), var(--bg-panel));
   border-right-color: var(--border);
 }
-.sx-card.sx-ref-eur .sx-ref-glyph { color: var(--accent); }
+.sx-card.sx-ref-eur .sx-ref-glyph { color: var(--accent-text, var(--accent)); }
 /* « Multipack » n'est pas un nom de pack mais un état : plusieurs packs à égalité,
    donc aucune image à montrer. On le distingue visuellement des vrais noms. */
 .ie-pack.is-multi { color: var(--text-muted); font-style: italic; }
@@ -692,7 +733,7 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .ie-tag.is-derived {
   border-color: color-mix(in srgb, var(--accent) 45%, transparent);
   background: color-mix(in srgb, var(--accent) 12%, transparent);
-  color: var(--accent);
+  color: var(--accent-text, var(--accent));
 }
 .ie-tag.is-scaled {
   border-color: color-mix(in srgb, var(--accent) 38%, transparent);
@@ -711,7 +752,7 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
   border: 1px solid var(--border); border-left: 3px solid var(--accent);
   border-radius: 10px; background: var(--control-bg);
 }
-.ie-derived-h { margin: 0 0 6px; font-size: 15px; color: var(--accent); }
+.ie-derived-h { margin: 0 0 6px; font-size: 15px; color: var(--accent-text, var(--accent)); }
 .ie-derived-intro { margin: 0 0 10px; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 .ie-derived-list { margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-light); line-height: 1.6; }
 .ie-derived-list li + li { margin-top: 8px; }
@@ -722,7 +763,7 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 }
 /* Le calcul chiffré passe à la ligne : collé au texte il se lisait comme sa fin de phrase. */
 .ie-derived-sum {
-  display: block; margin-top: 3px; color: var(--accent);
+  display: block; margin-top: 3px; color: var(--accent-text, var(--accent));
   font-weight: 600; font-variant-numeric: tabular-nums;
 }
 
@@ -782,14 +823,14 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 }
 .sxe-panel > summary, .sxe-detail > summary {
   cursor: pointer; padding: 11px 14px; font-weight: 600; font-size: 14px;
-  color: var(--accent); list-style: none; display: flex; align-items: center; gap: 8px;
+  color: var(--accent-text, var(--accent)); list-style: none; display: flex; align-items: center; gap: 8px;
 }
 .sxe-panel > summary::-webkit-details-marker, .sxe-detail > summary::-webkit-details-marker { display: none; }
 .sxe-panel > summary::before, .sxe-detail > summary::before {
   content: '▸'; font-size: 11px; transition: transform .15s;
 }
 .sxe-panel[open] > summary::before, .sxe-detail[open] > summary::before { transform: rotate(90deg); }
-.sxe-panel > summary:focus-visible, .sxe-detail > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 10px; }
+.sxe-panel > summary:focus-visible, .sxe-detail > summary:focus-visible { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: -2px; border-radius: 10px; }
 .sxe-detail { margin: 14px; background: var(--control-bg); }
 
 .sxe-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 0 14px 12px; }
@@ -827,10 +868,10 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .sxe-grid th.rgt, .sxe-grid td.rgt { text-align: right; font-variant-numeric: tabular-nums; }
 .sxe-grid td.c-pack { white-space: normal; min-width: 165px; line-height: 1.25; }
 .sxe-grid td.sxe-price { color: var(--text-muted); }
-.sxe-grid td.c-tot { color: var(--accent); font-weight: 600; }
+.sxe-grid td.c-tot { color: var(--accent-text, var(--accent)); font-weight: 600; }
 .sxe-grid .dash { color: var(--text-muted); opacity: .55; }
 .sxe-grid tfoot .sxe-foot { background: var(--table-header); font-size: 12px; color: var(--text-muted); }
-.sxe-grid tfoot .sxe-foot b { color: var(--accent); font-size: 14px; }
+.sxe-grid tfoot .sxe-foot b { color: var(--accent-text, var(--accent)); font-size: 14px; }
 /* Colonne du pack figée pendant le défilement horizontal. */
 .sxe-grid th.c-pack, .sxe-grid td.c-pack { position: sticky; left: 0; z-index: 1; background: var(--bg-panel); box-shadow: 1px 0 0 var(--border); }
 .sxe-grid thead th.c-pack { z-index: 3; background: var(--table-header); }
@@ -848,9 +889,9 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
   font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums;
   transition: background .12s, color .12s, border-color .12s;
 }
-.sxe-cell:hover { border-color: var(--accent); color: var(--accent); }
+.sxe-cell:hover { border-color: var(--accent); color: var(--accent-text, var(--accent)); }
 .sxe-cell.on { background: var(--accent); border-color: var(--accent); color: #000; }
-.sxe-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sxe-cell:focus-visible { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: 2px; }
 /* Jour où le pack n'est plus en vente. Un <span>, pas un <button> désactivé : il n'y
    a rien à activer, et un bouton inerte se tabule encore sur certains navigateurs.
    La colonne garde sa largeur, sans quoi la grille se décalerait d'un cran sur la
@@ -929,7 +970,7 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
    dans la cellule, il ne participe pas à la résolution des bordures collapsées et
    reste rectiligne quoi qu'il arrive aux lignes voisines. */
 .sxe-rewards tr.sxe-total-row td { background: var(--table-header); box-shadow: inset 0 -2px 0 var(--accent); }
-.sxe-rewards tr.sxe-total-row td.c-name { font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .03em; font-size: 12px; }
+.sxe-rewards tr.sxe-total-row td.c-name { font-weight: 700; color: var(--accent-text, var(--accent)); text-transform: uppercase; letter-spacing: .03em; font-size: 12px; }
 .sxe-rewards tr.sxe-total-row td.c-name .sx-sub { text-transform: none; letter-spacing: 0; font-weight: 400; }
 .sxe-rewards tr.sxe-total-row td.gem, .sxe-rewards tr.sxe-total-row td.eur { font-size: 14px; font-weight: 700; }
 
@@ -942,7 +983,7 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
   font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums;
 }
 .sxe-num:focus { outline: none; border-color: var(--accent); }
-.sxe-num.on { border-color: var(--accent); color: var(--accent); }
+.sxe-num.on { border-color: var(--accent); color: var(--accent-text, var(--accent)); }
 .sxe-num::placeholder { color: var(--text-muted); opacity: .5; font-weight: 400; }
 /* Case « mission validée » : une pastille de la barre d'outils, cliquable en entier. */
 .sxe-chk-fact { cursor: pointer; gap: 7px; }
@@ -965,7 +1006,7 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .stx-root .sxe-gridbox, .stx-root .sxe-note { margin-left: 0; margin-right: 0; }
 .stx-root .sxe-toolbar { padding-left: 0; padding-right: 0; }
 .stx-root h2 { font-size: 17px; margin: 0 0 4px; }
-.stx-root h3 { font-size: 14px; margin: 22px 0 4px; color: var(--accent); }
+.stx-root h3 { font-size: 14px; margin: 22px 0 4px; color: var(--accent-text, var(--accent)); }
 
 /* Barème de jetons : replié par défaut, il ne se touche qu'une fois. */
 .stx-toks { margin-top: 12px; }
@@ -987,7 +1028,7 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .stx-verdict p:last-child { margin-bottom: 0; }
 .stx-verdict strong { color: var(--text-light); }
 .stx-claim { color: var(--success) !important; }
-.stx-push { color: var(--accent) !important; }
+.stx-push { color: var(--accent-text, var(--accent)) !important; }
 
 /* Jauge de probabilité : une piste de largeur fixe, remplie à hauteur de la
    chance, puis la valeur. L'ancienne version peignait une barre en fond de
@@ -1015,7 +1056,7 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .sxe-grid tbody tr.stx-best td.c-pack { background: color-mix(in srgb, var(--success) 10%, var(--bg-panel)); }
 .sxe-grid tbody tr.stx-best:hover { background: color-mix(in srgb, var(--success) 16%, transparent); }
 .sxe-grid tbody tr.stx-best:hover td.c-pack { background: color-mix(in srgb, var(--success) 16%, var(--bg-panel)); }
-.stx-ratio { font-weight: 700; color: var(--accent); }
+.stx-ratio { font-weight: 700; color: var(--accent-text, var(--accent)); }
 /* Le lot d'une exploration ratée est un GAIN au milieu d'un tableau de coûts :
    sans la couleur du succès, la colonne se lisait comme une dépense de plus. */
 .stx-lot { color: var(--success); }
@@ -1132,6 +1173,11 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 .sxv-rule-lbl {
   display: block; margin-bottom: 3px;
   font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-text, var(--accent));
 }
 .sxv-note { margin: 12px 0 0; font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
+
+/* Lien vers l'autre langue d'une page qui existe en deux URL (Magasin du Théâtre,
+   MAP.md §4). Collé sous l'intro, dont il reprend la marge basse. */
+.sx-langalt { margin: -12px 0 22px; font-size: 13px; }
+.sx-langalt a { color: var(--accent-text, var(--accent)); }

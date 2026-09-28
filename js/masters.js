@@ -314,7 +314,7 @@ function injectValue(textObj, lang, value) {
         if (before) return full;   // X collé à une lettre -> intact (EXP, max...)
         const v = parts[Math.min(i, parts.length - 1)];
         i++;
-        return `<span style="color: var(--accent); font-weight: bold;">${v}</span>`;
+        return `<span style="color: var(--accent-text, var(--accent)); font-weight: bold;">${v}</span>`;
     });
 }
 
@@ -391,7 +391,7 @@ function updateMasterUI() {
                 <div class="skill-header">
                     <div class="skill-icon" style="background-image: url('img/MasterSkill/${safePassiveImg}.webp');"></div>
                     <div class="skill-info">
-                        <div class="skill-name" style="color: var(--accent); font-weight: bold;">${pName} (${dict.lvlPrefix}${passiveLvlIndex + 1})</div>
+                        <div class="skill-name" style="color: var(--accent-text, var(--accent)); font-weight: bold;">${pName} (${dict.lvlPrefix}${passiveLvlIndex + 1})</div>
                         <div class="skill-effect" style="color: var(--text-muted);">${master.passive.TextToInclude ? injectValue(master.passive.TextToInclude, lang, pEffect) : pEffect}</div>
                     </div>
                 </div>
@@ -524,7 +524,7 @@ function msInitHelp() {
     if (!window.HelpSystem) return;
     HelpSystem.init({
         id: 'masters', banner: true, anchor: '[data-i18n="pageTitle"]',
-        title: { FR: 'Conseil des Experts — Aide', EN: 'Hall of Masters — Help' },
+        title: { FR: 'Conseil des Experts : Aide', EN: 'Hall of Masters: Help' },
         summary: {
             FR: "Gère tes experts et calcule leur bonus d'affinité exact. Saisis le niveau et coche les paliers de percée (les emblèmes dépensés) : l'outil affiche le bonus réel, ta relation et ton expertise passive.",
             EN: "Manage your experts and get their exact affinity bonus. Enter the level and tick the breakthroughs you've paid (emblems spent): the tool shows the real bonus, your relationship tier and passive expertise."
@@ -540,7 +540,7 @@ function msInitHelp() {
                 "Open an expert and enter its level (1-100).",
                 "Tick the breakthroughs whose emblems you've spent. Gates already passed by your level are auto-ticked; the one at your exact level is your choice.",
                 "The exact affinity bonus is shown. If a required breakthrough is missing, a warning tells you how many emblems to spend (the bonus stays capped until then).",
-                "Then set your skills; use search, sorting and “Hide locked experts” to browse."
+                "Then set your skills; use search, sorting and \"Hide locked experts\" to browse."
             ]
         }
     });

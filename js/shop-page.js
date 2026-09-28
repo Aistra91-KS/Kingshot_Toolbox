@@ -126,7 +126,7 @@ function spRenderActions(){
   const lang=scLang(), shop=spShop();
   let html=spViewTabsHtml();
   if(spIsEvent()){
-    html+=`<label class="sx-fact sx-cur-field">${scEscAttr(scResName(shop,lang))} :
+    html+=`<label class="sx-fact sx-cur-field"><span class="sx-cur-lbl">${scEscAttr(scResName(shop,lang))} :</span>
       <input type="number" min="0" inputmode="numeric" value="${Math.max(0,Number(shop.resources)||0)}" onchange="spEditResources(this.value)"></label>`;
   }
   if(spEditable()){
@@ -595,7 +595,7 @@ function spNotifyEvent(){ if(window.ShopEvent) ShopEvent.refresh(); }
   SP_SORT.cur = { col: scIsEur()?'ratioEur':'ratio', dir:-1 };
   if(!SP){
     const host=spEl('sp-table');
-    if(host) host.innerHTML=`<p style="color:var(--text-muted);">Shop “${scEscAttr(window.SHOP_SLUG||'')}” introuvable.</p>`;
+    if(host) host.innerHTML=`<p style="color:var(--text-muted);">Shop "${scEscAttr(window.SHOP_SLUG||'')}" introuvable.</p>`;
     return;
   }
   spRenderAll();
@@ -619,12 +619,12 @@ function spNotifyEvent(){ if(window.ShopEvent) ShopEvent.refresh(); }
           "Le bouton « Modifier » (crayon) ouvre le mode édition : quantités, coûts et stock restant deviennent modifiables, et tu peux ajouter ou retirer des objets si ta boutique en jeu diffère.",
           "Les valeurs en gemmes se modifient sur la page « Valeur des objets », et le changement se répercute sur toutes les boutiques.",
           "Les pastilles « 💵 $ / € » et « 💎 Gemmes » ouvrent deux lectures indépendantes de la même boutique. L'argent réel, affiché d'entrée, s'appuie sur le prix des packs payants ; un « — » signale un objet qu'aucun pack ne permet de chiffrer. Les pastilles € / $ à côté changent de devise."],
-      EN:["Ratio = item value ÷ cost, in the active reading. The higher it is, the better the deal; the shop's best one is tagged “Top”.",
+      EN:["Ratio = item value ÷ cost, in the active reading. The higher it is, the better the deal; the shop's best one is tagged \"Top\".",
           "Click a column header to sort the table.",
-          "On an event shop, enter your currency at the top: the “Obtainable” column shows what you can really get before it ends.",
-          "The “Edit” (pencil) button opens edit mode: quantities, costs and remaining stock become editable, and you can add or remove items if your in-game shop differs.",
-          "Gem values are edited on the “Item values” page, and the change applies to every shop.",
-          "The “💵 $ / €” and “💎 Gems” pills open two independent readings of the same shop. Real money, shown first, is based on the price of the paid packs; a “—” marks an item no pack can put a price on. The € / $ pills next to them switch currency."]
+          "On an event shop, enter your currency at the top: the \"Obtainable\" column shows what you can really get before it ends.",
+          "The \"Edit\" (pencil) button opens edit mode: quantities, costs and remaining stock become editable, and you can add or remove items if your in-game shop differs.",
+          "Gem values are edited on the \"Item values\" page, and the change applies to every shop.",
+          "The \"💵 $ / €\" and \"💎 Gems\" pills open two independent readings of the same shop. Real money, shown first, is based on the price of the paid packs; a \"—\" marks an item no pack can put a price on. The € / $ pills next to them switch currency."]
     },
     // Le sommaire de la famille, pas « les boutiques » en bloc : depuis une boutique
     // d'événement, shop_calc ne la liste plus (cf. MAP.md §13).

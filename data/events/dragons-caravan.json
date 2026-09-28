@@ -13,7 +13,7 @@
       "id": "login",
       "name": {
         "EN": "Log in once today",
-        "FR": "Se connecter 1 fois aujourd’hui"
+        "FR": "Se connecter 1 fois aujourd'hui"
       },
       "coins": 5
     },
@@ -21,7 +21,7 @@
       "id": "alliance",
       "name": {
         "EN": "Make 25 Alliance Contributions",
-        "FR": "Faire 25 contributions à l’Alliance"
+        "FR": "Faire 25 contributions à l'Alliance"
       },
       "coins": 5
     },
@@ -80,7 +80,7 @@
       "id": "speedups",
       "name": {
         "EN": "Use 5,000m of any Speedup",
-        "FR": "Utiliser 5 000 m d’accélérateurs"
+        "FR": "Utiliser 5 000 m d'accélérateurs"
       },
       "coins": 30
     },

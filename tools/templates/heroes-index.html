@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
+    try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <script>
+      if (navigator.webdriver) window['ga-disable-G-M1QG4XSD3K'] = true; // navigateur piloté (robot, test automatisé) : pas de mesure
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-M1QG4XSD3K');
+    </script>
+    <base href="../../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Heroes Database - Conquest &amp; Expedition Skills | Kingshot Toolbox</title>
+    <meta name="description" content="{{DESCRIPTION}}">
+    <link rel="canonical" href="https://kingshottoolbox.com/database/heroes/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kingshot Toolbox">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:title" content="Heroes Database - Conquest &amp; Expedition Skills">
+    <meta property="og:description" content="{{DESCRIPTION}}">
+    <meta property="og:url" content="https://kingshottoolbox.com/database/heroes/">
+    <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Kingshot Toolbox - free calculators, optimizers and databases for Kingshot">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="img/logo/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo/favicon-96.png">
+    <link rel="alternate icon" type="image/png" href="img/logo/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/db.css">
+    <link rel="stylesheet" href="css/db-heroes.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Heroes","item":"https://kingshottoolbox.com/database/heroes/"}]}</script>
+</head>
+<body class="has-app-header">
+    <div class="db-page db-index db-cards-sm">
+        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <span data-i18n="crumb">Heroes</span></div>
+        <h1 data-i18n="idxTitle">Heroes: Conquest &amp; Expedition Skills</h1>
+        <p class="db-intro" data-en="{{INTRO_EN}}" data-fr="{{INTRO_FR}}">{{INTRO_TXT}}</p>
+{{SECTIONS}}        <p class="hb-backlink"><a href="caserne" data-en="Track your own heroes and their levels on the Heroes page &rarr;" data-fr="Suivez vos héros et leurs niveaux sur la page Héros &rarr;">Track your own heroes and their levels on the Heroes page &rarr;</a></p>
+    </div>
+{{DRAWER}}
+    <script src="js/site-config.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'database/heroes/';</script>
+    <script src="js/profiles.js"></script>
+    <script src="js/header.js"></script>
+    <script>
+    (function(){
+      const dict = {
+        FR: { crumb:"Héros", idxTitle:"Héros : compétences de conquête et d'expédition" },
+        EN: { crumb:"Heroes", idxTitle:"Heroes: Conquest & Expedition Skills" }
+      };
+      function apply(){
+        const lang=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR';
+        if(window.GlobalLang&&GlobalLang.applyI18n) GlobalLang.applyI18n(dict[lang]||dict.FR);
+        document.querySelectorAll('[data-en][data-fr]').forEach(el=>{ el.textContent = el.getAttribute('data-'+lang.toLowerCase()) || el.textContent; });
+        document.documentElement.lang=lang.toLowerCase();
+      }
+      window.addEventListener('langChanged', apply); apply();
+    })();
+    </script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

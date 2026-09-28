@@ -62,7 +62,7 @@
         /* Badge de liaison compétence (Expert / Animal) sous le champ */
         .link-row { display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-top: -4px; margin-bottom: 6px; min-height: 16px; font-size: 11px; }
         .link-badge { font-weight: bold; }
-        .link-sync { background: transparent; border: 1px solid var(--border); color: var(--accent); border-radius: 4px; cursor: pointer; padding: 0 6px; font-size: 12px; line-height: 1.5; display: none; align-items: center; transition: background 0.2s; }
+        .link-sync { background: transparent; border: 1px solid var(--border); color: var(--accent-text, var(--accent)); border-radius: 4px; cursor: pointer; padding: 0 6px; font-size: 12px; line-height: 1.5; display: none; align-items: center; transition: background 0.2s; }
         .link-sync:hover { background: rgba(245, 184, 64, 0.12); }
 
         /* --- NOUVEAU : Styles pour le Studio de Déploiement --- */
@@ -75,7 +75,7 @@
         .btn-edit { background: rgba(245, 184, 64, 0.1); color: #f5b840; border: 1px solid rgba(245, 184, 64, 0.3); padding: 4px 8px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
         .btn-edit:hover { background: #f5b840; color: #000; }
         .march-actions { display: flex; gap: 8px; }
-        .btn-add { background: transparent; border: 1px dashed var(--accent); color: var(--accent); padding: 8px 15px; border-radius: 4px; cursor: pointer; width: 100%; transition: all 0.2s; font-weight: bold; }
+        .btn-add { background: transparent; border: 1px dashed var(--accent); color: var(--accent-text, var(--accent)); padding: 8px 15px; border-radius: 4px; cursor: pointer; width: 100%; transition: all 0.2s; font-weight: bold; }
         .btn-add:hover { background: rgba(245, 184, 64, 0.1); }
         
         /* Menu d'autorisation des héros joiners */
@@ -107,7 +107,7 @@
     <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Kingshot Bear Trap Calculator</h1>
     <!-- SIDEBAR : Formulaire de saisie -->
     <aside class="sidebar">
-        <h2 data-i18n="titleParams" style="color: var(--accent); margin-top: 0;">Settings</h2>
+        <h2 data-i18n="titleParams" style="color: var(--accent-text, var(--accent)); margin-top: 0;">Settings</h2>
         
         <!-- Bloc 1 : Troupes (Ordre modifié : Inf > Cav > Arc) -->
         <div class="control-group">
@@ -216,12 +216,12 @@
     <!-- MAIN CONTENT : Affichage des résultats -->
     <main class="main-content flow">
         <div class="panel">
-            <h2 data-i18n="planTitle" style="color: var(--accent); margin-top: 0;">Deployment Plan</h2>
+            <h2 data-i18n="planTitle" style="color: var(--accent-text, var(--accent)); margin-top: 0;">Deployment Plan</h2>
             <p data-i18n="planDesc" style="color: var(--text-muted); font-size: 14px;">Prepare your custom marches and let the tool generate the rest automatically.</p>
             <!-- NOUVEAU : Studio de Déploiement -->
             <div id="deployment-studio" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px;">
                 <div class="studio-header">
-                    <h3 data-i18n="studioTitle" style="margin: 0; font-size: 16px; color: var(--accent);">Custom Marches</h3>
+                    <h3 data-i18n="studioTitle" style="margin: 0; font-size: 16px; color: var(--accent-text, var(--accent));">Custom Marches</h3>
                     <span id="remaining-marches-badge" style="font-size: 12px; color: var(--text-muted); font-weight: bold;">0 / 5 utilisées</span>
                 </div>
                 <div id="custom-marches-list">
@@ -236,7 +236,7 @@
     <!-- NOUVEAU : Fenêtre Pop-up Création de Marche -->
     <div class="modal-overlay" id="custom-march-modal">
         <div class="modal-content">
-            <h3 data-i18n="modalTitle" style="margin-top: 0; color: var(--accent);">Custom March</h3>
+            <h3 data-i18n="modalTitle" style="margin-top: 0; color: var(--accent-text, var(--accent));">Custom March</h3>
             
             <div class="control-row" style="margin-bottom: 15px;">
                 <label for="cm-name" data-i18n="modalName">March Name</label>
@@ -255,9 +255,9 @@
             <!-- Infos Capacité & Troupes -->
             <div style="font-size: 12px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border); line-height: 1.6;">
                 <div style="color: var(--text-light); margin-bottom: 4px;">
-                    <span data-i18n="modalCap">Capacité de la marche :</span> <strong id="modal-max-cap" style="color: var(--accent);">0</strong>
+                    <span data-i18n="modalCap">Capacité de la marche :</span> <strong id="modal-max-cap" style="color: var(--accent-text, var(--accent));">0</strong>
                 </div>
-                <div id="modal-remaining-troops" style="color: var(--accent);">
+                <div id="modal-remaining-troops" style="color: var(--accent-text, var(--accent));">
                     Disponibles : 🛡️ 0 | 🐎 0 | 🏹 0
                 </div>
             </div>
@@ -295,7 +295,7 @@
                     <select id="cm-hero-3" class="table-select" style="width: 28%;"><option value="">Héros 3</option></select>
                 </div>
                 <div class="control-row">
-                    <label style="cursor: pointer; color: var(--accent); font-weight: bold; display: flex; align-items: center; gap: 8px;">
+                    <label style="cursor: pointer; color: var(--accent-text, var(--accent)); font-weight: bold; display: flex; align-items: center; gap: 8px;">
                         <input type="checkbox" id="cm-is-host"> <span data-i18n="modalIsHost">I am hosting the rally (Organizer)</span>
                     </label>
                 </div>
@@ -311,7 +311,7 @@
     <!-- NOUVEAU : Menu d'autorisation des héros joiners -->
     <div class="modal-overlay" id="joiner-auth-modal">
         <div class="modal-content" style="width: 420px; max-height: 85vh; display: flex; flex-direction: column;">
-            <h3 id="joiner-auth-title" data-i18n="joinerAuthTitle" style="margin-top: 0; color: var(--accent);">Allowed joiner heroes</h3>
+            <h3 id="joiner-auth-title" data-i18n="joinerAuthTitle" style="margin-top: 0; color: var(--accent-text, var(--accent));">Allowed joiner heroes</h3>
             <p id="joiner-auth-desc" data-i18n="joinerAuthDesc" style="font-size: 12px; color: var(--text-muted); margin: 0 0 12px;">Tick the heroes your alliance allows as march CAPTAIN (the only one carrying the rally effect). The list follows the server generation you selected. Heroes ranked C and D are unchecked by default.</p>
             <div id="joiner-auth-list" style="overflow-y: auto; flex: 1; margin: -4px -4px 0; padding: 4px;"></div>
             <div class="modal-actions" style="border-top: 1px solid var(--border); padding-top: 12px;">
@@ -329,7 +329,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

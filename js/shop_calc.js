@@ -73,36 +73,31 @@ function scRenderIndex(){
 function scRefreshIndex(){ scApplyTranslations(); scRenderIndex(); }
 
 (async function(){
-  await scLoadAll();
-  scApplyTranslations();
-  scRenderIndex();
-  scStartCountdowns();
-
   // La page pose window.SX_INDEX avant ce script. Absent (page ancienne, ou script
   // encore en cache servi à une page neuve), on retombe sur l'aide des boutiques :
   // elle reste juste, seulement moins précise. Cf. MAP.md §9, le piège du cache décalé.
   const SX_HELP = {
     shops: {
       id:'shop', banner:true,
-      title:{FR:'Boutiques — Aide', EN:'Shops — Help'},
+      title:{FR:'Boutiques : Aide', EN:'Shops: Help'},
       summary:{FR:"Les boutiques toujours ouvertes et les coffres au choix unique. Le coût de chaque objet y est comparé à sa valeur en gemmes, pour repérer d'un coup d'oeil ce qui vaut le détour.",
                EN:"The always-open shops and the single-pick chests. Each item's cost is compared to its gem value, so the deals worth taking stand out at a glance."},
       steps:{
         FR:["Choisis une boutique permanente, ou un coffre dont tu n'emportes qu'un seul objet.",
-            "Sur chaque page, le ratio (valeur en gemmes ÷ coût) classe les objets — le meilleur est marqué « Top ».",
+            "Sur chaque page, le ratio (valeur en gemmes ÷ coût) classe les objets, et le meilleur est marqué « Top ».",
             "Les boutiques d'événement, limitées dans le temps, ont leur propre page : « Rentabilité des Événements ».",
             "Les valeurs en gemmes viennent de la page « Valeur des objets » : modifie-les là-bas et toutes les boutiques se recalculent."],
         EN:["Pick a permanent shop, or a chest you only take one item from.",
-            "On each page the ratio (gem value / cost) ranks the items — the best one is tagged “Top”.",
-            "Event shops, the time-limited ones, have their own page: “Event ROI”.",
-            "Gem values come from the “Item values” page: edit them there and every shop recalculates."]
+            "On each page the ratio (gem value / cost) ranks the items, and the best one is tagged \"Top\".",
+            "Event shops, the time-limited ones, have their own page: \"Event ROI\".",
+            "Gem values come from the \"Item values\" page: edit them there and every shop recalculates."]
       },
-      links:[{label:{FR:'Ouvrir « Rentabilité des Événements »', EN:'Open “Event ROI”'}, href:'event-roi'},
-             {label:{FR:'Ouvrir « Valeur des objets »', EN:'Open “Item values”'}, href:'item-values'}]
+      links:[{label:{FR:'Ouvrir « Rentabilité des Événements »', EN:'Open "Event ROI"'}, href:'event-roi'},
+             {label:{FR:'Ouvrir « Valeur des objets »', EN:'Open "Item values"'}, href:'item-values'}]
     },
     events: {
       id:'shop-events', banner:true,
-      title:{FR:'Boutiques d\'événement — Aide', EN:'Event shops — Help'},
+      title:{FR:'Boutiques d\'événement : Aide', EN:'Event shops: Help'},
       summary:{FR:"Chaque événement a sa boutique, sa monnaie et sa date de fin. Trois d'entre eux sont détaillés jour par jour et disent ce que l'événement rapporte face à ce qu'il coûte.",
                EN:"Every event has its shop, its currency and its end date. Three of them are broken down day by day and say what the event pays back against what it costs."},
       steps:{
@@ -112,14 +107,22 @@ function scRefreshIndex(){ scApplyTranslations(); scRenderIndex(); }
             "Ce pourcentage est en argent réel de bout en bout : aucune gemme n'y est convertie en euros."],
         EN:["Each card's counter gives the time left; ended events drop to the end of the grid but stay readable.",
             "On a shop page the ratio (gem value / cost) ranks the items, and the cart tracks the currency you have left.",
-            "The “ROI” tag marks the three events with a full breakdown: tick the packs you bought under the table and the percentage works itself out.",
+            "The \"ROI\" tag marks the three events with a full breakdown: tick the packs you bought under the table and the percentage works itself out.",
             "That percentage is real money end to end: no gem is ever converted into euros."]
       },
-      links:[{label:{FR:'Ouvrir « Valeur Boutique »', EN:'Open “Shop Value”'}, href:'shop_calc'},
-             {label:{FR:'Ouvrir « Valeur des objets »', EN:'Open “Item values”'}, href:'item-values'}]
+      links:[{label:{FR:'Ouvrir « Valeur Boutique »', EN:'Open "Shop Value"'}, href:'shop_calc'},
+             {label:{FR:'Ouvrir « Valeur des objets »', EN:'Open "Item values"'}, href:'item-values'}]
     }
   };
+  // Posée avant le chargement : le bouton et le bandeau tiennent leur place dès le
+  // premier affichage au lieu de pousser les cartes à l'arrivée des données (MAP.md §9).
   if (window.HelpSystem) HelpSystem.init(SX_HELP[window.SX_INDEX] || SX_HELP.shops);
+
+  await scLoadAll();
+  scApplyTranslations();
+  scRenderIndex();
+  scStartCountdowns();
+
 
   window.addEventListener('langChanged', scRefreshIndex);
   // Un événement vient de se terminer sur un sommaire laissé ouvert : le compteur

@@ -105,8 +105,8 @@ function hubInitHelp() {
             EN: [
                 "Each card opens a tool: TrueGold optimizer, shop calculator, research, Bear Trap, Vikings, Barracks, experts…",
                 "Switch language (FR/EN) and light/dark theme from the top menu.",
-                "Your data is saved locally in your browser. Use “Global backup” to export or import it (new device, sharing).",
-                "Tip: start with “My Barracks” to set up your heroes, because several tools (Bear Trap, Vikings) rely on them."
+                "Your data is saved locally in your browser. Use \"Global backup\" to export or import it (new device, sharing).",
+                "Tip: start with \"My Barracks\" to set up your heroes, because several tools (Bear Trap, Vikings) rely on them."
             ]
         },
         links: [

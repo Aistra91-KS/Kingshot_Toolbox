@@ -16,7 +16,15 @@ exclude:
   - tests        # harnais et tests des moteurs de calcul (cf. MAP.md §10)
   - CLAUDE.md    # documents de travail du dépôt : publics sur GitHub, mais ils
   - MAP.md       # n'ont rien à faire sous une adresse du site
-  - TECH_DEBT_AUDIT.md
+  - map          # les fiches de la cartographie (MAP.md n'en est que le sommaire)
+  - TRAVAUX_2026-09-20.md   # compte rendu de session : même nature que les deux
+                            # lignes au-dessus. À ne pas emporter sur le dépôt
+                            # public ; s'il y va quand même, cette ligne empêche
+                            # Jekyll d'en faire une page à l'adresse du site
+  - database_hero.md        # préparation de la base Héros, propre au miroir privé
+                            # (cf. son README) : même garde-fou que la ligne au-dessus
+  - RELEVE_CONQUETE.md      # relevé des compétences de conquête, document de travail
+                            # du miroir : même garde-fou que les deux lignes au-dessus
   - README.md    # Jekyll en ferait un README.html publié à l'adresse du site ;
                  # il n'a d'utilité que sur la page GitHub du dépôt
   - serve.py     # serveur local pour qui télécharge le dépôt (cf. README) :

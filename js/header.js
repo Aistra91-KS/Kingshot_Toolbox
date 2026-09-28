@@ -161,6 +161,7 @@ function hdrBuildDrawer() {
   const drawer = document.getElementById('hdr-drawer');
   if (!drawer || !window.SITE) return;
   drawer.classList.remove('hdr-drawer-raw');   // fin de l'etat brut : l'ombre reprend
+  if (!drawer.classList.contains('open')) drawer.inert = true;   // fermé : hors de l'ordre de tabulation
   const S = window.SITE;
   const lang = hdrLang();
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -183,7 +184,7 @@ function hdrBuildDrawer() {
   drawer.innerHTML = `
     <div class="drawer-head">
       <span class="drawer-game">${S.name}</span>
-      <button class="drawer-close" id="hdr-drawer-close" aria-label="Fermer">✕</button>
+      <button class="drawer-close" id="hdr-drawer-close" aria-label="${hdrLang() === 'FR' ? 'Fermer' : 'Close'}">✕</button>
     </div>
     ${hdrDrawerProfileHTML()}
     <nav class="drawer-nav">${nav}</nav>
@@ -267,16 +268,22 @@ function hdrOpenFeedback() {
 function hdrOpenDrawer() {
   const d = document.getElementById('hdr-drawer');
   const o = document.getElementById('hdr-drawer-overlay');
-  if (d) d.classList.add('open');
+  if (d) { d.classList.add('open'); d.inert = false; d.setAttribute('aria-hidden', 'false'); }
   if (o) o.classList.add('open');
   document.body.classList.add('drawer-locked');
+  // Le tiroir est en fin de page : sans cela, Tab repartait dans le contenu, derrière lui.
+  const x = document.getElementById('hdr-drawer-close'); if (x) x.focus();
 }
 function hdrCloseDrawer() {
   const d = document.getElementById('hdr-drawer');
   const o = document.getElementById('hdr-drawer-overlay');
-  if (d) d.classList.remove('open');
+  // Fermé, le tiroir n'est que poussé hors de l'écran : sans `inert`, ses liens
+  // restaient atteignables à la touche Tab, invisibles, sur toutes les pages.
+  const etaitOuvert = !!(d && d.classList.contains('open'));
+  if (d) { d.classList.remove('open'); d.inert = true; d.setAttribute('aria-hidden', 'true'); }
   if (o) o.classList.remove('open');
   document.body.classList.remove('drawer-locked');
+  if (etaitOuvert) { const b = document.querySelector('.hdr-burger'); if (b) b.focus(); }
 }
 
 // ---------- Profils : i18n + helpers (déclarés avant l'IIFE : const non hoistées) ----------
@@ -301,7 +308,7 @@ const PFP_I18N = {
     delete: 'Delete', switched: 'Active profile: ',
     confirmDelete: 'Delete this profile and all its data? This cannot be undone.',
     deleteActiveHint: 'Switch to another profile before deleting this one.',
-    backupHint: 'Tip: export a profile via “Global Backup” to move it to another device.'
+    backupHint: 'Tip: export a profile via "Global Backup" to move it to another device.'
   }
 };
 function pfpT(key) { return (PFP_I18N[hdrLang()] || PFP_I18N.EN)[key] || key; }
@@ -784,7 +791,7 @@ function hdrOpenProfilesModal() {
       <div class="backup-modal" role="dialog" aria-modal="true">
         <div class="backup-header">
           <h3 class="backup-title" id="pfp-modal-title"></h3>
-          <button id="pfp-modal-close" aria-label="Fermer" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:24px;line-height:1;">&times;</button>
+          <button id="pfp-modal-close" aria-label="${hdrLang() === 'FR' ? 'Fermer' : 'Close'}" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:24px;line-height:1;">&times;</button>
         </div>
         <div class="backup-body">
           <p class="pfp-modal-desc" id="pfp-modal-desc"></p>

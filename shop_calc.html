@@ -16,15 +16,15 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Kingshot Permanent Shops &amp; Custom Chests - Gem Value | Kingshot Toolbox</title>
-    <meta name="description" content="Kingshot's always-available shops - Arena, Alliance Championship, Swordland, Kingdom of Power, Tidal Shop, Trial Shop - and the custom chests. Compare each item's cost to its gem value to spot the best deals.">
+    <title>Permanent Shops &amp; Custom Chests - Gem Value | Kingshot Toolbox</title>
+    <meta name="description" content="Kingshot's permanent shops (Arena, Alliance Championship, Swordland, Kingdom of Power, Tidal, Trial) and custom chests: each item's cost against its gem value.">
     <link rel="canonical" href="https://kingshottoolbox.com/shop_calc">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
-    <meta property="og:title" content="Kingshot Permanent Shops &amp; Custom Chests - Gem Value">
-    <meta property="og:description" content="Kingshot's always-available shops - Arena, Alliance Championship, Swordland, Kingdom of Power, Tidal Shop, Trial Shop - and the custom chests. Compare each item's cost to its gem value to spot the best deals.">
+    <meta property="og:title" content="Permanent Shops &amp; Custom Chests - Gem Value">
+    <meta property="og:description" content="Kingshot's permanent shops (Arena, Alliance Championship, Swordland, Kingdom of Power, Tidal, Trial) and custom chests: each item's cost against its gem value.">
     <meta property="og:url" content="https://kingshottoolbox.com/shop_calc">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -45,6 +45,10 @@
     <div class="db-page">
         <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <span data-i18n="crumbShops">Shops</span></div>
         <h1 data-i18n="scTitle">Shop Value</h1>
+        <button type="button" class="help-btn" data-help="1"><span class="help-q">?</span><span class="help-btn-txt" data-en="How does it work?" data-fr="Comment ça marche ?">How does it work?</span></button>
+        <!-- Aide écrite en dur pour tenir sa place dès le premier affichage (MAP.md §9) ; help.js la reprend. -->
+        <div class="help-banner" data-help="1" hidden><span class="help-banner-txt" data-en="The always-open shops and the single-pick chests. Each item&#x27;s cost is compared to its gem value, so the deals worth taking stand out at a glance." data-fr="Les boutiques toujours ouvertes et les coffres au choix unique. Le coût de chaque objet y est comparé à sa valeur en gemmes, pour repérer d&#x27;un coup d&#x27;oeil ce qui vaut le détour.">The always-open shops and the single-pick chests. Each item's cost is compared to its gem value, so the deals worth taking stand out at a glance.</span><button class="help-banner-more" type="button">How does it work?</button><button class="help-banner-x" type="button" aria-label="Don't show again">&times;</button></div>
+        <script>(function(b){try{if(localStorage.getItem('help_seen_shop')==='1')return}catch(e){}b.hidden=false})(document.currentScript.previousElementSibling)</script>
         <p class="db-intro" data-i18n="scDesc">Compare in-shop cost to gem value to spot the best deals.</p>
 
         <!-- Les deux autres pages du bloc « Valeur et Rentabilité ». Écrites en dur,
@@ -187,7 +191,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

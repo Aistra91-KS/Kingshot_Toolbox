@@ -19,8 +19,8 @@
     <base href="../../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Magasin du Théâtre Kingshot - Prix par palier, en gemmes et en €/$ | Kingshot Toolbox</title>
-    <meta name="description" content="Tout le contenu du Magasin du Théâtre de Kingshot, la boutique de l'événement Théâtre Fantastique : les mêmes objets vendus à trois prix croissants, avec le coût en Jetons Fantaisie, le stock et la valeur de chaque palier en gemmes ou en €/$.">
+    <title>Magasin du Théâtre - Prix par palier, gemmes et €/$ | Kingshot Toolbox</title>
+    <meta name="description" content="Magasin du Théâtre de Kingshot (événement Théâtre Fantastique) : les mêmes objets à trois prix croissants, coût en Jetons Fantaisie, stock et valeur par palier.">
     <link rel="canonical" href="https://kingshottoolbox.com/fr/shop/theater-shop">
     <!-- Une URL par langue : cette page est la française, sa jumelle anglaise vit sous /shop/.
          Les deux se citent mutuellement, et l'anglaise sert de défaut aux autres langues. -->
@@ -31,8 +31,8 @@
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:locale:alternate" content="en_US">
-    <meta property="og:title" content="Magasin du Théâtre Kingshot - Prix par palier et valeur en gemmes">
-    <meta property="og:description" content="Tout le contenu du Magasin du Théâtre de Kingshot, la boutique de l'événement Théâtre Fantastique : les mêmes objets vendus à trois prix croissants, avec le coût en Jetons Fantaisie, le stock et la valeur en gemmes de chaque palier.">
+    <meta property="og:title" content="Magasin du Théâtre - Prix par palier, gemmes et €/$">
+    <meta property="og:description" content="Magasin du Théâtre de Kingshot (événement Théâtre Fantastique) : les mêmes objets à trois prix croissants, coût en Jetons Fantaisie, stock et valeur par palier.">
     <meta property="og:url" content="https://kingshottoolbox.com/fr/shop/theater-shop">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -49,7 +49,7 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Boutiques d'événement","item":"https://kingshottoolbox.com/event-roi"},{"@type":"ListItem","position":3,"name":"Magasin du Théâtre","item":"https://kingshottoolbox.com/fr/shop/theater-shop"}]}</script>
 </head>
 <body class="has-app-header">
-    <div class="db-page db-wide">
+    <div class="db-page db-wide sx-page-event">
         <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="event-roi">Boutiques d'événement</a> / <span>Magasin du Théâtre</span></div>
 
         <div class="sx-hero">
@@ -57,6 +57,7 @@
           <div class="sx-hero-text">
             <h1>Magasin du Théâtre</h1>
             <div class="sx-facts" id="sp-facts"></div>
+            <button type="button" class="help-btn" data-help="1"><span class="help-q">?</span><span class="help-btn-txt" data-en="How does it work?" data-fr="Comment ça marche ?">Comment ça marche ?</span></button>
           </div>
         </div>
         <p class="db-intro">Le contenu complet du Magasin du Théâtre de Kingshot, la boutique de l'événement Théâtre Fantastique, payée en Jetons Fantaisie. Cette boutique ne fonctionne pas comme les autres : elle propose les mêmes neuf offres trois fois, à trois prix croissants, plus un accélérateur qui n'apparaît que dans le palier le plus cher, soit 28 lignes en tout. Le palier 1 est le moins cher et le moins fourni ; une fois épuisé, le même objet coûte 50 % de plus, puis encore 20 % environ. Chaque ligne est confrontée à sa valeur de référence en gemmes, pour voir exactement ce que l'on perd en creusant les paliers les plus chers. Sous le tableau de la boutique, une section dédiée traduit un plan d'Amulettes Fantaisie en Jetons : les chances d'atteindre chaque étage, l'étage où encaisser rapporte le plus par amulette, et ce qu'il faut faire depuis celui où l'on se trouve. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens.</p>
@@ -89,7 +90,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">Outils et calculateurs KVK</div><a href="research_calc" class="drawer-tool"><span>Recherches</span></a><a href="truegold_calc" class="drawer-tool"><span>Planificateur de Bâtiments</span></a><a href="waracademy" class="drawer-tool"><span>Académie de Guerre</span></a><div class="drawer-cat">Optimiseur d'Événements</div><a href="beartrap_calc" class="drawer-tool"><span>Piège à Ours</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Héros</span></a><a href="masters" class="drawer-tool"><span>Experts</span></a><a href="pets" class="drawer-tool"><span>Familiers</span></a><div class="drawer-cat">Valeur et Rentabilité</div><a href="shop_calc" class="drawer-tool"><span>Valeur Boutique</span><span class="hdr-badge">Bêta</span></a><a href="event-roi" class="drawer-tool"><span>Rentabilité des Événements</span></a><a href="item-values" class="drawer-tool"><span>Valeur des Objets</span></a><div class="drawer-cat">Base de Données</div><a href="database/buildings/" class="drawer-tool"><span>Bâtiments</span></a><a href="database/research/" class="drawer-tool"><span>Recherches (BDD)</span></a><a href="database/waracademy/" class="drawer-tool"><span>Recherches Académie</span></a><a href="database/masters/" class="drawer-tool"><span>Experts (BDD)</span></a><a href="database/pets/" class="drawer-tool"><span>Familiers (BDD)</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">Outils et calculateurs KVK</div><a href="research_calc" class="drawer-tool"><span>Recherches</span></a><a href="truegold_calc" class="drawer-tool"><span>Planificateur de Bâtiments</span></a><a href="waracademy" class="drawer-tool"><span>Académie de Guerre</span></a><div class="drawer-cat">Optimiseur d'Événements</div><a href="beartrap_calc" class="drawer-tool"><span>Piège à Ours</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Héros</span></a><a href="masters" class="drawer-tool"><span>Experts</span></a><a href="pets" class="drawer-tool"><span>Familiers</span></a><div class="drawer-cat">Valeur et Rentabilité</div><a href="shop_calc" class="drawer-tool"><span>Valeur Boutique</span><span class="hdr-badge">Bêta</span></a><a href="event-roi" class="drawer-tool"><span>Rentabilité des Événements</span></a><a href="item-values" class="drawer-tool"><span>Valeur des Objets</span></a><div class="drawer-cat">Base de Données</div><a href="database/heroes/" class="drawer-tool"><span>Héros (BDD)</span></a><a href="database/buildings/" class="drawer-tool"><span>Bâtiments</span></a><a href="database/research/" class="drawer-tool"><span>Recherches (BDD)</span></a><a href="database/waracademy/" class="drawer-tool"><span>Recherches Académie</span></a><a href="database/masters/" class="drawer-tool"><span>Experts (BDD)</span></a><a href="database/pets/" class="drawer-tool"><span>Familiers (BDD)</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

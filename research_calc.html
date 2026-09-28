@@ -16,14 +16,14 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Kingshot Research Calculator - Costs, Time &amp; Best Order | Kingshot Toolbox</title>
+    <title>Kingshot Research Calculator - Costs &amp; Best Order | Kingshot Toolbox</title>
     <meta name="description" content="Free Kingshot research calculator: plan the best order for your Growth, Economy and Battle trees, with full costs, research time and prerequisites.">
     <link rel="canonical" href="https://kingshottoolbox.com/research_calc">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
-    <meta property="og:title" content="Kingshot Research Calculator - Costs, Time &amp; Best Order">
+    <meta property="og:title" content="Kingshot Research Calculator - Costs &amp; Best Order">
     <meta property="og:description" content="Free Kingshot research calculator: plan the best order for your Growth, Economy and Battle trees, with full costs, research time and prerequisites.">
     <meta property="og:url" content="https://kingshottoolbox.com/research_calc">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
@@ -44,6 +44,10 @@
 
 <div class="sidebar">
     <h2 data-i18n="controlPanel">Control Panel</h2>
+    <button type="button" class="help-btn" data-help="1"><span class="help-q">?</span><span class="help-btn-txt" data-en="How does it work?" data-fr="Comment ça marche ?">How does it work?</span></button>
+    <!-- Aide écrite en dur pour tenir sa place dès le premier affichage (MAP.md §9) ; help.js la reprend. -->
+    <div class="help-banner" data-help="1" hidden><span class="help-banner-txt" data-en="Works out the most efficient research order across your three trees (Growth, Economy, Battle), based on your research speed bonus and your available speedups." data-fr="Détermine l&#x27;ordre de recherche le plus rentable parmi tes trois arbres (Croissance, Économie, Combat), en tenant compte de ton bonus de vitesse de recherche et de tes accélérateurs.">Works out the most efficient research order across your three trees (Growth, Economy, Battle), based on your research speed bonus and your available speedups.</span><button class="help-banner-more" type="button">How does it work?</button><button class="help-banner-x" type="button" aria-label="Don't show again">&times;</button></div>
+    <script>(function(b){try{if(localStorage.getItem('help_seen_research')==='1')return}catch(e){}b.hidden=false})(document.currentScript.previousElementSibling)</script>
     
     <!-- ===== Bloc TOUJOURS visible : Settings ===== -->
     <div class="control-group">
@@ -159,7 +163,7 @@
         <div id="tab-optimal" class="tab-content active" role="tabpanel" tabindex="0" aria-labelledby="tab-optimal-btn">
             <h2 data-i18n="suggTitle">Suggestion for the next researches</h2>
             <p class="group-hint sugg-hint" data-i18n="suggHint">Researches that raise research speed are flagged and come first: everything you start after them is shorter. KVK mode goes back to shortest first, to finish as many as it can.</p>
-            <div class="table-container">
+            <div class="table-container is-loading">
                 <table id="optimal-table">
                     <thead>
                         <tr>
@@ -256,7 +260,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>
