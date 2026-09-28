@@ -287,9 +287,16 @@
     let score = 0; // KvK points accumulated (nominal or effective per flag)
     let inProgressKey = null; // the single research left unfinished by a resource limit
 
-    const affordable = (nl) => spentEffDust + effDustOf(nl.dust || 0) <= dustBudget
-                            && spentCoins + (nl.coin || 0) <= coinBudget
-                            && spentTtg + (nl.ttg || 0) <= ttgBudget;
+    // Plus petit plafond de TTG au-dessus de `ttgBudget` qui changerait une décision de
+    // ce plan : un niveau refusé pour son seul TTG. Sous ce seuil, tout plafond donne
+    // exactement ce plan (cf. `suggest`, parcours des plafonds).
+    let ttgNext = Infinity;
+    const affordable = (nl) => {
+      if (spentEffDust + effDustOf(nl.dust || 0) > dustBudget || spentCoins + (nl.coin || 0) > coinBudget) return false;
+      const t = spentTtg + (nl.ttg || 0);
+      if (t > ttgBudget) { if (t < ttgNext) ttgNext = t; return false; }
+      return true;
+    };
 
     const HARD_CAP = 100000;
     let iter = 0;
@@ -341,7 +348,11 @@
         acc.dust += effDustOf(o.dust || 0); acc.time += effTimeOf(o.time || 0);
         acc.ttg += (o.ttg || 0); acc.coin += (o.coin || 0);
         if (spentEffDust + acc.dust > dustBudget || spentEffTime + acc.time > speedupBudget
-            || spentTtg + acc.ttg > ttgBudget || spentCoins + acc.coin > coinBudget) return false;
+            || spentCoins + acc.coin > coinBudget) return false;
+        if (spentTtg + acc.ttg > ttgBudget) {
+          if (spentTtg + acc.ttg < ttgNext) ttgNext = spentTtg + acc.ttg;
+          return false;
+        }
         for (const dep of (o.req || [])) {
           if (!collectNeeds(key(e.treeId, dep.r), dep.lvl, needs, acc)) return false;
         }
@@ -405,7 +416,7 @@
           if (spentEffDust + b.dust > dustBudget) continue;
           if (spentEffTime + b.time > speedupBudget) continue;
           if (spentCoins + b.coin > coinBudget) continue;
-          if (spentTtg + b.ttg > ttgBudget) continue;
+          if (spentTtg + b.ttg > ttgBudget) { if (spentTtg + b.ttg < ttgNext) ttgNext = spentTtg + b.ttg; continue; }
           if (!affordable(b.first.nl)) continue;
           if (b.dens > bestScore) { bestScore = b.dens; best = b.first; }
         }
@@ -532,6 +543,7 @@
         ttg: ttgBudget === Infinity ? null : Math.max(0, ttgBudget - spentTtg),
       },
       inProgress: inProgressKey, // "treeId.researchId" of the single unfinished research, or null
+      ttgNext,                   // plus petit plafond de TTG qui changerait ce plan (Infinity : aucun)
       target: mode === 'target' ? {
         requested: targetScore,
         reached: targetScore > 0 ? (kvkFromDust + kvkFromTtg + kvkFromTime) >= targetScore - 0.5 : null,
@@ -542,36 +554,36 @@
   const KVK_ORDERS = ['kvk', 'classic', 'dustdense', 'chain'];
 
   // ---- Plus de TTG ne doit jamais rapporter moins ----
-  // Le glouton peut dépenser du TTG sur un niveau qui prend des accélérateurs (ou de la
-  // poussière) qui rapportaient plus ailleurs. Relevé par la revue Codex de la PR #90 :
-  // TG8, 8 504 poussières, 42 jours d'accélérateurs, 98 % de vitesse, 4 arbres, rendait
-  // 7 479 400 points avec 4 TTG et 7 460 400 avec 6 à 11 TTG. Un plan qui dépense moins
-  // de TTG reste jouable avec plus : on rejoue donc les meilleures combinaisons en leur
-  // retirant du TTG, et on garde le meilleur plan.
-  // Deux plafonds par achat en TTG : ce qui était dépensé juste avant (le plan s'arrête
-  // d'en acheter), et juste sous son coût (le reste peut aller à un niveau moins cher).
-  // Les 6 derniers achats, puis un sur deux, quatre, huit… en remontant, et le plafond 0.
-  // Mesuré sur 40 scénarios tirés au sort (1 508 budgets de 0 à 70 TTG) : le pire écart
-  // avec un budget plus petit passe de 3,1 % à 0,1 %, pour 2 à 4 fois le temps de calcul.
-  // Pas d'exhaustif : jusqu'à 440 TTG par niveau, 21 549 pour l'arbre, un plan par
-  // plafond coûterait des secondes.
-  const TTG_REPLAY_TOP = 2;    // combinaisons (arbres x ordre) rejouées
-  const TTG_REPLAY_LAST = 6;   // derniers achats en TTG essayés un par un
-  function ttgCaps(p, budget) {
-    const avant = [], dessous = [];
-    let acc = 0;
-    for (const s of p.steps) {
-      if (s.ttg) { avant.push(acc); dessous.push(acc + s.ttg - 1); }
-      acc += s.ttg || 0;
+  // Relevé par la revue Codex des PR #90 et #91 : le glouton peut dépenser du TTG sur un
+  // niveau qui prend des accélérateurs (ou de la poussière) qui rapportaient plus
+  // ailleurs. TG8, 3 487 poussières, 31 122 minutes : 5 278 660 points avec 48 TTG,
+  // 4 969 660 avec 54. Des rejeux ciblés (deux meilleures combinaisons, derniers achats)
+  // laissaient encore 5,9 % d'écart sur des comptes tirés au sort.
+  //
+  // Le parcours exact : pour une combinaison donnée (arbres × ordre), le plan ne change
+  // qu'aux plafonds où un niveau refusé pour son TTG devient payable. `runPlan` rend le
+  // plus petit de ces seuils (`ttgNext`) ; on rejoue donc chaque combinaison de 0 au
+  // stock du joueur en sautant de seuil en seuil, sans rien manquer. Le meilleur de tous
+  // ces plans est le meilleur plan que le glouton trouve pour UN plafond quelconque sous
+  // le stock : il ne peut pas baisser quand le stock monte.
+  //
+  // Coût mesuré : 13 à 90 ms pour un stock de 10 à 50 TTG, ~0,5 s à 200, ~3,6 s au pire
+  // relevé (TG8, 60 000 poussières, 800 TTG). La page ne le paie qu'une fois, sur le plan
+  // qu'elle affiche ; ses évaluations intermédiaires passent `exact: false`.
+  function ttgSweep(runs, budget, best) {
+    for (const r of runs) {
+      if (!r.p.totals.ttg) continue;       // sans achat en TTG, tout plafond donne ce plan
+      let c = 0;
+      for (;;) {
+        const p = runPlan(Object.assign({}, r.o, { ttgBudget: c }), r.order);
+        // À points égaux, celui qui garde du TTG.
+        if (p.totals.kvkPoints > best.totals.kvkPoints
+            || (p.totals.kvkPoints === best.totals.kvkPoints && p.totals.ttg < best.totals.ttg)) best = p;
+        if (!(p.ttgNext <= budget)) break;  // au-delà, jusqu'au stock : le plan déjà connu
+        c = p.ttgNext;
+      }
     }
-    const n = avant.length;
-    if (!n) return [];                  // aucun achat en TTG : rien à retirer
-    const idx = new Set();
-    for (let i = 0; i < Math.min(TTG_REPLAY_LAST, n); i++) idx.add(n - 1 - i);
-    for (let d = TTG_REPLAY_LAST; d < n; d *= 2) idx.add(n - 1 - d);
-    const caps = new Set([0]);
-    idx.forEach(i => { caps.add(avant[i]); caps.add(dessous[i]); });
-    return [...caps].filter(c => c < budget);
+    return best;
   }
 
   // Public entry point. Classic uses the 'classic' order; target keeps the
@@ -585,6 +597,8 @@
   // the others near zero (at 15 000 dust it puts 13 540 into a single tree). No greedy
   // spreading across three trees ever proposes that; the same greedy confined to one
   // tree does. Cost is bounded and known — 4 orderings x (1 + number of trees) runs.
+  // `opts.exact === false` : sans le parcours des plafonds de TTG (ci-dessus), pour les
+  // évaluations intermédiaires d'une page qui rejoue ensuite, exactement, le plan retenu.
   // `opts.rank` : évaluation ALLÉGÉE, réservée au classement d'un grand nombre de
   // candidats (le partage des pièces entre recherches et échanges, cf. waracademy.js).
   // Elle ne rejoue ni les 4 ordres ni les arbres séparés — 16 plans deviennent 1 — donc
@@ -614,15 +628,7 @@
         }
       }
       const budget = opts.ttgBudget == null ? Infinity : Math.max(0, Number(opts.ttgBudget) || 0);
-      runs.sort((a, b) => b.p.totals.kvkPoints - a.p.totals.kvkPoints);
-      for (const r of runs.slice(0, TTG_REPLAY_TOP)) {
-        for (const c of ttgCaps(r.p, budget)) {
-          const p = runPlan(Object.assign({}, r.o, { ttgBudget: c }), r.order);
-          // À points égaux, celui qui garde du TTG.
-          if (p.totals.kvkPoints > best.totals.kvkPoints
-              || (p.totals.kvkPoints === best.totals.kvkPoints && p.totals.ttg < best.totals.ttg)) best = p;
-        }
-      }
+      if (opts.exact !== false) best = ttgSweep(runs, budget, best);
       // Un plan rejoué sous un plafond compte son reste sur ce plafond : on le rend sur
       // le vrai stock du joueur.
       best.remaining.ttg = budget === Infinity ? null : Math.max(0, budget - best.totals.ttg);

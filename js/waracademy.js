@@ -1193,7 +1193,7 @@
     // Un plan pour un partage donné : `n` échanges de pièces, `tgPool` TrueGold offert
     // aux échanges de poussière, `ttgBudget` TTG disponible (stock + creuset).
     // Le TrueGold ne dispute pas les pièces : sa capacité est offerte en entier.
-    const lancer = (nEchanges, rapide, tgPool, ttgBudget) => {
+    const lancer = (nEchanges, rapide, tgPool, ttgBudget, exact) => {
       const stockTG = tradeStock({ coins: 0, truegold: tgPool });
       const dustTG = stockTG ? window.WA_Optimizer.planTrades(null, stockTG).dust : 0;
       const stock = tradeStock({ coins: nEchanges * COIN_TRADE_PRICE, truegold: tgPool });
@@ -1203,6 +1203,9 @@
         ttgBudget,
         speedBonusPct: state.speedBonus,
         costReductionPct: 0, speedupBudget, rank: rapide,
+        // Le parcours exact des plafonds de TTG coûte jusqu'à quelques secondes : il ne
+        // tourne qu'une fois, sur le plan retenu (plus bas).
+        exact: !!exact,
         coinBudget: piecesSaisies ? piecesDispo - nEchanges * COIN_TRADE_PRICE : null,
         enabledTrees: enabledTrees(),
         mode: state.mode, targetScore: state.targetScore,
@@ -1214,7 +1217,7 @@
       const manque = Math.max(0, res.totals.effDust - state.dustBudget);
       const trades = (stock && manque > 0) ? window.WA_Optimizer.planTrades(manque, stock) : null;
       const piecesEchanges = trades ? trades.coins : 0;
-      return { n: nEchanges, res, trades, piecesEchanges,
+      return { n: nEchanges, res, trades, piecesEchanges, tgPool, ttgBudget,
                tgDepense: trades ? trades.truegold : 0,
                piecesTotal: (res.totals.coins || 0) + piecesEchanges };
     };
@@ -1283,6 +1286,7 @@
     let best;
     if (!cr.kMax) {
       best = finaliser(partagePieces(TG, ttgApres(cr, 0)), 0);
+      best.kHaut = 0;
     } else {
       // 1. Relaxation : tout le TrueGold offert À LA FOIS aux échanges et au creuset.
       //    Si le plan obtenu reste payable une fois le creuset réduit au minimum, aucun
@@ -1291,6 +1295,7 @@
       const kRelax = kMinPour(cr, relax.res.totals.ttg || 0, cr.kMax);
       if (relax.tgDepense + cr.cout[kRelax] <= TG) {
         best = finaliser(relax, kRelax);
+        best.kHaut = cr.kMax;
       } else {
         // 2. Sinon, chaque nombre de transformations est classé (évaluation allégée),
         //    puis les trois meilleurs, zéro et le maximum sont évalués pour de bon.
@@ -1305,9 +1310,17 @@
         best = null;
         retenus.forEach(k => {
           const essai = finaliser(partagePieces(TG - cr.cout[k], ttgApres(cr, k)), k);
+          essai.kHaut = k;
           if (meilleurPlan(essai, best)) best = essai;
         });
       }
+    }
+    // Le plan retenu passe par le parcours exact des plafonds de TTG (wa_optimizer.js) :
+    // avec plus de TTG, il ne peut plus rapporter moins. Même partage, même creuset au
+    // plus ; gardé s'il reste payable et fait au moins aussi bien.
+    if (state.mode === 'kvk' && planUsesAdv()) {
+      const exact = finaliser(lancer(best.n, false, best.tgPool, best.ttgBudget, true), best.kHaut);
+      if (exact.tgDepense <= TG && !meilleurPlan(best, exact)) best = exact;
     }
     lastCreuset = { k: best.k, cout: cr.cout[best.k], gain: cr.gain[best.k], from: state.transfoUsed };
     lastTtgHeld = ttgApres(cr, best.k);
@@ -1369,7 +1382,8 @@
   const TRADE_UNIT = { coins: TRADE_RULES.coins.price || 5000,
                        tg5:   TRADE_RULES.tg5.price   || 5,
                        tg10:  TRADE_RULES.tg10.price  || 10 };
-  function tradesHtml() {
+  function tradesHtml(st) {
+    st = st || state;      // l'état du calcul : un plan périmé garde ses propres stocks
     const tp = lastTrades;
     const cr = lastCreuset;
     const avecTrades = !!(tp && tp.trades.length);
@@ -1394,12 +1408,12 @@
     // démarrer. Ce qui reste à la toute fin est déjà dans les puces du haut.
     const tpDust = tp ? tp.dust : 0, tpCoins = tp ? tp.coins : 0, tpTg = tp ? tp.truegold : 0;
     const stocks = [
-      `<div class="wa-out-bilan-row">${t('outStockDust')} <b>${fmtNum(state.dustBudget + tpDust)}</b></div>`,
+      `<div class="wa-out-bilan-row">${t('outStockDust')} <b>${fmtNum(st.dustBudget + tpDust)}</b></div>`,
       cr.k ? `<div class="wa-out-bilan-row">${t('outStockTtg')} <b>${fmtNum(lastTtgHeld)}</b></div>` : '',
-      state.tradeCoins > 0
-        ? `<div class="wa-out-bilan-row">${t('outStockCoins')} <b>${fmtNum(Math.max(0, state.tradeCoins - tpCoins))}</b></div>` : '',
-      state.tradeTruegold > 0
-        ? `<div class="wa-out-bilan-row">${t('outStockTg')} <b>${fmtNum(Math.max(0, state.tradeTruegold - tpTg - cr.cout))}</b></div>` : '',
+      st.tradeCoins > 0
+        ? `<div class="wa-out-bilan-row">${t('outStockCoins')} <b>${fmtNum(Math.max(0, st.tradeCoins - tpCoins))}</b></div>` : '',
+      st.tradeTruegold > 0
+        ? `<div class="wa-out-bilan-row">${t('outStockTg')} <b>${fmtNum(Math.max(0, st.tradeTruegold - tpTg - cr.cout))}</b></div>` : '',
     ].join('');
 
     // Un échange est indivisible : couvrir 1 poussière manquante en achète 13. Le
@@ -1601,7 +1615,7 @@
       targetLine +
       `<div class="wa-out-chips">${chips}</div>` +
       (summaryParts.length ? `<div class="wa-out-summary">${summaryParts.join(' · ')}</div>` : '') +
-      tradesHtml() +
+      tradesHtml(st) +
       `<div class="wa-out-plan-title">${t('planTitle')}</div>` +
       `<div class="wa-steps">${rowsHtml}</div>` +
       totalHtml;
