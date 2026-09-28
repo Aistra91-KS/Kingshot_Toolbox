@@ -541,6 +541,39 @@
 
   const KVK_ORDERS = ['kvk', 'classic', 'dustdense', 'chain'];
 
+  // ---- Plus de TTG ne doit jamais rapporter moins ----
+  // Le glouton peut dépenser du TTG sur un niveau qui prend des accélérateurs (ou de la
+  // poussière) qui rapportaient plus ailleurs. Relevé par la revue Codex de la PR #90 :
+  // TG8, 8 504 poussières, 42 jours d'accélérateurs, 98 % de vitesse, 4 arbres, rendait
+  // 7 479 400 points avec 4 TTG et 7 460 400 avec 6 à 11 TTG. Un plan qui dépense moins
+  // de TTG reste jouable avec plus : on rejoue donc les meilleures combinaisons en leur
+  // retirant du TTG, et on garde le meilleur plan.
+  // Deux plafonds par achat en TTG : ce qui était dépensé juste avant (le plan s'arrête
+  // d'en acheter), et juste sous son coût (le reste peut aller à un niveau moins cher).
+  // Les 6 derniers achats, puis un sur deux, quatre, huit… en remontant, et le plafond 0.
+  // Mesuré sur 40 scénarios tirés au sort (1 508 budgets de 0 à 70 TTG) : le pire écart
+  // avec un budget plus petit passe de 3,1 % à 0,1 %, pour 2 à 4 fois le temps de calcul.
+  // Pas d'exhaustif : jusqu'à 440 TTG par niveau, 21 549 pour l'arbre, un plan par
+  // plafond coûterait des secondes.
+  const TTG_REPLAY_TOP = 2;    // combinaisons (arbres x ordre) rejouées
+  const TTG_REPLAY_LAST = 6;   // derniers achats en TTG essayés un par un
+  function ttgCaps(p, budget) {
+    const avant = [], dessous = [];
+    let acc = 0;
+    for (const s of p.steps) {
+      if (s.ttg) { avant.push(acc); dessous.push(acc + s.ttg - 1); }
+      acc += s.ttg || 0;
+    }
+    const n = avant.length;
+    if (!n) return [];                  // aucun achat en TTG : rien à retirer
+    const idx = new Set();
+    for (let i = 0; i < Math.min(TTG_REPLAY_LAST, n); i++) idx.add(n - 1 - i);
+    for (let d = TTG_REPLAY_LAST; d < n; d *= 2) idx.add(n - 1 - d);
+    const caps = new Set([0]);
+    idx.forEach(i => { caps.add(avant[i]); caps.add(dessous[i]); });
+    return [...caps].filter(c => c < budget);
+  }
+
   // Public entry point. Classic uses the 'classic' order; target keeps the
   // 'kvk' order (its original behaviour). KVK evaluates several orderings and
   // returns the plan with the highest KVK score — this guarantees KVK >= Classic
@@ -571,13 +604,28 @@
       const sansAvance = all.filter(id => id !== ADV_TREE_ID);
       if (sansAvance.length > 1 && sansAvance.length < all.length) treeSets.push(sansAvance);
       let best = null;
+      const runs = [];
       for (const set of treeSets) {
         const o = (set === treeSets[0]) ? opts : Object.assign({}, opts, { enabledTrees: set });
         for (const order of KVK_ORDERS) {
           const p = runPlan(o, order);
+          runs.push({ o, order, p });
           if (!best || p.totals.kvkPoints > best.totals.kvkPoints) best = p;
         }
       }
+      const budget = opts.ttgBudget == null ? Infinity : Math.max(0, Number(opts.ttgBudget) || 0);
+      runs.sort((a, b) => b.p.totals.kvkPoints - a.p.totals.kvkPoints);
+      for (const r of runs.slice(0, TTG_REPLAY_TOP)) {
+        for (const c of ttgCaps(r.p, budget)) {
+          const p = runPlan(Object.assign({}, r.o, { ttgBudget: c }), r.order);
+          // À points égaux, celui qui garde du TTG.
+          if (p.totals.kvkPoints > best.totals.kvkPoints
+              || (p.totals.kvkPoints === best.totals.kvkPoints && p.totals.ttg < best.totals.ttg)) best = p;
+        }
+      }
+      // Un plan rejoué sous un plafond compte son reste sur ce plafond : on le rend sur
+      // le vrai stock du joueur.
+      best.remaining.ttg = budget === Infinity ? null : Math.max(0, budget - best.totals.ttg);
       return best;
     }
     return runPlan(opts, mode === 'target' ? 'kvk' : 'classic');

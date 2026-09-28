@@ -2679,6 +2679,48 @@ body.has-app-header .db-section table.db-table thead th.num { text-align: right;
 }
 .plan-apply-btn:disabled:hover { transform: none; box-shadow: none; }
 
+/* Barre de calcul (ktCalcBar, header.js) : au-dessus de la suggestion des trois
+   outils de plan. Le bouton reprend le CTA doré d'« Appliquer » ; 44px de haut,
+   écrite dans le HTML pour que sa place soit réservée dès le premier rendu. */
+.calc-bar[hidden] { display: none; }
+.calc-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+  margin: 0 0 14px; min-height: 44px;
+}
+.calc-run {
+  min-height: 44px; padding: 10px 22px;
+  border: none; border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  color: #1a1200; font-size: 14px; font-weight: 700; letter-spacing: .3px;
+  font-family: inherit; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  box-shadow: 0 4px 15px rgba(245,184,64,0.18);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.calc-run:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(245,184,64,0.32); }
+.calc-run:focus-visible { outline: 2px solid var(--text-light); outline-offset: 3px; }
+.calc-run svg { flex: none; }
+.calc-run[aria-disabled="true"] { opacity: .5; cursor: progress; transform: none; box-shadow: none; }
+/* Une rotation en `transform` tourne hors du fil principal : elle reste animée
+   pendant que le calcul bloque la page. */
+.calc-spin { animation: calc-spin .9s linear infinite; }
+@keyframes calc-spin { to { transform: rotate(360deg); } }
+.calc-status { margin: 0; flex: 1 1 240px; color: var(--text-muted); font-size: 13px; line-height: 1.45; }
+.calc-status:empty { display: none; }
+.calc-bar.is-fresh .calc-status { font-size: 12.5px; }
+/* Plan périmé : bandeau à barre ambre, comme les messages de saisie refusée. */
+.calc-bar.is-stale .calc-status {
+  padding: 7px 11px; border-left: 3px solid var(--warning);
+  background: rgba(245, 184, 64, 0.08); color: var(--text-light);
+}
+.calc-bar.is-stale .calc-run { box-shadow: 0 0 0 3px rgba(245,184,64,0.35); }
+.calc-stale { opacity: .45; filter: grayscale(.6); transition: opacity .2s ease; }
+.calc-busy { opacity: .6; transition: opacity .2s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .calc-spin { animation: none; }
+  .calc-run, .calc-stale, .calc-busy { transition: none; }
+}
+
 /* Saisie refusée : le message vit sous le champ, dans le panneau latéral. Le
    rouge de la charte (--danger si présent, sinon la teinte d'avertissement) et
    une barre à gauche, pour que le message se distingue des `.group-hint` gris. */

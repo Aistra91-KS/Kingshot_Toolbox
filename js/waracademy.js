@@ -169,7 +169,8 @@
       "Choisis le mode : Max recherches, KvK (max points) ou Score cible.",
       "Lis la stratégie : les recherches à monter, les poussières, les pièces et le temps nécessaires, et les points KvK.",
       "Si le plan a besoin d'échanges, ils sont listés en tête du résultat, avant les recherches : c'est l'ordre à suivre en jeu, il faut la poussière en main avant de lancer la première recherche. Les trois nombres qui suivent (« Tes stocks une fois les échanges faits ») sont ceux à recopier dans tes saisies pour démarrer.",
-      "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux de recherche passent à ceux du plan, et tes poussières, accélérateurs, pièces et TrueGold sont réduits d'autant, compteurs d'échanges hebdomadaires compris. L'outil enchaîne alors sur la suggestion suivante.",
+      "Clique sur « Calculer la suggestion » au-dessus du résultat : le plan ne se calcule qu'à ta demande, et l'arbre suit tes saisies en attendant. Si tu modifies une valeur ensuite, le plan reste affiché en grisé jusqu'au prochain calcul.",
+      "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux de recherche passent à ceux du plan, et tes poussières, accélérateurs, pièces et TrueGold sont réduits d'autant, compteurs d'échanges hebdomadaires compris. Relance ensuite le calcul pour la suggestion suivante.",
     ],
     EN: [
       'Set your War Academy level (1–10): it unlocks the tree tiers.',
@@ -185,7 +186,8 @@
       'Pick a mode: Max researches, KvK (max points), or Target score.',
       'Read the strategy: which researches to level, the dust, coins and time needed, and the KvK points.',
       'If the plan needs exchanges, they are listed at the top of the result, before the researches: that is the order to follow in game, since you need the dust in hand before starting the first research. The three figures that follow ("your stocks once exchanged") are the ones to copy back into your inputs to get going.',
-      'Once you\'ve carried the plan out in game, click "Apply these changes" at the bottom of the result: after confirming, your research levels jump to the plan\'s, and your dust, speedups, coins and TrueGold go down accordingly, weekly exchange counters included. The tool then moves on to the next suggestion.',
+      'Click "Calculate the suggestion" above the result: the plan is only worked out when you ask, and the tree follows what you enter in the meantime. If you change a value afterwards, the plan stays on screen, greyed out, until you run it again.',
+      'Once you\'ve carried the plan out in game, click "Apply these changes" at the bottom of the result: after confirming, your research levels jump to the plan\'s, and your dust, speedups, coins and TrueGold go down accordingly, weekly exchange counters included. Run the calculation again for the next suggestion.',
     ],
   };
 
@@ -276,6 +278,12 @@
   // Dernier plan calculé, gardé pour « Appliquer les modifications » : le bouton
   // n'est affiché que dans la sortie de ce même calcul, les deux restent donc en phase.
   let lastPlan = null;
+  // Calcul au bouton (ktCalcBar, header.js ; décision d'Aistra du 28/09/2026) : la
+  // suggestion ne se recalcule plus à chaque saisie. L'arbre, lui, suit la saisie tout
+  // de suite ; seul le plan attend le bouton, grisé dès qu'une valeur qui compte change.
+  let waCalc = null;         // barre de calcul ; null avec un header.js en cache
+  let WA_CALC_SIG = null;    // empreinte des valeurs du dernier calcul, null avant le premier
+  let lastState = null;      // copie de l'état au moment du calcul, pour redessiner le plan
   // Échanges que le plan affiché suppose faits, ou null. Naît du même calcul que
   // `lastPlan`, donc les deux ne peuvent pas se désynchroniser.
   let lastTrades = null;
@@ -559,7 +567,7 @@
       markTabs(box, b => b.getAttribute('data-tree') === id);
       save();
       renderTree();
-      recompute();
+      refreshView();
     });
   }
 
@@ -596,7 +604,7 @@
       if (sec === state.activeSection) return;
       showSection(sec);
       save();
-      recompute();
+      refreshView();
     });
     showSection(state.activeSection);
   }
@@ -827,7 +835,7 @@
     if (!res) return;
     state.levels[rkey(ADV_ID, resId)] = clampInt(v, 0, res.maxLevel);
     save();
-    recompute();
+    refreshView();
   }
   function initAdvInput() {
     const box = document.getElementById('wa-adv');
@@ -918,7 +926,7 @@
       state.levels[rkey(state.activeTree, res.id)] = clampInt(cur + d, 0, res.maxLevel);
     }
     save();
-    recompute(); // re-runs optimiser -> refreshStates(suggested) -> updates values, badges, connectors
+    refreshView(); // valeurs, badges et liaisons de l'arbre ; le plan passe périmé
   }
 
   // Recompute node classes + stepper values + connectors (no rebuild)
@@ -1048,7 +1056,7 @@
   // les champs de saisie vivent dans ces mêmes lignes, les recréer volerait le focus
   // au joueur en train de taper.
   function renderTradeRows() {
-    const tp = lastTrades;
+    const tp = waFresh() ? lastTrades : null;
     TRADE_IDS.forEach(id => {
       const cell = document.getElementById(TRADE_PLAN_EL[id]);
       if (!cell) return;
@@ -1092,7 +1100,7 @@
     }
     const cell = document.getElementById('tradePlanCrucible');
     if (!cell) return;
-    const cr = lastCreuset;
+    const cr = waFresh() ? lastCreuset : { k: 0, cout: 0, gain: 0, from: 0 };
     cell.classList.toggle('is-off', !state.creusetUse || !planUsesAdv());
     if (!CRUCIBLE) { cell.textContent = t('crucibleNoData'); return; }
     if (!planUsesAdv()) { cell.textContent = t('crucibleAdvOnly'); return; }
@@ -1311,14 +1319,45 @@
     lastDustHeld = state.dustBudget + (lastTrades ? lastTrades.dust : 0);
 
     lastPlan = res;
+    WA_CALC_SIG = waSig();
+    lastState = JSON.parse(JSON.stringify(state));
     renderTradeRows();
     renderOutput(res);
-    // suggested set (research -> highest target level) for the ACTIVE tree highlight
+    const suggested = suggestedOf(res);
+    refreshStates(suggested);
+    refreshAdv(suggested);
+  }
+
+  // Recherche -> niveau visé par le plan, pour la surbrillance des arbres.
+  function suggestedOf(res) {
     const suggested = {};
+    if (!res) return suggested;
     res.steps.forEach(s => {
       const k = rkey(s.treeId, s.researchId);
       suggested[k] = Math.max(suggested[k] || 0, s.toLevel);
     });
+    return suggested;
+  }
+
+  // Tout ce que lit le calcul : l'état entier, sauf l'arbre de base affiché (un simple
+  // choix d'onglet). L'onglet de section, lui, décide des arbres du plan : il compte.
+  function waSig() {
+    const copie = Object.assign({}, state);
+    delete copie.activeTree;
+    return JSON.stringify(copie);
+  }
+  // Le plan affiché est-il celui des valeurs saisies ? Sans barre (header.js en
+  // cache), le calcul suit chaque saisie : toujours oui.
+  const waFresh = () => !waCalc || (WA_CALC_SIG !== null && waSig() === WA_CALC_SIG);
+
+  // Après une saisie : l'arbre et les échanges suivent tout de suite, la suggestion
+  // passe à jour ou périmée. Sans barre, on recalcule comme avant.
+  function refreshView() {
+    if (!waCalc) { recompute(); return; }
+    const fresh = waFresh();
+    if (WA_CALC_SIG !== null) waCalc.set(fresh ? 'fresh' : 'stale');
+    renderTradeRows();
+    const suggested = fresh ? suggestedOf(lastPlan) : {};
     refreshStates(suggested);
     refreshAdv(suggested);
   }
@@ -1395,9 +1434,13 @@
 
   function renderOutput(res) {
     const box = document.getElementById('wa-output');
+    // Les valeurs du calcul, pas celles saisies depuis : un plan périmé se redessine
+    // (changement de langue) tel qu'il a été calculé.
+    const st = lastState || state;
+    const advDansPlan = !!ADV && (st.activeSection === ADV_ID || st.activeSection === 'global');
     const heads = { classic: t('headClassic'), kvk: t('headKvk'), target: t('headTarget') };
     // Rappelle sur quels arbres porte la suggestion : elle change avec l'onglet.
-    const scope = { base: 'scopeBase', advanced: 'scopeAdv', global: 'scopeGlobal' }[state.activeSection];
+    const scope = { base: 'scopeBase', advanced: 'scopeAdv', global: 'scopeGlobal' }[st.activeSection];
     const scopeHtml = scope ? `<div class="wa-out-scope">${t(scope)}</div>` : '';
     if (!res.steps.length) {
       box.innerHTML = `<div class="wa-out-head">${heads[res.mode]}</div>${scopeHtml}
@@ -1439,11 +1482,11 @@
     // Exactly ONE research can be left unfinished (single in-game research queue):
     // the optimizer reports it as res.inProgress; every other research is completed.
     const tot = res.totals;
-    const availMin = state.accDays * 1440 + state.accHours * 60 + state.accMinutes;
+    const availMin = st.accDays * 1440 + st.accHours * 60 + st.accMinutes;
 
     // Per-level resource breakdown (shown when a card is expanded).
     const bdDust = '<svg viewBox="0 0 24 24" width="11" height="11"><path d="M12 4c2.4 0 4.5 3.4 6 9H6c1.5-5.6 3.6-9 6-9z" fill="currentColor"/><path d="M3 13h18l-2 4.2c-.3.5-.8.8-1.4.8H6.4c-.6 0-1.1-.3-1.4-.8L3 13z" fill="currentColor" opacity=".5"/></svg>';
-    const bdSpeed = 1 + (Number(state.speedBonus) || 0) / 100;
+    const bdSpeed = 1 + (Number(st.speedBonus) || 0) / 100;
     function breakdownHtml(a) {
       const rr = treeById(a.treeId).researches.find(r => r.id === a.researchId);
       if (!rr) return '';
@@ -1506,7 +1549,7 @@
     // TTG : affiché dès que le plan en dépense, ou que le joueur en a déclaré pour
     // un arbre avancé coché. Sans arbre avancé, la puce n'apprendrait rien.
     const ttgUsed = tot.ttg || 0;
-    const ttgChip = (ttgUsed > 0 || (planUsesAdv() && state.ttgBudget > 0))
+    const ttgChip = (ttgUsed > 0 || (advDansPlan && st.ttgBudget > 0))
       ? `<span class="wa-chip">${t('cTtg')}: <b>${fmtNum(ttgUsed)}</b> / ${fmtNum(lastTtgHeld)} (${fmtNum(Math.max(0, lastTtgHeld - ttgUsed))} ${t('cReste')})</span>`
       : '';
     const diff = availMin - tot.effTimeMin;
@@ -1571,7 +1614,8 @@
   // (choix validé par Aistra) — sa poussière est déjà entièrement payée.
   function applyPlan() {
     const res = lastPlan;
-    if (!res || !res.steps.length) return;
+    // Un plan périmé est grisé et inerte ; ce contrôle couvre ce que le grisé ne voit pas.
+    if (!res || !res.steps.length || !waFresh()) return;
 
     const finals = {};                      // clé recherche -> { to, name, treeId, n }
     res.steps.forEach(s => {
@@ -1631,6 +1675,9 @@
     if (crApply.k) recap += `<div class="apply-warn">${t('applyWarnTransfo')}</div>`;
 
     window.showAppConfirm(`<strong>${t('applyAsk')}</strong>${recap}`, () => {
+      // La fenêtre reste ouverte aussi longtemps que le joueur veut : si une saisie a
+      // bougé derrière elle, le plan n'est plus le sien.
+      if (!waFresh()) return;
       Object.keys(finals).forEach(k => {
         state.levels[k] = Math.max(Number(state.levels[k]) || 0, finals[k].to);
       });
@@ -1656,14 +1703,15 @@
       save();
       syncInputs();
       renderTree();
-      recompute();
+      refreshView();   // plan appliqué, donc périmé : le suivant se lance au bouton
+      if (waCalc) waCalc.focus();
       window.showAppToast(t('applyDone'), true);
     });
   }
 
   // ---------------- inline handlers (window.WA) ----------------
   const debounce = (fn, d = 180) => { let x; return (...a) => { clearTimeout(x); x = setTimeout(() => fn(...a), d); }; };
-  const doUpdate = debounce(() => { readInputs(); syncInputs(); save(); recompute(); }, 160);
+  const doUpdate = debounce(() => { readInputs(); syncInputs(); save(); refreshView(); }, 160);
 
   window.WA = {
     triggerUpdate: doUpdate,
@@ -1734,7 +1782,17 @@
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', () => formaterMontant(el));
     });
-    recompute();
+    const out = document.getElementById('wa-output');
+    const barre = out && out.parentNode.querySelector('.calc-bar');
+    if (out && window.ktCalcBar) {
+      // Les champs sont relus d'abord : leur lecture attend 160 ms après la frappe, et
+      // un clic plus rapide aurait calculé sur la valeur d'avant.
+      waCalc = window.ktCalcBar({ output: out, bar: barre,
+                                  run: () => { readInputs(); syncInputs(); save(); recompute(); } });
+    } else if (barre) {
+      barre.hidden = true;     // header.js en cache : le calcul suit chaque saisie
+    }
+    refreshView();
     initHelp();
 
     window.addEventListener('resize', debounce(drawConnectors, 120));
@@ -1743,7 +1801,9 @@
       renderTabs();
       renderTree();
       renderAdv();
-      recompute();
+      refreshView();
+      // Le plan, à jour ou périmé, se redessine dans la nouvelle langue.
+      if (waCalc && lastPlan) renderOutput(lastPlan);
     });
   }
 

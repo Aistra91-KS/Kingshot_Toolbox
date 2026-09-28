@@ -8,6 +8,44 @@
   },
   "releases": [
     {
+      "version": "1.15.1",
+      "date": "2026-09-28",
+      "changes": [
+        {
+          "type": "improved",
+          "title": {
+            "EN": "The planners calculate when you click",
+            "FR": "Les planificateurs calculent quand tu cliques"
+          },
+          "text": {
+            "EN": "Research, the Building Planner and the War Academy no longer recompute their suggestion at every keystroke: a \"Calculate the suggestion\" button sits above it. When you change a value afterwards, the plan stays on screen, greyed out, until you run it again, and it cannot be applied by mistake. The War Academy tree and the table totals still follow what you type, and \"Done\" on a Research row still moves straight to the next suggestion.",
+            "FR": "Recherches, le Planificateur de Bâtiments et l'Académie de Guerre ne recalculent plus leur suggestion à chaque frappe : un bouton \"Calculer la suggestion\" se trouve au-dessus. Si tu changes une valeur ensuite, le plan reste affiché, grisé, jusqu'au prochain calcul, et il ne peut plus être appliqué par erreur. L'arbre de l'Académie et les totaux des tableaux suivent toujours ta saisie, et \"Fait\" sur une ligne de Recherches passe toujours directement à la suggestion suivante."
+          },
+          "href": "waracademy",
+          "linkLabel": {
+            "EN": "War Academy",
+            "FR": "Académie de Guerre"
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "War Academy: more Tempered TrueGold never lowers the plan",
+            "FR": "Académie de Guerre : plus d'Or Véritable trempé ne fait plus baisser le plan"
+          },
+          "text": {
+            "EN": "In KvK mode, owning more Tempered TrueGold could give a plan worth fewer points: 7,460,400 with 6 to 11 of it, where 4 gave 7,479,400. The plan bought research that used up speedups worth more elsewhere. It now also tries spending less Tempered TrueGold and keeps the better result, which also stops the crucible from suggesting transformations that lower the score.",
+            "FR": "En mode KvK, avoir plus d'Or Véritable trempé pouvait donner un plan qui rapporte moins : 7 460 400 points avec 6 à 11, là où 4 en donnaient 7 479 400. Le plan achetait des recherches qui prenaient des accélérateurs mieux placés ailleurs. Il essaie maintenant aussi d'en dépenser moins et garde le meilleur résultat, ce qui évite au creuset de proposer des transformations qui font baisser le score."
+          },
+          "href": "waracademy",
+          "linkLabel": {
+            "EN": "War Academy",
+            "FR": "Académie de Guerre"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.15.0",
       "date": "2026-09-28",
       "changes": [
