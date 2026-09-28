@@ -56,6 +56,7 @@ Kingshot_Toolbox/
 │   ├── profiles.js         ★ Profils : proxy sur localStorage (kt::<id>::<clé>), migration · §8
 │   ├── lang.js             ★ GlobalLang, applyI18n, événement langChanged · §4
 │   ├── header.js           ★ Header et drawer depuis SITE, thème, modales globales
+│   ├── consent.js          Bandeau de cookies et chargement de gtag.js après accord ; `defer` avant `</head>` sur toutes les pages · §9 09a
 │   ├── footer.js           ★ Pied de page (toujours le dernier script ; absent de pets.html) · §5
 │   ├── help.js             Aide : bouton, bandeau, modale, info-bulles ; reprend bouton et bandeau écrits en dur · §9 09d
 │   ├── backup.js           Sauvegarde globale export/import · §8

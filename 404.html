@@ -2,15 +2,13 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <!-- Google tag (gtag.js) : refus par défaut, js/consent.js ne le charge qu'après accord -->
     <script>
       if (navigator.webdriver) window['ga-disable-G-M1QG4XSD3K'] = true; // navigateur piloté (robot, test automatisé) : pas de mesure
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied'});
       gtag('js', new Date());
-    
-      gtag('config', 'G-M1QG4XSD3K');
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
@@ -39,6 +37,7 @@
         .hint { margin-top: 26px; color: #8a8378; font-size: 0.8rem; }
         .hint a { color: #f5b840; }
     </style>
+    <script src="/js/consent.js" defer></script>
 </head>
 <body>
     <main class="card">

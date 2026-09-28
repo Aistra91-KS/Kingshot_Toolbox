@@ -35,6 +35,8 @@ const FTR_I18N = {
     changelogSub: 'Ce qui a changé récemment',
     version: 'version',
     madeBy: 'Créé par Aistra91 · serveur 286',
+    cookies: 'Cookies',
+    cookiesTitle: 'Changer ton choix sur les cookies de mesure',
     disclaimer: 'Site de fan non officiel, sans lien avec Century Games. Tous les noms et images du jeu appartiennent à leurs propriétaires respectifs.'
   },
   EN: {
@@ -45,6 +47,8 @@ const FTR_I18N = {
     changelogSub: 'What changed recently',
     version: 'version',
     madeBy: 'Made by Aistra91 · server 286',
+    cookies: 'Cookies',
+    cookiesTitle: 'Change your choice on measurement cookies',
     disclaimer: 'Unofficial fan site, not affiliated with Century Games. All game names and images belong to their respective owners.'
   }
 };
@@ -99,6 +103,13 @@ function ftrRender() {
     links += ftrLinkHtml(P.changelog.href, ftrSvg('history'), ftrName(P.changelog.name), ftrT('changelogSub'), false);
   }
 
+  // Rouvre le bandeau de consentement (js/consent.js l'écoute sur `data-consent-open`).
+  // Affiché seulement si la page charge consent.js : une page en cache d'avant le
+  // bandeau n'aurait sinon qu'un bouton mort.
+  const cookies = document.querySelector('script[src$="js/consent.js"]')
+    ? ` · <button type="button" class="sf-cookies" data-consent-open title="${ftrEsc(ftrT('cookiesTitle'))}">${ftrEsc(ftrT('cookies'))}</button>`
+    : '';
+
   const ver = S.version
     ? `<a class="sf-version" href="${ftrEsc((P.changelog && P.changelog.href) || S.home)}" title="${ftrEsc(ftrT('version'))} ${ftrEsc(S.version)}">v${ftrEsc(S.version)}</a>`
     : '';
@@ -107,7 +118,7 @@ function ftrRender() {
     <div class="sf-inner">
       <nav class="sf-links" aria-label="${ftrEsc(ftrT('nav'))}">${links}</nav>
       <div class="sf-legal">
-        <span class="sf-legal-line">© ${year} ${ftrEsc(S.name)} ${ver} · ${ftrEsc(ftrT('madeBy'))}</span>
+        <span class="sf-legal-line">© ${year} ${ftrEsc(S.name)} ${ver} · ${ftrEsc(ftrT('madeBy'))}${cookies}</span>
         <span class="sf-legal-note">${ftrEsc(ftrT('disclaimer'))}</span>
       </div>
     </div>`;

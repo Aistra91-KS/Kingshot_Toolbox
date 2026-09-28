@@ -2931,6 +2931,8 @@ body.has-page-row:not(.hub-body) { display: block; }
     transition: background-color .15s, color .15s;
 }
 .ab-cta:hover, .ab-cta:focus-visible { background: var(--accent); color: #0a0a0a; }
+/* Même bouton en <button> (rouvrir le choix des cookies) : sans ces remises à zéro, il garde le fond et la police du navigateur. */
+button.ab-cta { background: none; font-family: inherit; cursor: pointer; }
 
 /* ---- Nouveautés : une version = un jalon de la frise ---- */
 .cl-count { color: var(--text-muted); font-size: 13px; margin: 0 0 22px; }

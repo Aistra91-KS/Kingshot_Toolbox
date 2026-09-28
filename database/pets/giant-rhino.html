@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
     try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <!-- Google tag (gtag.js) : refus par défaut, js/consent.js ne le charge qu'après accord -->
     <script>
       if (navigator.webdriver) window['ga-disable-G-M1QG4XSD3K'] = true; // navigateur piloté (robot, test automatisé) : pas de mesure
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied'});
       gtag('js', new Date());
-    
-      gtag('config', 'G-M1QG4XSD3K');
     </script>
     <base href="../../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,6 +37,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/db.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Pets","item":"https://kingshottoolbox.com/database/pets/"},{"@type":"ListItem","position":3,"name":"Giant Rhino","item":"https://kingshottoolbox.com/database/pets/giant-rhino"}]}</script>
+    <script src="js/consent.js" defer></script>
 </head>
 <body class="has-app-header">
     <div class="db-page">

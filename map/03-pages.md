@@ -33,5 +33,6 @@ Le socle (`site-config`, `storage-keys`, `profiles`, `lang`, `header`, `footer`)
 
 **Socle, dans cet ordre**, sur les pages outils et boutiques : `site-config.js` → `storage-keys.js` → `profiles.js` → `lang.js` → `help.js` → script de page → `header.js` → `backup.js` → `footer.js`, **toujours en dernier** (§5).
 Les pages `database/*` ne chargent que `site-config.js`, `lang.js`, `profiles.js` (pour l'interface des profils du header), `header.js`, leur script de rendu et `footer.js` : ni aide, ni sauvegarde, ni `storage-keys.js`. `pets.html` n'a ni `help.js` ni `footer.js`.
+Toutes les pages, 404 comprise (en chemin absolu `/js/consent.js`), chargent en plus `consent.js` en `defer` juste avant `</head>` (§9 `09a`).
 
 **Fiches Experts et Familiers** (`db-masters.js`, `db-pets.js`) : le « X » qui change avec le palier est doré (`highlightX()`, « XP » épargné) ; un effet d'Expert à deux valeurs `(a;b)` s'affiche sur deux colonnes « Effet 1 / Effet 2 ».
