@@ -56,6 +56,7 @@ Kingshot_Toolbox/
 │   ├── profiles.js         ★ Profils : proxy sur localStorage (kt::<id>::<clé>), migration · §8
 │   ├── lang.js             ★ GlobalLang, applyI18n, événement langChanged · §4
 │   ├── header.js           ★ Header et drawer depuis SITE, thème, modales globales
+│   ├── consent.js          Bandeau de cookies et chargement de gtag.js après accord ; `defer` avant `</head>` sur toutes les pages · §9 09a
 │   ├── footer.js           ★ Pied de page (toujours le dernier script ; absent de pets.html) · §5
 │   ├── help.js             Aide : bouton, bandeau, modale, info-bulles ; reprend bouton et bandeau écrits en dur · §9 09d
 │   ├── backup.js           Sauvegarde globale export/import · §8
@@ -101,7 +102,7 @@ Kingshot_Toolbox/
 │
 ├── tests/                  node --test à la racine, sans dépendance · §10
 │   ├── harness.mjs         Charge js/ tel quel dans un contexte vm
-│   └── beartrap-distribution, euro-affinity, euro-ceiling, pets-plan, research-order, shop-event, theater-draw, wa-coins, wa-exchange, writing (.test.mjs)
+│   └── beartrap-distribution, consent, euro-affinity, euro-ceiling, pets-plan, research-order, shop-event, theater-draw, wa-advanced, wa-coins, wa-exchange, writing (.test.mjs)
 │
 ├── .github/                Public seulement : tests.yml (node --test + build_pages --check), discord-announce.yml + scripts/announce.js + news/ · §7
 └── RELEVE_CONQUETE.md, TRAVAUX_2026-09-20.md, database_hero.md, .vscode/   Miroir seulement : documents de travail (cf. son README)

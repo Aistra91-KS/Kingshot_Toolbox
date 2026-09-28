@@ -68,7 +68,8 @@ python3 tools/sync_drawer.py --check
 ## Reusing this
 
 The code is here to be read and learned from. If you run a copy of the site
-somewhere public, please change the Google Analytics id in the page headers and
+somewhere public, please change the Google Analytics id (in the page headers
+and in `js/consent.js`, which loads Google's script once a visitor accepts) and
 the feedback form endpoint, so your visitors' data does not land in someone
 else's account.
 

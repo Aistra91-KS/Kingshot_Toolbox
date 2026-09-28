@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
     try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1QG4XSD3K"></script>
+    <!-- Google tag (gtag.js) : refus par défaut, js/consent.js ne le charge qu'après accord -->
     <script>
       if (navigator.webdriver) window['ga-disable-G-M1QG4XSD3K'] = true; // navigateur piloté (robot, test automatisé) : pas de mesure
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied'});
       gtag('js', new Date());
-    
-      gtag('config', 'G-M1QG4XSD3K');
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
@@ -37,6 +35,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
     <link rel="stylesheet" href="css/style.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://kingshottoolbox.com/#website","name":"Kingshot Toolbox","url":"https://kingshottoolbox.com/","inLanguage":["en","fr"],"publisher":{"@id":"https://kingshottoolbox.com/#organization"}},{"@type":"Organization","@id":"https://kingshottoolbox.com/#organization","name":"Kingshot Toolbox","url":"https://kingshottoolbox.com/","logo":{"@type":"ImageObject","url":"https://kingshottoolbox.com/img/logo/logo-512.png","width":512,"height":512}}]}</script>
+    <script src="js/consent.js" defer></script>
 </head>
 <body class="hub-body has-app-header">
 
