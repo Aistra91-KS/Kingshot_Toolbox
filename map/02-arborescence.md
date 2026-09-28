@@ -102,7 +102,7 @@ Kingshot_Toolbox/
 │
 ├── tests/                  node --test à la racine, sans dépendance · §10
 │   ├── harness.mjs         Charge js/ tel quel dans un contexte vm
-│   └── beartrap-distribution, euro-affinity, euro-ceiling, pets-plan, research-order, shop-event, theater-draw, wa-coins, wa-exchange, writing (.test.mjs)
+│   └── beartrap-distribution, consent, euro-affinity, euro-ceiling, pets-plan, research-order, shop-event, theater-draw, wa-advanced, wa-coins, wa-exchange, writing (.test.mjs)
 │
 ├── .github/                Public seulement : tests.yml (node --test + build_pages --check), discord-announce.yml + scripts/announce.js + news/ · §7
 └── RELEVE_CONQUETE.md, TRAVAUX_2026-09-20.md, database_hero.md, .vscode/   Miroir seulement : documents de travail (cf. son README)

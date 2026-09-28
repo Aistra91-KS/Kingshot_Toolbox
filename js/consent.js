@@ -62,8 +62,11 @@
   var me = document.currentScript;
   var ROOT = me && (me.getAttribute('src') || '').charAt(0) === '/' ? '/' : '';
 
+  // La 404 ne charge pas lang.js : elle lit directement la langue choisie ailleurs
+  // sur le site (`hub_lang`, MAP §8), sans quoi un francophone y aurait le bandeau en anglais.
   function lang() {
     try { if (window.GlobalLang) return window.GlobalLang.get() === 'FR' ? 'FR' : 'EN'; } catch (e) { /* repli ci-dessous */ }
+    try { var l = localStorage.getItem('hub_lang'); if (l) return l === 'FR' ? 'FR' : 'EN'; } catch (e) { /* repli ci-dessous */ }
     return /^fr/i.test(document.documentElement.lang || '') ? 'FR' : 'EN';
   }
   function t(k) { return TXT[lang()][k]; }
@@ -84,7 +87,9 @@
     return null;
   }
   function saveChoice(ok) {
-    try { localStorage.setItem(KEY, JSON.stringify({ ok: ok, t: Date.now() })); } catch (e) { /* choix appliqué à cette page seulement */ }
+    // Stockage plein ou interdit : le choix ne vaut que pour cette page, et le bandeau
+    // reviendra à la suivante. Rien à montrer au joueur, mais la console le dit.
+    try { localStorage.setItem(KEY, JSON.stringify({ ok: ok, t: Date.now() })); } catch (e) { console.warn('choix des cookies non enregistré :', e); }
   }
 
   // ---------- Google Analytics ----------
@@ -105,8 +110,10 @@
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
     document.head.appendChild(s);
   }
-  // Retrait après un accord : couper la mesure sur la page et effacer les
-  // cookies _ga déjà posés, sur l'hôte comme sur le domaine parent où GA les range.
+  // Refus : couper la mesure sur la page et effacer les cookies _ga, sur l'hôte
+  // comme sur le domaine parent où GA les range. À chaque refus, pas seulement
+  // après un accord en cours : un accord expiré (6 mois) passe pour « pas de
+  // choix », et ses cookies de 13 mois seraient restés.
   function stopGa() {
     window['ga-disable-' + GA_ID] = true;
     consent('denied');
@@ -125,26 +132,48 @@
   // ---------- Bandeau ----------
   var CSS =
     '#ks-consent{position:fixed;z-index:9100;left:20px;bottom:20px;box-sizing:border-box;max-width:440px;' +
-    'width:calc(100% - 40px);padding:16px 18px;border-radius:12px;border:1px solid var(--border,#2a2a2a);' +
+    'width:calc(100% - 40px);max-height:calc(100vh - 40px);overflow-y:auto;padding:16px 18px;border-radius:12px;border:1px solid var(--border,#2a2a2a);' +
     'border-top:3px solid var(--accent,#f5b840);background:var(--bg-panel,#161616);color:var(--text-light,#f0e8d5);' +
     'box-shadow:0 8px 28px var(--shadow,rgba(0,0,0,.6));font:14px/1.5 "Segoe UI",Tahoma,Geneva,Verdana,sans-serif;' +
     'animation:ksc-in .2s ease-out}' +
+    '#ks-consent.ksc-right{left:auto;right:20px}' +
     '#ks-consent .ksc-title{margin:0 0 4px;font-weight:700;font-size:15px;color:var(--accent-text,var(--accent,#f5b840))}' +
     '#ks-consent .ksc-text{margin:0;color:var(--text-light,#f0e8d5)}' +
     '#ks-consent .ksc-text a{color:var(--accent-text,var(--accent,#f5b840));text-decoration:underline}' +
     '#ks-consent .ksc-now{margin:6px 0 0;color:var(--text-muted,#938c81);font-size:13px}' +
     '#ks-consent .ksc-actions{display:flex;gap:10px;margin-top:12px}' +
     '#ks-consent .ksc-btn{flex:1;min-height:44px;padding:8px 14px;border-radius:6px;cursor:pointer;font:inherit;font-weight:600;' +
-    'border:1px solid var(--accent,#f5b840);background:var(--control-bg,#1f1f1f);color:var(--text-light,#f0e8d5);transition:background .15s}' +
+    'border:1px solid var(--accent-text,var(--accent,#f5b840));background:var(--control-bg,#1f1f1f);color:var(--text-light,#f0e8d5);transition:background .15s}' +
     '#ks-consent .ksc-btn:hover{background:var(--input-bg,#252525)}' +
     '#ks-consent a:focus-visible,#ks-consent .ksc-btn:focus-visible,.sf-cookies:focus-visible{outline:2px solid var(--accent-text,var(--accent,#f5b840));outline-offset:2px}' +
     '@keyframes ksc-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}' +
     '@media (prefers-reduced-motion:reduce){#ks-consent{animation:none}}' +
-    '@media (max-width:600px){#ks-consent{left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:calc(100% - 24px);max-width:none}}' +
+    '@media (max-width:600px){#ks-consent{left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:calc(100% - 24px);max-width:none;max-height:calc(100vh - 24px - env(safe-area-inset-bottom,0px))}#ks-consent.ksc-right{right:12px}}' +
     // Lien « Cookies » du pied de page (footer.js) : un bouton qui a l'air d'un lien.
     '.sf-cookies{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer}';
 
   var box = null, opener = null;
+
+  // Tant que le bandeau est ouvert, un élément atteint au clavier ne doit pas finir
+  // dessous (WCAG 2.4.11). La page réserve la hauteur du bandeau en bas : dans le
+  // défilement du navigateur (`scroll-padding`), et en marge, pour que le pied de
+  // page puisse remonter au-dessus. Un élément déjà à l'écran mais caché, que le
+  // navigateur ne fait pas défiler, est remonté par `focusin` plus bas.
+  function reserve() {
+    if (!box) return;
+    // offsetTop et non getBoundingClientRect : l'animation d'entrée décale le bandeau de 12 px.
+    var h = Math.ceil(window.innerHeight - box.offsetTop + 8) + 'px';
+    document.documentElement.style.scrollPaddingBottom = h;
+    document.documentElement.style.paddingBottom = h;
+  }
+  function covered(el) {
+    var a = el.getBoundingClientRect(), b = box.getBoundingClientRect();
+    return a.bottom > b.top && a.top < b.bottom && a.right > b.left && a.left < b.right;
+  }
+  function unreserve() {
+    document.documentElement.style.removeProperty('scroll-padding-bottom');
+    document.documentElement.style.removeProperty('padding-bottom');
+  }
 
   function injectCss() {
     if (document.getElementById('ks-consent-css')) return;
@@ -180,25 +209,29 @@
       box.id = 'ks-consent';
       box.setAttribute('role', 'region');
       box.setAttribute('aria-labelledby', 'ksc-title');
+      // Google exécute le JavaScript et verrait ce texte en tête de chaque page :
+      // qu'il ne le prenne jamais comme extrait dans ses résultats.
+      box.setAttribute('data-nosnippet', '');
       // En tête du body : au clavier, le bandeau vient avant la page, pas après
       // le pied de page. Il est `fixed`, il ne dérange pas la rangée de footer.js.
       document.body.insertBefore(box, document.body.firstChild);
     }
     fill();
+    reserve();
     if (focus) box.querySelector('.ksc-btn').focus();
   }
 
   function hide() {
     if (box) { box.remove(); box = null; }
+    unreserve();
     if (opener && document.contains(opener)) opener.focus();
     opener = null;
   }
 
   function choose(ok) {
-    var before = readChoice();
     saveChoice(ok);
     if (ok) startGa();
-    else if (before === true || loaded) stopGa();
+    else stopGa();
     hide();
   }
 
@@ -213,7 +246,20 @@
     // réponse, il reviendrait à la page suivante.
     if (e.key === 'Escape' && box && opener && readChoice() !== null) hide();
   });
-  window.addEventListener('langChanged', function () { if (box) fill(); });
+  window.addEventListener('langChanged', function () { if (box) { fill(); reserve(); } });
+  window.addEventListener('resize', reserve);
+  // Après le défilement que le navigateur a pu faire lui-même, d'où la frame d'attente.
+  document.addEventListener('focusin', function (e) {
+    var el = e.target;
+    if (!box || box.contains(el)) return;
+    requestAnimationFrame(function () {
+      if (!box || document.activeElement !== el || !covered(el)) return;
+      window.scrollBy(0, el.getBoundingClientRect().bottom - box.getBoundingClientRect().top + 8);
+      // Dans un bloc qui ne suit pas la page (la colonne `sticky` des Recherches),
+      // défiler ne sert à rien : le bandeau passe de l'autre côté de l'écran.
+      if (covered(el)) box.classList.toggle('ksc-right');
+    });
+  });
 
   // ---------- Démarrage ----------
   injectCss();   // aussi pour le lien du pied de page, bandeau fermé ou non
