@@ -8,6 +8,103 @@
   },
   "releases": [
     {
+      "version": "1.15.0",
+      "date": "2026-09-28",
+      "changes": [
+        {
+          "type": "new",
+          "title": {
+            "EN": "The heroes have their database",
+            "FR": "Les héros ont leur base de données"
+          },
+          "text": {
+            "EN": "All 37 heroes have a page: conquest skills and expedition skills side by side, the effect of each one and its value at every level from 1 to 5, and the hero's widget when there is one. A level selector rewrites every value on the page, and a table underneath gives the five levels at once. The index is sorted by generation, newest first. The French skill names and texts now follow the game for most heroes, in My Barracks too.",
+            "FR": "Les 37 héros ont leur fiche : compétences de conquête et d'expédition côte à côte, l'effet de chacune et sa valeur à chaque niveau de 1 à 5, et le widget du héros quand il en a un. Un sélecteur de niveau réécrit toutes les valeurs de la page, et un tableau en dessous donne les cinq niveaux d'un coup. Le sommaire est rangé par génération, la plus récente en tête. Les noms et textes français des compétences suivent maintenant le jeu pour la plupart des héros, dans Ma Caserne aussi."
+          },
+          "href": "database/heroes/",
+          "linkLabel": {
+            "EN": "Heroes database",
+            "FR": "Base de données Héros"
+          }
+        },
+        {
+          "type": "new",
+          "title": {
+            "EN": "War Academy: the advanced research joins the plan",
+            "FR": "Académie de Guerre : les recherches avancées entrent dans le plan"
+          },
+          "text": {
+            "EN": "The War Academy page gains two tabs. Advanced research plans the 92 researches that open from TG5 to TG8, laid out as in the game with their icons and the branches between them, in English and in French. Global suggestion mixes them with the three troop trees when that earns more, sharing dust, Tempered TrueGold, coins and speedups. Tempered TrueGold becomes a stock of its own under Resources, worth 30,000 KvK points each.",
+            "FR": "La page Académie de Guerre gagne deux onglets. Recherches avancées planifie les 92 recherches qui s'ouvrent de TG5 à TG8, disposées comme en jeu avec leurs icônes et les branches qui les relient, en français comme en anglais. Suggestion globale les mélange aux trois arbres de troupes quand c'est plus rentable, en partageant poussière, Or Véritable trempé, pièces et accélérateurs. L'Or Véritable trempé devient un stock à part dans Ressources, à 30 000 points KvK l'unité."
+          },
+          "href": "waracademy",
+          "linkLabel": {
+            "EN": "War Academy",
+            "FR": "Académie de Guerre"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "War Academy: the crucible, as on the Building Planner",
+            "FR": "Académie de Guerre : le creuset, comme sur le Planificateur"
+          },
+          "text": {
+            "EN": "Enter how many of the 100 crucible transformations you have already made, and the plan can turn TrueGold into Tempered TrueGold: 20 TrueGold for about 1.45 at first, up to 160 for about 3.71 on the last ones. The same TrueGold also pays for the dust exchanges, and the plan picks the split that earns the most. \"Apply these changes\" adds the transformations to your counter.",
+            "FR": "Indique combien des 100 transformations du creuset tu as déjà faites, et le plan peut changer du TrueGold en Or Véritable trempé : 20 TrueGold pour environ 1,45 au début, jusqu'à 160 pour environ 3,71 sur les dernières. Le même TrueGold paie aussi les échanges de poussière, et le plan choisit le partage qui rapporte le plus. \"Appliquer les modifications\" ajoute les transformations à ton compteur."
+          },
+          "href": "waracademy",
+          "linkLabel": {
+            "EN": "War Academy",
+            "FR": "Académie de Guerre"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Pages hold still while they load",
+            "FR": "Les pages ne sautent plus au chargement"
+          },
+          "text": {
+            "EN": "Shop pages, the item tables, the home page, the research tables, the Pets and Masters sheets and the changelog used to push their content down once the data arrived, and on a phone a tap could land on the wrong line. Each block now keeps its space from the start: on phones, 57 pages moved noticeably, one is left, the Pets tool, which is due for a redesign. On computers, the Academy and War Academy database tables fit the screen without a sideways scrollbar.",
+            "FR": "Les pages boutique, les tableaux d'objets, l'accueil, les tableaux de recherches, les fiches Familiers et Experts et la page Nouveautés poussaient leur contenu vers le bas à l'arrivée des données, et sur téléphone un appui pouvait tomber sur la mauvaise ligne. Chaque bloc garde maintenant sa place dès le départ : sur téléphone, 57 pages bougeaient nettement, il en reste une, l'outil Familiers, dont la refonte est prévue. Sur ordinateur, les tableaux de recherches de l'Académie et de l'Académie de Guerre tiennent dans l'écran sans barre de défilement horizontale."
+          },
+          "href": "database/research/",
+          "linkLabel": {
+            "EN": "Research database",
+            "FR": "Base de données Recherches"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Easier to read, and usable from the keyboard",
+            "FR": "Plus lisible, et utilisable au clavier"
+          },
+          "text": {
+            "EN": "In the light theme, gold text (TrueGold column, titles, links, active tabs) takes a darker gold, and grey text reads better in both themes. The menus work from the keyboard: the closed mobile menu no longer catches the Tab key, and the menus at the top show where the focus is. On a phone, the currency field of event shops no longer pushes the page sideways, and touching it no longer zooms the page on iPhone.",
+            "FR": "En thème clair, le texte doré (colonne TrueGold, titres, liens, onglets actifs) passe à un or plus foncé, et le texte gris se lit mieux dans les deux thèmes. Les menus s'utilisent au clavier : le menu mobile fermé ne capte plus la touche Tab, et les menus du haut de page montrent où se trouve le focus. Sur téléphone, le champ de monnaie des boutiques d'événement ne décale plus la page sur le côté, et le toucher ne zoome plus la page sur iPhone."
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "A double comma, and a warning that was missing",
+            "FR": "Une double virgule, et un avertissement qui manquait"
+          },
+          "text": {
+            "EN": "Fifteen Town Center and Command Center levels listed their requirements with a double comma. And when a refresh of the figures fails halfway (usually an old file kept in the browser's cache), every tool and shop page now says so. Only the Building Planner did before; the others left outdated numbers on screen without a word.",
+            "FR": "Quinze niveaux du Centre-ville et de la Base de commandement affichaient leurs prérequis avec une double virgule. Et quand la mise à jour des chiffres échoue en cours de route (le plus souvent un ancien fichier gardé en cache par le navigateur), chaque outil et chaque page boutique le signale désormais. Seul le Planificateur de Bâtiments le faisait ; les autres laissaient des chiffres périmés à l'écran sans rien dire."
+          },
+          "href": "database/buildings/town-center",
+          "linkLabel": {
+            "EN": "Town Center",
+            "FR": "Centre-ville"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.14.2",
       "date": "2026-09-22",
       "changes": [

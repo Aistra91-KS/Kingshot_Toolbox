@@ -53,13 +53,9 @@ window.scResetItems=function(){
 };
 
 (async function(){
-  await scLoadItems();
-  scApplyTranslations();
-  scRenderCatFilter(); scRenderItems();
-
-  const s=document.getElementById('item-search'); if(s) s.addEventListener('input',scRenderItems);
-  const c=document.getElementById('item-cat-filter'); if(c) c.addEventListener('change',scRenderItems);
-
+  // L'aide ne dépend d'aucune donnée : posée avant le chargement, son bandeau
+  // tient sa place dès le premier affichage au lieu de pousser la page à
+  // l'arrivée des données (MAP.md §9, décalages de mise en page).
   if (window.HelpSystem) HelpSystem.init({
     id:'shop-items', banner:true,
     title:{FR:'Valeur des objets : Aide', EN:'Item values: Help'},
@@ -72,11 +68,20 @@ window.scResetItems=function(){
           "Le bouton « Réinitialiser les valeurs » restaure les valeurs d'origine du site."],
       EN:["Search an item by name, or filter by category.",
           "Edit a value: it is saved immediately, on your device and for the active profile.",
-          "Every shop uses that value to compute the “value ÷ cost” ratio.",
-          "The “Reset values” button restores the site's original values."]
+          "Every shop uses that value to compute the \"value ÷ cost\" ratio.",
+          "The \"Reset values\" button restores the site's original values."]
     },
     links:[{label:{FR:"D'où viennent ces valeurs", EN:'Where these values come from'}, href:'item-values'}]
   });
+
+  await scLoadItems();
+  scApplyTranslations();
+  // Fin de la réserve de hauteur du tableau (css/style.css, `.is-loading`), rendu réussi ou non.
+  try { scRenderCatFilter(); scRenderItems(); }
+  finally { const tc=document.querySelector('.table-container.is-loading'); if(tc) tc.classList.remove('is-loading'); }
+
+  const s=document.getElementById('item-search'); if(s) s.addEventListener('input',scRenderItems);
+  const c=document.getElementById('item-cat-filter'); if(c) c.addEventListener('change',scRenderItems);
 
   window.addEventListener('langChanged',()=>{ scApplyTranslations(); scRenderCatFilter(); scRenderItems(); });
 })();

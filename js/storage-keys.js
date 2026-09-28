@@ -233,6 +233,26 @@ function ktWarnStale() {
         true);
 }
 
+// Filet commun à toutes les pages qui chargent ce fichier. Seul TrueGold appelait
+// `ktWarnStale()` lui-même : partout ailleurs, une exception en plein rendu (un
+// script en cache qui ne connaît pas encore une fonction, cf. MAP.md §9) laissait
+// les chiffres périmés à l'écran sans un mot. Les erreurs déjà rattrapées par une
+// page n'arrivent pas jusqu'ici, il n'y a donc pas de double bandeau.
+// On ne retient que ce qui vient de NOS scripts : Google Analytics, les extensions
+// du navigateur et le « ResizeObserver loop » arrivent sans fichier ou d'ailleurs.
+function ktFromHere(src) {
+    return typeof src === 'string' && src.indexOf(location.origin + '/') !== -1;
+}
+window.addEventListener('error', (e) => {
+    if (ktFromHere(e && e.filename)) ktWarnStale();
+});
+// Les démarrages de page en `async` (boutiques, prix réel des objets) ne lèvent
+// jamais `error` : une exception y devient une promesse rejetée.
+window.addEventListener('unhandledrejection', (e) => {
+    const r = e && e.reason;
+    if (ktFromHere(r && r.stack)) ktWarnStale();
+});
+
 // ============================================================
 //  ÉCRITURE SÛRE + AVERTISSEMENT VISIBLE
 //  Un stockage plein (quota) ou interdit (navigation privée, cookies bloqués)

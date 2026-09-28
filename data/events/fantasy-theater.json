@@ -61,7 +61,7 @@
     "amuletLabelNote": "Doit correspondre EXACTEMENT au `label` des amulettes dans theater-shop.json (packs et missions) : c'est la clé sous laquelle shop-event.js range les objets non valorisables, et donc par elle que ce module retrouve le total du plan."
   },
   "fortress": {
-    "note": "Confirmé en jeu par Aistra (2026-09-02) : la Forteresse compte 8 étages. `costByFloor` s'arrête donc à 7, comme au Théâtre le coût s'arrête à l'avant-dernier étage — on n'explore jamais DEPUIS le sommet.",
+    "note": "Confirmé en jeu par Aistra (2026-09-02) : la Forteresse compte 8 étages. `costByFloor` s'arrête donc à 7, comme au Théâtre le coût s'arrête à l'avant-dernier étage : on n'explore jamais DEPUIS le sommet.",
     "peak": 8,
     "costByFloor": {
       "1": 3,

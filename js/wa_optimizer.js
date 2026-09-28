@@ -30,7 +30,10 @@
 //  plan wins — see KVK_ORDERS and the 'chain' ordering, which is what lets the plan
 //  invest in a prerequisite run instead of only ever buying the best next level.
 //
-//  KvK scoring (spec): 1000 pts / dust  +  30 pts / speedup-minute.
+//  KvK scoring (spec): 1000 pts / dust  +  30 000 pts / Tempered Truegold (TTG)
+//  +  30 pts / speedup-minute. The TTG rate is the one of the TrueGold building
+//  page (truegold_script.js): only the Advanced tree costs TTG, so for the three
+//  Basic trees nothing changes.
 //  Points are computed on the EFFECTIVE dust & time actually spent by the
 //  player: the speed bonus shortens the research, so fewer speedup-minutes
 //  are consumed, which earns fewer time-based points (30 pts per speedup-
@@ -48,8 +51,66 @@
   const SCORE_ON_EFFECTIVE = true; // true = score on what the player actually spends (post-bonus); false = nominal cost
   const PTS_PER_DUST = 1000;
   const PTS_PER_MIN  = 30;
+  const PTS_PER_TTG  = 30000;
+  // Un TTG rapporte autant de points que 30 poussières. Les ordres de sélection
+  // mesurent donc un coût « en poussières » où chaque TTG pèse 30 : sans TTG,
+  // la formule redonne exactement l'ancienne.
+  const TTG_DUST_EQ  = PTS_PER_TTG / PTS_PER_DUST;
 
   const key = (treeId, resId) => treeId + '.' + resId;
+
+  // ============================================================
+  //  ARBRE AVANCÉ
+  //  `truegold_war_advanced_db.json` n'a pas la forme des trois arbres de base :
+  //  une seule liste de 92 recherches, des prérequis `{techId, level}`, l'or dans
+  //  `gold`. On le ramène ici à un arbre de plus (`id: 'advanced'`), pour que le
+  //  moteur le traite comme les autres et qu'un seul plan partage la poussière,
+  //  le TTG et les accélérateurs entre les quatre arbres.
+  //  L'or de l'arbre avancé est la même monnaie que les pièces de l'arbre de base
+  //  (confirmé par Aistra) : il va dans `coin`, et la même bourse paie les deux.
+  // ============================================================
+  const ADV_TREE_ID = 'advanced';
+  function troopOf(tech) {
+    const e = (tech.effect && tech.effect.EN) || '';
+    if (/^Infantry/.test(e)) return 'infantry';
+    if (/^Cavalry/.test(e)) return 'cavalry';
+    if (/^Archer/.test(e)) return 'archer';
+    return null;
+  }
+  function buffOf(tech, lvl) {
+    if (lvl.effectTotal == null) return '';
+    const v = String(lvl.effectTotal).replace(/\.0+$/, '');
+    const unit = tech.effectUnit === 'percent' ? '%' : '';
+    return '+' + v + unit + ' ' + ((tech.effect && tech.effect.EN) || '');
+  }
+  function advancedTree(adv) {
+    if (!adv || !Array.isArray(adv.techs)) return null;
+    return {
+      id: ADV_TREE_ID,
+      name: { EN: 'Advanced', FR: 'Avancées' },
+      researches: adv.techs.map(tech => ({
+        id: tech.id,
+        name: tech.name,
+        maxLevel: tech.maxLevel,
+        category: tech.category,
+        tier: tech.tier,
+        troop: troopOf(tech),
+        effect: tech.effect,
+        effectUnit: tech.effectUnit,
+        levels: (tech.levels || []).map(l => ({
+          level: l.level,
+          dust: l.dust || 0,
+          ttg: l.ttg || 0,
+          time: l.time || 0,
+          coin: l.gold || 0,
+          bread: l.bread || 0, wood: l.wood || 0, stone: l.stone || 0, iron: l.iron || 0,
+          reqWA: l.reqWA || 0,
+          req: (l.req || []).map(x => ({ r: x.techId, lvl: x.level })),
+          buff: buffOf(tech, l),
+        })),
+      })),
+    };
+  }
 
   // ============================================================
   //  ÉCHANGES DE POUSSIÈRE
@@ -206,34 +267,45 @@
     // (`levels[].coin`), et elles servent aussi à acheter de la poussière par échange.
     // Laissé à null, le budget est infini et le plan se comporte comme avant.
     const coinBudget    = opts.coinBudget == null ? Infinity : Math.max(0, Number(opts.coinBudget) || 0);
+    // Le TTG (Or Véritable trempé) n'est demandé que par l'arbre avancé. Laissé à
+    // null, il est illimité et les trois arbres de base ne voient aucune différence.
+    const ttgBudget     = opts.ttgBudget == null ? Infinity : Math.max(0, Number(opts.ttgBudget) || 0);
 
     const speedFactor = 1 + speedPct / 100;         // time_eff = base / factor
     const costFactor  = 1 - costRedPct / 100;        // dust_eff = ceil(base * factor)
     const effDustOf   = (base) => Math.max(0, Math.ceil(base * costFactor));
     const effTimeOf   = (base) => Math.round(base / speedFactor);
+    // Coût d'un niveau en poussières, chaque TTG en pesant 30 (son poids en points).
+    // Un ordre qui pesait le TTG selon la rareté des stocks du joueur a été essayé :
+    // jamais meilleur sur 200 scénarios tirés au sort, il a été retiré.
+    const costOf = (eff, ttg) => eff + TTG_DUST_EQ * ttg;
 
     const state = buildState(db, currentLevels, enabledTrees);
 
     const steps = [];
-    let spentDust = 0, spentEffDust = 0, spentBaseTime = 0, spentEffTime = 0, spentCoins = 0;
+    let spentDust = 0, spentEffDust = 0, spentBaseTime = 0, spentEffTime = 0, spentCoins = 0, spentTtg = 0;
     let score = 0; // KvK points accumulated (nominal or effective per flag)
     let inProgressKey = null; // the single research left unfinished by a resource limit
 
     const affordable = (nl) => spentEffDust + effDustOf(nl.dust || 0) <= dustBudget
-                            && spentCoins + (nl.coin || 0) <= coinBudget;
+                            && spentCoins + (nl.coin || 0) <= coinBudget
+                            && spentTtg + (nl.ttg || 0) <= ttgBudget;
 
     const HARD_CAP = 100000;
     let iter = 0;
 
+    // Points of a level's resources (dust + TTG), without the time part.
+    const resPts = (nl) => PTS_PER_DUST * (SCORE_ON_EFFECTIVE ? effDustOf(nl.dust || 0) : (nl.dust || 0))
+                         + PTS_PER_TTG * (nl.ttg || 0);
+
     // Per-level value for choosing the next level (free switching, no lock).
     function levelScore(entry, nl) {
-      const bd = nl.dust || 0, bt = nl.time || 0;
+      const bd = nl.dust || 0, bt = nl.time || 0, tg = nl.ttg || 0;
       const eff = effDustOf(bd);
-      if (orderStrategy === 'classic') return -eff;               // cheapest next level -> most levels
-      if (orderStrategy === 'dustdense') return bd / Math.max(1, bt); // max dust per time unit (time-bound regime)
-      const pts = PTS_PER_DUST * (SCORE_ON_EFFECTIVE ? eff : bd)
-                + PTS_PER_MIN  * (SCORE_ON_EFFECTIVE ? effTimeOf(bt) : bt);
-      return pts / Math.max(1, eff);       // 'kvk' & 'chain' -> best points per dust
+      if (orderStrategy === 'classic') return -costOf(eff, tg);   // cheapest next level -> most levels
+      if (orderStrategy === 'dustdense') return (bd + TTG_DUST_EQ * tg) / Math.max(1, bt); // max resources per time unit (time-bound regime)
+      const pts = resPts(nl) + PTS_PER_MIN * (SCORE_ON_EFFECTIVE ? effTimeOf(bt) : bt);
+      return pts / Math.max(1, costOf(eff, tg)); // 'kvk' & 'chain' -> best points per unit of cost
     }
 
     // ---- 'chain' ordering: price a prerequisite chain as ONE purchase ------------------
@@ -251,36 +323,47 @@
 
     // Levels missing to bring `k` up to level `upTo`, prerequisites included.
     // Returns false if a War Academy gate blocks the way: that is not for sale.
-    function collectNeeds(k, upTo, needs, guard) {
-      if (guard.n++ > 500) return false;                      // cycle / runaway guard
+    // `acc` sums the cost on the way and gives up as soon as it passes what is left of
+    // a budget: the caller would reject that bundle anyway, and on the Advanced tree
+    // (chains ~90 researches deep, re-walked for every locked research at every step)
+    // walking it to the end cost up to 365 ms per plan.
+    function collectNeeds(k, upTo, needs, acc) {
+      if (acc.n++ > 20000) return false;                      // cycle / runaway guard
       const e = state[k];
       if (!e || upTo > e.res.maxLevel) return false;
-      if ((needs.get(k) || 0) >= upTo) return true;
+      const prev = needs.get(k) || 0;
+      if (prev >= upTo) return true;
       needs.set(k, upTo);
-      for (let L = e.level + 1; L <= upTo; L++) {
+      // Levels up to `prev` were already walked (and costed) by an earlier call.
+      for (let L = Math.max(e.level, prev) + 1; L <= upTo; L++) {
         const o = levelObj(e, L);
         if (!o || (o.reqWA || 0) > waLevel) return false;
+        acc.dust += effDustOf(o.dust || 0); acc.time += effTimeOf(o.time || 0);
+        acc.ttg += (o.ttg || 0); acc.coin += (o.coin || 0);
+        if (spentEffDust + acc.dust > dustBudget || spentEffTime + acc.time > speedupBudget
+            || spentTtg + acc.ttg > ttgBudget || spentCoins + acc.coin > coinBudget) return false;
         for (const dep of (o.req || [])) {
-          if (!collectNeeds(key(e.treeId, dep.r), dep.lvl, needs, guard)) return false;
+          if (!collectNeeds(key(e.treeId, dep.r), dep.lvl, needs, acc)) return false;
         }
       }
       return true;
     }
 
     // Bundle leading to `entry`'s next (locked) level: total effective dust and time,
-    // density, and the playable step to take first. null when the bundle is unreachable.
+    // density, and the playable step to take first. null when the bundle is unreachable
+    // or does not fit in what is left of the budgets.
     function bundleFor(entry) {
       const needs = new Map();
-      if (!collectNeeds(key(entry.treeId, entry.res.id), entry.level + 1, needs, { n: 0 })) return null;
-      let dust = 0, time = 0, coin = 0, pts = 0, first = null, firstScore = -Infinity;
+      const acc = { n: 0, dust: 0, time: 0, ttg: 0, coin: 0 };
+      if (!collectNeeds(key(entry.treeId, entry.res.id), entry.level + 1, needs, acc)) return null;
+      let dust = 0, ttg = 0, time = 0, coin = 0, pts = 0, first = null, firstScore = -Infinity;
       for (const pair of needs) {
         const e = state[pair[0]], upTo = pair[1];
         for (let L = e.level + 1; L <= upTo; L++) {
           const o = levelObj(e, L);
           const ed = effDustOf(o.dust || 0), et = effTimeOf(o.time || 0);
-          dust += ed; time += et; coin += (o.coin || 0);
-          pts += PTS_PER_DUST * (SCORE_ON_EFFECTIVE ? ed : (o.dust || 0))
-               + PTS_PER_MIN  * (SCORE_ON_EFFECTIVE ? et : (o.time || 0));
+          dust += ed; ttg += (o.ttg || 0); time += et; coin += (o.coin || 0);
+          pts += resPts(o) + PTS_PER_MIN * (SCORE_ON_EFFECTIVE ? et : (o.time || 0));
         }
         // Entry point: a bundle member that is already playable. `upTo` matters — a
         // prerequisite that is ALREADY satisfied is still recorded (with zero cost), and
@@ -293,8 +376,8 @@
           if (sc > firstScore) { firstScore = sc; first = { k: pair[0], entry: e, nl: open }; }
         }
       }
-      if (!first || dust <= 0) return null;
-      return { dust: dust, time: time, coin: coin, dens: pts / dust, first: first };
+      if (!first || costOf(dust, ttg) <= 0) return null;
+      return { dust: dust, ttg: ttg, time: time, coin: coin, dens: pts / costOf(dust, ttg), first: first };
     }
 
     while (iter++ < HARD_CAP) {
@@ -306,7 +389,12 @@
           if (!affordable(nl)) continue;
           const sc = levelScore(state[k], nl);
           if (sc > bestScore) { bestScore = sc; best = { k, entry: state[k], nl }; }
-        } else if (orderStrategy === 'chain') {
+        } else if (orderStrategy === 'chain' && state[k].treeId !== ADV_TREE_ID) {
+          // Pas de paquet sur l'arbre avancé. Mesuré sur 120 scénarios tirés au sort
+          // (TG5 à TG8, niveaux de départ variés) : score identique dans 120 cas sur 120,
+          // pour un calcul 2,5 fois plus long (jusqu'à 480 ms par plan, et la page en
+          // lance jusqu'à 26 quand elle partage les pièces). Ses chaînes ne cachent pas
+          // de nœud rentable derrière des niveaux médiocres comme le palier de troupe.
           const e = state[k];
           if (e.level >= e.res.maxLevel) continue;            // maxed out, nothing to unlock
           const b = bundleFor(e);
@@ -317,6 +405,7 @@
           if (spentEffDust + b.dust > dustBudget) continue;
           if (spentEffTime + b.time > speedupBudget) continue;
           if (spentCoins + b.coin > coinBudget) continue;
+          if (spentTtg + b.ttg > ttgBudget) continue;
           if (!affordable(b.first.nl)) continue;
           if (b.dens > bestScore) { bestScore = b.dens; best = b.first; }
         }
@@ -328,7 +417,9 @@
       const eff = effDustOf(baseDust), effTime = effTimeOf(baseTime);
       const scoreDust = SCORE_ON_EFFECTIVE ? eff : baseDust;
       const scoreTime = SCORE_ON_EFFECTIVE ? effTime : baseTime;
-      const stepPts = PTS_PER_DUST * scoreDust + PTS_PER_MIN * scoreTime;
+      const baseTtg = lvl.ttg || 0;
+      const stepResPts = PTS_PER_DUST * scoreDust + PTS_PER_TTG * baseTtg;
+      const stepPts = stepResPts + PTS_PER_MIN * scoreTime;
 
       // TARGET mode: if the chosen (densest) level would overshoot, pick instead the
       // available level that lands CLOSEST to the target (least point overshoot, then
@@ -338,7 +429,7 @@
         const ptsOf = (nl) => {
           const sd = SCORE_ON_EFFECTIVE ? effDustOf(nl.dust || 0) : (nl.dust || 0);
           const st = SCORE_ON_EFFECTIVE ? effTimeOf(nl.time || 0) : (nl.time || 0);
-          return { d: PTS_PER_DUST * sd, t: PTS_PER_MIN * st };
+          return { d: PTS_PER_DUST * sd + PTS_PER_TTG * (nl.ttg || 0), t: PTS_PER_MIN * st };
         };
         let cross = best, bestOver = Infinity, bestDust = Infinity;
         for (const kk in state) {
@@ -357,20 +448,21 @@
         const ed = effDustOf(bd), et = effTimeOf(bt);
         const sd2 = SCORE_ON_EFFECTIVE ? ed : bd;
         const st2 = SCORE_ON_EFFECTIVE ? et : bt;
-        const dustPts = PTS_PER_DUST * sd2;
+        const tg2 = l2.ttg || 0;
+        const dustPts = PTS_PER_DUST * sd2 + PTS_PER_TTG * tg2;   // dust + TTG: paid in full
         let frac = 0; // fraction of this level's time we actually apply
         if (score + dustPts < targetScore && st2 > 0) {
           frac = Math.min(1, ((targetScore - score - dustPts) / PTS_PER_MIN) / st2);
         }
         if (et > 0) frac = Math.min(frac, Math.max(0, speedupBudget - spentEffTime) / et); // can't exceed speedups
         const partBase = bt * frac, partEff = et * frac; // exact for accounting
-        spentDust += bd; spentEffDust += ed; spentCoins += (l2.coin || 0);
+        spentDust += bd; spentEffDust += ed; spentCoins += (l2.coin || 0); spentTtg += tg2;
         spentBaseTime += partBase; spentEffTime += partEff;
         score += dustPts + PTS_PER_MIN * st2 * frac;
         steps.push({
           treeId: e2.treeId, researchId: e2.res.id, name: e2.res.name,
           toLevel: l2.level, fromLevel: l2.level - 1, maxLevel: e2.res.maxLevel,
-          baseDust: bd, effDust: ed,
+          baseDust: bd, effDust: ed, ttg: tg2,
           baseTime: Math.round(partBase), effTime: Math.round(partEff),
           points: Math.round(dustPts + PTS_PER_MIN * st2 * frac), buff: l2.buff || '',
           partial: true,
@@ -387,15 +479,15 @@
         const remEff = Math.max(0, speedupBudget - spentEffTime);
         const frac = effTime > 0 ? remEff / effTime : 0;
         const partBase = baseTime * frac, partEff = effTime * frac;
-        spentDust += baseDust; spentEffDust += eff; spentCoins += (lvl.coin || 0);
+        spentDust += baseDust; spentEffDust += eff; spentCoins += (lvl.coin || 0); spentTtg += baseTtg;
         spentBaseTime += partBase; spentEffTime += partEff;
-        score += PTS_PER_DUST * scoreDust + PTS_PER_MIN * scoreTime * frac;
+        score += stepResPts + PTS_PER_MIN * scoreTime * frac;
         steps.push({
           treeId: entry.treeId, researchId: entry.res.id, name: entry.res.name,
           toLevel: lvl.level, fromLevel: lvl.level - 1, maxLevel: entry.res.maxLevel,
-          baseDust, effDust: eff,
+          baseDust, effDust: eff, ttg: baseTtg,
           baseTime: Math.round(partBase), effTime: Math.round(partEff),
-          points: Math.round(PTS_PER_DUST * scoreDust + PTS_PER_MIN * scoreTime * frac),
+          points: Math.round(stepResPts + PTS_PER_MIN * scoreTime * frac),
           buff: lvl.buff || '', partial: true,
         });
         inProgressKey = best.k;
@@ -403,14 +495,14 @@
       }
 
       entry.level = lvl.level;
-      spentDust += baseDust; spentEffDust += eff; spentCoins += (lvl.coin || 0);
+      spentDust += baseDust; spentEffDust += eff; spentCoins += (lvl.coin || 0); spentTtg += baseTtg;
       spentBaseTime += baseTime; spentEffTime += effTime;
       score += stepPts;
 
       steps.push({
         treeId: entry.treeId, researchId: entry.res.id, name: entry.res.name,
         toLevel: lvl.level, fromLevel: lvl.level - 1, maxLevel: entry.res.maxLevel,
-        baseDust, effDust: eff, baseTime, effTime, points: stepPts, buff: lvl.buff || '',
+        baseDust, effDust: eff, ttg: baseTtg, baseTime, effTime, points: stepPts, buff: lvl.buff || '',
       });
 
       if (mode === 'target' && targetScore > 0 && score >= targetScore) break;
@@ -418,6 +510,7 @@
 
     const kvkFromDust = Math.round(PTS_PER_DUST * (SCORE_ON_EFFECTIVE ? spentEffDust : spentDust));
     const kvkFromTime = Math.round(PTS_PER_MIN  * (SCORE_ON_EFFECTIVE ? spentEffTime : spentBaseTime));
+    const kvkFromTtg  = PTS_PER_TTG * spentTtg;
 
     return {
       mode,
@@ -427,19 +520,21 @@
         baseDust: spentDust,
         effDust: spentEffDust,      // what the player actually spends
         coins: spentCoins,
+        ttg: spentTtg,
         baseTimeMin: Math.round(spentBaseTime),
         effTimeMin: Math.round(spentEffTime),   // what the player actually waits (after speed)
-        kvkPoints: kvkFromDust + kvkFromTime,
-        kvkFromDust, kvkFromTime,
+        kvkPoints: kvkFromDust + kvkFromTtg + kvkFromTime,
+        kvkFromDust, kvkFromTtg, kvkFromTime,
       },
       remaining: {
         dust: dustBudget === Infinity ? null : Math.max(0, dustBudget - spentEffDust),
         time: speedupBudget === Infinity ? null : Math.max(0, Math.round(speedupBudget - spentEffTime)),
+        ttg: ttgBudget === Infinity ? null : Math.max(0, ttgBudget - spentTtg),
       },
       inProgress: inProgressKey, // "treeId.researchId" of the single unfinished research, or null
       target: mode === 'target' ? {
         requested: targetScore,
-        reached: targetScore > 0 ? (kvkFromDust + kvkFromTime) >= targetScore - 0.5 : null,
+        reached: targetScore > 0 ? (kvkFromDust + kvkFromTtg + kvkFromTime) >= targetScore - 0.5 : null,
       } : null,
     };
   }
@@ -470,6 +565,11 @@
         .filter(id => !opts.enabledTrees || opts.enabledTrees.includes(id));
       const treeSets = [opts.enabledTrees || null];
       if (all.length > 1) for (const id of all) treeSets.push([id]);
+      // Les arbres de base sans l'arbre avancé : c'est le plan de l'onglet de base. Sans
+      // lui, la suggestion globale faisait moins bien que cet onglet dans 22 tirages sur
+      // 200 (jusqu'à 3,4 %). Avec lui, elle ne peut plus perdre contre aucun des deux.
+      const sansAvance = all.filter(id => id !== ADV_TREE_ID);
+      if (sansAvance.length > 1 && sansAvance.length < all.length) treeSets.push(sansAvance);
       let best = null;
       for (const set of treeSets) {
         const o = (set === treeSets[0]) ? opts : Object.assign({}, opts, { enabledTrees: set });
@@ -483,5 +583,6 @@
     return runPlan(opts, mode === 'target' ? 'kvk' : 'classic');
   }
 
-  return { suggest, planTrades, DUST_TRADES, SCORE_ON_EFFECTIVE, PTS_PER_DUST, PTS_PER_MIN };
+  return { suggest, planTrades, advancedTree, ADV_TREE_ID, DUST_TRADES, SCORE_ON_EFFECTIVE,
+           PTS_PER_DUST, PTS_PER_MIN, PTS_PER_TTG };
 }));

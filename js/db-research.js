@@ -88,6 +88,20 @@
     const v = Number(n);
     return isFinite(v) ? v.toLocaleString(L === 'FR' ? 'fr-FR' : 'en-US') : '—';
   }
+  // Coûts en ressources, en notation courte comme à l'Académie de guerre : « 18M »,
+  // « 3,7M », « 930K ». Écrits en entier, les cinq colonnes de ressources poussaient
+  // le tableau à 1 336 px et il défilait de côté même sur un écran de 1366 px.
+  // Aucune perte : tous les coûts d'au moins 10 000 ont au plus trois chiffres
+  // significatifs. Si un jour l'un d'eux en a plus, on garde l'écriture entière.
+  function cost(n, L) {
+    const v = Number(n);
+    if (n == null || n === '' || !isFinite(v)) return '—';
+    if (Math.abs(v) < 10000) return num(v, L);
+    const [div, suf] = Math.abs(v) >= 1e6 ? [1e6, 'M'] : [1e3, 'K'];
+    const q = v / div;
+    if (Math.round(q * 100) / 100 * div !== v) return num(v, L);
+    return q.toLocaleString(L === 'FR' ? 'fr-FR' : 'en-US', { maximumFractionDigits: 2 }) + suf;
+  }
   function timeStr(r, L) {
     const u = L === 'FR' ? { d: 'j', h: 'h', m: 'min', s: 's' } : { d: 'd', h: 'h', m: 'm', s: 's' };
     const o = [];
@@ -103,7 +117,9 @@
     const type = L === 'FR' ? (BUFF_FR[r['Buff Type']] || r['Buff Type']) : r['Buff Type'];
     if (r['Buff Value'] == null) return type || '—';
     const v = num(r['Buff Value'], L);
-    return type + ' +' + v + (r['Buff Unit'] === '%' ? (L === 'FR' ? ' %' : '%') : '');
+    // Espace insécable avant le « % » : une espace ordinaire laissait le signe seul à la
+    // ligne dès que la colonne se resserre.
+    return type + ' +' + v + (r['Buff Unit'] === '%' ? (L === 'FR' ? '\u00a0%' : '%') : '');
   }
   // Le niveau d'Académie a sa propre colonne : le répéter ici allongeait la
   // colonne Prérequis d'un « Academy Lv. 2 » présent sur les 720 lignes, pour
@@ -117,7 +133,7 @@
 
   function reqStr(r, L) {
     const lv = L === 'FR' ? 'niv.' : 'Lv.';
-    const parts = (r.reqs || []).map(q => (L === 'FR' ? (FR_NAME[q.name] || q.name) : q.name) + ' ' + lv + ' ' + q.level);
+    const parts = (r.reqs || []).map(q => (L === 'FR' ? (FR_NAME[q.name] || q.name) : q.name) + ' ' + lv + '\u00a0' + q.level);   // « niv. 1 » jamais coupé
     return parts.length ? parts.join(', ') : '—';
   }
   // Une cellule porte ses deux langues : `apply()` les échange au changement de
@@ -158,11 +174,11 @@
         + '<td class="num c-lbl">' + esc(r.Level) + '</td>'
         + td('num c-wa', r.Academy || '—', r.Academy || '—')
         + td('c-req', reqStr(r, 'EN'), reqStr(r, 'FR'))
-        + td('num', num(r.Bread, 'EN'), num(r.Bread, 'FR'))
-        + td('num', num(r.Wood, 'EN'), num(r.Wood, 'FR'))
-        + td('num', num(r.Stone, 'EN'), num(r.Stone, 'FR'))
-        + td('num', num(r.iron, 'EN'), num(r.iron, 'FR'))
-        + td('num', num(r.Gold, 'EN'), num(r.Gold, 'FR'))
+        + td('num', cost(r.Bread, 'EN'), cost(r.Bread, 'FR'))
+        + td('num', cost(r.Wood, 'EN'), cost(r.Wood, 'FR'))
+        + td('num', cost(r.Stone, 'EN'), cost(r.Stone, 'FR'))
+        + td('num', cost(r.iron, 'EN'), cost(r.iron, 'FR'))
+        + td('num', cost(r.Gold, 'EN'), cost(r.Gold, 'FR'))
         + td('c-time', timeStr(r, 'EN'), timeStr(r, 'FR'))
         + td('num', num(r.Power, 'EN'), num(r.Power, 'FR'))
         + td('c-eff', effectStr(r, 'EN'), effectStr(r, 'FR'))
@@ -184,6 +200,10 @@
     });
     const n = document.getElementById('tree-name'), c = document.getElementById('crumb-name');
     if (n && c) c.textContent = n.textContent;
+    // Nom de la zone du tableau (atteignable au clavier pour le faire défiler), dans la langue.
+    document.querySelectorAll('[data-en-aria]').forEach(el => {
+      el.setAttribute('aria-label', el.getAttribute('data-' + L.toLowerCase() + '-aria') || el.getAttribute('aria-label'));
+    });
     document.documentElement.lang = L.toLowerCase();
     if (search) search.placeholder = dict[L].search;
     updateCount();
@@ -242,7 +262,10 @@
       console.error('Base de recherches non chargée :', e);
       if (tbody) tbody.innerHTML = statusRow(dict[lang()].err);
       if (window.ktWarnDataFailure) window.ktWarnDataFailure();
-    });
+    })
+    // Fin de la réserve de hauteur du tableau (css/db.css, `.is-loading`), données
+    // arrivées ou non : sans elle, la page réservait un écran vide sous l'erreur.
+    .finally(() => { const tc = tbody && tbody.closest('.table-container'); if (tc) tc.classList.remove('is-loading'); });
 
   apply();
 })();

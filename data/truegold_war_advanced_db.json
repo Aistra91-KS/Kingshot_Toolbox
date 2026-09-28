@@ -28,12 +28,12 @@
     "effectNote": "effectTotal is the cumulative bonus once the level is done (the source displays it that way); effectDelta is the gain of that level alone. Unit is given by effectUnit.",
     "powerNote": "Power exists only as a per-tech total in the source; there is no per-level power figure.",
     "missing": [
-      "French names and effect labels — this update has not reached the player's game server yet (estimated ~50 days from 2026-08-09), so the official FR strings do not exist anywhere. Keep FR null until they can be read in-game; do NOT invent or machine-translate them."
+      "French category names (categories[].name.FR): not read in-game yet and not shown on the site. Tech names and effect labels were read in-game by Aistra on 2026-09-28; do NOT invent or machine-translate the rest."
     ],
     "legend": "TG1 to TG8 is your War Academy's Truegold tier. TTG: Tempered Truegold. Dust: Truegold Dust.",
     "techCount": 92,
     "levelCount": 1010,
-    "note": "Companion to truegold_war_db.json (the Basic tree). Not wired into any calculator yet."
+    "note": "Companion to truegold_war_db.json (the Basic tree). Read by the War Academy planner through WA_Optimizer.advancedTree."
   },
   "categories": [
     {
@@ -77,12 +77,12 @@
       "tierRoman": null,
       "name": {
         "EN": "Chests of Gold",
-        "FR": null
+        "FR": "Coffres d'or"
       },
       "category": "special",
       "effect": {
         "EN": "6th Daily Mission Chest Truegold quantity",
-        "FR": null
+        "FR": "Quantité d'Or Véritable du 6e Coffre de Mission Quotidienne"
       },
       "effectUnit": "flat",
       "iconSlug": "chests-of-gold",
@@ -330,12 +330,12 @@
       "tierRoman": null,
       "name": {
         "EN": "Truegold Intel",
-        "FR": null
+        "FR": "Renseignement d'or véritable"
       },
       "category": "special",
       "effect": {
         "EN": "Chance of obtaining 1 extra Truegold from Beast Hunting missions.",
-        "FR": null
+        "FR": "Chances d'obtenir 1 or Véritable bonus lors des missions de Chasse aux Bêtes."
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-intel",
@@ -673,12 +673,12 @@
       "tierRoman": null,
       "name": {
         "EN": "Limited Supply",
-        "FR": null
+        "FR": "Provisions limitée"
       },
       "category": "special",
       "effect": {
         "EN": "Half-price Truegold Dust exchanges",
-        "FR": null
+        "FR": "Échanges de Poussière d'Or Véritable à moitié prix"
       },
       "effectUnit": "flat",
       "iconSlug": "limited-supply",
@@ -1016,12 +1016,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Auric Pauldrons I",
-        "FR": null
+        "FR": "Épaulières Auriques I"
       },
       "category": "special",
       "effect": {
         "EN": "Archer Defense",
-        "FR": null
+        "FR": "Défense de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-pauldrons",
@@ -1319,12 +1319,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Auric Pauldrons II",
-        "FR": null
+        "FR": "Épaulières Auriques II"
       },
       "category": "special",
       "effect": {
         "EN": "Archer Defense",
-        "FR": null
+        "FR": "Défense de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-pauldrons",
@@ -1622,12 +1622,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Auric Pauldrons III",
-        "FR": null
+        "FR": "Épaulières Auriques III"
       },
       "category": "special",
       "effect": {
         "EN": "Archer Defense",
-        "FR": null
+        "FR": "Défense de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-pauldrons",
@@ -1925,12 +1925,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Auric Pauldrons IV",
-        "FR": null
+        "FR": "Épaulières Auriques IV"
       },
       "category": "special",
       "effect": {
         "EN": "Archer Defense",
-        "FR": null
+        "FR": "Défense de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-pauldrons",
@@ -2228,12 +2228,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Auric Pauldrons V",
-        "FR": null
+        "FR": "Épaulières Auriques V"
       },
       "category": "special",
       "effect": {
         "EN": "Archer Defense",
-        "FR": null
+        "FR": "Défense de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-pauldrons",
@@ -2531,12 +2531,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Auric Pauldrons VI",
-        "FR": null
+        "FR": "Épaulières Auriques VI"
       },
       "category": "special",
       "effect": {
         "EN": "Archer Defense",
-        "FR": null
+        "FR": "Défense de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-pauldrons",
@@ -2834,12 +2834,12 @@
       "tierRoman": null,
       "name": {
         "EN": "Truegold Weaponry",
-        "FR": null
+        "FR": "Arsenal d'or véritable"
       },
       "category": "economy",
       "effect": {
         "EN": "Training Speed",
-        "FR": null
+        "FR": "Vitesse d'Entraînement"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-weaponry",
@@ -3137,12 +3137,12 @@
       "tierRoman": null,
       "name": {
         "EN": "Quick Bandage",
-        "FR": null
+        "FR": "Bandage rapide"
       },
       "category": "economy",
       "effect": {
         "EN": "Healing Speed",
-        "FR": null
+        "FR": "Vitesse de Soins"
       },
       "effectUnit": "percent",
       "iconSlug": "quick-bandage",
@@ -3440,12 +3440,12 @@
       "tierRoman": null,
       "name": {
         "EN": "Truegold Barracks",
-        "FR": null
+        "FR": "Quartiers d'or véritable"
       },
       "category": "capacity",
       "effect": {
         "EN": "Training Capacity",
-        "FR": null
+        "FR": "Capacité d'Entraînement"
       },
       "effectUnit": "flat",
       "iconSlug": "truegold-barracks",
@@ -3743,12 +3743,12 @@
       "tierRoman": null,
       "name": {
         "EN": "Truegold Infirmaries",
-        "FR": null
+        "FR": "Infirmeries d'or véritable"
       },
       "category": "capacity",
       "effect": {
         "EN": "Infirmary Capacity",
-        "FR": null
+        "FR": "Capacité de l'infirmerie"
       },
       "effectUnit": "flat",
       "iconSlug": "truegold-infirmaries",
@@ -4046,12 +4046,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Truegold Provisions I",
-        "FR": null
+        "FR": "Provisions d'Or Véritable I"
       },
       "category": "capacity",
       "effect": {
         "EN": "Squads' Deployment Capacity",
-        "FR": null
+        "FR": "Capacité de déploiement des escouades"
       },
       "effectUnit": "flat",
       "iconSlug": "truegold-provisions",
@@ -4429,12 +4429,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Truegold Provisions II",
-        "FR": null
+        "FR": "Provisions d'Or Véritable II"
       },
       "category": "capacity",
       "effect": {
         "EN": "Squads' Deployment Capacity",
-        "FR": null
+        "FR": "Capacité de déploiement des escouades"
       },
       "effectUnit": "flat",
       "iconSlug": "truegold-provisions",
@@ -4812,12 +4812,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Generation Truegold I",
-        "FR": null
+        "FR": "Génération Or Véritable I"
       },
       "category": "capacity",
       "effect": {
         "EN": "Rally Capacity",
-        "FR": null
+        "FR": "Ralliement Max"
       },
       "effectUnit": "flat",
       "iconSlug": "generation-truegold",
@@ -5195,12 +5195,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Generation Truegold II",
-        "FR": null
+        "FR": "Génération Or Véritable II"
       },
       "category": "capacity",
       "effect": {
         "EN": "Rally Capacity",
-        "FR": null
+        "FR": "Ralliement Max"
       },
       "effectUnit": "flat",
       "iconSlug": "generation-truegold",
@@ -5578,12 +5578,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Truegold Provisions III",
-        "FR": null
+        "FR": "Provisions d'Or Véritable III"
       },
       "category": "capacity",
       "effect": {
         "EN": "Squads' Deployment Capacity",
-        "FR": null
+        "FR": "Capacité de déploiement des escouades"
       },
       "effectUnit": "flat",
       "iconSlug": "truegold-provisions",
@@ -8311,12 +8311,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Auric Mauls I",
-        "FR": null
+        "FR": "Merlin Aurique I"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Attack",
-        "FR": null
+        "FR": "Attaque de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-mauls",
@@ -8614,12 +8614,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Truegold Lances I",
-        "FR": null
+        "FR": "Lances d'Or Véritable I"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Attack",
-        "FR": null
+        "FR": "Attaque de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-lances",
@@ -8917,12 +8917,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Auric Arrowheads I",
-        "FR": null
+        "FR": "Pointes de Flèches Auriques I"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Attack",
-        "FR": null
+        "FR": "Attaque de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-arrowheads",
@@ -9220,12 +9220,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Auric Plating I",
-        "FR": null
+        "FR": "Plaque Aurique I"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Defense",
-        "FR": null
+        "FR": "Défense de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-plating",
@@ -9523,12 +9523,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Golden Mantle I",
-        "FR": null
+        "FR": "Cape Dorée I"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Defense",
-        "FR": null
+        "FR": "Défense de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-mantle",
@@ -9826,12 +9826,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Auric Destruction I",
-        "FR": null
+        "FR": "Destruction Aurique I"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Lethality",
-        "FR": null
+        "FR": "Létalité de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-destruction",
@@ -10129,12 +10129,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "True Shock I",
-        "FR": null
+        "FR": "Choc Véritable I"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Lethality",
-        "FR": null
+        "FR": "Létalité de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "true-shock",
@@ -10432,12 +10432,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Golden Bows I",
-        "FR": null
+        "FR": "Arcs Dorés I"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Lethality",
-        "FR": null
+        "FR": "Létalité de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-bows",
@@ -10735,12 +10735,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Golden Shield I",
-        "FR": null
+        "FR": "Bouclier Doré I"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Health",
-        "FR": null
+        "FR": "Santé de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-shield",
@@ -11038,12 +11038,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Golden Horseshoes I",
-        "FR": null
+        "FR": "Fer-à-cheval Doré I"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Health",
-        "FR": null
+        "FR": "Santé de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-horseshoes",
@@ -11341,12 +11341,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Auric Bracers I",
-        "FR": null
+        "FR": "Brassards Auriques I"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Health",
-        "FR": null
+        "FR": "Santé de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-bracers",
@@ -11644,12 +11644,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Auric Mauls II",
-        "FR": null
+        "FR": "Merlin Aurique II"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Attack",
-        "FR": null
+        "FR": "Attaque de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-mauls",
@@ -11947,12 +11947,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Truegold Lances II",
-        "FR": null
+        "FR": "Lances d'Or Véritable II"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Attack",
-        "FR": null
+        "FR": "Attaque de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-lances",
@@ -12250,12 +12250,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Auric Arrowheads II",
-        "FR": null
+        "FR": "Pointes de Flèches Auriques II"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Attack",
-        "FR": null
+        "FR": "Attaque de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-arrowheads",
@@ -12553,12 +12553,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Auric Plating II",
-        "FR": null
+        "FR": "Plaque Aurique II"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Defense",
-        "FR": null
+        "FR": "Défense de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-plating",
@@ -12856,12 +12856,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Golden Mantle II",
-        "FR": null
+        "FR": "Cape Dorée II"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Defense",
-        "FR": null
+        "FR": "Défense de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-mantle",
@@ -13159,12 +13159,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Auric Destruction II",
-        "FR": null
+        "FR": "Destruction Aurique II"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Lethality",
-        "FR": null
+        "FR": "Létalité de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-destruction",
@@ -13462,12 +13462,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "True Shock II",
-        "FR": null
+        "FR": "Choc Véritable II"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Lethality",
-        "FR": null
+        "FR": "Létalité de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "true-shock",
@@ -13765,12 +13765,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Golden Bows II",
-        "FR": null
+        "FR": "Arcs Dorés II"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Lethality",
-        "FR": null
+        "FR": "Létalité de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-bows",
@@ -14068,12 +14068,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Golden Shield II",
-        "FR": null
+        "FR": "Bouclier Doré II"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Health",
-        "FR": null
+        "FR": "Santé de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-shield",
@@ -14371,12 +14371,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Golden Horseshoes II",
-        "FR": null
+        "FR": "Fer-à-cheval Doré II"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Health",
-        "FR": null
+        "FR": "Santé de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-horseshoes",
@@ -14674,12 +14674,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Auric Bracers II",
-        "FR": null
+        "FR": "Brassards Auriques II"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Health",
-        "FR": null
+        "FR": "Santé de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-bracers",
@@ -14977,12 +14977,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Auric Mauls III",
-        "FR": null
+        "FR": "Merlin Aurique III"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Attack",
-        "FR": null
+        "FR": "Attaque de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-mauls",
@@ -15280,12 +15280,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Truegold Lances III",
-        "FR": null
+        "FR": "Lances d'Or Véritable III"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Attack",
-        "FR": null
+        "FR": "Attaque de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-lances",
@@ -15583,12 +15583,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Auric Arrowheads III",
-        "FR": null
+        "FR": "Pointes de Flèches Auriques III"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Attack",
-        "FR": null
+        "FR": "Attaque de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-arrowheads",
@@ -15886,12 +15886,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Auric Plating III",
-        "FR": null
+        "FR": "Plaque Aurique III"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Defense",
-        "FR": null
+        "FR": "Défense de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-plating",
@@ -16189,12 +16189,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Golden Mantle III",
-        "FR": null
+        "FR": "Cape Dorée III"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Defense",
-        "FR": null
+        "FR": "Défense de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-mantle",
@@ -16492,12 +16492,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Auric Destruction III",
-        "FR": null
+        "FR": "Destruction Aurique III"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Lethality",
-        "FR": null
+        "FR": "Létalité de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-destruction",
@@ -16795,12 +16795,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "True Shock III",
-        "FR": null
+        "FR": "Choc Véritable III"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Lethality",
-        "FR": null
+        "FR": "Létalité de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "true-shock",
@@ -17098,12 +17098,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Golden Bows III",
-        "FR": null
+        "FR": "Arcs Dorés III"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Lethality",
-        "FR": null
+        "FR": "Létalité de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-bows",
@@ -17401,12 +17401,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Golden Shield III",
-        "FR": null
+        "FR": "Bouclier Doré III"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Health",
-        "FR": null
+        "FR": "Santé de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-shield",
@@ -17704,12 +17704,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Golden Horseshoes III",
-        "FR": null
+        "FR": "Fer-à-cheval Doré III"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Health",
-        "FR": null
+        "FR": "Santé de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-horseshoes",
@@ -18007,12 +18007,12 @@
       "tierRoman": "III",
       "name": {
         "EN": "Auric Bracers III",
-        "FR": null
+        "FR": "Brassards Auriques III"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Health",
-        "FR": null
+        "FR": "Santé de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-bracers",
@@ -18310,12 +18310,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Auric Mauls IV",
-        "FR": null
+        "FR": "Merlin Aurique IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Attack",
-        "FR": null
+        "FR": "Attaque de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-mauls",
@@ -18613,12 +18613,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Truegold Lances IV",
-        "FR": null
+        "FR": "Lances d'Or Véritable IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Attack",
-        "FR": null
+        "FR": "Attaque de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-lances",
@@ -18916,12 +18916,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Auric Arrowheads IV",
-        "FR": null
+        "FR": "Pointes de Flèches Auriques IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Attack",
-        "FR": null
+        "FR": "Attaque de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-arrowheads",
@@ -19219,12 +19219,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Auric Plating IV",
-        "FR": null
+        "FR": "Plaque Aurique IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Defense",
-        "FR": null
+        "FR": "Défense de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-plating",
@@ -19522,12 +19522,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Golden Mantle IV",
-        "FR": null
+        "FR": "Cape Dorée IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Defense",
-        "FR": null
+        "FR": "Défense de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-mantle",
@@ -19825,12 +19825,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Auric Destruction IV",
-        "FR": null
+        "FR": "Destruction Aurique IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Lethality",
-        "FR": null
+        "FR": "Létalité de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-destruction",
@@ -20128,12 +20128,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "True Shock IV",
-        "FR": null
+        "FR": "Choc Véritable IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Lethality",
-        "FR": null
+        "FR": "Létalité de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "true-shock",
@@ -20431,12 +20431,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Golden Bows IV",
-        "FR": null
+        "FR": "Arcs Dorés IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Lethality",
-        "FR": null
+        "FR": "Létalité de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-bows",
@@ -20734,12 +20734,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Golden Shield IV",
-        "FR": null
+        "FR": "Bouclier Doré IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Health",
-        "FR": null
+        "FR": "Santé de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-shield",
@@ -21037,12 +21037,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Golden Horseshoes IV",
-        "FR": null
+        "FR": "Fer-à-cheval Doré IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Health",
-        "FR": null
+        "FR": "Santé de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-horseshoes",
@@ -21340,12 +21340,12 @@
       "tierRoman": "IV",
       "name": {
         "EN": "Auric Bracers IV",
-        "FR": null
+        "FR": "Brassards Auriques IV"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Health",
-        "FR": null
+        "FR": "Santé de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-bracers",
@@ -21643,12 +21643,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Auric Mauls V",
-        "FR": null
+        "FR": "Merlin Aurique V"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Attack",
-        "FR": null
+        "FR": "Attaque de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-mauls",
@@ -21946,12 +21946,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Truegold Lances V",
-        "FR": null
+        "FR": "Lances d'Or Véritable V"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Attack",
-        "FR": null
+        "FR": "Attaque de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-lances",
@@ -22249,12 +22249,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Auric Arrowheads V",
-        "FR": null
+        "FR": "Pointes de Flèches Auriques V"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Attack",
-        "FR": null
+        "FR": "Attaque de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-arrowheads",
@@ -22552,12 +22552,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Auric Plating V",
-        "FR": null
+        "FR": "Plaque Aurique V"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Defense",
-        "FR": null
+        "FR": "Défense de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-plating",
@@ -22855,12 +22855,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Golden Mantle V",
-        "FR": null
+        "FR": "Cape Dorée V"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Defense",
-        "FR": null
+        "FR": "Défense de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-mantle",
@@ -23158,12 +23158,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Truegold Armaments I",
-        "FR": null
+        "FR": "Armement d'Or Véritable I"
       },
       "category": "combat",
       "effect": {
         "EN": "Squads' Attack",
-        "FR": null
+        "FR": "Attaque des escouades"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-armaments",
@@ -23541,12 +23541,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Truegold Armor I",
-        "FR": null
+        "FR": "Armure d'Or Véritable I"
       },
       "category": "combat",
       "effect": {
         "EN": "Squads' Defense",
-        "FR": null
+        "FR": "Défense des escouades"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-armor",
@@ -23844,12 +23844,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Auric Destruction V",
-        "FR": null
+        "FR": "Destruction Aurique V"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Lethality",
-        "FR": null
+        "FR": "Létalité de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-destruction",
@@ -24147,12 +24147,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "True Shock V",
-        "FR": null
+        "FR": "Choc Véritable V"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Lethality",
-        "FR": null
+        "FR": "Létalité de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "true-shock",
@@ -24450,12 +24450,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Golden Bows V",
-        "FR": null
+        "FR": "Arcs Dorés V"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Lethality",
-        "FR": null
+        "FR": "Létalité de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-bows",
@@ -24753,12 +24753,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Golden Shield V",
-        "FR": null
+        "FR": "Bouclier Doré V"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Health",
-        "FR": null
+        "FR": "Santé de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-shield",
@@ -25056,12 +25056,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Golden Horseshoes V",
-        "FR": null
+        "FR": "Fer-à-cheval Doré V"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Health",
-        "FR": null
+        "FR": "Santé de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-horseshoes",
@@ -25359,12 +25359,12 @@
       "tierRoman": "V",
       "name": {
         "EN": "Auric Bracers V",
-        "FR": null
+        "FR": "Brassards Auriques V"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Health",
-        "FR": null
+        "FR": "Santé de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-bracers",
@@ -25662,12 +25662,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Truegold Bounties I",
-        "FR": null
+        "FR": "Primes d'Or Véritable I"
       },
       "category": "combat",
       "effect": {
         "EN": "Squads' Lethality",
-        "FR": null
+        "FR": "Létalité des escouades"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-bounties",
@@ -26045,12 +26045,12 @@
       "tierRoman": "I",
       "name": {
         "EN": "Heart of Gold I",
-        "FR": null
+        "FR": "Coeur en Or I"
       },
       "category": "combat",
       "effect": {
         "EN": "Squads' Health",
-        "FR": null
+        "FR": "Santé des escouades"
       },
       "effectUnit": "percent",
       "iconSlug": "heart-of-gold",
@@ -26348,12 +26348,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Auric Mauls VI",
-        "FR": null
+        "FR": "Merlin Aurique VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Attack",
-        "FR": null
+        "FR": "Attaque de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-mauls",
@@ -26651,12 +26651,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Truegold Lances VI",
-        "FR": null
+        "FR": "Lances d'Or Véritable VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Attack",
-        "FR": null
+        "FR": "Attaque de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-lances",
@@ -26954,12 +26954,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Auric Arrowheads VI",
-        "FR": null
+        "FR": "Pointes de Flèches Auriques VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Attack",
-        "FR": null
+        "FR": "Attaque de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-arrowheads",
@@ -27257,12 +27257,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Auric Plating VI",
-        "FR": null
+        "FR": "Plaque Aurique VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Defense",
-        "FR": null
+        "FR": "Défense de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-plating",
@@ -27560,12 +27560,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Golden Mantle VI",
-        "FR": null
+        "FR": "Cape Dorée VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Defense",
-        "FR": null
+        "FR": "Défense de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-mantle",
@@ -27863,12 +27863,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Truegold Armaments II",
-        "FR": null
+        "FR": "Armement d'Or Véritable II"
       },
       "category": "combat",
       "effect": {
         "EN": "Squads' Attack",
-        "FR": null
+        "FR": "Attaque des escouades"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-armaments",
@@ -28246,12 +28246,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Truegold Armor II",
-        "FR": null
+        "FR": "Armure d'Or Véritable II"
       },
       "category": "combat",
       "effect": {
         "EN": "Squads' Defense",
-        "FR": null
+        "FR": "Défense des escouades"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-armor",
@@ -28549,12 +28549,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Auric Destruction VI",
-        "FR": null
+        "FR": "Destruction Aurique VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Lethality",
-        "FR": null
+        "FR": "Létalité de l'infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-destruction",
@@ -28852,12 +28852,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "True Shock VI",
-        "FR": null
+        "FR": "Choc Véritable VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Lethality",
-        "FR": null
+        "FR": "Létalité de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "true-shock",
@@ -29155,12 +29155,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Golden Bows VI",
-        "FR": null
+        "FR": "Arcs Dorés VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Lethality",
-        "FR": null
+        "FR": "Létalité de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-bows",
@@ -29458,12 +29458,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Golden Shield VI",
-        "FR": null
+        "FR": "Bouclier Doré VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Infantry Health",
-        "FR": null
+        "FR": "Santé de l'Infanterie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-shield",
@@ -29761,12 +29761,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Golden Horseshoes VI",
-        "FR": null
+        "FR": "Fer-à-cheval Doré VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Cavalry Health",
-        "FR": null
+        "FR": "Santé de la Cavalerie"
       },
       "effectUnit": "percent",
       "iconSlug": "golden-horseshoes",
@@ -30064,12 +30064,12 @@
       "tierRoman": "VI",
       "name": {
         "EN": "Auric Bracers VI",
-        "FR": null
+        "FR": "Brassards Auriques VI"
       },
       "category": "combat",
       "effect": {
         "EN": "Archer Health",
-        "FR": null
+        "FR": "Santé de l'Archerie"
       },
       "effectUnit": "percent",
       "iconSlug": "auric-bracers",
@@ -30367,12 +30367,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Truegold Bounties II",
-        "FR": null
+        "FR": "Primes d'Or Véritable II"
       },
       "category": "combat",
       "effect": {
         "EN": "Squads' Lethality",
-        "FR": null
+        "FR": "Létalité des escouades"
       },
       "effectUnit": "percent",
       "iconSlug": "truegold-bounties",
@@ -30750,12 +30750,12 @@
       "tierRoman": "II",
       "name": {
         "EN": "Heart of Gold II",
-        "FR": null
+        "FR": "Coeur en Or II"
       },
       "category": "combat",
       "effect": {
         "EN": "Squads' Health",
-        "FR": null
+        "FR": "Santé des escouades"
       },
       "effectUnit": "percent",
       "iconSlug": "heart-of-gold",

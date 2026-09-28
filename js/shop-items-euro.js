@@ -400,15 +400,9 @@ function ieWeightSection(){
 }
 
 (async function(){
-  await scLoadItems();          // noms, catégories, images, et le décompte total du référentiel
-  await scLoadEuro();           // le relevé lui-même
-  scApplyTranslations();
-  ieRenderCatFilter(); ieRender();
-
-  const tb=ieEl('ie-tbody');     if(tb) iePvBind(tb);
-  const s=ieEl('ie-search');     if(s) s.addEventListener('input', ieRender);
-  const c=ieEl('ie-cat-filter'); if(c) c.addEventListener('change', ieRender);
-
+  // L'aide ne dépend d'aucune donnée : posée avant le chargement, son bandeau
+  // tient sa place dès le premier affichage au lieu de pousser la page à
+  // l'arrivée des données (MAP.md §9, décalages de mise en page).
   if (window.HelpSystem) HelpSystem.init({
     id:'shop-items-euro', banner:true,
     title:{FR:'Prix réel des objets : Aide', EN:'Real-money item values: Help'},
@@ -424,8 +418,8 @@ function ieWeightSection(){
           "Seuls les objets qu'on sait chiffrer sont listés : les autres n'ont aucun prix connu.",
           "Ce tableau est en lecture seule et n'a aucun rapport avec les valeurs en gemmes, les deux se lisent séparément."],
       EN:["The price shown is for ONE unit: pack price ÷ quantity received.",
-          "The “Source pack” column says where to find the most of an item. That is what lets you check a value that looks wrong.",
-          "A pill next to the pack means the price does not come from that pack but from a rule: “Scale” for speedups (all lined up on the price of one minute), “Calculated” for a value worked out from another item, “×0.25” for raw resources, deliberately counted at a quarter.",
+          "The \"Source pack\" column says where to find the most of an item. That is what lets you check a value that looks wrong.",
+          "A pill next to the pack means the price does not come from that pack but from a rule: \"Scale\" for speedups (all lined up on the price of one minute), \"Calculated\" for a value worked out from another item, \"×0.25\" for raw resources, deliberately counted at a quarter.",
           "Every rule is spelled out under the table, with its maths.",
           "The € / $ pills switch currency. The choice also applies to the shop pages.",
           "Search by item name or by pack name, or filter by category.",
@@ -435,6 +429,17 @@ function ieWeightSection(){
     links:[{label:{FR:'Valeur des objets (gemmes)', EN:'Item values (gems)'}, href:'shop/items'},
            {label:{FR:"D'où viennent ces valeurs", EN:'Where these values come from'}, href:'item-values'}]
   });
+
+  await scLoadItems();          // noms, catégories, images, et le décompte total du référentiel
+  await scLoadEuro();           // le relevé lui-même
+  scApplyTranslations();
+  // Fin de la réserve de hauteur du tableau (css/style.css, `.is-loading`), rendu réussi ou non.
+  try { ieRenderCatFilter(); ieRender(); }
+  finally { const tc=document.querySelector('.table-container.is-loading'); if(tc) tc.classList.remove('is-loading'); }
+
+  const tb=ieEl('ie-tbody');     if(tb) iePvBind(tb);
+  const s=ieEl('ie-search');     if(s) s.addEventListener('input', ieRender);
+  const c=ieEl('ie-cat-filter'); if(c) c.addEventListener('change', ieRender);
 
   window.addEventListener('langChanged',()=>{ scApplyTranslations(); ieRenderCatFilter(); ieRender(); });
 })();

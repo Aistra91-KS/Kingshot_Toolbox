@@ -5,7 +5,8 @@ Le site est publié sur GitHub Pages, qui sert `foo.html` aussi bien sous `/foo`
 que sous `/foo.html`. Tous les liens internes du site sont écrits dans la forme
 courte, sans `.html` (cf. MAP.md section 9). Un `python3 -m http.server` ne
 connaît que les noms de fichiers : il rend donc 404 sur chaque lien interne, et
-toute la navigation paraît cassée alors qu'elle est bonne en ligne.
+toute la navigation paraît cassée alors qu'elle est bonne en ligne. L'extension
+Live Server de VS Code a le même défaut et n'offre aucun réglage pour le corriger.
 
 Ce script reproduit les quatre règles de GitHub Pages :
 
@@ -22,18 +23,77 @@ Usage, depuis la racine du dépôt :
 
     python3 serve.py            puis ouvrir http://localhost:8000
     python3 serve.py 8080       pour choisir un autre port
+    python3 serve.py --live     recharge la page ouverte à chaque enregistrement
+                                d'un fichier .html, .css, .js ou .json
+    python3 serve.py --open     ouvre le site dans le navigateur au démarrage
 
-Sous Windows, remplacer `python3` par `py` ou `python`.
+Sous Windows, remplacer `python3` par `py` ou `python`. Dans VS Code, la tâche
+« Site local » (Ctrl+Maj+B) lance `--live --open` : c'est l'équivalent de Live
+Server, avec la navigation entre pages qui fonctionne.
+
+`--live` ajoute un petit script à chaque page servie, qui interroge le serveur
+toutes les 700 ms. Il reste hors du mode par défaut : une page qui interroge en
+boucle ne devient jamais « au repos » pour un test navigateur.
+
 Zéro dépendance : la bibliothèque standard suffit.
 """
 
 import http.server
+import io
 import os
-import posixpath
 import sys
+import threading
+import time
+import webbrowser
 from urllib.parse import unquote, urlsplit
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
+
+# Rechargement automatique (--live).
+RELOAD_PATH = '/__reload'
+WATCHED_EXT = ('.html', '.css', '.js', '.json')
+SKIPPED_DIRS = {'.git', 'node_modules', '__pycache__'}
+LIVE = False
+# Le jeton change à chaque modification ET à chaque redémarrage du serveur :
+# une page restée ouverte pendant un redémarrage se recharge d'elle-même.
+_token = '%d-0' % time.time()
+
+RELOAD_SCRIPT = (
+    '<script>(function(){var t=%s;function p(){'
+    "fetch('" + RELOAD_PATH + "',{cache:'no-store'})"
+    '.then(function(r){return r.text()})'
+    '.then(function(v){if(v!==t)location.reload()},'
+    # Serveur arrêté : on continue d'interroger, il peut revenir.
+    'function(){})'
+    '.then(function(){setTimeout(p,700)})}setTimeout(p,700)})();</script>'
+)
+
+
+def _snapshot():
+    """Empreinte des fichiers surveillés : chemin et date de modification."""
+    entries = []
+    for dirpath, dirnames, filenames in os.walk(ROOT):
+        dirnames[:] = [d for d in dirnames if d not in SKIPPED_DIRS]
+        for name in filenames:
+            if name.endswith(WATCHED_EXT):
+                path = os.path.join(dirpath, name)
+                try:
+                    entries.append((path, os.stat(path).st_mtime_ns))
+                except OSError:
+                    pass  # supprimé entre os.walk et os.stat : vu au tour suivant
+    return hash(tuple(sorted(entries)))
+
+
+def _watch():
+    global _token
+    start, version = _token.split('-')[0], 0
+    last = _snapshot()
+    while True:
+        time.sleep(0.4)
+        current = _snapshot()
+        if current != last:
+            last, version = current, version + 1
+            _token = '%s-%d' % (start, version)
 
 
 class PagesHandler(http.server.SimpleHTTPRequestHandler):
@@ -42,8 +102,18 @@ class PagesHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=ROOT, **kwargs)
 
+    def end_headers(self):
+        # Revalider à chaque fois : une modification se voit dès le rechargement,
+        # sans vider le cache. Les fichiers inchangés repartent en 304.
+        self.send_header('Cache-Control', 'no-cache')
+        super().end_headers()
+
     def send_head(self):
         path = unquote(urlsplit(self.path).path)
+
+        if LIVE and path == RELOAD_PATH:
+            return self.send_bytes(200, 'text/plain; charset=utf-8', _token.encode())
+
         local = self.translate_path(self.path)
 
         # /foo -> /foo/ quand foo est un dossier : c'est ce que fait Pages, et
@@ -63,11 +133,14 @@ class PagesHandler(http.server.SimpleHTTPRequestHandler):
         # Fichier introuvable : la page 404 du site, avec son vrai code.
         target = self.translate_path(self.path)
         if os.path.isdir(target):
-            if not os.path.isfile(os.path.join(target, 'index.html')):
+            target = os.path.join(target, 'index.html')
+            if not os.path.isfile(target):
                 return self.send_404()
         elif not os.path.isfile(target):
             return self.send_404()
 
+        if LIVE and target.endswith('.html'):
+            return self.send_page(200, target)
         return super().send_head()
 
     def send_404(self):
@@ -75,32 +148,57 @@ class PagesHandler(http.server.SimpleHTTPRequestHandler):
         if not os.path.isfile(page):
             self.send_error(404, 'File not found')
             return None
-        body = open(page, 'rb').read()
-        self.send_response(404)
-        self.send_header('Content-Type', 'text/html; charset=utf-8')
+        return self.send_page(404, page)
+
+    def send_page(self, code, file):
+        body = open(file, 'rb').read()
+        if LIVE:
+            script = (RELOAD_SCRIPT % ('"%s"' % _token)).encode()
+            end = body.lower().rfind(b'</body>')
+            if end == -1:
+                body += script
+            else:
+                body = body[:end] + script + body[end:]
+        return self.send_bytes(code, 'text/html; charset=utf-8', body)
+
+    def send_bytes(self, code, content_type, body):
+        # send_head renvoie un fichier que do_GET recopie et que do_HEAD ignore.
+        self.send_response(code)
+        self.send_header('Content-Type', content_type)
         self.send_header('Content-Length', str(len(body)))
         self.end_headers()
-        if self.command == 'HEAD':
-            return None
-        self.wfile.write(body)
-        return None
+        return io.BytesIO(body)
 
     def log_message(self, fmt, *args):
+        # Les interrogations du rechargement noieraient tout le reste.
+        if self.path == RELOAD_PATH:
+            return
         # Une ligne par requête, sans l'horodatage qui noie la sortie.
         sys.stderr.write('%s\n' % (fmt % args))
 
 
 def main():
+    global LIVE
     port = 8000
-    if len(sys.argv) > 1:
+    args = sys.argv[1:]
+    LIVE = '--live' in args
+    should_open = '--open' in args
+    rest = [a for a in args if a not in ('--live', '--open')]
+    if rest:
         try:
-            port = int(sys.argv[1])
+            port = int(rest[0])
         except ValueError:
-            sys.exit('Port invalide : %s' % sys.argv[1])
+            sys.exit('Argument invalide : %s' % rest[0])
 
     server = http.server.ThreadingHTTPServer(('', port), PagesHandler)
-    print('Kingshot Toolbox sur http://localhost:%d' % port)
+    url = 'http://localhost:%d/' % port
+    print('Kingshot Toolbox sur %s' % url)
+    if LIVE:
+        threading.Thread(target=_watch, daemon=True).start()
+        print('Rechargement automatique actif.')
     print('Ctrl+C pour arrêter.')
+    if should_open:
+        webbrowser.open(url)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

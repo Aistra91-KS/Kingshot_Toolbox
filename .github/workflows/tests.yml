@@ -20,3 +20,7 @@ jobs:
       # Une page modifiée à la main plutôt que dans son gabarit repartirait à la
       # prochaine génération : autant l'apprendre ici.
       - run: python3 tools/build_pages.py --check
+      # Même garde pour le menu figé de chaque page : il se déduit de site-config.js
+      # (cf. MAP.md §11), un outil ajouté au manifeste sans relancer le script le laisse
+      # en retard.
+      - run: python3 tools/sync_drawer.py --check

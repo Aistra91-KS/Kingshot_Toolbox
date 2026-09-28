@@ -83,7 +83,7 @@
       tabPre: "Avant l'Or Véritable", tabTg: 'Or Véritable', tabsLabel: 'Vues du planificateur',
       stratTitle: 'Stratégie',
       sModeQty: 'Max bâtiments', sModeKvk: 'KVK (max points)', sModeTarget: 'Score cible',
-      stratIntro: "Ce que ton stock permet de lancer tout de suite, et ce que ça rapporte. Pendant la phase Construction, les points viennent des minutes d'accélérateur brûlées sur les chantiers : {p} points la minute, le même barème que l'onglet Or Véritable. Les ressources, elles, ne rapportent rien par elles-mêmes — elles décident jusqu'où tu peux aller.",
+      stratIntro: "Ce que ton stock permet de lancer tout de suite, et ce que ça rapporte. Pendant la phase Construction, les points viennent des minutes d'accélérateur brûlées sur les chantiers : {p} points la minute, le même barème que l'onglet Or Véritable. Les ressources, elles, ne rapportent rien par elles-mêmes : elles décident jusqu'où tu peux aller.",
       stratNone: "Rien à lancer : ton stock ne couvre le prochain niveau d'aucun bâtiment que tu vises.",
       stratNoTarget: "Chaque bâtiment est déjà à sa cible. Relève une cible pour obtenir un plan.",
       stratPts: 'Points KVK', stratAccelUse: 'Accélérateurs brûlés', stratAccelLeft: 'Accélérateurs restants',
@@ -143,7 +143,7 @@
     if (d) o.push(d + (fr ? 'j' : 'd'));
     if (h) o.push(h + 'h');
     if (m && !d) o.push(m + (fr ? 'min' : 'm'));
-    return o.join(' ') || (fr ? 'moins d’une minute' : 'under a minute');
+    return o.join(' ') || (fr ? 'moins d\'une minute' : 'under a minute');
   }
 
   // ---------- bonus de vitesse : relus sur l'onglet Or Véritable ----------
@@ -832,7 +832,7 @@
     const reset = document.getElementById('pre-reset');
     if (reset) reset.addEventListener('click', () => {
       const msg = L() === 'FR' ? 'Remettre à zéro les niveaux et le stock de cet onglet ?'
-                               : 'Reset this tab’s levels and resource stock?';
+                               : 'Reset this tab\'s levels and resource stock?';
       const go = () => {
         try { localStorage.removeItem(STORAGE_KEYS.truegoldPre); } catch (e) { /* stockage refusé : rien à retirer */ }
         state = { rows: {}, stock: {} };

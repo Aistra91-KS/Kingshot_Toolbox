@@ -95,13 +95,13 @@ const i18nBearTrap = {
     EN: {
         titleParams: "Settings",
         tipBase: "Base march capacity, BEFORE bonuses (troops sent per march).",
-        tipExp: "Squad capacity bonus from Valora's “Savage Advantage” skill. Auto-filled from the Masters page, but you can always edit the value.",
+        tipExp: "Squad capacity bonus from Valora's \"Savage Advantage\" skill. Auto-filled from the Masters page, but you can always edit the value.",
         tipAni: "Squad capacity bonus from the Mighty Bison's skill. Auto-filled from the Pets page, but you can always edit the value.",
         tipGen: "Your server generation: affects which troop tiers are considered.",
         tipLimit: "Max troops sendable per march (cap set by your alliance).",
         tipMinInf: "Minimum infantry share enforced in each generated march (Min Thresholds mode).",
         tipMinCav: "Minimum cavalry share enforced in each generated march (Min Thresholds mode).",
-        tipHeroes: "Each march is led by heroes. The captain's level sets the march capacity. Levels come from the “My Barracks” page.",
+        tipHeroes: "Each march is led by heroes. The captain's level sets the march capacity. Levels come from the \"My Barracks\" page.",
         lblLang: "Language",
         grpTroops: "My Troops (T10/T11...)",
         lblInf: "Infantry 🛡️",
@@ -510,11 +510,11 @@ function btInitHelp(){
             EN:["Enter your troops (Infantry 🛡️, Archers 🏹, Cavalry 🐎) and your march capacity (base + Expert bonus + Animal bonus), plus the max number of marches.",
                 "Set your role (Participant or Organizer) and your server generation.",
                 "Heroes: each march is led by heroes. The CAPTAIN hero's level sets the march capacity (size); its type 🛡️/🐎/🏹 drives the composition. Some heroes make better captains/joiners for the Bear Trap.",
-                "⚠️ Your heroes' levels come from the “My Barracks” page. Set them there first. Otherwise they count as level 1 and the computed capacities will be wrong.",
-                "Create a march via “+ New march”, pick its heroes, or click “🪄 Suggest” to auto-pick your best heroes (from My Barracks) suited to the Bear Trap.",
-                "🛡️ “Allowed heroes”: opens the menu of joiners your alliance permits (listed by server generation). Heroes ranked C and D are unchecked by default (“Not recommended”). This menu and the tier-list only apply to each march's CAPTAIN (the only one carrying the rally effect): the captain is picked from the checked heroes, then level/skill ties are broken by rank. The 2 backup heroes are taken at the highest level (for march capacity), regardless of their rank.",
-                "Pick the optimization mode (min Infantry/Cavalry thresholds) then “Generate the rest”: your remaining troops are split automatically.",
-                "Read the deployment plan: composition, capacity and total of each march. Hover the “i” icons for field details."]
+                "⚠️ Your heroes' levels come from the \"My Barracks\" page. Set them there first. Otherwise they count as level 1 and the computed capacities will be wrong.",
+                "Create a march via \"+ New march\", pick its heroes, or click \"🪄 Suggest\" to auto-pick your best heroes (from My Barracks) suited to the Bear Trap.",
+                "🛡️ \"Allowed heroes\": opens the menu of joiners your alliance permits (listed by server generation). Heroes ranked C and D are unchecked by default (\"Not recommended\"). This menu and the tier-list only apply to each march's CAPTAIN (the only one carrying the rally effect): the captain is picked from the checked heroes, then level/skill ties are broken by rank. The 2 backup heroes are taken at the highest level (for march capacity), regardless of their rank.",
+                "Pick the optimization mode (min Infantry/Cavalry thresholds) then \"Generate the rest\": your remaining troops are split automatically.",
+                "Read the deployment plan: composition, capacity and total of each march. Hover the \"i\" icons for field details."]
         },
         links:[{label:{FR:'⚙️ Configurer mes héros · Ma Caserne', EN:'⚙️ Set up my heroes · My Barracks'}, href:'caserne'}]
     });
@@ -1490,12 +1490,12 @@ function renderCustomMarches() {
         div.className = 'custom-march-card';
         div.innerHTML = `
             <div>
-                <strong style="color: var(--accent); display: inline-block; margin-bottom: 5px;">${escapeHTML(march.name)} ${hostBadge}</strong>
+                <strong style="color: var(--accent-text, var(--accent)); display: inline-block; margin-bottom: 5px;">${escapeHTML(march.name)} ${hostBadge}</strong>
                 <div class="custom-march-stats">
                     <div>Total: <span>${march.total.toLocaleString('fr-FR')}</span></div>
                     <div>🛡️ <span>${march.inf.toLocaleString('fr-FR')}</span> <span style="color: var(--text-muted); font-size: 0.85em; font-weight: normal;">(${pInf}%)</span></div>
                     <div>🐎 <span>${march.cav.toLocaleString('fr-FR')}</span> <span style="color: var(--text-muted); font-size: 0.85em; font-weight: normal;">(${pCav}%)</span></div>
-                    <div>🏹 <span style="color: var(--accent);">${march.arc.toLocaleString('fr-FR')}</span> <span style="color: var(--accent); font-size: 0.85em; font-weight: normal; opacity: 0.8;">(${pArc}%)</span></div>
+                    <div>🏹 <span style="color: var(--accent-text, var(--accent));">${march.arc.toLocaleString('fr-FR')}</span> <span style="color: var(--accent-text, var(--accent)); font-size: 0.85em; font-weight: normal; opacity: 0.8;">(${pArc}%)</span></div>
                 </div>
                 ${heroInfo}
             </div>
@@ -1907,7 +1907,7 @@ function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalC
         let rowStyle = march.total < march.capacity ? 'color: var(--text-muted);' : '';
         
         const badgeStyle = "display: inline-block; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-left: 5px;";
-        const badgeStyleArc = "display: inline-block; background: rgba(245, 184, 64, 0.15); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-left: 5px;";
+        const badgeStyleArc = "display: inline-block; background: rgba(245, 184, 64, 0.15); color: var(--accent-text, var(--accent)); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-left: 5px;";
 
         let heroInfo = "";
         if ((march.heroes && march.heroes.length > 0) || march.missingHeroes > 0) {
@@ -1945,7 +1945,7 @@ function displayResults(marches, maxCapacity, autoMarchesGenerated, theoreticalC
                 <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); color: var(--text-muted); vertical-align: top;">${fMaxCap}</td>
                 <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); vertical-align: top;">${fInf} <span style="${badgeStyle}">${pInf}%</span></td>
                 <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); vertical-align: top;">${fCav} <span style="${badgeStyle}">${pCav}%</span></td>
-                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); color: var(--accent); vertical-align: top;">${fArc} <span style="${badgeStyleArc}">${pArc}%</span></td>
+                <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); color: var(--accent-text, var(--accent)); vertical-align: top;">${fArc} <span style="${badgeStyleArc}">${pArc}%</span></td>
                 <td style="text-align: right; padding: 10px; border-bottom: 1px solid var(--control-bg); background: rgba(245, 184, 64, 0.05); vertical-align: top;"><strong>${fTotal}</strong></td>
             </tr>
         `;

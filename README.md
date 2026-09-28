@@ -16,6 +16,8 @@ python3 serve.py
 
 Open <http://localhost:8000>. Pass a port number to use another one
 (`python3 serve.py 8080`). On Windows, use `py serve.py` or `python serve.py`.
+Add `--live` to reload the open page each time you save a file, and `--open` to
+start the browser on the site.
 
 **Opening `index.html` straight off the disk does not work.** Two things break:
 
@@ -40,9 +42,10 @@ npx http-server -e html
 
 ## Repository layout
 
-`MAP.md` describes every folder and file, the conventions the site follows, and
-the reasoning behind them. Start there. `CLAUDE.md` holds the working rules for
-this repository.
+`MAP.md` is a short index of the project map: it says which file of the `map/`
+folder describes what. Between them they cover every folder and file, the
+conventions the site follows, and the reasoning behind them. Start there.
+`CLAUDE.md` holds the working rules for this repository.
 
 ## Tests
 
@@ -51,7 +54,16 @@ node --test
 ```
 
 No dependencies. The suite covers the calculation engines behind the shops, the
-War Academy planner and the pet advancement planner.
+Research order, the War Academy planner, the Bear Trap march split and the pet
+advancement planner, plus a check on the punctuation of the site's text.
+
+Some pages are generated from templates. Two scripts say whether they are up to
+date, and the CI runs both:
+
+```
+python3 tools/build_pages.py --check
+python3 tools/sync_drawer.py --check
+```
 
 ## Reusing this
 

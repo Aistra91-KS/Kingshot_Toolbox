@@ -152,40 +152,53 @@
   }
 
   // ---------- Bouton près du titre ----------
+  // Une page peut écrire le bouton en dur, juste après son ancre : il tient alors sa
+  // place dès le premier affichage, au lieu d'être inséré une fois les données
+  // arrivées et de pousser toute la page vers le bas (MAP.md §9, décalages de mise
+  // en page). On le reprend tel quel ; sinon on le crée, comme avant.
   function mountButton() {
-    document.querySelectorAll('button.help-btn[data-help]').forEach(b => b.remove());
     const a = anchorEl();
+    const fixe = a && a.nextElementSibling;
+    const garde = (fixe && fixe.matches('button.help-btn[data-help]')) ? fixe : null;
+    document.querySelectorAll('button.help-btn[data-help]').forEach(b => { if (b !== garde) b.remove(); });
     if (!a) return;
-    const btn = document.createElement('button');
+    const btn = garde || document.createElement('button');
     btn.type = 'button';
     btn.className = 'help-btn';
     btn.setAttribute('data-help', '1');
     btn.innerHTML = `<span class="help-q">?</span><span class="help-btn-txt">${esc(t('how'))}</span>`;
-    btn.addEventListener('click', () => { openModal(); track('help_open', { source: 'button' }); });
-    a.insertAdjacentElement('afterend', btn);
+    btn.onclick = () => { openModal(); track('help_open', { source: 'button' }); };
+    if (!garde) a.insertAdjacentElement('afterend', btn);
   }
 
   // ---------- Bandeau d'intro (optionnel, mémorisé) ----------
+  // Même principe que le bouton : une page peut écrire le bandeau en dur, masqué,
+  // juste après le bouton, avec un script en ligne qui l'affiche avant le premier
+  // rendu si le joueur ne l'a pas encore fermé. On le reprend (texte et boutons
+  // réécrits d'ici : la configuration de la page reste la seule source), et on le
+  // retire s'il n'a pas lieu d'être.
   function mountBanner() {
-    document.querySelectorAll('.help-banner[data-help]').forEach(b => b.remove());
-    if (!CFG.banner) return;
+    const a = anchorEl();
+    const apres = document.querySelector('button.help-btn[data-help]') || a;
+    const suiv = apres && apres.nextElementSibling;
+    const garde = (suiv && suiv.matches('.help-banner[data-help]')) ? suiv : null;
+    document.querySelectorAll('.help-banner[data-help]').forEach(b => { if (b !== garde) b.remove(); });
     const key = 'help_seen_' + (CFG.id || 'page');
     // Stockage refusé : on ne sait pas si le bandeau a déjà été vu, on le montre.
     // Lever ici arrêtait `HelpSystem.init()`, et avec lui la fin du script de page.
     let seen = null;
     try { seen = localStorage.getItem(key); } catch (e) { /* jamais vu, donc */ }
-    if (seen === '1') return;
-    const a = anchorEl();
-    if (!a) return;
-    const bn = document.createElement('div');
+    if (!CFG.banner || seen === '1' || !a) { if (garde) garde.remove(); return; }
+    const bn = garde || document.createElement('div');
     bn.className = 'help-banner';
     bn.setAttribute('data-help', '1');
+    bn.hidden = false;
     bn.innerHTML = `<span class="help-banner-txt">${esc(pick(CFG.summary) || '')}</span>
       <button class="help-banner-more" type="button">${esc(t('how'))}</button>
       <button class="help-banner-x" type="button" aria-label="${esc(t('dismiss'))}">&times;</button>`;
     bn.querySelector('.help-banner-more').addEventListener('click', () => { openModal(); track('help_open', { source: 'banner' }); });
     bn.querySelector('.help-banner-x').addEventListener('click', () => { try { localStorage.setItem(key, '1'); } catch (e) { if (window.ktWarnUnsaved) window.ktWarnUnsaved(); } bn.remove(); track('help_banner_close'); });
-    (document.querySelector('button.help-btn[data-help]') || a).insertAdjacentElement('afterend', bn);
+    if (!garde) apres.insertAdjacentElement('afterend', bn);
   }
 
   function render() { if (CFG) { mountButton(); mountBanner(); } }

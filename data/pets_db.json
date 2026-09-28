@@ -141,7 +141,7 @@
           "FR": "Étreinte Réconfortante"
         },
         "desc": {
-          "EN": "Felines of all stripes have the ability to soothe a Governor’s mind, immediately restoring X Stamina. (Cooldown: 23h)",
+          "EN": "Felines of all stripes have the ability to soothe a Governor's mind, immediately restoring X Stamina. (Cooldown: 23h)",
           "FR": "Les félins de tous poils ont la capacité d'apaiser l'esprit d'un gouverneur et de restaurer immédiatement son endurance de X . (Recharge : 23h)"
         },
         "cooldown": "23h",
@@ -270,7 +270,7 @@
           "FR": "Poignée du Titan"
         },
         "desc": {
-          "EN": "Harnessing your pet’s formidable strength and endurance, instantly complete the gathering upon reaching the next wilderness resource tile. (Cooldown: X)",
+          "EN": "Harnessing your pet's formidable strength and endurance, instantly complete the gathering upon reaching the next wilderness resource tile. (Cooldown: X)",
           "FR": "Exploite la force et l'endurance du bison pour terminer instantanément la collecte de la première case de ressource nécessaire dans la nature (Temps de Recharge : X)"
         },
         "effects": [
@@ -543,14 +543,14 @@
           "FR": "Regard d'Épouvante"
         },
         "desc": {
-          "EN": "The giant Moose stares the enemy before charging, reducing enemy Squad’s Health by X for 2h. (Cooldown: 20h)",
+          "EN": "The giant Moose stares the enemy before charging, reducing enemy Squad's Health by X for 2h. (Cooldown: 20h)",
           "FR": "L'Élan géant fixe l'ennemi avant de le charger, ce qui réduit les PV de l'escouade ennemie de X pendant 2h. (Recharge : 20h)"
         },
         "cooldown": "20h",
         "effects": [
           {
             "label": {
-              "EN": "Enemy Squad’s Health Down",
+              "EN": "Enemy Squad's Health Down",
               "FR": "Réduction PV Escouade Ennemie"
             },
             "values": [
@@ -848,7 +848,7 @@
           "FR": "Le Hurleur"
         },
         "desc": {
-          "EN": "Every hunter trembles at the charging howl of the Grizzly Bear. Increases March Speed by X and reduces enemy squads’ Lethality by X for 2h. (Cooldown: 20h)",
+          "EN": "Every hunter trembles at the charging howl of the Grizzly Bear. Increases March Speed by X and reduces enemy squads' Lethality by X for 2h. (Cooldown: 20h)",
           "FR": "Tous les chasseurs tremblent devant le hurlement de charge du grizzli. Augmente la vitesse de marche de X t réduit la létalité des escouades de X pendant 2h. (Recharge : 20h)"
         },
         "cooldown": "20h",
@@ -1025,7 +1025,7 @@
           "FR": "Charge Sauvage"
         },
         "desc": {
-          "EN": "The Giant Rhino launches a wild rampage against the enemy’s brittle lines, increasing all Squads’ Attack by X for 2 hours. (Cooldown: 20 hours)",
+          "EN": "The Giant Rhino launches a wild rampage against the enemy's brittle lines, increasing all Squads' Attack by X for 2 hours. (Cooldown: 20 hours)",
           "FR": "Le Rhino Géant se déchaine contre les lignes ennemies fragiles. Augmentant l'Attaque des Escouades de X pendant 2 heures. (Recharge : 20 heures)"
         },
         "cooldown": "20 hours",
@@ -1797,7 +1797,7 @@
           "FR": "Puissance Territoriale"
         },
         "desc": {
-          "EN": "The king of beasts patrols its territory, increasing Squads’ Defense by X for 2 hours. (Cooldown: 20 hours)",
+          "EN": "The king of beasts patrols its territory, increasing Squads' Defense by X for 2 hours. (Cooldown: 20 hours)",
           "FR": "Le roi des bêtes patrouille dans son territoire, augmentant la Défense des Escouades de X pendant 2 heures. (Recharge : 20 heures)"
         },
         "effects": [
@@ -1985,11 +1985,11 @@
       "maxLevel": 100,
       "skill": {
         "name": {
-          "EN": "Elephant’s Guard",
+          "EN": "Elephant's Guard",
           "FR": "Garde de l'Éléphant"
         },
         "desc": {
-          "EN": "All creatures are safer in the Elephant’s entourage, increasing Squad Health by X for 2 hours.",
+          "EN": "All creatures are safer in the Elephant's entourage, increasing Squad Health by X for 2 hours.",
           "FR": "Les créatures sont plus en sécurité près de l'éléphant, augmente la santé de l'escouade de X pendant 2 heures."
         },
         "effects": [
@@ -2177,18 +2177,18 @@
       "maxLevel": 100,
       "skill": {
         "name": {
-          "EN": "Ursa’s Rage",
+          "EN": "Ursa's Rage",
           "FR": "Rage d'Ursa"
         },
         "desc": {
-          "EN": "The fearsome grizzly terrifies the enemy with its mighty roar, reducing Enemy Squad’s Defense by X for 2 hours. (Cooldown: 20 hours)",
+          "EN": "The fearsome grizzly terrifies the enemy with its mighty roar, reducing Enemy Squad's Defense by X for 2 hours. (Cooldown: 20 hours)",
           "FR": "Le redoutable grizzly terrifie l'ennemi de son puissant rugissement, réduisant la Défense de l'Escouade ennemie de X pendant 2 heures. (Recharge : 20 heures)"
         },
         "cooldown": "20 hours",
         "effects": [
           {
             "label": {
-              "EN": "Enemy Squad’s Defense Reduction",
+              "EN": "Enemy Squad's Defense Reduction",
               "FR": "Réduction Défense Escouade Ennemie"
             },
             "note": {

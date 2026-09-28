@@ -1,0 +1,214 @@
+/* ============================================================
+   css/db-heroes.css — écran de compétences des fiches Héros
+   (database/heroes/index.html + les fiches)
+
+   La géométrie vient de la base Héros de Lordrush Toolbox ; la peau est
+   celle de Kingshot (MAP.md §5). Deux écarts assumés par rapport au
+   fichier d'origine :
+   · Lordrush est clair par défaut, Kingshot sombre : les couleurs de
+     rareté sont donc posées dans :root pour le sombre et redéfinies
+     dans [data-theme="light"], à l'inverse.
+   · Les webfonts (EB Garamond, Karla) tombent. Le site n'en charge
+     aucune, tout est en 'Segoe UI'. Les tailles et les graisses restent.
+
+   Les blocs .m-block-* de la section widget vivent dans css/db.css,
+   où ils servent déjà aux fiches Experts : ils sont réutilisés, pas
+   redéfinis.
+   ============================================================ */
+
+/* ---- Couleurs de rareté ----
+   La charte n'a pas de couleur de rareté : elles vivent dans une variable
+   locale, --rar, posée par l'attribut data-rarity. L'or des Légendaires
+   est volontaire, c'est la couleur de signature du site et la rareté qui
+   compte pour le joueur.
+
+   --rar habille (liserés, dégradés, fonds), --rar-txt écrit. En thème
+   clair l'or de la charte (#c89020) ne tient que 2,8:1 sur du blanc : le
+   texte prend l'or assombri déjà utilisé par les pastilles de version et
+   le pied de page (cf. MAP.md §5, « Contraste »). Les deux autres teintes
+   passent 4,5:1 dans les deux thèmes, mesuré sur --bg-panel et sur blanc. */
+[data-rarity] { --rar: var(--accent); --rar-txt: var(--accent); }
+[data-rarity="epic"] { --rar: #b88ae6; --rar-txt: #b88ae6; }
+[data-rarity="rare"] { --rar: #7fa8ea; --rar-txt: #7fa8ea; }
+[data-theme="light"] [data-rarity] { --rar: var(--accent); --rar-txt: #8a6410; }
+[data-theme="light"] [data-rarity="epic"] { --rar: #7a3fb5; --rar-txt: #7a3fb5; }
+[data-theme="light"] [data-rarity="rare"] { --rar: #2f5fae; --rar-txt: #2f5fae; }
+
+/* ---- Sommaire : liseré de rareté ---- */
+.db-card.hb-card-idx { border-left: 3px solid var(--rar); }
+.db-card.hb-card-soon { opacity: .55; cursor: default; }
+.db-card.hb-card-soon:hover { border-color: var(--border); transform: none; }
+
+/* ---- L'écran de compétences ----
+   Trois colonnes : conquête, portrait, expédition. Le `gap` sert deux fois,
+   comme espace et comme longueur des filets qui relient chaque carte au
+   portrait — d'où la variable, qui garde les deux d'accord. */
+.hb-screen {
+  --hb-gap: 28px;
+  display: grid;
+  grid-template-columns: 1fr minmax(200px, 250px) 1fr;
+  gap: var(--hb-gap);
+  align-items: start;
+  margin: 18px 0 6px;
+}
+.hb-col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.hb-col-title {
+  margin: 0 0 2px; font-size: 12px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.hb-col-conq .hb-col-title { text-align: right; }
+
+/* ---- Une carte de compétence ----
+   À gauche, la carte se lit de droite à gauche : le texte est aligné à
+   droite et l'icône passe du côté du portrait (row-reverse), pour que les
+   deux colonnes convergent vers le centre comme dans le jeu. */
+.hb-card {
+  position: relative;
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 14px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.hb-card.hb-conq { flex-direction: row-reverse; text-align: right; }
+.hb-ico {
+  width: 44px; height: 44px; flex: none; object-fit: contain;
+  border-radius: 8px; background: var(--control-bg);
+  border: 1px solid var(--border); padding: 3px;
+}
+/* La capture d'une compétence de conquête n'est pas toujours faite : la place
+   reste tenue, sans image cassée ni carte qui saute quand l'icône arrivera.
+   Le trait discontinu dit « à venir » ; le fond plein de .hb-ico se lisait
+   comme un champ de saisie vide. */
+.hb-ico-vide { display: block; background: none; border-style: dashed; opacity: .5; }
+.hb-card-body { min-width: 0; }
+.hb-name { display: block; font-weight: 700; font-size: 14px; color: var(--rar-txt); }
+.hb-eff { margin: 4px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--text-muted); }
+.hb-v { color: var(--accent-text, var(--accent)); font-weight: 700; }
+/* La valeur est le texte le plus important de la page, et en thème clair l'or de
+   la charte (#c89020) n'y tient que 2,8:1 sur le fond des cartes — mesuré. Il
+   prend l'or assombri des pastilles de version et du pied de page, à 5,4:1
+   (même correctif qu'au §5 de MAP.md, « Contraste »). */
+[data-theme="light"] .hb-v { color: #8a6410; }
+
+/* Le filet qui relie la carte au portrait, exactement large comme le gap. */
+.hb-card::after {
+  content: ''; position: absolute; top: 30px; height: 1px; width: var(--hb-gap);
+  pointer-events: none;
+}
+.hb-card.hb-conq::after {
+  left: 100%;
+  background: linear-gradient(to right, var(--border), color-mix(in srgb, var(--rar) 65%, transparent));
+}
+.hb-card.hb-expe::after {
+  right: 100%;
+  background: linear-gradient(to left, var(--border), color-mix(in srgb, var(--rar) 65%, transparent));
+}
+
+/* ---- Le portrait, dans son arche ----
+   Le rayon vient du jeu et s'écarte volontairement des rayons par composant
+   de la charte. Les portraits portent un liseré blanc incrusté dans l'image :
+   l'agrandissement le pousse hors du cadre (réglé sur ces portraits-là). */
+.hb-mid { display: flex; flex-direction: column; align-items: center; }
+.hb-frame {
+  position: relative; width: 100%; max-width: 240px;
+  aspect-ratio: 1 / 1.1; overflow: hidden;
+  border: 2px solid color-mix(in srgb, var(--rar) 70%, var(--border));
+  border-radius: 125px 125px 18px 18px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--rar) 22%, transparent), transparent 55%);
+  box-shadow: 0 6px 18px var(--shadow);
+}
+.hb-frame::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--rar) 28%, transparent));
+}
+.hb-portrait {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  transform: scale(1.3); transform-origin: 50% 45%;
+}
+.hb-sub {
+  margin: 12px 0 0; text-align: center; font-size: 13px; font-weight: 600;
+  color: var(--rar-txt);
+}
+
+/* ---- Le sélecteur de niveau ---- */
+.hb-levels { margin-top: 16px; text-align: center; }
+.hb-lv-label {
+  display: block; margin-bottom: 8px; font-size: 11px; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted);
+}
+.hb-lv-row { display: flex; justify-content: center; gap: 8px; }
+.hb-lv {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--control-bg);
+  color: var(--text-light); font-family: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: border-color .15s, background .15s, color .15s;
+}
+.hb-lv:hover { border-color: var(--rar); }
+.hb-lv[aria-pressed="true"] {
+  border-color: var(--rar);
+  background: color-mix(in srgb, var(--rar) 18%, transparent);
+  color: var(--rar-txt);
+  cursor: default;
+}
+.hb-lv:focus-visible { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: 2px; }
+
+/* Le conteneur qui défile est atteignable au clavier (tabindex), sans quoi un
+   tableau plus large que l'écran serait impossible à faire défiler autrement
+   qu'à la souris. Il lui faut donc un repère de focus : l'anneau par défaut du
+   navigateur est un trait de 1px en #101010, invisible sur le fond sombre.
+   Même repère que les pastilles .db-switch-item de css/db.css. */
+.hb-page .table-container:focus-visible { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: -2px; }
+
+/* ---- Tableaux ----
+   style.css cale les tables d'une .db-section sur leur contenu
+   (`table.db-table { width: auto }`, hérité des fiches Experts). Ici les six
+   colonnes sont courtes et la table s'arrêtait au tiers de la page, sous un
+   conteneur qui, lui, va au bord : c'est la colonne du nom qui absorbe le
+   reste, comme le fait .sx-table dans css/shop.css. */
+.hb-page .db-section table.db-table { width: 100%; }
+.hb-page .db-section table.db-table th[scope="row"] { width: 100%; }
+
+/* ---- La colonne du niveau choisi ----
+   Le sélecteur réécrit les valeurs des cartes ; les tableaux, eux, portent
+   déjà tous les niveaux. La colonne choisie est surlignée pour que le lien
+   entre les deux se voie. Le repère n'est pas porté par la seule couleur :
+   la carte de compétence dit la même valeur en toutes lettres. */
+.hb-page .db-table td.is-lv, .hb-page .db-table th.is-lv {
+  background: color-mix(in srgb, var(--rar) 14%, transparent);
+  color: var(--text-light);
+}
+.hb-page .db-table thead th.is-lv { color: var(--rar-txt); }
+
+/* ---- Section widget ---- */
+.hb-weff { display: flex; gap: 12px; align-items: flex-start; margin: 0 0 14px; }
+.hb-weff .hb-name { color: var(--text-light); }
+.hb-weff .m-block-tag { display: block; }
+
+/* ---- Rang au Piège à Ours ---- */
+.hb-trap { margin: -12px 0 4px; font-size: 13px; color: var(--text-muted); }
+.hb-trap a { color: var(--accent-text, var(--accent)); text-decoration: none; font-weight: 600; }
+.hb-trap a:hover { text-decoration: underline; }
+
+/* ---- Retour vers la Caserne ---- */
+.hb-backlink { margin: 22px 0 0; font-size: 13px; }
+.hb-backlink a { color: var(--accent-text, var(--accent)); text-decoration: none; font-weight: 600; }
+.hb-backlink a:hover { text-decoration: underline; }
+
+/* ---- Sous 980 px : tout s'empile, le portrait passe en tête ----
+   Les filets disparaissent : ils ne relient plus rien une fois les colonnes
+   l'une sous l'autre. La carte de conquête reprend le sens de lecture. */
+@media (max-width: 980px) {
+  .hb-screen { grid-template-columns: 1fr; gap: 20px; }
+  .hb-mid { order: -1; }
+  .hb-card::after { display: none; }
+  .hb-card.hb-conq { flex-direction: row; text-align: left; }
+  .hb-col-conq .hb-col-title { text-align: left; }
+}
+
+@media (max-width: 520px) {
+  .hb-frame { max-width: 190px; }
+  .hb-ico { width: 38px; height: 38px; }
+  .hb-lv { width: 34px; height: 34px; font-size: 13px; }
+  .hb-eff { font-size: 12px; }
+}

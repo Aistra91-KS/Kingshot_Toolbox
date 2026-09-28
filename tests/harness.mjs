@@ -14,6 +14,7 @@
      · `localStorage` en mémoire, vide à chaque test — donc les valeurs par défaut
      · `document`     inerte : `getElementById` rend `null`, ce qui suffit à faire
                       sortir les IIFE de fin de fichier avant tout rendu
+     · `Date`         l'horloge réelle, ou figée à `now` quand le test le demande
    ========================================================================== */
 
 import fs from 'node:fs';
@@ -26,7 +27,7 @@ export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 /* Les scripts d'une page boutique d'événement, dans l'ordre du HTML. */
 export const SHOP_SCRIPTS = ['js/storage-keys.js', 'js/shop-core.js', 'js/shop-event.js'];
 
-export function createContext(files = SHOP_SCRIPTS) {
+export function createContext(files = SHOP_SCRIPTS, { now } = {}) {
   const store = new Map();
   const ctx = {
     console, setTimeout, clearTimeout, setInterval, clearInterval,
@@ -60,6 +61,17 @@ export function createContext(files = SHOP_SCRIPTS) {
   ctx.globalThis = ctx;
   ctx.addEventListener = () => {};
   vm.createContext(ctx);
+  // Un test qui dépend du jour (stock qui se recharge, jours restants) doit porter sa
+  // date : sans elle, il vire au rouge le jour où l'événement se termine.
+  if (now != null) {
+    const t = Date.parse(now);
+    if (!Number.isFinite(t)) throw new Error(`date illisible pour l'horloge figée : ${now}`);
+    vm.runInContext(`(() => { const D = Date;
+      globalThis.Date = class extends D {
+        constructor(...a) { super(...(a.length ? a : [${t}])); }
+        static now() { return ${t}; }
+      }; })();`, ctx);
+  }
   for (const f of files) {
     vm.runInContext(fs.readFileSync(path.join(ROOT, f), 'utf8'), ctx, { filename: f });
   }
@@ -73,8 +85,8 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
 
 /* Une boutique d'événement, prête à calculer.
    `plan` reprend exactement la forme persistée par shop-event.js. */
-export async function loadEventShop(slug, plan = {}) {
-  const ctx = createContext();
+export async function loadEventShop(slug, plan = {}, { now } = {}) {
+  const ctx = createContext(SHOP_SCRIPTS, { now });
   await run(ctx, 'scLoadAll()');
   run(ctx, `SE_DATA = ${JSON.stringify(readJson(`data/events/${slug}.json`))};`);
   run(ctx, `var __slug = ${JSON.stringify(slug)};

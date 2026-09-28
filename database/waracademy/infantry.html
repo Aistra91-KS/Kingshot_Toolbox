@@ -17,14 +17,14 @@
     <base href="../../">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Infantry Troop Research - War Academy (TrueGold Dust, Resources, Time) | Kingshot Toolbox</title>
+    <title>Infantry Troop Research - War Academy Dust &amp; Costs | Kingshot Toolbox</title>
     <meta name="description" content="Complete Infantry troop research table for the Kingshot War Academy: TrueGold dust, resources, research time, effects and requirements for every research level.">
     <link rel="canonical" href="https://kingshottoolbox.com/database/waracademy/infantry">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
-    <meta property="og:title" content="Infantry Troop Research - War Academy (TrueGold Dust, Resources, Time)">
+    <meta property="og:title" content="Infantry Troop Research - War Academy Dust &amp; Costs">
     <meta property="og:description" content="Complete Infantry troop research table for the Kingshot War Academy: TrueGold dust, resources, research time, effects and requirements for every research level.">
     <meta property="og:url" content="https://kingshottoolbox.com/database/waracademy/infantry">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
@@ -49,7 +49,7 @@
         </div>
         <p class="db-intro" data-i18n="waIntro">Full per-level costs: TrueGold dust, resources, research time, effect and requirements. 1 research = 1 level.</p>
         <nav class="db-switch" aria-label="War Academy research"><span class="db-switch-item active" data-en="Infantry" data-fr="Infanterie">Infantry</span><a class="db-switch-item" href="database/waracademy/archer" data-en="Archer" data-fr="Archers">Archer</a><a class="db-switch-item" href="database/waracademy/cavalry" data-en="Cavalry" data-fr="Cavalerie">Cavalry</a><a class="db-switch-item" href="database/waracademy/advanced" data-en="Advanced" data-fr="Avancées">Advanced</a></nav>
-        <div class="table-container">
+        <div class="table-container is-loading">
           <table class="db-table">
             <thead><tr>
               <th data-i18n="cLevel">Level</th>
@@ -77,7 +77,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/lang.js"></script>
@@ -97,7 +97,7 @@
       function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
       function compact(n){ if(n==null||n==='') return '—'; n=+n; if(!isFinite(n)) return '—'; if(n>=1e6){ const v=Math.round(n/1e5)/10; return String(v).replace(/\.0$/,'')+'M'; } if(n>=1e3){ return Math.round(n/1e3)+'K'; } return String(n); }
       function timeStr(min,L){ min=+min||0; const d=Math.floor(min/1440), h=Math.floor(min%1440/60), m=min%60; const u=L==='FR'?{d:'j',h:'h',m:'min'}:{d:'d',h:'h',m:'m'}; const o=[]; if(d)o.push(d+u.d); if(h)o.push(h+u.h); if(m)o.push(m+u.m); return o.join(' ')||('0'+u.m); }
-      function reqStr(req,nameMap,L){ if(!req||!req.length) return '—'; const lv=L==='FR'?'Niv.':'Lv.'; return req.map(function(x){ const nm=(nameMap[x.r]&&nameMap[x.r][L])||x.r; return nm+' '+lv+' '+x.lvl; }).join(', '); }
+      function reqStr(req,nameMap,L){ if(!req||!req.length) return '—'; const lv=L==='FR'?'Niv.':'Lv.'; return req.map(function(x){ const nm=(nameMap[x.r]&&nameMap[x.r][L])||x.r; return nm+' '+lv+'\u00a0'+x.lvl; }).join(', '); }
       function waStr(n,L){ if(n==null) return '—'; const lv=L==='FR'?'Niv.':'Lv.'; return (L==='FR'?'AG ':'WA ')+lv+' '+n; }
       function td(cls,en,fr){ const c=cls?(' class="'+cls+'"'):''; return '<td'+c+' data-en="'+esc(en)+'" data-fr="'+esc(fr)+'">'+esc(en)+'</td>'; }
       function tdNum(cls,txt){ return '<td class="num '+(cls||'')+'">'+esc(txt)+'</td>'; }
@@ -148,7 +148,8 @@
           tbody.innerHTML=render(tree);
           apply();
         })
-        .catch(function(){ const L=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR'; if(tbody) tbody.innerHTML=statusRow(dict[L].err); });
+        .catch(function(){ const L=(window.GlobalLang&&GlobalLang.get&&GlobalLang.get())||'FR'; if(tbody) tbody.innerHTML=statusRow(dict[L].err); })
+        .finally(function(){ const tc=tbody&&tbody.closest('.table-container'); if(tc) tc.classList.remove('is-loading'); });
 
       apply();
     })();

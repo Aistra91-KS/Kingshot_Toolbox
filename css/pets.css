@@ -25,7 +25,7 @@ body.pets-page{ overflow:hidden; }
 .pet-list-item .nm{ flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .pet-list-item .lv{ font-size:.72rem; color:var(--text-muted); }
 .pet-list-item.active{ background:var(--control-bg); border-color:color-mix(in srgb, var(--accent) 45%, transparent); }
-.pet-list-item.active .nm{ color:var(--accent); font-weight:600; }
+.pet-list-item.active .nm{ color:var(--accent-text, var(--accent)); font-weight:600; }
 
 /* ============================================================
    SCÈNE — bloc principal, overflow hidden, ciel sage

@@ -2,7 +2,7 @@
   {
     "slug": "adventure-stall",
     "title": "Kingshot Adventure Stall - Gem &amp; Real-Money Value",
-    "description": "Kingshot Adventure Stall list: every item, its Adventure Coin cost, its stock limit and what it is worth, in gems or in real money. See which purchases give the most value per coin, daily-reset offers included.",
+    "description": "Kingshot Adventure Stall list: every item, its Adventure Coin cost, stock limit and value in gems or real money, ranked by value per coin, daily resets counted.",
     "name": {
       "EN": "Adventure Stall",
       "FR": "Stand d'Aventure"
@@ -14,7 +14,7 @@
   },
   {
     "slug": "alliance-championship",
-    "title": "Kingshot Alliance Championship - Gem &amp; Real-Money Value",
+    "title": "Alliance Championship - Gem &amp; Real-Money Value",
     "description": "Kingshot Alliance Championship shop: every item, its Championship Badge cost and what it is worth in gems or in €/$, ranked by value per badge.",
     "name": {
       "EN": "Alliance Championship",
@@ -27,7 +27,7 @@
   },
   {
     "slug": "arena",
-    "title": "Kingshot Arena Shop - Token Costs, Gem &amp; Real-Money Value",
+    "title": "Arena Shop - Token Costs, Gem &amp; Real-Money Value",
     "description": "Kingshot Arena shop list: every item, its Arena Token cost and what it is worth, in gems or in real money, with the best value-per-token purchases highlighted.",
     "name": {
       "EN": "Arena",
@@ -40,8 +40,8 @@
   },
   {
     "slug": "blizzard-shop",
-    "title": "Kingshot Blizzard Brawl Shop - Gem &amp; Real-Money Value",
-    "description": "Every item in the Kingshot Blizzard Shop, the Blizzard Brawl event store: Brawl Emblem cost, stock limit and value in gems or in €/$, ranked so you see where your emblems go furthest.",
+    "title": "Blizzard Brawl Shop - Gem &amp; Real-Money Value",
+    "description": "Every item in the Kingshot Blizzard Shop (Blizzard Brawl event): Brawl Emblem cost, stock limit and value in gems or €/$, ranked by value per emblem.",
     "name": {
       "EN": "Blizzard Shop",
       "FR": "Magasin du Blizzard"
@@ -54,7 +54,7 @@
   {
     "slug": "dragons-caravan",
     "title": "Kingshot Dragon's Caravan - Gem &amp; Real-Money Value",
-    "description": "Kingshot Dragon's Caravan list: every item, its Dragon Essence cost, its stock limit and what it is worth in gems or in real money. See which purchases give the most value per Essence before the event ends.",
+    "description": "Kingshot Dragon's Caravan list: every item, its Dragon Essence cost, stock limit and value in gems or real money, ranked by value per Essence.",
     "name": {
       "EN": "Dragon's Caravan",
       "FR": "Caravane du Dragon"
@@ -66,8 +66,8 @@
   },
   {
     "slug": "flamedragon-tyrant-prediction",
-    "title": "Kingshot Flamedragon Tyrant Prediction - Gem &amp; Real-Money Value",
-    "description": "Kingshot Flamedragon Tyrant Prediction Shop list: every item, its Dragonclaw Mark cost, its stock limit and its value in gems or in €/$. See which purchases give the most value per mark before the shop closes.",
+    "title": "Flamedragon Tyrant Prediction - Gem &amp; Money Value",
+    "description": "Kingshot Flamedragon Tyrant Prediction Shop: every item, its Dragonclaw Mark cost, stock limit and value in gems or €/$, ranked by value per mark.",
     "name": {
       "EN": "Flamedragon Tyrant - Prediction Shop",
       "FR": "Tyran - Magasin de Pronostique"
@@ -79,8 +79,8 @@
   },
   {
     "slug": "gear-boost-chest",
-    "title": "Kingshot Gear Boost Chest - Best Pick, Gem &amp; Real-Money",
-    "description": "Kingshot Gear Boost Custom Chest: every option it offers, the quantity granted and what it is worth in gems or in real money, so you can pick the most valuable reward.",
+    "title": "Gear Boost Chest - Best Pick, Gem &amp; Real-Money",
+    "description": "Kingshot Gear Boost Custom Chest: every option, the quantity it grants and its value in gems or real money, to pick the most valuable reward.",
     "name": {
       "EN": "Gear Boost Custom Chest",
       "FR": "Coffre personnalisé de Boost d'Équipement"
@@ -119,7 +119,7 @@
   {
     "slug": "moonlight-shop",
     "title": "Kingshot Moonlight Shop - Gem &amp; Real-Money Value",
-    "description": "Every item in the Kingshot Moonlight Shop, the Moonlit Celebration event store: Mooncake cost, stock limit and value in gems or in €/$, ranked so you see where your mooncakes go furthest.",
+    "description": "Every item in the Kingshot Moonlight Shop (Moonlit Celebration event): Mooncake cost, stock limit and value in gems or €/$, ranked by value per mooncake.",
     "name": {
       "EN": "Moonlight Shop",
       "FR": "Magasin du Clair de Lune"
@@ -132,7 +132,7 @@
   {
     "slug": "polar-shop",
     "title": "Kingshot Polar Shop - Gem &amp; Real-Money Value",
-    "description": "Kingshot Polar Shop list: every item, its Twinstar Coin cost, its stock limit and its value in gems or in €/$. See which purchases give the most value per coin before the event ends.",
+    "description": "Kingshot Polar Shop list: every item, its Twinstar Coin cost, stock limit and value in gems or €/$, ranked by value per coin before the event ends.",
     "name": {
       "EN": "Polar Shop",
       "FR": "Magasin Polaire"
@@ -144,8 +144,8 @@
   },
   {
     "slug": "summit-contest-champion",
-    "title": "Kingshot Summit Contest Champion - Gem &amp; Real-Money Value",
-    "description": "Kingshot Summit Contest Champion Shop: every item, its Champion Token cost, its stock limit and its value in gems or in €/$, with the best value-per-token deals ranked.",
+    "title": "Summit Contest Champion - Gem &amp; Real-Money Value",
+    "description": "Kingshot Summit Contest Champion Shop: every item, its Champion Token cost, stock limit and value in gems or €/$, best deals per token first.",
     "name": {
       "EN": "Summit Contest Champion Shop",
       "FR": "Magasin Champion de la Ligue Suprême"
@@ -157,8 +157,8 @@
   },
   {
     "slug": "summit-contest-ordinary",
-    "title": "Kingshot Summit Contest Ordinary - Gem &amp; Real-Money Value",
-    "description": "Kingshot Summit Contest Ordinary Shop: League Token cost of every item, stock limits and value in gems or in €/$, so you can spend your tokens where they return the most.",
+    "title": "Summit Contest Ordinary - Gem &amp; Real-Money Value",
+    "description": "Kingshot Summit Contest Ordinary Shop: League Token cost of every item, stock limits and value in gems or €/$, to spend tokens where they return the most.",
     "name": {
       "EN": "Summit Contest Ordinary Shop",
       "FR": "Magasin Ordinaire de la Ligue Suprême"
@@ -170,7 +170,7 @@
   },
   {
     "slug": "swordland",
-    "title": "Kingshot Swordland Shop - Relic Coin, Gem &amp; Real-Money",
+    "title": "Swordland Shop - Relic Coin, Gem &amp; Real-Money",
     "description": "Kingshot Swordland shop: Relic Coin cost of every item next to what it is worth in gems or in real money, so you can spend your coins where they return the most.",
     "name": {
       "EN": "Swordland",
@@ -183,8 +183,8 @@
   },
   {
     "slug": "theater-shop",
-    "title": "Kingshot Theater Shop - Tier Prices, Gem &amp; Real-Money",
-    "description": "Every item in the Kingshot Theater Shop, the Fantasy Theater event store: the same items sold at three rising prices, with Fantasy Token cost, stock and value in gems or in €/$ for each tier.",
+    "title": "Theater Shop - Tier Prices, Gem &amp; Real-Money Value",
+    "description": "Every item in the Kingshot Theater Shop (Fantasy Theater event): the same items at three rising prices, with Fantasy Token cost, stock and value per tier.",
     "name": {
       "EN": "Theater Shop",
       "FR": "Magasin du Théâtre"
@@ -199,7 +199,7 @@
   },
   {
     "slug": "tidal-shop",
-    "title": "Kingshot Tidal Shop - Tidal Stone, Gem &amp; Real-Money Value",
+    "title": "Tidal Shop - Tidal Stone, Gem &amp; Real-Money Value",
     "description": "Kingshot Tidal Shop: every item, its Tidal Stone cost and what it is worth in gems or in real money, ranked by how much value each stone buys.",
     "name": {
       "EN": "Tidal Shop",
@@ -212,7 +212,7 @@
   },
   {
     "slug": "treasure-cove-chest",
-    "title": "Kingshot Treasure Cove Chest - Best Pick, Gem &amp; Real-Money",
+    "title": "Treasure Cove Chest - Best Pick, Gem &amp; Real-Money",
     "description": "Kingshot Treasure Cove Chest: all twelve options, the quantity granted and what each is worth in gems or in €/$, so the best reward is easy to spot.",
     "name": {
       "EN": "Treasure Cove Chest",
@@ -225,7 +225,7 @@
   },
   {
     "slug": "trial-shop",
-    "title": "Kingshot Trial Shop - Trial Crystal, Gem &amp; Real-Money",
+    "title": "Trial Shop - Trial Crystal, Gem &amp; Real-Money",
     "description": "Kingshot Trial Shop: Trial Crystal cost of every item next to its value in gems or in €/$, with the best value-per-crystal purchases highlighted.",
     "name": {
       "EN": "Trial Shop",
@@ -238,7 +238,7 @@
   },
   {
     "slug": "war-chant-chest",
-    "title": "Kingshot War Chant Chest - Best Pick, Gem &amp; Real-Money",
+    "title": "War Chant Chest - Best Pick, Gem &amp; Real-Money",
     "description": "Kingshot War Chant Custom Chest: all eight options, the quantity granted and what each is worth in gems or in real money, so the best reward is easy to spot.",
     "name": {
       "EN": "War Chant Custom Chest",

@@ -49,12 +49,18 @@ test("Stand d'Aventure — chaque source verse autant de Points de Vente que de 
   }
 });
 
+// Clair de Lune, du 20 au 28 septembre 2026. Ces tests lisent le stock du jour et les
+// jours restants : ils se jouent au 3e jour, horloge figée, pour garder leur sens une
+// fois l'événement fini (deux d'entre eux ont viré au rouge le 28 septembre).
+const LUNE_J3 = '2026-09-22T12:00:00Z';
+const lune = (plan) => loadEventShop('moonlight-shop', plan, { now: LUNE_J3 });
+
 test("Clair de Lune — un pack n'est pas achetable au-delà de son `lastDay`", async () => {
   // L'événement dure 8 jours, les packs ne s'achètent que les 7 premiers. Le plan
   // ci-dessous en porte un au jour 8 : c'est ce qu'un fichier d'événement corrigé
   // APRÈS coup laisse derrière lui dans le localStorage du joueur. Il ne doit
   // compter ni en dépense, ni en récompenses.
-  const ctx = await loadEventShop('moonlight-shop', { buys: { moon_50: { 8: 1 } } });
+  const ctx = await lune({ buys: { moon_50: { 8: 1 } } });
   const c = run(ctx, 'seCompute()');
   assert.equal(c.spend, 0);
   assert.equal(c.buysTotal, 0);
@@ -63,7 +69,7 @@ test("Clair de Lune — un pack n'est pas achetable au-delà de son `lastDay`", 
 test("Clair de Lune — le même pack au jour 7 compte, lui", async () => {
   // Le pendant du test précédent : il prouve que le zéro vient bien de la borne et
   // non d'un pack introuvable ou d'un plan mal formé.
-  const ctx = await loadEventShop('moonlight-shop', { buys: { moon_50: { 7: 1 } } });
+  const ctx = await lune({ buys: { moon_50: { 7: 1 } } });
   const c = run(ctx, 'seCompute()');
   assert.equal(c.buysTotal, 1);
   assert.ok(c.spend > 0, `dépense attendue, obtenu ${c.spend}`);
@@ -73,7 +79,7 @@ test("Clair de Lune — les Lanternes du Désireux ne sont jamais valorisées", 
   // Elles ne sont pas la monnaie de la boutique : elles alimentent une activité
   // aléatoire dont sortent les Gâteaux de Lune. Aucun lien chiffrable, donc aucune
   // valeur en gemmes — seules les ressources et le VIP du pack en portent une.
-  const ctx = await loadEventShop('moonlight-shop', { buys: { moon_100: { 1: 1 } } });
+  const ctx = await lune({ buys: { moon_100: { 1: 1 } } });
   const c = run(ctx, 'seCompute()');
   // 10 000 pains + 10 000 bois + 2 000 pierres + 500 fer + 20 000 EXP VIP
   assert.equal(c.valueGem, 240000);
@@ -83,7 +89,7 @@ test("Clair de Lune — trois achats par jour sur le pack à 100 $, un seul sur 
   // Le plafond journalier vient du fichier : s'il glissait, la grille laisserait
   // budgéter un achat que le jeu refuse. Ne concerne que les packs QUOTIDIENS :
   // les deux packs à achat unique n'ont ni plafond par jour ni fermeture au J7.
-  const packs = await loadEventShop('moonlight-shop').then(ctx => run(ctx, 'SE_DATA.packs'));
+  const packs = await lune().then(ctx => run(ctx, 'SE_DATA.packs'));
   for (const p of packs.filter(x => !x.once)) {
     assert.equal(p.lastDay, 7, `${p.id} devrait fermer au jour 7`);
     assert.equal(p.perDay, p.id === 'moon_100' ? 3 : 1, `plafond inattendu sur ${p.id}`);
@@ -94,7 +100,7 @@ test("Clair de Lune — un pack sous condition ne compte pas tant que son prére
   // « Grands Desseins » ne s'achète qu'après « Désirs du Cœur ». Un plan qui porte
   // le second sans le premier ne doit rien dépenser ni rien rapporter : sinon la
   // page chiffrerait un achat que le jeu refuse de vendre.
-  const ctx = await loadEventShop('moonlight-shop', { buys: { grand_visions: { 1: 1 } } });
+  const ctx = await lune({ buys: { grand_visions: { 1: 1 } } });
   const c = run(ctx, 'seCompute()');
   assert.equal(c.spend, 0, 'un pack verrouillé ne se paie pas');
   assert.equal(c.buysTotal, 0, 'un pack verrouillé ne compte pas comme achat');
@@ -104,7 +110,7 @@ test("Clair de Lune — le prérequis acheté un autre jour ouvre quand même le
   // La condition porte sur l'événement, pas sur la journée : prérequis au J5, pack
   // conditionné au J1, les deux comptent. Les borner au même jour reviendrait à
   // interdire un achat que le jeu autorise.
-  const ctx = await loadEventShop('moonlight-shop', {
+  const ctx = await lune({
     buys: { heartfelt_desires: { 5: 1 }, grand_visions: { 1: 1 } },
   });
   const c = run(ctx, 'seCompute()');
@@ -115,7 +121,7 @@ test("Clair de Lune — le prérequis acheté un autre jour ouvre quand même le
 test("Clair de Lune — un pack à achat unique ne se paie qu'une fois", async () => {
   // Le plan peut porter plusieurs jours pour le même pack `once` (fichier modifié,
   // plan plus ancien) : seul le premier jour coché compte.
-  const ctx = await loadEventShop('moonlight-shop', {
+  const ctx = await lune({
     buys: { heartfelt_desires: { 2: 1, 6: 1 } },
   });
   const c = run(ctx, 'seCompute()');
@@ -127,7 +133,7 @@ test("Clair de Lune — le contenu des packs est décoché à l'ouverture", asyn
   // Décocher n'est pas supprimer : les lignes restent listées et se recochent d'un
   // clic. Elles partent décochées parce que le retour de cet événement se lit dans le
   // panier de la boutique, pas dans ce que les packs versent à côté.
-  const ctx = await loadEventShop('moonlight-shop', {
+  const ctx = await lune({
     buys: { moon_1: { 1: 1 }, moon_2: { 1: 1 } },
     excluded: { '100_exp_vip': 1, '10k_bread': 1, '10k_wood': 1, '10k_stone': 1, '10k_iron': 1 }
   });
@@ -142,9 +148,9 @@ test("Clair de Lune — le décochage par défaut couvre TOUS les packs, sans li
   // La règle remplace l'inventaire : quel que soit le pack coché, aucun objet valorisé
   // ne doit rester compté à l'ouverture. Une liste d'itemId laissait passer en silence
   // l'objet d'un pack relevé plus tard.
-  const packs = await loadEventShop('moonlight-shop').then(ctx => run(ctx, 'SE_DATA.packs'));
+  const packs = await lune().then(ctx => run(ctx, 'SE_DATA.packs'));
   for (const p of packs) {
-    const ctx = await loadEventShop('moonlight-shop', {
+    const ctx = await lune({
       buys: { heartfelt_desires: { 1: 1 }, [p.id]: { 1: 1 } },
     });
     const defaut = run(ctx, 'seDefaultExcluded()');
@@ -159,7 +165,7 @@ test("Clair de Lune — le décochage par défaut couvre TOUS les packs, sans li
 test("Clair de Lune — les Lanternes restent cochées, elles ne pèsent sur aucun total", async () => {
   // Un objet sans itemId n'est jamais chiffré : le griser masquerait au joueur ce
   // qu'il récolte sans rien changer au retour affiché.
-  const ctx = await loadEventShop('moonlight-shop', { buys: { moon_100: { 1: 1 } } });
+  const ctx = await lune({ buys: { moon_100: { 1: 1 } } });
   const defaut = run(ctx, 'seDefaultExcluded()');
   const c = run(ctx, 'seCompute()');
   assert.equal(c.extras.length, 1, 'la Lanterne est le seul objet hors référentiel');
@@ -171,7 +177,7 @@ test("Clair de Lune — « Déjà pris » compte dans la valeur sans toucher au 
   // n'entrait nulle part. Les gâteaux du déjà-pris sont sortis du solde EN JEU, donc le
   // solde saisi ne doit pas s'en faire retirer une seconde fois — mais leur valeur, elle,
   // compte bien dans ce que l'événement a rapporté.
-  const ctx = await loadEventShop('moonlight-shop');
+  const ctx = await lune();
   run(ctx, `const s = spShop(); s.resources = 500;
             s.items[0].have = 200; s.items[0].take = 20;`);
   const c = run(ctx, 'scComputeRows(spShop()).cart');
@@ -184,7 +190,7 @@ test("Clair de Lune — « Déjà pris » compte dans la valeur sans toucher au 
 test("Clair de Lune — le « Dispo » se réduit de ce qui est déjà pris", async () => {
   // Sans réinitialisation, le stock est celui de tout l'événement : 30 Mithril, 10
   // déjà pris, 20 encore disponibles. C'est le cas qui se lit le plus directement.
-  const ctx = await loadEventShop('moonlight-shop');
+  const ctx = await lune();
   run(ctx, 'spShop().items[5].have = 10;');
   const r = run(ctx, 'scComputeRows(spShop()).all.find(x => x.i === 5)');
   assert.equal(r.itemId, 'mithril');
@@ -195,7 +201,7 @@ test("Clair de Lune — un stock qui se recharge ne perd que ce qui dépasse son
   // Prendre 30 coffres hier ne retire rien aux 30 d'aujourd'hui : tant que le stock de
   // l'événement n'est pas entamé, le plafond reste celui des jours restants. Une fois
   // les 240 pris, il n'y a plus rien à prendre, quels que soient les jours qui restent.
-  const ctx = await loadEventShop('moonlight-shop');
+  const ctx = await lune();
   const dispo = n => { run(ctx, `spShop().items[0].have = ${n};`);
                        return run(ctx, 'scComputeRows(spShop()).all[0].maxfin'); };
   const plein = dispo(0);
@@ -208,7 +214,7 @@ test("Clair de Lune — le plafond du « Déjà pris » est le stock de tout l'�
   // 30 par jour sur 8 jours = 240, quel que soit le jour où la page est ouverte. Le
   // plafond de « Je prends », lui, suit les jours qui restent : c'est ce décalage qui
   // empêchait de saisir un achat du premier jour.
-  const ctx = await loadEventShop('moonlight-shop');
+  const ctx = await lune();
   run(ctx, 'spShop().items[0].have = 9999;');
   const r = run(ctx, 'scComputeRows(spShop()).all[0]');
   assert.equal(r.haveMax, 240);

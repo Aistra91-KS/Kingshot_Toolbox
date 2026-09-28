@@ -17,14 +17,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
     <title>Kingshot Toolbox - Calculators, Optimizers &amp; Database for Kingshot</title>
-    <meta name="description" content="Free Kingshot tools: research and TrueGold optimizers, War Academy planner, Bear Trap and Vikings calculators, plus full databases for buildings, masters and pets. Bilingual EN/FR.">
+    <meta name="description" content="Free Kingshot calculators and optimizers (research, TrueGold, War Academy, Bear Trap, Vikings) and databases of buildings, heroes, masters and pets.">
     <link rel="canonical" href="https://kingshottoolbox.com/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
     <meta property="og:title" content="Kingshot Toolbox - Calculators, Optimizers &amp; Database for Kingshot">
-    <meta property="og:description" content="Free Kingshot tools: research and TrueGold optimizers, War Academy planner, Bear Trap and Vikings calculators, plus full databases for buildings, masters and pets. Bilingual EN/FR.">
+    <meta property="og:description" content="Free Kingshot calculators and optimizers (research, TrueGold, War Academy, Bear Trap, Vikings) and databases of buildings, heroes, masters and pets.">
     <meta property="og:url" content="https://kingshottoolbox.com/">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="css/style.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://kingshottoolbox.com/#website","name":"Kingshot Toolbox","url":"https://kingshottoolbox.com/","inLanguage":["en","fr"],"publisher":{"@id":"https://kingshottoolbox.com/#organization"}},{"@type":"Organization","@id":"https://kingshottoolbox.com/#organization","name":"Kingshot Toolbox","url":"https://kingshottoolbox.com/","logo":{"@type":"ImageObject","url":"https://kingshottoolbox.com/img/logo/logo-512.png","width":512,"height":512}}]}</script>
 </head>
-<body class="hub-body">
+<body class="hub-body has-app-header">
 
     <div class="hub-container">
         <header class="hub-header">
@@ -49,6 +49,10 @@
                 <button class="lang-btn active" data-lang="FR">FR</button>
                 <button class="lang-btn" data-lang="EN">EN</button>
             </div>
+            <button type="button" class="help-btn" data-help="1"><span class="help-q">?</span><span class="help-btn-txt" data-en="How does it work?" data-fr="Comment ça marche ?">How does it work?</span></button>
+            <!-- Aide écrite en dur pour tenir sa place dès le premier affichage (MAP.md §9) ; help.js la reprend. -->
+            <div class="help-banner" data-help="1" hidden><span class="help-banner-txt" data-en="This toolbox gathers the calculators and planners for Kingshot. Each card below opens a dedicated tool." data-fr="Cette boîte à outils regroupe les calculateurs et planificateurs pour Kingshot. Chaque carte ci-dessous ouvre un outil dédié.">This toolbox gathers the calculators and planners for Kingshot. Each card below opens a dedicated tool.</span><button class="help-banner-more" type="button">How does it work?</button><button class="help-banner-x" type="button" aria-label="Don't show again">&times;</button></div>
+            <script>(function(b){try{if(localStorage.getItem('help_seen_hub')==='1')return}catch(e){}b.hidden=false})(document.currentScript.previousElementSibling)</script>
         </header>
 
         <main id="hub-root">
@@ -122,7 +126,12 @@
         <span class="hub-card-cta">Open →</span>
         </a></div></section><section class="hub-section">
         <h2 class="hub-section-title">Database</h2>
-        <div class="hub-grid"><a href="database/buildings/" class="hub-card">
+        <div class="hub-grid"><a href="database/heroes/" class="hub-card">
+        <div class="hub-card-icon"><svg class="ic" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h2>Heroes DB</h2>
+        <p>Every hero's full reference: conquest and expedition skills, their effect and their value at each of the five levels, and the widget that goes with them.</p>
+        <span class="hub-card-cta">Open →</span>
+        </a><a href="database/buildings/" class="hub-card">
         <div class="hub-card-icon"><svg class="ic" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></div>
         <h2>Buildings</h2>
         <p>Every building's full upgrade table: TrueGold, Tempered TrueGold, resources, build time and requirements per level.</p>
@@ -160,7 +169,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

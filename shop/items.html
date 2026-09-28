@@ -18,14 +18,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
     <title>Kingshot Item Gem Values - Reference Table | Kingshot Toolbox</title>
-    <meta name="description" content="Reference gem value of every Kingshot item: speedups, TrueGold, Mithril, hero shards, gear materials, pet resources and more. Edit any value to recalculate every shop on the site.">
+    <meta name="description" content="Reference gem value of every Kingshot item: speedups, TrueGold, Mithril, hero shards, gear and pet materials. Edit a value and every shop on the site updates.">
     <link rel="canonical" href="https://kingshottoolbox.com/shop/items">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
     <meta property="og:title" content="Kingshot Item Gem Values - Reference Table">
-    <meta property="og:description" content="Reference gem value of every Kingshot item: speedups, TrueGold, Mithril, hero shards, gear materials, pet resources and more. Edit any value to recalculate every shop on the site.">
+    <meta property="og:description" content="Reference gem value of every Kingshot item: speedups, TrueGold, Mithril, hero shards, gear and pet materials. Edit a value and every shop on the site updates.">
     <meta property="og:url" content="https://kingshottoolbox.com/shop/items">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -45,6 +45,10 @@
     <div class="db-page">
         <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="item-values" data-en="Item values" data-fr="Valeur des objets">Item values</a> / <span data-i18n="itemsRef">Item values</span></div>
         <h1 data-i18n="itemsRef">Item values</h1>
+        <button type="button" class="help-btn" data-help="1"><span class="help-q">?</span><span class="help-btn-txt" data-en="How does it work?" data-fr="Comment ça marche ?">How does it work?</span></button>
+        <!-- Aide écrite en dur pour tenir sa place dès le premier affichage (MAP.md §9) ; help.js la reprend. -->
+        <div class="help-banner" data-help="1" hidden><span class="help-banner-txt" data-en="This table holds each item&#x27;s value in gems. Every shop page on the site uses it as its reference." data-fr="Ce tableau donne la valeur en gemmes de chaque objet. C&#x27;est lui qui sert de référence à toutes les pages boutique du site.">This table holds each item's value in gems. Every shop page on the site uses it as its reference.</span><button class="help-banner-more" type="button">How does it work?</button><button class="help-banner-x" type="button" aria-label="Don't show again">&times;</button></div>
+        <script>(function(b){try{if(localStorage.getItem('help_seen_shop-items')==='1')return}catch(e){}b.hidden=false})(document.currentScript.previousElementSibling)</script>
         <p class="db-intro" data-en="The reference value in gems of every Kingshot item. Every shop page on this site compares its prices to this table, so changing a value here recalculates all of them at once. Your edits are saved on your device only." data-fr="La valeur de référence en gemmes de chaque objet de Kingshot. Toutes les pages boutique du site comparent leurs prix à ce tableau : modifier une valeur ici recalcule toutes les boutiques d'un coup. Tes modifications sont enregistrées sur ton appareil uniquement.">The reference value in gems of every Kingshot item. Every shop page on this site compares its prices to this table, so changing a value here recalculates all of them at once. Your edits are saved on your device only.</p>
 
         <div class="shop-toolbar">
@@ -55,7 +59,7 @@
             <button class="btn-reset" style="background:transparent;border:1px solid var(--text-muted);color:var(--text-muted);" onclick="scResetItems()" data-i18n="resetItems">Reset values</button>
         </div>
         <div id="item-count" style="color:var(--text-muted);font-size:13px;margin-bottom:8px;"></div>
-        <div class="table-container">
+        <div class="table-container is-loading">
             <table class="db-table">
                 <thead>
                     <tr>
@@ -89,7 +93,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

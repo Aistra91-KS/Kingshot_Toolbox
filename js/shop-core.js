@@ -145,11 +145,11 @@ const i18nShop = {
     confirmReset:"Reset all gem values to defaults?", count:"items",
     search:"Search…",
     tipRatio:"Gem value ÷ cost. The higher it is, the better the deal.",
-    tipGem:"Reference gem value of the item (editable on the “Item values” page).",
+    tipGem:"Reference gem value of the item (editable on the \"Item values\" page).",
     tipRestant:"Quantity still available to buy in this shop.",
     tipMaxFin:"Max quantity reachable by the event's end.",
     tipObt:"What you can actually obtain given your event currency.",
-    tipCostObt:"Event currency needed for the “Obtainable” quantity.",
+    tipCostObt:"Event currency needed for the \"Obtainable\" quantity.",
 
     // --- euro valuation (separate view) ---
     viewGem:"Gems", viewEur:"$ / €", viewLabel:"Reading",
@@ -160,17 +160,17 @@ const i18nShop = {
     refsGemLead:"These same items, valued in gems:",
     refsEurLead:"These same items, valued in real money:",
     colPack:"Source pack", noPack:"not specified", multipack:"Multipack", seePack:"see the pack",
-    tipPack:"The pack the price comes from. For a surveyed item that is the pack with the best unit price, which is its price divided by how much of the item it gives, as packs do not all cost the same. For speedups it is the pack that sets the price of one minute, the same one for all five lengths; for affinity tokens, the one that sets the price of a point, the same one for all three. Hover a pack name to see it. “Multipack”: several packs are tied, so there is no picture. A pill says which rule decided the price (“Calculated”, “Scale” or “×0.25”), all spelled out under the table.",
+    tipPack:"The pack the price comes from. For a surveyed item that is the pack with the best unit price, which is its price divided by how much of the item it gives, as packs do not all cost the same. For speedups it is the pack that sets the price of one minute, the same one for all five lengths; for affinity tokens, the one that sets the price of a point, the same one for all three. Hover a pack name to see it. \"Multipack\": several packs are tied, so there is no picture. A pill says which rule decided the price (\"Calculated\", \"Scale\" or \"×0.25\"), all spelled out under the table.",
     ieNote:"{n} of the {t} items in the reference table are priced here; the others have no known price and are not listed. Survey: {z}, updated {d}.",
     derived:"Calculated", ruleSep:": ",
     derivedTitle:"Calculated values",
     derivedIntro:"The price of these items cannot be read off their own pack: it is worked out from other items. Either because no pack sells them, or because the survey, accurate as it is, gave an absurd unit price. A pack being stingy with an item does not make that item more valuable. A chest is worth the sum of what it gives; if its loot is random, the quantities are averages.",
     derivedSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
-    derivedSumAlt:"That is the value of “{n}” \u00D7 {f} = {b}",
-    derivedSumSame:"That is the value of “{n}”, so {b}",
+    derivedSumAlt:"That is the value of \"{n}\" \u00D7 {f} = {b}",
+    derivedSumSame:"That is the value of \"{n}\", so {b}",
     derivedSumMulti:"That is {t} = {r} = {b}",
     derivedSumMultiAlt:"That is {t} = {b}",
-    derivedTerm:"{f} \u00D7 “{n}”",
+    derivedTerm:"{f} \u00D7 \"{n}\"",
     derivedTermRaw:"{f} \u00D7 ({p} \u00F7 {q})",
     scaled:"Scale",
     scaleTitle:"Speedup scale",
@@ -182,7 +182,7 @@ const i18nShop = {
     weightTitle:"Deliberate weighting",
     weightSum:"That is {p} \u00F7 {q} \u00D7 {f} = {b}",
     covered:"on {n} of {t} items priced", coveredAll:"all items are priced",
-    tipEur:"The item's real price, taken from the paid pack it appears in (pack price ÷ quantity). A few items no pack sells are worked out from an item that a pack does price (the maths is on the “Real-money item values” page). A “—” marks an item still impossible to price.",
+    tipEur:"The item's real price, taken from the paid pack it appears in (pack price ÷ quantity). A few items no pack sells are worked out from an item that a pack does price (the maths is on the \"Real-money item values\" page). A \"—\" marks an item still impossible to price.",
     tipRatioEur:"Euro value ÷ cost. The higher it is, the better the deal.",
     eurNote:"Survey of the paid packs, {z}. The two readings are independent: no exchange rate is computed between gems and real money."
 
@@ -863,7 +863,7 @@ function scWarnDataFailure(){
       + 'background:#b45309;color:#fff;font-size:14px;line-height:1.45;text-align:center;'
       + 'box-shadow:0 2px 12px rgba(0,0,0,.3)';
     el.textContent = fr
-      ? 'Certaines données du site n\u2019ont pas pu être chargées : les chiffres affichés sont incomplets.'
+      ? 'Certaines données du site n\'ont pas pu être chargées : les chiffres affichés sont incomplets.'
       : 'Some site data could not be loaded: the figures shown are incomplete.';
     const again = document.createElement('button');
     again.type = 'button';
@@ -877,7 +877,7 @@ function scWarnDataFailure(){
     // et « Réessayer » ne faisait que la ramener.
     const x = document.createElement('button');
     x.type = 'button';
-    x.setAttribute('aria-label', fr ? 'Fermer l\u2019avertissement' : 'Dismiss warning');
+    x.setAttribute('aria-label', fr ? 'Fermer l\'avertissement' : 'Dismiss warning');
     x.textContent = '\u00d7';
     x.style.cssText = 'margin-left:12px;background:none;border:none;color:#fff;'
       + 'font-size:20px;line-height:1;cursor:pointer';

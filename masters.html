@@ -16,14 +16,14 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Kingshot Masters Planner - Experts, Affinities &amp; Skills | Kingshot Toolbox</title>
+    <title>Kingshot Masters Planner - Affinities &amp; Skills | Kingshot Toolbox</title>
     <meta name="description" content="Kingshot Masters tool: every expert with affinities and skills, to plan your council at a glance.">
     <link rel="canonical" href="https://kingshottoolbox.com/masters">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kingshot Toolbox">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="fr_FR">
-    <meta property="og:title" content="Kingshot Masters Planner - Experts, Affinities &amp; Skills">
+    <meta property="og:title" content="Kingshot Masters Planner - Affinities &amp; Skills">
     <meta property="og:description" content="Kingshot Masters tool: every expert with affinities and skills, to plan your council at a glance.">
     <meta property="og:url" content="https://kingshottoolbox.com/masters">
     <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
@@ -44,7 +44,7 @@
       .bt-pill.on { border-color: var(--success); background: rgba(78,205,196,0.12); box-shadow: 0 0 0 1px var(--success) inset; }
       .bt-pill.unreached { opacity: 0.45; }
       .bt-pill.forced, .bt-pill.unreached { cursor: not-allowed; }
-      .bt-lvl { font-size: 13px; font-weight: bold; color: var(--accent); }
+      .bt-lvl { font-size: 13px; font-weight: bold; color: var(--accent-text, var(--accent)); }
       .bt-pill.on .bt-lvl { color: var(--success); }
       .bt-emb { font-size: 10px; color: var(--text-muted); line-height: 1.2; }
       @media (max-width: 640px) { .bt-grid { grid-template-columns: repeat(3, 1fr); } }
@@ -55,11 +55,11 @@
 <body class="has-app-header">
     
     <div class="sidebar">
-        <h1 style="font-size:1.5em;color:var(--accent);margin-top:0;" data-i18n="pageTitle">Hall of Masters</h1>
+        <h1 style="font-size:1.5em;color:var(--accent-text, var(--accent));margin-top:0;" data-i18n="pageTitle">Hall of Masters</h1>
         <p style="color: var(--text-muted); font-size: 13px; line-height: 1.5;" data-i18n="pageDesc">Manage the relationship level and skills of your experts.</p>
 
         <div class="control-group" style="margin-top: 20px;">
-            <h3 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;" data-i18n="filterSort">Sort &amp; Filters</h3>
+            <h2 style="margin: 0 0 15px 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;" data-i18n="filterSort">Sort &amp; Filters</h2>
 
             <div class="filter-group" style="margin-bottom: 15px;">
                 <label for="master-search" data-i18n="searchMaster" style="display:block; margin-bottom:6px;">Search</label>
@@ -94,7 +94,7 @@
             
             <div id="modal-header-bg" style="height: 150px; background-size: cover; background-position: center 20%; border-bottom: 2px solid var(--accent); position: relative;">
                 <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 100%; background: linear-gradient(to top, var(--bg-panel) 0%, transparent 100%);"></div>
-                <h2 id="modal-master-name" style="position: absolute; bottom: 10px; left: 20px; margin: 0; color: var(--accent); text-transform: uppercase; letter-spacing: 1px;">Nom</h2>
+                <h2 id="modal-master-name" style="position: absolute; bottom: 10px; left: 20px; margin: 0; color: var(--accent-text, var(--accent)); text-transform: uppercase; letter-spacing: 1px;">Nom</h2>
             </div>
 
             <div id="modal-body" style="padding: 20px; flex: 1;">
@@ -103,15 +103,15 @@
                 <!-- RELATION & STATUT -->
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: var(--control-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
                     <div>
-                        <div id="modal-master-name-inline" style="font-size: 17px; font-weight: bold; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Nom</div>
+                        <div id="modal-master-name-inline" style="font-size: 17px; font-weight: bold; color: var(--accent-text, var(--accent)); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Nom</div>
                         <span style="font-size: 13px; color: var(--text-muted);" data-i18n="relLevel">Level (1-100)</span>
-                        <div id="modal-master-title" style="font-size: 11px; color: var(--accent); text-transform: uppercase; margin-top: 4px;">Titre</div>
+                        <div id="modal-master-title" style="font-size: 11px; color: var(--accent-text, var(--accent)); text-transform: uppercase; margin-top: 4px;">Titre</div>
                         <!-- NOUVEAU : Statut de Relation -->
                         <div id="modal-master-status" style="font-size: 14px; font-weight: bold; color: var(--success); margin-top: 6px;">Étranger</div>
                         <div id="modal-affinity-text" style="font-size: 12px; color: var(--text-muted); margin-top: 6px; display: none;"></div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end;">
-                        <div id="modal-affinity-type" style="font-size: 13px; font-weight: bold; color: var(--accent); text-align: right;"></div>
+                        <div id="modal-affinity-type" style="font-size: 13px; font-weight: bold; color: var(--accent-text, var(--accent)); text-align: right;"></div>
                         <input type="number" id="modal-rel-level" min="0" max="100" oninput="updateMasterUI()" onchange="updateMasterUI()" title="Niveau exact (0-100)" style="width: 72px; background: var(--bg-dark); color: var(--text-light); border: 1px solid var(--border); padding: 5px 8px; border-radius: 4px; text-align: center; font-weight: bold; font-size: 13px;">
                     </div>
                 </div>
@@ -166,7 +166,7 @@
          final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
          n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
     <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
-    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
 
     <script src="js/site-config.js"></script>
     <script src="js/storage-keys.js"></script>

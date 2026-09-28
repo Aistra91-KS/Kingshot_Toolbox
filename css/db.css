@@ -17,8 +17,12 @@
 .db-page.db-wide  { max-width: 1180px; }   /* fiches Académie (11 colonnes) */
 
 .db-breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
-.db-breadcrumb a { color: var(--accent); text-decoration: none; }
-.db-page h1 { color: var(--accent); margin: 0 0 6px; }
+/* Soulignés discrètement : distingués par la seule couleur, les liens ne tenaient que
+   2,1:1 face au texte voisin (WCAG 1.4.1). */
+.db-breadcrumb a { color: var(--accent-text, var(--accent)); text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 3px; }
+.db-breadcrumb a:hover { text-decoration-color: currentColor; }
+.db-page h1 { color: var(--accent-text, var(--accent)); margin: 0 0 6px; }
 .db-intro { color: var(--text-muted); font-size: 14px; margin: 0 0 22px; line-height: 1.5; }
 
 /* ---- Index : grille de cartes ---- */
@@ -60,28 +64,31 @@ table.db-table tbody tr:hover { background: rgba(255,255,255,0.03); }
    règle, mais limitée aux tables d'une `.db-section` — les pages Bâtiments,
    Académie et Recherches sont dans une `.table-container` et y échappaient. */
 table.db-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
 table.db-table thead th.num { text-align: right; }
-table.db-table td.tg { color: var(--accent); font-weight: 600; }
+table.db-table td.tg { color: var(--accent-text, var(--accent)); font-weight: 600; }
 table.db-table td.ttg { color: #c58cff; font-weight: 600; }
+/* Le violet clair de l'Or trempé ne tient que 2,3:1 sur fond clair. */
+[data-theme="light"] table.db-table td.ttg { color: #7b3fc4; }
 table.db-table td.c-lbl { font-weight: 700; color: var(--text-light); }
-table.db-table td.c-req { white-space: normal; color: var(--text-muted); font-size: 12px; min-width: 160px; }
+table.db-table td.c-req { white-space: normal; color: var(--text-muted); font-size: 12px; min-width: 120px; }
 table.db-table td.c-wa { color: var(--text-muted); font-size: 12px; }
 /* c-eff : Académie (190px, 12px) vs Experts/Familiers (150px, taille héritée) */
-.db-page .table-container table.db-table td.c-eff { white-space: normal; color: var(--text-light); font-size: 12px; min-width: 190px; }
+.db-page .table-container table.db-table td.c-eff { white-space: normal; color: var(--text-light); font-size: 12px; min-width: 150px; }
 .db-section table.db-table td.c-eff { white-space: normal; color: var(--text-light); min-width: 150px; }
 /* Regroupements Académie */
 table.db-table tr.wa-group:hover { background: var(--table-header); }
-table.db-table tr.wa-group td { background: var(--table-header); color: var(--accent); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+table.db-table tr.wa-group td { background: var(--table-header); color: var(--accent-text, var(--accent)); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
 
 /* ---- Fiches Experts / Familiers : sections & blocs compétence ---- */
 .db-section { margin: 30px 0 0; }
-.db-section > h2 { color: var(--accent); font-size: 16px; text-transform: uppercase; letter-spacing: .03em; margin: 0 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+.db-section > h2 { color: var(--accent-text, var(--accent)); font-size: 16px; text-transform: uppercase; letter-spacing: .03em; margin: 0 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 .db-section table.db-table { margin-bottom: 4px; }
 .table-wrap, .m-block { overflow-x: auto; }
 .m-block { margin-bottom: 26px; }
 .m-block-head { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
 .m-ico { width: 48px; height: 48px; object-fit: contain; flex-shrink: 0; border-radius: 8px; background: var(--control-bg); border: 1px solid var(--border); padding: 4px; }
-.m-block-name { color: var(--accent); font-weight: 700; font-size: 15px; }
+.m-block-name { color: var(--accent-text, var(--accent)); font-weight: 700; font-size: 15px; }
 .m-block-tag { font-size: 11px; color: var(--success); text-transform: uppercase; letter-spacing: .03em; margin-top: 2px; }
 .m-block-desc { font-size: 12px; color: var(--text-muted); line-height: 1.45; margin-top: 3px; max-width: 720px; white-space: normal; }
 
@@ -92,8 +99,8 @@ a.db-switch-item:hover { border-color: var(--accent); }
 /* Au clavier, ces pastilles ne montraient que l'anneau par défaut du navigateur,
    quasi invisible sur le fond sombre (mesuré : 1px #101010). Même repère que les
    onglets et les boutons du site (WCAG 2.2, 2.4.11). */
-.db-switch-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.db-switch-item.active { border-color: var(--accent); background: rgba(245,184,64,0.15); color: var(--accent); cursor: default; }
+.db-switch-item:focus-visible { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: 2px; }
+.db-switch-item.active { border-color: var(--accent); background: rgba(245,184,64,0.15); color: var(--accent-text, var(--accent)); cursor: default; }
 .db-switch.footer { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 18px; }
 /* Intitulé de famille dans une nav qui en mélange deux (pages Bâtiments : les huit
    bâtiments qui montent à l'Or Véritable, puis les autres). `flex-basis: 100%`
@@ -145,7 +152,7 @@ table.db-table tr.wa-group td .wg-name { display: inline-block; position: sticky
    paliers. Le sélecteur doit donc viser `th` ; `tr.wa-group td` ne l'attrape pas. */
 table.db-table tr.dbr-group:hover { background: var(--table-header); }
 table.db-table tr.dbr-group th {
-  background: var(--table-header); color: var(--accent);
+  background: var(--table-header); color: var(--accent-text, var(--accent));
   font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .03em;
   text-align: left; padding: 8px 10px;
 }
@@ -157,16 +164,71 @@ table.db-table tr.dbr-group th .dbr-name-in { position: sticky; left: 0; }
 /* Vignette + nom solidaires, dans l'en-tête de groupe comme dans la colonne. */
 .dbr-name-in { display: inline-flex; align-items: center; gap: 8px; }
 .dbr-icon { width: 26px; height: 26px; flex: none; object-fit: contain; }
-table.db-table td.dbr-name { white-space: nowrap; }
+/* Nom et temps peuvent passer sur deux lignes : en disposition automatique, le
+   navigateur ne le fait que si la place manque (écran de 1024 px), jamais sur
+   grand écran. En `nowrap`, ces deux colonnes faisaient défiler le tableau. */
+table.db-table td.dbr-name { white-space: normal; min-width: 120px; }
+table.db-table td.c-time { white-space: normal; min-width: 64px; }
 
 /* Colonne Effet : le texte y est long, il respire mieux sur deux lignes que
    dans une colonne étirée qui pousse tout le reste hors écran. */
 table.db-table td.c-eff { white-space: normal; min-width: 15ch; }
-table.db-table td.c-time { white-space: nowrap; }
 
 /* Libellé réservé au lecteur d'écran : un `placeholder` seul ne nomme pas un
    champ de façon fiable (cf. MAP §9, « tout champ porte un nom accessible »). */
 .db-sr {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* ============================================================
+   RÉSERVES DE HAUTEUR PENDANT LE CHARGEMENT (cf. MAP.md §9)
+   Ces pages écrivent leur contenu une fois les données arrivées. Sans réserve, ce
+   qui était déjà affiché sous le tableau ou la fiche (navigation du bas, pied de
+   page, sections suivantes) était repoussé d'un coup : décalage de mise en page
+   mesuré jusqu'à 0,87. Une réserve est une borne BASSE de la hauteur rendue : elle
+   ne se voit plus une fois le contenu posé.
+   ============================================================ */
+/* Tableaux : `.table-container.is-loading`, dans css/style.css (Recherches n'a pas
+   cette feuille). */
+/* Fiches Familiers et Experts : plus petites hauteurs relevées sur les 14 familiers
+   et les 8 experts, de 360 à 1280 px. Nourriture et compétences dépassent toujours
+   un écran. À revoir si une fiche beaucoup plus courte arrive. */
+#p-skill      { min-height: 249px; }
+#p-adv        { min-height: 181px; }
+#p-food       { min-height: 100vh; }
+#m-milestones { min-height: 361px; }
+#m-passive    { min-height: 429px; }
+#m-skills     { min-height: 100vh; }
+/* Page Nouveautés : la liste fait toujours plusieurs écrans. */
+#cl-root:empty { min-height: 100vh; }
+
+/* En fin de fichier : ces réglages doivent passer après les largeurs minimales
+   des colonnes (c-req, c-eff, dbr-name) qu'ils assouplissent. */
+/* Écrans d'ordinateur étroits (821 à 1200 px) : marges de cellule resserrées. Sur
+   12 colonnes, 3 px de moins de chaque côté rendent 72 px au tableau, ce qui lui
+   évite de défiler de côté. Sous 820 px, le défilement horizontal reste la règle
+   (style.css, première colonne figée). */
+@media (min-width: 821px) and (max-width: 1200px) {
+  table.db-table { font-size: 12px; }
+  table.db-table th, table.db-table td { padding: 7px 6px; }
+  /* Les intitulés (« OV trempé », « Bonus cumulé ») peuvent passer sur deux lignes :
+     en majuscules espacées, un seul mot d'en-tête élargissait toute sa colonne. */
+  table.db-table thead th { white-space: normal; }
+  table.db-table td.c-req { min-width: 96px; }
+  .db-page .table-container table.db-table td.c-eff { min-width: 120px; }
+  table.db-table td.dbr-name { min-width: 100px; }
+  table.db-table td.c-time { min-width: 44px; }
+  table.db-table thead th { letter-spacing: 0; font-size: 10.5px; }
+  .db-page.db-wide { padding-left: 12px; padding-right: 12px; }
+}/* Fenêtre encore plus étroite (821 à 900 px) : l'icône répétée sur chaque palier
+   s'efface (elle reste sur la ligne de titre du groupe, juste au-dessus), et les
+   colonnes de texte se resserrent encore. De quoi faire tenir les 12 colonnes des
+   Recherches sans défilement jusqu'à 821 px. */
+@media (min-width: 821px) and (max-width: 900px) {
+  table.db-table td.dbr-name .dbr-icon { display: none; }
+  table.db-table td.c-req { min-width: 84px; }
+  .db-page .table-container table.db-table td.c-eff { min-width: 100px; }
+  table.db-table td.dbr-name { min-width: 86px; }
+  table.db-table th, table.db-table td { padding: 7px 5px; }
 }
