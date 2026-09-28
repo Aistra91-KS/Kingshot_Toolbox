@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 1.14.2
-covers-until: 35c67f13e24f59dbd8f947e40aeb0c61d1ef13dc
-generated: 2026-09-22
+version: 1.15.0
+covers-until: c7c92c72070cc2c6aeb6c390cfcd300c9bf39ac7
+generated: 2026-09-28
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: 🔬 Les Recherches, six bâtiments et trois pages Boutique
-title-en: 🔬 Academy research, six buildings and three shop pages
+title-fr: La base de données Héros et les recherches avancées de l'Académie de Guerre
+title-en: The Heroes database and the advanced War Academy research
 -->
 
 <!--
@@ -68,48 +68,62 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### 🔬 Les recherches de l'Académie ont leur base de données
+### Les héros ont leur base de données
 
-Les 720 recherches de l'Académie se consultent maintenant palier par palier, sur les trois arbres Croissance, Économie et Combat : coût en pain, bois, pierre, fer et or, temps de recherche, puissance gagnée, niveau d'Académie exigé et bonus obtenu.
+Les 37 héros ont maintenant leur fiche, disposée comme l'écran du jeu : les compétences de conquête à gauche, le portrait au centre, les compétences d'expédition à droite. Un sélecteur de 1 à 5 réécrit toutes les valeurs de la page d'un clic, et un tableau en dessous donne les cinq niveaux côte à côte. Le widget du héros suit quand il en a un.
+
+Le sommaire est rangé par génération, la 8 en tête. En bas de chaque fiche, les autres héros sont regroupés : même type de troupe, même génération, puis le reste.
+👉 https://kingshottoolbox.com/database/heroes/
+
+Les noms et textes français des compétences suivent maintenant le jeu pour la plupart des héros, et Ma Caserne en profite aussi.
+👉 https://kingshottoolbox.com/caserne
+
+### L'Académie de Guerre passe aux recherches avancées
+
+La page gagne deux onglets. **Recherches avancées** planifie les 92 recherches qui s'ouvrent de TG5 à TG8, disposées comme en jeu avec leurs icônes et les branches qui les relient. **Suggestion globale** les mélange aux trois arbres de troupes quand c'est plus rentable, en partageant poussière, Or Véritable trempé, pièces et accélérateurs. En mode KvK, elle ne fait jamais moins bien que l'un ou l'autre onglet pris seul.
+
+L'Or Véritable trempé devient un stock à part, à 30 000 points KvK l'unité. Et le creuset arrive, comme sur le Planificateur de Bâtiments : indique tes transformations déjà faites (100 au total), et le plan peut changer du TrueGold en Or Véritable trempé, 20 TrueGold pour environ 1,45 au début, jusqu'à 160 pour environ 3,71 sur les dernières. Le même TrueGold paie aussi les échanges de poussière, et le plan choisit le partage qui rapporte le plus.
+👉 https://kingshottoolbox.com/waracademy
+
+### Du confort sur tout le site
+
+Les pages ne sautent plus quand leurs données arrivent. Sur téléphone, 57 pages bougeaient nettement ; il n'en reste qu'une, l'outil Familiers, dont la refonte est prévue. Sur ordinateur, les tableaux de recherches de l'Académie et de l'Académie de Guerre tiennent dans l'écran sans barre de défilement horizontale.
 👉 https://kingshottoolbox.com/database/research/
+👉 https://kingshottoolbox.com/database/waracademy/
 
-Six bâtiments rejoignent la base Bâtiments : l'Entrepôt, le Moulin, la Scierie, la Carrière, la Mine de Fer et le Poste de Garde. Ils s'arrêtent avant l'Or Véritable, leur tableau donne donc les ressources, le temps de construction et la puissance de chaque niveau, sans colonne Or Véritable.
-👉 https://kingshottoolbox.com/database/buildings/
-
-Dans la foulée, la page TrueGold devient le **Planificateur de Bâtiments**. Elle ne couvre plus seulement les niveaux Or Véritable : un second onglet planifie tout ce qui vient avant, là où le mur est la ressource et le temps de construction.
-👉 https://kingshottoolbox.com/truegold_calc
-
-Les boutiques tiennent maintenant sur trois pages plutôt qu'une. Valeur Boutique garde les boutiques permanentes et les coffres personnalisés. Les boutiques d'événement déménagent sur Rentabilité des Événements, à côté de ce qu'un événement te rend face à ce qu'il t'a coûté. Et les deux référentiels, en gemmes et en argent réel, ont leur porte d'entrée.
-👉 https://kingshottoolbox.com/shop_calc
+En thème clair, le texte doré passe à un or plus foncé, plus facile à lire, et les menus s'utilisent maintenant au clavier. Sur téléphone, le champ de monnaie des boutiques d'événement ne décale plus la page sur le côté et ne déclenche plus le zoom sur iPhone.
 👉 https://kingshottoolbox.com/event-roi
-👉 https://kingshottoolbox.com/item-values
 
-Côté Clair de Lune, **Désirs du Cœur** et **Grands Desseins** entrent dans le calcul de rentabilité, avec leur fermeture au J7 et le second qui ne s'ouvre qu'une fois le premier acheté. Et si l'événement a commencé sans toi, la colonne « Déjà pris » prend ce que tu as ramassé jusque-là : le stock restant baisse d'autant, et le rendement le compte.
-👉 https://kingshottoolbox.com/shop/moonlight-shop
-
-Deux corrections pour finir. Les en-têtes des tableaux de base de données restaient à gauche pendant que leurs chiffres partaient à droite ; ils sont alignés. Et la Clé en Or s'affichait à 6,00 €, le prix du coffre entier dont elle sortait, là où ses 1 500 gemmes la placent à 1,29 €. L'EXP VIP suit la même règle, 1 EXP VIP valant 2 gemmes.
-👉 https://kingshottoolbox.com/shop/items-euro
+Deux corrections pour finir. Quinze niveaux du Centre-ville et de la Base de commandement affichaient leurs prérequis avec une double virgule. Et quand la mise à jour des chiffres échoue en cours de route, chaque outil le signale désormais, là où il laissait des chiffres périmés à l'écran sans rien dire.
+👉 https://kingshottoolbox.com/database/buildings/town-center
 
 ## EN
 
-### 🔬 The Academy researches have their database
+### The heroes have their database
 
-The 720 Academy researches can now be read level by level, across the three Growth, Economy and Battle trees: bread, wood, stone, iron and gold cost, research time, power gained, the Academy level required and the bonus obtained.
+All 37 heroes now have a page, laid out like the game's own screen: conquest skills on the left, the portrait in the middle, expedition skills on the right. A 1 to 5 selector rewrites every value on the page in one click, and a table underneath gives the five levels side by side. The hero's widget follows when there is one.
+
+The index is sorted by generation, generation 8 first. At the bottom of each page the other heroes are grouped: same troop type, same generation, then the rest.
+👉 https://kingshottoolbox.com/database/heroes/
+
+The French skill names and texts now follow the game for most heroes, and My Barracks picks them up too.
+👉 https://kingshottoolbox.com/caserne
+
+### The War Academy takes on the advanced research
+
+The page gains two tabs. **Advanced research** plans the 92 researches that open from TG5 to TG8, laid out as in the game with their icons and the branches between them. **Global suggestion** mixes them with the three troop trees when that earns more, sharing dust, Tempered TrueGold, coins and speedups. In KvK mode it never does worse than either tab on its own.
+
+Tempered TrueGold becomes a stock of its own, worth 30,000 KvK points each. And the crucible arrives, as on the Building Planner: enter the transformations you have already made (100 in all), and the plan can turn TrueGold into Tempered TrueGold, 20 TrueGold for about 1.45 at first, up to 160 for about 3.71 on the last ones. The same TrueGold also pays for the dust exchanges, and the plan picks the split that earns the most.
+👉 https://kingshottoolbox.com/waracademy
+
+### Smoother across the site
+
+Pages no longer jump when their data arrives. On phones, 57 pages moved noticeably; one is left, the Pets tool, which is due for a redesign. On computers, the Academy and War Academy research tables fit the screen without a sideways scrollbar.
 👉 https://kingshottoolbox.com/database/research/
+👉 https://kingshottoolbox.com/database/waracademy/
 
-Six buildings join the buildings database: Storehouse, Mill, Sawmill, Quarry, Iron Mine and Guard Station. They stop before TrueGold, so their table gives the resources, the build time and the power of every level, with no TrueGold column.
-👉 https://kingshottoolbox.com/database/buildings/
-
-The TrueGold page follows, and becomes the **Building Planner**. It no longer covers the TrueGold levels alone: a second tab plans everything that comes before, where the wall is resources and build time.
-👉 https://kingshottoolbox.com/truegold_calc
-
-The shops now sit on three pages instead of one. Shop Value keeps the permanent shops and the custom chests. The event shops move to Event ROI, next to what an event hands you back against what it cost you. And the two reference tables, in gems and in real money, have a front door of their own.
-👉 https://kingshottoolbox.com/shop_calc
+In the light theme, gold text takes a darker gold that is easier to read, and the menus now work from the keyboard. On a phone, the currency field of event shops no longer pushes the page sideways or sets off the zoom on iPhone.
 👉 https://kingshottoolbox.com/event-roi
-👉 https://kingshottoolbox.com/item-values
 
-On the Moonlight side, **Heartfelt Desires** and **Grand Visions** join the return calculation, with their day 7 close and the second one locked until the first is bought. And if the event started without you, the "Already taken" column takes what you have picked up so far: the stock left drops by that much, and the return counts it.
-👉 https://kingshottoolbox.com/shop/moonlight-shop
-
-Two fixes to close. Database table headers sat on the left while their figures went to the right; they line up. And the Gold Key showed at 6.00 EUR, the price of the whole chest it came in, where its 1,500 gems put it at 1.29 EUR. VIP EXP follows the same rule, 1 VIP EXP being worth 2 gems.
-👉 https://kingshottoolbox.com/shop/items-euro
+Two fixes to close. Fifteen Town Center and Command Center levels listed their requirements with a double comma. And when a refresh of the figures fails halfway, every tool now says so, where it used to leave outdated numbers on screen without a word.
+👉 https://kingshottoolbox.com/database/buildings/town-center
