@@ -16,9 +16,7 @@
 - **La dernière ligne du mode KVK dépasse volontairement le stock** : la plus longue recherche à portée, que les bonus de KVK raccourciront le plus. Rang réel (`rows + extraCount + 1`), temps en `--warning`, phrase `.sugg-sep` en trois formulations (plan vide, plan non vide, reste d'accélérateurs affiché seulement s'il atteint la seconde). Affichage à 8 lignes + compteur (choix d'Aistra) ; la boucle se déroule en entier.
 - **Coût mesuré** : `renderOptimal` 1,4 ms hors KVK, 17 ms en KVK, 37 ms à 999 jours d'accélérateurs. `updateUI()` complet ~168 ms, dominé par les 720 lignes d'arbres.
 
-**Calcul au bouton** (§9 `09b`) : `rsComputePlan()` calcule, `renderOptimal()` ne fait plus que dessiner `rsPlan` (donc aussi à la langue). Empreinte `rsSig()` : bonus, mode KVK, accélérateurs, arbres ciblés, deux priorités, cases cochées ; « Masquer terminées » et « Sélection rapide » n'en font pas partie.
-
-**Bouton « Fait » par ligne** (`markSuggestionDone`) : coche la recherche **et toujours sa chaîne de prérequis**, indépendamment de la Sélection rapide. Sur la première ligne, action immédiate ; sauter des lignes passe par `showAppConfirm` qui nomme les recherches concernées (5 au plus). Compte annoncé et appliqué viennent de `pendingReqsOf`. Puis la liste se recalcule tout de suite, seule exception au calcul au bouton, et le focus revient au premier bouton du tableau reconstruit.
+**Bouton « Fait » par ligne** (`markSuggestionDone`) : coche la recherche **et toujours sa chaîne de prérequis**, indépendamment de la Sélection rapide. Sur la première ligne, action immédiate ; sauter des lignes passe par `showAppConfirm` qui nomme les recherches concernées (5 au plus). Compte annoncé et appliqué viennent de `pendingReqsOf`. Le focus revient au premier bouton du tableau reconstruit.
 
 **Sélection rapide** (`#auto-reqs`, opt-in, persistée dans `researchInputs`, visible sur les onglets d'arbres) : cocher coche toute la chaîne (`cascadeCheckReqs`, mêmes règles qu'`isAvailable`), décocher décoche ce qui en dépend (`cascadeUncheckDeps`, par passes jusqu'à stabilité). Un toast annonce les cases modifiées en plus (silence si 0). Pire cas : 102 cases, ~2 ms.
 

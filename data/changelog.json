@@ -14,12 +14,12 @@
         {
           "type": "improved",
           "title": {
-            "EN": "The planners calculate when you click",
-            "FR": "Les planificateurs calculent quand tu cliques"
+            "EN": "The Building Planner and the War Academy calculate when you click",
+            "FR": "Le Planificateur et l'Académie de Guerre calculent quand tu cliques"
           },
           "text": {
-            "EN": "Research, the Building Planner and the War Academy no longer recompute their suggestion at every keystroke: a \"Calculate the suggestion\" button sits above it. When you change a value afterwards, the plan stays on screen, greyed out, until you run it again, and it cannot be applied by mistake. The War Academy tree and the table totals still follow what you type, and \"Done\" on a Research row still moves straight to the next suggestion.",
-            "FR": "Recherches, le Planificateur de Bâtiments et l'Académie de Guerre ne recalculent plus leur suggestion à chaque frappe : un bouton \"Calculer la suggestion\" se trouve au-dessus. Si tu changes une valeur ensuite, le plan reste affiché, grisé, jusqu'au prochain calcul, et il ne peut plus être appliqué par erreur. L'arbre de l'Académie et les totaux des tableaux suivent toujours ta saisie, et \"Fait\" sur une ligne de Recherches passe toujours directement à la suggestion suivante."
+            "EN": "The Building Planner and the War Academy no longer recompute their suggestion at every keystroke: a \"Calculate the suggestion\" button sits above it. When you change a value afterwards, the plan stays on screen, greyed out, until you run it again, and it cannot be applied by mistake. The War Academy tree and the table totals still follow what you type.",
+            "FR": "Le Planificateur de Bâtiments et l'Académie de Guerre ne recalculent plus leur suggestion à chaque frappe : un bouton \"Calculer la suggestion\" se trouve au-dessus. Si tu changes une valeur ensuite, le plan reste affiché, grisé, jusqu'au prochain calcul, et il ne peut plus être appliqué par erreur. L'arbre de l'Académie et les totaux des tableaux suivent toujours ta saisie."
           },
           "href": "waracademy",
           "linkLabel": {
