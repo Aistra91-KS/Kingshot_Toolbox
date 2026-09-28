@@ -502,7 +502,23 @@
       </tr>`;
     }
     renderPlan(r);
-    renderStrategy();
+    preSyncCalc();
+  }
+
+  // ---------- calcul au bouton (ktCalcBar, header.js) ----------
+  // La stratégie ne se recalcule plus à chaque saisie (décision d'Aistra du
+  // 28/09/2026) : rien avant le premier clic, puis le plan grisé dès qu'une valeur
+  // qui compte change. « Ce qu'il faut », au-dessus, reste un total en direct.
+  let preCalc = null;        // barre de calcul ; null avec un header.js en cache
+  let PRE_CALC_SIG = null;   // empreinte des valeurs du dernier calcul
+  // Tout ce que lit `planifier()` : les bâtiments, le stock, et les champs partagés
+  // avec l'onglet Or Véritable (vitesse, PAN, accélérateurs, mode, score cible).
+  function preSig() {
+    return JSON.stringify([state.rows, state.stock, accelMinutes(), modeActuel(), scoreCible(), speedFactor(), panSeconds()]);
+  }
+  function preSyncCalc() {
+    if (!preCalc) { renderStrategy(); return; }
+    if (PRE_CALC_SIG !== null) preCalc.set(preSig() === PRE_CALC_SIG ? 'fresh' : 'stale');
   }
 
   // ---------- la stratégie de la phase Construction ----------
@@ -518,6 +534,7 @@
     if (!box) return;
     PRE_REV++;
     PRE_PLAN = null;
+    PRE_CALC_SIG = preSig();
 
     const p = planifier();
     const minutesStock = accelMinutes();
@@ -535,7 +552,7 @@
       return;
     }
 
-    PRE_PLAN = { revision: PRE_REV, perB: p.perB, tot: p.tot, reste: p.reste,
+    PRE_PLAN = { revision: PRE_REV, sig: PRE_CALC_SIG, perB: p.perB, tot: p.tot, reste: p.reste,
                  minutes: Math.round(p.tot.minutes), pts: p.pts };
 
     const minutes = Math.round(p.tot.minutes);
@@ -590,7 +607,7 @@
   // Applique le plan : niveaux atteints, ressources et accélérateurs retranchés.
   function appliquerPlan() {
     const plan = PRE_PLAN;
-    if (!plan || plan.revision !== PRE_REV) return;
+    if (!plan || plan.revision !== PRE_REV || plan.sig !== preSig()) return;
     let recap = '<div class="apply-diff"><div class="apply-diff-h">' + esc(t('preBuildings')) + '</div>';
     for (const b of DB.buildings) {
       const e = plan.perB[b.id];
@@ -606,7 +623,7 @@
     recap += `</div><div class="apply-warn">${esc(t('stratWarn'))}</div>`;
 
     const go = () => {
-      if (plan.revision !== PRE_REV) return;          // la saisie a bougé pendant la confirmation
+      if (plan.revision !== PRE_REV || plan.sig !== preSig()) return;   // la saisie a bougé pendant la confirmation
       for (const id in plan.perB) {
         const r = state.rows[id];
         if (!r) continue;
@@ -629,6 +646,7 @@
       pose('accelMinutes', reste % 60);
       save();
       refresh();
+      if (preCalc) preCalc.focus();
       if (window.showAppToast) showAppToast(t('stratDone'), true);
     };
     if (window.showAppConfirm) showAppConfirm(`<strong>${esc(t('stratAsk'))}</strong>${recap}`, go);
@@ -855,7 +873,7 @@
     ['modeSelect', 'scoreCible', 'accelJours', 'accelHeures', 'accelMinutes'].forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
-      const maj = () => { if (isPreActive() && DB) renderStrategy(); };
+      const maj = () => { if (isPreActive() && DB) preSyncCalc(); };
       el.addEventListener('change', maj);
       el.addEventListener('input', maj);
     });
@@ -928,7 +946,10 @@
     // `aria-label`, il se pose à la main, comme les libellés des champs générés.
     const bar = document.getElementById('tg-tabs');
     if (bar) bar.setAttribute('aria-label', t('tabsLabel'));
-    if (DB) { renderBulk(); refresh(); }
+    if (DB) {
+      renderBulk(); refresh();
+      if (preCalc && preCalc.etat() === 'fresh') renderStrategy();
+    }
   }
 
   async function start() {
@@ -944,6 +965,9 @@
       if (box) box.innerHTML = `<p class="pre-empty">${esc(L() === 'FR'
         ? 'Impossible de charger data/buildings_db.json.' : 'Could not load data/buildings_db.json.')}</p>`;
       if (window.ktWarnDataFailure) window.ktWarnDataFailure();
+      // Sans base, rien à calculer : la barre du HTML ne doit pas promettre un calcul.
+      const barre = document.querySelector('#pre-strategy-panel .calc-bar');
+      if (barre) barre.hidden = true;
       initTabs();
       return;
     }
@@ -953,6 +977,13 @@
     DB.buildings = PRE_ORDER.map(id => DB.buildings.find(b => b.id === id)).filter(Boolean);
     BY_ID = Object.fromEntries(DB.buildings.map(b => [b.id, b]));
     load();
+    const out = document.getElementById('pre-strategy');
+    const barre = out && out.parentNode.querySelector('.calc-bar');
+    if (out && window.ktCalcBar) {
+      preCalc = window.ktCalcBar({ output: out, bar: barre, run: renderStrategy });
+    } else if (barre) {
+      barre.hidden = true;     // header.js en cache : la stratégie suit chaque saisie
+    }
     wire();
     initTabs();
     applyLang();

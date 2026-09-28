@@ -125,6 +125,46 @@ test('sans TTG, aucun niveau qui en coûte ; avec plus de TTG, jamais moins de p
   }
 });
 
+test('KvK : le cas relevé par Codex, plus de TTG ne rapporte jamais moins (0 à 20 TTG)', () => {
+  // Revue Codex de la PR #90 : 7 479 400 points avec 4 TTG, 7 460 400 avec 6 à 11 TTG.
+  const o = { db, currentLevels: {}, waLevel: 8, speedBonusPct: 98, enabledTrees: TOUS,
+              mode: 'kvk', dustBudget: 8504, speedupBudget: 42 * 1440, coinBudget: null };
+  let prec = -1;
+  for (let ttg = 0; ttg <= 20; ttg++) {
+    const r = suggest({ ...o, ttgBudget: ttg });
+    assert.ok(r.totals.kvkPoints >= prec, `${r.totals.kvkPoints} points avec ${ttg} TTG, contre ${prec} avec moins`);
+    assert.ok(r.totals.ttg <= ttg, `${r.totals.ttg} TTG dépensés pour ${ttg} disponibles`);
+    assert.equal(r.remaining.ttg, ttg - r.totals.ttg, 'le reste se compte sur le stock du joueur');
+    prec = r.totals.kvkPoints;
+  }
+});
+
+test('KvK : sur des comptes tirés au sort, un TTG de plus ne coûte jamais plus de 0,5 % des points', () => {
+  // Le plan reste un glouton : l'exhaustif sur le TTG coûterait un plan par plafond. Le
+  // pire écart mesuré avec un budget plus petit est de 0,1 % ; il était de 3,1 % avant
+  // les rejeux sous plafond (4 003 810 points avec 6 TTG, 4 131 810 avec 4).
+  const rnd = grain(7);
+  for (let i = 0; i < 8; i++) {
+    const lv = {};
+    for (const t of db.trees) for (const r of t.researches) {
+      const avance = t.id === ADV_TREE_ID;
+      if (rnd() < (avance ? 0.15 : 0.6)) lv[t.id + '.' + r.id] = Math.floor(rnd() * (r.maxLevel + 1) * (avance ? 0.3 : 1));
+    }
+    const o = { db, currentLevels: lv, waLevel: 5 + Math.floor(rnd() * 4), speedBonusPct: 40 + rnd() * 80,
+                enabledTrees: TOUS, mode: 'kvk', dustBudget: Math.floor(rnd() * 30000),
+                speedupBudget: Math.floor((5 + rnd() * 90) * 1440),
+                coinBudget: rnd() < 0.5 ? null : Math.floor(rnd() * 3e6) };
+    const maxTtg = Math.floor(10 + rnd() * 60);
+    let meilleur = 0, a = 0;
+    for (let ttg = 0; ttg <= Math.min(maxTtg, 24); ttg++) {
+      const p = suggest({ ...o, ttgBudget: ttg }).totals.kvkPoints;
+      assert.ok(p >= meilleur * 0.995,
+        `scénario ${i} : ${p} points avec ${ttg} TTG, contre ${meilleur} avec ${a}`);
+      if (p > meilleur) { meilleur = p; a = ttg; }
+    }
+  }
+});
+
 test('le palier de l\'Académie ferme l\'arbre avancé : rien avant TG5', () => {
   const o = { db, currentLevels: {}, waLevel: 4, speedBonusPct: 76.5, enabledTrees: TOUS,
               mode: 'kvk', dustBudget: 30000, ttgBudget: 500, speedupBudget: 60 * 1440 };

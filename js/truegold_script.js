@@ -396,7 +396,7 @@ function updateBuildingLvl(index, val, type) {
         tgEtape('updateAllRowCosts', updateAllRowCosts);
     }
     tgEtape('saveData', saveData);
-    runCalculator();
+    tgAfterEdit();
 }
 
 function toggleBuildingEnabled(index, checked) {
@@ -406,7 +406,7 @@ function toggleBuildingEnabled(index, checked) {
     // empêchait l'enregistrement de la case cochée.
     if (!tgEtape('renderBuildings', renderBuildings) && window.ktWarnStale) window.ktWarnStale();
     tgEtape('saveData', saveData);
-    runCalculator();
+    tgAfterEdit();
 }
 
 // ============ BONUS CONSTRUCTION PAN ============
@@ -762,7 +762,7 @@ function triggerUpdate() {
     ok = tgEtape('renderBuildings', renderBuildings) && ok;   // coûts par ligne (feedback immédiat)
     // La persistance ne dépend d'aucun rendu : elle tourne même si l'un d'eux a lâché.
     ok = tgEtape('saveData', saveData) && ok;
-    ok = tgEtape('scheduleCalculation', scheduleCalculation) && ok;  // LOURD : différé de 200 ms
+    ok = tgEtape('syncCalc', tgSyncCalc) && ok;   // plan à jour ou périmé ; sans barre, calcul différé de 200 ms
     if (!ok && window.ktWarnStale) window.ktWarnStale();
 }
 
@@ -805,6 +805,38 @@ function runCalculatorInner() {
     } catch(e) {
         document.getElementById('output').innerHTML = `<span style="color:var(--warning);">❌ Execution Error: ${e.message}</span>`;
     }
+    TG_CALC_SIG = tgPlanSig();
+    if (TG_LAST_PLAN) TG_LAST_PLAN.sig = TG_CALC_SIG;
+}
+
+// ---- Calcul au bouton (ktCalcBar, header.js) ----
+// Le plan ne se recalcule plus à chaque saisie (décision d'Aistra du 28/09/2026) :
+// rien avant le premier clic, puis le plan grisé dès qu'une valeur change. Il est à
+// jour quand l'empreinte des valeurs saisies est celle du dernier calcul : revenir à
+// ses valeurs d'avant le rend de nouveau applicable.
+let tgCalc = null;          // barre de calcul ; null avec un header.js en cache
+let TG_CALC_SIG = null;     // empreinte des valeurs du dernier calcul, null avant le premier
+
+// Tout ce que lit le calcul : les champs du panneau et les bâtiments. Le PAN compte
+// par son champ (applyPanUI l'écrit avant l'appel).
+function tgPlanSig() {
+    const v = (id) => { const el = document.getElementById(id); return el ? (el.type === 'checkbox' ? el.checked : el.value) : null; };
+    return JSON.stringify([
+        ['baseVitesse', 'bonusWolfCheck', 'bonusWolfVal', 'bonusDouble', 'serverTier', 'stockTG', 'stockTTG',
+         'transfoUtilisees', 'modeSelect', 'scoreCible', 'accelJours', 'accelHeures', 'accelMinutes', 'panReduction'].map(v),
+        buildingsState.map(b => [b.name, b.current, b.target, b.enabled !== false])
+    ]);
+}
+
+function tgSyncCalc() {
+    if (!tgCalc) { scheduleCalculation(); return; }
+    if (TG_CALC_SIG !== null) tgCalc.set(tgPlanSig() === TG_CALC_SIG ? 'fresh' : 'stale');
+}
+
+// Après une modification faite hors de triggerUpdate (liste d'un bâtiment, case, Appliquer).
+function tgAfterEdit() {
+    if (!tgCalc) { runCalculator(); return; }
+    tgSyncCalc();
 }
 
 // ============ STRATEGIC OPTIMIZER ============
@@ -837,6 +869,10 @@ let TG_INPUT_REV = 0;
 // revue du 2026-09-20). On le jette donc tout de suite, sans attendre le recalcul.
 function tgInvalidatePlan() {
     TG_INPUT_REV++;
+    // Avec la barre de calcul, le plan périmé est grisé et inerte, et redevient
+    // applicable si la saisie revient à ses valeurs : on le garde. `tgApplyPlan`
+    // contrôle son empreinte dans les deux cas.
+    if (tgCalc) return;
     TG_LAST_PLAN = null;
     // Le panneau de résultat n'est réécrit qu'au recalcul : d'ici là son bouton
     // est encore à l'écran, il ne doit plus répondre.
@@ -1841,7 +1877,7 @@ function tgFmt(n) {
 function tgApplyPlan() {
     const plan = TG_LAST_PLAN;
     // Premier contrôle : le plan existe, et il sort bien de la saisie actuelle.
-    if (!plan || plan.revision !== TG_INPUT_REV) return;
+    if (!plan || plan.sig !== tgPlanSig()) return;
     const lang = GlobalLang.get();
     const tx = i18n[lang];
 
@@ -1880,7 +1916,7 @@ function tgApplyPlan() {
         // Second contrôle, et c'est celui qui compte : la fenêtre de confirmation
         // reste ouverte aussi longtemps que le joueur veut, et rien n'empêche une
         // saisie de bouger derrière elle. Un plan devenu périmé n'est pas appliqué.
-        if (plan.revision !== TG_INPUT_REV) { showAppToast(tx.applyStale, false); return; }
+        if (plan.sig !== tgPlanSig()) { showAppToast(tx.applyStale, false); return; }
         buildingsState.forEach(b => {
             const e = plan.parBatiment[b.name];
             if (!e || e.niveau <= b.current) return;
@@ -1897,7 +1933,8 @@ function tgApplyPlan() {
 
         saveData();
         renderBuildings();      // niveaux + coûts par ligne
-        runCalculator();        // nouvelle suggestion depuis l'état d'après (sans attendre le debounce)
+        tgAfterEdit();          // plan grisé jusqu'au prochain calcul (sans barre : recalcul immédiat)
+        if (tgCalc) tgCalc.focus();
         showAppToast(tx.applyDone, true);
     });
 }
@@ -1920,9 +1957,10 @@ function tgInitHelp() {
                 "Décoche la case devant un bâtiment pour l'exclure des suggestions (quel que soit le mode) : il reste figé à son niveau actuel et sert toujours de prérequis aux autres.",
                 "Choisis le mode : « Max points KVK » (rentabilité maximale en points), « Max bâtiments » (en monter le plus possible), ou « Score cible » (atteindre un score précis au coût le plus bas).",
                 "En mode « Score cible », saisis le score visé : l'outil trouve la combinaison la moins chère (bâtiments + transformations + accélérateurs) pour l'atteindre.",
+                "Clique sur « Calculer la suggestion » au-dessus du résultat : le plan ne se calcule qu'à ta demande. Si tu modifies une valeur ensuite, il reste affiché en grisé jusqu'au prochain calcul.",
                 "Lis le « Plan d'Amélioration » de haut en bas : les étapes sont numérotées dans l'ordre où il faut les faire en jeu. Un bâtiment revient plusieurs fois, c'est normal : le Centre-ville et l'Ambassade/les bâtiments de troupes se débloquent mutuellement, palier après palier (la mention 🔓 indique quelle étape est débloquée).",
                 "Clique sur une étape pour déplier le détail niveau par niveau : coût en TG et TTG, temps de construction, accélérateurs consommés et points KVK gagnés.",
-                "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux passent à ceux du plan et tes stocks (TG, TTG, transformations, accélérateurs) sont réduits d'autant. L'outil enchaîne alors sur la suggestion suivante."
+                "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux passent à ceux du plan et tes stocks (TG, TTG, transformations, accélérateurs) sont réduits d'autant. Relance ensuite le calcul pour la suggestion suivante."
             ],
             EN: [
                 "Pick your \"Server tier\": the highest tier open on your server (TG3, TG5, TG8 or TG10). At tier TG8 for instance, a building can only go up to TG8-0, because TG8-1 isn't in the game yet. This setting only limits the suggestions, not the levels you can pick in the table.",
@@ -1932,9 +1970,10 @@ function tgInitHelp() {
                 "Uncheck the box next to a building to exclude it from the suggestions (in any mode): it stays frozen at its current level and still counts as a prerequisite for the others.",
                 "Pick a mode: \"Max KVK points\" (best points value), \"Max buildings\" (upgrade as many as possible), or \"Target score\" (reach a specific score at the lowest cost).",
                 "In \"Target score\" mode, type the score you aim for: the tool finds the cheapest combination (buildings + transformations + speedups) to reach it.",
+                "Click \"Calculate the suggestion\" above the result: the plan is only worked out when you ask. If you change a value afterwards, it stays on screen, greyed out, until you run it again.",
                 "Read the \"Improvement Plan\" top to bottom: steps are numbered in the order you should do them in game. A building coming back several times is normal: the Town Center and the Embassy/troop buildings unlock each other, tier after tier (the 🔓 note tells you which step gets unlocked).",
                 "Click a step to unfold the level-by-level detail: TG and TTG cost, build time, speedups used and KVK points earned.",
-                "Once you've carried the plan out in game, click \"Apply these changes\" at the bottom of the result: after confirming, your levels jump to the plan's and your stocks (TG, TTG, transformations, speedups) go down accordingly. The tool then moves on to the next suggestion."
+                "Once you've carried the plan out in game, click \"Apply these changes\" at the bottom of the result: after confirming, your levels jump to the plan's and your stocks (TG, TTG, transformations, speedups) go down accordingly. Run the calculation again for the next suggestion."
             ]
         }
     });
@@ -1946,7 +1985,18 @@ function tgInitHelp() {
     loadData();
     normalizeBuildingOrder();
     await loadPanBonus();
+    const out = document.getElementById('output');
+    const barre = out && out.parentNode.querySelector('.calc-bar');
+    if (out && window.ktCalcBar) {
+        tgCalc = window.ktCalcBar({ output: out, bar: barre, run: runCalculatorInner });
+    } else if (barre) {
+        barre.hidden = true;     // header.js en cache : le calcul suit chaque saisie
+    }
     triggerUpdate();
     tgInitHelp();
-    window.addEventListener('langChanged', triggerUpdate);
+    window.addEventListener('langChanged', () => {
+        triggerUpdate();
+        // Un plan à jour se redessine dans la nouvelle langue : mêmes valeurs, même plan.
+        if (tgCalc && tgCalc.etat() === 'fresh') runCalculatorInner();
+    });
 })();

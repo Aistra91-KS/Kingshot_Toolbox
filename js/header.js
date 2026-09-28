@@ -633,6 +633,126 @@ function showAppToast(message, isSuccess = true) {
 }
 
 // ============================================================
+//  BARRE DE CALCUL : Recherches, Planificateur de bâtiments, Académie de guerre
+// ============================================================
+// Décision d'Aistra (28/09/2026) : la suggestion ne se recalcule plus à chaque
+// saisie, seulement au bouton. Rien n'est calculé avant le premier clic ; quand une
+// valeur change ensuite, le plan reste à l'écran, grisé, avec un bandeau qui invite
+// à relancer. Le calcul peut alors prendre le temps qu'il lui faut (rejeux du TTG
+// sur l'Académie de guerre).
+//
+// `ktCalcBar({ output, run, bar })` rend { set(etat), etat() }. La page garde la main
+// sur ce qui est à jour : elle compare les valeurs du dernier calcul aux valeurs
+// saisies et appelle `set('fresh')` ou `set('stale')`. États : 'idle' (jamais
+// calculé), 'fresh', 'stale', 'busy', 'error'.
+//
+// Les pages l'appellent sous garde `window.ktCalcBar` (cache, MAP.md §9) : servies
+// avec un header.js plus ancien, elles gardent le calcul à chaque saisie.
+const CALC_I18N = {
+  EN: { run: 'Calculate the suggestion', busy: 'Calculating...',
+        idle: 'Enter your values, then run the calculation.',
+        stale: 'Your values have changed since this calculation: run it again for an up-to-date suggestion.',
+        fresh: 'Suggestion up to date.',
+        error: 'The calculation failed. Try again, and reload the page if it keeps failing.' },
+  FR: { run: 'Calculer la suggestion', busy: 'Calcul en cours...',
+        idle: 'Renseigne tes valeurs, puis lance le calcul.',
+        stale: 'Tes valeurs ont changé depuis ce calcul : relance-le pour une suggestion à jour.',
+        fresh: 'Suggestion à jour.',
+        error: 'Le calcul a échoué. Réessaie, et recharge la page si ça recommence.' },
+};
+const CALC_ICONS = {
+  run: '<rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/>',
+  busy: '<path d="M21 12a9 9 0 1 1-6.219-8.56"/>',
+};
+function hdrCalcBtnHtml(label, busy) {
+  return `<svg class="${busy ? 'calc-spin' : ''}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${CALC_ICONS[busy ? 'busy' : 'run']}</svg><span>${label}</span>`;
+}
+// Le HTML sert la barre en anglais, et la page ne la branche qu'une fois ses données
+// chargées : d'ici là, elle se lit dans la langue du joueur.
+function hdrCalcBarsStatic() {
+  const tx = CALC_I18N[hdrLang()] || CALC_I18N.EN;
+  document.querySelectorAll('.calc-bar:not([data-kt-calc])').forEach(bar => {
+    const btn = bar.querySelector('.calc-run'), st = bar.querySelector('.calc-status');
+    if (btn) btn.innerHTML = hdrCalcBtnHtml(tx.run, false);
+    if (st) st.textContent = tx.idle;
+  });
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hdrCalcBarsStatic);
+else hdrCalcBarsStatic();
+window.addEventListener('langChanged', hdrCalcBarsStatic);
+
+function ktCalcBar(opts) {
+  const output = opts && opts.output;
+  if (!output || !output.parentNode || typeof opts.run !== 'function') return null;
+  // La barre est écrite dans le HTML (sa place est réservée dès le premier rendu) ;
+  // une page en cache qui ne l'a pas la reçoit ici, juste au-dessus du résultat.
+  let bar = opts.bar || null;
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.className = 'calc-bar';
+    output.parentNode.insertBefore(bar, output);
+  }
+  let btn = bar.querySelector('.calc-run');
+  if (!btn) { btn = document.createElement('button'); btn.type = 'button'; btn.className = 'calc-run'; bar.appendChild(btn); }
+  let status = bar.querySelector('.calc-status');
+  if (!status) { status = document.createElement('p'); status.className = 'calc-status'; bar.appendChild(status); }
+  status.setAttribute('role', 'status');
+  status.setAttribute('aria-live', 'polite');
+  bar.dataset.ktCalc = '1';     // branchée : hdrCalcBarsStatic ne la touche plus
+
+  let etat = 'idle', dessine = '';
+  function draw() {
+    // La page redemande l'état à chaque frappe : ne rien réécrire s'il n'a pas changé,
+    // sinon un lecteur d'écran relirait le bandeau à chaque touche.
+    const cle = etat + '|' + hdrLang();
+    if (cle === dessine) return;
+    dessine = cle;
+    const tx = CALC_I18N[hdrLang()] || CALC_I18N.EN;
+    const busy = etat === 'busy';
+    btn.innerHTML = hdrCalcBtnHtml(busy ? tx.busy : tx.run, busy);
+    // aria-disabled plutôt que disabled : un bouton désactivé perd le focus, et le
+    // joueur au clavier se retrouverait en haut de la page à la fin du calcul.
+    btn.setAttribute('aria-disabled', busy ? 'true' : 'false');
+    status.textContent = tx[etat] || '';
+    bar.classList.toggle('is-stale', etat === 'stale' || etat === 'error');
+    bar.classList.toggle('is-fresh', etat === 'fresh');
+    output.classList.toggle('calc-stale', etat === 'stale' || etat === 'error');
+    output.classList.toggle('calc-busy', busy);
+    output.setAttribute('aria-busy', busy ? 'true' : 'false');
+    // Plan périmé : on le lit encore, on ne s'en sert plus (ni Appliquer, ni Fait).
+    output.inert = etat === 'stale' || etat === 'error' || busy;
+  }
+  btn.addEventListener('click', () => {
+    if (etat === 'busy') return;
+    etat = 'busy';
+    draw();
+    // Deux images avant de calculer : le calcul bloque la page jusqu'à sa fin, sans
+    // cette pause l'état « en cours » ne s'afficherait jamais.
+    requestAnimationFrame(() => setTimeout(() => {
+      try {
+        opts.run();
+        etat = 'fresh';
+      } catch (e) {
+        console.error('calcul de la suggestion', e);
+        etat = 'error';
+        if (window.ktWarnStale) window.ktWarnStale();
+      }
+      draw();
+    }, 0));
+  });
+  window.addEventListener('langChanged', draw);
+  draw();
+  return {
+    set(e) { if (etat !== 'busy') { etat = e; draw(); } },
+    etat: () => etat,
+    // Après « Appliquer », le plan devient périmé et inerte : le focus rendu par la
+    // fenêtre de confirmation à son bouton se perdrait. Il va à l'action suivante.
+    focus: () => btn.focus(),
+  };
+}
+window.ktCalcBar = ktCalcBar;
+
+// ============================================================
 //  PROFILS (comptes) — pastille desktop, panneau, drawer mobile,
 //  modale de gestion, header adaptatif (Option B), toast de bascule.
 //  Toutes ces fonctions sont des déclarations → hoistées, donc

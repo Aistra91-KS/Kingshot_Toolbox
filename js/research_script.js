@@ -38,6 +38,7 @@ const i18n = {
         'toastReqs': '{n} prerequisite(s) auto-checked',
         'toastDeps': '{n} dependent research(es) unchecked',
         'msgNoResearch': 'No research available or insufficient time',
+        'msgNotYet': 'No suggestion calculated yet.',
         'msgMore': '+ {n} other possible research(es)', 'statGlobal': 'All Researches',
         'statGrowth': 'Growth Tree', 'statEco': 'Economy Tree', 'statBattle': 'Battle Tree',
         'timeTitle': 'Time: ', 'stepTxt': 'step', 'forTxt': 'for',
@@ -84,6 +85,7 @@ const i18n = {
         'toastReqs': '{n} prérequis coché(s) automatiquement',
         'toastDeps': '{n} recherche(s) dépendante(s) décochée(s)',
         'msgNoResearch': 'Aucune recherche disponible ou temps insuffisant',
+        'msgNotYet': 'Aucune suggestion calculée pour l\'instant.',
         'msgMore': '+ {n} autre(s) recherche(s) possible(s)',
         'statGlobal': 'Toutes les recherches', 'statGrowth': 'Arbre Expansion',
         'statEco': 'Arbre Économie', 'statBattle': 'Arbre Combat',
@@ -745,6 +747,10 @@ function applySuggestionDone(item, extra) {
     saveData();
     const lang = GlobalLang.get();
     updateUI();
+    // « Fait » recalcule tout de suite, lui (décision d'Aistra du 28/09/2026) : le
+    // calcul prend moins de 20 ms, et on enchaîne « Fait, Fait, Fait » ligne après ligne.
+    rsComputePlan();
+    if (rsCalc) rsCalc.set('fresh');
     // Le tableau vient d'être reconstruit : sans ça le focus clavier retombe sur
     // <body> et il faut retraverser la page pour valider la suggestion suivante.
     const next = document.querySelector('#optimal-table .sugg-done-btn');
@@ -778,23 +784,52 @@ function markSuggestionDone(index) {
     );
 }
 
-function renderOptimal() {
-    const tbody = document.querySelector('#optimal-table tbody');
-    tbody.innerHTML = '';
-    const lang = GlobalLang.get();
-    const isKvkMode = inputs.modeKvk.checked;
+// ---- Calcul au bouton (ktCalcBar, header.js) ----
+// La suggestion ne se recalcule plus à chaque saisie (décision d'Aistra du
+// 28/09/2026) : rien avant le premier clic, puis le plan grisé dès qu'une valeur qui
+// compte change. `rsSig` dit lesquelles : l'affichage (« Masquer terminées »,
+// « Sélection rapide ») n'en fait pas partie, il ne rend aucun plan périmé.
+let rsPlan = null;       // dernier plan calculé (rsPlanOptimal)
+let rsPlanSig = null;    // empreinte des valeurs qui l'ont produit
+let rsCalc = null;       // barre de calcul ; null avec un header.js en cache
+
+function rsSig() {
+    const on = (el) => !!(el && el.checked);
+    return JSON.stringify([
+        inputs.baseBonus.value, on(inputs.modeKvk),
+        inputs.days.value, inputs.hours.value, inputs.minutes.value,
+        on(inputs.treeGrowth), on(inputs.treeEconomy), on(inputs.treeBattle),
+        on(inputs.prioToolEnhancement), on(inputs.prioToolingUp),
+        db.map(x => x.Researched ? 1 : 0).join('')
+    ]);
+}
+
+function rsComputePlan() {
     const allowedTrees = [];
     if (inputs.treeGrowth.checked) allowedTrees.push('Growth');
     if (inputs.treeEconomy.checked) allowedTrees.push('Economy');
     if (inputs.treeBattle.checked) allowedTrees.push('Battle');
-
-    const plan = rsPlanOptimal({
-        kvk: isKvkMode,
+    rsPlan = rsPlanOptimal({
+        kvk: inputs.modeKvk.checked,
         allowedTrees: allowedTrees,
         budgetSeconds: totalAccSeconds,
         maxRows: 8
     });
+    rsPlanSig = rsSig();
+    renderOptimal();
+}
 
+// Dessine le dernier plan calculé, dans la langue affichée. Aucun calcul ici.
+function renderOptimal() {
+    const tbody = document.querySelector('#optimal-table tbody');
+    tbody.innerHTML = '';
+    const lang = GlobalLang.get();
+    const plan = rsPlan;
+
+    if (!plan) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted)">${i18n[lang]['msgNotYet']}</td></tr>`;
+        return;
+    }
     if (plan.rows.length === 0 && !plan.longItem) {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--warning)">${i18n[lang]['msgNoResearch']}</td></tr>`;
         return;
@@ -837,7 +872,10 @@ function updateUI() {
     applyTranslations();
     calculateState();
     renderTrees();
+    // header.js en cache, sans barre de calcul : le calcul suit chaque saisie, comme avant.
+    if (!rsCalc) { rsComputePlan(); return; }
     renderOptimal();
+    if (rsPlan) rsCalc.set(rsSig() === rsPlanSig ? 'fresh' : 'stale');
 }
 
 // ============ EVENT LISTENERS ============
@@ -940,6 +978,7 @@ function rsInitHelp() {
                 "Choisis l'arbre cible (Croissance, Économie ou Combat) pour filtrer les suggestions, ou consulte l'onglet de chaque arbre.",
                 "Première mise en place : sur un onglet d'arbre, active « Sélection rapide » (panneau latéral) puis coche directement le plus haut niveau atteint de chaque recherche, et tous ses prérequis se cochent d'un coup. Décocher retire de même ce qui en dépend.",
                 "L'onglet « Ordre de recherche optimal » propose les prochaines recherches à faire, classées de la plus rentable à la moins rentable (temps réduit par ton bonus). Le bouton « Fait » de chaque ligne la coche sans passer par l'arbre, avec tout ce qu'elle exigeait.",
+                "La liste ne se calcule qu'à ta demande, avec le bouton « Calculer la suggestion » au-dessus. Si tu modifies une valeur ensuite, elle reste affichée en grisé jusqu'au prochain calcul. Le bouton « Fait », lui, met la liste à jour tout seul.",
                 "Deux branches passent en tête : « Amélioration des Outils » (éclair) raccourcit toutes tes recherches à venir, « Obtentions d'Outils » (marteau) toutes tes constructions. Le bloc « Recherches prioritaires » du panneau latéral permet d'en désactiver une, ou les deux, quand tu as un autre objectif. L'outil les propose dès qu'elles sont débloquées, il ne force pas la suite de prérequis qui y mène.",
                 "Active le « Mode KVK » et renseigne tes accélérateurs (jours / heures / minutes) pour ne voir que ce que tu peux réellement terminer avec ton stock : l'outil indique aussi combien de recherches supplémentaires seraient possibles au-delà. La priorité à la vitesse y est levée, l'objectif étant d'en finir un maximum.",
                 "En mode KVK, la dernière ligne dépasse volontairement ton stock : c'est la plus longue recherche à ta portée, à lancer une fois les courtes finies. Les bonus de vitesse du KVK lui retirent bien plus de temps qu'à une courte.",
@@ -950,6 +989,7 @@ function rsInitHelp() {
                 "Pick a target tree (Growth, Economy or Battle) to filter the suggestions, or browse each tree's tab.",
                 "First-time setup: on a tree tab, turn on \"Quick Select\" (side panel) then tick the highest level you've reached in each research, and all its prerequisites get ticked at once. Unticking likewise clears what depends on it.",
                 "The \"Optimal Search Order\" tab lists the next researches to do, ranked from most to least efficient (time reduced by your bonus). The \"Done\" button on each row ticks it off without going through the tree, along with everything it required.",
+                "The list is only worked out when you ask, with the \"Calculate the suggestion\" button above it. If you change a value afterwards, it stays on screen, greyed out, until you run it again. The \"Done\" button updates the list on its own.",
                 "Two branches come first: \"Tool Enhancement\" (lightning bolt) shortens every research to come, \"Tooling Up\" (hammer) every build. The \"Priority Researches\" block in the side panel lets you switch one off, or both, when you are after something else. The tool offers them as soon as they unlock, it does not force the chain of prerequisites leading to them.",
                 "Turn on \"KVK Mode\" and enter your speedups (days / hours / minutes) to see only what you can actually finish within your stock: it also tells you how many more researches would be possible beyond that. Speed priority is lifted there, the goal being to finish as many as you can.",
                 "In KVK mode the last row goes past your stock on purpose: it is the longest research you can reach, to launch once the short ones are done. KVK speed bonuses take far more off it than off a short one.",
@@ -964,6 +1004,14 @@ function rsInitHelp() {
     try {
         await loadInitialDb();   // 1. Charger le JSON
         initData();              // 2. Initialiser depuis le JSON ou localStorage
+        const table = document.getElementById('optimal-table');
+        const box = table && table.closest('.table-container');
+        const barre = box && box.parentNode.querySelector('.calc-bar');
+        if (box && window.ktCalcBar) {
+            rsCalc = window.ktCalcBar({ output: box, bar: barre, run: rsComputePlan });
+        } else if (barre) {
+            barre.hidden = true;     // header.js en cache : le calcul suit chaque saisie
+        }
         updateUI();              // 3. Afficher
     } finally {
         // Fin de la réserve de hauteur du tableau des suggestions (css/style.css,
