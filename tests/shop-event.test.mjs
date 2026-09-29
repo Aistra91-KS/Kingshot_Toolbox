@@ -295,19 +295,33 @@ test("Stand Alchimique — l'Élixir Parfait exige l'Élixir Supérieur", async 
   assert.equal(Math.round(deux.spend * 100) / 100, 17.98);
 });
 
-test("Stand Alchimique — le VIP et les ressources de chaque pack partent décochés", async () => {
-  // Les packs quotidiens s'achètent pour les breuvages : le VIP et les caisses de
-  // ressources partent décochés, les gemmes et le contenu des Élixirs restent comptés.
-  // La liste est comparée à ce que versent VRAIMENT les packs, pour qu'un pack relevé
-  // plus tard avec un autre VIP (1000_exp_vip) ou d'autres ressources ne passe pas.
+test("Stand Alchimique — tout ce que versent les packs part décoché, sauf l'Or Véritable", async () => {
+  // Choix d'Aistra : le retour se lit dans ce qui ne s'achète pas (paliers, panier de
+  // la boutique) plus l'Or Véritable. La règle couvre chaque itemId de chaque pack, y
+  // compris un pack relevé plus tard, sans liste à tenir.
   const ctx = await alchimie();
   const defaut = run(ctx, 'seDefaultExcluded()');
-  const vip = /exp_vip$/, ressource = /resource_chest$|^10k_/;
+  let vus = 0;
   for (const p of run(ctx, 'SE_DATA.packs')) {
     for (const it of [p.reward, p.immediate].flatMap(b => (b && b.items) || [])) {
       if (!it.itemId) continue;
-      const garniture = vip.test(it.itemId) || ressource.test(it.itemId);
-      assert.equal(!!defaut[it.itemId], garniture, `${it.itemId} du pack ${p.id}`);
+      vus++;
+      assert.equal(!!defaut[it.itemId], it.itemId !== 'truegold', `${it.itemId} du pack ${p.id}`);
     }
   }
+  assert.ok(vus > 20, 'les packs versent bien des objets du référentiel');
+  assert.ok(!defaut.mystery_badge, 'les Insignes des paliers ne viennent d\'aucun pack, ils restent cochés');
+});
+
+test("Stand Alchimique — à l'ouverture, seuls l'Or Véritable et les paliers comptent", async () => {
+  // Les deux Élixirs achetés, 1 000 Breuvages utilisés, plan neuf : la valeur en
+  // gemmes est celle de 692 Or Véritable (222 des Élixirs, 470 des paliers) et des
+  // 21 000 Insignes, rien d'autre.
+  const ctx = await alchimie({ explore: 1000, buys: { superior_elixir: { 1: 1 }, perfect_elixir: { 1: 1 } } });
+  run(ctx, 'SE_PLAN.excluded = seDefaultExcluded();');
+  const c = run(ctx, 'seCompute()');
+  const on = c.rows.filter(r => !r.off).map(r => r.id).sort().join(',');
+  assert.equal(on, 'mystery_badge,truegold');
+  assert.equal(c.rows.find(r => r.id === 'truegold').qty, 692);
+  assert.equal(c.gemRewards, 692 * run(ctx, "scGem('truegold')") + 21000 * run(ctx, "scGem('mystery_badge')"));
 });

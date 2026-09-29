@@ -997,13 +997,22 @@ function stRedrawNow() {
     // Le rendu remplace tout le bloc : sans cela, chaque frappe éjecterait le
     // clavier et le lecteur d'écran. Même mécanique que shop-event.js, sur les
     // mêmes attributs `data-se`.
+    // Sans `data-se`, ou si l'élément est devenu `disabled` (un « + » au plafond), le
+    // focus reprend sa place parmi les éléments focalisables, ou la suivante libre.
+    // Recopié de shop-event.js plutôt qu'appelé : un shop-event.js en cache n'aurait pas
+    // la fonction (MAP.md §9, cache des scripts).
     const ae = document.activeElement;
-    const key = (ae && host.contains(ae) && ae.getAttribute) ? ae.getAttribute('data-se') : null;
+    const inHost = !!(ae && host.contains(ae) && ae.getAttribute);
+    const key = inHost ? ae.getAttribute('data-se') : null;
+    const FOC = 'a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])';
+    const idx = inHost ? [...host.querySelectorAll(FOC)].indexOf(ae) : -1;
     stRender(host, ST.last);
-    if (key) {
-        const el = host.querySelector(`[data-se="${key}"]`);
-        if (el && !el.disabled) el.focus({ preventScroll: true });
+    let el = key ? host.querySelector(`[data-se="${key}"]`) : null;
+    if (!(el && !el.disabled) && idx >= 0) {
+        el = [...host.querySelectorAll(FOC)].slice(idx)
+            .find(x => !x.disabled && x.getClientRects().length) || null;
     }
+    if (el && !el.disabled) el.focus({ preventScroll: true });
 }
 
 /* --------------------------------------------------------------------------

@@ -177,6 +177,10 @@ function seDays(){ return Math.max(1, Number(SE_DATA._meta.days)||1); }
 // l'inventaire. Les objets sans itemId (les Lanternes) ne sont pas décochés : ils ne
 // sont jamais chiffrés, les griser masquerait une information sans changer un total.
 //
+// `_meta.keepByDefault` (des itemId) fait les exceptions à cette règle : au Stand
+// Alchimique, tout ce que versent les packs part décoché sauf l'Or Véritable, choix
+// d'Aistra. Il ne retire que ce que la règle ou la liste auraient décoché.
+//
 // Absent, rien n'est décoché : c'est le comportement des trois autres événements.
 function seDefaultExcluded(){
   const ex = {};
@@ -190,6 +194,8 @@ function seDefaultExcluded(){
       });
     });
   }
+  const keep = meta.keepByDefault || [];
+  if(Array.isArray(keep)) keep.forEach(k => { delete ex[k]; });
   return ex;
 }
 
@@ -778,6 +784,8 @@ function seSrcCell(list){
   return `<td class="sxe-src" title="${scEscAttr(full)}">${chips}${more}</td>`;
 }
 
+// Ce qui peut prendre le focus dans la section, dans l'ordre du document.
+const SE_FOCUSABLE = 'a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])';
 function seRender(){
   const host = document.getElementById('sp-event');
   if(!host || !SE_DATA) return;
@@ -785,7 +793,14 @@ function seRender(){
   // Le re-rendu remplace tout le bloc : on remet ensuite le focus sur le bouton équivalent,
   // sinon chaque coche de la grille éjecte le clavier / le lecteur d'écran.
   const ae = document.activeElement;
-  const focusKey = (ae && host.contains(ae) && ae.getAttribute) ? ae.getAttribute('data-se') : null;
+  const inHost = !!(ae && host.contains(ae) && ae.getAttribute);
+  const focusKey = inHost ? ae.getAttribute('data-se') : null;
+  // Un élément sans `data-se` (bulle d'aide « i », résumé d'un <details>) se retrouve à
+  // sa PLACE parmi les éléments focalisables de la section. C'est le cas courant au
+  // clavier : on tape un nombre puis Tab, le `change` part au moment où le focus est
+  // déjà sur la bulle suivante, et le rendu qui suit la remplaçait. Le focus retombait
+  // en haut de la page (relevé sur les champs Amulettes et Commandes).
+  const focusIdx = inHost ? [...host.querySelectorAll(SE_FOCUSABLE)].indexOf(ae) : -1;
 
   const c = seCompute();
   const days = seDays();
@@ -852,10 +867,15 @@ function seRender(){
     try{ window.seExtras(host, c); }catch(e){ console.error('seExtras', e); }
   }
 
-  if(focusKey){
-    const el = host.querySelector(`[data-se="${focusKey}"]`);
-    if(el && !el.disabled) el.focus({ preventScroll:true });
+  let el = focusKey ? host.querySelector(`[data-se="${focusKey}"]`) : null;
+  // Même place, ou la suivante qui accepte le focus : un « + » arrivé au plafond (7 jours
+  // tapés sur un événement de 3) devient `disabled` au rendu et ne peut plus le recevoir.
+  if(!(el && !el.disabled) && focusIdx >= 0){
+    // Un élément d'un <details> fermé n'a pas de boîte : il ne prendrait pas le focus.
+    el = [...host.querySelectorAll(SE_FOCUSABLE)].slice(focusIdx)
+      .find(x => !x.disabled && x.getClientRects().length) || null;
   }
+  if(el && !el.disabled) el.focus({ preventScroll:true });
 }
 
 // ---------- interactions ----------
