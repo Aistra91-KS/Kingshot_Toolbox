@@ -21,7 +21,7 @@ Seconde valorisation, en argent réel, tirée du relevé en jeu des packs payant
 ### Quel pack pour un objet
 - `packs[]` = les packs au **meilleur prix unitaire** (prix du pack ÷ quantité), `qty` = la quantité qu'ils donnent. Le prix unitaire n'est **jamais stocké** : `scEurUnit()` le calcule à l'affichage.
 - À prix unitaire égal entre deux tarifs, le **moins cher** est retenu (Ranger à 24 € = 4 × Rencontre Frontalière à 6 € : on affiche le pack à 6 €) ; `scEurRawPrice()` reprend le minimum si le fichier est mal régénéré.
-- Un seul pack : son image illustre l'objet. Plusieurs : « Multipack », sans image.
+- Un seul pack : son image illustre l'objet. Plusieurs : « Multipack », sans image ; son survol liste les packs à égalité.
 - **Coffre personnalisé** : on y choisit 3 objets, éventuellement identiques, donc un objet « Au Choix » compte pour 3 fois la ligne. Depuis la livraison du 13/09/2026, la colonne `Valeur` de l'Excel porte **déjà** le triple : ne pas remultiplier, ne pas « corriger » vers le tiers. Contrôle à chaque livraison : l'Or, les deux Marques de Dressage, le Coffre d'Avancement Animal, la Caisse d'Équipement de Héros Chanceux, les Guides et Plans de Talisman ne bougent pas sans raison.
 - Couverture partielle assumée (59 objets relevés, 66 chiffrés avec les calculés) : un objet non couvert vaut `null`, **jamais 0** (règle du « — », §9 `09b`).
 
@@ -30,7 +30,7 @@ Aucun ne vient de l'Excel : **les conserver** quand on régénère `items`. Aucu
 
 **`derived`** `id -> {fromId, factor | from:[{id, factor}], packs?, ceiling?, how{FR,EN}}` : déduit un prix d'un ou plusieurs objets (`from[]` additionne) et **l'emporte sur le relevé**.
 - Une règle irrésolue (base absente, facteur invalide, cycle) rend « — », jamais le relevé ; dans une somme, un terme irrésolu annule tout. Chaque terme a sa propre copie du chemin anti-cycle (deux termes peuvent partager une base).
-- `ceiling: true` en fait un **plafond** : le relevé reprend la main si un pack vend moins cher, et `scEurRuleDecides()` dit alors qui décide (la colonne « Pack d'origine » suit). Utilisé pour la Clé en Or (1 500 gemmes → 1,29 €) et les lots d'EXP VIP de 10 et 100 (1 point = 2 gemmes).
+- `ceiling: true` en fait un **plafond** : le relevé reprend la main si un pack vend moins cher, et `scEurRuleDecides()` dit alors qui décide (la colonne « Pack d'origine » suit). Utilisé pour la Clé en Or (1 500 gemmes → 1,29 €) et les lots d'EXP VIP de 10 et 100 (1 point = 2 gemmes). Aussi pour les trois options du Coffre personnalisé de Matériaux d'Avancement Animal (au choix 1 Médaillon de Promotion, 2 Potions Nutritives ou 7 Manuels de Croissance) : chacune vaut au plus sa part du coffre (× 1, × 0,5, × 1/7), sans quoi acheter le coffre battrait le prix affiché.
 - Cas réels : Caisse Mythique personnalisée = × 100 la Caisse Chanceuse ; Marche Rapide 1 = × 0,5 la 2 ; fragment ciblé de héros mythique = × 0,8 l'universel ; EXP VIP 1 000 et 10 000 = × 10 et × 100 le lot de 100 ; EXP de héros 1 000 et 5 000 = × 0,1 et × 0,5 le lot de 10 000 ; caisses de ressources personnalisées alignées sur le pain (Niv. 1 = 1 × `10k_bread`, Niv. 2 = 10 ×, Niv. 3 = 100 ×), **hors `weights`** puisqu'elles héritent déjà de la pondération du pain.
 - Trois caisses du Chef valent ce qu'elles **rendent** (espérance du butin, calculée en amont ; le fichier ne garde que le résultat) : Matériaux de Talisman, Matériaux d'Équipement, Variétés d'Équipement. Leur ligne d'audit donne la somme nommée puis en divisions exactes, parce que les prix unitaires du tableau sont arrondis.
 

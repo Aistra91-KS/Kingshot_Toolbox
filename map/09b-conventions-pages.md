@@ -41,7 +41,7 @@ Les quatre blocs du relevé € (`derived`, `speedups`, `affinity`, `weights`, �
 - Les chaînes de dérivations ne bouclent pas : `scEurResolve()` porte les objets déjà traversés.
 
 ### Aperçu du pack (`shop/items-euro.html`)
-Le nom d'un pack à image est un `<button>`. Trois entrées : survol maintenu 320 ms (sinon clignotement), focus clavier (`:focus-visible`), clic (qui sert aussi au toucher). `iePvPin` retient l'intention (épinglé ou non), pas l'affichage : une simple bascule au clic lisait un état que le focus de la souris venait de changer. Aperçu en `position:fixed` sur le `<body>` (le conteneur `overflow-x` le rognerait), refermé à tout défilement. Un « Multipack » reste du texte.
+Le nom d'un pack à image est un `<button>`. Trois entrées : survol maintenu 320 ms (sinon clignotement), focus clavier (`:focus-visible`), clic (qui sert aussi au toucher). `iePvPin` retient l'intention (épinglé ou non), pas l'affichage : une simple bascule au clic lisait un état que le focus de la souris venait de changer. Aperçu en `position:fixed` sur le `<body>` (le conteneur `overflow-x` le rognerait), refermé à tout défilement. Le « Multipack » est aussi un `<button>` (`data-packs` = ids à égalité, icône liste) : même bulle, mêmes trois entrées, en mode texte (`is-list`) qui nomme les packs. La chaîne `multiList` est lue avec un repli, pour un `shop-core.js` resté en cache.
 
 ### Version et annonces
 - **Publier une version** (sur décision d'Aistra, cf. `CLAUDE.md`) : entrée en tête de `data/changelog.json` et `SITE.version` au même numéro, dans le même commit. L'entrée et l'annonce Discord couvrent le même périmètre.

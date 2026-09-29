@@ -17,6 +17,8 @@ function ieEl(id){ return document.getElementById(id); }
 
 // Petite icône « image » accolée au nom : sans elle, rien n'indique qu'un aperçu existe.
 const IE_ICON_IMG = '<svg class="ic-img" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>';
+// Icône « liste » du Multipack : la bulle montre des noms, pas une image.
+const IE_ICON_LIST = '<svg class="ic-img" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>';
 
 // ---------- aperçu du pack ----------
 // Survol MAINTENU (et non instantané) : le curseur traverse la colonne en permanence,
@@ -47,9 +49,25 @@ function iePvPlace(btn){
   el.style.top =Math.max(M,top)+'px';
 }
 
-function iePvShow(btn){
-  const pid=btn.getAttribute('data-pack'); if(!pid) return;
-  const el=iePvNode();
+// « Multipack » : plusieurs packs au même prix unitaire, donc aucune image à montrer. La bulle
+// les nomme en texte, avec le même déclenchement que l'aperçu d'image.
+// `multiList` est né après le reste du dictionnaire : un shop-core.js encore en cache ne l'a
+// pas, d'où le texte de repli (cf. MAP §9, cache des scripts).
+function iePvShowList(btn, el){
+  const ids=btn.getAttribute('data-packs').split(',').filter(Boolean), key='multi:'+ids.join(',');
+  if(iePvPack!==key){
+    iePvPack=key;
+    const title=String(scT('multiList')||'{n} packs:').replace('{n}', ids.length);
+    el.classList.remove('is-broken');
+    el.innerHTML=`<span class="ie-preview-title">${scEscAttr(title)}</span>`
+                +`<ul class="ie-preview-list">${ids.map(id=>`<li>${scEscAttr(scPackName(id))}</li>`).join('')}</ul>`;
+  }
+  el.classList.add('is-list');
+}
+// Une seule image par pack : elle illustre le nom et sert de preuve au prix.
+function iePvShowImg(btn, el){
+  const pid=btn.getAttribute('data-pack');
+  el.classList.remove('is-list');
   if(iePvPack!==pid){
     iePvPack=pid;
     const nom=scPackName(pid);
@@ -61,6 +79,12 @@ function iePvShow(btn){
     img.addEventListener('load', ()=>{ if(iePvOpen===btn) iePvPlace(btn); }, {once:true});
     img.addEventListener('error', ()=>{ el.classList.add('is-broken'); if(iePvOpen===btn) iePvPlace(btn); }, {once:true});
   }
+}
+function iePvShow(btn){
+  const list=btn.hasAttribute('data-packs');
+  if(!list && !btn.getAttribute('data-pack')) return;
+  const el=iePvNode();
+  if(list) iePvShowList(btn, el); else iePvShowImg(btn, el);
   el.hidden=false; iePvOpen=btn;
   iePvPlace(btn);
   requestAnimationFrame(()=>el.classList.add('on'));
@@ -191,11 +215,15 @@ function ieRender(){
     // retomberait pas sur la valeur affichée et croirait à une coquille.
     // `data-pack` porte l'ID DU PACK (pas son libellé) : c'est le point d'accroche de l'aperçu
     // d'image au survol, qui ira chercher img/packs/<id>.webp. Il n'est posé que lorsqu'un seul
-    // pack atteint le maximum — un « multipack » n'a pas d'image à montrer et reste inerte.
+    // pack atteint le maximum. Un « multipack » n'a pas d'image : `data-packs` liste les ids à
+    // égalité, et la même bulle les nomme en texte.
+    const packIds=scEurPacks(it.id);
     const packEl = src
       ? (pimg
           ? `<button type="button" class="ie-pack" data-pack="${scEscAttr(pimg)}" aria-label="${scEscAttr(src)}, ${scEscAttr(scT('seePack'))}">${scEscAttr(src)}${IE_ICON_IMG}</button>`
-          : `<span class="ie-pack is-multi">${scEscAttr(src)}</span>`)
+          : packIds.length>1
+            ? `<button type="button" class="ie-pack is-multi" data-packs="${scEscAttr(packIds.join(','))}" aria-label="${scEscAttr(src)}: ${scEscAttr(packIds.map(scPackName).join(', '))}">${scEscAttr(src)}${IE_ICON_LIST}</button>`
+            : `<span class="ie-pack is-multi">${scEscAttr(src)}</span>`)
       : '';
     // Sans pack ET sans pastille, l'objet n'aurait rien à dire : le « — » évite la case vide.
     const tags=ieTags(it.id);
