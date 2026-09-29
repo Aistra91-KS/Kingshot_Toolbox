@@ -8,7 +8,7 @@
 
 ### Trois sommaires, découpés par question (décidé avec Aistra, septembre 2026)
 - **`shop_calc`** : « qu'est-ce que j'achète avec cette monnaie ? » (6 boutiques permanentes, 3 coffres). URL indexée conservée, contenu changé. Une carte en tête mène aux boutiques d'événement, pour les anciens signets.
-- **`event-roi`** : « cet événement valait-il le coup ? » (10 boutiques d'événement, lecture du % de retour).
+- **`event-roi`** : « cet événement valait-il le coup ? » (11 boutiques d'événement, lecture du % de retour).
 - **`item-values`** : « combien vaut cet objet ? » (les deux référentiels et la méthode).
 - **Aucune URL supprimée** : seules les cartes ont déménagé.
 - **Un seul script** (`shop_calc.js`) pour les trois : une section absente est ignorée ; l'aide se choisit par `window.SX_INDEX` posé avant le script (absent : aide des boutiques, moins précise, jamais fausse).
@@ -29,12 +29,12 @@
 
 ### Sommaire, vignettes, échéances
 - **Événement terminé = page conservée** : carte grisée (`.sx-card.is-ended`) mais cliquable, bandeau d'archive. Ajouter une boutique : une entrée JSON, une page (gabarit), une carte au sommaire, une ligne `sitemap.xml`, un lien `llms.txt`.
-- **Vignettes** : `img/shops/<slug>.webp`, sinon mosaïque des 4 objets les plus chers (`scThumbHtml`). Place réservée par `.sx-thumb-slot` au même `aspect-ratio: 16/9` (sans elle, CLS 0,389).
+- **Vignettes** : `img/shops/<slug>.webp`, sinon mosaïque des 4 objets les plus chers (`scThumbHtml`). Place réservée par `.sx-thumb-slot` au même `aspect-ratio: 16/9` (sans elle, CLS 0,389). Un visuel reçu sous un autre nom ou format (`brewmaster stall.png`) n'est jamais lu : le convertir en `<slug>.webp` recadré en 16:9 sur le titre, car `object-fit: cover` rogne les côtés d'une capture plus large.
 - **« Voir plus » sans JavaScript** : deux lignes de cartes, plafond 4 (< 884 px), 6 (884 à 1 159 px), 8 (≥ 1 160 px), seuils relevés sur la grille (`minmax(260px,1fr)`, `gap:16px`). Case `.sx-more-cb` **avant** la grille, `.sx-grid.is-clamped`, `<label class="sx-more">` ; tout en CSS (`nth-child`, `:checked ~`, `:has()`). Case et libellé portent `hidden`, levé seulement dans le bloc `@supports selector(:has(*))` : un CSS en cache montre la grille entière. Un repli en JS faisait sauter la page (CLS 0,68 sur mobile). Découpe au nombre de cartes, jamais à la hauteur.
 - **Compte à rebours** : `scTimeLeft()`/`scTimeLeftTxt()` (affichage) est distinct de `scResetsLeft()` (resets à 00h UTC, entre dans les calculs) : ne jamais les fusionner. Attributs facultatifs sur `[data-ends-at]` : `data-ends-full`, `data-ends-state`, `data-ends-label`. Une seule pastille dans `spRenderHero()`. Au changement d'état, `scStartCountdowns()` émet `endsStateChanged`, écouté par `spRenderAll` et `scRefreshIndex` (événement, pas appel).
 
 ### Valorisation d'un événement (`js/shop-event.js`, `#sp-event`)
-« Ce que l'événement m'a coûté contre ce qu'il m'a rapporté », en % d'argent réel. Branchés : Stand d'Aventure, Caravane du Dragon, Magasin du Théâtre, Clair de Lune.
+« Ce que l'événement m'a coûté contre ce qu'il m'a rapporté », en % d'argent réel. Branchés : Stand d'Aventure, Caravane du Dragon, Magasin du Théâtre, Clair de Lune, Stand Alchimique. Leur carte sur `event-roi` porte la pastille « ROI » ; les textes de la page les désignent par cette pastille plutôt que par un nombre, qui avait vieilli (« trois » quand il y en avait quatre).
 - **Ajouter un événement = un fichier `data/events/<slug>.json`** : `build_pages.py` en déduit `<div id="sp-event">` et le script (`est_evenement()`). Relancer la génération, committer.
 - **Module optionnel** : en 404 il n'affiche rien. `shop-page.js` ne le connaît que par `window.ShopEvent` (`spNotifyEvent()`) ; garde de `seAfter()` obligatoire (`spRenderAll()` passe avant la fin du chargement).
 - **Le % reste en €/$** : la valeur en gemmes s'affiche à côté, jamais divisée par la dépense. Sans achat, pas de % : la tuile dit « F2P ».
@@ -53,5 +53,6 @@
 - **`_meta.excludedByDefault`** : liste d'itemId décochés sur un plan neuf. Piège : les gros packs versent `1000_exp_vip`, les petits `100_exp_vip` ; le test compare la liste à tout ce que versent les packs.
 - Un plan enregistré garde ses cases : `seDefaultExcluded()` ne sert qu'au premier chargement.
 - **« Déjà pris »** (`trackOwned`, §6) : les lots achetés les jours passés, plafonnés par le stock de tout l'événement (d'où `startsAt`). Ils comptent dans la valeur, jamais dans le solde (« Dépensé » dit « dont N déjà dépensés »). Le « Dispo » prend la plus basse de deux bornes : jours restants, stock restant. Le plafond est appliqué par `scCompute`, pas par le champ.
-- **Monnaie sans lien fixe avec un pack** (Amulettes au Théâtre, Lanternes au Clair de Lune) : listée sans `itemId`, avec un `label`, jamais chiffrée ; `_meta.currencyNote` explique. Ne pas inventer de taux.
+- **Monnaie gagnée par des commandes** (Stand Alchimique) : les Bons d'Alchimie ne sortent ni des packs ni des missions, mais des commandes réussies, dont le coût en Breuvages dépend des essais du joueur. Il saisit ses commandes terminées, `orderRewards` en tire les Bons (§6). Une Commande Spéciale jouée à ×k se saisit comme k commandes, exact tant que sa base vaut 5 000. `seF2P()` ne remet à zéro ni les commandes ni les Breuvages utilisés.
+- **Monnaie sans lien fixe avec un pack** (Amulettes au Théâtre, Lanternes au Clair de Lune, Breuvages Magiques au Stand Alchimique) : listée sans `itemId`, avec un `label`, jamais chiffrée ; `_meta.currencyNote` explique. Ne pas inventer de taux.
 - **Case fermée** : texte en `role="img"` + `aria-label` sur la case, pas en `.kt-sr` (en `position:absolute` dans un tableau qui défile, il élargissait la page à 689 px sur 390).

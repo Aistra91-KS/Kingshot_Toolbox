@@ -51,6 +51,9 @@ const i18nShopEvent = {
     evSrcSeason: "Saisonnières", evSeasonNote: "Les missions saisonnières ne se réclament qu'une fois pour tout l'événement ; celles qui exigent un nombre de jours ou un achat n'entrent au calcul qu'une fois la condition remplie.",
     evSrcWaypost: "Visiteur de Passage", evSrcTravel: "Piste voyage", evSrcMilestones: "Paliers",
     evSrcExplore: "Paliers d'exploration",
+    evSrcOrders: "Commandes",
+    evOrders: "Commandes terminées", evOrdersSub: "soit {n}",
+    evOrdersTip: "Le nombre de commandes que tu as terminées. Chacune paie la monnaie de la boutique, selon le barème de l'événement.",
     evSrcMore: "+{n}",
     evTotalRow: "Total des gains",
     evTotalCount: "{n} objets comptés sur {t}",
@@ -104,6 +107,9 @@ const i18nShopEvent = {
     evSrcSeason: "Seasonal", evSeasonNote: "Seasonal missions are claimed once for the whole event; those needing a number of days or a purchase only count once the condition is met.",
     evSrcWaypost: "Waypost", evSrcTravel: "Travel track", evSrcMilestones: "Milestones",
     evSrcExplore: "Exploration track",
+    evSrcOrders: "Orders",
+    evOrders: "Orders completed", evOrdersSub: "worth {n}",
+    evOrdersTip: "How many orders you have completed. Each one pays the shop currency, on the event's own scale.",
     evSrcMore: "+{n}",
     evTotalRow: "Rewards total",
     evTotalCount: "{n} of {t} items counted",
@@ -132,6 +138,14 @@ function seTf(k, repl){
 // Jumeau de scTip() sur CE dictionnaire : scTip ne lit que i18nShop, une clé d'ici
 // y ressortirait en bulle vide (le « i » s'affiche, mais sans texte au survol).
 function seTip(k){ return window.HelpSystem ? HelpSystem.tip({FR:i18nShopEvent.FR[k], EN:i18nShopEvent.EN[k]}) : ''; }
+// Bulle propre à l'événement (`_meta.<clé>` = {EN, FR}), sinon celle du dictionnaire.
+// La bulle de la piste d'exploration parle d'Amulettes : juste au Théâtre, fausse au
+// Stand Alchimique, où ce sont des Breuvages Magiques qui débloquent les paliers.
+function seMetaTip(metaKey, fallbackKey){
+  const n = SE_DATA && SE_DATA._meta && SE_DATA._meta[metaKey];
+  if(!n) return seTip(fallbackKey);
+  return window.HelpSystem ? HelpSystem.tip({FR: n.FR||n.EN, EN: n.EN||n.FR}) : '';
+}
 
 let SE_DATA = null;                  // data/events/<slug>.json
 let SE_PLANS = {};                   // tous les plans persistés, par id d'événement
@@ -393,8 +407,23 @@ function seCompute(upTo){
   (SE_DATA.stallMilestones||[]).forEach(m=>{
     if(tot.stall >= m.points){ msCoins += Number(m.coins)||0; msReached++; }
   });
-  const coins = tot.coins + msCoins;
+  // Commandes terminées (Stand Alchimique) : la monnaie de la boutique ne vient ni des
+  // packs ni des missions, mais des commandes réussies, que le joueur compte lui-même.
+  // Combien de Breuvages une commande coûte dépend de ses essais : rien dans le plan
+  // ne permet de le deviner, d'où une saisie, comme les Amulettes dépensées. Le barème
+  // `orderRewards.coins` paie la n-ième commande, `then` chacune des suivantes.
+  // Additionné sans boucle sur la saisie : un « 1000000 » tapé par erreur reste instantané.
+  const od = SE_DATA.orderRewards;
+  const orders = od ? Math.max(0, Math.floor(Number(SE_PLAN.orders)||0)) : 0;
+  let ordCoins = 0;
+  if(orders){
+    const list = Array.isArray(od.coins) ? od.coins : [];
+    for(let i=0; i<Math.min(orders, list.length); i++) ordCoins += Number(list[i])||0;
+    ordCoins += Math.max(0, orders - list.length) * (Number(od.then)||0);
+  }
+  const coins = tot.coins + msCoins + ordCoins;
   if(msCoins) tot.cur.coins[seT('evSrcMilestones')] = { qty: msCoins, times: msReached };
+  if(ordCoins) tot.cur.coins[seT('evSrcOrders')] = { qty: ordCoins, times: orders };
 
   // Piste des Points de Voyage : une récompense tous les `every` points à partir de
   // `from`, RÉPÉTÉE sans plafond (4500, 5000, 5500 …). Elle doit être versée avant la
@@ -461,7 +490,7 @@ function seCompute(upTo){
   const pct = spend > 0 ? (valueEur / spend * 100) : null;
 
   return { days, played, purchaseDays, purchaseOk, outsideBuys, dailyBuy, spend, buysTotal, tvTiers, curSrc: tot.cur,
-           explore, expTiers, expTotal: (SE_DATA.explorationMilestones||[]).length,
+           explore, expTiers, expTotal: (SE_DATA.explorationMilestones||[]).length, orders, ordCoins,
            gemRewards: gemItems, eurRewards: eurItems, itemsOn, itemsAll,
            coins, msCoins, msReached, stall: tot.stall, travel: tot.travel,
            rows, extras, covered, totalRows, cart, valueEur, valueGem, pct };
@@ -508,6 +537,11 @@ function seHasCoins(){
   // événement dont les pièces ne viendraient QUE d'une piste.
   if(SE_DATA.travelMilestones) bags.push(SE_DATA.travelMilestones.reward);
   (SE_DATA.explorationMilestones||[]).forEach(m=> bags.push(m.reward));
+  // Les commandes paient la monnaie hors de tout « paquet » : sans ce test, la tuile
+  // et le bouton « Utiliser comme budget » disparaîtraient au Stand Alchimique, dont
+  // c'est la seule source de Bons.
+  const od = SE_DATA.orderRewards;
+  if(od && ((Array.isArray(od.coins) && od.coins.some(v => (Number(v)||0) > 0)) || (Number(od.then)||0) > 0)) return true;
   return bags.some(b => b && (Number(b.coins)||0) > 0);
 }
 
@@ -775,11 +809,22 @@ function seRender(){
             // sait pas ce que son chiffre a débloqué.
             const nm = SE_DATA._meta.exploreName;
             const lbl = nm ? (nm[scLang()]||nm.EN||nm.FR) : seT('evSrcExplore');
-            return `<span class="sx-fact">${scEscAttr(lbl)}${seTip('evExploreTip')} :
+            return `<span class="sx-fact">${scEscAttr(lbl)}${seMetaTip('exploreTip','evExploreTip')} :
               <span class="sx-take sxe-explore${c.explore>0?' on':''}"><input type="text" inputmode="numeric"
                 value="${c.explore||''}" placeholder="0" data-se="ex:i"
                 onchange="seSetExplore(this.value)" aria-label="${scEscAttr(lbl)}"></span>
               <span class="sx-sub">${seTf('evExploreTiers',{n:c.expTiers, t:c.expTotal})}</span></span>`; })()}
+          ${(()=>{ if(!SE_DATA.orderRewards) return '';
+            // Commandes terminées : même saisie libre que la piste d'exploration, avec la
+            // monnaie qu'elles rapportent à côté, pour que le chiffre dise ce qu'il vaut.
+            // Classe à part : shop-theater.js cherche le premier `.sxe-explore` de la section.
+            const nm = SE_DATA._meta.ordersName;
+            const lbl = nm ? (nm[scLang()]||nm.EN||nm.FR) : seT('evOrders');
+            return `<span class="sx-fact">${scEscAttr(lbl)}${seMetaTip('ordersTip','evOrdersTip')} :
+              <span class="sx-take sxe-orders${c.orders>0?' on':''}"><input type="text" inputmode="numeric"
+                value="${c.orders||''}" placeholder="0" data-se="or:i"
+                onchange="seSetOrders(this.value)" aria-label="${scEscAttr(lbl)}"></span>
+              <span class="sx-sub">${seTf('evOrdersSub',{n:seNum(c.ordCoins)})}</span></span>`; })()}
           ${(()=>{ const pm = sePurchaseMission(); if(!pm) return '';
             // Quotidienne : un compteur de jours. Saisonnière : une case.
             if(c.dailyBuy) return `<span class="sx-fact">${seT('evOutside')}${seTip('evOutsideTip')} :
@@ -846,6 +891,13 @@ window.sePlayedStep = function(d){
 window.seSetExplore = function(v){
   const n = parseInt(String(v).replace(/\D/g,''), 10);
   SE_PLAN.explore = Math.max(0, isNaN(n)?0:n);
+  seSave(); seAfter();
+};
+// Même règle que `seSetExplore` : « Je suis F2P » ne remet pas les commandes à zéro,
+// elles se jouent avec les Breuvages des missions gratuites.
+window.seSetOrders = function(v){
+  const n = parseInt(String(v).replace(/\D/g,''), 10);
+  SE_PLAN.orders = Math.max(0, isNaN(n)?0:n);
   seSave(); seAfter();
 };
 window.seSetPlayed = function(v){
@@ -985,8 +1037,9 @@ function seRenderPanne(host){
         // Deux réglages distincts, selon la nature de la mission d'achat (cf. seHasDailyPurchase).
         purchaseOk: (saved.purchaseOk!=null) ? !!saved.purchaseOk : ((Number(saved.outsideBuys)||0) > 0),
         outsideBuys: Number(saved.outsideBuys)||0,
-        explore: Number(saved.explore)||0 }
-    : { played: seDays(), buys: {}, open: true, excluded: seDefaultExcluded(), purchaseOk: false, outsideBuys: 0, explore: 0 };
+        explore: Number(saved.explore)||0,
+        orders: Number(saved.orders)||0 }
+    : { played: seDays(), buys: {}, open: true, excluded: seDefaultExcluded(), purchaseOk: false, outsideBuys: 0, explore: 0, orders: 0 };
 
   seRender();
   window.addEventListener('langChanged', seRender);

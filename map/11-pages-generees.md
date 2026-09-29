@@ -4,7 +4,7 @@
 
 ## 11. Pages générées
 
-**71 des 123 pages sortent d'un gabarit** : 19 pages boutique, 14 pages de bâtiments, 38 pages Héros (sommaire + 37 fiches).
+**72 des 124 pages sortent d'un gabarit** : 20 pages boutique, 14 pages de bâtiments, 38 pages Héros (sommaire + 37 fiches).
 
 ```
 python3 tools/build_pages.py           écrit les pages
@@ -32,7 +32,7 @@ Ce n'est pas un build : les scripts tournent à la main avant le commit et **leu
 - **Les tableaux en partial restent recopiés** : les libellés FR des prérequis et des durées n'existent que dans le HTML. Les tirer de `truegold_db.json` suppose d'abord de déplacer ces traductions dans la donnée.
 
 ### Le drawer figé
-Même bloc sur les 122 pages qui chargent `header.js` (404.html est autonome, §2). `sync_drawer.py` le déduit de `site-config.js` lu par Node (pas par regex), et les quatre gabarits ont un emplacement `{{DRAWER}}`. Libellés tels quels, `&` compris, comme les pose `hdrBuildDrawer()`, pour que le bloc figé et celui du JS ne divergent pas. La jumelle française reçoit la nav en français. La sortie de Node se lit en UTF-8 déclaré (`encoding='utf-8'`) : sous Windows, Python la décodait en cp1252 et écrivait « BÃ¢timents » dans la jumelle.
+Même bloc sur les 123 pages qui chargent `header.js` (404.html est autonome, §2). `sync_drawer.py` le déduit de `site-config.js` lu par Node (pas par regex), et les quatre gabarits ont un emplacement `{{DRAWER}}`. Libellés tels quels, `&` compris, comme les pose `hdrBuildDrawer()`, pour que le bloc figé et celui du JS ne divergent pas. La jumelle française reçoit la nav en français. La sortie de Node se lit en UTF-8 déclaré (`encoding='utf-8'`) : sous Windows, Python la décodait en cp1252 et écrivait « BÃ¢timents » dans la jumelle.
 
 ### Hors gabarit
 - **`fr/shop/theater-shop.html`** : français en dur, `<base href="../../">`, `hreflang` inversés. Toute modification du gabarit boutique s'y reporte à la main. `--check` compare les listes de scripts et de feuilles de style des deux jumelles et échoue si elles divergent.

@@ -850,7 +850,8 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
   font-variant-numeric: tabular-nums;
 }
 /* Les amulettes se comptent en milliers : 40 px tronquerait la saisie. */
-.sxe-toolbar .sx-take.sxe-explore input[type="text"] { width: 64px; }
+.sxe-toolbar .sx-take.sxe-explore input[type="text"],
+.sxe-toolbar .sx-take.sxe-orders input[type="text"] { width: 64px; }
 .sxe-toolbar .sx-take input[type="text"]:focus { outline: none; background: var(--control-bg); }
 
 /* Grille des achats : 1 ligne par pack, 1 colonne par jour. Elle défile

@@ -1,5 +1,74 @@
 [
   {
+    "id": "Brewmaster_Stall",
+    "slug": "brewmaster-stall",
+    "name": {
+      "EN": "Brewmaster Stall",
+      "FR": "Stand Alchimique"
+    },
+    "endsAt": "2026-10-03T00:00:00Z",
+    "resourceName": {
+      "EN": "Brew Voucher",
+      "FR": "Bon d'Alchimie"
+    },
+    "items": [
+      {
+        "itemId": "truegold",
+        "qty": 20,
+        "cost": 2500,
+        "qtyMax": 40
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 16,
+        "cost": 2500,
+        "qtyMax": 40
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 18,
+        "cost": 2500,
+        "qtyMax": 40
+      },
+      {
+        "itemId": "forgehammers",
+        "qty": 15,
+        "cost": 5000,
+        "qtyMax": 20
+      },
+      {
+        "itemId": "lucky_hero_gear_chest",
+        "qty": 15,
+        "cost": 5000,
+        "qtyMax": 20
+      },
+      {
+        "itemId": "governor_gear_material_chest",
+        "qty": 15,
+        "cost": 5000,
+        "qtyMax": 20
+      },
+      {
+        "itemId": "charm_guide",
+        "qty": 32,
+        "cost": 5000,
+        "qtyMax": 20
+      },
+      {
+        "itemId": "charm_design",
+        "qty": 32,
+        "cost": 5000,
+        "qtyMax": 20
+      },
+      {
+        "itemId": "5m_general_speedup",
+        "qty": 6,
+        "cost": 100,
+        "qtyMax": 9999
+      }
+    ]
+  },
+  {
     "id": "Moonlight_Shop",
     "slug": "moonlight-shop",
     "name": {

@@ -18,7 +18,7 @@ Kingshot_Toolbox/
 ├── masters.html            Experts : affinités et compétences
 ├── pets.html               Familiers : promenade + onglet Plan d'avancement (§6 06c) ; DA à part (§5)
 ├── shop_calc.html          Sommaire des boutiques permanentes et des coffres · §13
-├── event-roi.html          Sommaire des 10 boutiques d'événement + lecture du % de retour · §13
+├── event-roi.html          Sommaire des 11 boutiques d'événement + lecture du % de retour · §13
 ├── item-values.html        Porte d'entrée des deux référentiels (gemmes, argent réel) et leur méthode
 ├── about.html              À propos : auteur, données locales, mentions
 ├── changelog.html          Nouveautés, rendu depuis data/changelog.json
@@ -32,7 +32,7 @@ Kingshot_Toolbox/
 ├── sitemap.xml, robots.txt, llms.txt, CNAME, google…html   Public seulement : sitemap sans .html, robots, sommaire pour IA, domaine, jeton Search Console
 │
 ├── fr/shop/theater-shop.html   Jumelle française du Théâtre (pilote « une URL par langue », §4), écrite à la main (§11)
-├── shop/                   2 référentiels écrits à la main (items, items-euro) + 19 boutiques générées (liste : tools/pages-shop.json) · §13
+├── shop/                   2 référentiels écrits à la main (items, items-euro) + 20 boutiques générées (liste : tools/pages-shop.json) · §13
 ├── database/
 │   ├── buildings/          Sommaire + 14 bâtiments, générés (tools/pages-building.json ; slugs barracks/stable/range gardés) · §11
 │   ├── heroes/             Sommaire + 37 fiches héros, générés · §11
@@ -81,7 +81,7 @@ Kingshot_Toolbox/
 │   ├── shopcalc_items.json (94 objets, gemmes), shopcalc_classic/events/chests.json (6 / 10 / 3)
 │   ├── shopcalc_euro.json  Relevé argent réel : 59 objets, 69 packs · §6 06b
 │   ├── changelog.json
-│   └── events/             adventure-stall, dragons-caravan, moonlight-shop, theater-shop (contenu d'événement) ; fantasy-theater (mécanique du tirage)
+│   └── events/             adventure-stall, brewmaster-stall, dragons-caravan, moonlight-shop, theater-shop (contenu d'événement) ; fantasy-theater (mécanique du tirage)
 │
 ├── img/                    WebP partout (PNG pour logo/ seulement)
 │   ├── logo/               favicon.svg (dessin simplifié) + PNG dérivés, apple-touch-icon, og-image, logo-512 · §9 09b
@@ -93,7 +93,7 @@ Kingshot_Toolbox/
 │   ├── Master/ (+ hd/), MasterSkill/, WarAcademy/ (+ advanced/), buildings/, pets/ (+ skills/)
 │
 ├── tools/                  Hors ligne, jamais publié · §11
-│   ├── build_pages.py      Génère les 71 pages à gabarit ; --check vérifie sans écrire
+│   ├── build_pages.py      Génère les 72 pages à gabarit ; --check vérifie sans écrire
 │   ├── sync_drawer.py      Recopie le drawer figé dans toutes les pages depuis site-config.js
 │   ├── templates/          shop.html, building.html, hero.html, heroes-index.html
 │   ├── pages-shop.json, pages-building.json   Ce qui change d'une page à l'autre (l'ordre des bâtiments = ordre de la nav)
