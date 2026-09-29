@@ -86,10 +86,17 @@
     } catch (e) { /* valeur abîmée : on redemande, comme sans choix */ }
     return null;
   }
+  // Rend false si le choix n'a pas pu être retenu.
   function saveChoice(ok) {
     // Stockage plein ou interdit : le choix ne vaut que pour cette page, et le bandeau
-    // reviendra à la suivante. Rien à montrer au joueur, mais la console le dit.
-    try { localStorage.setItem(KEY, JSON.stringify({ ok: ok, t: Date.now() })); } catch (e) { console.warn('choix des cookies non enregistré :', e); }
+    // reviendra à la suivante. La console le dit.
+    try { localStorage.setItem(KEY, JSON.stringify({ ok: ok, t: Date.now() })); return true; } catch (e) { console.warn('choix des cookies non enregistré :', e); }
+    if (ok) return false;
+    // Un refus non écrit laisserait en place un accord antérieur, que la page suivante
+    // relirait pour recharger GA. Effacer ne demande pas de place, donc passe sur un
+    // stockage plein : sans choix enregistré, la page suivante redemande sans mesurer.
+    try { localStorage.removeItem(KEY); return true; } catch (e) { console.warn('ancien choix des cookies non effacé :', e); }
+    return false;
   }
 
   // ---------- Google Analytics ----------
@@ -229,9 +236,14 @@
   }
 
   function choose(ok) {
-    saveChoice(ok);
+    var saved = saveChoice(ok);
     if (ok) startGa();
     else stopGa();
+    // Refus ni écrit ni effacé, accord toujours enregistré : fermer ferait croire au
+    // refus alors que la page suivante mesurerait. Le bandeau reste, sur « Choix
+    // actuel : accepté ».
+    // `fill()` remplace les boutons : le focus revient sur « Refuser ».
+    if (!ok && !saved && readChoice() === true) { fill(); reserve(); box.querySelector('[data-ksc="0"]').focus(); return; }
     hide();
   }
 
