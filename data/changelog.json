@@ -8,6 +8,28 @@
   },
   "releases": [
     {
+      "version": "1.15.2",
+      "date": "2026-09-29",
+      "changes": [
+        {
+          "type": "new",
+          "title": {
+            "EN": "The Brewmaster Stall",
+            "FR": "Le Stand Alchimique"
+          },
+          "text": {
+            "EN": "The store of the Alchemy Junction event has its page: nine lines paid in Brew Vouchers, each one set against its gem value and its real-money price. Both readings put the Governor Gear Material Chest first. Under the table, tick the packs you bought and enter the orders you completed and the Magic Brews you used: the page works out what the event gave back for what it cost.",
+            "FR": "La boutique de l'événement Magasin d'Alchimie a sa page : neuf lignes payées en Bons d'Alchimie, chacune confrontée à sa valeur en gemmes et à son prix en argent réel. Les deux lectures placent en tête la Caisse de Matériaux d'Équipement du Chef. Sous le tableau, coche les packs achetés et indique tes commandes terminées et les Breuvages Magiques utilisés : la page calcule ce que l'événement t'a rendu pour ce qu'il t'a coûté."
+          },
+          "href": "shop/brewmaster-stall",
+          "linkLabel": {
+            "EN": "Brewmaster Stall",
+            "FR": "Stand Alchimique"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.15.1",
       "date": "2026-09-28",
       "changes": [
