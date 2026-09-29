@@ -76,3 +76,15 @@ test('une règle sans plafond décide toujours, même contre un relevé moins ch
   assert.equal(unit(ctx, 'custom_mythic_hero_gear_chest'), avant);
   assert.equal(run(ctx, "scEurIsDerived('custom_mythic_hero_gear_chest')"), true);
 });
+
+test('le coffre d\'avancement animal plafonne ses trois options', async () => {
+  // Le coffre s'ouvre au choix sur 1 Médaillon de Promotion, 2 Potions Nutritives ou
+  // 7 Manuels de Croissance. Aucune de ces options ne peut donc coûter plus que sa part
+  // du coffre : sinon il suffirait d'acheter le coffre pour payer moins cher qu'annoncé.
+  const ctx = await euro();
+  const coffre = unit(ctx, 'pet_advancement_materials_custom_chest');
+  for (const [id, n] of [['promotion_medaillon', 1], ['nutrient_potion', 2], ['growth_manual', 7]]) {
+    assert.ok(unit(ctx, id) <= coffre / n + 1e-12, `${id} : ${unit(ctx, id)} > ${coffre / n}`);
+    assert.equal(run(ctx, `scEurSrc(${JSON.stringify(id)})`) !== '', true, `${id} : pack d'origine nommé`);
+  }
+});

@@ -463,6 +463,42 @@
         "FR": "5 000 EXP de héros, c'est exactement la moitié de 10 000, même barème que le lot de 1 000. Le référentiel gemmes applique déjà ce même rapport (300 → 150).",
         "EN": "5,000 hero XP is exactly half of 10,000, the same scale as the 1,000 bundle. The gem reference already applies the same ratio (300 -> 150)."
       }
+    },
+    "promotion_medaillon": {
+      "fromId": "pet_advancement_materials_custom_chest",
+      "factor": 1,
+      "ceiling": true,
+      "packs": [
+        "custom-pet-chest-common-custom-chest"
+      ],
+      "how": {
+        "FR": "Le Coffre personnalisé de Matériaux d'Avancement Animal s'ouvre au choix sur 1 Médaillon de Promotion, 2 Potions Nutritives ou 7 Manuels de Croissance. Un médaillon ne peut donc pas coûter plus cher que le coffre qui le donne : le relevé le sortait à 0,750 € dans son propre pack (6 € les 8), contre 0,333 € en passant par le coffre (6 € les 18). La règle est un plafond : si un pack vend un jour le médaillon moins cher que le coffre, c'est ce pack qui fera le prix.",
+        "EN": "The Pet Advancement Materials Custom Chest opens on a choice of 1 Promotion Medallion, 2 Nutrient Potions or 7 Growth Manuals. A medallion therefore cannot cost more than the chest that gives it: the survey had it at 0.750 euro in its own pack (8 for 6 euros), against 0.333 euro through the chest (18 for 6 euros). The rule is a ceiling: the day a pack sells the medallion for less than the chest, that pack sets the price."
+      }
+    },
+    "nutrient_potion": {
+      "fromId": "pet_advancement_materials_custom_chest",
+      "factor": 0.5,
+      "ceiling": true,
+      "packs": [
+        "custom-pet-chest-common-custom-chest"
+      ],
+      "how": {
+        "FR": "Le Coffre personnalisé de Matériaux d'Avancement Animal donne au choix 2 Potions Nutritives : une potion vaut donc au plus la moitié du coffre. Le relevé la sortait à 0,375 € dans le Pack Énergie Animal (6 € les 16), contre 0,167 € en passant par le coffre. Plafond là aussi : un pack moins cher reprendrait la main.",
+        "EN": "The Pet Advancement Materials Custom Chest gives a choice of 2 Nutrient Potions, so one potion is worth at most half the chest. The survey had it at 0.375 euro in the Pet Energy Pack (16 for 6 euros), against 0.167 euro through the chest. A ceiling here too: a cheaper pack would take over."
+      }
+    },
+    "growth_manual": {
+      "fromId": "pet_advancement_materials_custom_chest",
+      "factor": 0.14285714285714285,
+      "ceiling": true,
+      "packs": [
+        "custom-pet-chest-common-custom-chest"
+      ],
+      "how": {
+        "FR": "Le Coffre personnalisé de Matériaux d'Avancement Animal donne au choix 7 Manuels de Croissance : un manuel vaut donc au plus un septième du coffre (le facteur 0,142857 est 1 ÷ 7). Le relevé le sortait à 0,109 € dans le Pack Manuel de Croissance (6 € les 55), contre 0,048 € en passant par le coffre. Plafond là aussi : un pack moins cher reprendrait la main.",
+        "EN": "The Pet Advancement Materials Custom Chest gives a choice of 7 Growth Manuals, so one manual is worth at most a seventh of the chest (the 0.142857 factor is 1 ÷ 7). The survey had it at 0.109 euro in the Growth Manual Pack (55 for 6 euros), against 0.048 euro through the chest. A ceiling here too: a cheaper pack would take over."
+      }
     }
   },
   "speedups": {

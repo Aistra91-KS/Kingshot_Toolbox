@@ -711,8 +711,13 @@ button.ie-pack:hover .ic-img, button.ie-pack:focus-visible .ic-img { opacity: 1;
 }
 .sx-card.sx-ref-eur .sx-ref-glyph { color: var(--accent-text, var(--accent)); }
 /* « Multipack » n'est pas un nom de pack mais un état : plusieurs packs à égalité,
-   donc aucune image à montrer. On le distingue visuellement des vrais noms. */
-.ie-pack.is-multi { color: var(--text-muted); font-style: italic; }
+   donc aucune image à montrer. On le distingue visuellement des vrais noms ; son survol
+   ouvre la bulle en mode liste, qui nomme les packs. */
+.ie-pack.is-multi, button.ie-pack.is-multi { color: var(--text-muted); font-style: italic; }
+button.ie-pack.is-multi:hover, button.ie-pack.is-multi:focus-visible { color: var(--accent-text, var(--accent)); }
+.ie-preview.is-list { padding: 8px 12px; max-width: min(340px, calc(100vw - 20px)); }
+.ie-preview-title { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+.ie-preview-list { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.45; color: var(--text-light); }
 
 /* Cellule « Pack d'origine » : le pack, puis les pastilles des règles qui ont décidé du prix.
    Elles s'enroulent plutôt que d'élargir la colonne — le tableau défile déjà sur mobile. */
