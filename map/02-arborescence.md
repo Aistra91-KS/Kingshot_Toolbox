@@ -81,7 +81,7 @@ Kingshot_Toolbox/
 │   ├── shopcalc_items.json (94 objets, gemmes), shopcalc_classic/events/chests.json (6 / 10 / 3)
 │   ├── shopcalc_euro.json  Relevé argent réel : 59 objets, 69 packs · §6 06b
 │   ├── changelog.json
-│   └── events/             adventure-stall, dragons-caravan, moonlight-shop, theater-shop (contenu d'événement) ; fantasy-theater (mécanique du tirage)
+│   └── events/             adventure-stall, brewmaster-stall, dragons-caravan, moonlight-shop, theater-shop (contenu d'événement) ; fantasy-theater (mécanique du tirage)
 │
 ├── img/                    WebP partout (PNG pour logo/ seulement)
 │   ├── logo/               favicon.svg (dessin simplifié) + PNG dérivés, apple-touch-icon, og-image, logo-512 · §9 09b

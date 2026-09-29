@@ -25,7 +25,7 @@ Proxy transparent sur `localStorage` : chaque clé de `STORAGE_KEYS` est rangée
 | `waracademy` | `wa_calc_data_v1` | niveaux avancés sous `advanced.<id>` dans `levels`, plus `ttgBudget`, `transfoUsed`, `creusetUse` et `activeSection` (`base`, `advanced` ou `global`, qui fixe aussi les arbres du plan) |
 | `vikings` | `vikings_data` | |
 | `shopcalcItems`, `shopcalcClassic`, `shopcalcEvents`, `shopcalcTab`, `shopcalcCollapsed` | `shopcalc_*` | |
-| `shopcalcEventPlans` | `shopcalc_event_plans` | `{<id événement>: {played, buys:{<packId>:{<jour>:n}}, open}}` pour tous les événements |
+| `shopcalcEventPlans` | `shopcalc_event_plans` | `{<id événement>: {played, buys:{<packId>:{<jour>:n}}, open, excluded, purchaseOk, outsideBuys, explore, orders}}` pour tous les événements |
 | `pets` | `pets_levels` | |
 | `petsPlanOff` | `pets_plan_off` | Les familiers **exclus** du plan (un nouveau y entre seul) |
 | `petsPlan` | `pets_plan_stock` | Stock de l'onglet Plan, séparé des niveaux à dessein |

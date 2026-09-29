@@ -98,16 +98,16 @@ function scRefreshIndex(){ scApplyTranslations(); scRenderIndex(); }
     events: {
       id:'shop-events', banner:true,
       title:{FR:'Boutiques d\'événement : Aide', EN:'Event shops: Help'},
-      summary:{FR:"Chaque événement a sa boutique, sa monnaie et sa date de fin. Trois d'entre eux sont détaillés jour par jour et disent ce que l'événement rapporte face à ce qu'il coûte.",
-               EN:"Every event has its shop, its currency and its end date. Three of them are broken down day by day and say what the event pays back against what it costs."},
+      summary:{FR:"Chaque événement a sa boutique, sa monnaie et sa date de fin. Ceux qui portent la pastille « Rentabilité » sont détaillés jour par jour et disent ce que l'événement rapporte face à ce qu'il coûte.",
+               EN:"Every event has its shop, its currency and its end date. The ones tagged ROI are broken down day by day and say what the event pays back against what it costs."},
       steps:{
         FR:["Le compteur de chaque carte donne le temps restant ; les événements terminés passent en fin de grille mais restent consultables.",
             "Sur une page de boutique, le ratio (valeur en gemmes ÷ coût) classe les objets, et le panier suit ce qu'il te reste de monnaie.",
-            "La pastille « Rentabilité » signale les trois événements avec le détail complet : coche les packs achetés sous le tableau, le pourcentage se calcule.",
+            "La pastille « Rentabilité » signale les événements avec le détail complet : coche les packs achetés sous le tableau, le pourcentage se calcule.",
             "Ce pourcentage est en argent réel de bout en bout : aucune gemme n'y est convertie en euros."],
         EN:["Each card's counter gives the time left; ended events drop to the end of the grid but stay readable.",
             "On a shop page the ratio (gem value / cost) ranks the items, and the cart tracks the currency you have left.",
-            "The \"ROI\" tag marks the three events with a full breakdown: tick the packs you bought under the table and the percentage works itself out.",
+            "The \"ROI\" tag marks the events with a full breakdown: tick the packs you bought under the table and the percentage works itself out.",
             "That percentage is real money end to end: no gem is ever converted into euros."]
       },
       links:[{label:{FR:'Ouvrir « Valeur Boutique »', EN:'Open "Shop Value"'}, href:'shop_calc'},

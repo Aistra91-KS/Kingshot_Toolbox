@@ -1,0 +1,216 @@
+{
+  "_meta": {
+    "event": "Brewmaster_Stall",
+    "slug": "brewmaster-stall",
+    "startsAt": "2026-09-29T00:00:00Z",
+    "endsAt": "2026-10-02T00:00:00Z",
+    "days": 3,
+    "tier": "Gen 7 / TG5+",
+    "updatedAt": "2026-09-29",
+    "source": "Règles, packs, missions et paliers dictés par Aistra (relevé in-game du 29 septembre 2026)",
+    "exploreName": { "EN": "Magic Brews used", "FR": "Breuvages Magiques utilisés" },
+    "exploreTip": {
+      "EN": "How many Magic Brews you have used since the event started, as the game counts them for the Total Consumption Reward. That is what unlocks the milestones, not how many you are holding. Milestones stack: everything below your total is already yours.",
+      "FR": "Le nombre de Breuvages Magiques que tu as utilisés depuis le début de l'événement, tel que le jeu le compte pour la récompense de consommation totale. C'est lui qui débloque les paliers, pas le nombre de breuvages en poche. Les paliers se cumulent : tout ce qui est en dessous de ton total est déjà acquis."
+    },
+    "ordersName": { "EN": "Orders completed", "FR": "Commandes terminées" },
+    "ordersTip": {
+      "EN": "How many orders you have completed in the Brew Workshop. Each one pays Brew Vouchers: 2,000 for each of the first two, 3,000 for the next three, 4,000 for the next two, then 5,000. A Special Order played with a multiplier pays that many times over, so count it as that many orders: one played at ×3 is three orders.",
+      "FR": "Le nombre de commandes que tu as terminées dans l'Atelier. Chacune paie des Bons d'Alchimie : 2 000 pour chacune des deux premières, 3 000 pour les trois suivantes, 4 000 pour les deux d'après, puis 5 000. Une Commande Spéciale jouée avec un multiplicateur paie autant de fois plus : compte-la pour autant de commandes, une commande jouée à ×3 en vaut trois."
+    },
+    "currencyNote": {
+      "EN": "The packs and missions give Magic Brews, not Brew Vouchers. The vouchers come from the orders you complete, and how many brews an order takes depends on your guesses, so the tool does not turn brews into vouchers: enter your completed orders above instead. Past order 30, each order is counted at 5,000 vouchers, which has not been checked in game.",
+      "FR": "Les packs et les missions donnent des Breuvages Magiques, pas des Bons d'Alchimie. Les bons viennent des commandes terminées, et le nombre de breuvages qu'une commande coûte dépend de tes essais : l'outil ne convertit donc pas les breuvages en bons. Indique plutôt tes commandes terminées ci-dessus. Au-delà de la 30e, chaque commande est comptée à 5 000 bons, ce qui n'a pas été vérifié en jeu."
+    },
+    "note": "Deux monnaies. Les Breuvages Magiques (packs, missions) se DÉPENSENT pour placer des fioles sur le plateau ; ils sont listés mais jamais chiffrés, comme les Amulettes du Théâtre, faute de lien fixe avec la monnaie de la boutique. Les Bons d'Alchimie, monnaie de la boutique, viennent des COMMANDES réussies : le joueur saisit leur nombre (`SE_PLAN.orders`) et `orderRewards` en tire les bons. La consommation de breuvages débloque une piste d'objets cumulative (`explorationMilestones`), sur le nombre de breuvages UTILISÉS saisi par le joueur, comme les Amulettes dépensées du Théâtre.",
+    "ordersNote": "Barème dicté par Aistra : commandes 1 et 2 à 2 000, 3 à 5 à 3 000, 6 et 7 à 4 000, 8 à 5 000, puis 5 000 de la 9e à la 30e. Au-delà de 30, `then` compte 5 000 par commande, sans relevé. Les Commandes Spéciales appliquent un multiplicateur (×2 dès 60 breuvages en poche, ×3 dès 100, ×4 dès 300, ×5 dès 500) au coût en breuvages ET aux bons gagnés. On ne sait pas encore si elles commencent à la 9e ou après la 30e : dans les deux cas leur base connue est 5 000, donc une spéciale à ×k se saisit comme k commandes et le compte tombe juste. À vérifier en jeu si une spéciale n'est pas à 5 000.",
+    "packsNote": "L'ÉVÉNEMENT dure 3 jours (29/09 00h UTC → 02/10 00h UTC) ; la BOUTIQUE ferme 24 h plus tard (03/10, `endsAt` de shopcalc_events.json), pour dépenser les bons. Les packs ne s'achètent que pendant l'événement : le plan se borne au `endsAt` d'ICI. Cinq packs quotidiens (un par jour chacun) et deux Élixirs à achat unique, le Parfait exigeant le Supérieur (`requires`). Prix $ dictés par Aistra (1, 3, 5, 10, 20 ; Élixirs 5 et 10). Prix € : 3,49 pour le palier à 3 $ relevé par Aistra ; 1,19 / 5,99 / 11,99 / 23,99 repris de la grille des autres événements, à relever en jeu (le palier à 20 $ vaut 24,99 € au Clair de Lune).",
+    "excludedByDefault": ["100_exp_vip", "lv2_custom_resource_chest"],
+    "excludedNote": "Le VIP et les caisses de ressources des packs quotidiens partent DÉCOCHÉS, comme au premier réglage du Clair de Lune : ces packs s'achètent pour les breuvages, et ces deux lignes pesaient 149 € sur 311 € de valeur pour qui achète tout. Les gemmes restent cochées (monnaie directement utile), comme tout le contenu des Élixirs (Or Véritable, Marteaux, fragments). Rien n'est supprimé : les lignes restent listées et se recochent d'un clic.",
+    "contentNote": "Packs 2 et 3 = ×3 et ×5 du pack à 1 $, sur tout son contenu (dicté par Aistra). L'émote de l'Élixir Supérieur est un libellé : l'objet `emote` n'a ni valeur (0 gemme) ni icône propre, seulement ses variantes. « lv2 ressource » est lu comme la Caisse de Ressources Personnalisée Niv. 2 (`lv2_custom_resource_chest`). Noms FR des packs et des Élixirs, et nom FR du Breuvage Magique, provisoires : à remplacer par ceux du jeu."
+  },
+
+  "missions": [
+    {
+      "id": "daily",
+      "name": { "EN": "Daily missions - 3 free", "FR": "Missions quotidiennes - 3 gratuites" },
+      "items": [
+        { "label": { "EN": "Magic Brew", "FR": "Breuvage Magique" }, "qty": 20 }
+      ],
+      "note": {
+        "EN": "20 brews in total: 10 for raising 30k Power by training or promoting troops, 5 for rallying and hunting down one Terror, 5 for five alliance contributions.",
+        "FR": "20 breuvages en tout : 10 pour +30k de Puissance en entraînant ou promouvant des troupes, 5 pour lancer un ralliement et chasser une Terreur, 5 pour cinq contributions d'alliance."
+      }
+    },
+    {
+      "id": "purchase",
+      "name": { "EN": "Daily mission: make any purchase", "FR": "Mission quotidienne : faire un achat" },
+      "requiresPurchase": true,
+      "items": [
+        { "label": { "EN": "Magic Brew", "FR": "Breuvage Magique" }, "qty": 1 }
+      ],
+      "note": {
+        "EN": "Any purchase counts, event pack or not.",
+        "FR": "N'importe quel achat compte, pack d'événement ou non."
+      }
+    }
+  ],
+
+  "orderRewards": {
+    "coins": [2000, 2000, 3000, 3000, 3000, 4000, 4000, 5000],
+    "then": 5000
+  },
+
+  "explorationMilestones": [
+    { "points": 20,   "reward": { "items": [ { "itemId": "truegold", "qty": 20 } ] } },
+    { "points": 100,  "reward": { "items": [ { "itemId": "truegold", "qty": 40 } ] } },
+    { "points": 200,  "reward": { "items": [ { "itemId": "truegold", "qty": 55 } ] } },
+    { "points": 300,  "reward": { "items": [ { "itemId": "truegold", "qty": 70 } ] } },
+    { "points": 400,  "reward": { "items": [ { "itemId": "truegold", "qty": 85 } ] } },
+    { "points": 500,  "reward": { "items": [ { "itemId": "truegold", "qty": 100 } ] } },
+    { "points": 600,  "reward": { "items": [ { "itemId": "truegold", "qty": 100 } ] } },
+    { "points": 700,  "reward": { "items": [ { "itemId": "mystery_badge", "qty": 3000 } ] } },
+    { "points": 800,  "reward": { "items": [ { "itemId": "mystery_badge", "qty": 4500 } ] } },
+    { "points": 900,  "reward": { "items": [ { "itemId": "mystery_badge", "qty": 6000 } ] } },
+    { "points": 1000, "reward": { "items": [ { "itemId": "mystery_badge", "qty": 7500 } ] } }
+  ],
+
+  "packs": [
+    {
+      "id": "brew_1",
+      "name": { "EN": "Magic Brew Pack 1", "FR": "Pack Breuvage Magique 1" },
+      "short": { "EN": "$1", "FR": "1 $" },
+      "priceEur": 1.19,
+      "priceUsd": 1,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          { "itemId": "gem", "qty": 500 },
+          { "label": { "EN": "Magic Brew", "FR": "Breuvage Magique" }, "qty": 10 },
+          { "itemId": "100_exp_vip", "qty": 5 },
+          { "itemId": "lv2_custom_resource_chest", "qty": 40 }
+        ]
+      }
+    },
+    {
+      "id": "brew_3",
+      "name": { "EN": "Magic Brew Pack 2", "FR": "Pack Breuvage Magique 2" },
+      "short": { "EN": "$3", "FR": "3 $" },
+      "priceEur": 3.49,
+      "priceUsd": 3,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          { "itemId": "gem", "qty": 1500 },
+          { "label": { "EN": "Magic Brew", "FR": "Breuvage Magique" }, "qty": 30 },
+          { "itemId": "100_exp_vip", "qty": 15 },
+          { "itemId": "lv2_custom_resource_chest", "qty": 120 }
+        ]
+      }
+    },
+    {
+      "id": "brew_5",
+      "name": { "EN": "Magic Brew Pack 3", "FR": "Pack Breuvage Magique 3" },
+      "short": { "EN": "$5", "FR": "5 $" },
+      "priceEur": 5.99,
+      "priceUsd": 5,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          { "itemId": "gem", "qty": 2500 },
+          { "label": { "EN": "Magic Brew", "FR": "Breuvage Magique" }, "qty": 50 },
+          { "itemId": "100_exp_vip", "qty": 25 },
+          { "itemId": "lv2_custom_resource_chest", "qty": 200 }
+        ]
+      }
+    },
+    {
+      "id": "brew_10",
+      "name": { "EN": "Magic Brew Pack 4", "FR": "Pack Breuvage Magique 4" },
+      "short": { "EN": "$10", "FR": "10 $" },
+      "priceEur": 11.99,
+      "priceUsd": 10,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          { "itemId": "gem", "qty": 5000 },
+          { "label": { "EN": "Magic Brew", "FR": "Breuvage Magique" }, "qty": 95 },
+          { "itemId": "100_exp_vip", "qty": 40 },
+          { "itemId": "lv2_custom_resource_chest", "qty": 400 }
+        ]
+      }
+    },
+    {
+      "id": "brew_20",
+      "name": { "EN": "Magic Brew Pack 5", "FR": "Pack Breuvage Magique 5" },
+      "short": { "EN": "$20", "FR": "20 $" },
+      "priceEur": 23.99,
+      "priceUsd": 20,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          { "itemId": "gem", "qty": 10000 },
+          { "label": { "EN": "Magic Brew", "FR": "Breuvage Magique" }, "qty": 185 },
+          { "itemId": "100_exp_vip", "qty": 60 },
+          { "itemId": "lv2_custom_resource_chest", "qty": 800 }
+        ]
+      }
+    },
+    {
+      "id": "superior_elixir",
+      "name": { "EN": "Superior Elixir", "FR": "Élixir Supérieur" },
+      "short": { "EN": "Superior", "FR": "Supérieur" },
+      "priceEur": 5.99,
+      "priceUsd": 5,
+      "once": true,
+      "note": {
+        "EN": "One purchase for the whole event.",
+        "FR": "Un seul achat pour tout l'événement."
+      },
+      "immediate": {
+        "items": [
+          { "itemId": "gem", "qty": 2000 },
+          { "itemId": "truegold", "qty": 74 },
+          { "itemId": "lucky_hero_gear_chest", "qty": 12 },
+          { "label": { "EN": "Magic Brew", "FR": "Breuvage Magique" }, "qty": 50 },
+          { "label": { "EN": "Emote", "FR": "Emote" }, "qty": 1 },
+          { "itemId": "forgehammers", "qty": 12 },
+          { "itemId": "mythic_general_hero_shard", "qty": 4 },
+          { "itemId": "mythic_conquest_skill_book", "qty": 2 },
+          { "itemId": "mythic_expedition_skill_manual", "qty": 2 },
+          { "itemId": "10000_hero_xp", "qty": 1 },
+          { "itemId": "gold_key", "qty": 1 }
+        ]
+      }
+    },
+    {
+      "id": "perfect_elixir",
+      "name": { "EN": "Perfect Elixir", "FR": "Élixir Parfait" },
+      "short": { "EN": "Perfect", "FR": "Parfait" },
+      "priceEur": 11.99,
+      "priceUsd": 10,
+      "once": true,
+      "requires": "superior_elixir",
+      "note": {
+        "EN": "One purchase for the whole event, and only once the Superior Elixir has been bought.",
+        "FR": "Un seul achat pour tout l'événement, et seulement après l'Élixir Supérieur."
+      },
+      "immediate": {
+        "items": [
+          { "itemId": "gem", "qty": 4000 },
+          { "itemId": "truegold", "qty": 148 },
+          { "itemId": "lucky_hero_gear_chest", "qty": 24 },
+          { "label": { "EN": "Magic Brew", "FR": "Breuvage Magique" }, "qty": 100 },
+          { "itemId": "forgehammers", "qty": 24 },
+          { "itemId": "mythic_general_hero_shard", "qty": 4 },
+          { "itemId": "mythic_conquest_skill_book", "qty": 4 },
+          { "itemId": "mythic_expedition_skill_manual", "qty": 4 },
+          { "itemId": "3h_general_speedup", "qty": 6 },
+          { "itemId": "10000_hero_xp", "qty": 3 },
+          { "itemId": "gold_key", "qty": 4 },
+          { "itemId": "100_enhancement_xp_component", "qty": 15 }
+        ]
+      }
+    }
+  ]
+}

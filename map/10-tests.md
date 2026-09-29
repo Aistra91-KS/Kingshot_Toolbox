@@ -11,7 +11,7 @@
 ### Ce qui est couvert
 | Fichier | Code | Ce qui est verrouillé |
 |---|---|---|
-| `shop-event` | `seCompute` | contrôles réels de §13 : Caravane du Dragon 4 jours + achat déclaré = 230 essences (195 sans), Stand d'Aventure F2P 5 jours = 32 388 gemmes, autant de Points de Vente que de Pièces d'Aventure par source |
+| `shop-event` | `seCompute` | contrôles réels de §13 : Caravane du Dragon 4 jours + achat déclaré = 230 essences (195 sans), Stand d'Aventure F2P 5 jours = 32 388 gemmes, autant de Points de Vente que de Pièces d'Aventure par source ; Stand Alchimique : barème des commandes (12 = 46 000 Bons), paliers de Breuvages cumulés, Élixir Parfait verrouillé, VIP et ressources décochés |
 | `euro-affinity` | `scEurUnit`, bloc `affinity` | même prix du point sur les trois jetons, Cor en cuivre chiffré, pack affiché = pack de la base, `basis.points` = somme du `detail` (attrape une base mal relue), la règle ne déborde pas sur les objets voisins |
 | `euro-ceiling` | drapeau `ceiling` de `derived` | sous plafond l'objet vaut ses gemmes, un pack moins cher reprend la main, un plus cher ne change rien, une règle sans plafond décide toujours |
 | `theater-draw` | `ftClimbCostFrom`, `ftComputeReach`, `ftAttemptsFrom` | forme close contre une simulation Monte-Carlo indépendante, générateur grainé (un échec est un vrai écart) |

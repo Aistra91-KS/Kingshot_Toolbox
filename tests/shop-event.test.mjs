@@ -231,3 +231,83 @@ test("Théâtre — sans `trackOwned`, rien ne change pour les autres boutiques"
   assert.equal(rows.all[0].haveMax, 0);
   assert.equal(rows.cart.spentHave, 0);
 });
+
+// Stand Alchimique (Alchemy Junction), du 29 septembre au 2 octobre 2026, boutique
+// ouverte jusqu'au 3. Horloge figée au 2e jour, pour la même raison qu'au Clair de Lune.
+const ALCHIMIE_J2 = '2026-09-30T12:00:00Z';
+const alchimie = (plan) => loadEventShop('brewmaster-stall', plan, { now: ALCHIMIE_J2 });
+
+test("Stand Alchimique — les commandes paient les Bons selon le barème", async () => {
+  // 2 000, 2 000, 3 000 ×3, 4 000 ×2, 5 000 : 26 000 pour les huit premières, puis
+  // 5 000 par commande. Les Bons ne viennent de nulle part ailleurs : sans commande,
+  // la monnaie prévue est nulle.
+  const bons = async n => run(await alchimie({ orders: n }), 'seCompute()').coins;
+  assert.equal(await bons(0), 0);
+  assert.equal(await bons(1), 2000);
+  assert.equal(await bons(5), 13000);
+  assert.equal(await bons(8), 26000);
+  assert.equal(await bons(12), 46000);
+  assert.equal(await bons(30), 136000, 'les 30 commandes du barème relevé');
+});
+
+test("Stand Alchimique — une saisie énorme se calcule sans boucler dessus", async () => {
+  // Le total s'additionne sur le barème, pas commande par commande : un zéro de trop
+  // tapé dans le champ ne doit pas figer la page.
+  const c = run(await alchimie({ orders: 1e9 }), 'seCompute()');
+  assert.equal(c.coins, 26000 + (1e9 - 8) * 5000);
+});
+
+test("Stand Alchimique — la tuile de monnaie existe même sans commande saisie", async () => {
+  // Les commandes sont la seule source de Bons : sans ce test, la tuile et le bouton
+  // « Utiliser comme budget » disparaîtraient tant que le joueur n'a rien saisi.
+  const ctx = await alchimie();
+  assert.equal(run(ctx, 'seHasCoins()'), true);
+});
+
+test("Stand Alchimique — les paliers de consommation se cumulent", async () => {
+  // 1 000 Breuvages utilisés débloquent les 11 paliers : 470 Or Véritable (20 + 40 + 55
+  // + 70 + 85 + 100 + 100) et 21 000 Insignes Mystère (3 000 + 4 500 + 6 000 + 7 500).
+  const c = run(await alchimie({ explore: 1000 }), 'seCompute()');
+  assert.equal(c.expTiers, 11);
+  assert.equal(c.rows.find(r => r.id === 'truegold').qty, 470);
+  assert.equal(c.rows.find(r => r.id === 'mystery_badge').qty, 21000);
+  const juste = run(await alchimie({ explore: 99 }), 'seCompute()');
+  assert.equal(juste.expTiers, 1, 'à 99, seul le palier de 20 est atteint');
+});
+
+test("Stand Alchimique — les Breuvages Magiques sont comptés, jamais valorisés", async () => {
+  // F2P sur 3 jours : 20 breuvages de missions par jour. Un achat au J1 ajoute les 10
+  // du pack et 1 de la mission d'achat. Aucun des deux n'entre dans la valeur.
+  const f2p = run(await alchimie(), 'seCompute()');
+  assert.equal(f2p.extras.length, 1);
+  assert.equal(f2p.extras[0].label.EN, 'Magic Brew');
+  assert.equal(f2p.extras[0].qty, 60);
+  assert.equal(f2p.valueGem, 0);
+  const achat = run(await alchimie({ buys: { brew_1: { 1: 1 } } }), 'seCompute()');
+  assert.equal(achat.extras[0].qty, 71);
+});
+
+test("Stand Alchimique — l'Élixir Parfait exige l'Élixir Supérieur", async () => {
+  const seul = run(await alchimie({ buys: { perfect_elixir: { 1: 1 } } }), 'seCompute()');
+  assert.equal(seul.spend, 0, 'un pack verrouillé ne se paie pas');
+  const deux = run(await alchimie({ buys: { superior_elixir: { 2: 1 }, perfect_elixir: { 1: 1 } } }), 'seCompute()');
+  assert.equal(deux.buysTotal, 2);
+  assert.equal(Math.round(deux.spend * 100) / 100, 17.98);
+});
+
+test("Stand Alchimique — le VIP et les ressources de chaque pack partent décochés", async () => {
+  // Les packs quotidiens s'achètent pour les breuvages : le VIP et les caisses de
+  // ressources partent décochés, les gemmes et le contenu des Élixirs restent comptés.
+  // La liste est comparée à ce que versent VRAIMENT les packs, pour qu'un pack relevé
+  // plus tard avec un autre VIP (1000_exp_vip) ou d'autres ressources ne passe pas.
+  const ctx = await alchimie();
+  const defaut = run(ctx, 'seDefaultExcluded()');
+  const vip = /exp_vip$/, ressource = /resource_chest$|^10k_/;
+  for (const p of run(ctx, 'SE_DATA.packs')) {
+    for (const it of [p.reward, p.immediate].flatMap(b => (b && b.items) || [])) {
+      if (!it.itemId) continue;
+      const garniture = vip.test(it.itemId) || ressource.test(it.itemId);
+      assert.equal(!!defaut[it.itemId], garniture, `${it.itemId} du pack ${p.id}`);
+    }
+  }
+});

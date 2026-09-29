@@ -93,7 +93,7 @@ export async function loadEventShop(slug, plan = {}, { now } = {}) {
             function spShop(){ return SC_EVENTS.find(s => s.slug === __slug); }`);
   const full = {
     played: null, buys: {}, open: true, excluded: {},
-    purchaseOk: false, outsideBuys: 0, explore: 0, ...plan
+    purchaseOk: false, outsideBuys: 0, explore: 0, orders: 0, ...plan
   };
   if (full.played == null) full.played = run(ctx, 'seDays()');
   run(ctx, `SE_PLAN = ${JSON.stringify(full)};`);
