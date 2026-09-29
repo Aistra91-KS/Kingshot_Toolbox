@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <script>/* Thème appliqué avant le 1er rendu : sans cela la page s'affiche en sombre (valeur en dur sur <html>) puis bascule quand header.js arrive, d'où un flash sombre animé de 0,3 s à chaque navigation. */
+    try{var t=localStorage.getItem('hub_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+    <!-- Google tag (gtag.js) : refus par défaut, js/consent.js ne le charge qu'après accord -->
+    <script>
+      if (navigator.webdriver) window['ga-disable-G-M1QG4XSD3K'] = true; // navigateur piloté (robot, test automatisé) : pas de mesure
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied'});
+      gtag('js', new Date());
+    </script>
+    <base href="../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Alchemy Junction Shop - Gem &amp; Real-Money Value | Kingshot Toolbox</title>
+    <meta name="description" content="Every item in the Kingshot Brewmaster Stall (Alchemy Junction event): Brew Voucher cost, stock limit and value in gems or €/$, ranked by value per voucher.">
+    <link rel="canonical" href="https://kingshottoolbox.com/shop/brewmaster-stall">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Kingshot Toolbox">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:title" content="Alchemy Junction Shop - Gem &amp; Real-Money Value">
+    <meta property="og:description" content="Every item in the Kingshot Brewmaster Stall (Alchemy Junction event): Brew Voucher cost, stock limit and value in gems or €/$, ranked by value per voucher.">
+    <meta property="og:url" content="https://kingshottoolbox.com/shop/brewmaster-stall">
+    <meta property="og:image" content="https://kingshottoolbox.com/img/logo/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Kingshot Toolbox - free calculators, optimizers and databases for Kingshot">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="img/logo/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="img/logo/favicon-96.png">
+    <link rel="alternate icon" type="image/png" href="img/logo/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/db.css">
+    <link rel="stylesheet" href="css/shop.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"Event shops","item":"https://kingshottoolbox.com/event-roi"},{"@type":"ListItem","position":3,"name":"Brewmaster Stall","item":"https://kingshottoolbox.com/shop/brewmaster-stall"}]}</script>
+    <script src="js/consent.js" defer></script>
+</head>
+<body class="has-app-header">
+    <div class="db-page db-wide sx-page-event">
+        <div class="db-breadcrumb"><a href="./">Kingshot Toolbox</a> / <a href="event-roi" data-en="Event shops" data-fr="Boutiques d'événement">Event shops</a> / <span data-en="Brewmaster Stall" data-fr="Stand Alchimique">Brewmaster Stall</span></div>
+
+        <div class="sx-hero">
+          <div class="sx-hero-thumb" id="sp-thumb"></div>
+          <div class="sx-hero-text">
+            <h1 data-en="Brewmaster Stall" data-fr="Stand Alchimique">Brewmaster Stall</h1>
+            <div class="sx-facts" id="sp-facts"></div>
+            <button type="button" class="help-btn" data-help="1"><span class="help-q">?</span><span class="help-btn-txt" data-en="How does it work?" data-fr="Comment ça marche ?">How does it work?</span></button>
+          </div>
+        </div>
+        <p class="db-intro" data-en="The full Brewmaster Stall line-up for Kingshot, the store of the Alchemy Junction event, priced in Brew Vouchers. Each item is set against its reference value in gems, so you can see at a glance where your vouchers go furthest. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way." data-fr="Le contenu complet du Stand Alchimique de Kingshot, la boutique de l'événement Magasin d'Alchimie, payé en Bons d'Alchimie. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes bons rapportent le plus. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens.">The full Brewmaster Stall line-up for Kingshot, the store of the Alchemy Junction event, priced in Brew Vouchers. Each item is set against its reference value in gems, so you can see at a glance where your vouchers go furthest. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.</p>
+        <div id="sp-archive"></div>
+        <div class="sx-actions" id="sp-actions"></div>
+        <div id="sp-cart"></div>
+
+        <div class="db-section"><h2 data-i18n="bestDeals">Best deals</h2><div class="sx-podium" id="sp-podium"></div></div>
+        <div class="db-section"><h2 data-i18n="allItems">All items</h2><div id="sp-table"></div></div>
+        <!-- Les deux référentiels de valeurs, à portée de clic depuis la boutique qui s'en
+             sert : le joueur qui doute d'un chiffre du tableau voit d'où il vient sans
+             partir le chercher. Écrits en dur — le maillage doit exister sans JS (MAP.md §9).
+             Le [data-i18n] est sur le <span> du libellé, jamais sur le <a> : applyI18n écrit
+             un textContent, ce qui effacerait la pastille de l'icône. -->
+        <div class="sx-reflinks">
+          <p class="sx-reflinks-lead" data-i18n="refsLead">Where do these values come from?</p>
+          <div class="sx-reflinks-row">
+            <a class="sx-reflink" href="shop/items"><span class="sx-reflink-glyph" aria-hidden="true">&#128142;</span><span data-i18n="itemsRef">Item values</span></a>
+            <a class="sx-reflink is-eur" href="shop/items-euro"><span class="sx-reflink-glyph" aria-hidden="true">&euro;</span><span data-i18n="itemsEur">Real-money item values</span></a>
+          </div>
+        </div>
+        <nav class="db-switch footer" id="sp-switch" aria-label="Shops"></nav>
+    </div>
+
+    <!-- Maillage interne sans JavaScript : la nav du drawer, figee en dur, dans son
+         etat ferme (position:fixed + translateX(100%) => hors ecran). Placee AVANT
+         les scripts : header.js la reutilise au lieu d en creer une seconde, puis
+         hdrBuildDrawer() en remplace le contenu par sa version complete. Le rendu
+         final est inchange, et .hdr-drawer-raw coupe l ombre portee tant que le JS
+         n a pas hydrate. Cf. MAP.md SS9 : le maillage doit exister sans JS. -->
+    <div class="hdr-drawer-overlay" id="hdr-drawer-overlay"></div>
+    <aside class="hdr-drawer hdr-drawer-raw" id="hdr-drawer" aria-hidden="true"><nav class="drawer-nav"><div class="drawer-cat">KVK Tools & Calculators</div><a href="research_calc" class="drawer-tool"><span>Research</span></a><a href="truegold_calc" class="drawer-tool"><span>Building Planner</span></a><a href="waracademy" class="drawer-tool"><span>War Academy</span></a><div class="drawer-cat">Event Optimizer</div><a href="beartrap_calc" class="drawer-tool"><span>Bear Trap</span></a><a href="vikings" class="drawer-tool"><span>Vikings</span></a><a href="caserne" class="drawer-tool"><span>Heroes</span></a><a href="masters" class="drawer-tool"><span>Masters</span></a><a href="pets" class="drawer-tool"><span>Pets</span></a><div class="drawer-cat">Value & ROI</div><a href="shop_calc" class="drawer-tool"><span>Shop Value</span><span class="hdr-badge">Beta</span></a><a href="event-roi" class="drawer-tool"><span>Event ROI</span></a><a href="item-values" class="drawer-tool"><span>Item Values</span></a><div class="drawer-cat">Database</div><a href="database/heroes/" class="drawer-tool"><span>Heroes DB</span></a><a href="database/buildings/" class="drawer-tool"><span>Buildings</span></a><a href="database/research/" class="drawer-tool"><span>Research DB</span></a><a href="database/waracademy/" class="drawer-tool"><span>War Academy Research</span></a><a href="database/masters/" class="drawer-tool"><span>Masters DB</span></a><a href="database/pets/" class="drawer-tool"><span>Pets DB</span></a></nav></aside>
+
+    <script src="js/site-config.js"></script>
+    <script src="js/storage-keys.js"></script>
+    <script src="js/profiles.js"></script>
+    <script src="js/lang.js"></script>
+    <script>window.HDR_ACTIVE_HREF = 'event-roi'; window.SHOP_SLUG = 'brewmaster-stall';</script>
+    <script src="js/header.js"></script>
+    <script src="js/help.js"></script>
+    <script src="js/shop-core.js"></script>
+    <script src="js/shop-page.js"></script>
+    <script src="js/backup.js"></script>
+    <script src="js/footer.js"></script>
+</body>
+</html>

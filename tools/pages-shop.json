@@ -52,6 +52,19 @@
     }
   },
   {
+    "slug": "brewmaster-stall",
+    "title": "Alchemy Junction Shop - Gem &amp; Real-Money Value",
+    "description": "Every item in the Kingshot Brewmaster Stall (Alchemy Junction event): Brew Voucher cost, stock limit and value in gems or €/$, ranked by value per voucher.",
+    "name": {
+      "EN": "Brewmaster Stall",
+      "FR": "Stand Alchimique"
+    },
+    "intro": {
+      "EN": "The full Brewmaster Stall line-up for Kingshot, the store of the Alchemy Junction event, priced in Brew Vouchers. Each item is set against its reference value in gems, so you can see at a glance where your vouchers go furthest. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le contenu complet du Stand Alchimique de Kingshot, la boutique de l'événement Magasin d'Alchimie, payé en Bons d'Alchimie. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes bons rapportent le plus. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
+    }
+  },
+  {
     "slug": "dragons-caravan",
     "title": "Kingshot Dragon's Caravan - Gem &amp; Real-Money Value",
     "description": "Kingshot Dragon's Caravan list: every item, its Dragon Essence cost, stock limit and value in gems or real money, ranked by value per Essence.",
