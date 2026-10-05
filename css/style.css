@@ -538,7 +538,16 @@ select {
     border-radius: 4px;
     width: 80px;
     text-align: right;
-    outline: none;
+}
+
+/* Focus clavier des champs : contour or (MAP §5). Ces champs portaient
+   `outline: none` sans remplaçant, et rien ne montrait au clavier lequel était
+   actif (23 champs sur Recherches, Planificateur et Académie de Guerre au
+   05/10/2026). `:where` garde la règle au plus bas : un composant qui a son
+   propre repère de focus (bordure, ombre) le garde. */
+:where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea):focus-visible {
+    outline: 2px solid var(--accent-text, var(--accent));
+    outline-offset: 1px;
 }
 
 input[type="checkbox"] {
@@ -561,7 +570,6 @@ input[type="checkbox"] {
     border-radius: 4px;
     width: 120px;
     text-align: right;
-    outline: none;
 }
 
 .total-bonus-row {
