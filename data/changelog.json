@@ -20,6 +20,7 @@
           "text": {
             "EN": "An idea sent by a player through the feedback form. The Settings panel gains an Academy level field, from 1 to 30. Research levels your Academy cannot start yet leave the suggestions, and in the trees they stay locked with the Academy level they need written next to the padlock. When the Academy is what holds the list back, a line under the suggestions says how many levels are waiting and at which Academy level the next one opens. Left at 30, nothing changes.",
             "FR": "Une idée envoyée par un joueur avec le formulaire de retour. Le panneau Paramètres gagne un champ Niveau d'Académie, de 1 à 30. Les niveaux de recherche que ton Académie ne permet pas encore sortent des suggestions, et dans les arbres ils restent verrouillés, avec le niveau d'Académie requis écrit à côté du cadenas. Quand c'est l'Académie qui retient la liste, une ligne sous les suggestions dit combien de niveaux attendent et à quel niveau d'Académie s'ouvre le suivant. Laissé à 30, rien ne change."
+          },
           "href": "research_calc",
           "linkLabel": {
             "EN": "Research",
