@@ -167,3 +167,38 @@ test('un arbre décoché n\'apparaît pas, une recherche faite non plus', () => 
     assert.ok(!faites.has(cle(r)), `${r.Name} niv. ${r.Level} est déjà fait`);
   }
 });
+
+// Niveau d'Académie : un niveau de recherche n'est proposé que si l'Académie du
+// joueur l'atteint. Les 131 niveaux à 0 dans la base (exigence non relevée) comptent
+// comme Académie 30, décision d'Aistra.
+const exigence = it => BASE.find(x => cle(x) === cle(it)).Academy || 30;
+
+test('l\'Académie borne le plan, ligne de dépassement KVK comprise', () => {
+  for (const academie of [5, 12, 20, 29]) {
+    const ctx = moteur();
+    compteAvance(ctx, 11, 150);
+    for (const opts of [{ maxRows: 10000 }, { kvk: true, budgetSeconds: 60 * 86400, maxRows: 10000 }]) {
+      const p = plan(ctx, { ...opts, academy: academie });
+      for (const r of p.rows) assert.ok(exigence(r) <= academie, `${r.Name} niv. ${r.Level} exige l'Académie ${exigence(r)}, joueur à ${academie}`);
+      if (p.longItem) assert.ok(exigence(p.longItem) <= academie);
+    }
+  }
+});
+
+test('à l\'Académie 29, aucun niveau sans exigence relevée n\'est proposé', () => {
+  const ctx = moteur();
+  run(ctx, `db.forEach(it => { it.Researched = (it.Academy || 30) <= 29; });`);
+  const p = plan(ctx, { kvk: true, budgetSeconds: 999 * 86400, maxRows: 10000, academy: 29 });
+  assert.equal(p.rows.length, 0, 'tout ce que l\'Académie 29 permet est déjà fait');
+  assert.equal(p.longItem, null);
+  const p30 = plan(ctx, { maxRows: 10000, academy: 30 });
+  assert.ok(p30.rows.some(r => BASE.find(x => cle(x) === cle(r)).Academy === 0), 'à 30, les niveaux à 0 reviennent');
+});
+
+test('l\'Académie 30 par défaut ne change rien au plan', () => {
+  const ctx = moteur();
+  compteAvance(ctx, 7, 40);
+  const a = plan(ctx, { kvk: true, budgetSeconds: 7 * 86400, maxRows: 10000 });
+  const b = plan(ctx, { kvk: true, budgetSeconds: 7 * 86400, maxRows: 10000, academy: 30 });
+  assert.deepEqual(a, b);
+});

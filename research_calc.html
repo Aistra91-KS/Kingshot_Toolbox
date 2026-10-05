@@ -57,6 +57,19 @@
         </div>
         <p class="input-error" id="base-bonus-err" data-i18n="bonusRange" aria-live="polite" hidden>Speed bonus refused: enter a positive percentage. The figures below are computed without a bonus.</p>
         <p class="group-hint" data-i18n="baseBonusHint">Copy the figure your city shows in game. It already counts your Chief Minister, KVK and Kingdom bonuses when they are active.</p>
+        <!-- Niveau d'Académie : 30 par défaut, donc rien n'est écarté tant qu'il n'est pas réglé (MAP §12). -->
+        <div class="control-row">
+            <label for="academy-level" data-i18n="academyLevel">Academy level</label>
+            <select id="academy-level" aria-describedby="academy-level-hint">
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
+                <option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                <option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                <option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option>
+                <option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30" selected>30</option>
+            </select>
+        </div>
+        <p class="group-hint" id="academy-level-hint" data-i18n="academyHint">Suggestions leave out what your Academy cannot research yet. At 30, nothing is left out.</p>
     </div>
 
     <!-- ===== Bloc UNIQUEMENT sur les arbres : Display Options ===== -->
