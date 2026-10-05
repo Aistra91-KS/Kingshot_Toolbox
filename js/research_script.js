@@ -128,6 +128,15 @@ const inputs = {
     prioToolEnhancement: document.getElementById('prio-tool-enhancement'),
     prioToolingUp: document.getElementById('prio-tooling-up')
 };
+// Un champ absent de la page sort de la liste. Cas réel : la page d'avant encore
+// en cache chez un visiteur, avec ce script déjà neuf (MAP §9). Sans ça, la pose
+// des écouteurs plus bas levait une erreur et la page restait vide. La console le
+// dit, pour qu'un identifiant mal écrit ne passe pas pour ce cas-là.
+Object.keys(inputs).forEach(key => {
+    if (inputs[key]) return;
+    console.warn('champ absent de la page, ignoré :', key);
+    delete inputs[key];
+});
 
 // ============ DATA LOADING (depuis JSON) ============
 async function loadInitialDb() {
