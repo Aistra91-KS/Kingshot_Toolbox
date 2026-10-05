@@ -13,6 +13,11 @@ const i18n = {
         'baseBonus': 'Research Speed Bonus (%)',
         'baseBonusHint': 'Copy the figure your city shows in game. It already counts your Chief Minister, KVK and Kingdom bonuses when they are active.',
         'bonusRange': 'Speed bonus refused: enter a positive percentage. The figures below are computed without a bonus.',
+        'academyLevel': 'Academy level',
+        'academyHint': 'Suggestions leave out what your Academy cannot research yet. At 30, nothing is left out.',
+        'academyReq': 'Needs Academy Lv. {n}', 'academyShort': 'Acad. {n}',
+        'blockedAcademy': 'Locked (Academy Lv. {n} needed)',
+        'academyLeftOut': 'Your Academy holds back {n} research level(s) whose prerequisites are done or planned above. Next unlock at Academy Lv. {m}.',
         'tabsLabel': 'Research views',
         'prioTitle': 'Priority Researches',
         'prioToolEnhancement': 'Tool Enhancement (research speed)',
@@ -59,6 +64,11 @@ const i18n = {
         'baseBonus': 'Bonus de vitesse de recherche (%)',
         'baseBonusHint': 'Recopie le chiffre affiché par ta ville en jeu. Il compte déjà tes bonus Ministre en Chef, KVK et Royaume quand ils sont actifs.',
         'bonusRange': "Bonus de vitesse refusé : saisis un pourcentage positif. Les chiffres ci-dessous sont calculés sans bonus.",
+        'academyLevel': 'Niveau d\'Académie',
+        'academyHint': 'Les suggestions écartent ce que ton Académie ne peut pas encore rechercher. À 30, rien n\'est écarté.',
+        'academyReq': 'Académie niv. {n} requise', 'academyShort': 'Acad. {n}',
+        'blockedAcademy': 'Bloqué (Académie niv. {n} requise)',
+        'academyLeftOut': 'Ton Académie retient {n} niveau(x) de recherche dont les prérequis sont faits ou prévus plus haut. Prochain déblocage à l\'Académie niv. {m}.',
         'tabsLabel': 'Vues des recherches',
         'prioTitle': 'Recherches prioritaires',
         'prioToolEnhancement': 'Amélioration des Outils (vitesse de recherche)',
@@ -105,6 +115,7 @@ const i18n = {
 
 const inputs = {
     baseBonus: document.getElementById('base-bonus'),
+    academy: document.getElementById('academy-level'),
     modeKvk: document.getElementById('mode-kvk'),
     days: document.getElementById('acc-days'),
     hours: document.getElementById('acc-hours'),
@@ -117,6 +128,15 @@ const inputs = {
     prioToolEnhancement: document.getElementById('prio-tool-enhancement'),
     prioToolingUp: document.getElementById('prio-tooling-up')
 };
+// Un champ absent de la page sort de la liste. Cas réel : la page d'avant encore
+// en cache chez un visiteur, avec ce script déjà neuf (MAP §9). Sans ça, la pose
+// des écouteurs plus bas levait une erreur et la page restait vide. La console le
+// dit, pour qu'un identifiant mal écrit ne passe pas pour ce cas-là.
+Object.keys(inputs).forEach(key => {
+    if (inputs[key]) return;
+    console.warn('champ absent de la page, ignoré :', key);
+    delete inputs[key];
+});
 
 // ============ DATA LOADING (depuis JSON) ============
 async function loadInitialDb() {
@@ -295,6 +315,7 @@ function calculateState() {
     // chiffres de la saisie d'avant. Le message sous le champ dit lequel des deux.
     rsBonusOk = (bonus === null) ? 0 : bonus;
     totalBonus = rsBonusOk / 100;
+    rsAcademy = rsReadAcademy();
 
     // Un stock d'accélérateurs négatif ferait un budget négatif, donc un plan vide
     // sans rien pour l'expliquer. Même discipline que le bonus, en plus simple :
@@ -322,7 +343,57 @@ function getCurrentMaxLevels(database) {
     return maxLevels;
 }
 
-function isAvailable(item, maxLevels) {
+// ============ NIVEAU D'ACADÉMIE ============
+// Chaque niveau de recherche exige un niveau d'Académie (champ `Academy` de la
+// base). Par défaut 30 : tant que le joueur n'a rien réglé, rien n'est écarté.
+// 131 niveaux portent 0, tous des paliers hauts qui suivent un niveau à 29 ou 30 :
+// leur exigence n'est pas relevée (sans doute de l'Or Véritable). Décision
+// d'Aistra : ils comptent comme Académie 30.
+const RS_ACADEMY_MAX = 30;
+// Lu par calculateState(), une fois par rendu : isAvailable() tourne des milliers
+// de fois dans le plan KVK, il ne doit pas relire le DOM.
+let rsAcademy = RS_ACADEMY_MAX;
+
+function rsReadAcademy() {
+    const n = parseInt(inputs.academy && inputs.academy.value, 10);
+    return Number.isFinite(n) ? Math.min(RS_ACADEMY_MAX, Math.max(1, n)) : RS_ACADEMY_MAX;
+}
+
+function rsAcademyReq(item) {
+    return Number(item.Academy) || RS_ACADEMY_MAX;
+}
+
+// Les niveaux dont la chaîne est faite mais que l'Académie bloque encore, et le
+// plus petit niveau d'Académie qui en débloque un. `filter` restreint aux arbres
+// voulus. Sert aux messages, pas au calcul.
+function rsAcademyBlocked(filter) {
+    const maxLevels = getCurrentMaxLevels(db);
+    let count = 0, next = Infinity;
+    db.forEach(item => {
+        if (item.Researched || (filter && !filter(item))) return;
+        if (isAvailable(item, maxLevels, RS_ACADEMY_MAX) && !isAvailable(item, maxLevels)) {
+            count++;
+            next = Math.min(next, rsAcademyReq(item));
+        }
+    });
+    return { count, next };
+}
+
+// Le verrou d'une case des arbres. Le nom du cadenas donne la cause : les
+// prérequis s'il en manque (monter l'Académie ne suffirait pas), sinon
+// l'Académie. Le seuil « Acad. N » s'écrit dès que l'Académie est trop basse.
+function rsLockHtml(item, maxLevels, lang, size) {
+    const t = i18n[lang];
+    const n = rsAcademyReq(item);
+    const academyLow = n > rsAcademy;
+    const reqsMissing = !isAvailable(item, maxLevels, RS_ACADEMY_MAX);
+    const label = (academyLow && !reqsMissing) ? t['academyReq'].replace('{n}', n) : t['blockedTxt'];
+    const short = academyLow ? ` <span class="rs-acad-req">${t['academyShort'].replace('{n}', n)}</span>` : '';
+    return `<span role="img" aria-label="${label}" title="${label}" style="cursor:help;">${iconSvg('lock', size)}</span>${short}`;
+}
+
+function isAvailable(item, maxLevels, academy = rsAcademy) {
+    if (rsAcademyReq(item) > academy) return false;
     if (item.Level > 1 && (maxLevels[item.Name] || 0) < item.Level - 1) return false;
     if (item.reqs && item.reqs.length > 0) {
         for (let req of item.reqs) {
@@ -506,7 +577,11 @@ function buildCardHtml(title, s, treeKey, lang) {
         let name = lang === 'FR' ? nextItem['Fr Name'] : nextItem['Name'];
         suggHtml = `<div class="next-sugg"><span class="sugg-title">${i18n[lang]['nextSuggTxt']}</span><span class="sugg-val">${name} ${i18n[lang]['stepTxt']} ${nextItem.Level} ${i18n[lang]['forTxt']} ${formatTime(nextItem.discountedSeconds)}</span></div>`;
     } else {
-        suggHtml = `<div class="next-sugg" style="color:var(--warning)">${i18n[lang]['blockedTxt']}</div>`;
+        // Rien de jouable : si l'Académie retient des niveaux dont la chaîne est
+        // faite, c'est elle qu'il faut monter, et le message le dit.
+        const acad = rsAcademyBlocked(item => treeKey === 'Global' || item.Tree === treeKey);
+        const msg = acad.count > 0 ? i18n[lang]['blockedAcademy'].replace('{n}', acad.next) : i18n[lang]['blockedTxt'];
+        suggHtml = `<div class="next-sugg" style="color:var(--warning)">${msg}</div>`;
     }
     let cssClass = treeKey.toLowerCase();
     if(cssClass === 'economy') cssClass = 'eco';
@@ -570,7 +645,7 @@ function buildVisualTree(treeName, containerId) {
                 let isLocked = (!item.Researched && !avail);
                 let stepRow = document.createElement('label');
                 stepRow.className = `step-row ${isLocked ? 'locked' : ''}`;
-                let lockIcon = isLocked ? `<span title="${i18n[lang]['blockedTxt']}" style="cursor:help;">${iconSvg('lock',13)}</span>` : '';
+                let lockIcon = isLocked ? rsLockHtml(item, currentMaxLevels, lang, 13) : '';
                 stepRow.innerHTML = `
                     <div class="step-left">
                         <input type="checkbox" data-index="${db.indexOf(item)}" ${item.Researched ? 'checked' : ''}>
@@ -604,11 +679,11 @@ function renderTrees() {
     db.forEach((item, index) => {
         let name = lang === 'FR' ? item['Fr Name'] : item['Name'];
         let avail = isAvailable(item, currentMaxLevels);
-        let lockIcon = (!item.Researched && !avail) ? `<span title="${i18n[lang]['blockedTxt']}" style="font-size:14px;margin-left:6px;cursor:help;">${iconSvg('lock',14)}</span>` : '';
-        let opacityStyle = (!item.Researched && !avail) ? 'opacity: 0.45;' : '';
+        let lockIcon = (!item.Researched && !avail) ? `<span style="margin-left:6px;">${rsLockHtml(item, currentMaxLevels, lang, 14)}</span>` : '';
         if (!inputs.hideCompleted.checked || !item.Researched) {
             let tr = document.createElement('tr');
-            tr.style.cssText = opacityStyle;
+            // Atténuée par la couleur du texte, pas par l'opacité (contraste, MAP §12).
+            if (!item.Researched && !avail) tr.className = 'rs-row-locked';
             let costStr = `${resIc('wheat',13,lang)} ${formatNumber(item.Bread)} | ${resIc('tree-pine',13,lang)} ${formatNumber(item.Wood)} | ${resIc('brick-wall',13,lang)} ${formatNumber(item.Stone)} | ${resIc('pickaxe',13,lang)} ${formatNumber(item.iron)} | ${resIc('coins',13,lang)} ${formatNumber(item.Gold)}`;
             tr.innerHTML = `
                 <td><input type="checkbox" data-index="${index}" ${item.Researched ? 'checked' : ''}> ${lockIcon}</td>
@@ -670,6 +745,7 @@ function rsPlanOptimal(opts) {
     const budget = opts.budgetSeconds || 0;
     const source = opts.db || db;
     const allowedTrees = opts.allowedTrees || [];
+    const academy = opts.academy || rsAcademy;
     const simMaxLevels = { ...getCurrentMaxLevels(source) };
     let pool = source.filter(item => !item.Researched && allowedTrees.includes(item.Tree));
     const rows = [];
@@ -681,7 +757,7 @@ function rsPlanOptimal(opts) {
         // de lignes affichées. En KVK c'est un plan financé, on le déroule en
         // entier pour savoir combien de recherches le stock paie vraiment.
         if (!kvk && rows.length >= maxRows) break;
-        const unlocked = pool.filter(item => isAvailable(item, simMaxLevels));
+        const unlocked = pool.filter(item => isAvailable(item, simMaxLevels, academy));
         if (unlocked.length === 0) break;
         unlocked.sort((a, b) => compareCandidates(a, b, !kvk));
         const picked = unlocked[0];
@@ -699,7 +775,7 @@ function rsPlanOptimal(opts) {
     // qu'on laisse tourner pendant que les accélérateurs finissent les courtes.
     let longItem = null;
     if (kvk) {
-        const reachable = pool.filter(item => isAvailable(item, simMaxLevels));
+        const reachable = pool.filter(item => isAvailable(item, simMaxLevels, academy));
         reachable.sort((a, b) => {
             if (Math.abs(a.discountedSeconds - b.discountedSeconds) > 0.1) return b.discountedSeconds - a.discountedSeconds;
             if (a.Name !== b.Name) return a.Name.localeCompare(b.Name);
@@ -708,7 +784,18 @@ function rsPlanOptimal(opts) {
         longItem = reachable[0] || null;
     }
 
-    return { rows, extraCount, longItem, plannedTime, leftover: Math.max(0, budget - plannedTime) };
+    // Ce que l'Académie retient une fois le plan joué : la chaîne est faite ou
+    // prévue plus haut, seul le niveau d'Académie manque. Sans cette mesure, un
+    // plan plus court qu'attendu ne disait pas pourquoi.
+    const academyHeld = { count: 0, next: 0 };
+    pool.forEach(item => {
+        if (isAvailable(item, simMaxLevels, academy) || !isAvailable(item, simMaxLevels, RS_ACADEMY_MAX)) return;
+        const n = rsAcademyReq(item);
+        academyHeld.count++;
+        if (!academyHeld.next || n < academyHeld.next) academyHeld.next = n;
+    });
+
+    return { rows, extraCount, longItem, plannedTime, leftover: Math.max(0, budget - plannedTime), academyHeld };
 }
 
 function treeLabel(tree, lang) {
@@ -795,8 +882,20 @@ function renderOptimal() {
         maxRows: 8
     });
 
+    // Sans cette ligne, un joueur qui baisse le niveau d'Académie verrait des
+    // recherches disparaître sans raison.
+    const acad = plan.academyHeld;
+    const acadRow = () => {
+        if (acad.count === 0) return;
+        const tr = document.createElement('tr');
+        tr.className = 'sugg-sep';
+        tr.innerHTML = `<td colspan="6">${i18n[lang]['academyLeftOut'].replace('{n}', acad.count).replace('{m}', acad.next)}</td>`;
+        tbody.appendChild(tr);
+    };
+
     if (plan.rows.length === 0 && !plan.longItem) {
         tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--warning)">${i18n[lang]['msgNoResearch']}</td></tr>`;
+        acadRow();
         return;
     }
 
@@ -827,6 +926,8 @@ function renderOptimal() {
         tr.innerHTML = suggRowCells(plan.longItem, plan.rows.length + plan.extraCount + 1, lang);
         tbody.appendChild(tr);
     }
+
+    acadRow();
 
     tbody.querySelectorAll('button[data-done-index]').forEach(btn => {
         btn.addEventListener('click', () => markSuggestionDone(parseInt(btn.getAttribute('data-done-index'), 10)));
@@ -937,6 +1038,7 @@ function rsInitHelp() {
         steps: {
             FR: [
                 "Recopie le bonus de vitesse de recherche affiché par ta ville en jeu. Il compte déjà le Ministre en Chef, le KVK et le Royaume quand ils sont actifs : il n'y a plus rien à cocher à côté, et plus de risque de les compter deux fois.",
+                "Choisis ton niveau d'Académie : les recherches qu'elle ne permet pas encore sortent des suggestions et restent verrouillées dans les arbres, avec le niveau requis. À 30, rien n'est écarté.",
                 "Choisis l'arbre cible (Croissance, Économie ou Combat) pour filtrer les suggestions, ou consulte l'onglet de chaque arbre.",
                 "Première mise en place : sur un onglet d'arbre, active « Sélection rapide » (panneau latéral) puis coche directement le plus haut niveau atteint de chaque recherche, et tous ses prérequis se cochent d'un coup. Décocher retire de même ce qui en dépend.",
                 "L'onglet « Ordre de recherche optimal » propose les prochaines recherches à faire, classées de la plus rentable à la moins rentable (temps réduit par ton bonus). Le bouton « Fait » de chaque ligne la coche sans passer par l'arbre, avec tout ce qu'elle exigeait.",
@@ -947,6 +1049,7 @@ function rsInitHelp() {
             ],
             EN: [
                 "Copy the research speed bonus your city shows in game. It already counts Chief Minister, KVK and Kingdom when they are active, so there is nothing left to tick beside it, and no way to count them twice.",
+                "Pick your Academy level: researches it does not allow yet drop out of the suggestions and stay locked in the trees, with the level they need. At 30, nothing is left out.",
                 "Pick a target tree (Growth, Economy or Battle) to filter the suggestions, or browse each tree's tab.",
                 "First-time setup: on a tree tab, turn on \"Quick Select\" (side panel) then tick the highest level you've reached in each research, and all its prerequisites get ticked at once. Unticking likewise clears what depends on it.",
                 "The \"Optimal Search Order\" tab lists the next researches to do, ranked from most to least efficient (time reduced by your bonus). The \"Done\" button on each row ticks it off without going through the tree, along with everything it required.",

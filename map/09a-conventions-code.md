@@ -12,6 +12,7 @@
 ### Cache : aucun cache-busting sur le site
 - **Données** : tout `fetch` de `data/*.json` revalide (`scFetchData()` dans les boutiques, `{ cache: 'no-cache' }` ailleurs). Sans cela, une page neuve lisait l'ancien JSON pendant 10 minutes : boutique introuvable, marches vides, fiches d'experts vides, précisément le jour d'une annonce.
 - **Scripts** : jamais un nouveau nom global appelé depuis un **autre** fichier. Un visiteur peut recevoir la page neuve avec l'ancien `shop-core.js` : `ReferenceError` en plein rendu, chiffres périmés, aperçus morts, invisible en local. Ajouter un paramètre à une fonction existante passe ; un nom neuf ne passe pas (d'où `iePackPriceOf()` qui enveloppe `scEurPackPrice(pid)`). Un appel à un script d'une autre fonctionnalité se fait par `window.x` sous condition.
+- **Champs** : le script neuf peut aussi arriver avec la page d'avant, chez un visiteur qui l'a rechargée juste avant la mise en ligne. Un élément ajouté au HTML peut donc manquer : Recherches retire de `inputs` ce que la page ne porte pas, sinon la pose des écouteurs levait une erreur et la page restait vide (reproduit le 05/10/2026 avec le niveau d'Académie).
 
 ### État sauvegardé
 - **Il ne porte que le choix du joueur**, jamais une copie des données : ce qui vient du fichier se relit dans le fichier (`initData()` de Recherches ne reprend de la sauvegarde que les `Researched`). Sinon une correction de données n'atteint jamais les habitués. Une recherche renommée demande une correspondance (`RS_RENAMED`).

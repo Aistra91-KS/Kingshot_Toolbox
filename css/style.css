@@ -538,7 +538,16 @@ select {
     border-radius: 4px;
     width: 80px;
     text-align: right;
-    outline: none;
+}
+
+/* Focus clavier des champs : contour or (MAP §5). Ces champs portaient
+   `outline: none` sans remplaçant, et rien ne montrait au clavier lequel était
+   actif (23 champs sur Recherches, Planificateur et Académie de Guerre au
+   05/10/2026). `:where` garde la règle au plus bas : un composant qui a son
+   propre repère de focus (bordure, ombre) le garde. */
+:where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea):focus-visible {
+    outline: 2px solid var(--accent-text, var(--accent));
+    outline-offset: 1px;
 }
 
 input[type="checkbox"] {
@@ -561,7 +570,6 @@ input[type="checkbox"] {
     border-radius: 4px;
     width: 120px;
     text-align: right;
-    outline: none;
 }
 
 .total-bonus-row {
@@ -933,6 +941,9 @@ tbody tr:hover {
 /* Vignette et nom restent solidaires : sans ce groupe, un nom long revient à la
    ligne sous l'image et la colonne se lit de travers. */
 .rs-name { display: inline-flex; align-items: center; gap: 6px; vertical-align: middle; }
+/* Niveau d'Académie qui verrouille une case des arbres : écrit en clair, le
+   cadenas seul ne le disait qu'au survol (rien sur téléphone). */
+.rs-acad-req { font-size: 11px; font-weight: 600; white-space: nowrap; }
 
 .sugg-speed {
     display: inline-flex; align-items: center; gap: 4px;
@@ -1066,10 +1077,6 @@ tr.sugg-long td:nth-child(4) { color: var(--warning); font-weight: 700; }
     background: var(--step-hover);
 }
 
-.step-row.locked {
-    opacity: 0.5;
-}
-
 .step-left {
     display: flex;
     align-items: center;
@@ -1085,6 +1092,17 @@ tr.sugg-long td:nth-child(4) { color: var(--warning); font-weight: 700; }
 .research-box.growth .step-right { color: var(--growth-color); }
 .research-box.eco    .step-right { color: var(--eco-color); }
 .research-box.battle .step-right { color: var(--battle-color); }
+
+/* Niveau verrouillé (arbres et tableaux des Recherches) : texte en --text-muted,
+   qui tient 5:1 sur les deux thèmes. Une opacité de 0,5 sur toute la ligne le
+   faisait tomber à 3,3:1 en thème clair, et le coût à moins encore ; aucune
+   opacité ne laissait tout lisible. Seule la vignette reste atténuée, elle ne
+   porte aucune information. `!important` passe devant la couleur écrite en
+   ligne sur la colonne du temps réduit. */
+.research-box .step-row.locked,
+.research-box .step-row.locked .step-right,
+tr.rs-row-locked > td { color: var(--text-muted) !important; }
+tr.rs-row-locked .rs-thumb { opacity: 0.5; }
 
 
 /* ============================================================================
