@@ -680,10 +680,10 @@ function renderTrees() {
         let name = lang === 'FR' ? item['Fr Name'] : item['Name'];
         let avail = isAvailable(item, currentMaxLevels);
         let lockIcon = (!item.Researched && !avail) ? `<span style="margin-left:6px;">${rsLockHtml(item, currentMaxLevels, lang, 14)}</span>` : '';
-        let opacityStyle = (!item.Researched && !avail) ? 'opacity: 0.45;' : '';
         if (!inputs.hideCompleted.checked || !item.Researched) {
             let tr = document.createElement('tr');
-            tr.style.cssText = opacityStyle;
+            // Atténuée par la couleur du texte, pas par l'opacité (contraste, MAP §12).
+            if (!item.Researched && !avail) tr.className = 'rs-row-locked';
             let costStr = `${resIc('wheat',13,lang)} ${formatNumber(item.Bread)} | ${resIc('tree-pine',13,lang)} ${formatNumber(item.Wood)} | ${resIc('brick-wall',13,lang)} ${formatNumber(item.Stone)} | ${resIc('pickaxe',13,lang)} ${formatNumber(item.iron)} | ${resIc('coins',13,lang)} ${formatNumber(item.Gold)}`;
             tr.innerHTML = `
                 <td><input type="checkbox" data-index="${index}" ${item.Researched ? 'checked' : ''}> ${lockIcon}</td>
