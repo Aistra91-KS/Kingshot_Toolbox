@@ -49,7 +49,8 @@ Liste de 8 experts : `{id, name, title, affinityBonus, affinityMilestones[{level
 - Textes FR d'Isnor et d'Aena relevés en jeu, pas traduits ; les noms de talent (`passive.name.FR`) viennent d'Aistra. Noms propres fixés : *Eternity's Reach* = l'Éternité à Portée, *Cesares Guards* = Gardes Césarès, *Charm Design* = Plans de Talisman, *Charm Guide* = Guide des Talismans, *Copper Ore* = Minerai de Cuivre.
 
 ### `shopcalc_items.json` (référentiel gemmes)
-Liste de 94 objets : `{id, name{EN,FR}, img?, category, gemValue, skin?}`.
+Liste de 95 objets : `{id, name{EN,FR}, img?, category, gemValue, skin?}`.
+- Or Véritable Trempé (`tempered_truegold`, 6 897 gemmes) : 20 Or Véritable donnent 1, 2 ou 3 TTG à 65, 25 et 10 %, soit 1,45 en moyenne ; 10 000 / 1,45 (base donnée par Aistra, 08/10/2026). Le relevé euro suit la même base (`derived`, §6 `06b`).
 - Accélérateurs restreints (entraînement, icône casque) saisis comme généraux (`1h_general_speedup`, `5m_general_speedup`) sur toutes les boutiques : une minute vaut une minute (choix d'Aistra). Deux lignes du même objet au même palier sont alors normales.
 - `img` découple le nom affiché du fichier d'icône : `scImg()` prend `img`, sinon `name.EN`. **Renommer un `name.EN` sans vérifier `img/Item/` casse l'icône sans erreur.**
 - `skin: true` (7 entrées) = variante visuelle appelée par `skinId`, sans `category` ni `gemValue`. Un `skinId` inconnu échoue sans erreur : vérifier après ajout.

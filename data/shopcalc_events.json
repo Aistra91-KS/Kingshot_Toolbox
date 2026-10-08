@@ -422,6 +422,12 @@
         "qtyMax": 100
       },
       {
+        "itemId": "tempered_truegold",
+        "qty": 1,
+        "cost": 5000,
+        "qtyMax": 3
+      },
+      {
         "itemId": "charm_design",
         "qty": 1,
         "cost": 500,

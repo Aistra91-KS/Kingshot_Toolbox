@@ -78,7 +78,7 @@ Kingshot_Toolbox/
 │   ├── research_db.json (720 paliers), buildings_db.json (19 bâtiments, 14 planifiés), truegold_db.json
 │   ├── truegold_war_db.json, truegold_war_advanced_db.json (92 techs, 1 010 niveaux)
 │   ├── heroes_db.json (37 héros), beartrap_joiners_db.json, masters_db.json (8), pets_db.json (14), pets_event.json
-│   ├── shopcalc_items.json (94 objets, gemmes), shopcalc_classic/events/chests.json (6 / 10 / 3)
+│   ├── shopcalc_items.json (95 objets, gemmes), shopcalc_classic/events/chests.json (6 / 11 / 3)
 │   ├── shopcalc_euro.json  Relevé argent réel : 59 objets, 69 packs · §6 06b
 │   ├── changelog.json
 │   └── events/             adventure-stall, brewmaster-stall, dragons-caravan, moonlight-shop, theater-shop (contenu d'événement) ; fantasy-theater (mécanique du tirage)

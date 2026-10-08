@@ -327,6 +327,14 @@
         "EN": "The Lucky Hero Gear Chest has a 1% chance of giving a mythic gear piece, so it takes 100 of them on average (1 ÷ 1%) to land one. This chest gives one for certain, so it is worth 100 Lucky Chests."
       }
     },
+    "tempered_truegold": {
+      "fromId": "truegold",
+      "factor": 13.793103448275863,
+      "how": {
+        "FR": "Aucun pack ne vend d'Or Véritable Trempé. Il s'obtient à partir d'Or Véritable : 20 Or Véritable donnent 1 TTG à 65 %, 2 à 25 % et 3 à 10 %, soit 1,45 TTG en moyenne. Un TTG vaut donc 20 / 1,45 = 13,79 Or Véritable.",
+        "EN": "No pack sells Tempered TrueGold. It is made from TrueGold: 20 TrueGold give 1 TTG 65% of the time, 2 TTG 25% of the time and 3 TTG 10% of the time, so 1.45 TTG on average. One TTG is therefore worth 20 / 1.45 = 13.79 TrueGold."
+      }
+    },
     "fast_walk_1": {
       "fromId": "fast_walk_2",
       "factor": 0.5,

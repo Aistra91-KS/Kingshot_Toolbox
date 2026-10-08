@@ -198,6 +198,15 @@
     "gemValue": 500
   },
   {
+    "id": "tempered_truegold",
+    "name": {
+      "EN": "Tempered TrueGold",
+      "FR": "Or Véritable Trempé"
+    },
+    "category": "Other",
+    "gemValue": 6897
+  },
+  {
     "id": "transfert_pass",
     "name": {
       "EN": "Transfert Pass",
