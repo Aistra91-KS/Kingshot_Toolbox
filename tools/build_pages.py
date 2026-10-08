@@ -73,8 +73,14 @@ def partial(slug, role):
 
 # ---------------------------------------------------------------- boutiques
 
-CHESTS = {s['slug'] for s in json.loads(read('data/shopcalc_chests.json'))}
-EVENT_SHOPS = {s['slug'] for s in json.loads(read('data/shopcalc_events.json'))}
+# Les trois familles, dans l'ordre de scAllShops() (js/shop-core.js) : c'est aussi
+# celui des liens entre boutiques.
+FAMILLES_BOUTIQUES = (('event', 'data/shopcalc_events.json'),
+                      ('classic', 'data/shopcalc_classic.json'),
+                      ('chest', 'data/shopcalc_chests.json'))
+BOUTIQUES = [(famille, s) for famille, f in FAMILLES_BOUTIQUES for s in json.loads(read(f))]
+CHESTS = {s['slug'] for f, s in BOUTIQUES if f == 'chest'}
+EVENT_SHOPS = {s['slug'] for f, s in BOUTIQUES if f == 'event'}
 
 
 def parent(slug):
@@ -100,13 +106,139 @@ SECTIONS_BOUTIQUE = (
     '        <div class="db-section"><h2 data-i18n="bestDeals">Best deals</h2>'
     '<div class="sx-podium" id="sp-podium"></div></div>\n'
     '        <div class="db-section"><h2 data-i18n="allItems">All items</h2>'
-    '<div id="sp-table"></div></div>\n')
+    '<div id="sp-table"></div>%s</div>\n')
 
 SECTIONS_COFFRE = (
     '        <div class="db-section"><h2 data-i18n="bestPick">Best pick</h2>'
     '<div class="sx-podium" id="sp-podium"></div></div>\n'
     '        <div class="db-section"><h2 data-i18n="chestContent">Chest contents</h2>'
-    '<div id="sp-table"></div></div>\n')
+    '<div id="sp-table"></div>%s</div>\n')
+
+
+# ----------------------------------------------- contenu lisible sans JavaScript
+#
+# Le tableau de `#sp-table` et les liens de `#sp-switch` sont dessinés par
+# shop-page.js : sans JavaScript, la page ne nommait aucun objet. Les robots d'IA
+# (GPTBot, OAI-SearchBot, ChatGPT-User) n'exécutent pas le JS et ne voyaient
+# qu'un titre et une intro (MAP.md §9, `09b`).
+#
+# Le même contenu est donc écrit en dur dans une enveloppe `.sx-static`, À CÔTÉ
+# des conteneurs du script et jamais dedans : `#sp-table` doit rester vide pour
+# garder sa réserve de hauteur (`:empty`, css/shop.css). L'enveloppe est cachée par
+# une règle écrite dans le <head> de la page et montrée seulement sous <noscript> ;
+# elle ne fait que basculer entre none et block, le tableau et la nav gardent leur
+# propre mise en forme. Avec le JavaScript actif, elle n'est jamais peinte, à aucun
+# moment du chargement. La règle vit dans la page plutôt que dans shop.css, qu'un
+# visiteur peut avoir en cache.
+#
+# Ce qu'il dit vient du même fichier que le tableau du script : nom de l'objet (et
+# de sa variante), palier, quantité, coût, stock. Pas de valeur en gemmes ni en
+# euros : elles changent avec les référentiels, et chaque relevé obligerait à
+# régénérer 20 pages.
+
+ITEMS = {i['id']: i for i in json.loads(read('data/shopcalc_items.json'))}
+
+STATIQUE = {
+    'EN': {'item': 'Item', 'tier': 'Tier', 'qty': 'Qty', 'cost': 'Cost', 'stock': 'Stock',
+           'perDay': '/day', 'nav': 'Shops',
+           'caption': '%s: items, cost (%s) and stock',
+           'captionClassic': '%s: items and cost (%s)',
+           'captionChest': '%s: items to choose from'},
+    'FR': {'item': 'Objet', 'tier': 'Palier', 'qty': 'Qté', 'cost': 'Coût', 'stock': 'Stock',
+           'perDay': '/jour', 'nav': 'Boutiques',
+           'caption': '%s : objets, coût (%s) et stock',
+           'captionClassic': '%s : objets et coût (%s)',
+           'captionChest': '%s : objets au choix'},
+}
+
+
+def boutique(slug):
+    """(famille, boutique) telle que shop-core.js la lit ; une page boutique sans
+    entrée dans les données ne serait jamais remplie par le script non plus."""
+    for famille, s in BOUTIQUES:
+        if s['slug'] == slug:
+            return famille, s
+    raise SystemExit('boutique « %s » absente de data/shopcalc_*.json' % slug)
+
+
+def nom(objet, lang):
+    """Comme scName() : la langue demandée, puis l'anglais, puis le français ; un nom
+    écrit en simple chaîne vaut pour les deux langues."""
+    n = objet.get('name') or ''
+    if isinstance(n, dict):
+        return n.get(lang) or n.get('EN') or n.get('FR') or ''
+    return n
+
+
+def nombre(n, lang):
+    """Comme scFmtNum() : 1,000 en anglais, 1 000 (espace fine insécable) en français."""
+    return '{:,}'.format(n).replace(',', ' ' if lang == 'FR' else ',')
+
+
+def nom_objet(ligne, lang):
+    """Comme scLabel() : « Objet (Variante) » quand la ligne porte un `skinId`."""
+    def objet(i):
+        if i not in ITEMS:
+            raise SystemExit('objet « %s » absent de data/shopcalc_items.json' % i)
+        return nom(ITEMS[i], lang)
+    base = objet(ligne['itemId'])
+    return '%s (%s)' % (base, objet(ligne['skinId'])) if ligne.get('skinId') else base
+
+
+def tableau_statique(slug, lang='EN'):
+    t = STATIQUE[lang]
+    famille, s = boutique(slug)
+    nom_boutique = nom(s, lang)
+    lignes = s['items']
+    paliers = famille == 'event' and any(l.get('tier') for l in lignes)
+    stock = famille == 'event'
+    cout = famille != 'chest'
+    if famille == 'chest':
+        legende = t['captionChest'] % nom_boutique
+    else:
+        r = s.get('resourceName') or ''
+        monnaie = (r.get(lang) or r.get('EN') or r.get('FR') or '') if isinstance(r, dict) else r
+        legende = t['caption' if stock else 'captionClassic'] % (nom_boutique, monnaie)
+    tetes = ['<th scope="col">%s</th>' % t['item']]
+    if paliers:
+        tetes.append('<th scope="col">%s</th>' % t['tier'])
+    tetes.append('<th scope="col" class="num">%s</th>' % t['qty'])
+    if cout:
+        tetes.append('<th scope="col" class="num">%s</th>' % t['cost'])
+    if stock:
+        tetes.append('<th scope="col" class="num">%s</th>' % t['stock'])
+    corps = []
+    for l in lignes:
+        cases = ['<td>%s</td>' % attr(nom_objet(l, lang))]
+        if paliers:
+            cases.append('<td>%s</td>' % (l.get('tier') or ''))
+        cases.append('<td class="num">%s</td>' % nombre(l['qty'], lang))
+        if cout:
+            cases.append('<td class="num">%s</td>' % nombre(l['cost'], lang))
+        if stock:
+            cases.append('<td class="num">%s%s</td>' % (nombre(l['qtyMax'], lang),
+                                             t['perDay'] if l.get('dailyReset') else ''))
+        corps.append('<tr>%s</tr>' % ''.join(cases))
+    # `db-table` seul : les règles de `.sx-table` visent les colonnes du tableau du
+    # script (vignette en 1re, nom en 2e) et étireraient ici la colonne Qté.
+    return ('<div class="sx-static"><div class="table-container"><table class="db-table">'
+            '<caption>%s</caption><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div></div>'
+            % (attr(legende), ''.join(tetes), ''.join(corps)))
+
+
+def liens_statiques(slug, lang='EN'):
+    """Comme spRenderSwitch() : les boutiques de la même famille, dans l'ordre des
+    données, la page courante sans lien."""
+    famille, _ = boutique(slug)
+    items = []
+    for f, s in BOUTIQUES:
+        if f != famille:
+            continue
+        n = attr(nom(s, lang))
+        items.append('<span class="db-switch-item active">%s</span>' % n if s['slug'] == slug
+                     else '<a class="db-switch-item" href="shop/%s">%s</a>' % (s['slug'], n))
+    return ('<div class="sx-static"><nav class="db-switch footer" aria-label="%s">%s</nav></div>'
+            % (STATIQUE[lang]['nav'], ''.join(items)))
 
 # La section événement se place APRÈS le tableau, dont elle compte le panier :
 # on lit d'abord la boutique, on fait les comptes ensuite.
@@ -140,7 +272,9 @@ def build_shops():
             'INTRO_FR': p['intro']['FR'],
             'HEAD_EXTRA': partial(slug, 'head'),
             'LANG_ALT': partial(slug, 'lang-alt'),
-            'SECTIONS': SECTIONS_COFFRE if slug in CHESTS else SECTIONS_BOUTIQUE,
+            'SECTIONS': (SECTIONS_COFFRE if slug in CHESTS else SECTIONS_BOUTIQUE)
+                        % tableau_statique(slug),
+            'STATIC_LINKS': liens_statiques(slug),
             'EVENT_SLOT': EVENT_SLOT if est_evenement(slug) else '',
             'PAGE_SCRIPT': partial(slug, 'page-script') or (
                 "    <script>window.HDR_ACTIVE_HREF = '%s'; "
@@ -946,13 +1080,35 @@ FAMILLES = [build_shops, build_buildings, build_heroes]
 JUMEAUX = [('shop/theater-shop.html', 'fr/shop/theater-shop.html')]
 
 
+# Le contenu lisible sans JavaScript (`tableau_statique`, `liens_statiques`) suit
+# les données : recopié à la main dans la jumelle, il aurait dérivé à la première
+# édition de l'événement. C'est la seule partie de la française que le script
+# écrit, entre deux repères, en français.
+REPERES = (('tableau', tableau_statique), ('liens', liens_statiques))
+
+
+def jumelle_statique(en, fr):
+    """La française avec ses blocs statiques à jour, d'après la boutique de l'anglaise."""
+    slug = os.path.basename(en)[:-len('.html')]
+    contenu = read(fr)
+    for repere, bloc in REPERES:
+        motif = r'(<!-- statique:%s -->)[\s\S]*?(<!-- /statique:%s -->)' % (repere, repere)
+        if len(re.findall(motif, contenu)) != 1:
+            raise SystemExit('%s : repères « statique:%s » absents ou en double' % (fr, repere))
+        contenu = re.sub(motif, lambda m: m.group(1) + bloc(slug, 'FR') + m.group(2), contenu)
+    return contenu
+
+
 def check_jumeaux():
     ecarts = []
     for en, fr in JUMEAUX:
         if not (exists(en) and exists(fr)):
             continue
         for quoi, motif in (('scripts', r'<script src="js/([\w-]+)\.js"'),
-                            ('feuilles de style', r'<link rel="stylesheet" href="css/([\w-]+)\.css"')):
+                            ('feuilles de style', r'<link rel="stylesheet" href="css/([\w-]+)\.css"'),
+                            # Sans cette règle, la française montrerait son tableau
+                            # statique sous celui du script.
+                            ('règles du bloc statique', r'<style>[^<]*\.sx-static[^<]*</style>')):
             a, b = re.findall(motif, read(en)), re.findall(motif, read(fr))
             if a != b:
                 ecarts.append('%s vs %s : %s\n    anglaise : %s\n    française: %s'
@@ -979,6 +1135,17 @@ def main():
             with open(os.path.join(ROOT, rel), 'w', encoding='utf-8') as f:
                 f.write(contenu)
             ecrits.append(rel)
+
+    for en, fr in JUMEAUX:
+        contenu = jumelle_statique(en, fr)
+        if read(fr) == contenu:
+            continue
+        if check:
+            differents.append(fr)
+        else:
+            with open(os.path.join(ROOT, fr), 'w', encoding='utf-8') as f:
+                f.write(contenu)
+            ecrits.append(fr)
 
     ecarts = check_jumeaux()
 

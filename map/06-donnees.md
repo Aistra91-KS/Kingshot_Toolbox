@@ -56,6 +56,7 @@ Liste de 94 objets : `{id, name{EN,FR}, img?, category, gemValue, skin?}`.
 
 ### `shopcalc_classic.json`, `shopcalc_chests.json`, `shopcalc_events.json`
 - Classiques : `{id, slug, name, resourceName, resourceShort, items[{itemId, qty, cost}]}`. Coffres : `{id, slug, name, items[…, skinId?]}`.
+- Les `items` de ces trois fichiers et les noms de `shopcalc_items.json` sont recopiés dans le HTML des pages boutique (tableau lisible sans JS, §11) : les modifier, c'est relancer `python3 tools/build_pages.py`. Les dates n'y entrent pas.
 - Événements : `{id, slug, name, startsAt?, endsAt, previousEditions?, trackOwned?, resourceName, items…}`. `trackOwned` ajoute la colonne « Déjà pris » (§13), `startsAt` lui donne son plafond.
 - `items[].tier` = palier de prix : le même objet vendu plusieurs fois à prix croissant, une ligne par palier, colonne « Palier » triable, podium dédoublonné par `itemId`.
 - `previousEditions[{startsAt?, endsAt}]` : les éditions passées d'une boutique qui revient, la plus récente en premier. Aucun script ne le lit : c'est la trace de la cadence, que la page perd à chaque nouvelle date. Ne noter que les dates relevées (Magasin du Blizzard : fin connue au 1er septembre 2026, début non noté à l'époque).
