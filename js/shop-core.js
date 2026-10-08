@@ -763,13 +763,54 @@ async function scLoadClassic(){
 
 // Boutiques d'événement : admin-sourcées (data/shopcalc_events.json).
 // L'utilisateur ne crée pas de boutique ; il édite seulement le contenu (qté, coût, ajout, retrait).
+
+// Ce que le fichier dit de chaque ligne, et rien d'autre : ni l'ordre des clés du JSON, ni
+// un champ que le site ne lit pas. Le panier, le « déjà pris » et le stock du jour corrigé
+// (`take`, `have`, `restant`) sont au joueur et n'y entrent pas.
+const SC_EVENT_SRC_FIELDS=['itemId','qty','cost','qtyMax','tier','skinId','dailyReset'];
+function scEventLines(items){
+  return (items||[]).map(i=>SC_EVENT_SRC_FIELDS.map(k=>{
+    const v=i&&i[k]; return (v==null||v===false)?'':String(v);
+  }).join(',')).join('|');
+}
+// Empreinte du contenu d'une boutique tel que le fichier le donne, gardée dans la copie du
+// joueur (`src`) : c'est elle qui dit si le fichier a changé depuis. Les éditions du joueur
+// ne la touchent pas, puisqu'elle ne décrit que le fichier. Un condensé (djb2 + longueur)
+// plutôt que le texte : la copie complète doublait la place prise dans le stockage.
+function scEventSrc(def){
+  const s=scEventLines(def&&def.items); let h=5381;
+  for(let i=0;i<s.length;i++) h=((h*33)^s.charCodeAt(i))>>>0;
+  return h.toString(36)+'.'+s.length;
+}
+function scSavedIsCurrent(saved, def, src){
+  if(!Array.isArray(saved.items)) return false;
+  if(saved.src!=null) return saved.src===src;
+  // Copie sans empreinte (enregistrée avant elle, ou « Réinitialiser » d'un shop-page.js
+  // en cache) : on ne sait pas de quelle version du fichier elle vient. Elle est à jour si
+  // ses lignes disent exactement ce que dit le fichier ; sinon on repart du fichier, ce
+  // qui efface aussi une correction du joueur, qu'on ne peut pas distinguer d'un fichier
+  // modifié depuis.
+  return scEventLines(saved.items)===scEventLines(def.items);
+}
+
 async function scLoadEvents(){
   try{ SC_EVENTS_DEF = await (await scFetchData('data/shopcalc_events.json')).json(); }catch(e){ console.error('events',e); SC_EVENTS_DEF=[]; SC_LOAD_FAILED.push('events'); }
   const saved = safeParse(STORAGE_KEYS.shopcalcEvents,null);
   // Le FICHIER est la liste de référence : on réapplique les éditions user par id,
   // et on ignore les boutiques absentes du fichier (anciennes boutiques de test = fantômes).
   const savedById={}; if(Array.isArray(saved)) saved.forEach(s=>{ if(s&&s.id) savedById[s.id]=s; });
-  SC_EVENTS = (SC_EVENTS_DEF||[]).map(d=> savedById[d.id] ? savedById[d.id] : JSON.parse(JSON.stringify(d)) );
+  SC_EVENTS = (SC_EVENTS_DEF||[]).map(d=>{
+    const src=scEventSrc(d), s=savedById[d.id];
+    if(s && scSavedIsCurrent(s,d,src)){ s.src=src; return s; }
+    // Le contenu de la boutique a changé dans le fichier depuis la copie du joueur (choix
+    // d'Aistra, 08/10/2026) : on repart du fichier. Sa monnaie saisie est gardée ; son
+    // panier, son « déjà pris » et ses corrections sur CETTE boutique ne le sont pas, ils
+    // portaient sur l'ancien contenu. Sans cela, le TTG ajouté au Magasin du Blizzard
+    // restait invisible à quiconque avait déjà ouvert une boutique.
+    const fresh=JSON.parse(JSON.stringify(d)); fresh.src=src;
+    if(s && s.resources!=null) fresh.resources=s.resources;
+    return fresh;
+  });
   // Rafraîchit les champs ADMIN depuis le fichier (jamais masqués par un vieux localStorage).
   SC_EVENTS.forEach(s=>{
     const def=SC_EVENTS_DEF.find(d=>d.id===s.id); if(!def) return;
