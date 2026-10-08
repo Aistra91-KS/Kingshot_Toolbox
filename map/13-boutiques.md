@@ -17,7 +17,7 @@
 
 ### Page boutique
 - Hors de `database/` : elle porte de l'état joueur et charge le socle complet (`storage-keys` → `profiles` → `help` → `backup`).
-- **En dur** : `<base href>`, `title`, description, `h1`, intro, `window.SHOP_SLUG` (reconstruits en JS, ils feraient sauter le bouton d'aide). Le reste est rendu par `shop-page.js` dans `#sp-thumb`, `#sp-facts` (ancre de l'aide), `#sp-actions`, `#sp-cart`, `#sp-podium`, `#sp-table`, `#sp-switch`.
+- **En dur** : `<base href>`, `title`, description, `h1`, intro, `window.SHOP_SLUG` (reconstruits en JS, ils feraient sauter le bouton d'aide). Le reste est rendu par `shop-page.js` dans `#sp-thumb`, `#sp-facts` (ancre de l'aide), `#sp-actions`, `#sp-cart`, `#sp-podium`, `#sp-table`, `#sp-switch`. Le tableau et les liens existent aussi en dur, cachés tant que le JS tourne (`.sx-static`, §11).
 - **Sous le tableau** : `.sx-reflinks` en dur vers les deux référentiels (là où l'on doute d'un chiffre), puis les raccourcis vers les autres boutiques (`#sp-switch`). Un seul filet horizontal, porté par `.sx-reflinks`.
 - **Titre d'une boutique** : `Kingshot <boutique> - Gem & Real-Money Value` (les deux lectures, §11), sans « Kingshot » en tête quand le titre dépasserait 70 caractères (§9 `09b`). La monnaie, inconnue avant l'événement, reste dans description, intro et tableau. Le nom de l'événement remplace celui de la boutique s'il diffère (`Blizzard Brawl Shop`) ; `h1` et fil d'Ariane gardent le nom en jeu.
 - **Un tableau, une ligne par objet** (`table.sx-table`), 3 à 4 fois plus dense qu'une grille. Colonnes en trois blocs : coût (Qté, Coût), valeur (Valeur, Ratio), ce qu'on peut en tirer (Restant, Max fin, Obtenable, Coût obt., événements seulement, séparés par `.sep`). Seul le podium garde des visuels.

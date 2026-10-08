@@ -37,6 +37,11 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/db.css">
     <link rel="stylesheet" href="css/shop.css">
+    <!-- Tableau et liens écrits en dur pour qui lit la page sans JavaScript (robots
+         d'IA) : cachés d'office, montrés seulement sous <noscript>. Règle dans la page
+         et non dans shop.css, qu'un visiteur peut avoir en cache (tools/build_pages.py). -->
+    <style>.sx-static{display:none}</style>
+    <noscript><style>.sx-static{display:block}.sx-static .db-table td,.sx-static .db-table caption{white-space:normal}.sx-static .db-table caption{text-align:left;padding:8px 10px}#sp-table:empty{min-height:0}#sp-switch:empty{display:none}.sx-static .db-switch.footer{margin-top:22px;border-top:none;padding-top:0}</style></noscript>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kingshot Toolbox","item":"https://kingshottoolbox.com/"},{"@type":"ListItem","position":2,"name":"{{PARENT_EN}}","item":"https://kingshottoolbox.com/{{PARENT_HREF}}"},{"@type":"ListItem","position":3,"name":"{{NAME_EN}}","item":"https://kingshottoolbox.com/shop/{{SLUG}}"}]}</script>
     <script src="js/consent.js" defer></script>
 </head>
@@ -70,6 +75,7 @@
           </div>
         </div>
         <nav class="db-switch footer" id="sp-switch" aria-label="Shops"></nav>
+        {{STATIC_LINKS}}
     </div>
 
 {{DRAWER}}
