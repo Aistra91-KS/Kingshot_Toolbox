@@ -56,8 +56,9 @@ Liste de 94 objets : `{id, name{EN,FR}, img?, category, gemValue, skin?}`.
 
 ### `shopcalc_classic.json`, `shopcalc_chests.json`, `shopcalc_events.json`
 - Classiques : `{id, slug, name, resourceName, resourceShort, items[{itemId, qty, cost}]}`. Coffres : `{id, slug, name, items[…, skinId?]}`.
-- Événements : `{id, slug, name, startsAt?, endsAt, trackOwned?, resourceName, items…}`. `trackOwned` ajoute la colonne « Déjà pris » (§13), `startsAt` lui donne son plafond.
+- Événements : `{id, slug, name, startsAt?, endsAt, previousEditions?, trackOwned?, resourceName, items…}`. `trackOwned` ajoute la colonne « Déjà pris » (§13), `startsAt` lui donne son plafond.
 - `items[].tier` = palier de prix : le même objet vendu plusieurs fois à prix croissant, une ligne par palier, colonne « Palier » triable, podium dédoublonné par `itemId`.
+- `previousEditions[{startsAt?, endsAt}]` : les éditions passées d'une boutique qui revient, la plus récente en premier. Aucun script ne le lit : c'est la trace de la cadence, que la page perd à chaque nouvelle date. Ne noter que les dates relevées (Magasin du Blizzard : fin connue au 1er septembre 2026, début non noté à l'époque).
 - `endsAt`, `startsAt`, `trackOwned`, `tier` sont des champs **admin**, réappliqués depuis le fichier à chaque chargement : un vieux stockage ne peut pas les masquer.
 - `slug` (nom de la page, clé de `scFindBySlug()`) a été ajouté **à côté** de `id`, jamais à sa place : les éditions des joueurs sont rangées par `id`, le renommer les effacerait.
 
