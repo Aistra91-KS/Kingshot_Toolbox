@@ -397,7 +397,13 @@
       "EN": "Blizzard Shop",
       "FR": "Magasin du Blizzard"
     },
-    "endsAt": "2026-09-01T00:00:00Z",
+    "startsAt": "2026-10-08T00:00:00Z",
+    "endsAt": "2026-10-10T00:00:00Z",
+    "previousEditions": [
+      {
+        "endsAt": "2026-09-01T00:00:00Z"
+      }
+    ],
     "resourceName": {
       "EN": "Brawl Emblem",
       "FR": "Emblème de Duel"
