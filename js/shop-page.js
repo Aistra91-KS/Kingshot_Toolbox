@@ -567,6 +567,10 @@ window.spResetShop=function(){
   showAppConfirm(scT('confirmResetShop'),()=>{
     const i=SC_EVENTS.findIndex(s=>s.id===def.id);
     const fresh=JSON.parse(JSON.stringify(def));
+    // Empreinte du fichier (shop-core.js) : sans elle, une correction faite après la
+    // réinitialisation serait prise au prochain chargement pour un fichier modifié.
+    // Sous condition, un shop-core.js en cache ne la connaît pas (MAP.md §9).
+    if(typeof window.scEventSrc==='function') fresh.src=window.scEventSrc(def);
     if(i>=0) SC_EVENTS[i]=fresh; else SC_EVENTS.push(fresh);
     SP.shop=fresh;
     spSave(); spRenderAll();

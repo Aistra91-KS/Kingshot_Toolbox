@@ -24,7 +24,7 @@ Proxy transparent sur `localStorage` : chaque clé de `STORAGE_KEYS` est rangée
 | `truegold` | `tg_calc_data_v3` | |
 | `waracademy` | `wa_calc_data_v1` | niveaux avancés sous `advanced.<id>` dans `levels`, plus `ttgBudget`, `transfoUsed`, `creusetUse` et `activeSection` (`base`, `advanced` ou `global`, qui fixe aussi les arbres du plan) |
 | `vikings` | `vikings_data` | |
-| `shopcalcItems`, `shopcalcClassic`, `shopcalcEvents`, `shopcalcTab`, `shopcalcCollapsed` | `shopcalc_*` | |
+| `shopcalcItems`, `shopcalcClassic`, `shopcalcEvents`, `shopcalcTab`, `shopcalcCollapsed` | `shopcalc_*` | `shopcalcEvents` : copie de chaque boutique d'événement, enregistrée dès la première visite, avec `src`, un condensé de ce que le fichier dit de chaque ligne (`scEventSrc()` : objet, quantité, prix, stock, palier, variante, recharge quotidienne ; ni l'ordre des clés ni les champs du joueur). Si le fichier change, la copie repart du fichier et ne garde que `resources` (choix d'Aistra, 08/10/2026). Sans `src` (copie d'avant la règle), gardée seulement si ses lignes disent exactement ce que dit le fichier : une correction du joueur s'y confond avec un fichier modifié, et le fichier l'emporte. « Réinitialiser » pose `src` (`window.scEventSrc` sous condition). Avant cette règle, un objet ajouté au fichier restait invisible aux visiteurs déjà venus. |
 | `shopcalcEventPlans` | `shopcalc_event_plans` | `{<id événement>: {played, buys:{<packId>:{<jour>:n}}, open, excluded, purchaseOk, outsideBuys, explore, orders}}` pour tous les événements |
 | `pets` | `pets_levels` | |
 | `petsPlanOff` | `pets_plan_off` | Les familiers **exclus** du plan (un nouveau y entre seul) |
