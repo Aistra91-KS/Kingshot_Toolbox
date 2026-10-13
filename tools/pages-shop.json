@@ -1,5 +1,18 @@
 [
   {
+    "slug": "adventure-shop",
+    "title": "Forsaken Temple Shop - Gem &amp; Real-Money Value",
+    "description": "Every item in the Kingshot Adventure Shop (Forsaken Temple event): Adventure Coin cost, stock limit and value in gems or €/$, ranked by value per coin.",
+    "name": {
+      "EN": "Adventure Shop",
+      "FR": "Boutique d'Aventure"
+    },
+    "intro": {
+      "EN": "The full Adventure Shop line-up for Kingshot, the store of the Forsaken Temple event, priced in Adventure Coins. Each item is set against its reference value in gems, so you can see at a glance where your coins go furthest, including the Mythic General Hero Shard offer that refills every day at 00:00 UTC. The shop stays open one day after the event ends. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le contenu complet de la Boutique d'Aventure de Kingshot, la boutique de l'événement Temple Abandonné, payé en Pièces d'Aventure. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes pièces rapportent le plus, y compris l'offre de Fragments Universels de Héros Mythique qui se recharge chaque jour à 00h UTC. La boutique reste ouverte un jour après la fin de l'événement. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
+    }
+  },
+  {
     "slug": "adventure-stall",
     "title": "Kingshot Adventure Stall - Gem &amp; Real-Money Value",
     "description": "Kingshot Adventure Stall list: every item, its Adventure Coin cost, stock limit and value in gems or real money, ranked by value per coin, daily resets counted.",

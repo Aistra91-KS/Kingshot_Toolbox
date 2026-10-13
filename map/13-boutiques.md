@@ -8,7 +8,7 @@
 
 ### Trois sommaires, découpés par question (décidé avec Aistra, septembre 2026)
 - **`shop_calc`** : « qu'est-ce que j'achète avec cette monnaie ? » (6 boutiques permanentes, 3 coffres). URL indexée conservée, contenu changé. Une carte en tête mène aux boutiques d'événement, pour les anciens signets.
-- **`event-roi`** : « cet événement valait-il le coup ? » (11 boutiques d'événement, lecture du % de retour).
+- **`event-roi`** : « cet événement valait-il le coup ? » (12 boutiques d'événement, lecture du % de retour).
 - **`item-values`** : « combien vaut cet objet ? » (les deux référentiels et la méthode).
 - **Aucune URL supprimée** : seules les cartes ont déménagé.
 - **Un seul script** (`shop_calc.js`) pour les trois : une section absente est ignorée ; l'aide se choisit par `window.SX_INDEX` posé avant le script (absent : aide des boutiques, moins précise, jamais fausse).

@@ -4,7 +4,7 @@
 
 ## 11. Pages générées
 
-**72 des 124 pages sortent d'un gabarit** : 20 pages boutique, 14 pages de bâtiments, 38 pages Héros (sommaire + 37 fiches).
+**73 des 125 pages sortent d'un gabarit** : 21 pages boutique, 14 pages de bâtiments, 38 pages Héros (sommaire + 37 fiches).
 
 ```
 python3 tools/build_pages.py           écrit les pages
@@ -32,7 +32,7 @@ Ce n'est pas un build : les scripts tournent à la main avant le commit et **leu
 - **Les tableaux en partial restent recopiés** : les libellés FR des prérequis et des durées n'existent que dans le HTML. Les tirer de `truegold_db.json` suppose d'abord de déplacer ces traductions dans la donnée.
 
 ### Le drawer figé
-Même bloc sur les 123 pages qui chargent `header.js` (404.html est autonome, §2). `sync_drawer.py` le déduit de `site-config.js` lu par Node (pas par regex), et les quatre gabarits ont un emplacement `{{DRAWER}}`. Libellés tels quels, `&` compris, comme les pose `hdrBuildDrawer()`, pour que le bloc figé et celui du JS ne divergent pas. La jumelle française reçoit la nav en français. La sortie de Node se lit en UTF-8 déclaré (`encoding='utf-8'`) : sous Windows, Python la décodait en cp1252 et écrivait « BÃ¢timents » dans la jumelle.
+Même bloc sur les 124 pages qui chargent `header.js` (404.html est autonome, §2). `sync_drawer.py` le déduit de `site-config.js` lu par Node (pas par regex), et les quatre gabarits ont un emplacement `{{DRAWER}}`. Libellés tels quels, `&` compris, comme les pose `hdrBuildDrawer()`, pour que le bloc figé et celui du JS ne divergent pas. La jumelle française reçoit la nav en français. La sortie de Node se lit en UTF-8 déclaré (`encoding='utf-8'`) : sous Windows, Python la décodait en cp1252 et écrivait « BÃ¢timents » dans la jumelle.
 
 ### Contenu des boutiques lisible sans JavaScript
 - **Tableau et liens en dur** : chaque page boutique porte, dans une enveloppe `.sx-static`, le tableau de ses objets (nom et variante, palier, quantité, coût, stock) et les liens vers les boutiques de sa famille. Ce sont les seuls endroits où un robot sans JS (GPTBot, OAI-SearchBot) lit le contenu de la boutique ; avant, il ne voyait que le titre et l'intro (85 mots).
