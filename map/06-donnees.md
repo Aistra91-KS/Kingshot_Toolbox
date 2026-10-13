@@ -54,6 +54,7 @@ Liste de 95 objets : `{id, name{EN,FR}, img?, category, gemValue, skin?}`.
 - Accélérateurs restreints (entraînement, icône casque) saisis comme généraux (`1h_general_speedup`, `5m_general_speedup`) sur toutes les boutiques : une minute vaut une minute (choix d'Aistra). Deux lignes du même objet au même palier sont alors normales.
 - `img` découple le nom affiché du fichier d'icône : `scImg()` prend `img`, sinon `name.EN`. **Renommer un `name.EN` sans vérifier `img/Item/` casse l'icône sans erreur.**
 - `skin: true` (7 entrées) = variante visuelle appelée par `skinId`, sans `category` ni `gemValue`. Un `skinId` inconnu échoue sans erreur : vérifier après ajout.
+- Cosmétique sans `skinId` (Boutique d'Aventure : skins de ville et de marche, plaque, noms génériques choisis par Aistra) : `Town Skin`, `March Skin` et `Custom Nameplate` n'ont pas d'icône dans `img/Item/`, la case reste vide, comme pour Frostcrown. Un nom et une image reçus plus tard s'ajoutent en variante `skin: true`.
 
 ### `shopcalc_classic.json`, `shopcalc_chests.json`, `shopcalc_events.json`
 - Classiques : `{id, slug, name, resourceName, resourceShort, items[{itemId, qty, cost}]}`. Coffres : `{id, slug, name, items[…, skinId?]}`.

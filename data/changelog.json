@@ -8,6 +8,28 @@
   },
   "releases": [
     {
+      "version": "1.15.4",
+      "date": "2026-10-13",
+      "changes": [
+        {
+          "type": "new",
+          "title": {
+            "EN": "The Adventure Shop",
+            "FR": "La Boutique d'Aventure"
+          },
+          "text": {
+            "EN": "Added the Adventure Shop, the store of the Forsaken Temple event: 16 items paid in Adventure Coins, each one priced in gems and in real money.",
+            "FR": "Ajout de la Boutique d'Aventure, la boutique de l'événement Temple Abandonné : 16 objets payés en Pièces d'Aventure, chacun chiffré en gemmes et en argent réel."
+          },
+          "href": "shop/adventure-shop",
+          "linkLabel": {
+            "EN": "Adventure Shop",
+            "FR": "Boutique d'Aventure"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.15.3",
       "date": "2026-10-05",
       "changes": [

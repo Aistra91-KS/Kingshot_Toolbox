@@ -1,5 +1,119 @@
 [
   {
+    "id": "Adventure_Shop",
+    "slug": "adventure-shop",
+    "name": {
+      "EN": "Adventure Shop",
+      "FR": "Boutique d'Aventure"
+    },
+    "startsAt": "2026-10-13T00:00:00Z",
+    "endsAt": "2026-10-20T00:00:00Z",
+    "trackOwned": true,
+    "resourceName": {
+      "EN": "Adventure Coin",
+      "FR": "Pièce d'Aventure"
+    },
+    "items": [
+      {
+        "itemId": "mythic_general_hero_shard",
+        "qty": 1,
+        "cost": 50,
+        "qtyMax": 2,
+        "dailyReset": true
+      },
+      {
+        "itemId": "town_skin",
+        "qty": 1,
+        "cost": 25000,
+        "qtyMax": 1
+      },
+      {
+        "itemId": "town_skin",
+        "qty": 1,
+        "cost": 35000,
+        "qtyMax": 1
+      },
+      {
+        "itemId": "march_skin",
+        "qty": 1,
+        "cost": 6000,
+        "qtyMax": 1
+      },
+      {
+        "itemId": "march_skin",
+        "qty": 1,
+        "cost": 10000,
+        "qtyMax": 1
+      },
+      {
+        "itemId": "custom_nameplate",
+        "qty": 1,
+        "cost": 2000,
+        "qtyMax": 1
+      },
+      {
+        "itemId": "mithril",
+        "qty": 1,
+        "cost": 550,
+        "qtyMax": 30
+      },
+      {
+        "itemId": "lucky_hero_gear_chest",
+        "qty": 1,
+        "cost": 18,
+        "qtyMax": 720
+      },
+      {
+        "itemId": "forgehammers",
+        "qty": 1,
+        "cost": 18,
+        "qtyMax": 720
+      },
+      {
+        "itemId": "governor_gear_material_chest",
+        "qty": 1,
+        "cost": 19,
+        "qtyMax": 720
+      },
+      {
+        "itemId": "artisan_s_vision",
+        "qty": 1,
+        "cost": 8,
+        "qtyMax": 1800
+      },
+      {
+        "itemId": "charm_design",
+        "qty": 1,
+        "cost": 9,
+        "qtyMax": 1600
+      },
+      {
+        "itemId": "charm_guide",
+        "qty": 1,
+        "cost": 9,
+        "qtyMax": 1600
+      },
+      {
+        "itemId": "truegold",
+        "qty": 1,
+        "cost": 8,
+        "qtyMax": 1800
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 10,
+        "qtyMax": 1400
+      },
+      {
+        "itemId": "1h_general_speedup",
+        "qty": 1,
+        "cost": 12,
+        "qtyMax": 9999
+      }
+    ]
+  },
+  {
     "id": "Brewmaster_Stall",
     "slug": "brewmaster-stall",
     "name": {
