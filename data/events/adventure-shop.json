@@ -1,0 +1,615 @@
+{
+  "_meta": {
+    "event": "Adventure_Shop",
+    "slug": "adventure-shop",
+    "startsAt": "2026-10-13T00:00:00Z",
+    "endsAt": "2026-10-19T00:00:00Z",
+    "days": 6,
+    "tier": "Gen 7 / TG5+",
+    "updatedAt": "2026-10-13",
+    "source": "Packs, missions et piste du Camp de Chasse au Trésor dictés et capturés par Aistra (relevé in-game du 13 octobre 2026)",
+    "travelName": {
+      "EN": "Treasure Hunt Points",
+      "FR": "Points de Chasse au Trésor"
+    },
+    "currencyNote": {
+      "EN": "The packs and missions give Adventure Dice, not Adventure Coins: the dice move you around the Forsaken Temple board, and the coins come out of the squares you land on. How many is down to luck, so the tool does not guess it. Fill in your own coin balance in the shop table above.",
+      "FR": "Les packs et les missions donnent des Dés d'Aventure, pas des Pièces d'Aventure : les dés font avancer sur le plateau du Temple Abandonné, et les pièces sortent des cases où l'on tombe. Le montant dépend du hasard, l'outil ne le devine donc pas. Renseigne toi-même ton solde de pièces dans le tableau de la boutique ci-dessus."
+    },
+    "note": "Les Dés d'Aventure (et le Dé Doré) sont listés mais JAMAIS chiffrés : ils ne sont pas la monnaie de la boutique, et rien ne relie un dé à un nombre de Pièces d'Aventure. Même règle que les Lanternes du Clair de Lune. Les missions versent des Points de Chasse au Trésor (`travel`, les parchemins) : 800 par jour, 1 600 avec le Guide du Trésor (relevé : 1 600 affichés au jour 1, Guide acheté). Ces points débloquent la piste du Camp de Chasse au Trésor : un palier tous les 200 points de 200 à 4 000, puis, au-delà de 4 500, un coffre tous les 500 points (`travelMilestones`, pour tout le monde). Sur chaque palier, l'objet de gauche est gratuit (`waypost`), les deux de droite sont ceux du Guide du Trésor. La piste gratuite est versée en bloc dès qu'un jour est joué, comme le Visiteur de Passage du Stand d'Aventure : il faut 5 jours joués sans Guide pour atteindre 4 000, l'outil surestime donc la piste de qui joue moins. La piste du Guide est le contenu du pack lui-même (voir contentNote).",
+    "packsNote": "L'ÉVÉNEMENT dure 6 jours (13/10 00h UTC → 19/10 00h UTC) ; la BOUTIQUE ferme 24 h plus tard (20/10, `endsAt` de shopcalc_events.json). Les packs s'achètent pendant l'événement seulement (choix d'Aistra), d'où `days: 6` et aucun `lastDay`. Sept packs de dés quotidiens, un achat par jour chacun sauf celui à 100 $ (trois par jour), et le Guide du Trésor, un seul achat pour tout l'événement, qui double les récompenses des missions quotidiennes (badge ×2 sur chaque mission en jeu, parchemins et dés compris). Prix $ dictés par Aistra. Prix € : grille habituelle reprise du Clair de Lune et du Stand Alchimique (1,19 / 3,49 / 5,99 / 11,99 / 24,99 / 59,99 / 119,99), choix d'Aistra, À RELEVER en jeu. Noms des packs de dés provisoires.",
+    "excludePackItemsByDefault": true,
+    "excludedNote": "Tout ce que les packs versent part DÉCOCHÉ à l'ouverture (choix d'Aistra, 13/10/2026), comme au Clair de Lune : on vient chercher des dés, qui deviennent des pièces, et le panier de la boutique est déjà compté dans le retour. La règle porte sur l'itemId, toutes sources confondues : les gemmes du coffre bonus, le Fragment de la piste gratuite, l'XP de héros, l'endurance et l'XP d'amélioration des missions partent décochés eux aussi, puisque le Guide du Trésor verse les mêmes objets. Aistra l'a choisi en connaissance de cause. Restent cochés : accélérateurs, 5K EXP, livres épiques, caisses de ressources des missions. Les libellés (dés, émote) ne sont jamais chiffrés.",
+    "contentNote": "Packs quotidiens : le pack à 1 $ donne 2 dés, 5 × 100 VIP, 40 × 10k pain, 40 × 10k bois, 8 × 10k pierre, 2 × 10k fer ; les ressources des autres packs en sont des multiples (×3, ×5, ×10, ×20, ×50, ×100), dés et VIP dictés à part. Guide du Trésor : son contenu dicté par Aistra (1 500 gemmes, 5 dés, 1 Dé Doré, 1 émote, 8 Fragments Universels, 5 + 5 livres mythiques, 3 × 10K EXP, 4 Clés en Or, 2 × 100 XP d'amélioration, 10 Endurance) est EXACTEMENT la somme des objets de droite de la piste du Camp, relue sur captures : c'est la même chose, comptée une seule fois, ici. Pièce de puzzle orange de la piste = Fragment Universel de Héros Mythique (Aistra). Palier 800 côté Guide : le tas de pièces est l'émote. Missions « 2 × caisse de ressources » lues comme `lv2_custom_resource_chest`, comme les mêmes missions du Stand d'Aventure. Accélérateurs 5 min de recherche et d'entraînement saisis comme généraux. Noms EN des dés, de l'émote et des Points de Chasse au Trésor provisoires."
+  },
+  "missions": [
+    {
+      "id": "login",
+      "name": {
+        "EN": "Daily Login",
+        "FR": "Connexion Quotidienne"
+      },
+      "travel": 200,
+      "items": [
+        {
+          "label": {
+            "EN": "Adventure Dice",
+            "FR": "Dé d'Aventure"
+          },
+          "qty": 1
+        },
+        {
+          "itemId": "5m_general_speedup",
+          "qty": 10
+        }
+      ]
+    },
+    {
+      "id": "speedups",
+      "name": {
+        "EN": "Use 1,000 minutes of any Speedup",
+        "FR": "Utilise 1 000m de n'importe quel Accélérateur"
+      },
+      "travel": 200,
+      "items": [
+        {
+          "label": {
+            "EN": "Adventure Dice",
+            "FR": "Dé d'Aventure"
+          },
+          "qty": 1
+        },
+        {
+          "itemId": "5m_general_speedup",
+          "qty": 20
+        }
+      ]
+    },
+    {
+      "id": "beasts",
+      "name": {
+        "EN": "Defeat 10 Beasts",
+        "FR": "Élimine 10 Bêtes"
+      },
+      "travel": 100,
+      "items": [
+        {
+          "label": {
+            "EN": "Adventure Dice",
+            "FR": "Dé d'Aventure"
+          },
+          "qty": 1
+        },
+        {
+          "itemId": "5m_general_speedup",
+          "qty": 10
+        }
+      ]
+    },
+    {
+      "id": "recruit",
+      "name": {
+        "EN": "Use Epic Recruitment 2 times",
+        "FR": "Utilise le Recrutement Épique 2 fois"
+      },
+      "travel": 100,
+      "items": [
+        {
+          "itemId": "100_enhancement_xp_component",
+          "qty": 0.5,
+          "note": "5 × 10 Enhancement XP Part"
+        },
+        {
+          "itemId": "5m_general_speedup",
+          "qty": 10
+        }
+      ]
+    },
+    {
+      "id": "intel",
+      "name": {
+        "EN": "Finish 5 Intel Missions",
+        "FR": "Terminer 5 Missions de Renseignements"
+      },
+      "travel": 100,
+      "items": [
+        {
+          "itemId": "10000_hero_xp",
+          "qty": 1
+        },
+        {
+          "itemId": "lv2_custom_resource_chest",
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "id": "power",
+      "name": {
+        "EN": "Raise 30k Power by Training/Promoting",
+        "FR": "Augmente la puiss. de + 30 000 en formant/promouvant des troupes"
+      },
+      "travel": 100,
+      "items": [
+        {
+          "itemId": "100_enhancement_xp_component",
+          "qty": 0.5,
+          "note": "5 × 10 Enhancement XP Part"
+        },
+        {
+          "itemId": "lv2_custom_resource_chest",
+          "qty": 2
+        }
+      ]
+    }
+  ],
+  "waypost": {
+    "name": {
+      "EN": "Treasure Hunt Camp (free track)",
+      "FR": "Camp de Chasse au Trésor (piste gratuite)"
+    },
+    "short": {
+      "EN": "Free track",
+      "FR": "Piste gratuite"
+    },
+    "items": [
+      {
+        "label": {
+          "EN": "Adventure Dice",
+          "FR": "Dé d'Aventure"
+        },
+        "qty": 4
+      },
+      {
+        "itemId": "10k_bread",
+        "qty": 100
+      },
+      {
+        "itemId": "epic_conquest_skill_book",
+        "qty": 3
+      },
+      {
+        "itemId": "epic_expidition_skill_manual",
+        "qty": 3
+      },
+      {
+        "itemId": "5m_general_speedup",
+        "qty": 36
+      },
+      {
+        "itemId": "5000_hero_xp",
+        "qty": 15
+      },
+      {
+        "itemId": "mythic_general_hero_shard",
+        "qty": 1
+      }
+    ]
+  },
+  "travelMilestones": {
+    "from": 4500,
+    "every": 500,
+    "short": {
+      "EN": "Camp chest",
+      "FR": "Coffre du camp"
+    },
+    "note": {
+      "EN": "Beyond 4,500 Treasure Hunt Points, every extra 500 grants the same reward again (4,500 / 5,000 / 5,500 ...), with no cap, free for everyone.",
+      "FR": "Passé 4 500 Points de Chasse au Trésor, chaque tranche de 500 redonne la même récompense (4 500 / 5 000 / 5 500 ...), sans plafond, pour tout le monde."
+    },
+    "reward": {
+      "items": [
+        {
+          "itemId": "gem",
+          "qty": 100
+        },
+        {
+          "itemId": "1h_general_speedup",
+          "qty": 1
+        }
+      ]
+    }
+  },
+  "packs": [
+    {
+      "id": "treasure_guide",
+      "name": {
+        "EN": "Treasure Guide",
+        "FR": "Guide du Trésor"
+      },
+      "short": {
+        "EN": "Guide",
+        "FR": "Guide"
+      },
+      "priceEur": 5.99,
+      "priceUsd": 5,
+      "once": true,
+      "note": {
+        "EN": "One purchase for the whole event. Unlocks the right-hand rewards of the Treasure Hunt Camp track, listed here in full, and doubles your daily mission rewards until the event ends: Treasure Hunt Points, dice, speedups and the rest.",
+        "FR": "Un seul achat pour tout l'événement. Débloque les récompenses de droite de la piste du Camp de Chasse au Trésor, listées ici en entier, et double les récompenses de tes missions quotidiennes jusqu'à la fin : Points de Chasse au Trésor, dés, accélérateurs et le reste."
+      },
+      "immediate": {
+        "items": [
+          {
+            "itemId": "gem",
+            "qty": 1500
+          },
+          {
+            "label": {
+              "EN": "Adventure Dice",
+              "FR": "Dé d'Aventure"
+            },
+            "qty": 5
+          },
+          {
+            "label": {
+              "EN": "Golden Dice",
+              "FR": "Dé Doré"
+            },
+            "qty": 1
+          },
+          {
+            "label": {
+              "EN": "Emote \"I'm Rich\"",
+              "FR": "Émote « Je suis riche »"
+            },
+            "qty": 1
+          },
+          {
+            "itemId": "mythic_general_hero_shard",
+            "qty": 8
+          },
+          {
+            "itemId": "mythic_conquest_skill_book",
+            "qty": 5
+          },
+          {
+            "itemId": "mythic_expedition_skill_manual",
+            "qty": 5
+          },
+          {
+            "itemId": "10000_hero_xp",
+            "qty": 3
+          },
+          {
+            "itemId": "gold_key",
+            "qty": 4
+          },
+          {
+            "itemId": "100_enhancement_xp_component",
+            "qty": 2
+          },
+          {
+            "itemId": "stamina",
+            "qty": 10
+          }
+        ]
+      },
+      "doublesDailyMissions": {
+        "travel": true,
+        "labels": true,
+        "itemIds": [
+          "5m_general_speedup",
+          "100_enhancement_xp_component",
+          "10000_hero_xp",
+          "lv2_custom_resource_chest"
+        ]
+      }
+    },
+    {
+      "id": "dice_1",
+      "name": {
+        "EN": "Adventure Dice Pack - 1",
+        "FR": "Pack de Dés d'Aventure - 1"
+      },
+      "short": {
+        "EN": "$1",
+        "FR": "1 $"
+      },
+      "priceEur": 1.19,
+      "priceUsd": 1,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          {
+            "label": {
+              "EN": "Adventure Dice",
+              "FR": "Dé d'Aventure"
+            },
+            "qty": 2
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 5
+          },
+          {
+            "itemId": "10k_bread",
+            "qty": 40
+          },
+          {
+            "itemId": "10k_wood",
+            "qty": 40
+          },
+          {
+            "itemId": "10k_stone",
+            "qty": 8
+          },
+          {
+            "itemId": "10k_iron",
+            "qty": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "dice_3",
+      "name": {
+        "EN": "Adventure Dice Pack - 2",
+        "FR": "Pack de Dés d'Aventure - 2"
+      },
+      "short": {
+        "EN": "$3",
+        "FR": "3 $"
+      },
+      "priceEur": 3.49,
+      "priceUsd": 3,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          {
+            "label": {
+              "EN": "Adventure Dice",
+              "FR": "Dé d'Aventure"
+            },
+            "qty": 5
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 15
+          },
+          {
+            "itemId": "10k_bread",
+            "qty": 120
+          },
+          {
+            "itemId": "10k_wood",
+            "qty": 120
+          },
+          {
+            "itemId": "10k_stone",
+            "qty": 24
+          },
+          {
+            "itemId": "10k_iron",
+            "qty": 6
+          }
+        ]
+      }
+    },
+    {
+      "id": "dice_5",
+      "name": {
+        "EN": "Adventure Dice Pack - 3",
+        "FR": "Pack de Dés d'Aventure - 3"
+      },
+      "short": {
+        "EN": "$5",
+        "FR": "5 $"
+      },
+      "priceEur": 5.99,
+      "priceUsd": 5,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          {
+            "label": {
+              "EN": "Adventure Dice",
+              "FR": "Dé d'Aventure"
+            },
+            "qty": 7
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 25
+          },
+          {
+            "itemId": "10k_bread",
+            "qty": 200
+          },
+          {
+            "itemId": "10k_wood",
+            "qty": 200
+          },
+          {
+            "itemId": "10k_stone",
+            "qty": 40
+          },
+          {
+            "itemId": "10k_iron",
+            "qty": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "dice_10",
+      "name": {
+        "EN": "Adventure Dice Pack - 4",
+        "FR": "Pack de Dés d'Aventure - 4"
+      },
+      "short": {
+        "EN": "$10",
+        "FR": "10 $"
+      },
+      "priceEur": 11.99,
+      "priceUsd": 10,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          {
+            "label": {
+              "EN": "Adventure Dice",
+              "FR": "Dé d'Aventure"
+            },
+            "qty": 12
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 40
+          },
+          {
+            "itemId": "10k_bread",
+            "qty": 400
+          },
+          {
+            "itemId": "10k_wood",
+            "qty": 400
+          },
+          {
+            "itemId": "10k_stone",
+            "qty": 80
+          },
+          {
+            "itemId": "10k_iron",
+            "qty": 20
+          }
+        ]
+      }
+    },
+    {
+      "id": "dice_20",
+      "name": {
+        "EN": "Adventure Dice Pack - 5",
+        "FR": "Pack de Dés d'Aventure - 5"
+      },
+      "short": {
+        "EN": "$20",
+        "FR": "20 $"
+      },
+      "priceEur": 24.99,
+      "priceUsd": 20,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          {
+            "label": {
+              "EN": "Adventure Dice",
+              "FR": "Dé d'Aventure"
+            },
+            "qty": 20
+          },
+          {
+            "itemId": "100_exp_vip",
+            "qty": 60
+          },
+          {
+            "itemId": "10k_bread",
+            "qty": 800
+          },
+          {
+            "itemId": "10k_wood",
+            "qty": 800
+          },
+          {
+            "itemId": "10k_stone",
+            "qty": 160
+          },
+          {
+            "itemId": "10k_iron",
+            "qty": 40
+          }
+        ]
+      }
+    },
+    {
+      "id": "dice_50",
+      "name": {
+        "EN": "Adventure Dice Pack - 6",
+        "FR": "Pack de Dés d'Aventure - 6"
+      },
+      "short": {
+        "EN": "$50",
+        "FR": "50 $"
+      },
+      "priceEur": 59.99,
+      "priceUsd": 50,
+      "perDay": 1,
+      "reward": {
+        "items": [
+          {
+            "label": {
+              "EN": "Adventure Dice",
+              "FR": "Dé d'Aventure"
+            },
+            "qty": 50
+          },
+          {
+            "itemId": "1000_exp_vip",
+            "qty": 12
+          },
+          {
+            "itemId": "10k_bread",
+            "qty": 2000
+          },
+          {
+            "itemId": "10k_wood",
+            "qty": 2000
+          },
+          {
+            "itemId": "10k_stone",
+            "qty": 400
+          },
+          {
+            "itemId": "10k_iron",
+            "qty": 100
+          }
+        ]
+      }
+    },
+    {
+      "id": "dice_100",
+      "name": {
+        "EN": "Adventure Dice Pack - 7",
+        "FR": "Pack de Dés d'Aventure - 7"
+      },
+      "short": {
+        "EN": "$100",
+        "FR": "100 $"
+      },
+      "priceEur": 119.99,
+      "priceUsd": 100,
+      "perDay": 3,
+      "reward": {
+        "items": [
+          {
+            "label": {
+              "EN": "Adventure Dice",
+              "FR": "Dé d'Aventure"
+            },
+            "qty": 85
+          },
+          {
+            "itemId": "1000_exp_vip",
+            "qty": 20
+          },
+          {
+            "itemId": "10k_bread",
+            "qty": 4000
+          },
+          {
+            "itemId": "10k_wood",
+            "qty": 4000
+          },
+          {
+            "itemId": "10k_stone",
+            "qty": 800
+          },
+          {
+            "itemId": "10k_iron",
+            "qty": 200
+          }
+        ]
+      }
+    }
+  ]
+}

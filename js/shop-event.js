@@ -214,6 +214,9 @@ function seSave(){
 function seName(o){ const n=o&&o.name; if(!n) return ''; return n[scLang()]||n.EN||n.FR||''; }
 // Libellé COURT d'un pack, pour la colonne « Provenance » (le nom complet y déborderait).
 function seShort(p){ const n=p&&p.short; return n ? (n[scLang()]||n.EN||n.FR) : seName(p); }
+// Provenance d'une piste (`waypost`, `travelMilestones`) : son `short` si l'événement en
+// donne un, sinon le libellé du Stand d'Aventure, le premier à en avoir eu.
+function seSrcName(o, key){ return (o && o.short) ? seShort(o) : seT(key); }
 // Nom d'une monnaie secondaire : donné par l'événement (_meta.stallName / travelName),
 // sinon repli sur le dictionnaire. La monnaie PRINCIPALE, elle, n'est jamais redite ici :
 // c'est celle de la boutique (`resourceName`), une seule source de vérité.
@@ -259,7 +262,9 @@ function seAdd(tot, bundle, mult, only, src){
   };
   addCur('coins'); addCur('stall'); addCur('travel');
   (bundle.items||[]).forEach(it=>{
-    if(only && (only.itemIds||[]).indexOf(it.itemId) < 0) return;
+    // Un libellé n'a pas d'itemId : `only.labels` dit si le pass le double aussi (les
+    // dés de la Boutique d'Aventure portent le badge ×2 comme le reste de la mission).
+    if(only && (it.itemId ? (only.itemIds||[]).indexOf(it.itemId) < 0 : only.labels !== true)) return;
     const q = (Number(it.qty)||0) * mult;
     if(it.itemId){
       const cur = tot.items[it.itemId] || { qty:0, eurExclude:false, src:{} };
@@ -406,7 +411,7 @@ function seCompute(upTo){
     if(okDays && okBuy) seAdd(tot, m, 1, null, seT('evSrcSeason'));
   });
   seAdd(tot, SE_DATA.freeDailyPack, played, null, seT('evSrcFree'));
-  if(played > 0) seAdd(tot, SE_DATA.waypost, 1, null, seT('evSrcWaypost'));
+  if(played > 0) seAdd(tot, SE_DATA.waypost, 1, null, seSrcName(SE_DATA.waypost, 'evSrcWaypost'));
 
   // Paliers de points : chaque palier atteint verse son bonus de pièces.
   let msCoins = 0, msReached = 0;
@@ -438,7 +443,7 @@ function seCompute(upTo){
   let tvTiers = 0;
   if(tv && tot.travel >= tv.from && tv.every > 0){
     tvTiers = Math.floor((tot.travel - tv.from) / tv.every) + 1;
-    seAdd(tot, tv.reward, tvTiers, null, seT('evSrcTravel'));
+    seAdd(tot, tv.reward, tvTiers, null, seSrcName(tv, 'evSrcTravel'));
   }
 
   // Paliers d'exploration : une piste de récompenses en OBJETS, débloquée par les

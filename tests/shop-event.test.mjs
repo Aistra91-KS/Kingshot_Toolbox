@@ -325,3 +325,65 @@ test("Stand Alchimique — à l'ouverture, seuls l'Or Véritable et les paliers 
   assert.equal(c.rows.find(r => r.id === 'truegold').qty, 692);
   assert.equal(c.gemRewards, 692 * run(ctx, "scGem('truegold')") + 21000 * run(ctx, "scGem('mystery_badge')"));
 });
+
+// Boutique d'Aventure (Temple Abandonné), du 13 au 19 octobre 2026. Contrôles tirés des
+// captures d'Aistra : 800 Points de Chasse au Trésor par jour, 1 600 avec le Guide du
+// Trésor (affichés au jour 1, Guide acheté), et le contenu dicté du Guide égal à la
+// somme des objets de droite de la piste du Camp.
+const TEMPLE_J2 = '2026-10-14T12:00:00Z';
+const temple = (plan) => loadEventShop('adventure-shop', plan, { now: TEMPLE_J2 });
+const des = c => (c.extras.find(x => x.key === "x:Adventure Dice") || {}).qty || 0;
+
+test("Boutique d'Aventure — F2P sur 6 jours : 4 800 points, un coffre du camp, 22 dés", async () => {
+  // 3 dés par jour de missions (18) + 4 sur la piste gratuite. Les dés sont comptés,
+  // jamais valorisés : ils n'ont pas d'itemId.
+  const c = run(await temple({ played: 6 }), 'seCompute()');
+  assert.equal(c.travel, 4800);
+  assert.equal(c.tvTiers, 1);
+  assert.equal(des(c), 22);
+  assert.equal(c.rows.find(r => r.id === '5m_general_speedup').qty, 300 + 36);
+});
+
+test("Boutique d'Aventure — le Guide du Trésor double les missions, dés et points compris", async () => {
+  // Badge ×2 sur chaque mission en jeu. 9 600 points : 11 coffres de 4 500 à 9 500.
+  // Dés : 36 des missions doublées, 4 de la piste gratuite, 5 du Guide.
+  const c = run(await temple({ played: 6, buys: { treasure_guide: { 1: 1 } } }), 'seCompute()');
+  assert.equal(c.travel, 9600);
+  assert.equal(c.tvTiers, 11);
+  assert.equal(des(c), 36 + 4 + 5);
+  assert.equal(c.rows.find(r => r.id === 'gem').qty, 1500 + 11 * 100);
+  assert.equal(Math.round(c.spend * 100) / 100, 5.99);
+});
+
+test("Boutique d'Aventure — un pass sans `labels` ne double toujours pas les libellés", async () => {
+  // Même plan, règle de doublement privée de `labels` : les dés des missions ne sont
+  // plus rejoués, comme pour tout pass relevé avant cette option.
+  const ctx = await temple({ played: 6, buys: { treasure_guide: { 1: 1 } } });
+  run(ctx, "delete SE_DATA.packs.find(p => p.id === 'treasure_guide').doublesDailyMissions.labels;");
+  assert.equal(des(run(ctx, 'seCompute()')), 18 + 4 + 5);
+});
+
+test("Boutique d'Aventure — la piste et son coffre portent leur propre nom en Provenance", async () => {
+  // Le harnais tourne en français : sans lang.js, scLang() rend 'FR'.
+  const c = run(await temple({ played: 6 }), 'seCompute()');
+  const src = id => c.rows.find(r => r.id === id).src.map(s => s.label);
+  assert.ok(src('mythic_general_hero_shard').includes('Piste gratuite'));
+  assert.ok(src('1h_general_speedup').includes('Coffre du camp'));
+  // Le Stand d'Aventure, sans `short`, garde les libellés d'avant.
+  const st = run(await loadEventShop('adventure-stall', { played: 5 }), 'seCompute()');
+  assert.ok(st.rows.find(r => r.id === 'mythic_general_hero_shard').src.some(s => s.label === 'Visiteur de Passage'));
+});
+
+test("Boutique d'Aventure — tout ce que versent les packs part décoché", async () => {
+  // Choix d'Aistra (13/10/2026), comme au Clair de Lune. La règle est par itemId : les
+  // gemmes du coffre du camp partent décochées avec celles du Guide.
+  const ctx = await temple();
+  const defaut = run(ctx, 'seDefaultExcluded()');
+  for (const p of run(ctx, 'SE_DATA.packs')) {
+    for (const it of [p.reward, p.immediate].flatMap(b => (b && b.items) || [])) {
+      if (it.itemId) assert.ok(defaut[it.itemId], `${it.itemId} du pack ${p.id}`);
+    }
+  }
+  assert.ok(!defaut['5m_general_speedup'], 'les accélérateurs des missions ne viennent d\'aucun pack');
+  assert.ok(!defaut['x:Adventure Dice'], 'les dés restent cochés, ils ne pèsent sur aucun total');
+});
