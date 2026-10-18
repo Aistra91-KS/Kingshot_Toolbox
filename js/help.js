@@ -100,7 +100,8 @@
   // Mesure d'audience (GA4) : compte les ouvertures du mode d'emploi et d'où elles
   // viennent. Suivi posé sur les CLICS, pas dans openModal(), que le changement de
   // langue rappelle tout seul. `gtag` est défini en ligne dans chaque page ; bloqué
-  // par un bloqueur de pub, l'appel ne fait rien.
+  // par un bloqueur de pub, l'appel ne fait rien. Paramètre `help_from`, jamais
+  // `source` : GA4 le lit comme la source de la visite et écrase la provenance.
   function track(name, params) { if (typeof gtag === 'function') gtag('event', name, params || {}); }
 
   function openModal() {
@@ -167,7 +168,7 @@
     btn.className = 'help-btn';
     btn.setAttribute('data-help', '1');
     btn.innerHTML = `<span class="help-q">?</span><span class="help-btn-txt">${esc(t('how'))}</span>`;
-    btn.onclick = () => { openModal(); track('help_open', { source: 'button' }); };
+    btn.onclick = () => { openModal(); track('help_open', { help_from: 'button' }); };
     if (!garde) a.insertAdjacentElement('afterend', btn);
   }
 
@@ -196,7 +197,7 @@
     bn.innerHTML = `<span class="help-banner-txt">${esc(pick(CFG.summary) || '')}</span>
       <button class="help-banner-more" type="button">${esc(t('how'))}</button>
       <button class="help-banner-x" type="button" aria-label="${esc(t('dismiss'))}">&times;</button>`;
-    bn.querySelector('.help-banner-more').addEventListener('click', () => { openModal(); track('help_open', { source: 'banner' }); });
+    bn.querySelector('.help-banner-more').addEventListener('click', () => { openModal(); track('help_open', { help_from: 'banner' }); });
     bn.querySelector('.help-banner-x').addEventListener('click', () => { try { localStorage.setItem(key, '1'); } catch (e) { if (window.ktWarnUnsaved) window.ktWarnUnsaved(); } bn.remove(); track('help_banner_close'); });
     if (!garde) apres.insertAdjacentElement('afterend', bn);
   }

@@ -71,6 +71,24 @@ table.db-table td.ttg { color: #c58cff; font-weight: 600; }
 /* Le violet clair de l'Or trempé ne tient que 2,3:1 sur fond clair. */
 [data-theme="light"] table.db-table td.ttg { color: #7b3fc4; }
 table.db-table td.c-lbl { font-weight: 700; color: var(--text-light); }
+/* Paliers pas encore en jeu (TG8-1 et au-delà, chiffres de Whiteout Survival) :
+   italique et astérisque, expliqués par `.db-note`. Pas d'opacité, qui ferait
+   tomber le texte sous 4,5:1 en thème clair (cf. les lignes verrouillées des
+   Recherches, MAP §12). */
+table.db-table tr.tg-theory td { font-style: italic; }
+.tg-theory-mark { margin-left: 2px; color: var(--warning); font-style: normal; font-weight: 700; }
+/* `--warning` clair (#e65100) ne tient que 3,4:1 sur `--control-bg`. */
+[data-theme="light"] .tg-theory-mark { color: #b53d00; }
+/* Lu par les lecteurs d'écran, invisible à l'écran. */
+.db-sr {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.db-note {
+    margin: -12px 0 22px; padding: 8px 12px; font-size: 13px; line-height: 1.5;
+    color: var(--text-light); background: var(--control-bg);
+    border: 1px solid var(--border); border-left: 3px solid var(--warning); border-radius: 6px;
+}
 table.db-table td.c-req { white-space: normal; color: var(--text-muted); font-size: 12px; min-width: 120px; }
 table.db-table td.c-wa { color: var(--text-muted); font-size: 12px; }
 /* c-eff : Académie (190px, 12px) vs Experts/Familiers (150px, taille héritée) */

@@ -326,6 +326,33 @@ THEAD_STD = '\n'.join((
     '              <th scope="col" class="num" data-i18n="cPower">Power</th>',
 ))
 
+# Aucun serveur n'a dépassé TG8, et au palier TG8 le dernier niveau en jeu est
+# TG8-0 : de TG8-1 à TG10, les chiffres viennent de Whiteout Survival (même studio).
+# Ils restent publiés, marqués d'une astérisque et en italique, et THEORY_NOTE dit
+# pourquoi. L'astérisque est cachée aux lecteurs d'écran (souvent sautée, ou lue
+# « étoile ») : ils lisent « (théorique) » dans la cellule même, `.db-sr`. Le repère se pose ici plutôt que dans les huit partials, pour que le
+# seuil se déplace en une ligne quand un serveur passera le cap.
+THEORY_NOTE = ('\n        <p class="db-note" data-i18n="bldgTheory">Levels marked * '
+               '(TG8-1 and above) are not in the game yet: no server has gone past '
+               'TG8. Their figures are theoretical, taken from Whiteout Survival, '
+               'made by the same developers, and may change when these levels '
+               'open.</p>')
+PALIER_REEL_MAX = (8, 0)
+RE_PALIER = re.compile(r'<tr>(\s*)<td class="c-lbl">(TG(\d+)(?:-(\d+))?)</td>')
+
+
+def marquer_theoriques(table):
+    def repere(m):
+        palier = (int(m.group(3)), int(m.group(4) or 0))
+        if palier <= PALIER_REEL_MAX:
+            return m.group(0)
+        return ('<tr class="tg-theory">%s<td class="c-lbl">%s'
+                '<span class="tg-theory-mark" aria-hidden="true">*</span>'
+                '<span class="db-sr" data-en=" (theoretical)" data-fr=" (théorique)">'
+                ' (theoretical)</span></td>'
+                % (m.group(1), m.group(2)))
+    return RE_PALIER.sub(repere, table)
+
 
 def est_truegold(slug):
     return exists('tools/partials/%s.table.html' % slug)
@@ -475,9 +502,10 @@ def build_buildings():
             'NAME_FR': p['name']['FR'],
             'INTRO_KEY': 'bldgIntro' if tg else 'bldgIntroStd',
             'INTRO_EN': INTRO_TG if tg else INTRO_STD,
+            'THEORY_NOTE': THEORY_NOTE if tg else '',
             'THEAD': THEAD_TG if tg else THEAD_STD,
             'NAV': nav_batiments(pages, p['slug']),
-            'TABLE': (partial(p['slug'], 'table').rstrip('\n') if tg
+            'TABLE': (marquer_theoriques(partial(p['slug'], 'table').rstrip('\n')) if tg
                       else table_standard(p['slug'])),
         })
     return rendus

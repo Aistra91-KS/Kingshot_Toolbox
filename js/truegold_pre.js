@@ -726,8 +726,8 @@
     for (let i = 0; i <= maxLv; i++) lvOpts += `<option value="${i}"${i === bulk.level ? ' selected' : ''}>${i}</option>`;
     const opt = (v, cur, label) => `<option value="${v}"${v === cur ? ' selected' : ''}>${esc(label)}</option>`;
     host.innerHTML = `
-      <div class="pre-bulk-lbl">${esc(t('bulkTitle'))}</div>
-      <div class="pre-bulk-row">
+      <div class="pre-bulk-lbl" id="pre-bulk-title">${esc(t('bulkTitle'))}</div>
+      <div class="pre-bulk-row" role="group" aria-labelledby="pre-bulk-title">
         <label class="pre-bulk-field"><span>${esc(t('bulkWhich'))}</span>
           <select class="table-select" id="pre-bulk-which">
             ${opt('all', bulk.which, t('bulkAll'))}${opt('on', bulk.which, t('bulkOn'))}
@@ -743,10 +743,18 @@
       </div>`;
   }
 
-  function bulkApply() {
+  // Vidé puis réécrit au tour suivant : un même message deux fois de suite ne change
+  // pas le contenu de la zone `role="status"`, et un lecteur d'écran ne le relirait pas.
+  function bulkSay(msg) {
     const say = document.getElementById('pre-bulk-say');
+    if (!say) return;
+    say.textContent = '';
+    setTimeout(() => { say.textContent = msg; }, 50);
+  }
+
+  function bulkApply() {
     const targets = DB.buildings.filter(b => bulk.which === 'all' || state.rows[b.id].on);
-    if (!targets.length) { if (say) say.textContent = t('bulkNone'); return; }
+    if (!targets.length) { bulkSay(t('bulkNone')); return; }
     let changed = 0;
     for (const b of targets) {
       const st = state.rows[b.id];
@@ -764,7 +772,7 @@
     // Le nombre annoncé est celui des lignes qui ont VRAIMENT bougé : baisser la
     // cible seule sous le niveau actuel ne change rien, l'annoncer ferait croire
     // le contraire à qui ne relit pas le tableau.
-    if (say) say.textContent = changed ? changed + ' ' + t('bulkDone') : t('bulkNothing');
+    bulkSay(changed ? changed + ' ' + t('bulkDone') : t('bulkNothing'));
   }
 
   function renderStock() {

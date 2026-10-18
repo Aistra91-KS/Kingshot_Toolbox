@@ -285,7 +285,6 @@
     ["Range", 38, "TG7-3", "Town Center TG Lv. 8", 108, 9, "46M", "46M", "9.3M", "2.3M", "3d", 4320], 
     ["Range", 39, "TG7-4", "Town Center TG Lv. 8", 108, 9, "46M", "46M", "9.3M", "2.3M", "3d", 4320], 
     ["Range", 40, "TG8-0", "Town Center TG Lv. 8", 54, 18, "46M", "46M", "9.3M", "2.3M", "3d", 4320],
-    ["Range", 40, "TG8-0", "Town Center TG Lv. 8", 54, 18, "46M", "46M", "9.3M", "2.3M", "3d", 4320],
     ["Range", 41, "TG8-1", "Town Center TG Lv. 9", 126, 13, "50M", "50M", "10M", "2.5M", "1d 22h 48m", 2808],
     ["Range", 42, "TG8-2", "Town Center TG Lv. 9", 126, 13, "50M", "50M", "10M", "2.5M", "1d 22h 48m", 2808],
     ["Range", 43, "TG8-3", "Town Center TG Lv. 9", 126, 13, "50M", "50M", "10M", "2.5M", "1d 22h 48m", 2808],
@@ -447,6 +446,7 @@
  
 
   "levelsReference": [
+  { "num": 0,  "label": "TC30"   },
   { "num": 1,  "label": "TC30-1" }, { "num": 2,  "label": "TC30-2" },
   { "num": 3,  "label": "TC30-3" }, { "num": 4,  "label": "TC30-4" },
   { "num": 5,  "label": "TG1-0"  }, { "num": 6,  "label": "TG1-1"  },
@@ -475,13 +475,13 @@
 ],
 
 "buildingsConfig": {
-  "Town Center":    { "min": 1, "max": 50 },
-  "Embassy":        { "min": 1, "max": 50 },
-  "Barracks":       { "min": 1, "max": 50 },
-  "Stable":         { "min": 1, "max": 50 },
-  "Range":          { "min": 1, "max": 50 },
-  "Command Center": { "min": 1, "max": 50 },
-  "War Academy":    { "min": 5, "max": 50 },
-  "Infirmary":      { "min": 1, "max": 50 }
+  "Town Center":    { "min": 0, "max": 40 },
+  "Embassy":        { "min": 0, "max": 40 },
+  "Barracks":       { "min": 0, "max": 40 },
+  "Stable":         { "min": 0, "max": 40 },
+  "Range":          { "min": 0, "max": 40 },
+  "Command Center": { "min": 0, "max": 40 },
+  "War Academy":    { "min": 5, "max": 40 },
+  "Infirmary":      { "min": 0, "max": 40 }
   } 
 }

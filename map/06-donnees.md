@@ -20,7 +20,7 @@ Liste de 720 paliers : `{Tree, Name, Fr Name, Level, Time (d/h/m/s), Global Time
 - Source : `kingshotoptimizer.com`, 310 niveaux recoupés avec LordRush sans écart.
 
 ### `truegold_db.json`
-`rangeDataTTG`, `bldgMap`, `defaultBuildings`, `dbDataRaw`, `levelsReference`, `buildingsConfig`. L'ordre de `defaultBuildings` est l'ordre d'affichage : `normalizeBuildingOrder()` le réapplique après `loadData()`, sinon les sauvegardes garderaient l'ancien.
+`rangeDataTTG`, `bldgMap`, `defaultBuildings`, `dbDataRaw`, `levelsReference`, `buildingsConfig`. `dbDataRaw` va jusqu'à TG10 ; `buildingsConfig` borne le planificateur de 0 (« TC30 ») à 40 (TG8-0). L'ordre de `defaultBuildings` est l'ordre d'affichage : `normalizeBuildingOrder()` le réapplique après `loadData()`, sinon les sauvegardes garderaient l'ancien.
 
 ### `truegold_war_db.json`
 `{meta, scoring, trees}` ; `scoring = {pointsPerDust:1000, pointsPerSpeedupMinute:60}` ; `trees` = 3 arbres × recherches × niveaux (`req` même arbre, `reqWA` palier du bâtiment). Généré depuis un CSV non commité.

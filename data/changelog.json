@@ -8,6 +8,60 @@
   },
   "releases": [
     {
+      "version": "1.15.5",
+      "date": "2026-10-18",
+      "changes": [
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Building Planner: start from TC30, change every level at once",
+            "FR": "Planificateur de Bâtiments : départ à TC30, tous les niveaux d'un coup"
+          },
+          "text": {
+            "EN": "Following a player's feedback. On the TrueGold tab, every building except the War Academy can now start at TC30, so a player who has not entered TrueGold yet can plan TC30-1. The tab also gets the bulk level change bar of the Before TrueGold tab: set the current level, the target or both, for every building or only the ticked ones.",
+            "FR": "À la suite du retour d'un joueur. Dans l'onglet Or Véritable, tous les bâtiments sauf l'Académie de Guerre peuvent partir de TC30 : un joueur qui n'est pas encore entré dans l'Or Véritable peut planifier TC30-1. L'onglet reçoit aussi la barre de modification groupée de l'onglet Avant l'Or Véritable : niveau actuel, cible ou les deux, pour tous les bâtiments ou seulement les cochés."
+          },
+          "href": "truegold_calc",
+          "linkLabel": {
+            "EN": "Building Planner",
+            "FR": "Planificateur de Bâtiments"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "The planner stops at TG8-0",
+            "FR": "Le planificateur s'arrête à TG8-0"
+          },
+          "text": {
+            "EN": "No server has gone past TG8 yet, and the TG8-1 to TG10 figures come from Whiteout Survival. The level lists and the server tier now stop at TG8, and a saved level above TG8-0 comes back to TG8-0. The building pages keep every level, with an asterisk and a note from TG8-1 up.",
+            "FR": "Aucun serveur n'a encore dépassé TG8, et les chiffres de TG8-1 à TG10 viennent de Whiteout Survival. Les listes de niveaux et le palier serveur s'arrêtent maintenant à TG8, et un niveau enregistré au-dessus de TG8-0 y revient. Les pages des bâtiments gardent tous les niveaux, avec une astérisque et une note à partir de TG8-1."
+          },
+          "href": "database/buildings/",
+          "linkLabel": {
+            "EN": "Buildings database",
+            "FR": "Base de données Bâtiments"
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Archer Camp: TG8-0 no longer counted twice",
+            "FR": "Camp d'Archers : TG8-0 n'est plus compté deux fois"
+          },
+          "text": {
+            "EN": "The Archer Camp's TG8-0 level was in the data twice: the planner counted its cost twice and the building page listed it twice.",
+            "FR": "Le niveau TG8-0 du Camp d'Archers figurait deux fois dans les données : le planificateur comptait son coût deux fois et la page du bâtiment l'affichait deux fois."
+          },
+          "href": "database/buildings/range",
+          "linkLabel": {
+            "EN": "Archer Camp",
+            "FR": "Camp d'Archers"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.15.4",
       "date": "2026-10-13",
       "changes": [
