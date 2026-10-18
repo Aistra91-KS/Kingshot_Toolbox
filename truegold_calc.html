@@ -53,7 +53,6 @@
                     <option value="3">TG3</option>
                     <option value="5">TG5</option>
                     <option value="8" selected>TG8</option>
-                    <option value="10">TG10</option>
                 </select>
             </div>
             <div id="serverTierHint" data-i18n="serverTierHint" style="color:var(--text-muted); font-size:11px; margin:-4px 0 10px;">Highest tier open on your server</div>
@@ -226,6 +225,9 @@
         <div id="tab-tg" class="tab-content active" role="tabpanel" tabindex="0" aria-labelledby="tab-tg-btn">
         <div class="panel">
             <h2 data-i18n="myBuildings">My Buildings</h2>
+            <!-- Rempli par truegold_script.js (modification groupée, mêmes styles que l'onglet
+                 précédent). Vide si le script est encore en cache dans une version qui ne la connaît pas. -->
+            <div id="tg-bulk" class="pre-bulk"></div>
             <div class="table-container">
                 <table id="buildings-table">
                     <thead>

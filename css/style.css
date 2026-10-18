@@ -3196,11 +3196,13 @@ h2.cl-head { font-size: 14px; font-weight: 400; margin: 0 0 10px; }
    prendre la largeur de leur plus long libellé — sinon « Le niveau actuel » se
    coupe en « Le niveau actu » et « 25 » en « 2! ». */
 .pre-bulk-field select { width: auto; min-width: 0; max-width: 100%; }
-#pre-bulk-level { min-width: 68px; }
+#pre-bulk-level, #tg-bulk-level { min-width: 68px; }
 /* `.btn-modern` s'étire dans un conteneur flex : sans ce calage, « Appliquer »
    avalait toute la largeur restante et la barre n'avait plus de forme. */
 .pre-bulk-row > button { flex: 0 0 auto; white-space: nowrap; }
 .pre-bulk-say { font-size: 12px; color: var(--success); align-self: center; }
+/* `--success` clair (#00897b) ne tient que 3,9:1 sur `--control-bg`. */
+[data-theme="light"] .pre-bulk-say { color: #00695c; }
 @media (max-width: 620px) {
     .pre-bulk-field { flex: 1 1 100%; }
     .pre-bulk-row > button { flex: 1 1 100%; }

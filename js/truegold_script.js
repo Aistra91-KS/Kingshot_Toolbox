@@ -6,6 +6,7 @@
 let rangeDataTTG = [];
 let dbDataRaw = [];
 let levelsByBuilding = {};
+let levelsRef = [];          // tous les niveaux {num, label}, pour la modification groupée
 let bldgMap = {};
 let buildingsState = [];
 let defaultBuildingsRef = [];   // sert d'ordre d'affichage canonique (cf. normalizeBuildingOrder)
@@ -132,7 +133,12 @@ const i18n = {
         'applyWarn': "⚠️ Your current levels and stocks will be replaced.",
         'applyWarnTransfo': "The TTG gained from transformations is the expected average. Adjust it if your rolls differed.",
         'applyDone': "✅ Plan applied: levels and stocks updated.",
-        'applyStale': "Your entries changed while the window was open: this plan no longer matches them. Nothing was applied."
+        'applyStale': "Your entries changed while the window was open: this plan no longer matches them. Nothing was applied.",
+        'bulkTitle': 'Bulk level change', 'bulkWhich': 'Buildings', 'bulkWhat': 'Set',
+        'bulkAll': 'All of them', 'bulkOn': 'Ticked ones only',
+        'bulkCur': 'Current level', 'bulkTgt': 'Target level', 'bulkBoth': 'Both',
+        'bulkLevel': 'to level', 'bulkApply': 'Apply',
+        'bulkNone': 'No building ticked.', 'bulkDone': 'changed', 'bulkNothing': 'Already set that way.'
     },
     'FR': {
         'ctrlPanel': 'Panneau de Contrôle',
@@ -227,7 +233,12 @@ const i18n = {
         'applyWarn': "⚠️ Tes niveaux et tes stocks actuels seront remplacés.",
         'applyWarnTransfo': "Le TTG gagné par les transformations est la moyenne attendue. Corrige-le si tes tirages ont été différents.",
         'applyDone': "✅ Plan appliqué : niveaux et stocks mis à jour.",
-        'applyStale': "Ta saisie a changé pendant que la fenêtre était ouverte : ce plan ne lui correspond plus. Rien n'a été appliqué."
+        'applyStale': "Ta saisie a changé pendant que la fenêtre était ouverte : ce plan ne lui correspond plus. Rien n'a été appliqué.",
+        'bulkTitle': 'Modification groupée des niveaux', 'bulkWhich': 'Bâtiments', 'bulkWhat': 'Régler',
+        'bulkAll': 'Tous', 'bulkOn': 'Les cochés seulement',
+        'bulkCur': 'Le niveau actuel', 'bulkTgt': 'Le niveau cible', 'bulkBoth': 'Les deux',
+        'bulkLevel': 'au niveau', 'bulkApply': 'Appliquer',
+        'bulkNone': 'Aucun bâtiment coché.', 'bulkDone': 'modifiés', 'bulkNothing': 'Déjà réglé ainsi.'
     }
 };
 
@@ -292,6 +303,11 @@ async function loadDatabase() {
         // Tout est OK, on assigne les données
         rangeDataTTG        = data.rangeDataTTG;
         dbDataRaw           = data.dbDataRaw;
+        // La barre groupée ne propose que les niveaux qu'au moins un bâtiment accepte :
+        // `buildingsConfig` s'arrête à TG8-0, les paliers au-delà restent dans
+        // `dbDataRaw` pour la base de données mais ne se planifient pas.
+        const maxConfig = Math.max(...Object.values(data.buildingsConfig).map(c => c.max));
+        levelsRef           = data.levelsReference.filter(l => l.num <= maxConfig);
         levelsByBuilding    = buildLevelsByBuilding(data.levelsReference, data.buildingsConfig); // Générer levelsByBuilding dynamiquement à partir de la référence
         bldgMap             = data.bldgMap;
         defaultBuildingsRef = data.defaultBuildings;
@@ -329,6 +345,34 @@ function applyTranslations() {
 function getLocName(enName) {
     const lang = GlobalLang.get();
     return bldgMap[enName] ? bldgMap[enName][lang] : enName;
+}
+
+// Ramène dans la plage de chaque bâtiment les niveaux d'une sauvegarde faite quand
+// les listes allaient jusqu'à TG10 (et le palier serveur TG10, retiré de la liste) :
+// sans ça, la liste afficherait son premier choix pendant que le calcul garderait
+// l'ancien niveau. Le recalage est silencieux (personne n'a pu jouer TG9) ; un niveau
+// illisible, lui, déclenche le bandeau des données abîmées.
+function clampSavedLevels() {
+    let illisible = false;
+    buildingsState.forEach(b => {
+        const niveaux = levelsByBuilding[b.name];
+        if (!niveaux || !niveaux.length) return;
+        const min = niveaux[0].num, max = niveaux[niveaux.length - 1].num;
+        const borne = v => {
+            const n = Number(v);
+            if (!Number.isFinite(n)) {
+                console.warn('niveau illisible pour', b.name, ':', v);
+                illisible = true;
+                return min;
+            }
+            return Math.min(Math.max(n, min), max);
+        };
+        b.current = borne(b.current);
+        b.target = Math.max(borne(b.target), b.current);
+    });
+    if (illisible && window.ktWarnCorrupt) window.ktWarnCorrupt();
+    const tier = document.getElementById('serverTier');
+    if (tier && tier.selectedIndex < 0) tier.value = '8';
 }
 
 // Remet buildingsState dans l'ordre d'affichage canonique du JSON (defaultBuildings).
@@ -409,6 +453,82 @@ function toggleBuildingEnabled(index, checked) {
     tgAfterEdit();
 }
 
+// ============ MODIFICATION GROUPÉE ============
+// Même barre que l'onglet « Avant l'Or Véritable » (classes `.pre-bulk*`), mêmes
+// règles : un bâtiment dont la liste ne va pas jusqu'au niveau demandé prend sa
+// propre borne (l'Académie de guerre commence à TG1-0), une cible sous l'actuel
+// est remontée, et le compte annoncé est celui des lignes qui ont vraiment bougé.
+// Redessinée au démarrage et à la langue seulement : la reconstruire à chaque
+// saisie remettrait les listes du joueur à leur valeur par défaut.
+const tgBulk = { which: 'all', what: 'cur', level: 0 };
+
+function renderTgBulk() {
+    const host = document.getElementById('tg-bulk');
+    if (!host || !levelsRef.length) return;
+    const tx = i18n[GlobalLang.get()];
+    const opt = (v, cur, label) => `<option value="${v}"${v === cur ? ' selected' : ''}>${label}</option>`;
+    const lvOpts = levelsRef.map(l => opt(l.num, tgBulk.level, l.label)).join('');
+    host.innerHTML = `
+        <div class="pre-bulk-lbl" id="tg-bulk-title">${tx.bulkTitle}</div>
+        <div class="pre-bulk-row" role="group" aria-labelledby="tg-bulk-title">
+            <label class="pre-bulk-field"><span>${tx.bulkWhich}</span>
+                <select class="table-select" id="tg-bulk-which">${opt('all', tgBulk.which, tx.bulkAll)}${opt('on', tgBulk.which, tx.bulkOn)}</select></label>
+            <label class="pre-bulk-field"><span>${tx.bulkWhat}</span>
+                <select class="table-select" id="tg-bulk-what">${opt('cur', tgBulk.what, tx.bulkCur)}${opt('tgt', tgBulk.what, tx.bulkTgt)}${opt('both', tgBulk.what, tx.bulkBoth)}</select></label>
+            <label class="pre-bulk-field"><span>${tx.bulkLevel}</span>
+                <select class="table-select" id="tg-bulk-level">${lvOpts}</select></label>
+            <button type="button" class="btn-modern btn-modern-secondary" id="tg-bulk-go">${tx.bulkApply}</button>
+            <span class="pre-bulk-say" id="tg-bulk-say" role="status" aria-live="polite"></span>
+        </div>`;
+}
+
+// Vidé puis réécrit au tour suivant : un même message deux fois de suite ne change
+// pas le contenu de la zone `role="status"`, et un lecteur d'écran ne le relirait pas.
+function tgBulkSay(msg) {
+    const say = document.getElementById('tg-bulk-say');
+    if (!say) return;
+    say.textContent = '';
+    setTimeout(() => { say.textContent = msg; }, 50);
+}
+
+function tgBulkApply() {
+    const tx = i18n[GlobalLang.get()];
+    const cibles = buildingsState.filter(b => tgBulk.which === 'all' || b.enabled !== false);
+    if (!cibles.length) { tgBulkSay(tx.bulkNone); return; }
+    let changed = 0;
+    for (const b of cibles) {
+        const niveaux = levelsByBuilding[b.name];
+        if (!niveaux || !niveaux.length) continue;
+        const min = niveaux[0].num, max = niveaux[niveaux.length - 1].num;
+        const v = Math.min(Math.max(tgBulk.level, min), max);
+        const avant = b.current + '/' + b.target;
+        if (tgBulk.what === 'cur' || tgBulk.what === 'both') b.current = v;
+        if (tgBulk.what === 'tgt' || tgBulk.what === 'both') b.target = v;
+        if (b.target < b.current) b.target = b.current;
+        if (b.current + '/' + b.target !== avant) changed++;
+    }
+    if (changed) {
+        tgEtape('invalidatePlan', tgInvalidatePlan);
+        if (!tgEtape('renderBuildings', renderBuildings) && window.ktWarnStale) window.ktWarnStale();
+        tgEtape('saveData', saveData);
+        tgAfterEdit();
+    }
+    tgBulkSay(changed ? changed + ' ' + tx.bulkDone : tx.bulkNothing);
+}
+
+function initTgBulk() {
+    const host = document.getElementById('tg-bulk');
+    if (!host) return;
+    host.addEventListener('change', e => {
+        const id = e.target.id;
+        if (id === 'tg-bulk-which') tgBulk.which = e.target.value;
+        else if (id === 'tg-bulk-what') tgBulk.what = e.target.value;
+        else if (id === 'tg-bulk-level') { const n = parseInt(e.target.value, 10); if (Number.isFinite(n)) tgBulk.level = n; }
+    });
+    host.addEventListener('click', e => { if (e.target && e.target.id === 'tg-bulk-go') tgBulkApply(); });
+    renderTgBulk();
+}
+
 // ============ BONUS CONSTRUCTION PAN ============
 let panAutoHours = null; // null = manuel ; nombre = auto (PAN renseigné)
 
@@ -460,7 +580,8 @@ function applyPanUI() {
 }
 
 // ============ PALIER SERVEUR ============
-// L'âge du serveur ouvre les paliers TG par crans (TG3, TG5, TG8, TG10). Au palier N,
+// L'âge du serveur ouvre les paliers TG par crans (TG3, TG5, TG8 ; aucun serveur ne
+// dépasse TG8, TG9 et TG10 sont des valeurs reprises de Whiteout Survival). Au palier N,
 // le dernier niveau disponible en jeu est TGN-0 : TGN-1 et au-delà n'existent pas encore.
 // Ne concerne QUE l'optimiseur (le tableau garde tous les niveaux sélectionnables).
 function getServerTier() {
@@ -1662,9 +1783,12 @@ function SUGGERER_KINGSHOT(stockTG, stockTTG, transfoUtilisees, vitesseAmelio, a
             derniere.etapes.push(amelio);
         } else {
             const niveauPrecedent = db[amelio.nom] && db[amelio.nom][amelio.niveauCible - 1];
+            // Le niveau 0 (« TC30 », pas encore entré dans l'Or Véritable) n'a pas de
+            // ligne de coût : son libellé vient de la liste des niveaux.
+            const depart0 = (levelsByBuilding[amelio.nom] || []).find(l => l.num === amelio.niveauCible - 1);
             series.push({
                 nom: amelio.nom,
-                labelDepart: niveauPrecedent ? niveauPrecedent.label : '',
+                labelDepart: niveauPrecedent ? niveauPrecedent.label : (depart0 ? depart0.label : ''),
                 etapes: [amelio]
             });
         }
@@ -1950,11 +2074,12 @@ function tgInitHelp() {
         },
         steps: {
             FR: [
-                "Choisis le « Palier serveur » : c'est le palier le plus haut ouvert sur ton serveur (TG3, TG5, TG8 ou TG10). Au palier TG8, par exemple, un bâtiment peut monter au maximum en TG8-0, car le TG8-1 n'existe pas encore en jeu. Ce réglage ne limite que les suggestions, pas les niveaux que tu peux sélectionner dans le tableau.",
+                "Choisis le « Palier serveur » : c'est le palier le plus haut ouvert sur ton serveur (TG3, TG5 ou TG8). Au palier TG8, un bâtiment peut monter au maximum en TG8-0, car le TG8-1 n'existe pas encore en jeu. Aucun serveur n'a encore dépassé TG8, donc le tableau s'arrête aussi à TG8-0. Ce réglage ne limite que les suggestions, pas les niveaux que tu peux sélectionner dans le tableau.",
                 "Renseigne tes stocks de TrueGold (TG) et Or Véritable Trempé (TTG), et le nombre de transformations déjà utilisées (max 100).",
                 "Deux types de bonus. Les bonus de vitesse s'additionnent et divisent le temps de base. Recopie dans « Bonus Vitesse » la statistique affichée par ta ville : elle compte déjà le 1er Ministre et le bonus KVK, il n'y a plus de case pour eux et plus moyen de les compter deux fois. Reste le Loup Gris : le Loup Gris annonce « +15 % de vitesse de construction », c'est un bonus de vitesse comme les autres. Attention, la stat de vitesse affichée en jeu l'inclut déjà quand il est actif. Si tu l'as relevée à ce moment-là, laisse la case décochée pour ne pas le compter deux fois. Les Bouchées Doubles, elles, sont à part : elles coupent 20 % du temps de base en plus de tout le reste. Indique aussi tes accélérateurs (jours / heures / minutes).",
                 "Pour chaque bâtiment, mets son niveau actuel et le niveau cible que tu veux atteindre.",
                 "Décoche la case devant un bâtiment pour l'exclure des suggestions (quel que soit le mode) : il reste figé à son niveau actuel et sert toujours de prérequis aux autres.",
+                "La barre « Modification groupée des niveaux », au-dessus du tableau, règle d'un coup le niveau actuel, la cible ou les deux, pour tous les bâtiments ou les seuls cochés.",
                 "Choisis le mode : « Max points KVK » (rentabilité maximale en points), « Max bâtiments » (en monter le plus possible), ou « Score cible » (atteindre un score précis au coût le plus bas).",
                 "En mode « Score cible », saisis le score visé : l'outil trouve la combinaison la moins chère (bâtiments + transformations + accélérateurs) pour l'atteindre.",
                 "Clique sur « Calculer la suggestion » au-dessus du résultat : le plan ne se calcule qu'à ta demande. Si tu modifies une valeur ensuite, il reste affiché en grisé jusqu'au prochain calcul.",
@@ -1963,11 +2088,12 @@ function tgInitHelp() {
                 "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux passent à ceux du plan et tes stocks (TG, TTG, transformations, accélérateurs) sont réduits d'autant. Relance ensuite le calcul pour la suggestion suivante."
             ],
             EN: [
-                "Pick your \"Server tier\": the highest tier open on your server (TG3, TG5, TG8 or TG10). At tier TG8 for instance, a building can only go up to TG8-0, because TG8-1 isn't in the game yet. This setting only limits the suggestions, not the levels you can pick in the table.",
+                "Pick your \"Server tier\": the highest tier open on your server (TG3, TG5 or TG8). At tier TG8, a building can only go up to TG8-0, because TG8-1 isn't in the game yet. No server has gone past TG8 so far, so the table also stops at TG8-0. This setting only limits the suggestions, not the levels you can pick in the table.",
                 "Enter your TrueGold (TG) and Tempered TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
                 "Two kinds of bonus. Speed bonuses add up and divide the base time. Copy into \"Bonus Speed\" the stat your city shows: it already counts Ground Works and the KVK bonus, there is no box for them any more and no way to count them twice. That leaves the Grey Wolf: the Grey Wolf reads \"+15% construction speed\", so it is a speed bonus like the others. Careful, your in-game speed stat already includes it while it is active. If that is when you read it, leave the box unchecked so it isn't counted twice. Double Time is the odd one out: it cuts 20% off the base time on top of everything else. Also set your speedups (days / hours / minutes).",
                 "For each building, set its current level and the target level you want to reach.",
                 "Uncheck the box next to a building to exclude it from the suggestions (in any mode): it stays frozen at its current level and still counts as a prerequisite for the others.",
+                "The \"Bulk level change\" bar above the table sets the current level, the target or both in one go, for every building or only the ticked ones.",
                 "Pick a mode: \"Max KVK points\" (best points value), \"Max buildings\" (upgrade as many as possible), or \"Target score\" (reach a specific score at the lowest cost).",
                 "In \"Target score\" mode, type the score you aim for: the tool finds the cheapest combination (buildings + transformations + speedups) to reach it.",
                 "Click \"Calculate the suggestion\" above the result: the plan is only worked out when you ask. If you change a value afterwards, it stays on screen, greyed out, until you run it again.",
@@ -1984,6 +2110,8 @@ function tgInitHelp() {
     await loadDatabase();
     loadData();
     normalizeBuildingOrder();
+    tgEtape('clampSavedLevels', clampSavedLevels);
+    tgEtape('initTgBulk', initTgBulk);
     await loadPanBonus();
     const out = document.getElementById('output');
     const barre = out && out.parentNode.querySelector('.calc-bar');
@@ -1995,6 +2123,7 @@ function tgInitHelp() {
     triggerUpdate();
     tgInitHelp();
     window.addEventListener('langChanged', () => {
+        tgEtape('renderTgBulk', renderTgBulk);
         triggerUpdate();
         // Un plan à jour se redessine dans la nouvelle langue : mêmes valeurs, même plan.
         if (tgCalc && tgCalc.etat() === 'fresh') runCalculatorInner();
