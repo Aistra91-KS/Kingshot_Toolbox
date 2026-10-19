@@ -8,6 +8,44 @@
   },
   "releases": [
     {
+      "version": "1.15.6",
+      "date": "2026-10-19",
+      "changes": [
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Real-money values after the 19 October game update",
+            "FR": "Valeurs en argent réel après la mise à jour du 19/10"
+          },
+          "text": {
+            "EN": "Following the Kingshot update of Monday 19 October 2026, several packs changed contents and were surveyed again. The Speedup Weekly Card now gives 11,340 minutes of speedups instead of 7,140, so every general speedup costs about 37% less. The Truegold Weekly Card gives 207 TrueGold instead of 144. The Ultra Value Monthly Card goes from 14,000 to 17,000 gems: gems, the Gold Key and the VIP XP bundles get cheaper. A new pack joins the survey, Daily Deals - General Shard, now the cheapest source of universal mythic hero shards. The pick-one crates handed out by the weekly cards now count for what they hold, which makes the Gear Weekly Card the cheapest source of Enhancement XP, Lucky Hero Gear Chests and Forgehammers. The real-money values in the shops follow, and the five weekly cards show their new contents when you hover the pack name.",
+            "FR": "Suite à la mise à jour de Kingshot du lundi 19/10/2026, plusieurs packs ont changé de contenu et ont été relevés de nouveau. La Carte Hebdo Accélérer donne maintenant 11 340 minutes d'accélérateurs au lieu de 7 140 : chaque accélérateur général coûte environ 37 % de moins. La Carte Hebdo d'Or Véritable donne 207 Or Véritable au lieu de 144. La Carte Mensuelle Ultra passe de 14 000 à 17 000 gemmes : la gemme, la Clé en Or et les lots d'EXP VIP baissent. Un nouveau pack entre dans le relevé, l'Offre quotidienne Fragment universel, désormais la source la moins chère de fragments universels de héros mythique. Les caisses à choisir que donnent les cartes hebdo comptent maintenant pour leur contenu : la Carte hebdo Équipement devient la source la moins chère d'EXP d'Amélioration, de Caisses d'Équipement de Héros Chanceux et de Marteaux de Forge. Les valeurs en argent réel des boutiques suivent, et les cinq cartes hebdo montrent leur nouveau contenu au survol du nom du pack."
+          },
+          "href": "shop/items-euro",
+          "linkLabel": {
+            "EN": "Real-money item values",
+            "FR": "Valeur des objets en argent réel"
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Wilson: Viking Bounty up to date",
+            "FR": "Wilson : Prime Viking à jour"
+          },
+          "text": {
+            "EN": "After the same update, Wilson's Viking Bounty skill gives a chest every 100,000 points instead of 200,000, and twice as many chests at every level (2 to 20). Its power, shown as 0 until now, follows the in-game table: 18,000 per level.",
+            "FR": "Après la même mise à jour, la compétence Prime Viking de Wilson donne un coffre tous les 100 000 points au lieu de 200 000, et deux fois plus de coffres à chaque niveau (de 2 à 20). Sa puissance, affichée à 0 jusqu'ici, suit le tableau du jeu : 18 000 par niveau."
+          },
+          "href": "database/masters/wilson",
+          "linkLabel": {
+            "EN": "Wilson",
+            "FR": "Wilson"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.15.5",
       "date": "2026-10-18",
       "changes": [
