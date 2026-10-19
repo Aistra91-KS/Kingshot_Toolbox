@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 1.15.4
-covers-until: 2a2db40a841e1e9bf320212f91482315432f7fe0
-generated: 2026-10-13
+version: 1.15.6
+covers-until: f5725f87dca017a10561bd104745a73759e7b45c
+generated: 2026-10-19
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: La Boutique d'Aventure
-title-en: The Adventure Shop
+title-fr: Mise à jour de Kingshot du 19/10
+title-en: Kingshot update of 19 October
 -->
 
 <!--
@@ -68,16 +68,44 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### La Boutique d'Aventure
+### Les valeurs en argent réel suivent
 
-La boutique de l'événement Temple Abandonné a sa page : 16 objets payés en Pièces d'Aventure, chacun chiffré en gemmes et en argent réel. Elle ferme le 20 octobre à 00h UTC, un jour après la fin de l'événement.
+La mise à jour de lundi a changé plusieurs packs, et le relevé a été refait :
 
-👉 https://kingshottoolbox.com/shop/adventure-shop
+- La Carte Hebdo Accélérer donne 11 340 minutes au lieu de 7 140 pour 6 € : chaque accélérateur général coûte environ 37 % de moins.
+- La Carte Hebdo d'Or Véritable donne 207 Or Véritable au lieu de 144.
+- La Carte Mensuelle Ultra passe à 17 000 gemmes au lieu de 14 000 : la gemme, la Clé en Or et les lots d'EXP VIP baissent.
+- Nouveau pack relevé, l'Offre quotidienne Fragment universel : c'est maintenant la source la moins chère de fragments universels de héros mythique.
+- Les caisses à choisir des cartes hebdo comptent pour leur contenu. La Carte hebdo Équipement devient la moins chère pour l'EXP d'Amélioration, les Caisses d'Équipement de Héros Chanceux et les Marteaux de Forge.
+
+Les boutiques chiffrées en argent réel suivent ces nouveaux prix.
+
+👉 https://kingshottoolbox.com/shop/items-euro
+
+### Wilson : Prime Viking
+
+Un coffre tous les 100 000 points au lieu de 200 000, et deux fois plus de coffres à chaque niveau (de 2 à 20). La puissance de la compétence, affichée à 0, suit maintenant le tableau du jeu.
+
+👉 https://kingshottoolbox.com/database/masters/wilson
 
 ## EN
 
-### The Adventure Shop
+### Real-money values follow
 
-The store of the Forsaken Temple event has its page: 16 items paid in Adventure Coins, each one priced in gems and in real money. It closes on 20 October at 00:00 UTC, one day after the event ends.
+Monday's update changed several packs, and the survey was done again:
 
-👉 https://kingshottoolbox.com/shop/adventure-shop
+- The Speedup Weekly Card gives 11,340 minutes instead of 7,140 for $5: every general speedup costs about 37% less.
+- The Truegold Weekly Card gives 207 TrueGold instead of 144.
+- The Ultra Value Monthly Card goes up to 17,000 gems from 14,000: gems, the Gold Key and the VIP XP bundles get cheaper.
+- New pack in the survey, Daily Deals - General Shard: it is now the cheapest source of universal mythic hero shards.
+- The pick-one crates of the weekly cards count for what they hold. The Gear Weekly Card becomes the cheapest source of Enhancement XP, Lucky Hero Gear Chests and Forgehammers.
+
+Shops valued in real money follow these new prices.
+
+👉 https://kingshottoolbox.com/shop/items-euro
+
+### Wilson: Viking Bounty
+
+One chest every 100,000 points instead of 200,000, and twice as many chests at every level (2 to 20). The skill's power, shown as 0 until now, follows the in-game table.
+
+👉 https://kingshottoolbox.com/database/masters/wilson

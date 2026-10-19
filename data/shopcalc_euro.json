@@ -3,7 +3,7 @@
     "tier": "Gen 7 / TG5+",
     "packPrice": 6,
     "packPriceUsd": 5,
-    "updatedAt": "2026-09-13",
+    "updatedAt": "2026-10-19",
     "source": "Relevé in-game des packs ACHETABLES AU MOINS UNE FOIS PAR MOIS. Sont écartés : les packs d'événement, les packs VIP et les packs qui ne passent qu'une seule fois — un prix qu'on ne peut pas refaire le mois suivant n'est pas un prix de référence. Fourni et mis à jour périodiquement par Aistra (fichier Pack_ks.xlsx).",
     "note": "Seconde valorisation, en argent reel. La cle de `items` est l'id de data/shopcalc_items.json ; `packs` liste les packs offrant le MEILLEUR PRIX UNITAIRE pour cet objet — prix du pack divise par la quantite obtenue. Les packs releves n'ont plus tous le meme prix : `_meta.packPrice` / `packPriceUsd` donnent le prix par DEFAUT (6 € / 5 $), et un pack qui coute autre chose porte son propre `price` / `priceUsd` dans `packs`. C'est ce qui a fait tomber la vieille regle « le plus d'exemplaires » : a deux prix differents, la plus grosse quantite n'est plus forcement la moins chere (20 accelerateurs 3h a 24 € sont plus chers que 12 a 6 €). UN seul pack => son image illustre l'objet (img/packs/<id>.webp) ; PLUSIEURS packs => la page affiche « multipack » et aucune image. Le prix unitaire n'est jamais stocke : il se recalcule a l'affichage. Fichier ADMIN en lecture seule, regenerable d'un bloc depuis le releve Excel. Les quantites du releve font foi, Y COMPRIS a la baisse. QUATRE blocs corrigent ce que le releve seul dit mal, et se CONSERVENT lors d'une regeneration de `items` (ils ne viennent PAS de l'Excel) : `derived` {fromId, factor, packs?, how} deduit la valeur d'un objet de celle d'un autre et REMPLACE le releve quand les deux existent ; une valeur deduite n'affiche AUCUN pack, sauf si la regle en nomme un dans `packs` (le pack qui chiffre `fromId` vaut alors aussi pour elle) — un releve peut etre exact et son prix unitaire absurde (un pack genereux sur un objet ne le rend pas plus utile) ; `speedups` fixe le prix d'UNE minute d'accelerateur (prix du pack de base / total de minutes du pack le plus genereux) et en deduit les cinq accelerateurs, pour qu'une heure vaille toujours 60 minutes ; les cinq affichent donc `basis.packs` comme pack d'origine, et non celui qui en donne le plus ; `affinity` fait pareil pour les trois jetons d'affinite (Cor en cuivre 10 points, Coupe en argent 100, Epices d'elite 1 000) : `basis` = le pack qui donne le plus de POINTS D'AFFINITE par euro, toutes sortes de jetons additionnees, et le point vaut prix de ce pack / basis.points ; les trois affichent ce pack-la comme pack d'origine, et non chacun le sien. Comme `speedups.basis`, ce total ne se retrouve PAS dans `items` (un pack n'y apparait que sous l'objet dont il est le meilleur prix unitaire, et les 8 Epices + 8 Coupes de l'Ensemble de cadeaux d'expert n'y figurent nulle part) : il se RELIT dans l'Excel a chaque livraison ; A prix unitaire EGAL entre deux packs de tarifs differents, `items` retient le MOINS CHER : le format {qty, packs[]} ne sait pas decrire « 24 dans un pack a 6 € OU 96 dans un pack a 24 € », et a l'unite pres c'est le petit ticket qui se conseille. C'est le cas du Ranger de la nature, exactement 4x le pack Rencontre Frontaliere pour 4x le prix. `weights` applique une ponderation ASSUMEE (choix editorial, pas une mesure) au resultat, ex. x0,25 sur les ressources brutes."
   },
@@ -51,6 +51,10 @@
     "daily-deals": {
       "FR": "Offres Quotidiennes",
       "EN": "Daily Deals"
+    },
+    "daily-deals-general-shard": {
+      "FR": "Offres quotidiennes - Fragment universel",
+      "EN": "Daily Deals - General Shard"
     },
     "exclusive-gear-enhancement-special": {
       "FR": "Amélioration d'Equipement Exclusif Spécial",
@@ -297,8 +301,8 @@
       "factor": 1500,
       "ceiling": true,
       "how": {
-        "FR": "La Cl\u00e9 en Or co\u00fbte 1 500 gemmes en jeu : c'est ce que vaut sa monnaie d'achat, donc son prix r\u00e9el. Le relev\u00e9 seul la sortait d'un coffre personnalis\u00e9 \u00e0 6 \u20ac dont elle n'est qu'une ligne parmi d'autres, et lui collait le prix entier du pack, soit 4,7 fois trop. La r\u00e8gle est un plafond : si un pack la descend un jour sous les 1 500 gemmes, c'est ce pack qui fera le prix.",
-        "EN": "The Gold Key costs 1,500 gems in game: that is what its purchase currency is worth, so that is its real price. The survey alone had it coming out of a 6 euro custom chest where it is only one line among several, which handed it the whole pack price, 4.7 times too much. The rule is a ceiling: the day a pack sells it for less than 1,500 gems, that pack sets the price."
+        "FR": "La Cl\u00e9 en Or co\u00fbte 1 500 gemmes en jeu : c'est ce que vaut sa monnaie d'achat, donc son prix r\u00e9el. Le relev\u00e9 seul la sortait d'un coffre personnalis\u00e9 \u00e0 6 \u20ac dont elle n'est qu'une ligne parmi d'autres, et lui collait le prix entier du pack, soit 5,7 fois trop. La r\u00e8gle est un plafond : si un pack la descend un jour sous les 1 500 gemmes, c'est ce pack qui fera le prix.",
+        "EN": "The Gold Key costs 1,500 gems in game: that is what its purchase currency is worth, so that is its real price. The survey alone had it coming out of a 6 euro custom chest where it is only one line among several, which handed it the whole pack price, 5.7 times too much. The rule is a ceiling: the day a pack sells it for less than 1,500 gems, that pack sets the price."
       }
     },
     "10_exp_vip": {
@@ -306,8 +310,8 @@
       "factor": 20,
       "ceiling": true,
       "how": {
-        "FR": "Un point d'EXP VIP vaut 2 gemmes, ce lot de 10 en vaut donc 20 : c'est d\u00e9j\u00e0 le rapport du r\u00e9f\u00e9rentiel gemmes. Le relev\u00e9 le chiffrait 0,020 \u20ac contre 0,017 \u20ac par la gemme. La r\u00e8gle est un plafond : un pack qui ferait moins cher reprendrait la main.",
-        "EN": "One VIP EXP point is worth 2 gems, so this bundle of 10 is worth 20: that is already the gem reference ratio. The survey priced it at 0.020 euro against 0.017 by the gem. The rule is a ceiling: a pack selling it for less would take over."
+        "FR": "Un point d'EXP VIP vaut 2 gemmes, ce lot de 10 en vaut donc 20 : c'est d\u00e9j\u00e0 le rapport du r\u00e9f\u00e9rentiel gemmes. Le relev\u00e9 le chiffrait 0,020 \u20ac contre 0,014 \u20ac par la gemme. La r\u00e8gle est un plafond : un pack qui ferait moins cher reprendrait la main.",
+        "EN": "One VIP EXP point is worth 2 gems, so this bundle of 10 is worth 20: that is already the gem reference ratio. The survey priced it at 0.020 euro against 0.014 by the gem. The rule is a ceiling: a pack selling it for less would take over."
       }
     },
     "100_exp_vip": {
@@ -315,8 +319,8 @@
       "factor": 200,
       "ceiling": true,
       "how": {
-        "FR": "Un point d'EXP VIP vaut 2 gemmes, ce lot de 100 en vaut donc 200, comme dans le r\u00e9f\u00e9rentiel gemmes. Le relev\u00e9 le chiffrait 0,200 \u20ac contre 0,171 \u20ac par la gemme. Les lots de 1 000 et de 10 000 se d\u00e9duisant de celui-ci, ils suivent le m\u00eame prix sans r\u00e8gle de plus. Plafond l\u00e0 aussi : un pack moins cher reprendrait la main.",
-        "EN": "One VIP EXP point is worth 2 gems, so this bundle of 100 is worth 200, as in the gem reference. The survey priced it at 0.200 euro against 0.171 by the gem. The 1,000 and 10,000 bundles follow from this one, so they take the same price with no further rule. A ceiling here too: a cheaper pack would take over."
+        "FR": "Un point d'EXP VIP vaut 2 gemmes, ce lot de 100 en vaut donc 200, comme dans le r\u00e9f\u00e9rentiel gemmes. Le relev\u00e9 le chiffrait 0,200 \u20ac contre 0,141 \u20ac par la gemme. Les lots de 1 000 et de 10 000 se d\u00e9duisant de celui-ci, ils suivent le m\u00eame prix sans r\u00e8gle de plus. Plafond l\u00e0 aussi : un pack moins cher reprendrait la main.",
+        "EN": "One VIP EXP point is worth 2 gems, so this bundle of 100 is worth 200, as in the gem reference. The survey priced it at 0.200 euro against 0.141 by the gem. The 1,000 and 10,000 bundles follow from this one, so they take the same price with no further rule. A ceiling here too: a cheaper pack would take over."
       }
     },
     "custom_mythic_hero_gear_chest": {
@@ -477,11 +481,11 @@
       "factor": 1,
       "ceiling": true,
       "packs": [
-        "custom-pet-chest-common-custom-chest"
+        "pet-weekly-card"
       ],
       "how": {
-        "FR": "Le Coffre personnalisé de Matériaux d'Avancement Animal s'ouvre au choix sur 1 Médaillon de Promotion, 2 Potions Nutritives ou 7 Manuels de Croissance. Un médaillon ne peut donc pas coûter plus cher que le coffre qui le donne : le relevé le sortait à 0,750 € dans son propre pack (6 € les 8), contre 0,333 € en passant par le coffre (6 € les 18). La règle est un plafond : si un pack vend un jour le médaillon moins cher que le coffre, c'est ce pack qui fera le prix.",
-        "EN": "The Pet Advancement Materials Custom Chest opens on a choice of 1 Promotion Medallion, 2 Nutrient Potions or 7 Growth Manuals. A medallion therefore cannot cost more than the chest that gives it: the survey had it at 0.750 euro in its own pack (8 for 6 euros), against 0.333 euro through the chest (18 for 6 euros). The rule is a ceiling: the day a pack sells the medallion for less than the chest, that pack sets the price."
+        "FR": "Le Coffre personnalisé de Matériaux d'Avancement Animal s'ouvre au choix sur 1 Médaillon de Promotion, 2 Potions Nutritives ou 7 Manuels de Croissance. Un médaillon ne peut donc pas coûter plus cher que le coffre qui le donne : le relevé le sortait à 0,750 € dans son propre pack (6 € les 8), contre 0,286 € en passant par le coffre (6 € les 21 dans la Carte Hebdo Animal). La règle est un plafond : si un pack vend un jour le médaillon moins cher que le coffre, c'est ce pack qui fera le prix.",
+        "EN": "The Pet Advancement Materials Custom Chest opens on a choice of 1 Promotion Medallion, 2 Nutrient Potions or 7 Growth Manuals. A medallion therefore cannot cost more than the chest that gives it: the survey had it at 0.750 euro in its own pack (8 for 6 euros), against 0.286 euro through the chest (21 for 6 euros in the Pet Weekly Card). The rule is a ceiling: the day a pack sells the medallion for less than the chest, that pack sets the price."
       }
     },
     "nutrient_potion": {
@@ -489,11 +493,11 @@
       "factor": 0.5,
       "ceiling": true,
       "packs": [
-        "custom-pet-chest-common-custom-chest"
+        "pet-weekly-card"
       ],
       "how": {
-        "FR": "Le Coffre personnalisé de Matériaux d'Avancement Animal donne au choix 2 Potions Nutritives : une potion vaut donc au plus la moitié du coffre. Le relevé la sortait à 0,375 € dans le Pack Énergie Animal (6 € les 16), contre 0,167 € en passant par le coffre. Plafond là aussi : un pack moins cher reprendrait la main.",
-        "EN": "The Pet Advancement Materials Custom Chest gives a choice of 2 Nutrient Potions, so one potion is worth at most half the chest. The survey had it at 0.375 euro in the Pet Energy Pack (16 for 6 euros), against 0.167 euro through the chest. A ceiling here too: a cheaper pack would take over."
+        "FR": "Le Coffre personnalisé de Matériaux d'Avancement Animal donne au choix 2 Potions Nutritives : une potion vaut donc au plus la moitié du coffre. Le relevé la sortait à 0,375 € dans le Pack Énergie Animal (6 € les 16), contre 0,143 € en passant par le coffre. Plafond là aussi : un pack moins cher reprendrait la main.",
+        "EN": "The Pet Advancement Materials Custom Chest gives a choice of 2 Nutrient Potions, so one potion is worth at most half the chest. The survey had it at 0.375 euro in the Pet Energy Pack (16 for 6 euros), against 0.143 euro through the chest. A ceiling here too: a cheaper pack would take over."
       }
     },
     "growth_manual": {
@@ -501,11 +505,11 @@
       "factor": 0.14285714285714285,
       "ceiling": true,
       "packs": [
-        "custom-pet-chest-common-custom-chest"
+        "pet-weekly-card"
       ],
       "how": {
-        "FR": "Le Coffre personnalisé de Matériaux d'Avancement Animal donne au choix 7 Manuels de Croissance : un manuel vaut donc au plus un septième du coffre (le facteur 0,142857 est 1 ÷ 7). Le relevé le sortait à 0,109 € dans le Pack Manuel de Croissance (6 € les 55), contre 0,048 € en passant par le coffre. Plafond là aussi : un pack moins cher reprendrait la main.",
-        "EN": "The Pet Advancement Materials Custom Chest gives a choice of 7 Growth Manuals, so one manual is worth at most a seventh of the chest (the 0.142857 factor is 1 ÷ 7). The survey had it at 0.109 euro in the Growth Manual Pack (55 for 6 euros), against 0.048 euro through the chest. A ceiling here too: a cheaper pack would take over."
+        "FR": "Le Coffre personnalisé de Matériaux d'Avancement Animal donne au choix 7 Manuels de Croissance : un manuel vaut donc au plus un septième du coffre (le facteur 0,142857 est 1 ÷ 7). Le relevé le sortait à 0,109 € dans le Pack Manuel de Croissance (6 € les 55), contre 0,041 € en passant par le coffre. Plafond là aussi : un pack moins cher reprendrait la main.",
+        "EN": "The Pet Advancement Materials Custom Chest gives a choice of 7 Growth Manuals, so one manual is worth at most a seventh of the chest (the 0.142857 factor is 1 ÷ 7). The survey had it at 0.109 euro in the Growth Manual Pack (55 for 6 euros), against 0.041 euro through the chest. A ceiling here too: a cheaper pack would take over."
       }
     }
   },
@@ -514,19 +518,19 @@
       "packs": [
         "speedup-weekly-card"
       ],
-      "minutes": 7140,
+      "minutes": 11340,
       "detail": [
         {
           "itemId": "1h_general_speedup",
-          "qty": 70
+          "qty": 98
         },
         {
           "itemId": "5m_general_speedup",
-          "qty": 504
+          "qty": 924
         },
         {
           "itemId": "1m_general_speedup",
-          "qty": 420
+          "qty": 840
         }
       ]
     },
@@ -588,7 +592,7 @@
       ]
     },
     "100_enhancement_xp_component": {
-      "qty": 126,
+      "qty": 154,
       "packs": [
         "gear-weekly-card"
       ]
@@ -596,7 +600,8 @@
     "100_exp_vip": {
       "qty": 30,
       "packs": [
-        "daily-deals"
+        "daily-deals",
+        "daily-deals-general-shard"
       ]
     },
     "10_exp_vip": {
@@ -630,13 +635,13 @@
       ]
     },
     "1h_general_speedup": {
-      "qty": 87,
+      "qty": 98,
       "packs": [
-        "weekly-benefits-card-building"
+        "speedup-weekly-card"
       ]
     },
     "1m_general_speedup": {
-      "qty": 420,
+      "qty": 840,
       "packs": [
         "speedup-weekly-card"
       ]
@@ -650,11 +655,12 @@
     "3h_general_speedup": {
       "qty": 12,
       "packs": [
-        "daily-deals"
+        "daily-deals",
+        "daily-deals-general-shard"
       ]
     },
     "5m_general_speedup": {
-      "qty": 504,
+      "qty": 924,
       "packs": [
         "speedup-weekly-card"
       ]
@@ -734,9 +740,9 @@
       ]
     },
     "forgehammers": {
-      "qty": 39,
+      "qty": 56,
       "packs": [
-        "weekly-benefits-card-hero-gear"
+        "gear-weekly-card"
       ]
     },
     "fragment_of_a_specific_mythical_hero": {
@@ -746,7 +752,7 @@
       ]
     },
     "gem": {
-      "qty": 14000,
+      "qty": 17000,
       "packs": [
         "ultra-value-monthly-card"
       ]
@@ -803,11 +809,9 @@
       ]
     },
     "lucky_hero_gear_chest": {
-      "qty": 36,
+      "qty": 73,
       "packs": [
-        "custom-arms-set-common-custom-chest",
-        "weekly-deal-lucky-chest",
-        "wishful-emporium"
+        "gear-weekly-card"
       ]
     },
     "lv1_custom_resource_chest": {
@@ -862,9 +866,9 @@
       ]
     },
     "mythic_general_hero_shard": {
-      "qty": 10,
+      "qty": 12,
       "packs": [
-        "weekly-deal-hero-shard"
+        "daily-deals-general-shard"
       ]
     },
     "nutrient_potion": {
@@ -874,9 +878,9 @@
       ]
     },
     "pet_advancement_materials_custom_chest": {
-      "qty": 18,
+      "qty": 21,
       "packs": [
-        "custom-pet-chest-common-custom-chest"
+        "pet-weekly-card"
       ]
     },
     "pet_food_x1": {
@@ -928,7 +932,7 @@
       ]
     },
     "truegold": {
-      "qty": 144,
+      "qty": 207,
       "packs": [
         "truegold-weekly-card"
       ]
