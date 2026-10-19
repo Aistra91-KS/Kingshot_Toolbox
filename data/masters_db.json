@@ -3973,80 +3973,80 @@
           "FR": "Prime Viking"
         },
         "TextToInclude": {
-          "FR": "Wilson transmet la prime sur les Vikings à chaque foyer de la ville, augmentant de X% les points gagnés lors des vengeances viking, et offrant une récompense de coffre pour 200 000 points gagnés, jusqu'à X coffres par saison.",
-          "EN": "Wilson spread word of the Viking bounties to every household in town, increasing points earned during the Viking Vengeance event by X%. For every 200,000 points earned, you gain one chest reward, up to X per event."
+          "FR": "Wilson transmet la prime sur les Vikings à chaque foyer de la ville, augmentant de X% les points gagnés lors des vengeances viking, et offrant une récompense de coffre pour 100 000 points gagnés, jusqu'à X coffres par saison.",
+          "EN": "Wilson spread word of the Viking bounties to every household in town, increasing points earned during the Viking Vengeance event by X%. For every 100,000 points earned, you gain one chest reward, up to X per event."
         },
         "unlockRelLevel": 30,
         "levels": [
           {
             "level": 1,
-            "effect": "(5;1)",
+            "effect": "(5;2)",
             "xpCost": 0,
             "manuscripts": 0,
-            "power": 0
+            "power": 18000
           },
           {
             "level": 2,
-            "effect": "(10;2)",
+            "effect": "(10;4)",
             "xpCost": 25800,
             "manuscripts": 300,
-            "power": 0
+            "power": 36000
           },
           {
             "level": 3,
-            "effect": "(15;3)",
+            "effect": "(15;6)",
             "xpCost": 51600,
             "manuscripts": 600,
-            "power": 0
+            "power": 54000
           },
           {
             "level": 4,
-            "effect": "(20;4)",
+            "effect": "(20;8)",
             "xpCost": 77400,
             "manuscripts": 900,
-            "power": 0
+            "power": 72000
           },
           {
             "level": 5,
-            "effect": "(25;5)",
+            "effect": "(25;10)",
             "xpCost": 103200,
             "manuscripts": 1200,
-            "power": 0
+            "power": 90000
           },
           {
             "level": 6,
-            "effect": "(30;6)",
+            "effect": "(30;12)",
             "xpCost": 129200,
             "manuscripts": 1500,
-            "power": 0
+            "power": 108000
           },
           {
             "level": 7,
-            "effect": "(35;7)",
+            "effect": "(35;14)",
             "xpCost": 155143,
             "manuscripts": 1800,
-            "power": 0
+            "power": 126000
           },
           {
             "level": 8,
-            "effect": "(40;8)",
+            "effect": "(40;16)",
             "xpCost": 181050,
             "manuscripts": 2100,
-            "power": 0
+            "power": 144000
           },
           {
             "level": 9,
-            "effect": "(45;9)",
+            "effect": "(45;18)",
             "xpCost": 206933,
             "manuscripts": 2400,
-            "power": 0
+            "power": 162000
           },
           {
             "level": 10,
-            "effect": "(50;10)",
+            "effect": "(50;20)",
             "xpCost": 232800,
             "manuscripts": 2700,
-            "power": 0
+            "power": 180000
           }
         ]
       },
