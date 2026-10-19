@@ -649,7 +649,13 @@
       "EN": "Dragon's Caravan",
       "FR": "Caravane du Dragon"
     },
-    "endsAt": "2026-08-31T00:00:00Z",
+    "startsAt": "2026-10-19T00:00:00Z",
+    "endsAt": "2026-10-26T00:00:00Z",
+    "previousEditions": [
+      {
+        "endsAt": "2026-08-31T00:00:00Z"
+      }
+    ],
     "resourceName": {
       "EN": "Dragon Essence",
       "FR": "Essence Draconique"
