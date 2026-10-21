@@ -580,7 +580,13 @@
       "EN": "Flamedragon Tyrant - Prediction Shop",
       "FR": "Tyran - Magasin de Pronostique"
     },
-    "endsAt": "2026-09-02T00:00:00Z",
+    "startsAt": "2026-10-21T00:00:00Z",
+    "endsAt": "2026-10-28T00:00:00Z",
+    "previousEditions": [
+      {
+        "endsAt": "2026-09-02T00:00:00Z"
+      }
+    ],
     "resourceName": {
       "EN": "Dragonclaw Mark",
       "FR": "Marque Draconique"
