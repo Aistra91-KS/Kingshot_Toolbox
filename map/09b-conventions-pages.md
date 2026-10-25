@@ -11,6 +11,7 @@
 - **Canonique absolue** (`https://kingshottoolbox.com/<chemin>`, l'accueil sur la racine) : seule URL absolue du HTML. Elle correspond exactement à la ligne de `sitemap.xml` (dépôt public), les deux listes se vérifient en 1:1.
 - **JSON-LD** en fin de `<head>`, validé par `json.loads` avant commit : `WebSite` + `Organization` sur l'accueil ; `WebApplication` sur les 8 pages outils ; `BreadcrumbList` sur toute page à fil d'Ariane `.db-breadcrumb` (libellés EN, reflet du fil visible) et sur les 8 outils (2 maillons, accueil → outil : les catégories n'ont pas d'URL). Le dernier maillon vaut exactement la canonique.
 - **Un seul `<h1>`** : le nom visible (BDD, boutiques), le titre de page (Caserne, Experts), ou un `h1` masqué accessible portant le nom de l'outil sur les outils sans titre visible. Jamais de bourrage de mots-clés.
+- **Texte daté hors des extraits : `data-nosnippet`** (sur `div`, `span` ou `section`, seuls éléments que Google honore). Google exécute le JS et peut bâtir l'extrait d'une page sur ce qu'il a rendu : un « événement terminé » lu pendant l'entracte s'affichait encore dans les résultats une fois la boutique rouverte. Portent l'attribut : `#sp-facts` et `#sp-archive` des pages boutique, la pastille de compte à rebours des cartes, `.stx-verdict` du Théâtre, et le bandeau de consentement.
 - **Sitemap à valider par son URL publiée** (`https://kingshottoolbox.com/sitemap.xml`), jamais par la vue `blob/` de github.com, servie en `text/html`. Il se soumet aussi dans Google Search Console. `robots.txt` à la racine du domaine fait autorité.
 
 ### Maillage sans JavaScript
@@ -20,9 +21,11 @@
 - La **source de vérité reste `js/site-config.js`** : `hub.js` re-rend la grille, et un outil ajouté se recopie dans `index.html` depuis le rendu anglais.
 
 ### Favicon
-- **4 balises en dur** dans chaque `<head>` : `favicon.svg`, `favicon-96.png`, `favicon-32.png`, `apple-touch-icon.png` (chemins relatifs). Le robot favicon de Google n'exécute pas le JS ; le bloc de `header.js` n'est qu'un filet si la page n'a aucun `link[rel=icon]`. Google exige au moins 48×48 (multiple de 48) : c'est le rôle du 96. Les PNG et `favicon.ico` (16+32+48) se régénèrent depuis `favicon.svg` (cairosvg).
+- **4 balises en dur** dans chaque `<head>` : `favicon.svg`, `favicon-96.png`, `favicon-32.png`, `apple-touch-icon.png` (chemins relatifs, suffixe `?v=2`). Le robot favicon de Google n'exécute pas le JS ; le bloc de `header.js` n'est qu'un filet si la page n'a aucun `link[rel=icon]`. Google exige au moins 48×48 (multiple de 48) : c'est le rôle du 96. Les PNG et `favicon.ico` (16+32+48) se régénèrent depuis `favicon.svg` (cairosvg).
 - **`favicon.svg` est le dessin du petit format** (16 px dans Google, 24 px dans le header ; 1 px = 4 unités sur 64). Trois règles, à vérifier en rendant le SVG à 16 px : fond perdu de 0 à 64 (le cercle de Google laisse sinon des éclats blancs) ; aucun détail sous 4 unités ; glyphe à moins de ~27 unités du centre (32, 32).
-- **Les grands formats gardent le dessin détaillé** : `apple-touch-icon.png` (180 px) et `logo-512.png` (logo du JSON-LD) ne se régénèrent pas depuis `favicon.svg` et n'ont pas de source SVG dans le dépôt.
+- **`apple-touch-icon.png` sort aussi de `favicon.svg`**, rendu à 180 px sur un carré plein sans coins arrondis (iOS arrondit lui-même et remplit de noir toute transparence). Google peut retenir cette balise comme favicon. Fin octobre 2026, sept semaines après le nouveau dessin, les résultats montraient encore l'ancien (cadenas, épées croisées, liseré) : soit Google lisait l'`apple-touch-icon`, qui le portait encore, soit il gardait l'ancienne image en cache. Le dessin unique et le `?v=` ci-dessous couvrent les deux cas.
+- **`logo-512.png` garde le dessin détaillé** : c'est le logo du JSON-LD `Organization`, pas un favicon. Pas de source SVG dans le dépôt.
+- **Changer le dessin, c'est changer le `?v=N`** sur les 4 balises de toutes les pages (gabarits de `tools/templates/` compris, puis `build_pages.py`). Google garde en cache l'image d'une adresse de favicon pendant des semaines ; une adresse neuve est relue au prochain passage sur l'accueil.
 - Google lit un favicon par nom de domaine, sur la page d'accueil : celui d'`index.html` vaut pour tout `kingshottoolbox.com`.
 
 ### Boutiques : deux valorisations

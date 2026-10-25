@@ -39,6 +39,9 @@ function scHydrateCard(card){
     // Posé dans tous les cas : c'est le tick qui décide de montrer « Fin dans » ou non,
     // sinon un badge hydraté « terminé » n'aurait plus de préfixe à retrouver.
     b.setAttribute('data-ends-prefix','1');
+    // Hors des extraits Google : une page rendue pendant l'entracte afficherait
+    // « Terminé » dans les résultats jusqu'au prochain passage du robot.
+    b.setAttribute('data-nosnippet','');
     b.textContent=(ended?'':scT('endsIn')+' ')+scTimeLeftTxt(shop.endsAt);
     thumb.appendChild(b);
   }
