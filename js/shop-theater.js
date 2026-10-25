@@ -863,7 +863,7 @@ function stRender(host, c) {
         ${stKpiHtml(kpis)}
         ${stReconcileHtml(total, spent, derived, future, pocket, stEventDayNow(c), muted)}
         ${stControlsHtml()}
-        <div class="stx-verdict">${verdict}</div>
+        <div class="stx-verdict" data-nosnippet>${verdict}</div>
         ${reachRows ? `<h3>${stT('reachTitle')}</h3><p class="sx-section-sub">${stT('reachSub')}</p>
         ${stTableHtml(`<th class="c-pack">${stT('thReach')}</th><th>${stT('thOdds')}</th><th class="rgt">${stT('thCostFrom')}</th>`, reachRows)}` : ''}
         ${cash}
