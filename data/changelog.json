@@ -26,6 +26,22 @@
             "EN": "Real-money item values",
             "FR": "Valeur des objets en argent réel"
           }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Building Planner: unticked buildings leave the total",
+            "FR": "Planificateur de Bâtiments : les bâtiments décochés sortent du total"
+          },
+          "text": {
+            "EN": "On the TrueGold tab, unticking a building took it out of the suggestions, but its TrueGold, Tempered TrueGold and speedup time still counted in the Total row at the bottom of the table. The Total now adds up the ticked buildings only, as the Before TrueGold tab already did. An unticked building still shows its own cost on its row, greyed out.",
+            "FR": "Dans l'onglet Or Véritable, décocher un bâtiment le retirait des suggestions, mais son Or Véritable, son Or Véritable Trempé et son temps d'accélérateurs comptaient toujours dans la ligne Total en bas du tableau. Le total n'additionne plus que les bâtiments cochés, comme le faisait déjà l'onglet Avant l'Or Véritable. Un bâtiment décoché garde son coût affiché sur sa ligne, en grisé."
+          },
+          "href": "truegold_calc",
+          "linkLabel": {
+            "EN": "Building Planner",
+            "FR": "Planificateur de Bâtiments"
+          }
         }
       ]
     },

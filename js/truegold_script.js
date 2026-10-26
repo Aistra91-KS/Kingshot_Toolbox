@@ -647,6 +647,9 @@ function updateAllRowCosts() {
         document.getElementById(`ttg-cost-${index}`).textContent = sumTTG > 0 ? sumTTG.toLocaleString() : '-';
         document.getElementById(`time-cost-${index}`).textContent = timeFormatted;
         
+        // Un bâtiment décoché garde son coût sur sa ligne (grisée) mais sort du
+        // total, comme sur l'onglet Avant l'Or Véritable.
+        if (b.enabled === false) return;
         grandTotalTG += sumTG;
         grandTotalTTG += sumTTG;
         grandTotalTimeMinutes += realTimeMinutes;
@@ -2078,7 +2081,7 @@ function tgInitHelp() {
                 "Renseigne tes stocks de TrueGold (TG) et Or Véritable Trempé (TTG), et le nombre de transformations déjà utilisées (max 100).",
                 "Deux types de bonus. Les bonus de vitesse s'additionnent et divisent le temps de base. Recopie dans « Bonus Vitesse » la statistique affichée par ta ville : elle compte déjà le 1er Ministre et le bonus KVK, il n'y a plus de case pour eux et plus moyen de les compter deux fois. Reste le Loup Gris : le Loup Gris annonce « +15 % de vitesse de construction », c'est un bonus de vitesse comme les autres. Attention, la stat de vitesse affichée en jeu l'inclut déjà quand il est actif. Si tu l'as relevée à ce moment-là, laisse la case décochée pour ne pas le compter deux fois. Les Bouchées Doubles, elles, sont à part : elles coupent 20 % du temps de base en plus de tout le reste. Indique aussi tes accélérateurs (jours / heures / minutes).",
                 "Pour chaque bâtiment, mets son niveau actuel et le niveau cible que tu veux atteindre.",
-                "Décoche la case devant un bâtiment pour l'exclure des suggestions (quel que soit le mode) : il reste figé à son niveau actuel et sert toujours de prérequis aux autres.",
+                "Décoche la case devant un bâtiment pour l'exclure des suggestions (quel que soit le mode) : il reste figé à son niveau actuel et sert toujours de prérequis aux autres. Son coût reste affiché sur sa ligne, mais ne compte plus dans la ligne Total.",
                 "La barre « Modification groupée des niveaux », au-dessus du tableau, règle d'un coup le niveau actuel, la cible ou les deux, pour tous les bâtiments ou les seuls cochés.",
                 "Choisis le mode : « Max points KVK » (rentabilité maximale en points), « Max bâtiments » (en monter le plus possible), ou « Score cible » (atteindre un score précis au coût le plus bas).",
                 "En mode « Score cible », saisis le score visé : l'outil trouve la combinaison la moins chère (bâtiments + transformations + accélérateurs) pour l'atteindre.",
@@ -2092,7 +2095,7 @@ function tgInitHelp() {
                 "Enter your TrueGold (TG) and Tempered TrueGold (TTG) stocks, and how many transformations you've already used (max 100).",
                 "Two kinds of bonus. Speed bonuses add up and divide the base time. Copy into \"Bonus Speed\" the stat your city shows: it already counts Ground Works and the KVK bonus, there is no box for them any more and no way to count them twice. That leaves the Grey Wolf: the Grey Wolf reads \"+15% construction speed\", so it is a speed bonus like the others. Careful, your in-game speed stat already includes it while it is active. If that is when you read it, leave the box unchecked so it isn't counted twice. Double Time is the odd one out: it cuts 20% off the base time on top of everything else. Also set your speedups (days / hours / minutes).",
                 "For each building, set its current level and the target level you want to reach.",
-                "Uncheck the box next to a building to exclude it from the suggestions (in any mode): it stays frozen at its current level and still counts as a prerequisite for the others.",
+                "Uncheck the box next to a building to exclude it from the suggestions (in any mode): it stays frozen at its current level and still counts as a prerequisite for the others. Its cost stays on its row but no longer counts in the Total row.",
                 "The \"Bulk level change\" bar above the table sets the current level, the target or both in one go, for every building or only the ticked ones.",
                 "Pick a mode: \"Max KVK points\" (best points value), \"Max buildings\" (upgrade as many as possible), or \"Target score\" (reach a specific score at the lowest cost).",
                 "In \"Target score\" mode, type the score you aim for: the tool finds the cheapest combination (buildings + transformations + speedups) to reach it.",
