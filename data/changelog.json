@@ -8,6 +8,28 @@
   },
   "releases": [
     {
+      "version": "1.15.7",
+      "date": "2026-10-26",
+      "changes": [
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Real-money values: the Mythic Weekly Benefits Cards",
+            "FR": "Valeurs en argent réel : les Cartes d'Avantages Hebdo Mythiques"
+          },
+          "text": {
+            "EN": "The five Mythic Weekly Benefits Cards added by the latest game update join the survey, at $10 (12 euros) each. The Mythic Governor Charm card gives 150 Charm Guides, which makes it the cheapest source of them: the Charm Guide goes from 0.083 to 0.080 euro, and the Random Governor Charm Material Chest, valued from Guides and Designs, follows. The other four cards change no value. Hover the pack name to see the card.",
+            "FR": "Les cinq Cartes d'Avantages Hebdo Mythiques arrivées avec la dernière mise à jour du jeu entrent dans le relevé, à 10 $ (12 €) chacune. La carte mythique Talisman du Chef donne 150 Guides de Talisman et en devient la source la moins chère : le Guide passe de 0,083 à 0,080 €, et la Caisse de Matériaux de Talisman du Chef Aléatoire, calculée à partir des Guides et des Plans, suit. Les quatre autres cartes ne changent aucune valeur. L'aperçu de la carte s'affiche au survol du nom du pack."
+          },
+          "href": "shop/items-euro",
+          "linkLabel": {
+            "EN": "Real-money item values",
+            "FR": "Valeur des objets en argent réel"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.15.6",
       "date": "2026-10-19",
       "changes": [

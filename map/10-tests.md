@@ -4,7 +4,7 @@
 
 ## 10. Tests
 
-**`node --test`** à la racine : rien à installer ni à construire. 117 tests en 12 fichiers (septembre 2026), environ 21 s (presque tout pour `wa-advanced`, qui rejoue le parcours exact du TTG). La CI les lance à chaque push (§7).
+**`node --test`** à la racine : rien à installer ni à construire. 140 tests en 13 fichiers (octobre 2026), environ 21 s (presque tout pour `wa-advanced`, qui rejoue le parcours exact du TTG). La CI les lance à chaque push (§7).
 
 **Le harnais** (`tests/harness.mjs`) charge les `js/*.js` **sans les modifier**, dans l'ordre du HTML, dans un contexte `vm` : `fetch` lit `data/` sur le disque, `localStorage` est en mémoire (chaque test part des défauts), `document.getElementById` rend `null` (les IIFE de fin de fichier sortent avant tout rendu). On teste donc le code servi, sans `export`. Les `let` de premier niveau vivent dans la portée lexicale du contexte : les lire et les écrire via `run(ctx, '…')`. `Date` suit l'horloge réelle, ou une date figée passée en `{ now }` à `createContext` et `loadEventShop`.
 
