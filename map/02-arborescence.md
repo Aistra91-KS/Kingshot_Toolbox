@@ -32,7 +32,7 @@ Kingshot_Toolbox/
 ├── sitemap.xml, robots.txt, llms.txt, CNAME, google…html   Public seulement : sitemap sans .html, robots, sommaire pour IA, domaine, jeton Search Console
 │
 ├── fr/shop/theater-shop.html   Jumelle française du Théâtre (pilote « une URL par langue », §4), écrite à la main (§11)
-├── shop/                   2 référentiels écrits à la main (items, items-euro) + 21 boutiques générées (liste : tools/pages-shop.json) · §13
+├── shop/                   2 référentiels écrits à la main (items, items-euro) + 22 boutiques générées (liste : tools/pages-shop.json) · §13
 ├── database/
 │   ├── buildings/          Sommaire + 14 bâtiments, générés (tools/pages-building.json ; slugs barracks/stable/range gardés) · §11
 │   ├── heroes/             Sommaire + 37 fiches héros, générés · §11
@@ -93,7 +93,8 @@ Kingshot_Toolbox/
 │   ├── Master/ (+ hd/), MasterSkill/, WarAcademy/ (+ advanced/), buildings/, pets/ (+ skills/)
 │
 ├── tools/                  Hors ligne, jamais publié · §11
-│   ├── build_pages.py      Génère les 73 pages à gabarit ; --check vérifie sans écrire
+│   ├── build_pages.py      Génère les 74 pages à gabarit ; --check vérifie sans écrire
+│   ├── shop_thumb.py       Vignette 16:9 d'une boutique tirée d'une icône du jeu (Pillow) · §13
 │   ├── sync_drawer.py      Recopie le drawer figé dans toutes les pages depuis site-config.js
 │   ├── templates/          shop.html, building.html, hero.html, heroes-index.html
 │   ├── pages-shop.json, pages-building.json   Ce qui change d'une page à l'autre (l'ordre des bâtiments = ordre de la nav)

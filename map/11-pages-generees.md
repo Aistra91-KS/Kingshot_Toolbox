@@ -4,7 +4,7 @@
 
 ## 11. Pages générées
 
-**73 des 125 pages sortent d'un gabarit** : 21 pages boutique, 14 pages de bâtiments, 38 pages Héros (sommaire + 37 fiches).
+**74 des 126 pages sortent d'un gabarit** : 22 pages boutique, 14 pages de bâtiments, 38 pages Héros (sommaire + 37 fiches).
 
 ```
 python3 tools/build_pages.py           écrit les pages

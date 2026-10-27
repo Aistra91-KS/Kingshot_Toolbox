@@ -130,6 +130,19 @@
     }
   },
   {
+    "slug": "halloween-chest",
+    "title": "Halloween Chest - Best Pick, Gem &amp; Real-Money",
+    "description": "Kingshot Halloween Custom Chest: all four options, the quantity granted and what each is worth in gems or in €/$, so the best reward is easy to spot.",
+    "name": {
+      "EN": "Halloween Custom Chest",
+      "FR": "Coffre personnalisé d'Halloween"
+    },
+    "intro": {
+      "EN": "The Halloween Custom Chest offers four options for a single pick: 2 Forgehammers, 2 Lucky Hero Gear Chests, 3 Enhancement XP components (100 XP each) or 4 one-hour General Speedups. The Forgehammers come first in both readings, worth 5,000 gems against 4,000 for the gear chests. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.",
+      "FR": "Le Coffre personnalisé d'Halloween propose quatre options pour un seul choix : 2 Marteaux de Forge, 2 Caisses d'Équipement de Héros Chanceux, 3 lots de 100 points d'EXP d'Amélioration ou 4 Accélérateurs Généraux de 1h. Les Marteaux de Forge arrivent en tête dans les deux lectures : 5 000 gemmes, contre 4 000 pour les Caisses. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens."
+    }
+  },
+  {
     "slug": "kingdom-of-power",
     "title": "Kingshot Kingdom of Power - Gem &amp; Real-Money Value",
     "description": "Kingshot Kingdom of Power shop: Kingdom Coin cost of every item and what it is worth in gems or in real money, with the best deals highlighted.",
