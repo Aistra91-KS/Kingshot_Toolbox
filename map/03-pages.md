@@ -17,7 +17,7 @@ Le socle (`site-config`, `storage-keys`, `profiles`, `lang`, `header`, `footer`)
 | `caserne.html` | Héros du joueur | `caserne.js`, `modal-tabs.js` | — | `heroes_db.json` |
 | `masters.html` | Experts et affinités | `masters.js`, `modal-tabs.js` | — | `masters_db.json` |
 | `pets.html` | Promenade + onglet Plan d'avancement (§6 `06c`) | `pets.js`, `pets-plan.js` | `pets.css`, `pets-plan.css`, 2 webfonts | `pets_db.json`, `pets_event.json` |
-| `shop_calc.html` | Sommaire : 6 boutiques permanentes, 3 coffres | `shop-core.js`, `shop_calc.js` | `db.css`, `shop.css` | les 5 `shopcalc_*.json` |
+| `shop_calc.html` | Sommaire : 6 boutiques permanentes, 4 coffres | `shop-core.js`, `shop_calc.js` | `db.css`, `shop.css` | les 5 `shopcalc_*.json` |
 | `event-roi.html` | Sommaire : 12 boutiques d'événement + lecture du % (`window.SX_INDEX = 'events'`) | idem | idem | idem |
 | `item-values.html` | Méthode des deux référentiels ; texte pur en `data-en`/`data-fr` | aucun (ni `help.js` ni `shop-core.js`) | `db.css`, `shop.css` | — |
 | `shop/<boutique>.html` | En-tête, podium, tableau, mode édition ; lectures $ / € et gemmes (§13) | `shop-core.js`, `shop-page.js` (+ `shop-event.js` si événement) | `db.css`, `shop.css` | idem + `window.SHOP_SLUG` |

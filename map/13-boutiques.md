@@ -7,7 +7,7 @@
 > Conventions des pages `shop/*.html` et de la valorisation d'événement. Gabarit : §11. Données : §6. Deux valorisations, règle du « — », valeur corrigée : §9 `09b`.
 
 ### Trois sommaires, découpés par question (décidé avec Aistra, septembre 2026)
-- **`shop_calc`** : « qu'est-ce que j'achète avec cette monnaie ? » (6 boutiques permanentes, 3 coffres). URL indexée conservée, contenu changé. Une carte en tête mène aux boutiques d'événement, pour les anciens signets.
+- **`shop_calc`** : « qu'est-ce que j'achète avec cette monnaie ? » (6 boutiques permanentes, 4 coffres). URL indexée conservée, contenu changé. Une carte en tête mène aux boutiques d'événement, pour les anciens signets.
 - **`event-roi`** : « cet événement valait-il le coup ? » (12 boutiques d'événement, lecture du % de retour).
 - **`item-values`** : « combien vaut cet objet ? » (les deux référentiels et la méthode).
 - **Aucune URL supprimée** : seules les cartes ont déménagé.
@@ -29,7 +29,7 @@
 
 ### Sommaire, vignettes, échéances
 - **Événement terminé = page conservée** : carte grisée (`.sx-card.is-ended`) mais cliquable, bandeau d'archive. Bandeau et pastilles de date portent `data-nosnippet` (§9, `09b`) : un événement qui revient ne doit pas rester « terminé » dans Google. Ajouter une boutique : une entrée JSON, une page (gabarit), une carte au sommaire, une ligne `sitemap.xml`, un lien `llms.txt`.
-- **Vignettes** : `img/shops/<slug>.webp`, sinon mosaïque des 4 objets les plus chers (`scThumbHtml`). Place réservée par `.sx-thumb-slot` au même `aspect-ratio: 16/9` (sans elle, CLS 0,389). Un visuel reçu sous un autre nom ou format (`brewmaster stall.png`) n'est jamais lu : le convertir en `<slug>.webp` recadré en 16:9 sur le titre, car `object-fit: cover` rogne les côtés d'une capture plus large.
+- **Vignettes** : `img/shops/<slug>.webp`, sinon mosaïque des 4 objets les plus chers (`scThumbHtml`). Place réservée par `.sx-thumb-slot` au même `aspect-ratio: 16/9` (sans elle, CLS 0,389). Un visuel reçu sous un autre nom ou format (`brewmaster stall.png`) n'est jamais lu : le convertir en `<slug>.webp` recadré en 16:9 sur le titre, car `object-fit: cover` rogne les côtés d'une capture plus large. Une **icône** (coffre) passe par `python3 tools/shop_thumb.py <source> <slug>` : détourée, centrée entière sur un fond flou tiré d'elle-même. Calée en haut comme une capture, elle perdait sa moitié basse ; le fond est opaque parce que la mosaïque est dessinée sous la photo.
 - **« Voir plus » sans JavaScript** : deux lignes de cartes, plafond 4 (< 884 px), 6 (884 à 1 159 px), 8 (≥ 1 160 px), seuils relevés sur la grille (`minmax(260px,1fr)`, `gap:16px`). Case `.sx-more-cb` **avant** la grille, `.sx-grid.is-clamped`, `<label class="sx-more">` ; tout en CSS (`nth-child`, `:checked ~`, `:has()`). Case et libellé portent `hidden`, levé seulement dans le bloc `@supports selector(:has(*))` : un CSS en cache montre la grille entière. Un repli en JS faisait sauter la page (CLS 0,68 sur mobile). Découpe au nombre de cartes, jamais à la hauteur.
 - **Compte à rebours** : `scTimeLeft()`/`scTimeLeftTxt()` (affichage) est distinct de `scResetsLeft()` (resets à 00h UTC, entre dans les calculs) : ne jamais les fusionner. Attributs facultatifs sur `[data-ends-at]` : `data-ends-full`, `data-ends-state`, `data-ends-label`. Une seule pastille dans `spRenderHero()`. Au changement d'état, `scStartCountdowns()` émet `endsStateChanged`, écouté par `spRenderAll` et `scRefreshIndex` (événement, pas appel).
 

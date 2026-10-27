@@ -40,5 +40,15 @@
       { "itemId": "charm_guide", "qty": 300 },
       { "itemId": "charm_design", "qty": 300 }
     ]
-  } 
+  },
+  {
+    "id": "halloween_chest", "slug": "halloween-chest",
+    "name": { "EN": "Halloween Custom Chest", "FR": "Coffre personnalisé d'Halloween" },
+    "items": [
+      { "itemId": "forgehammers", "qty": 2 },
+      { "itemId": "lucky_hero_gear_chest", "qty": 2 },
+      { "itemId": "100_enhancement_xp_component", "qty": 3 },
+      { "itemId": "1h_general_speedup", "qty": 4 }
+    ]
+  }
 ]
