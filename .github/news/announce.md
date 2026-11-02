@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 1.15.6
-covers-until: f5725f87dca017a10561bd104745a73759e7b45c
-generated: 2026-10-19
+version: 1.15.8
+covers-until: 18fb34636457386ec1e439b23bfd4c27b3c178f1
+generated: 2026-11-02
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: Mise à jour de Kingshot du 19/10
-title-en: Kingshot update of 19 October
+title-fr: Le mode KVK des Recherches et une Académie de Guerre plus efficace
+title-en: KVK mode in Research and a sharper War Academy
 -->
 
 <!--
@@ -68,44 +68,44 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### Les valeurs en argent réel suivent
+### Recherches : le mode KVK retire le temps de tes accélérateurs
 
-La mise à jour de lundi a changé plusieurs packs, et le relevé a été refait :
+En mode KVK, « Fait » retire maintenant le temps de la recherche du stock d'accélérateurs du panneau latéral, avec celui des prérequis cochés en même temps. Chaque recherche compte son temps arrondi à la minute du dessus, puisqu'un accélérateur ne sert qu'une recherche. Un nouveau bouton « Appliquer les modifications » coche d'un coup tout ce que ton stock finance, après un récapitulatif de ton stock avant et après.
 
-- La Carte Hebdo Accélérer donne 11 340 minutes au lieu de 7 140 pour 6 € : chaque accélérateur général coûte environ 37 % de moins.
-- La Carte Hebdo d'Or Véritable donne 207 Or Véritable au lieu de 144.
-- La Carte Mensuelle Ultra passe à 17 000 gemmes au lieu de 14 000 : la gemme, la Clé en Or et les lots d'EXP VIP baissent.
-- Nouveau pack relevé, l'Offre quotidienne Fragment universel : c'est maintenant la source la moins chère de fragments universels de héros mythique.
-- Les caisses à choisir des cartes hebdo comptent pour leur contenu. La Carte hebdo Équipement devient la moins chère pour l'EXP d'Amélioration, les Caisses d'Équipement de Héros Chanceux et les Marteaux de Forge.
+👉 https://kingshottoolbox.com/research_calc
 
-Les boutiques chiffrées en argent réel suivent ces nouveaux prix.
+### Académie de Guerre : une suggestion KvK qui rapporte plus
 
-👉 https://kingshottoolbox.com/shop/items-euro
+La suggestion KvK vidait souvent un budget avant l'autre et proposait tout en base ou tout en avancé. Elle choisit maintenant la recherche lancée en dernier, dont la poussière compte en entier même si elle reste en cours, puis cherche encore mieux pendant quelques secondes après le clic. Le plan s'affiche tout de suite et se remplace à chaque amélioration ; « Garder ce plan » arrête la recherche. Sur 120 comptes tirés au sort, l'ancienne suggestion restait en moyenne 12 % sous le meilleur plan possible quand les accélérateurs manquaient. La nouvelle s'en approche à moins de 0,2 %, en mélangeant recherches de base et avancées quand ça rapporte plus.
 
-### Wilson : Prime Viking
+### Académie de Guerre : Provisions limitées, prérequis et sauvegarde
 
-Un coffre tous les 100 000 points au lieu de 200 000, et deux fois plus de coffres à chaque niveau (de 2 à 20). La puissance de la compétence, affichée à 0, suit maintenant le tableau du jeu.
+La recherche avancée Provisions limitées a sa ligne dans les échanges de poussière : 5 TrueGold pour 13 poussières, 2 échanges par semaine et par niveau, 20 au niveau 10. Le plan la remplit juste après la ligne normale à 5 TrueGold, avant celle à 10.
 
-👉 https://kingshottoolbox.com/database/masters/wilson
+Dans l'onglet Recherches avancées, régler une recherche monte tout ce qu'elle exige : Provisions limitées au niveau 3 met Infirmeries d'or véritable, Bandage rapide et les quatre recherches qu'ils demandent au niveau 3. Baisser une recherche baisse ce qui en dépend, et la case « Prérequis automatiques » coupe ce réglage.
+
+Le bouton « Sauvegarde Globale » est maintenant en bas du panneau latéral de la page, comme sur les autres outils.
+
+👉 https://kingshottoolbox.com/waracademy
 
 ## EN
 
-### Real-money values follow
+### Research: KVK mode takes the time off your speedups
 
-Monday's update changed several packs, and the survey was done again:
+In KVK mode, "Done" now takes the research's time off the speedup stock in the side panel, along with any prerequisites ticked with it. Each research counts its time rounded up to the minute, since one speedup only serves one research. A new "Apply these changes" button ticks off everything your stock pays for in one go, after a summary of your stock before and after.
 
-- The Speedup Weekly Card gives 11,340 minutes instead of 7,140 for $5: every general speedup costs about 37% less.
-- The Truegold Weekly Card gives 207 TrueGold instead of 144.
-- The Ultra Value Monthly Card goes up to 17,000 gems from 14,000: gems, the Gold Key and the VIP XP bundles get cheaper.
-- New pack in the survey, Daily Deals - General Shard: it is now the cheapest source of universal mythic hero shards.
-- The pick-one crates of the weekly cards count for what they hold. The Gear Weekly Card becomes the cheapest source of Enhancement XP, Lucky Hero Gear Chests and Forgehammers.
+👉 https://kingshottoolbox.com/research_calc
 
-Shops valued in real money follow these new prices.
+### War Academy: a KvK suggestion that scores more
 
-👉 https://kingshottoolbox.com/shop/items-euro
+The KvK suggestion often used up one budget before the other and came out all basic or all advanced. It now chooses the research it starts last, whose dust counts in full even if it stays in progress, then keeps looking for a better plan for a few seconds after the click. The plan shows right away and is replaced with each improvement; "Keep this plan" stops the search. On 120 random accounts, the old suggestion was on average 12% short of the best possible plan when speedups were scarce. The new one comes within 0.2%, mixing basic and advanced research when that scores more.
 
-### Wilson: Viking Bounty
+### War Academy: Limited Supply, prerequisites and backup
 
-One chest every 100,000 points instead of 200,000, and twice as many chests at every level (2 to 20). The skill's power, shown as 0 until now, follows the in-game table.
+The advanced research Limited Supply has its row in the dust exchanges: 5 TrueGold for 13 dust, 2 exchanges a week per level, 20 at level 10. The plan fills it right after the normal 5-TrueGold row, before the 10-TrueGold one.
 
-👉 https://kingshottoolbox.com/database/masters/wilson
+On the Advanced research tab, setting a research to a level raises everything it requires: Limited Supply at level 3 puts Truegold Infirmaries, Quick Bandage and the four researches behind them at level 3. Lowering a research lowers what depends on it, and the "Auto-set prerequisites" box turns this off.
+
+The "Global Backup" button now sits at the bottom of the page's side panel, like on the other tools.
+
+👉 https://kingshottoolbox.com/waracademy
