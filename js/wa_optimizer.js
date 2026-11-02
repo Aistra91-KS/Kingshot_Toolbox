@@ -337,7 +337,15 @@
     return PTS_PER_DUST + (PTS_PER_MIN * baseTime) / d;
   }
 
-  function runPlan(opts, orderStrategy) {
+  // `finCorrigee` (KvK seulement) : la fin de plan choisit son dernier niveau. Sans elle,
+  // le plan s'arrête au premier niveau qui ne tient plus dans les accélérateurs et le
+  // laisse « en cours », quel qu'il soit. Avec elle, ce niveau est sauté tant qu'un autre
+  // tient encore ; quand plus rien ne tient, le niveau lancé en dernier est celui qui
+  // rapporte le plus. Sa poussière et son TTG sont consommés au lancement de la recherche
+  // (confirmé par Aistra le 02/11/2026) : ils comptent en entier, même inachevé.
+  // Mesuré : un dernier niveau à 59 poussières pris alors qu'un autre à 459 était
+  // disponible ; sur 200 comptes, +6,3 % de points en médiane, jusqu'à +53 %.
+  function runPlan(opts, orderStrategy, finCorrigee) {
     const db            = opts.db;
     const currentLevels = opts.currentLevels || {};
     const waLevel       = Number(opts.waLevel) || 0;
@@ -483,6 +491,7 @@
         const nl = nextUnlockable(state[k], state, waLevel);
         if (nl) {
           if (!affordable(nl)) continue;
+          if (finCorrigee && spentEffTime + effTimeOf(nl.time || 0) > speedupBudget) continue;
           const sc = levelScore(state[k], nl);
           if (sc > bestScore) { bestScore = sc; best = { k, entry: state[k], nl }; }
         } else if (orderStrategy === 'chain' && state[k].treeId !== ADV_TREE_ID) {
@@ -504,6 +513,22 @@
           if (spentTtg + b.ttg > ttgBudget) { if (spentTtg + b.ttg < ttgNext) ttgNext = spentTtg + b.ttg; continue; }
           if (!affordable(b.first.nl)) continue;
           if (b.dens > bestScore) { bestScore = b.dens; best = b.first; }
+        }
+      }
+      if (!best && finCorrigee && speedupBudget !== Infinity) {
+        // Plus rien ne tient dans les accélérateurs restants (zéro compris : la recherche
+        // se lance quand même, et sa poussière compte). Le dernier niveau est celui qui
+        // rapporte le plus, poussière, TTG et minutes qu'il peut encore prendre.
+        const resteMin = Math.max(0, speedupBudget - spentEffTime);
+        let mieux = -Infinity;
+        for (const k in state) {
+          const nl = nextUnlockable(state[k], state, waLevel);
+          if (!nl || !affordable(nl)) continue;
+          // Mêmes comptes que la branche « en cours » plus bas : la part du temps du
+          // niveau que les accélérateurs restants couvrent.
+          const et = effTimeOf(nl.time || 0), st = SCORE_ON_EFFECTIVE ? et : (nl.time || 0);
+          const v = resPts(nl) + PTS_PER_MIN * st * (et > 0 ? Math.min(1, resteMin / et) : 1);
+          if (v > mieux) { mieux = v; best = { k, entry: state[k], nl }; }
         }
       }
       if (!best) break; // nothing affordable/available left
@@ -660,7 +685,7 @@
       if (!r.p.totals.ttg) continue;       // sans achat en TTG, tout plafond donne ce plan
       let c = 0;
       for (;;) {
-        const p = runPlan(Object.assign({}, r.o, { ttgBudget: c }), r.order);
+        const p = runPlan(Object.assign({}, r.o, { ttgBudget: c }), r.order, r.fin);
         // À points égaux, celui qui garde du TTG.
         if (p.totals.kvkPoints > best.totals.kvkPoints
             || (p.totals.kvkPoints === best.totals.kvkPoints && p.totals.ttg < best.totals.ttg)) best = p;
@@ -681,18 +706,21 @@
   // troop-tier chain is in play, the optimum pours the dust into one tree and leaves
   // the others near zero (at 15 000 dust it puts 13 540 into a single tree). No greedy
   // spreading across three trees ever proposes that; the same greedy confined to one
-  // tree does. Cost is bounded and known — 4 orderings x (1 + number of trees) runs.
+  // tree does. Cost is bounded and known — 4 orderings x 2 endings x (1 + number of
+  // trees) runs : chaque ordre est joué avec et sans la fin de plan corrigée (`runPlan`).
+  // La fin corrigée seule perdait dans 14 comptes sur 1 000 (au pire 0,28 %) : garder les
+  // deux assure que le plan n'est jamais moins bon qu'avant elle.
   // `opts.exact === false` : sans le parcours des plafonds de TTG (ci-dessus), pour les
   // évaluations intermédiaires d'une page qui rejoue ensuite, exactement, le plan retenu.
   // `opts.rank` : évaluation ALLÉGÉE, réservée au classement d'un grand nombre de
   // candidats (le partage des pièces entre recherches et échanges, cf. waracademy.js).
-  // Elle ne rejoue ni les 4 ordres ni les arbres séparés — 16 plans deviennent 1 — donc
+  // Elle ne rejoue ni les 4 ordres ni les arbres séparés — 48 plans deviennent 1 — donc
   // elle sous-estime le score et ne doit JAMAIS être rendue au joueur : elle sert à
   // repérer les candidats prometteurs, qui sont ensuite réévalués pour de bon.
   function suggest(opts) {
     const mode = (opts && opts.mode) || 'classic';
     if (mode === 'kvk') {
-      if (opts.rank) return runPlan(opts, 'kvk');
+      if (opts.rank) return runPlan(opts, 'kvk', true);
       const all = (opts.db.trees || []).map(t => t.id)
         .filter(id => !opts.enabledTrees || opts.enabledTrees.includes(id));
       const treeSets = [opts.enabledTrees || null];
@@ -706,9 +734,9 @@
       const runs = [];
       for (const set of treeSets) {
         const o = (set === treeSets[0]) ? opts : Object.assign({}, opts, { enabledTrees: set });
-        for (const order of KVK_ORDERS) {
-          const p = runPlan(o, order);
-          runs.push({ o, order, p });
+        for (const order of KVK_ORDERS) for (const fin of [false, true]) {
+          const p = runPlan(o, order, fin);
+          runs.push({ o, order, fin, p });
           if (!best || p.totals.kvkPoints > best.totals.kvkPoints) best = p;
         }
       }

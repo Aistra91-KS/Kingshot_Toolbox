@@ -101,9 +101,12 @@ test('des pièces qui dorment ne doivent jamais coûter du TrueGold', () => {
   // 1 000 000 de pièces attendaient, là où 30 TG suffisaient pour le même score.
   const b = partage({ wa: 10, dust: 0, coins: 1_000_000, tg: 100, acc: 2 });
   assert.ok(b.tg < 100, `TrueGold dépensé : ${b.tg}, alors que les pièces pouvaient payer`);
+  // Les échanges de pièces ajoutent de la poussière à celle du TrueGold : le score ne
+  // peut que monter. (L'ancien glouton s'arrêtait au premier niveau qui ne tenait plus
+  // dans les accélérateurs et ne s'en servait pas : les deux scores étaient égaux.)
   const sansPieces = partage({ wa: 10, dust: 0, coins: 0, tg: 100, acc: 2 });
-  assert.equal(sansPieces.res.totals.kvkPoints, b.res.totals.kvkPoints,
-    'le score doit être le même : seul le partage change');
+  assert.ok(b.res.totals.kvkPoints >= sansPieces.res.totals.kvkPoints,
+    `avec les pièces : ${b.res.totals.kvkPoints} points, sans : ${sansPieces.res.totals.kvkPoints}`);
 });
 
 test('le partage retenu est toujours payable', () => {
