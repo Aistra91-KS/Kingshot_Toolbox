@@ -58,6 +58,38 @@
             "EN": "War Academy",
             "FR": "Académie de Guerre"
           }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "War Academy: a KvK suggestion that scores more",
+            "FR": "Académie de Guerre : une suggestion KvK qui rapporte plus"
+          },
+          "text": {
+            "EN": "The KvK suggestion picked researches one at a time following a fixed ratio: it used up one budget before the other and often came out all basic or all advanced. It now chooses the last research it starts, the one left in progress whose dust counts in full, then keeps looking for a better plan for a few seconds at most after the click. The plan shows right away and is replaced with each improvement, with the gain shown under the Calculate button. \"Keep this plan\" stops the search, and \"Apply these changes\" waits until it is over. On 120 random accounts, the old suggestion was on average 12% short of the best possible plan when speedups were scarce, and 3.7% short when they were plentiful. The new one comes within 0.2%, mixing basic and advanced research when that scores more.",
+            "FR": "La suggestion KvK choisissait les recherches une par une selon un rapport fixe : elle vidait un budget avant l'autre et proposait souvent tout en base ou tout en avancé. Elle choisit maintenant la dernière recherche lancée, celle qui reste en cours et dont la poussière compte en entier, puis cherche encore mieux pendant quelques secondes au plus après le clic. Le plan s'affiche tout de suite et se remplace à chaque amélioration, avec le gain sous le bouton de calcul. « Garder ce plan » arrête la recherche, et « Appliquer les modifications » attend qu'elle soit finie. Sur 120 comptes tirés au sort, l'ancienne suggestion restait en moyenne 12 % sous le meilleur plan possible quand les accélérateurs manquaient, et 3,7 % quand ils abondaient. La nouvelle s'en approche à moins de 0,2 %, en mélangeant recherches de base et avancées quand ça rapporte plus."
+          },
+          "href": "waracademy",
+          "linkLabel": {
+            "EN": "War Academy",
+            "FR": "Académie de Guerre"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "War Academy: Global Backup on the page",
+            "FR": "Académie de Guerre : la Sauvegarde Globale sur la page"
+          },
+          "text": {
+            "EN": "The \"Global Backup\" button now sits at the bottom of the War Academy side panel, like on the other tools: no need to open another page to save or restore your settings.",
+            "FR": "Le bouton « Sauvegarde Globale » est maintenant en bas du panneau latéral de l'Académie de Guerre, comme sur les autres outils : plus besoin d'ouvrir une autre page pour sauvegarder ou restaurer tes réglages."
+          },
+          "href": "waracademy",
+          "linkLabel": {
+            "EN": "War Academy",
+            "FR": "Académie de Guerre"
+          }
         }
       ]
     },
