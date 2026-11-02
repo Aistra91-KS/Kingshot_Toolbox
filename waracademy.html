@@ -183,6 +183,15 @@
                             <td class="wa-trades-done"><input type="number" id="tradeUsedTg5" value="0" min="0" max="20" aria-labelledby="tradeWhatTg5 tradeColDone" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()"><small>/ 20</small></td>
                             <td id="tradePlanTg5" class="wa-trades-plan">—</td>
                         </tr>
+                        <!-- Ouvert par la recherche avancée Provisions limitées : 2 échanges par
+                             semaine et par niveau. Plafond, note et compteur suivent le niveau
+                             de l'arbre avancé (renderLimitedRow, MAP §12). -->
+                        <tr>
+                            <td><input type="checkbox" id="tradeUseTgLimited" checked aria-labelledby="tradeWhatTgLimited" aria-describedby="tradeNoteTgLimited" onchange="WA.triggerUpdate()"></td>
+                            <th scope="row"><span id="tradeWhatTgLimited" data-i18n="tradeWhatTgLimited">5 TrueGold → 13 dust (Limited Supply)</span><small class="wa-trade-note" id="tradeNoteTgLimited"></small></th>
+                            <td class="wa-trades-done"><input type="number" id="tradeUsedTgLimited" value="0" min="0" max="0" aria-labelledby="tradeWhatTgLimited tradeColDone" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()"><small id="tradeCapTgLimited">/ 0</small></td>
+                            <td id="tradePlanTgLimited" class="wa-trades-plan">—</td>
+                        </tr>
                         <tr>
                             <td><input type="checkbox" id="tradeUseTg10" aria-labelledby="tradeWhatTg10" onchange="WA.triggerUpdate()"></td>
                             <th scope="row" id="tradeWhatTg10" data-i18n="tradeWhatTg10">10 TrueGold → 13 dust</th>

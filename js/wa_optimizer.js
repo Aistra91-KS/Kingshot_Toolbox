@@ -114,19 +114,28 @@
 
   // ============================================================
   //  ÉCHANGES DE POUSSIÈRE
-  //  La poussière ne se ramasse pas qu'en jeu : trois échanges hebdomadaires en
+  //  La poussière ne se ramasse pas qu'en jeu : des échanges hebdomadaires en
   //  produisent, et le plan doit pouvoir compter dessus.
   //
   //    5 000 pièces   ->  1 poussière   (200 échanges / semaine)
   //    5 TrueGold     -> 13 poussières  ( 20 échanges / semaine)
+  //    5 TrueGold     -> 13 poussières  (2 par niveau de Provisions limitées)
   //   10 TrueGold     -> 13 poussières  (sans limite)
+  //
+  //  La troisième ligne n'existe en jeu qu'une fois la recherche avancée
+  //  « Provisions limitées » (`limited_supply`) lancée : chaque niveau en ouvre 2 de
+  //  plus par semaine, 20 au niveau 10 (relevé confirmé par Aistra). Son plafond se
+  //  lit donc dans `stock.limitedLevel`, le niveau DÉJÀ atteint : un niveau que le
+  //  plan monterait ne compte qu'au calcul suivant (décision d'Aistra). Absent, il
+  //  vaut 0, et les appels d'avant gardent exactement leur résultat.
   //
   //  L'ORDRE DE CETTE LISTE EST L'ORDRE DE PRIORITÉ, et il n'est pas arbitraire :
   //   1. les pièces d'abord — c'est la seule monnaie qui ne serve à rien d'autre sur
   //      le site, la dépenser ne prive aucun autre plan ;
-  //   2. l'échange à 5 TG ensuite : 2,6 poussières par TrueGold contre 1,3 pour celui
-  //      à 10 TG. Il rend exactement le DOUBLE, donc le remplir avant l'autre est
-  //      toujours gagnant — jamais l'inverse, quelle que soit la quantité voulue ;
+  //   2. les deux échanges à 5 TG ensuite : 2,6 poussières par TrueGold contre 1,3
+  //      pour celui à 10 TG. Ils rendent exactement le DOUBLE, donc les remplir avant
+  //      l'autre est toujours gagnant — jamais l'inverse, quelle que soit la quantité
+  //      voulue. Entre eux deux l'ordre est indifférent (même tarif) ;
   //   3. l'échange à 10 TG en dernier, celui qui n'a pas de plafond.
   //  Cet ordre minimise aussi le TrueGold dépensé à poussière égale, ce qui compte :
   //  le même TrueGold finance l'arbre des bâtiments sur l'autre page du site.
@@ -134,16 +143,24 @@
   const DUST_TRADES = [
     { id: 'coins', pay: 'coins',    price: 5000, dust: 1,  weeklyMax: 200,  usedKey: 'usedCoins' },
     { id: 'tg5',   pay: 'truegold', price: 5,    dust: 13, weeklyMax: 20,   usedKey: 'usedTg5'   },
+    { id: 'tgLimited', pay: 'truegold', price: 5, dust: 13, weeklyMax: null, usedKey: 'usedTgLimited',
+      perLevel: 2, levelKey: 'limitedLevel' },
     { id: 'tg10',  pay: 'truegold', price: 10,   dust: 13, weeklyMax: null, usedKey: null        },
   ];
 
   const posInt = (v) => Math.max(0, Math.floor(Number(v) || 0));
 
+  // Plafond hebdomadaire d'un échange pour ce joueur : fixe, ou fonction du niveau
+  // d'une recherche (`perLevel`). Infinity = sans plafond.
+  const tradeCap = (tr, stock) => tr.perLevel ? tr.perLevel * posInt(stock[tr.levelKey])
+                                : (tr.weeklyMax == null ? Infinity : tr.weeklyMax);
+
   // Les échanges à faire pour obtenir `needDust` poussières, au moindre TrueGold.
   // `needDust` à null = « tout ce que les stocks déclarés peuvent produire », ce qui
   // donne la capacité maximale (c'est elle qui étend le budget avant l'optimisation).
   //
-  // `stock` = { coins, truegold, usedCoins, usedTg5, use } — `used*` sont les échanges
+  // `stock` = { coins, truegold, usedCoins, usedTg5, usedTgLimited, limitedLevel, use }
+  // — `limitedLevel` est le niveau de Provisions limitées, `used*` sont les échanges
   // DÉJÀ faits cette semaine, que le joueur saisit : ils entament le plafond, pas le
   // stock. `use` est l'ensemble des échanges qu'il accepte de faire, par identifiant
   // (`{coins:true, tg5:true, tg10:false}`) : une ligne décochée est simplement sautée,
@@ -163,8 +180,8 @@
       if (out.dust >= need) break;
       if (stock.use && !stock.use[tr.id]) continue;
       const byStock = Math.floor(pools[tr.pay] / tr.price);
-      const byWeek  = tr.weeklyMax == null ? Infinity
-                    : Math.max(0, tr.weeklyMax - posInt(stock[tr.usedKey]));
+      const cap     = tradeCap(tr, stock);
+      const byWeek  = cap === Infinity ? Infinity : Math.max(0, cap - posInt(stock[tr.usedKey]));
       const byNeed  = (need === Infinity) ? Infinity : Math.ceil((need - out.dust) / tr.dust);
       const n = Math.min(byStock, byWeek, byNeed);
       if (n <= 0) continue;

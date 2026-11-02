@@ -20,6 +20,10 @@
       tradeCoins: 'Coins available', tradeTruegold: 'TrueGold to convert',
       tradeColUse: 'Use', tradeColWhat: 'Exchange', tradeColDone: 'Done this week', tradeColPlan: 'In this plan',
       tradeWhatCoins: '5 000 coins → 1 dust', tradeWhatTg5: '5 TrueGold → 13 dust', tradeWhatTg10: '10 TrueGold → 13 dust',
+      tradeWhatTgLimited: '5 TrueGold → 13 dust (Limited Supply)',
+      tradeLimitedLocked: 'Research Limited Supply (advanced tab) to unlock it: 2 exchanges a week per level.',
+      tradeLimitedCap: 'Limited Supply Lv. {n}: {m} a week',
+      tradeLimitedShort: 'Limited Supply',
       tradeNoCap: 'no weekly cap', tradeOff: 'not used', tradeTotal: 'Dust this plan buys',
       tradeCoinsRow: 'coins', tradeTgRow: 'TrueGold',
       cCoins: 'Coins', cCoinsNeed: 'needed', cCoinsResearch: 'researches', cCoinsTrades: 'exchanges',
@@ -91,6 +95,10 @@
       tradeCoins: 'Pièces disponibles', tradeTruegold: 'TrueGold à convertir',
       tradeColUse: 'Utiliser', tradeColWhat: 'Échange', tradeColDone: 'Faits cette semaine', tradeColPlan: 'Dans ce plan',
       tradeWhatCoins: '5 000 pièces → 1 poussière', tradeWhatTg5: '5 TrueGold → 13 poussières', tradeWhatTg10: '10 TrueGold → 13 poussières',
+      tradeWhatTgLimited: '5 TrueGold → 13 poussières (Provisions limitées)',
+      tradeLimitedLocked: "Recherche Provisions limitées (onglet avancé) pour l'ouvrir : 2 échanges par semaine et par niveau.",
+      tradeLimitedCap: 'Provisions limitées niv. {n} : {m} par semaine',
+      tradeLimitedShort: 'Provisions limitées',
       tradeNoCap: 'sans plafond', tradeOff: 'non utilisé', tradeTotal: 'Poussières achetées par ce plan',
       tradeCoinsRow: 'pièces', tradeTgRow: 'TrueGold',
       cCoins: 'Pièces', cCoinsNeed: 'nécessaires', cCoinsResearch: 'recherches', cCoinsTrades: 'échanges',
@@ -159,8 +167,9 @@
       "Renseigne ton niveau d'Académie de Guerre (1–10) : il débloque les paliers de l'arbre.",
       "Sur l'arbre, touche le niveau de chaque recherche pour indiquer ta progression actuelle.",
       "Indique tes poussières d'Or Véritable, tes accélérateurs et ton bonus de vitesse.",
-      "Sous l'arbre, le panneau « Échanges de poussière » sert à en acheter : une ligne par échange du jeu, que tu coches ou non. Saisis les pièces et le TrueGold que tu acceptes d'y mettre. Le champ dit bien « TrueGold à convertir », pas « ton stock » : le même TrueGold sert à monter tes bâtiments sur la page TrueGold, et l'outil ne décide pas à ta place combien tu veux y laisser. Décoche les deux lignes TrueGold et le plan n'y touchera jamais.",
+      "Sous l'arbre, le panneau « Échanges de poussière » sert à en acheter : une ligne par échange du jeu, que tu coches ou non. Saisis les pièces et le TrueGold que tu acceptes d'y mettre. Le champ dit bien « TrueGold à convertir », pas « ton stock » : le même TrueGold sert à monter tes bâtiments sur la page TrueGold, et l'outil ne décide pas à ta place combien tu veux y laisser. Décoche les lignes TrueGold et le plan n'y touchera jamais.",
       "Renseigne les échanges déjà faits cette semaine : ils entament le plafond (200 pour les pièces, 20 pour l'échange à 5 TrueGold), pas ton stock. Attention, un plafond atteint change le conseil : l'échange à 5 TrueGold rend 13 poussières, celui à 10 TrueGold aussi, donc deux fois moins par TrueGold. Une fois tes 20 échanges à 5 TG consommés, le plan se rabat sur le second et ton or rapporte moitié moins.",
+      "La recherche avancée « Provisions limitées » ouvre une ligne de plus à 5 TrueGold : 2 échanges par semaine et par niveau, 20 au niveau 10. L'outil lit son niveau dans l'onglet « Recherches avancées » et la remplit juste après la ligne normale à 5 TG, avant celle à 10. Un niveau que le plan propose de monter ne compte qu'au calcul suivant, une fois appliqué.",
       "Les recherches coûtent aussi des PIÈCES, et beaucoup : près de 900 000 sur un plan d'un mois. Laisse « Pièces disponibles » à zéro et l'outil se contente de t'annoncer la quantité nécessaire, à vérifier en jeu. Renseigne-les et elles bornent le plan : il partage alors tes pièces entre ce que coûtent les recherches et ce que coûtent les échanges, et ne te propose jamais un plan que tu ne peux pas payer.",
       "L'onglet « Recherches avancées » regroupe les 92 recherches qui s'ouvrent de TG5 à TG8. Elles coûtent aussi de l'Or Véritable trempé (30 000 points KvK chacun, comme sur la page TrueGold) : renseigne ton stock dans « Ressources ». Leur or est la même monnaie que les pièces de l'arbre de base.",
       "L'onglet ouvert décide de la suggestion : « Recherches de base » ne propose que l'arbre de base, « Recherches avancées » que l'arbre avancé, et « Suggestion globale » mélange les deux quand c'est plus rentable, en partageant poussières, Or Véritable trempé, pièces et accélérateurs.",
@@ -176,8 +185,9 @@
       'Set your War Academy level (1–10): it unlocks the tree tiers.',
       'On the tree, tap each research level to set your current progress.',
       'Enter your TrueGold Dust, your speedups and your speed bonus.',
-      'Below the tree, the "Dust Exchanges" panel buys more of it: one row per exchange in the game, ticked or not. Enter the coins and the TrueGold you agree to spend. The field says "TrueGold to convert", not "your stock": the same TrueGold pays for your buildings on the TrueGold page, and the tool does not get to decide how deep into it you go. Untick both TrueGold rows and the plan will never touch it.',
+      'Below the tree, the "Dust Exchanges" panel buys more of it: one row per exchange in the game, ticked or not. Enter the coins and the TrueGold you agree to spend. The field says "TrueGold to convert", not "your stock": the same TrueGold pays for your buildings on the TrueGold page, and the tool does not get to decide how deep into it you go. Untick the TrueGold rows and the plan will never touch it.',
       'Fill in the exchanges you have already made this week: they eat into the cap (200 for coins, 20 for the 5-TrueGold one), not into your stock. A maxed cap changes the advice: the 5-TrueGold exchange gives 13 dust and so does the 10-TrueGold one, half as much per TrueGold. Once your 20 five-TG exchanges are spent, the plan falls back on the second and your gold buys half the dust.',
+      'The advanced research "Limited Supply" opens one more 5-TrueGold row: 2 exchanges a week per level, 20 at level 10. The tool reads its level from the "Advanced research" tab and fills it right after the normal 5-TG row, before the 10-TG one. A level the plan suggests researching only counts from the next calculation, once applied.',
       'Researches cost COINS too, and plenty: close to 900,000 across a month-long plan. Leave "Coins available" at zero and the tool simply tells you how many you will need, to check in game. Fill it in and it bounds the plan: your coins are then split between what the researches cost and what the exchanges cost, and you are never handed a plan you cannot pay for.',
       'The "Advanced research" tab holds the 92 researches that open from TG5 to TG8. They also cost Tempered TrueGold (30,000 KvK points each, as on the TrueGold page): enter your stock under "Resources". Their gold is the same currency as the coins of the basic tree.',
       'The open tab decides the suggestion: "Basic research" only suggests the basic tree, "Advanced research" only the advanced tree, and "Global suggestion" mixes both when that earns more, sharing dust, Tempered TrueGold, coins and speedups.',
@@ -216,10 +226,10 @@
     [6, 7], [6, 8], [6, 9],
   ];
   const TREE_ORDER = ['infantry', 'archer', 'cavalry'];
-  // Les trois échanges de poussière, dans l'ordre des lignes du panneau. Les
+  // Les quatre échanges de poussière, dans l'ordre des lignes du panneau. Les
   // identifiants sont ceux de DUST_TRADES (wa_optimizer.js) : c'est la même liste vue
   // des deux bouts, il ne faut pas qu'elles divergent.
-  const TRADE_IDS = ['coins', 'tg5', 'tg10'];
+  const TRADE_IDS = ['coins', 'tg5', 'tgLimited', 'tg10'];
   // Le barème vient de `DUST_TRADES` (wa_optimizer.js) et n'est PAS recopié ici : prix,
   // plafonds et libellés en découlent, donc un changement de règle en jeu se corrige à
   // un seul endroit. Le repli ne sert qu'au cas de cache mixte (script du moteur encore
@@ -229,15 +239,22 @@
     const par = {};
     TRADE_IDS.forEach(id => {
       const r = src.find(x => x.id === id);
-      par[id] = { price: r ? r.price : null, dust: r ? r.dust : null, weeklyMax: r ? r.weeklyMax : null };
+      par[id] = { price: r ? r.price : null, dust: r ? r.dust : null, weeklyMax: r ? r.weeklyMax : null,
+                  perLevel: r ? r.perLevel : null };
     });
     return par;
   })();
   const COIN_TRADE_PRICE = TRADE_RULES.coins.price || 5000;
   const COIN_TRADE_MAX   = TRADE_RULES.coins.weeklyMax || 200;
   const TG5_TRADE_MAX    = TRADE_RULES.tg5.weeklyMax || 20;
-  const TRADE_USE_EL  = { coins: 'tradeUseCoins',  tg5: 'tradeUseTg5',  tg10: 'tradeUseTg10' };
-  const TRADE_PLAN_EL = { coins: 'tradePlanCoins', tg5: 'tradePlanTg5', tg10: 'tradePlanTg10' };
+  // Échange ouvert par la recherche avancée Provisions limitées : 2 par semaine et par
+  // niveau DÉJÀ atteint (décision d'Aistra, MAP §12). Le niveau se lit dans l'arbre
+  // avancé, le joueur n'a rien d'autre à saisir.
+  const LIMITED_PER_LEVEL = TRADE_RULES.tgLimited.perLevel || 2;
+  const LIMITED_RES = 'limited_supply';
+  const LIMITED_MAX = LIMITED_PER_LEVEL * 10;   // 10 niveaux : 20 échanges par semaine au plus
+  const TRADE_USE_EL  = { coins: 'tradeUseCoins',  tg5: 'tradeUseTg5',  tgLimited: 'tradeUseTgLimited',  tg10: 'tradeUseTg10' };
+  const TRADE_PLAN_EL = { coins: 'tradePlanCoins', tg5: 'tradePlanTg5', tgLimited: 'tradePlanTgLimited', tg10: 'tradePlanTg10' };
   const TREE_COLORS = { infantry: '#54c66a', archer: '#ef5a4c', cavalry: '#4d9be6',
                         advanced: 'var(--accent-text, var(--accent))' };
   // Arbre avancé : même identifiant que dans wa_optimizer.js (`ADV_TREE_ID`).
@@ -262,8 +279,8 @@
     // ceux qu'il accepte de faire. Celui à 10 TG est décoché d'office — il rend
     // 1,3 poussière par TrueGold contre 2,6 pour celui à 5 TG, on n'entame pas le
     // stock au tarif double sans que le joueur l'ait voulu.
-    tradeCoins: 0, tradeUsedCoins: 0, tradeTruegold: 0, tradeUsedTg5: 0,
-    tradeUse: { coins: true, tg5: true, tg10: false },
+    tradeCoins: 0, tradeUsedCoins: 0, tradeTruegold: 0, tradeUsedTg5: 0, tradeUsedTgLimited: 0,
+    tradeUse: { coins: true, tg5: true, tgLimited: true, tg10: false },
     mode: 'classic', targetScore: 2000000,
     accDays: 2, accHours: 0, accMinutes: 0,
     ttgBudget: 0,
@@ -398,7 +415,7 @@
       // pas digne de confiance. Sans ça, un `tradeUse` tronqué ou nul faisait planter
       // `syncInputs` au démarrage, et l'ajout d'un quatrième échange serait arrivé
       // décoché en silence chez tous les joueurs déjà installés.
-      state.tradeUse = Object.assign({ coins: true, tg5: true, tg10: false },
+      state.tradeUse = Object.assign({ coins: true, tg5: true, tgLimited: true, tg10: false },
                                      (saved.tradeUse && typeof saved.tradeUse === 'object') ? saved.tradeUse : {});
       state.levels = saved.levels || {};
     }
@@ -417,6 +434,7 @@
     set('tradeUsedCoins', state.tradeUsedCoins);
     setMontant('tradeTruegold', state.tradeTruegold);
     set('tradeUsedTg5', state.tradeUsedTg5);
+    set('tradeUsedTgLimited', state.tradeUsedTgLimited);
     TRADE_IDS.forEach(id => {
       const c = document.getElementById(TRADE_USE_EL[id]);
       if (c) c.checked = !!state.tradeUse[id];
@@ -446,6 +464,9 @@
     if (g('tradeUsedCoins')) state.tradeUsedCoins = clampInt(g('tradeUsedCoins').value, 0, COIN_TRADE_MAX);
     if (g('tradeTruegold'))  state.tradeTruegold  = parseNum(g('tradeTruegold').value);
     if (g('tradeUsedTg5'))   state.tradeUsedTg5   = clampInt(g('tradeUsedTg5').value, 0, TG5_TRADE_MAX);
+    // Pas borné au plafond du niveau : le niveau peut encore bouger dans l'arbre, et
+    // `planTrades` ne prend de toute façon que ce qui reste sous le plafond.
+    if (g('tradeUsedTgLimited')) state.tradeUsedTgLimited = clampInt(g('tradeUsedTgLimited').value, 0, LIMITED_MAX);
     TRADE_IDS.forEach(id => {
       const c = g(TRADE_USE_EL[id]);
       if (c) state.tradeUse[id] = c.checked;
@@ -1047,8 +1068,29 @@
     return Object.assign({
       coins: state.tradeCoins, truegold: state.tradeTruegold,
       usedCoins: state.tradeUsedCoins, usedTg5: state.tradeUsedTg5,
+      usedTgLimited: state.tradeUsedTgLimited, limitedLevel: limitedLevel(),
       use: state.tradeUse,
     }, surcharge || {});
+  }
+
+  // Niveau de Provisions limitées réglé dans l'arbre avancé (0 sans l'arbre).
+  function limitedLevel() {
+    const res = ADV && ADV.researches.find(r => r.id === LIMITED_RES);
+    return res ? curOf(ADV_ID, res) : 0;
+  }
+
+  // Compteur « faits cette semaine » de la ligne Provisions limitées : son plafond suit
+  // le niveau de la recherche, il se redessine donc à chaque saisie. À 0, la ligne
+  // reste visible mais dit comment l'ouvrir.
+  function renderLimitedRow() {
+    const lv = limitedLevel(), cap = lv * LIMITED_PER_LEVEL;
+    const inp = document.getElementById('tradeUsedTgLimited');
+    const capEl = document.getElementById('tradeCapTgLimited');
+    const note = document.getElementById('tradeNoteTgLimited');
+    if (inp) { inp.max = String(cap); inp.disabled = cap === 0; }
+    if (capEl) capEl.textContent = '/ ' + cap;
+    if (note) note.textContent = cap === 0 ? t('tradeLimitedLocked')
+      : t('tradeLimitedCap').replace('{n}', lv).replace('{m}', cap);
   }
 
   // Remplit la colonne « dans ce plan » de chaque ligne, et le total sous la table.
@@ -1057,6 +1099,7 @@
   // au joueur en train de taper.
   function renderTradeRows() {
     const tp = waFresh() ? lastTrades : null;
+    renderLimitedRow();
     TRADE_IDS.forEach(id => {
       const cell = document.getElementById(TRADE_PLAN_EL[id]);
       if (!cell) return;
@@ -1381,6 +1424,7 @@
   // résultent. Le panneau du dessus sert à décider, celui-ci à exécuter.
   const TRADE_UNIT = { coins: TRADE_RULES.coins.price || 5000,
                        tg5:   TRADE_RULES.tg5.price   || 5,
+                       tgLimited: TRADE_RULES.tgLimited.price || 5,
                        tg10:  TRADE_RULES.tg10.price  || 10 };
   function tradesHtml(st) {
     st = st || state;      // l'état du calcul : un plan périmé garde ses propres stocks
@@ -1394,7 +1438,7 @@
       return `<div class="wa-out-bilan-row">🔁 ${t('outTradeConvert')} `
            + `<b>${fmtNum(l.spend)}</b> ${monnaie} ${t('outTradeInto')} <b>${fmtNum(l.dust)}</b> `
            + `${t('tradeGivesShort')} <small>(${fmtNum(l.n)} ${t('outTradeVia')} `
-           + `${fmtNum(TRADE_UNIT[l.id])} ${monnaie})</small></div>`;
+           + `${fmtNum(TRADE_UNIT[l.id])} ${monnaie}${l.id === 'tgLimited' ? ', ' + t('tradeLimitedShort') : ''})</small></div>`;
     }).join('') + (cr.k
       ? `<div class="wa-out-bilan-row">🔥 ${t('outCrucible')} <b>${fmtNum(cr.cout)}</b> ${t('tradeTgRow')} ${t('outTradeInto')} `
         + `<b>~${fmtNum(Math.round(cr.gain * 100) / 100)}</b> ${t('cTtg')} <small>(${fmtNum(cr.k)} ${t('outCrucibleN')} `
@@ -1709,6 +1753,7 @@
         const fait = (id) => (tp.trades.find(x => x.id === id) || { n: 0 }).n;
         state.tradeUsedCoins = clampInt(state.tradeUsedCoins + fait('coins'), 0, COIN_TRADE_MAX);
         state.tradeUsedTg5   = clampInt(state.tradeUsedTg5   + fait('tg5'),   0, TG5_TRADE_MAX);
+        state.tradeUsedTgLimited = clampInt(state.tradeUsedTgLimited + fait('tgLimited'), 0, LIMITED_MAX);
       }
       state.accDays = Math.floor(timeLeft / 1440);
       state.accHours = Math.floor((timeLeft % 1440) / 60);
