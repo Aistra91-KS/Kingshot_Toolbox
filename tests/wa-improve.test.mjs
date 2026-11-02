@@ -87,7 +87,9 @@ test('affinage : à moins de 0,5 % de l\'optimum exact en moyenne, avec 4 dépar
     const imp = improver(o, p0, { starts: 4 });
     let best = p0;
     for (let j = 0; j < imp.count; j++) {
-      const r = imp.run(j).plan;
+      const run = imp.run(j);
+      assert.ok(!run.anomalie, `compte ${i}, départ ${j} : anomalie ${run.anomalie}`);
+      const r = run.plan;
       verifierJouable(o, r);
       assert.ok(r.totals.kvkPoints <= ref.borne, `compte ${i} : ${r.totals.kvkPoints} au-dessus de la borne ${ref.borne}`);
       if (r.totals.kvkPoints > best.totals.kvkPoints) best = r;
@@ -113,6 +115,7 @@ test('affinage : jamais moins bon que son départ, plan jouable, budgets de piè
     const p0 = suggest(o);
     const imp = improver(o, p0, { starts: 2, iters: 600 });
     const r = imp.run(0);
+    assert.ok(!r.anomalie, `compte ${i} : anomalie ${r.anomalie}`);
     verifierJouable(o, r.plan);
     assert.ok(r.plan.totals.kvkPoints >= p0.totals.kvkPoints, `compte ${i} : ${r.plan.totals.kvkPoints} < ${p0.totals.kvkPoints}`);
     assert.equal(r.gained, r.plan.totals.kvkPoints > p0.totals.kvkPoints);

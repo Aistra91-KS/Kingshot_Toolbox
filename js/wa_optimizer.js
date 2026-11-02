@@ -779,7 +779,7 @@
   const AFF_ITER_MAX = 4000;   // itérations au plus par départ
   const AFF_STALL    = 700;    // un départ s'arrête après autant d'itérations sans gain
   const AFF_RUIN     = 12;     // niveaux retirés au plus par ruine
-  const AFF_STARTS   = 32;     // départs par défaut
+  const AFF_STARTS   = 32;     // départs par défaut (la page passe le sien : `cfg.starts`)
 
   function improver(opts, plan0, cfg) {
     cfg = cfg || {};
@@ -993,7 +993,11 @@
     }
 
     // ---- l'ensemble retenu, remis en ordre de jeu, au format de `runPlan` ----
+    // `ordreRompu` : aucun niveau restant n'avait ses prérequis, le plan serait tronqué.
+    // Ne doit jamais arriver ; signalé (`anomalie`) plutôt que rendu en silence.
+    let ordreRompu = false;
     function toPlan() {
+      ordreRompu = false;
       // Le niveau lancé en dernier : la feuille la plus longue, si tout ne tient pas.
       let pk = -1;
       if (sT > Tmax) { const l = leaves(); if (l.length) pk = l[0][1]; }
@@ -1018,7 +1022,7 @@
           const v = (PTS_PER_DUST * D[k][L] + PTS_PER_TTG * G[k][L] + PTS_PER_MIN * T[k][L]) / Math.max(1, cost);
           if (v > bs) { bs = v; best = k; }
         }
-        if (best < 0) break;                                   // ne se produit pas sur un ensemble jouable
+        if (best < 0) { ordreRompu = true; break; }            // ne se produit pas sur un ensemble jouable
         const k = best, L = ++at[k], o = LO[k][L], res = R[k].res;
         reste--;
         const ed = D[k][L], et = T[k][L], tg = G[k][L];
@@ -1062,7 +1066,8 @@
     function run(j) {
       const all = startPlans();
       const start = all[j % all.length];
-      if (!load(start)) return { plan: start, iters: 0, gained: false };
+      // Un départ que le modèle ne sait pas recharger : écart entre ce modèle et `runPlan`.
+      if (!load(start)) return { plan: start, iters: 0, gained: false, anomalie: 'chargement' };
       seed = 1 + ((j + 1) * 7919) % 2147483647;
       let curKey = keyNow(), bestKey = curKey, bestLv = Int32Array.from(lv);
       const maxIt = Math.max(1, Number(cfg.iters) || AFF_ITER_MAX);
@@ -1096,6 +1101,7 @@
       sD = sT = sG = sC = 0; leafList = null;
       for (let k = 0; k < n; k++) for (let L = lv0[k] + 1; L <= lv[k]; L++) { sD += D[k][L]; sT += T[k][L]; sG += G[k][L]; sC += C[k][L]; }
       const plan = toPlan();
+      if (ordreRompu) return { plan: start, iters: it, gained: false, anomalie: 'ordre' };
       // Garde-fou : jamais moins bien que le départ (égalité comprise, on garde le départ).
       if (plan.totals.kvkPoints <= start.totals.kvkPoints) return { plan: start, iters: it, gained: false };
       return { plan, iters: it, gained: true };

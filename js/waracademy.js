@@ -1486,7 +1486,7 @@
   // meilleur remplace l'affiché. « Appliquer » attend la fin : sinon on appliquerait un
   // plan en train de changer. Une saisie qui périme le plan arrête tout.
   const AFF_MAX_MS = 7500;       // depuis le clic, phase 1 comprise
-  const AFF_STARTS = 32;         // départs à répartir entre les workers
+  const AFF_STARTS = 32;         // départs à répartir entre les workers (passé au moteur)
   const AFF_STALL = 8;           // arrêt après 8 départs d'affilée sans gain
   let affinage = null;           // affinage en cours, ou null
   let affBilan = null;           // bilan du dernier affinage terminé : { ms, gain, raison }
@@ -1532,17 +1532,31 @@
     // finissent leurs départs.
     if (m.type === 'unsupported' || m.type === 'error') {
       if (m.type === 'error') console.warn('affinage :', m.message);
+      else console.info('affinage : wa_optimizer.js chargé par le worker sans `improver` (version en cache), worker arrêté');
       workerPerdu(a, a.workers[m.w]);
       return;
     }
     if (m.type === 'done') { if (++a.finis >= a.workers.length) finirAffinage(a, 'fin'); return; }
     if (m.type !== 'start' || !m.plan || !(m.j >= 0 && m.j < AFF_STARTS)) return;
-    const cand = a.ctx.evaluer(m.plan);
-    a.recus[m.j] = cand || false;
-    if (cand && meilleurPlan(cand, a.best)) {
-      a.best = cand;
-      a.ctx.publier(cand);
+    if (m.anomalie) console.warn('affinage : départ ' + m.j + ', anomalie du moteur (' + m.anomalie + '), plan de départ gardé');
+    // Un plan meilleur qui ne s'affiche pas (script en cache, MAP §9) laisserait l'ancien
+    // plan à l'écran pendant que « Appliquer » prendrait le nouveau. On remet le plan
+    // précédent, on prévient, et le plan affiché n'est plus applicable.
+    const avant = a.best;
+    let cand = null;
+    try {
+      cand = a.ctx.evaluer(m.plan);
+      if (cand && meilleurPlan(cand, a.best)) { a.best = cand; a.ctx.publier(cand); }
+    } catch (err) {
+      console.error('affinage : plan du départ ' + m.j + ' impossible à afficher', err);
+      a.best = avant;
+      try { a.ctx.publier(avant); } catch (err2) { console.error('affinage : plan précédent impossible à réafficher', err2); }
+      finirAffinage(a, 'panne');
+      if (waCalc) waCalc.set('error');
+      if (window.ktWarnStale) window.ktWarnStale();
+      return;
     }
+    a.recus[m.j] = cand || false;
     // Décision d'arrêt sur les départs lus dans l'ordre.
     while (a.prefixe < AFF_STARTS && a.recus[a.prefixe] !== undefined) {
       const c = a.recus[a.prefixe];
@@ -1563,7 +1577,8 @@
   }
 
   // raison : 'fin' (plus de progrès, ou tous les départs joués), 'temps' (7,5 s),
-  // 'garde' (le joueur garde le plan), 'erreur', 'annule' (saisie ou nouveau calcul).
+  // 'garde' (le joueur garde le plan), 'erreur' (workers en panne), 'panne' (un plan n'a
+  // pas pu s'afficher), 'annule' (saisie ou nouveau calcul).
   function finirAffinage(a, raison) {
     if (affinage !== a) return;
     affinage = null;
@@ -1573,7 +1588,7 @@
     const base = a.ctx.base.res.totals.kvkPoints;
     const gain = base > 0 ? a.best.res.totals.kvkPoints / base - 1 : 0;
     // Une erreur sans gain ne mérite pas de bandeau : le plan affiché est celui du calcul.
-    affBilan = (raison === 'annule' || (raison === 'erreur' && gain <= 0))
+    affBilan = (raison === 'annule' || raison === 'panne' || (raison === 'erreur' && gain <= 0))
       ? null : { ms: Date.now() - a.t0, gain, raison };
     const box = document.getElementById('wa-improve');
     const avaitFocus = !!(box && box.contains(document.activeElement));
@@ -1583,8 +1598,10 @@
     renderAff();
     // Le bouton « Garder ce plan » disparaît : le focus passe à l'action suivante.
     if (avaitFocus) {
-      const apply = document.querySelector('#wa-output .plan-apply-btn');
-      if (apply && !apply.disabled) apply.focus();
+      const out = document.getElementById('wa-output');
+      const apply = out && out.querySelector('.plan-apply-btn');
+      // Un plan périmé est inerte : son bouton ne peut pas recevoir le focus.
+      if (apply && !apply.disabled && !out.inert) apply.focus();
       else if (waCalc) waCalc.focus();
     }
   }
@@ -1612,6 +1629,13 @@
   // Le bandeau vit entre la barre de calcul et la suggestion, hors de la sortie : celle-ci
   // se redessine à chaque plan meilleur, le bouton y perdrait le focus. Écrit dans le
   // HTML (place réservée) ; un HTML en cache ne l'a pas, il est alors créé ici.
+  //
+  // Au repos, le bandeau est masqué À L'ÉCRAN seulement (`AFF_REPOS`), jamais `hidden` :
+  // un lecteur d'écran n'annonce pas une zone `role="status"` qui entre dans la page au
+  // moment où son texte change, le premier message se perdait. Style posé en ligne pour
+  // ne pas dépendre d'un waracademy.css resté en cache.
+  const AFF_REPOS = 'position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;'
+                  + 'overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap';
   function affBox() {
     let box = document.getElementById('wa-improve');
     if (!box) {
@@ -1620,9 +1644,9 @@
       box = document.createElement('div');
       box.id = 'wa-improve';
       box.className = 'wa-improve';
-      box.hidden = true;
       out.parentNode.insertBefore(box, out);
     }
+    if (box.hidden) { box.hidden = false; box.style.cssText = AFF_REPOS; }
     if (!box.querySelector('.wa-improve-live')) {
       box.innerHTML = '<p class="wa-improve-txt">'
         + '<svg class="wa-improve-spin calc-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>'
@@ -1642,11 +1666,17 @@
     const a = affinage;
     // Un bilan ne vaut que pour le plan dont il parle : caché dès qu'il est périmé.
     const montrer = a || (affBilan && waFresh());
-    box.hidden = !montrer;
-    if (!montrer) return;
     const live = box.querySelector('.wa-improve-live');
     const tick = box.querySelector('.wa-improve-tick');
     const stop = box.querySelector('.wa-improve-stop');
+    box.style.cssText = montrer ? '' : AFF_REPOS;
+    if (!montrer) {
+      // Vider une zone live ne s'annonce pas ; le bouton masqué ne doit pas rester
+      // atteignable au clavier.
+      live.textContent = ''; tick.textContent = ''; stop.hidden = true;
+      box.classList.remove('is-running');
+      return;
+    }
     box.querySelector('.wa-improve-spin').style.display = a ? '' : 'none';
     let texte;
     if (a) {

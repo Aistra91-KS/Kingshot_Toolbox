@@ -5,7 +5,7 @@
 //  décide de l'arrêt et met fin au worker (terminate) : rien à nettoyer ici.
 //
 //  Messages reçus : { type: 'run', id, w, opts, plan0, starts: [j…], cfg } (w : numéro du worker)
-//  Messages rendus : { type: 'start', id, j, plan, gained, iters } par départ, puis
+//  Messages rendus : { type: 'start', id, j, plan, gained, iters, anomalie } par départ, puis
 //  { type: 'done', id } ; { type: 'unsupported', id } si l'optimiseur chargé n'a pas
 //  `improver` (un wa_optimizer.js resté en cache, MAP §9) ; { type: 'error', id, message }.
 // ============================================================
@@ -29,7 +29,8 @@ self.onmessage = function (e) {
     for (const j of m.starts || []) {
       if (!(j >= 0 && j < imp.count)) continue;
       const r = imp.run(j);
-      self.postMessage({ type: 'start', id: m.id, j, plan: r.plan, gained: r.gained, iters: r.iters });
+      self.postMessage({ type: 'start', id: m.id, j, plan: r.plan, gained: r.gained, iters: r.iters,
+                         anomalie: r.anomalie || null });
     }
     self.postMessage({ type: 'done', id: m.id });
   } catch (err) {
