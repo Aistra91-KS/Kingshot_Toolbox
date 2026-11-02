@@ -11,7 +11,7 @@ Le socle (`site-config`, `storage-keys`, `profiles`, `lang`, `header`, `footer`)
 | `index.html` | Hub, cartes par catégorie | `hub.js` | — | `SITE` |
 | `research_calc.html` | Ordre de recherche optimal | `research_script.js` | — | `research_db.json` |
 | `truegold_calc.html` | Planificateur de bâtiments : onglet « Avant l'Or Véritable » (14 bâtiments, niveaux 1 à 30, modification groupée) et onglet « Or Véritable » | `truegold_pre.js`, `truegold_script.js` | — | `buildings_db.json`, `truegold_db.json`, `masters_db.json` |
-| `waracademy.html` | Recherches Or Véritable : onglets Base (3 arbres de troupes) et Avancées (92 techs), un seul plan | `wa_optimizer.js`, `waracademy.js` | `waracademy.css` | `truegold_war_db.json`, `truegold_war_advanced_db.json` |
+| `waracademy.html` | Recherches Or Véritable : onglets Base (3 arbres de troupes) et Avancées (92 techs), un seul plan | `wa_optimizer.js`, `waracademy.js` (lance `wa_worker.js` en Web Worker pour l'affinage KvK), `backup.js` (panneau de sauvegarde en bas de la barre latérale, depuis le 02/11/2026) | `waracademy.css` | `truegold_war_db.json`, `truegold_war_advanced_db.json` |
 | `beartrap_calc.html` | Répartition des marches | `beartrap.js` | — | `heroes_db.json`, `beartrap_joiners_db.json`, caserne (stockage) |
 | `vikings.html` | Répartition troupes Vikings | `vikings.js` | — | formations du Piège à Ours (stockage) |
 | `caserne.html` | Héros du joueur | `caserne.js`, `modal-tabs.js` | — | `heroes_db.json` |

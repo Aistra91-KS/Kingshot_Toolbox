@@ -191,8 +191,23 @@ test('KvK : `exact: false` saute le parcours des plafonds, sans jamais faire mie
               mode: 'kvk', dustBudget: 8504, speedupBudget: 42 * 1440, coinBudget: null, ttgBudget: 10 };
   const rapide = suggest({ ...o, exact: false }).totals.kvkPoints;
   const exact = suggest(o).totals.kvkPoints;
-  assert.equal(rapide, 7476400, 'le glouton seul, tel que relevé par Codex');
-  assert.equal(exact, 7479400, 'le parcours retrouve le plan à 4 TTG');
+  // Relevé par Codex : 7 476 400 sans le parcours, 7 479 400 avec (plan à 4 TTG). La fin
+  // de plan corrigée trouve d'emblée 7 512 400, que le parcours ne bat plus.
+  assert.equal(rapide, 7512400, 'le glouton seul, fin de plan corrigée comprise');
+  assert.equal(exact, 7512400, 'le parcours ne fait jamais moins bien');
+  // Sur des comptes déjà avancés, le parcours a encore de quoi faire : il gagne parfois,
+  // ne perd jamais. Sans ce contrôle, un parcours devenu inutile passerait inaperçu.
+  const rnd = grain(5);
+  let gagne = 0;
+  for (let i = 0; i < 12; i++) {             // le compte n° 6 gagne 567 000 points au parcours
+    const s = { ...scenario(rnd), mode: 'kvk', coinBudget: null };
+    s.ttgBudget = Math.min(s.ttgBudget, 60);
+    const r = suggest({ ...s, exact: false }).totals.kvkPoints;
+    const e = suggest(s).totals.kvkPoints;
+    assert.ok(e >= r, `compte ${i} : ${e} points avec le parcours, ${r} sans`);
+    if (e > r) gagne++;
+  }
+  assert.ok(gagne > 0, 'le parcours des plafonds ne gagne plus nulle part');
 });
 
 test('le palier de l\'Académie ferme l\'arbre avancé : rien avant TG5', () => {

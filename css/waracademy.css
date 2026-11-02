@@ -464,6 +464,34 @@ details.wa-step[open] .wa-step__chev { transform: rotate(90deg); }
 }
 /* Rappel des arbres couverts par la suggestion, sous son titre. */
 .wa-out-scope { font-size: 13px; color: var(--text-muted); margin: -6px 0 12px; }
+
+/* ---------- Affinage du plan KvK (phase 2) ----------
+   Entre la barre de calcul et la suggestion, hors de celle-ci : la sortie se redessine
+   à chaque plan meilleur, le bouton y perdrait le focus. Barre or à gauche pendant la
+   recherche, comme un message d'état ; neutre une fois le bilan posé. */
+.wa-improve[hidden] { display: none; }
+.wa-improve {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
+    margin: -4px 0 14px; padding: 8px 12px;
+    border-left: 3px solid var(--border); border-radius: 6px;
+    background: var(--control-bg);
+}
+.wa-improve.is-running { border-left-color: var(--accent); }
+.wa-improve-txt {
+    margin: 0; flex: 1 1 260px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;
+    font-size: 13px; line-height: 1.45; color: var(--text-light);
+}
+.wa-improve-spin { flex: none; color: var(--accent-text, var(--accent)); }
+.wa-improve-tick { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.wa-improve-stop[hidden] { display: none; }
+.wa-improve-stop {
+    min-height: 40px; padding: 6px 16px;
+    border: 1px solid var(--accent); border-radius: 8px; background: transparent;
+    color: var(--accent-text, var(--accent)); font: inherit; font-size: 13px; font-weight: 700;
+    cursor: pointer;
+}
+.wa-improve-stop:hover { background: rgba(245, 184, 64, 0.12); }
+.wa-improve-stop:focus-visible { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: 2px; }
 #wa-tabs .tab { font: inherit; }
 
 /* ---------- Onglet avancé ----------

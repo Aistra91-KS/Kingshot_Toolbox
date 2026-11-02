@@ -87,6 +87,14 @@
       applyNone: 'none left',
       applyWarn: '⚠️ Your current levels, dust, Tempered TrueGold and speedups will be replaced.',
       applyDone: '✅ Plan applied: levels and resources updated.',
+      affRun: 'Looking for a better plan. You can keep this one at any time.',
+      affSoFar: '{g} KvK points so far', affNotYet: 'nothing better yet',
+      affStop: 'Keep this plan',
+      affDone: 'Plan refined in {s} s: {g} KvK points compared with the first calculation.',
+      affNone: 'No better plan found in {s} s: the first calculation was already the best one.',
+      affKept: 'Refinement stopped at {s} s: {g} KvK points.',
+      affKeptNone: 'Refinement stopped at {s} s, before finding a better plan.',
+      affApplyWait: 'Available once the refinement is over.',
       helpTitle: 'War Academy: Help',
       helpSummary: "Plans the optimal TrueGold research path for your goal: complete as many researches as possible, maximize KvK points, or reach a target score for the least dust.",
     },
@@ -165,6 +173,14 @@
       applyNone: 'plus rien',
       applyWarn: '⚠️ Tes niveaux, tes poussières, ton Or Véritable trempé et tes accélérateurs actuels seront remplacés.',
       applyDone: '✅ Plan appliqué : niveaux et ressources mis à jour.',
+      affRun: "Recherche d'un meilleur plan. Tu peux garder celui-ci à tout moment.",
+      affSoFar: "{g} de points KvK pour l'instant", affNotYet: 'pas encore mieux',
+      affStop: 'Garder ce plan',
+      affDone: 'Plan affiné en {s} s : {g} de points KvK par rapport au premier calcul.',
+      affNone: 'Aucun meilleur plan trouvé en {s} s : le premier calcul était déjà le meilleur.',
+      affKept: 'Affinage arrêté à {s} s : {g} de points KvK.',
+      affKeptNone: 'Affinage arrêté à {s} s, avant de trouver un meilleur plan.',
+      affApplyWait: "Disponible à la fin de l'affinage.",
       dbErr: '⚠️ Impossible de charger la base de recherche (data/truegold_war_db.json).',
       helpTitle: 'Académie de Guerre : Aide',
       helpSummary: "Calcule le chemin de recherche TrueGold optimal selon ton objectif : valider un maximum de recherches, maximiser les points KvK, ou atteindre un score cible au moindre coût en poussières.",
@@ -188,6 +204,7 @@
       "Lis la stratégie : les recherches à monter, les poussières, les pièces et le temps nécessaires, et les points KvK.",
       "Si le plan a besoin d'échanges, ils sont listés en tête du résultat, avant les recherches : c'est l'ordre à suivre en jeu, il faut la poussière en main avant de lancer la première recherche. Les trois nombres qui suivent (« Tes stocks une fois les échanges faits ») sont ceux à recopier dans tes saisies pour démarrer.",
       "Clique sur « Calculer la suggestion » au-dessus du résultat : le plan ne se calcule qu'à ta demande, et l'arbre suit tes saisies en attendant. Si tu modifies une valeur ensuite, le plan reste affiché en grisé jusqu'au prochain calcul.",
+      "En mode KvK, le plan s'affiche tout de suite, puis l'outil cherche encore mieux pendant quelques secondes au plus : chaque plan meilleur remplace celui affiché, et un bandeau sous le bouton donne le gain obtenu. « Garder ce plan » arrête la recherche ; « Appliquer les modifications » attend qu'elle soit finie.",
       "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux de recherche passent à ceux du plan, et tes poussières, accélérateurs, pièces et TrueGold sont réduits d'autant, compteurs d'échanges hebdomadaires compris. Relance ensuite le calcul pour la suggestion suivante.",
     ],
     EN: [
@@ -207,6 +224,7 @@
       'Read the strategy: which researches to level, the dust, coins and time needed, and the KvK points.',
       'If the plan needs exchanges, they are listed at the top of the result, before the researches: that is the order to follow in game, since you need the dust in hand before starting the first research. The three figures that follow ("your stocks once exchanged") are the ones to copy back into your inputs to get going.',
       'Click "Calculate the suggestion" above the result: the plan is only worked out when you ask, and the tree follows what you enter in the meantime. If you change a value afterwards, the plan stays on screen, greyed out, until you run it again.',
+      'In KvK mode, the plan shows right away, then the tool keeps looking for a better one for a few seconds at most: each better plan replaces the one on screen, and a line under the button shows the gain. "Keep this plan" stops the search; "Apply these changes" waits until it is over.',
       'Once you\'ve carried the plan out in game, click "Apply these changes" at the bottom of the result: after confirming, your research levels jump to the plan\'s, and your dust, speedups, coins and TrueGold go down accordingly, weekly exchange counters included. Run the calculation again for the next suggestion.',
     ],
   };
@@ -1264,6 +1282,9 @@
 
   function recompute() {
     if (!DB || !window.WA_Optimizer) return;
+    const t0 = Date.now();
+    // Un nouveau calcul remplace l'affinage du précédent, et son bilan.
+    arreterAffinage();
     const speedupBudget = state.accDays * 1440 + state.accHours * 60 + state.accMinutes;
 
     // Les pièces paient DEUX choses dans la même bourse : le coût en pièces des
@@ -1289,11 +1310,11 @@
     // Un plan pour un partage donné : `n` échanges de pièces, `tgPool` TrueGold offert
     // aux échanges de poussière, `ttgBudget` TTG disponible (stock + creuset).
     // Le TrueGold ne dispute pas les pièces : sa capacité est offerte en entier.
-    const lancer = (nEchanges, rapide, tgPool, ttgBudget, exact) => {
+    // `optsDe` rend les réglages du moteur pour ce partage ; la phase 2 les reprend.
+    const optsDe = (nEchanges, rapide, tgPool, ttgBudget, exact) => {
       const stockTG = tradeStock({ coins: 0, truegold: tgPool });
       const dustTG = stockTG ? window.WA_Optimizer.planTrades(null, stockTG).dust : 0;
-      const stock = tradeStock({ coins: nEchanges * COIN_TRADE_PRICE, truegold: tgPool });
-      const res = window.WA_Optimizer.suggest({
+      return {
         db: DB_ALL || DB, currentLevels: state.levels, waLevel: state.waLevel,
         dustBudget: state.dustBudget + dustTG + nEchanges,
         ttgBudget,
@@ -1305,7 +1326,14 @@
         coinBudget: piecesSaisies ? piecesDispo - nEchanges * COIN_TRADE_PRICE : null,
         enabledTrees: enabledTrees(),
         mode: state.mode, targetScore: state.targetScore,
-      });
+      };
+    };
+    const lancer = (nEchanges, rapide, tgPool, ttgBudget, exact) =>
+      habiller(nEchanges, window.WA_Optimizer.suggest(optsDe(nEchanges, rapide, tgPool, ttgBudget, exact)), tgPool, ttgBudget);
+    // Un plan du moteur, avec les échanges qu'il suppose et ce qu'il coûte en pièces et
+    // en TrueGold : ce que `meilleurPlan` compare et ce que la page affiche.
+    const habiller = (nEchanges, res, tgPool, ttgBudget) => {
+      const stock = tradeStock({ coins: nEchanges * COIN_TRADE_PRICE, truegold: tgPool });
       // On ne facture QUE le manque réel. En mode Score cible surtout, le plan
       // s'arrête dès la cible atteinte : inutile de vider le TrueGold du joueur pour
       // de la poussière que personne ne dépensera. Le stock de pièces étant plafonné à
@@ -1418,23 +1446,259 @@
       const exact = finaliser(lancer(best.n, false, best.tgPool, best.ttgBudget, true), best.kHaut);
       if (exact.tgDepense <= TG && !meilleurPlan(best, exact)) best = exact;
     }
-    lastCreuset = { k: best.k, cout: cr.cout[best.k], gain: cr.gain[best.k], from: state.transfoUsed };
-    lastTtgHeld = ttgApres(cr, best.k);
-
-    const res = best.res;
-    lastTrades = best.trades;
-    lastCoins = { research: res.totals.coins || 0, trades: best.piecesEchanges,
-                  total: best.piecesTotal, budget: piecesSaisies ? piecesDispo : null };
-    lastDustHeld = state.dustBudget + (lastTrades ? lastTrades.dust : 0);
-
-    lastPlan = res;
+    // Affiche un plan et tout ce qui en découle. Sert au plan de ce calcul, puis à chaque
+    // plan meilleur que la phase 2 trouve pour le même partage.
+    const publier = (b) => {
+      lastCreuset = { k: b.k, cout: cr.cout[b.k], gain: cr.gain[b.k], from: state.transfoUsed };
+      lastTtgHeld = ttgApres(cr, b.k);
+      const res = b.res;
+      lastTrades = b.trades;
+      lastCoins = { research: res.totals.coins || 0, trades: b.piecesEchanges,
+                    total: b.piecesTotal, budget: piecesSaisies ? piecesDispo : null };
+      lastDustHeld = state.dustBudget + (lastTrades ? lastTrades.dust : 0);
+      lastPlan = res;
+      renderTradeRows();
+      renderOutput(res);
+      const suggested = suggestedOf(res);
+      refreshStates(suggested);
+      refreshAdv(suggested);
+    };
     WA_CALC_SIG = waSig();
     lastState = JSON.parse(JSON.stringify(state));
-    renderTradeRows();
-    renderOutput(res);
-    const suggested = suggestedOf(res);
-    refreshStates(suggested);
-    refreshAdv(suggested);
+    publier(best);
+
+    // Phase 2 : même partage des pièces, même TrueGold offert, même creuset au plus. Un
+    // plan qui demanderait plus de TrueGold que le joueur n'en convertit est écarté.
+    const base = best;
+    lancerAffinage({
+      t0, base, publier,
+      opts: optsDe(base.n, false, base.tgPool, base.ttgBudget, false),
+      evaluer: (res) => {
+        const b = finaliser(habiller(base.n, res, base.tgPool, base.ttgBudget), base.kHaut);
+        b.kHaut = base.kHaut;
+        return b.tgDepense <= TG ? b : null;
+      },
+    });
+  }
+
+  // ---------------- affinage du plan KvK (phase 2) ----------------
+  // Le plan glouton s'affiche tout de suite ; des Web Workers (js/wa_worker.js) cherchent
+  // ensuite mieux avec `WA_Optimizer.improver`, au plus 7,5 s après le clic, et s'arrêtent
+  // plus tôt dès que ça ne progresse plus (décisions d'Aistra du 02/11/2026). Chaque plan
+  // meilleur remplace l'affiché. « Appliquer » attend la fin : sinon on appliquerait un
+  // plan en train de changer. Une saisie qui périme le plan arrête tout.
+  const AFF_MAX_MS = 7500;       // depuis le clic, phase 1 comprise
+  const AFF_STARTS = 32;         // départs à répartir entre les workers (passé au moteur)
+  const AFF_STALL = 8;           // arrêt après 8 départs d'affilée sans gain
+  let affinage = null;           // affinage en cours, ou null
+  let affBilan = null;           // bilan du dernier affinage terminé : { ms, gain, raison }
+  let affNum = 0;
+
+  // Les départs se lisent dans l'ordre de leur numéro pour décider de l'arrêt, quel que
+  // soit le worker qui finit le premier : à machine égale, même nombre de départs joués.
+  function lancerAffinage(ctx) {
+    const W = window.WA_Optimizer;
+    // Garde de cache (§9) : `improver` est neuf, un wa_optimizer.js en cache ne l'a pas.
+    if (!waCalc || state.mode !== 'kvk' || typeof Worker === 'undefined'
+        || !W || typeof W.improver !== 'function' || !ctx.base.res.steps.length) return;
+    const a = { id: ++affNum, t0: ctx.t0, ctx, best: ctx.base, workers: [], finis: 0,
+                recus: new Array(AFF_STARTS), prefixe: 0, dernierGain: -1, refPrefixe: ctx.base };
+    const nW = Math.max(1, Math.min(4, (navigator.hardwareConcurrency || 2) - 1));
+    for (let w = 0; w < nW; w++) {
+      let wk;
+      try { wk = new Worker('js/wa_worker.js'); }
+      catch (e) { console.warn('affinage : worker indisponible', e); break; }
+      wk.onmessage = (e) => recevoirAffinage(a, e.data || {});
+      wk.onerror = (e) => {
+        console.warn('affinage : erreur du worker', e.message || e);
+        e.preventDefault();
+        workerPerdu(a, wk);
+      };
+      const mes = [];
+      for (let j = w; j < AFF_STARTS; j += nW) mes.push(j);
+      wk.postMessage({ type: 'run', id: a.id, w, opts: ctx.opts, plan0: ctx.base.res, starts: mes,
+                       cfg: { starts: AFF_STARTS } });
+      a.workers.push(wk);
+    }
+    if (!a.workers.length) return;
+    affinage = a;
+    majApply();
+    a.timer = setTimeout(() => finirAffinage(a, 'temps'), Math.max(0, AFF_MAX_MS - (Date.now() - a.t0)));
+    a.tick = setInterval(renderAff, 250);
+    renderAff();
+  }
+
+  function recevoirAffinage(a, m) {
+    if (affinage !== a || m.id !== a.id) return;
+    // Un worker en panne (ou avec un optimiseur en cache) s'arrête seul ; les autres
+    // finissent leurs départs.
+    if (m.type === 'unsupported' || m.type === 'error') {
+      if (m.type === 'error') console.warn('affinage :', m.message);
+      else console.info('affinage : wa_optimizer.js chargé par le worker sans `improver` (version en cache), worker arrêté');
+      workerPerdu(a, a.workers[m.w]);
+      return;
+    }
+    if (m.type === 'done') { if (++a.finis >= a.workers.length) finirAffinage(a, 'fin'); return; }
+    if (m.type !== 'start' || !m.plan || !(m.j >= 0 && m.j < AFF_STARTS)) return;
+    if (m.anomalie) console.warn('affinage : départ ' + m.j + ', anomalie du moteur (' + m.anomalie + '), plan de départ gardé');
+    // Un plan meilleur qui ne s'affiche pas (script en cache, MAP §9) laisserait l'ancien
+    // plan à l'écran pendant que « Appliquer » prendrait le nouveau. On remet le plan
+    // précédent, on prévient, et le plan affiché n'est plus applicable.
+    const avant = a.best;
+    let cand = null;
+    try {
+      cand = a.ctx.evaluer(m.plan);
+      if (cand && meilleurPlan(cand, a.best)) { a.best = cand; a.ctx.publier(cand); }
+    } catch (err) {
+      console.error('affinage : plan du départ ' + m.j + ' impossible à afficher', err);
+      a.best = avant;
+      try { a.ctx.publier(avant); } catch (err2) { console.error('affinage : plan précédent impossible à réafficher', err2); }
+      finirAffinage(a, 'panne');
+      if (waCalc) waCalc.set('error');
+      if (window.ktWarnStale) window.ktWarnStale();
+      return;
+    }
+    a.recus[m.j] = cand || false;
+    // Décision d'arrêt sur les départs lus dans l'ordre.
+    while (a.prefixe < AFF_STARTS && a.recus[a.prefixe] !== undefined) {
+      const c = a.recus[a.prefixe];
+      if (c && meilleurPlan(c, a.refPrefixe)) { a.refPrefixe = c; a.dernierGain = a.prefixe; }
+      a.prefixe++;
+    }
+    if (a.prefixe >= AFF_STARTS) finirAffinage(a, 'fin');
+    else if (a.prefixe - 1 - a.dernierGain >= AFF_STALL) finirAffinage(a, 'fin');
+    else renderAff();
+  }
+
+  function workerPerdu(a, wk) {
+    if (affinage !== a || !wk || wk.perdu) return;          // compté une seule fois
+    wk.perdu = true;
+    wk.terminate();
+    a.perdus = (a.perdus || 0) + 1;
+    if (++a.finis >= a.workers.length) finirAffinage(a, a.perdus >= a.workers.length ? 'erreur' : 'fin');
+  }
+
+  // raison : 'fin' (plus de progrès, ou tous les départs joués), 'temps' (7,5 s),
+  // 'garde' (le joueur garde le plan), 'erreur' (workers en panne), 'panne' (un plan n'a
+  // pas pu s'afficher), 'annule' (saisie ou nouveau calcul).
+  function finirAffinage(a, raison) {
+    if (affinage !== a) return;
+    affinage = null;
+    clearTimeout(a.timer);
+    clearInterval(a.tick);
+    a.workers.forEach(w => w.terminate());
+    const base = a.ctx.base.res.totals.kvkPoints;
+    const gain = base > 0 ? a.best.res.totals.kvkPoints / base - 1 : 0;
+    // Une erreur sans gain ne mérite pas de bandeau : le plan affiché est celui du calcul.
+    affBilan = (raison === 'annule' || raison === 'panne' || (raison === 'erreur' && gain <= 0))
+      ? null : { ms: Date.now() - a.t0, gain, raison };
+    const box = document.getElementById('wa-improve');
+    const avaitFocus = !!(box && box.contains(document.activeElement));
+    // « Appliquer » redevient actif. Aussi après une saisie : revenir aux mêmes valeurs
+    // rend le plan de nouveau applicable.
+    majApply();
+    renderAff();
+    // Le bouton « Garder ce plan » disparaît : le focus passe à l'action suivante.
+    if (avaitFocus) {
+      const out = document.getElementById('wa-output');
+      const apply = out && out.querySelector('.plan-apply-btn');
+      // Un plan périmé est inerte : son bouton ne peut pas recevoir le focus.
+      if (apply && !apply.disabled && !out.inert) apply.focus();
+      else if (waCalc) waCalc.focus();
+    }
+  }
+  // « Appliquer » attend la fin de l'affinage. Basculé en place : le plan déjà dessiné
+  // garde son focus et sa position de lecture.
+  function majApply() {
+    const btn = document.querySelector('#wa-output .plan-apply-btn');
+    if (!btn) return;
+    btn.disabled = !!affinage;
+    const hint = btn.parentNode.querySelector('.plan-apply-hint');
+    if (hint) hint.textContent = t(affinage ? 'affApplyWait' : 'applyHint');
+  }
+  function arreterAffinage() {
+    if (affinage) finirAffinage(affinage, 'annule');
+    affBilan = null;
+    renderAff();
+  }
+
+  const fmtSec = (ms) => (Math.max(0, ms) / 1000).toFixed(1).replace('.', lang() === 'FR' ? ',' : '.');
+  const fmtGain = (g) => {
+    const s = (100 * g).toFixed(1);
+    return lang() === 'FR' ? '+' + s.replace('.', ',') + ' %' : '+' + s + '%';
+  };
+
+  // Le bandeau vit entre la barre de calcul et la suggestion, hors de la sortie : celle-ci
+  // se redessine à chaque plan meilleur, le bouton y perdrait le focus. Écrit dans le
+  // HTML (place réservée) ; un HTML en cache ne l'a pas, il est alors créé ici.
+  //
+  // Au repos, le bandeau est masqué À L'ÉCRAN seulement (`AFF_REPOS`), jamais `hidden` :
+  // un lecteur d'écran n'annonce pas une zone `role="status"` qui entre dans la page au
+  // moment où son texte change, le premier message se perdait. Style posé en ligne pour
+  // ne pas dépendre d'un waracademy.css resté en cache.
+  const AFF_REPOS = 'position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;'
+                  + 'overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap';
+  function affBox() {
+    let box = document.getElementById('wa-improve');
+    if (!box) {
+      const out = document.getElementById('wa-output');
+      if (!out || !out.parentNode) return null;
+      box = document.createElement('div');
+      box.id = 'wa-improve';
+      box.className = 'wa-improve';
+      out.parentNode.insertBefore(box, out);
+    }
+    if (box.hidden) { box.hidden = false; box.style.cssText = AFF_REPOS; }
+    if (!box.querySelector('.wa-improve-live')) {
+      box.innerHTML = '<p class="wa-improve-txt">'
+        + '<svg class="wa-improve-spin calc-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>'
+        + '<span class="wa-improve-live" role="status" aria-live="polite"></span>'
+        + '<span class="wa-improve-tick" aria-hidden="true"></span></p>'
+        + '<button type="button" class="wa-improve-stop"></button>';
+      box.querySelector('.wa-improve-stop').addEventListener('click', () => {
+        if (affinage) finirAffinage(affinage, 'garde');
+      });
+    }
+    return box;
+  }
+
+  function renderAff() {
+    const box = affBox();
+    if (!box) return;
+    const a = affinage;
+    // Un bilan ne vaut que pour le plan dont il parle : caché dès qu'il est périmé.
+    const montrer = a || (affBilan && waFresh());
+    const live = box.querySelector('.wa-improve-live');
+    const tick = box.querySelector('.wa-improve-tick');
+    const stop = box.querySelector('.wa-improve-stop');
+    box.style.cssText = montrer ? '' : AFF_REPOS;
+    if (!montrer) {
+      // Vider une zone live ne s'annonce pas ; le bouton masqué ne doit pas rester
+      // atteignable au clavier.
+      live.textContent = ''; tick.textContent = ''; stop.hidden = true;
+      box.classList.remove('is-running');
+      return;
+    }
+    box.querySelector('.wa-improve-spin').style.display = a ? '' : 'none';
+    let texte;
+    if (a) {
+      texte = t('affRun');
+      const base = a.ctx.base.res.totals.kvkPoints;
+      const g = base > 0 ? a.best.res.totals.kvkPoints / base - 1 : 0;
+      tick.textContent = fmtSec(Date.now() - a.t0) + ' s · '
+        + (g > 0 ? t('affSoFar').replace('{g}', fmtGain(g)) : t('affNotYet'));
+    } else {
+      const b = affBilan;
+      const cle = b.raison === 'garde' ? (b.gain > 0 ? 'affKept' : 'affKeptNone')
+                : (b.gain > 0 ? 'affDone' : 'affNone');
+      texte = t(cle).replace('{s}', fmtSec(b.ms)).replace('{g}', fmtGain(b.gain));
+      tick.textContent = '';
+    }
+    // Le texte annoncé ne change qu'au début et à la fin : le compteur, lui, est muet.
+    if (live.textContent !== texte) live.textContent = texte;
+    stop.textContent = t('affStop');
+    stop.hidden = !a;
+    box.classList.toggle('is-running', !!a);
   }
 
   // Recherche -> niveau visé par le plan, pour la surbrillance des arbres.
@@ -1466,6 +1730,9 @@
     if (!waCalc) { recompute(); return; }
     const fresh = waFresh();
     if (WA_CALC_SIG !== null) waCalc.set(fresh ? 'fresh' : 'stale');
+    // Une valeur qui compte a changé : l'affinage travaillait pour l'ancien plan.
+    if (affinage && !fresh) finirAffinage(affinage, 'annule');
+    renderAff();
     renderTradeRows();
     const suggested = fresh ? suggestedOf(lastPlan) : {};
     refreshStates(suggested);
@@ -1704,8 +1971,8 @@
       </div>
       <div class="wa-out-total">🚀 ${t('totalMax')} <span class="wa-out-total-num">${fmtNum(tot.kvkPoints)}</span>${t('pts')}</div>
       <div class="plan-apply">
-        <button type="button" class="plan-apply-btn" onclick="WA.applyPlan()">${window.iconSvg('circle-check-big', 18)}${t('applyBtn')}</button>
-        <div class="plan-apply-hint">${t('applyHint')}</div>
+        <button type="button" class="plan-apply-btn" onclick="WA.applyPlan()"${affinage ? ' disabled' : ''}>${window.iconSvg('circle-check-big', 18)}${t('applyBtn')}</button>
+        <div class="plan-apply-hint">${t(affinage ? 'affApplyWait' : 'applyHint')}</div>
       </div>`;
 
     box.innerHTML =
@@ -1727,7 +1994,8 @@
   function applyPlan() {
     const res = lastPlan;
     // Un plan périmé est grisé et inerte ; ce contrôle couvre ce que le grisé ne voit pas.
-    if (!res || !res.steps.length || !waFresh()) return;
+    // Pendant l'affinage, le plan peut encore changer : on attend la fin.
+    if (!res || !res.steps.length || !waFresh() || affinage) return;
 
     const finals = {};                      // clé recherche -> { to, name, treeId, n }
     res.steps.forEach(s => {
@@ -1789,7 +2057,7 @@
     window.showAppConfirm(`<strong>${t('applyAsk')}</strong>${recap}`, () => {
       // La fenêtre reste ouverte aussi longtemps que le joueur veut : si une saisie a
       // bougé derrière elle, le plan n'est plus le sien.
-      if (!waFresh()) return;
+      if (!waFresh() || affinage) return;
       Object.keys(finals).forEach(k => {
         state.levels[k] = Math.max(Number(state.levels[k]) || 0, finals[k].to);
       });
@@ -1920,6 +2188,7 @@
       refreshView();
       // Le plan, à jour ou périmé, se redessine dans la nouvelle langue.
       if (waCalc && lastPlan) renderOutput(lastPlan);
+      renderAff();
     });
   }
 

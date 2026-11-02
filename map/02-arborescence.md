@@ -64,7 +64,7 @@ Kingshot_Toolbox/
 │   ├── modal-tabs.js       Onglets mobiles des modales Caserne/Experts
 │   ├── hub.js, changelog.js
 │   ├── research_script.js, truegold_script.js, truegold_pre.js (onglet avant l'Or Véritable, autonome)
-│   ├── wa_optimizer.js (logique pure) + waracademy.js (interface)
+│   ├── wa_optimizer.js (logique pure) + waracademy.js (interface) + wa_worker.js (affinage KvK en Web Worker)
 │   ├── beartrap.js, vikings.js, caserne.js, masters.js, pets.js, pets-plan.js
 │   ├── shop-core.js        ★ Socle boutiques : chargement des shopcalc_*.json, i18n, calcul des lignes · §13
 │   ├── shop_calc.js        Les deux sommaires (window.SX_INDEX choisit l'aide)
@@ -103,7 +103,7 @@ Kingshot_Toolbox/
 │
 ├── tests/                  node --test à la racine, sans dépendance · §10
 │   ├── harness.mjs         Charge js/ tel quel dans un contexte vm
-│   └── beartrap-distribution, consent, euro-affinity, euro-ceiling, pets-plan, research-order, shop-event, theater-draw, wa-advanced, wa-autoreqs, wa-coins, wa-exchange, writing (.test.mjs)
+│   └── beartrap-distribution, consent, euro-affinity, euro-ceiling, pets-plan, research-order, shop-event, theater-draw, wa-advanced, wa-autoreqs, wa-coins, wa-exchange, wa-improve, writing (.test.mjs)
 │
 ├── .github/                Public seulement : tests.yml (node --test + build_pages --check), discord-announce.yml + scripts/announce.js + news/ · §7
 └── RELEVE_CONQUETE.md, TRAVAUX_2026-09-20.md, database_hero.md, .vscode/   Miroir seulement : documents de travail (cf. son README)
