@@ -113,6 +113,74 @@
   }
 
   // ============================================================
+  //  PRÉREQUIS AUTOMATIQUES (onglet avancé)
+  //  Régler le niveau d'une recherche monte ce qu'elle exige ; en baisser une baisse
+  //  ce qui en dépend. Même règle que la Sélection rapide de la page Recherches, et
+  //  même lecture des prérequis que le moteur : un niveau exige tous ceux d'en dessous,
+  //  et chacun ses `req`. `tree` a la forme rendue par `advancedTree`, `levels` donne
+  //  le niveau actuel par identifiant de recherche. Les deux fonctions rendent
+  //  { id: nouveau niveau } pour les SEULES recherches qui bougent, jamais celle que le
+  //  joueur vient de régler. Elles ne lisent pas le niveau d'Académie : le verrou de
+  //  palier reste l'affaire de la page.
+  // ============================================================
+  const lvlOf = (levels, id) => Math.max(0, Math.floor(Number(levels[id]) || 0));
+
+  function raiseReqs(tree, levels, resId, level) {
+    const byId = {};
+    tree.researches.forEach(r => { byId[r.id] = r; });
+    const need = {};
+    const queue = [];
+    const exige = (id, lvl) => {
+      if (!byId[id] || (need[id] || 0) >= lvl) return;
+      need[id] = lvl; queue.push(id);
+    };
+    exige(resId, level);
+    while (queue.length) {
+      const id = queue.pop();
+      byId[id].levels.forEach(l => {
+        if (l.level <= need[id]) (l.req || []).forEach(q => exige(q.r, q.lvl));
+      });
+    }
+    const out = {};
+    Object.keys(need).forEach(id => {
+      if (id === resId) return;
+      const to = Math.min(byId[id].maxLevel, need[id]);
+      if (lvlOf(levels, id) < to) out[id] = to;
+    });
+    return out;
+  }
+
+  // Ne baisse que ce qui dépend de la recherche baissée, de proche en proche : une
+  // sauvegarde déjà incohérente ailleurs (niveaux saisis sans leurs prérequis) n'est
+  // pas « réparée » au passage, le joueur ne l'a pas demandé.
+  function lowerDeps(tree, levels, resId, level) {
+    const baisse = { [resId]: Math.max(0, level) };
+    const out = {};
+    let bouge = true;
+    while (bouge) {
+      bouge = false;
+      tree.researches.forEach(r => {
+        if (r.id === resId) return;
+        const cur = r.id in out ? out[r.id] : lvlOf(levels, r.id);
+        if (!cur) return;
+        // Le plus haut niveau dont aucune marche n'exige plus que ce qui vient de baisser.
+        let ok = 0;
+        const marches = r.levels.slice().sort((a, b) => a.level - b.level);
+        for (const l of marches) {
+          if (l.level > cur) break;
+          if ((l.req || []).some(q => q.r in baisse && q.lvl > baisse[q.r])) break;
+          ok = l.level;
+        }
+        if (ok >= cur) return;
+        out[r.id] = ok;
+        baisse[r.id] = ok;
+        bouge = true;
+      });
+    }
+    return out;
+  }
+
+  // ============================================================
   //  ÉCHANGES DE POUSSIÈRE
   //  La poussière ne se ramasse pas qu'en jeu : des échanges hebdomadaires en
   //  produisent, et le plan doit pouvoir compter dessus.
@@ -654,6 +722,6 @@
     return runPlan(opts, mode === 'target' ? 'kvk' : 'classic');
   }
 
-  return { suggest, planTrades, advancedTree, ADV_TREE_ID, DUST_TRADES, SCORE_ON_EFFECTIVE,
+  return { suggest, planTrades, advancedTree, raiseReqs, lowerDeps, ADV_TREE_ID, DUST_TRADES, SCORE_ON_EFFECTIVE,
            PTS_PER_DUST, PTS_PER_MIN, PTS_PER_TTG };
 }));

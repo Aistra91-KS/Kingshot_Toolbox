@@ -46,6 +46,9 @@
       advGroup: 'War Academy TG', advResearches: 'researches', advLocked: 'locked',
       advNeedWA: 'Needs War Academy TG', advNeed: 'Needs', advNext: 'Next level',
       advDown: 'Lower the level', advUp: 'Raise the level', advLevelOf: 'Level of',
+      quickSelect: 'Quick Select', advAutoReqs: 'Auto-set prerequisites',
+      advAutoReqsHint: 'Setting an advanced research level also raises everything it requires. Lowering one also lowers what depends on it.',
+      advToastReqs: '{n} prerequisite(s) raised automatically', advToastDeps: '{n} dependent research(es) lowered',
       advOff: 'Advanced research is not loaded. Reload the page to use it.',
       cTtg: 'TTG', cFromTtg: 'TTG', ttgUsed: ' Tempered TrueGold → ', applyTtg: 'Tempered TrueGold',
       crucibleTitle: 'Crucible: TrueGold → Tempered TrueGold', transfoUsed: 'Transformations used (max 100)',
@@ -121,6 +124,9 @@
       advGroup: 'Académie de Guerre TG', advResearches: 'recherches', advLocked: 'bloqué',
       advNeedWA: "Demande l'Académie de Guerre TG", advNeed: 'Demande', advNext: 'Prochain niveau',
       advDown: 'Baisser le niveau', advUp: 'Monter le niveau', advLevelOf: 'Niveau de',
+      quickSelect: 'Sélection rapide', advAutoReqs: 'Prérequis automatiques',
+      advAutoReqsHint: "Régler le niveau d'une recherche avancée monte aussi tout ce qu'elle exige. En baisser une baisse aussi ce qui en dépend.",
+      advToastReqs: '{n} prérequis monté(s) automatiquement', advToastDeps: '{n} recherche(s) dépendante(s) baissée(s)',
       advOff: 'Les recherches avancées ne sont pas chargées. Recharge la page pour les utiliser.',
       cTtg: 'OV trempé', cFromTtg: 'OV trempé', ttgUsed: ' Or Véritable trempé → ', applyTtg: 'Or Véritable trempé',
       crucibleTitle: 'Creuset : TrueGold → Or Véritable trempé', transfoUsed: 'Transformations utilisées (max 100)',
@@ -172,6 +178,7 @@
       "La recherche avancée « Provisions limitées » ouvre une ligne de plus à 5 TrueGold : 2 échanges par semaine et par niveau, 20 au niveau 10. L'outil lit son niveau dans l'onglet « Recherches avancées » et la remplit juste après la ligne normale à 5 TG, avant celle à 10. Un niveau que le plan propose de monter ne compte qu'au calcul suivant, une fois appliqué.",
       "Les recherches coûtent aussi des PIÈCES, et beaucoup : près de 900 000 sur un plan d'un mois. Laisse « Pièces disponibles » à zéro et l'outil se contente de t'annoncer la quantité nécessaire, à vérifier en jeu. Renseigne-les et elles bornent le plan : il partage alors tes pièces entre ce que coûtent les recherches et ce que coûtent les échanges, et ne te propose jamais un plan que tu ne peux pas payer.",
       "L'onglet « Recherches avancées » regroupe les 92 recherches qui s'ouvrent de TG5 à TG8. Elles coûtent aussi de l'Or Véritable trempé (30 000 points KvK chacun, comme sur la page TrueGold) : renseigne ton stock dans « Ressources ». Leur or est la même monnaie que les pièces de l'arbre de base.",
+      "Sur cet onglet, régler le niveau d'une recherche monte aussi ses prérequis : Provisions limitées au niveau 3 met Infirmeries et Bandage rapide au niveau 3, et ce qu'ils exigent à leur tour. En baisser une baisse ce qui en dépend. La case « Prérequis automatiques » du panneau latéral coupe ce réglage.",
       "L'onglet ouvert décide de la suggestion : « Recherches de base » ne propose que l'arbre de base, « Recherches avancées » que l'arbre avancé, et « Suggestion globale » mélange les deux quand c'est plus rentable, en partageant poussières, Or Véritable trempé, pièces et accélérateurs.",
       "Coche les arbres de troupes (Infanterie / Archers / Cavalerie) à inclure dans la suggestion. Ces cases valent pour l'onglet de base et pour la suggestion globale.",
       "Le creuset transforme du TrueGold en Or Véritable trempé, comme sur le Planificateur de bâtiments : indique tes transformations déjà faites (100 au total), le coût monte par paliers de 20. Il puise dans le même « TrueGold à convertir » que les échanges de poussière, et le plan choisit le partage qui rapporte le plus. Il ne sert que sur les onglets Avancées et Global.",
@@ -190,6 +197,7 @@
       'The advanced research "Limited Supply" opens one more 5-TrueGold row: 2 exchanges a week per level, 20 at level 10. The tool reads its level from the "Advanced research" tab and fills it right after the normal 5-TG row, before the 10-TG one. A level the plan suggests researching only counts from the next calculation, once applied.',
       'Researches cost COINS too, and plenty: close to 900,000 across a month-long plan. Leave "Coins available" at zero and the tool simply tells you how many you will need, to check in game. Fill it in and it bounds the plan: your coins are then split between what the researches cost and what the exchanges cost, and you are never handed a plan you cannot pay for.',
       'The "Advanced research" tab holds the 92 researches that open from TG5 to TG8. They also cost Tempered TrueGold (30,000 KvK points each, as on the TrueGold page): enter your stock under "Resources". Their gold is the same currency as the coins of the basic tree.',
+      'On that tab, setting a research level also raises its prerequisites: Limited Supply at level 3 puts Truegold Infirmaries and Quick Bandage at level 3, along with what they require in turn. Lowering one lowers what depends on it. The "Auto-set prerequisites" box in the side panel turns this off.',
       'The open tab decides the suggestion: "Basic research" only suggests the basic tree, "Advanced research" only the advanced tree, and "Global suggestion" mixes both when that earns more, sharing dust, Tempered TrueGold, coins and speedups.',
       'Tick the troop trees (Infantry / Archer / Cavalry) to include in the suggestion. These boxes apply to the basic tab and to the global suggestion.',
       'The crucible turns TrueGold into Tempered TrueGold, as on the Building Planner: enter the transformations you have already made (100 in all), the cost rises every 20. It draws on the same "TrueGold to convert" as the dust exchanges, and the plan picks the split that earns the most. It only matters on the Advanced and Global tabs.',
@@ -290,6 +298,8 @@
     enabled: { infantry: true, archer: true, cavalry: true },
     activeTree: 'infantry',
     activeSection: 'base',    // onglet affiché : 'base', 'advanced' ou 'global' ; il décide aussi des arbres du plan
+    // Prérequis automatiques de l'onglet avancé (demande d'Aistra, actifs d'office).
+    advAutoReqs: true,
     levels: {}, // "treeId.researchId" -> current level
   };
   // Dernier plan calculé, gardé pour « Appliquer les modifications » : le bouton
@@ -430,6 +440,7 @@
     set('ttgBudget', state.ttgBudget);
     set('transfoUsed', state.transfoUsed);
     const cu = document.getElementById('creusetUse'); if (cu) cu.checked = !!state.creusetUse;
+    const ar = document.getElementById('advAutoReqs'); if (ar) ar.checked = state.advAutoReqs !== false;
     setMontant('tradeCoins', state.tradeCoins);
     set('tradeUsedCoins', state.tradeUsedCoins);
     setMontant('tradeTruegold', state.tradeTruegold);
@@ -614,6 +625,9 @@
       const c = document.getElementById('filter-' + id);
       if (c) c.disabled = sec === ADV_ID;
     });
+    // La Sélection rapide ne sert qu'à l'onglet avancé, comme sur la page Recherches.
+    const quick = document.getElementById('wa-quick-group');
+    if (quick) quick.style.display = sec === ADV_ID ? '' : 'none';
     // Les liaisons se mesurent à l'écran : invisibles, l'arbre n'a pas de taille.
     if (sec === 'base') drawConnectors();
   }
@@ -854,9 +868,35 @@
   function setAdvLevel(resId, v) {
     const res = ADV && ADV.researches.find(r => r.id === resId);
     if (!res) return;
-    state.levels[rkey(ADV_ID, resId)] = clampInt(v, 0, res.maxLevel);
+    const avant = curOf(ADV_ID, res);
+    const apres = clampInt(v, 0, res.maxLevel);
+    state.levels[rkey(ADV_ID, resId)] = apres;
+    const auto = advCascade(resId, avant, apres);
     save();
     refreshView();
+    if (auto && auto.n > 0 && window.showAppToast) {
+      window.showAppToast(t(auto.up ? 'advToastReqs' : 'advToastDeps').replace('{n}', auto.n));
+    }
+  }
+
+  // Prérequis automatiques : monter un niveau monte ce qu'il exige, le baisser baisse
+  // ce qui en dépend (`raiseReqs` / `lowerDeps`, wa_optimizer.js). Rend { up, n }, ou
+  // null quand rien n'est à faire. Appel gardé par `typeof` : un moteur encore en
+  // cache n'a pas ces fonctions, la saisie marche alors comme avant.
+  let advCascadeWarned = false;
+  function advCascade(resId, avant, apres) {
+    if (state.advAutoReqs === false || avant === apres) return null;
+    const O = window.WA_Optimizer;
+    const fn = O && (apres > avant ? O.raiseReqs : O.lowerDeps);
+    if (typeof fn !== 'function') {
+      if (!advCascadeWarned) { console.warn('War Academy: moteur en cache, prérequis automatiques ignorés'); advCascadeWarned = true; }
+      return null;
+    }
+    const niveaux = {};
+    ADV.researches.forEach(r => { niveaux[r.id] = curOf(ADV_ID, r); });
+    const changes = fn(ADV, niveaux, resId, apres);
+    Object.keys(changes).forEach(id => { state.levels[rkey(ADV_ID, id)] = changes[id]; });
+    return { up: apres > avant, n: Object.keys(changes).length };
   }
   function initAdvInput() {
     const box = document.getElementById('wa-adv');
@@ -1400,6 +1440,7 @@
   function waSig() {
     const copie = Object.assign({}, state);
     delete copie.activeTree;
+    delete copie.advAutoReqs;     // réglage de saisie, sans effet sur le plan
     return JSON.stringify(copie);
   }
   // Le plan affiché est-il celui des valeurs saisies ? Sans barre (header.js en
@@ -1833,6 +1874,9 @@
     renderTree();
     renderAdv();
     initAdvInput();
+    // Écouteur posé ici, pas en attribut du HTML (même raison que plus bas).
+    const autoReqs = document.getElementById('advAutoReqs');
+    if (autoReqs) autoReqs.addEventListener('change', () => { state.advAutoReqs = autoReqs.checked; save(); });
     initSections();
     document.getElementById('wa-tree').addEventListener('click', onStepClick);
     // Écouteur posé ici plutôt qu'en attribut du HTML : un `WA.xxx()` tout neuf appelé

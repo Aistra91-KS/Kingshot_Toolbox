@@ -108,6 +108,16 @@
                 <input type="checkbox" id="filter-cavalry" checked onchange="WA.triggerUpdate()">
             </div>
         </div>
+        <!-- Sélection rapide de l'onglet avancé (MAP §12) : affichée sur cet onglet
+             seulement, masquée en ligne car .control-group est en display:flex. -->
+        <div class="control-group" id="wa-quick-group" style="display:none">
+            <h3 data-i18n="quickSelect">Quick Select</h3>
+            <div class="control-row">
+                <label for="advAutoReqs" data-i18n="advAutoReqs">Auto-set prerequisites</label>
+                <input type="checkbox" id="advAutoReqs" checked aria-describedby="advAutoReqsHint">
+            </div>
+            <p class="group-hint" id="advAutoReqsHint" data-i18n="advAutoReqsHint">Setting an advanced research level also raises everything it requires. Lowering one also lowers what depends on it.</p>
+        </div>
     </div>
 
     <div class="main-content flow">

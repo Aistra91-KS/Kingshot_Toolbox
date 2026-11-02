@@ -932,10 +932,19 @@ function markSuggestionDone(index) {
 // Les prérequis n'ont pas à être cochés en plus : chaque ligne du plan a les
 // siens faits ou plus haut dans le plan (tests/research-order.test.mjs).
 let rsLastPlan = null;
+let rsApplyWarned = false;
 
 function rsRenderApply(plan, lang) {
     const box = document.getElementById('rs-apply');
-    if (!box) return;   // page d'avant encore en cache : pas de bouton, le reste marche
+    if (!box) {
+        // Page d'avant encore en cache : pas de bouton, le reste marche. La console le
+        // dit une fois, pour qu'un identifiant mal écrit ne passe pas pour ce cas-là.
+        if (!rsApplyWarned) {
+            console.warn('bloc #rs-apply absent de la page : bouton « Appliquer » ignoré');
+            rsApplyWarned = true;
+        }
+        return;
+    }
     const show = !!plan && plan.planned.length > 0;
     rsLastPlan = show ? plan : null;
     box.style.display = show ? '' : 'none';
