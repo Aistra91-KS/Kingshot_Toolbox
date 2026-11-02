@@ -696,6 +696,20 @@
     return best;
   }
 
+  // Jeux d'arbres rejoués en KvK : les arbres cochés, chacun seul, et les arbres de base
+  // sans l'arbre avancé. Ce dernier jeu est le plan de l'onglet de base : sans lui, la
+  // suggestion globale faisait moins bien que cet onglet dans 22 tirages sur 200 (jusqu'à
+  // 3,4 %). Avec lui, elle ne peut plus perdre contre aucun des deux.
+  function kvkTreeSets(opts) {
+    const all = (opts.db.trees || []).map(t => t.id)
+      .filter(id => !opts.enabledTrees || opts.enabledTrees.includes(id));
+    const treeSets = [opts.enabledTrees || null];
+    if (all.length > 1) for (const id of all) treeSets.push([id]);
+    const sansAvance = all.filter(id => id !== ADV_TREE_ID);
+    if (sansAvance.length > 1 && sansAvance.length < all.length) treeSets.push(sansAvance);
+    return treeSets;
+  }
+
   // Public entry point. Classic uses the 'classic' order; target keeps the
   // 'kvk' order (its original behaviour). KVK evaluates several orderings and
   // returns the plan with the highest KVK score — this guarantees KVK >= Classic
@@ -721,15 +735,7 @@
     const mode = (opts && opts.mode) || 'classic';
     if (mode === 'kvk') {
       if (opts.rank) return runPlan(opts, 'kvk', true);
-      const all = (opts.db.trees || []).map(t => t.id)
-        .filter(id => !opts.enabledTrees || opts.enabledTrees.includes(id));
-      const treeSets = [opts.enabledTrees || null];
-      if (all.length > 1) for (const id of all) treeSets.push([id]);
-      // Les arbres de base sans l'arbre avancé : c'est le plan de l'onglet de base. Sans
-      // lui, la suggestion globale faisait moins bien que cet onglet dans 22 tirages sur
-      // 200 (jusqu'à 3,4 %). Avec lui, elle ne peut plus perdre contre aucun des deux.
-      const sansAvance = all.filter(id => id !== ADV_TREE_ID);
-      if (sansAvance.length > 1 && sansAvance.length < all.length) treeSets.push(sansAvance);
+      const treeSets = kvkTreeSets(opts);
       let best = null;
       const runs = [];
       for (const set of treeSets) {
@@ -750,6 +756,354 @@
     return runPlan(opts, mode === 'target' ? 'kvk' : 'classic');
   }
 
-  return { suggest, planTrades, advancedTree, raiseReqs, lowerDeps, ADV_TREE_ID, DUST_TRADES, SCORE_ON_EFFECTIVE,
+  // ============================================================
+  //  AFFINAGE DU PLAN KVK (phase 2 de la page)
+  //  Le glouton choisit un niveau à la fois, selon un rapport fixe : il vide un budget
+  //  avant l'autre et rend souvent un plan tout en base ou tout en avancé. Or les points
+  //  ne dépendent que des ressources dépensées. Mesuré contre l'optimum exact (solveur
+  //  HiGHS, 120 comptes), le glouton restait à 3,5 à 12 % en moyenne, jusqu'à 35 %.
+  //
+  //  On raisonne ici sur l'ENSEMBLE des niveaux du plan, l'ordre n'important pas : un
+  //  ensemble est jouable si ses prérequis y sont, si poussière, TTG et pièces tiennent,
+  //  et si tout tient dans les accélérateurs sauf un niveau « feuille » (rien du plan
+  //  n'en dépend), lancé en dernier. Ce niveau-là prend les minutes qui restent et paie
+  //  poussière et TTG en entier, comme dans `runPlan`.
+  //
+  //  Recherche locale « ruine et reconstruction » : on retire des niveaux feuilles (ou on
+  //  force un niveau cher avec ses prérequis, en retirant ce qui ne tient plus), puis on
+  //  reconstruit par un glouton tiré au sort parmi trois critères. Le nouvel ensemble est
+  //  gardé s'il rapporte au moins autant. Chaque « départ » `j` repart d'un plan glouton
+  //  différent (le plan de la phase 1 pour j = 0) avec sa propre graine : même entrée,
+  //  même résultat. Mesuré : 32 départs ramènent l'écart moyen à l'optimum sous 0,2 %.
+  // ============================================================
+  const AFF_ITER_MAX = 4000;   // itérations au plus par départ
+  const AFF_STALL    = 700;    // un départ s'arrête après autant d'itérations sans gain
+  const AFF_RUIN     = 12;     // niveaux retirés au plus par ruine
+  const AFF_STARTS   = 32;     // départs par défaut
+
+  function improver(opts, plan0, cfg) {
+    cfg = cfg || {};
+    const count = Math.max(1, Math.floor(Number(cfg.starts) || AFF_STARTS));
+    // Le modèle compte le temps en minutes effectives, comme le score par défaut.
+    if (!SCORE_ON_EFFECTIVE || (opts.mode || 'classic') !== 'kvk' || !plan0) return { count: 0, run: null };
+
+    const db = opts.db, cur = opts.currentLevels || {};
+    const waLevel = Number(opts.waLevel) || 0;
+    const speedFactor = 1 + Math.max(0, Number(opts.speedBonusPct) || 0) / 100;
+    const costFactor = 1 - Math.min(95, Math.max(0, Number(opts.costReductionPct) || 0)) / 100;
+    const budget = (v) => v == null ? Infinity : Math.max(0, Number(v) || 0);
+    const Dmax = budget(opts.dustBudget), Tmax = budget(opts.speedupBudget);
+    const Gmax = budget(opts.ttgBudget), Cmax = budget(opts.coinBudget);
+    const enabled = opts.enabledTrees || null;
+
+    // ---- modèle : une entrée par recherche, ses niveaux en tableaux ----
+    const R = [], idOf = {};
+    for (const tree of db.trees) {
+      if (enabled && !enabled.includes(tree.id)) continue;
+      for (const res of tree.researches) { idOf[key(tree.id, res.id)] = R.length; R.push({ treeId: tree.id, res }); }
+    }
+    const n = R.length;
+    const lv0 = new Int32Array(n), maxR = new Int32Array(n);
+    const D = [], T = [], G = [], C = [], BD = [], BT = [], LO = [], REQ = [];
+    const dep = [];
+    for (let k = 0; k < n; k++) {
+      const { treeId, res } = R[k];
+      lv0[k] = Math.max(0, Math.min(res.maxLevel, Number(cur[key(treeId, res.id)]) || 0));
+      D[k] = [0]; T[k] = [0]; G[k] = [0]; C[k] = [0]; BD[k] = [0]; BT[k] = [0]; LO[k] = [null]; REQ[k] = [[]];
+      dep[k] = [];
+      const by = {};
+      for (const l of res.levels) by[l.level] = l;
+      let m = lv0[k];
+      for (let L = 1; L <= res.maxLevel; L++) {
+        const o = by[L] || null;
+        LO[k][L] = o;
+        BD[k][L] = o ? (o.dust || 0) : 0; BT[k][L] = o ? (o.time || 0) : 0;
+        D[k][L] = Math.max(0, Math.ceil(BD[k][L] * costFactor));
+        T[k][L] = Math.round(BT[k][L] / speedFactor);
+        G[k][L] = o ? (o.ttg || 0) : 0; C[k][L] = o ? (o.coin || 0) : 0;
+        if (L === m + 1 && o && (o.reqWA || 0) <= waLevel) m = L;
+      }
+      maxR[k] = m;
+    }
+    // Prérequis, une fois `idOf` complet. Un prérequis hors des arbres suivis donne un
+    // indice indéfini : il bloque le niveau, comme dans `nextUnlockable`.
+    for (let k = 0; k < n; k++) {
+      const { treeId } = R[k];
+      for (let L = 1; L <= R[k].res.maxLevel; L++) {
+        const o = LO[k][L];
+        REQ[k][L] = o ? (o.req || []).map(q => [idOf[key(treeId, q.r)], q.lvl]) : [];
+        if (L > lv0[k] && L <= maxR[k]) for (const pair of REQ[k][L]) if (pair[0] !== undefined) dep[pair[0]].push([k, L, pair[1]]);
+      }
+    }
+    // Niveaux atteignables, du plus cher en ressources au moins cher : le tirage des cibles.
+    const pool = [];
+    for (let k = 0; k < n; k++) for (let L = lv0[k] + 1; L <= maxR[k]; L++) pool.push([k, L, D[k][L] + TTG_DUST_EQ * G[k][L]]);
+    pool.sort((a, b) => b[2] - a[2] || a[0] - b[0] || a[1] - b[1]);
+
+    // ---- état courant ----
+    const lv = Int32Array.from(lv0);
+    let sD = 0, sT = 0, sG = 0, sC = 0;
+    let leafList = null;   // feuilles [temps, k], du plus long au plus court ; null = à refaire
+    const raise = (k) => { const L = ++lv[k]; sD += D[k][L]; sT += T[k][L]; sG += G[k][L]; sC += C[k][L]; leafList = null; };
+    const lower = (k) => { const L = lv[k]--; sD -= D[k][L]; sT -= T[k][L]; sG -= G[k][L]; sC -= C[k][L]; leafList = null; };
+    const canRaise = (k) => {
+      const L = lv[k] + 1;
+      if (L > maxR[k]) return false;
+      for (const pair of REQ[k][L]) if (pair[0] === undefined || lv[pair[0]] < pair[1]) return false;
+      return true;
+    };
+    // Le niveau du haut de `k` peut-il partir (aucun niveau du plan n'en dépend) ?
+    const canLower = (k) => {
+      if (lv[k] <= lv0[k]) return false;
+      for (const d of dep[k]) if (lv[d[0]] >= d[1] && d[2] >= lv[k]) return false;
+      return true;
+    };
+    const leaves = () => {
+      if (!leafList) {
+        leafList = [];
+        for (let k = 0; k < n; k++) if (canLower(k)) leafList.push([T[k][lv[k]], k]);
+        leafList.sort((a, b) => b[0] - a[0] || a[1] - b[1]);
+      }
+      return leafList;
+    };
+    // Monter `k` d'un niveau garde-t-il le plan jouable ?
+    const fitsRaise = (k) => {
+      const L = lv[k] + 1;
+      if (sD + D[k][L] > Dmax || sG + G[k][L] > Gmax || sC + C[k][L] > Cmax) return false;
+      const t = T[k][L], need = sT + t - Tmax;
+      if (need <= 0 || sT <= Tmax) return true;          // le nouveau niveau peut finir « en cours »
+      // Sinon il faut une autre feuille assez longue, qui le reste après la montée.
+      for (const lf of leaves()) {
+        if (lf[0] < need) return false;
+        const k2 = lf[1];
+        if (k2 === k) continue;
+        let tenue = false;
+        for (const pair of REQ[k][L]) if (pair[0] === k2 && pair[1] >= lv[k2]) { tenue = true; break; }
+        if (!tenue) return true;
+      }
+      return false;
+    };
+    const feasible = () => {
+      if (sD > Dmax || sG > Gmax || sC > Cmax) return false;
+      if (sT <= Tmax) return true;
+      const l = leaves();
+      return l.length > 0 && sT - l[0][0] <= Tmax;
+    };
+    const score = () => PTS_PER_DUST * sD + PTS_PER_TTG * sG + PTS_PER_MIN * Math.min(sT, Tmax);
+    // À points égaux : le moins de TTG, puis de poussière, puis de pièces (cf. `meilleurPlan`).
+    const better = (a, b) => a[0] !== b[0] ? a[0] > b[0] : a[1] !== b[1] ? a[1] < b[1]
+                           : a[2] !== b[2] ? a[2] < b[2] : a[3] < b[3];
+    const keyNow = () => [score(), sG, sD, sC];
+
+    let seed = 1;
+    const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+
+    // Reconstruction gloutonne. 0 : ressources par minute (les accélérateurs manquent) ;
+    // 1 : minutes par poussière (la poussière manque) ; 2 : suivre le rapport qui reste.
+    function recreate(crit, noise) {
+      for (;;) {
+        let best = -1, bs = -Infinity;
+        const rho = Math.max(1, Tmax - sT) / Math.max(1, Dmax - sD);
+        // Un budget infini n'a pas de rapport à suivre : le critère qui vide l'autre.
+        const c = (crit === 2 && !(rho > 0 && rho < Infinity)) ? (Tmax === Infinity ? 1 : 0) : crit;
+        for (let k = 0; k < n; k++) {
+          if (!canRaise(k)) continue;
+          const L = lv[k] + 1, d = D[k][L] + TTG_DUST_EQ * G[k][L], t = T[k][L];
+          let v;
+          if (c === 0) v = d / Math.max(1, t);
+          else if (c === 1) v = t / Math.max(1, d);
+          else v = -Math.abs(Math.log(Math.max(1e-3, t) / Math.max(1, d) / rho));
+          if (noise) v *= 1 + noise * (rnd() - 0.5);
+          if (v > bs && fitsRaise(k)) { bs = v; best = k; }
+        }
+        if (best < 0) return;
+        raise(best);
+      }
+    }
+
+    // Cible : un niveau cher tiré au sort (biais vers le haut du classement), monté avec
+    // ses prérequis ; on retire ensuite les feuilles hors cible les moins denses jusqu'à
+    // retrouver un plan jouable. Rend false si la cible est hors d'atteinte.
+    function forceTarget() {
+      let tk = -1, tL = 0;
+      for (let essai = 0; essai < 8 && tk < 0; essai++) {
+        const c = pool[Math.floor(Math.pow(rnd(), 3) * pool.length)];
+        if (c && c[1] > lv[c[0]]) { tk = c[0]; tL = c[1]; }
+      }
+      if (tk < 0) return false;
+      const prot = new Uint8Array(n);
+      let pas = 0;
+      const up = (k, L) => {
+        while (lv[k] < L) {
+          if (++pas > 5000) return false;
+          const L1 = lv[k] + 1;
+          if (L1 > maxR[k]) return false;
+          for (const pair of REQ[k][L1]) if (pair[0] === undefined || !up(pair[0], pair[1])) return false;
+          raise(k); prot[k] = 1;
+        }
+        return true;
+      };
+      if (!up(tk, tL)) return false;
+      for (let garde = 0; !feasible() && garde < 5000; garde++) {
+        let w = -1, wv = Infinity;
+        for (const lf of leaves()) {
+          const k = lf[1];
+          if (prot[k]) continue;
+          const L = lv[k];
+          const v = (D[k][L] + TTG_DUST_EQ * G[k][L]) / Math.max(1, T[k][L]) * (1 + 0.6 * (rnd() - 0.5));
+          if (v < wv) { wv = v; w = k; }
+        }
+        if (w < 0) return false;
+        lower(w);
+      }
+      return feasible();
+    }
+
+    // ---- plans de départ : celui de la phase 1, puis les gloutons des autres ordres ----
+    let departs = null;
+    function startPlans() {
+      if (departs) return departs;
+      departs = [plan0];
+      const vus = new Set([signature(plan0)]);
+      const autres = [];
+      for (const set of kvkTreeSets(opts)) {
+        const o = Object.assign({}, opts, { enabledTrees: set || opts.enabledTrees });
+        for (const order of KVK_ORDERS) for (const fin of [false, true]) {
+          const p = runPlan(o, order, fin);
+          const s = signature(p);
+          if (!vus.has(s)) { vus.add(s); autres.push(p); }
+        }
+      }
+      autres.sort((a, b) => b.totals.kvkPoints - a.totals.kvkPoints);
+      departs = departs.concat(autres);
+      return departs;
+    }
+    function signature(p) {
+      return p.steps.map(s => s.treeId + '.' + s.researchId + ':' + s.toLevel).sort().join(',');
+    }
+    // Charge un plan dans l'état. false si un de ses niveaux sort du modèle.
+    function load(p) {
+      lv.set(lv0); sD = sT = sG = sC = 0; leafList = null;
+      for (const s of p.steps) {
+        const k = idOf[key(s.treeId, s.researchId)];
+        if (k === undefined || s.toLevel > maxR[k]) return false;
+        while (lv[k] < s.toLevel) raise(k);
+      }
+      return feasible();
+    }
+
+    // ---- l'ensemble retenu, remis en ordre de jeu, au format de `runPlan` ----
+    function toPlan() {
+      // Le niveau lancé en dernier : la feuille la plus longue, si tout ne tient pas.
+      let pk = -1;
+      if (sT > Tmax) { const l = leaves(); if (l.length) pk = l[0][1]; }
+      const at = Int32Array.from(lv0);
+      let reste = 0;
+      for (let k = 0; k < n; k++) reste += lv[k] - lv0[k];
+      const steps = [];
+      let spentDust = 0, spentEffDust = 0, spentBaseTime = 0, spentEffTime = 0, spentCoins = 0, spentTtg = 0;
+      let inProgress = null;
+      while (reste > 0) {
+        // Ordre d'affichage : le plus de points par unité de coût d'abord, comme l'ordre
+        // 'kvk' ; le niveau « en cours » attend la fin.
+        let best = -1, bs = -Infinity;
+        for (let k = 0; k < n; k++) {
+          if (at[k] >= lv[k]) continue;
+          const L = at[k] + 1;
+          if (k === pk && L === lv[k] && reste > 1) continue;
+          let ok = true;
+          for (const pair of REQ[k][L]) if (pair[0] === undefined || at[pair[0]] < pair[1]) { ok = false; break; }
+          if (!ok) continue;
+          const cost = D[k][L] + TTG_DUST_EQ * G[k][L];
+          const v = (PTS_PER_DUST * D[k][L] + PTS_PER_TTG * G[k][L] + PTS_PER_MIN * T[k][L]) / Math.max(1, cost);
+          if (v > bs) { bs = v; best = k; }
+        }
+        if (best < 0) break;                                   // ne se produit pas sur un ensemble jouable
+        const k = best, L = ++at[k], o = LO[k][L], res = R[k].res;
+        reste--;
+        const ed = D[k][L], et = T[k][L], tg = G[k][L];
+        const resPts = PTS_PER_DUST * ed + PTS_PER_TTG * tg;
+        let frac = 1;
+        if (spentEffTime + et > Tmax) frac = et > 0 ? Math.max(0, Tmax - spentEffTime) / et : 0;
+        spentDust += BD[k][L]; spentEffDust += ed; spentCoins += C[k][L]; spentTtg += tg;
+        spentBaseTime += BT[k][L] * frac; spentEffTime += et * frac;
+        const step = {
+          treeId: R[k].treeId, researchId: res.id, name: res.name,
+          toLevel: L, fromLevel: L - 1, maxLevel: res.maxLevel,
+          baseDust: BD[k][L], effDust: ed, ttg: tg,
+          baseTime: frac < 1 ? Math.round(BT[k][L] * frac) : BT[k][L],
+          effTime: frac < 1 ? Math.round(et * frac) : et,
+          points: frac < 1 ? Math.round(resPts + PTS_PER_MIN * et * frac) : resPts + PTS_PER_MIN * et,
+          buff: (o && o.buff) || '',
+        };
+        if (frac < 1) { step.partial = true; inProgress = key(R[k].treeId, res.id); }
+        steps.push(step);
+      }
+      const kvkFromDust = Math.round(PTS_PER_DUST * spentEffDust);
+      const kvkFromTime = Math.round(PTS_PER_MIN * spentEffTime);
+      const kvkFromTtg  = PTS_PER_TTG * spentTtg;
+      return {
+        mode: 'kvk', steps,
+        totals: {
+          count: steps.length, baseDust: spentDust, effDust: spentEffDust, coins: spentCoins, ttg: spentTtg,
+          baseTimeMin: Math.round(spentBaseTime), effTimeMin: Math.round(spentEffTime),
+          kvkPoints: kvkFromDust + kvkFromTtg + kvkFromTime, kvkFromDust, kvkFromTtg, kvkFromTime,
+        },
+        remaining: {
+          dust: Dmax === Infinity ? null : Math.max(0, Dmax - spentEffDust),
+          time: Tmax === Infinity ? null : Math.max(0, Math.round(Tmax - spentEffTime)),
+          ttg: Gmax === Infinity ? null : Math.max(0, Gmax - spentTtg),
+        },
+        inProgress, ttgNext: Infinity, target: null, improved: true,
+      };
+    }
+
+    // Départ `j` : rend le meilleur plan trouvé, jamais moins bon que son plan de départ.
+    function run(j) {
+      const all = startPlans();
+      const start = all[j % all.length];
+      if (!load(start)) return { plan: start, iters: 0, gained: false };
+      seed = 1 + ((j + 1) * 7919) % 2147483647;
+      let curKey = keyNow(), bestKey = curKey, bestLv = Int32Array.from(lv);
+      const maxIt = Math.max(1, Number(cfg.iters) || AFF_ITER_MAX);
+      const stall = Math.max(1, Number(cfg.stall) || AFF_STALL);
+      let it = 0, sansGain = 0;
+      const snap = new Int32Array(n);
+      for (; it < maxIt && sansGain < stall; it++) {
+        snap.set(lv);
+        const s0 = sD, t0 = sT, g0 = sG, c0 = sC;
+        let ok = true;
+        if (rnd() < 0.5) ok = forceTarget();
+        else {
+          const kmax = 1 + Math.floor(rnd() * AFF_RUIN);
+          for (let r = 0; r < kmax; r++) {
+            const l = leaves();
+            if (!l.length) break;
+            lower(l[Math.floor(rnd() * l.length)][1]);
+          }
+        }
+        if (ok) recreate(Math.floor(rnd() * 3), rnd() < 0.5 ? 0 : 0.3);
+        const k2 = keyNow();
+        if (ok && feasible() && !better(curKey, k2)) {
+          curKey = k2;
+          if (better(k2, bestKey)) { bestKey = k2; bestLv = Int32Array.from(lv); sansGain = 0; continue; }
+        } else {
+          lv.set(snap); sD = s0; sT = t0; sG = g0; sC = c0; leafList = null;
+        }
+        sansGain++;
+      }
+      lv.set(bestLv);
+      sD = sT = sG = sC = 0; leafList = null;
+      for (let k = 0; k < n; k++) for (let L = lv0[k] + 1; L <= lv[k]; L++) { sD += D[k][L]; sT += T[k][L]; sG += G[k][L]; sC += C[k][L]; }
+      const plan = toPlan();
+      // Garde-fou : jamais moins bien que le départ (égalité comprise, on garde le départ).
+      if (plan.totals.kvkPoints <= start.totals.kvkPoints) return { plan: start, iters: it, gained: false };
+      return { plan, iters: it, gained: true };
+    }
+
+    return { count, run };
+  }
+
+  return { suggest, improver, planTrades, advancedTree, raiseReqs, lowerDeps, ADV_TREE_ID, DUST_TRADES, SCORE_ON_EFFECTIVE,
            PTS_PER_DUST, PTS_PER_MIN, PTS_PER_TTG };
 }));
