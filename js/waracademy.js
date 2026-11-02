@@ -425,8 +425,12 @@
       // pas digne de confiance. Sans ça, un `tradeUse` tronqué ou nul faisait planter
       // `syncInputs` au démarrage, et l'ajout d'un quatrième échange serait arrivé
       // décoché en silence chez tous les joueurs déjà installés.
-      state.tradeUse = Object.assign({ coins: true, tg5: true, tgLimited: true, tg10: false },
-                                     (saved.tradeUse && typeof saved.tradeUse === 'object') ? saved.tradeUse : {});
+      const usage = (saved.tradeUse && typeof saved.tradeUse === 'object') ? saved.tradeUse : {};
+      state.tradeUse = Object.assign({ coins: true, tg5: true, tgLimited: true, tg10: false }, usage);
+      // Sauvegarde d'avant la ligne Provisions limitées : elle reprend le choix de la
+      // ligne à 5 TG, même tarif. Un joueur qui avait décoché ses lignes TrueGold pour
+      // garder son stock ne le voit pas entamé par la ligne arrivée depuis.
+      if (!('tgLimited' in usage) && 'tg5' in usage) state.tradeUse.tgLimited = !!usage.tg5;
       state.levels = saved.levels || {};
     }
   }
@@ -475,9 +479,7 @@
     if (g('tradeUsedCoins')) state.tradeUsedCoins = clampInt(g('tradeUsedCoins').value, 0, COIN_TRADE_MAX);
     if (g('tradeTruegold'))  state.tradeTruegold  = parseNum(g('tradeTruegold').value);
     if (g('tradeUsedTg5'))   state.tradeUsedTg5   = clampInt(g('tradeUsedTg5').value, 0, TG5_TRADE_MAX);
-    // Pas borné au plafond du niveau : le niveau peut encore bouger dans l'arbre, et
-    // `planTrades` ne prend de toute façon que ce qui reste sous le plafond.
-    if (g('tradeUsedTgLimited')) state.tradeUsedTgLimited = clampInt(g('tradeUsedTgLimited').value, 0, LIMITED_MAX);
+    if (g('tradeUsedTgLimited')) state.tradeUsedTgLimited = clampInt(g('tradeUsedTgLimited').value, 0, limitedCap());
     TRADE_IDS.forEach(id => {
       const c = g(TRADE_USE_EL[id]);
       if (c) state.tradeUse[id] = c.checked;
@@ -1118,6 +1120,11 @@
     const res = ADV && ADV.researches.find(r => r.id === LIMITED_RES);
     return res ? curOf(ADV_ID, res) : 0;
   }
+  // Plafond de la semaine. Sans l'arbre avancé (fichier non chargé), le niveau est
+  // inconnu : on garde le plafond maximal plutôt que d'effacer le compteur saisi.
+  function limitedCap() {
+    return ADV ? limitedLevel() * LIMITED_PER_LEVEL : LIMITED_MAX;
+  }
 
   // Compteur « faits cette semaine » de la ligne Provisions limitées : son plafond suit
   // le niveau de la recherche, il se redessine donc à chaque saisie. À 0, la ligne
@@ -1125,6 +1132,13 @@
   function renderLimitedRow() {
     const lv = limitedLevel(), cap = lv * LIMITED_PER_LEVEL;
     const inp = document.getElementById('tradeUsedTgLimited');
+    // Un niveau baissé dans l'arbre baisse le plafond : le compteur suit, sinon la
+    // ligne affichait « 12 / 6 ».
+    if (ADV && state.tradeUsedTgLimited > cap) {
+      state.tradeUsedTgLimited = cap;
+      save();
+    }
+    if (inp && inp !== document.activeElement) inp.value = state.tradeUsedTgLimited;
     const capEl = document.getElementById('tradeCapTgLimited');
     const note = document.getElementById('tradeNoteTgLimited');
     if (inp) { inp.max = String(cap); inp.disabled = cap === 0; }
@@ -1794,7 +1808,7 @@
         const fait = (id) => (tp.trades.find(x => x.id === id) || { n: 0 }).n;
         state.tradeUsedCoins = clampInt(state.tradeUsedCoins + fait('coins'), 0, COIN_TRADE_MAX);
         state.tradeUsedTg5   = clampInt(state.tradeUsedTg5   + fait('tg5'),   0, TG5_TRADE_MAX);
-        state.tradeUsedTgLimited = clampInt(state.tradeUsedTgLimited + fait('tgLimited'), 0, LIMITED_MAX);
+        state.tradeUsedTgLimited = clampInt(state.tradeUsedTgLimited + fait('tgLimited'), 0, limitedCap());
       }
       state.accDays = Math.floor(timeLeft / 1440);
       state.accHours = Math.floor((timeLeft % 1440) / 60);
