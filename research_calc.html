@@ -190,6 +190,12 @@
                     <tbody></tbody>
                 </table>
             </div>
+            <!-- « Appliquer les modifications » du mode KVK (MAP §12). Masqué en ligne et
+                 non par `hidden` : `.plan-apply` est en display:flex, qui l'emporterait. -->
+            <div class="plan-apply" id="rs-apply" style="display:none">
+                <button type="button" class="plan-apply-btn" id="rs-apply-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="applyBtn">Apply these changes</span></button>
+                <p class="plan-apply-hint" id="rs-apply-hint"></p>
+            </div>
 
             <h2 style="margin-top:30px;" data-i18n="recapTitle">Global Recap</h2>
             <div class="dashboard-grid" id="dashboard-container"></div>
