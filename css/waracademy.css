@@ -393,6 +393,14 @@ details.wa-step[open] .wa-step__chev { transform: rotate(90deg); }
 .wa-trades tbody tr:last-child th,
 .wa-trades tbody tr:last-child td { border-bottom: 0; }
 
+/* Sous le libellé de Provisions limitées : son plafond, ou comment l'ouvrir. Le texte
+   passe à la ligne, sinon le `nowrap` des cellules élargissait tout le tableau. */
+.wa-trade-note {
+    display: block; margin-top: 2px; max-width: 36ch;
+    white-space: normal; font-weight: normal; font-size: 12px; line-height: 1.4;
+    color: var(--text-muted);
+}
+
 .wa-trades-done input[type="number"] { width: 62px; }
 .wa-trades-done small { color: var(--text-muted); margin-left: 6px; }
 

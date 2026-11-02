@@ -113,20 +113,97 @@
   }
 
   // ============================================================
+  //  PRÉREQUIS AUTOMATIQUES (onglet avancé)
+  //  Régler le niveau d'une recherche monte ce qu'elle exige ; en baisser une baisse
+  //  ce qui en dépend. Même règle que la Sélection rapide de la page Recherches, et
+  //  même lecture des prérequis que le moteur : un niveau exige tous ceux d'en dessous,
+  //  et chacun ses `req`. `tree` a la forme rendue par `advancedTree`, `levels` donne
+  //  le niveau actuel par identifiant de recherche. Les deux fonctions rendent
+  //  { id: nouveau niveau } pour les SEULES recherches qui bougent, jamais celle que le
+  //  joueur vient de régler. Elles ne lisent pas le niveau d'Académie : le verrou de
+  //  palier reste l'affaire de la page.
+  // ============================================================
+  const lvlOf = (levels, id) => Math.max(0, Math.floor(Number(levels[id]) || 0));
+
+  function raiseReqs(tree, levels, resId, level) {
+    const byId = {};
+    tree.researches.forEach(r => { byId[r.id] = r; });
+    const need = {};
+    const queue = [];
+    const exige = (id, lvl) => {
+      if (!byId[id] || (need[id] || 0) >= lvl) return;
+      need[id] = lvl; queue.push(id);
+    };
+    exige(resId, level);
+    while (queue.length) {
+      const id = queue.pop();
+      byId[id].levels.forEach(l => {
+        if (l.level <= need[id]) (l.req || []).forEach(q => exige(q.r, q.lvl));
+      });
+    }
+    const out = {};
+    Object.keys(need).forEach(id => {
+      if (id === resId) return;
+      const to = Math.min(byId[id].maxLevel, need[id]);
+      if (lvlOf(levels, id) < to) out[id] = to;
+    });
+    return out;
+  }
+
+  // Ne baisse que ce qui dépend de la recherche baissée, de proche en proche : une
+  // sauvegarde déjà incohérente ailleurs (niveaux saisis sans leurs prérequis) n'est
+  // pas « réparée » au passage, le joueur ne l'a pas demandé.
+  function lowerDeps(tree, levels, resId, level) {
+    const baisse = { [resId]: Math.max(0, level) };
+    const out = {};
+    let bouge = true;
+    while (bouge) {
+      bouge = false;
+      tree.researches.forEach(r => {
+        if (r.id === resId) return;
+        const cur = r.id in out ? out[r.id] : lvlOf(levels, r.id);
+        if (!cur) return;
+        // Le plus haut niveau dont aucune marche n'exige plus que ce qui vient de baisser.
+        let ok = 0;
+        const marches = r.levels.slice().sort((a, b) => a.level - b.level);
+        for (const l of marches) {
+          if (l.level > cur) break;
+          if ((l.req || []).some(q => q.r in baisse && q.lvl > baisse[q.r])) break;
+          ok = l.level;
+        }
+        if (ok >= cur) return;
+        out[r.id] = ok;
+        baisse[r.id] = ok;
+        bouge = true;
+      });
+    }
+    return out;
+  }
+
+  // ============================================================
   //  ÉCHANGES DE POUSSIÈRE
-  //  La poussière ne se ramasse pas qu'en jeu : trois échanges hebdomadaires en
+  //  La poussière ne se ramasse pas qu'en jeu : des échanges hebdomadaires en
   //  produisent, et le plan doit pouvoir compter dessus.
   //
   //    5 000 pièces   ->  1 poussière   (200 échanges / semaine)
   //    5 TrueGold     -> 13 poussières  ( 20 échanges / semaine)
+  //    5 TrueGold     -> 13 poussières  (2 par niveau de Provisions limitées)
   //   10 TrueGold     -> 13 poussières  (sans limite)
+  //
+  //  La troisième ligne n'existe en jeu qu'une fois la recherche avancée
+  //  « Provisions limitées » (`limited_supply`) lancée : chaque niveau en ouvre 2 de
+  //  plus par semaine, 20 au niveau 10 (relevé confirmé par Aistra). Son plafond se
+  //  lit donc dans `stock.limitedLevel`, le niveau DÉJÀ atteint : un niveau que le
+  //  plan monterait ne compte qu'au calcul suivant (décision d'Aistra). Absent, il
+  //  vaut 0, et les appels d'avant gardent exactement leur résultat.
   //
   //  L'ORDRE DE CETTE LISTE EST L'ORDRE DE PRIORITÉ, et il n'est pas arbitraire :
   //   1. les pièces d'abord — c'est la seule monnaie qui ne serve à rien d'autre sur
   //      le site, la dépenser ne prive aucun autre plan ;
-  //   2. l'échange à 5 TG ensuite : 2,6 poussières par TrueGold contre 1,3 pour celui
-  //      à 10 TG. Il rend exactement le DOUBLE, donc le remplir avant l'autre est
-  //      toujours gagnant — jamais l'inverse, quelle que soit la quantité voulue ;
+  //   2. les deux échanges à 5 TG ensuite : 2,6 poussières par TrueGold contre 1,3
+  //      pour celui à 10 TG. Ils rendent exactement le DOUBLE, donc les remplir avant
+  //      l'autre est toujours gagnant — jamais l'inverse, quelle que soit la quantité
+  //      voulue. Entre eux deux l'ordre est indifférent (même tarif) ;
   //   3. l'échange à 10 TG en dernier, celui qui n'a pas de plafond.
   //  Cet ordre minimise aussi le TrueGold dépensé à poussière égale, ce qui compte :
   //  le même TrueGold finance l'arbre des bâtiments sur l'autre page du site.
@@ -134,16 +211,24 @@
   const DUST_TRADES = [
     { id: 'coins', pay: 'coins',    price: 5000, dust: 1,  weeklyMax: 200,  usedKey: 'usedCoins' },
     { id: 'tg5',   pay: 'truegold', price: 5,    dust: 13, weeklyMax: 20,   usedKey: 'usedTg5'   },
+    { id: 'tgLimited', pay: 'truegold', price: 5, dust: 13, weeklyMax: null, usedKey: 'usedTgLimited',
+      perLevel: 2, levelKey: 'limitedLevel' },
     { id: 'tg10',  pay: 'truegold', price: 10,   dust: 13, weeklyMax: null, usedKey: null        },
   ];
 
   const posInt = (v) => Math.max(0, Math.floor(Number(v) || 0));
 
+  // Plafond hebdomadaire d'un échange pour ce joueur : fixe, ou fonction du niveau
+  // d'une recherche (`perLevel`). Infinity = sans plafond.
+  const tradeCap = (tr, stock) => tr.perLevel ? tr.perLevel * posInt(stock[tr.levelKey])
+                                : (tr.weeklyMax == null ? Infinity : tr.weeklyMax);
+
   // Les échanges à faire pour obtenir `needDust` poussières, au moindre TrueGold.
   // `needDust` à null = « tout ce que les stocks déclarés peuvent produire », ce qui
   // donne la capacité maximale (c'est elle qui étend le budget avant l'optimisation).
   //
-  // `stock` = { coins, truegold, usedCoins, usedTg5, use } — `used*` sont les échanges
+  // `stock` = { coins, truegold, usedCoins, usedTg5, usedTgLimited, limitedLevel, use }
+  // — `limitedLevel` est le niveau de Provisions limitées, `used*` sont les échanges
   // DÉJÀ faits cette semaine, que le joueur saisit : ils entament le plafond, pas le
   // stock. `use` est l'ensemble des échanges qu'il accepte de faire, par identifiant
   // (`{coins:true, tg5:true, tg10:false}`) : une ligne décochée est simplement sautée,
@@ -163,8 +248,8 @@
       if (out.dust >= need) break;
       if (stock.use && !stock.use[tr.id]) continue;
       const byStock = Math.floor(pools[tr.pay] / tr.price);
-      const byWeek  = tr.weeklyMax == null ? Infinity
-                    : Math.max(0, tr.weeklyMax - posInt(stock[tr.usedKey]));
+      const cap     = tradeCap(tr, stock);
+      const byWeek  = cap === Infinity ? Infinity : Math.max(0, cap - posInt(stock[tr.usedKey]));
       const byNeed  = (need === Infinity) ? Infinity : Math.ceil((need - out.dust) / tr.dust);
       const n = Math.min(byStock, byWeek, byNeed);
       if (n <= 0) continue;
@@ -637,6 +722,6 @@
     return runPlan(opts, mode === 'target' ? 'kvk' : 'classic');
   }
 
-  return { suggest, planTrades, advancedTree, ADV_TREE_ID, DUST_TRADES, SCORE_ON_EFFECTIVE,
+  return { suggest, planTrades, advancedTree, raiseReqs, lowerDeps, ADV_TREE_ID, DUST_TRADES, SCORE_ON_EFFECTIVE,
            PTS_PER_DUST, PTS_PER_MIN, PTS_PER_TTG };
 }));

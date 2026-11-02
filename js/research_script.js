@@ -57,7 +57,16 @@ const i18n = {
         'kvkLongSep': 'Last one, once the short ones are done: the longest research you can reach. KVK speed bonuses take far more off it than off a short one.',
         'kvkLongOnly': 'Your speedups do not finish a single research. Launch the longest one you can reach: KVK speed bonuses take far more off it than off a short one.',
         'kvkLongLeft': ' You still have {t} of speedups to put into it.',
-        'confirmDone': 'Ticking "{name}" also ticks the {n} research(es) it required: {list}. Go ahead?'
+        'confirmDone': 'Ticking "{name}" also ticks the {n} research(es) it required: {list}. Go ahead?',
+        'confirmDoneSpend': ' Your speedups go down by {t}.',
+        'toastSpent': '. Speedups: {b} → {r}',
+        'applyBtn': 'Apply these changes',
+        'applyHint': 'Ticks off the {n} research(es) your speedups pay for and takes {t} off your stock, as if you had just done them in game.',
+        'applyAsk': 'Apply this plan to your page?',
+        'applyResearches': 'Researches ticked off ({n})',
+        'applySpeedups': 'Speedups', 'applyStock': 'Stock',
+        'applyWarn': 'Your current speedup stock will be replaced.',
+        'applyDone': 'Plan applied: {n} research(es) ticked off. Speedups: {b} → {r}'
     },
     'FR': {
         'controlPanel': 'Panneau de Contrôle', 'settings': 'Paramètres', 'language': 'Langue',
@@ -109,7 +118,16 @@ const i18n = {
         'kvkLongSep': 'En dernier, une fois les courtes finies : la plus longue recherche à ta portée. Les bonus de vitesse du KVK lui retirent bien plus de temps qu\'à une courte.',
         'kvkLongOnly': 'Ton stock d\'accélérateurs ne finit aucune recherche. Lance la plus longue à ta portée : les bonus de vitesse du KVK lui retirent bien plus de temps qu\'à une courte.',
         'kvkLongLeft': ' Il te reste {t} d\'accélérateurs à y mettre.',
-        'confirmDone': 'Cocher « {name} » coche aussi les {n} recherche(s) qu\'elle exigeait : {list}. On continue ?'
+        'confirmDone': 'Cocher « {name} » coche aussi les {n} recherche(s) qu\'elle exigeait : {list}. On continue ?',
+        'confirmDoneSpend': ' Tes accélérateurs baissent de {t}.',
+        'toastSpent': '. Accélérateurs : {b} → {r}',
+        'applyBtn': 'Appliquer les modifications',
+        'applyHint': 'Coche les {n} recherche(s) que tes accélérateurs financent et retire {t} de ton stock, comme si tu venais de les faire en jeu.',
+        'applyAsk': 'Appliquer ce plan à ta page ?',
+        'applyResearches': 'Recherches cochées ({n})',
+        'applySpeedups': 'Accélérateurs', 'applyStock': 'Stock',
+        'applyWarn': 'Ton stock d\'accélérateurs actuel sera remplacé.',
+        'applyDone': 'Plan appliqué : {n} recherche(s) cochée(s). Accélérateurs : {b} → {r}'
     }
 };
 
@@ -749,6 +767,8 @@ function rsPlanOptimal(opts) {
     const simMaxLevels = { ...getCurrentMaxLevels(source) };
     let pool = source.filter(item => !item.Researched && allowedTrees.includes(item.Tree));
     const rows = [];
+    // Tout le plan, lignes non affichées comprises : c'est ce que coche « Appliquer ».
+    const planned = [];
     let extraCount = 0;
     let plannedTime = 0;
 
@@ -761,8 +781,12 @@ function rsPlanOptimal(opts) {
         if (unlocked.length === 0) break;
         unlocked.sort((a, b) => compareCandidates(a, b, !kvk));
         const picked = unlocked[0];
-        if (kvk && plannedTime + picked.discountedSeconds > budget) break;
-        plannedTime += picked.discountedSeconds;
+        // Le stock se compte en minutes entières, comme ce que « Fait » et
+        // « Appliquer » en retirent : le reste annoncé est celui qu'ils laissent.
+        const cost = rsSpeedupCost(picked);
+        if (kvk && plannedTime + cost > budget) break;
+        plannedTime += cost;
+        planned.push(picked);
         if (rows.length < maxRows) rows.push(picked);
         else extraCount++;
         if (picked.Level > (simMaxLevels[picked.Name] || 0)) simMaxLevels[picked.Name] = picked.Level;
@@ -795,7 +819,30 @@ function rsPlanOptimal(opts) {
         if (!academyHeld.next || n < academyHeld.next) academyHeld.next = n;
     });
 
-    return { rows, extraCount, longItem, plannedTime, leftover: Math.max(0, budget - plannedTime), academyHeld };
+    return { rows, planned, extraCount, longItem, plannedTime, leftover: Math.max(0, budget - plannedTime), academyHeld };
+}
+
+// ============ STOCK D'ACCÉLÉRATEURS (mode KVK) ============
+// Un accélérateur se compte en minutes entières et ne sert qu'une recherche :
+// finir 2h30m12s en coûte 2h31m. Même arrondi que le Planificateur de bâtiments
+// (MAP §12). Le plan KVK, « Fait » et « Appliquer » passent tous par ici.
+function rsSpeedupCost(item) {
+    return Math.max(0, Math.ceil(item.discountedSeconds / 60 - 1e-9)) * 60;
+}
+
+// Réécrit le stock dans les trois champs, en jours, heures et minutes.
+function rsWriteStock(seconds) {
+    const min = Math.max(0, Math.round(seconds / 60));
+    inputs.days.value = Math.floor(min / 1440);
+    inputs.hours.value = Math.floor((min % 1440) / 60);
+    inputs.minutes.value = min % 60;
+}
+
+// Ce que coûteraient ces recherches au stock actuel. Il ne passe pas sous zéro :
+// la ligne longue du plan le dépasse à dessein.
+function rsStockAfter(items) {
+    const spend = items.reduce((t, it) => t + rsSpeedupCost(it), 0);
+    return { before: totalAccSeconds, after: Math.max(0, totalAccSeconds - spend) };
 }
 
 function treeLabel(tree, lang) {
@@ -826,9 +873,14 @@ function itemName(item, lang) {
     return lang === 'FR' ? item['Fr Name'] : item['Name'];
 }
 
-function applySuggestionDone(item, extra) {
+function applySuggestionDone(item) {
+    // En mode KVK, le stock paie la recherche ET les prérequis cochés avec elle
+    // (décision d'Aistra) : ils sont relevés avant d'être cochés.
+    const reqs = pendingReqsOf(item);
+    const stock = inputs.modeKvk.checked ? rsStockAfter([item, ...reqs]) : null;
+    if (stock) rsWriteStock(stock.after);
     item.Researched = true;
-    cascadeCheckReqs(item);
+    reqs.forEach(e => { e.Researched = true; });
     saveData();
     const lang = GlobalLang.get();
     updateUI();
@@ -836,8 +888,13 @@ function applySuggestionDone(item, extra) {
     // <body> et il faut retraverser la page pour valider la suggestion suivante.
     const next = document.querySelector('#optimal-table .sugg-done-btn');
     if (next) next.focus();
-    const key = extra > 0 ? 'toastDoneReqs' : 'toastDone';
-    showAppToast(i18n[lang][key].replace('{name}', itemName(item, lang)).replace('{n}', extra));
+    const key = reqs.length > 0 ? 'toastDoneReqs' : 'toastDone';
+    let msg = i18n[lang][key].replace('{name}', itemName(item, lang)).replace('{n}', reqs.length);
+    // Stock déjà vide : rien n'a bougé, rien à dire.
+    if (stock && stock.before > 0) {
+        msg += i18n[lang]['toastSpent'].replace('{b}', formatTime(stock.before)).replace('{r}', formatTime(stock.after));
+    }
+    showAppToast(msg);
 }
 
 // Valider une suggestion depuis la liste. Une recherche cochée sans ses prérequis
@@ -852,17 +909,82 @@ function markSuggestionDone(index) {
     if (!item) { console.warn('recherche introuvable dans la base :', index); return; }
     if (item.Researched) return;   // déjà cochée entre-temps : rien à faire
     const pending = pendingReqsOf(item);
-    if (pending.length === 0) { applySuggestionDone(item, 0); return; }
+    if (pending.length === 0) { applySuggestionDone(item); return; }
     const lang = GlobalLang.get();
     const shown = pending.slice(0, 5).map(e => `${itemName(e, lang)} ${i18n[lang]['stepTxt']} ${e.Level}`);
     if (pending.length > shown.length) shown.push('...');
-    showAppConfirm(
-        i18n[lang]['confirmDone']
-            .replace('{name}', itemName(item, lang))
-            .replace('{n}', pending.length)
-            .replace('{list}', shown.join(', ')),
-        () => applySuggestionDone(item, pending.length)
-    );
+    let msg = i18n[lang]['confirmDone']
+        .replace('{name}', itemName(item, lang))
+        .replace('{n}', pending.length)
+        .replace('{list}', shown.join(', '));
+    // En mode KVK, la fenêtre dit aussi ce que le stock va perdre.
+    if (inputs.modeKvk.checked) {
+        const stock = rsStockAfter([item, ...pending]);
+        if (stock.before > stock.after) msg += i18n[lang]['confirmDoneSpend'].replace('{t}', formatTime(stock.before - stock.after));
+    }
+    showAppConfirm(msg, () => applySuggestionDone(item));
+}
+
+// ============ « APPLIQUER LES MODIFICATIONS » (mode KVK) ============
+// Coche tout le plan financé, lignes non affichées comprises, et retire son coût
+// du stock. Même bouton doré et même récapitulatif que le Planificateur de
+// bâtiments (MAP §12). La ligne longue, au-delà du stock, n'en fait pas partie.
+// Les prérequis n'ont pas à être cochés en plus : chaque ligne du plan a les
+// siens faits ou plus haut dans le plan (tests/research-order.test.mjs).
+let rsLastPlan = null;
+let rsApplyWarned = false;
+
+function rsRenderApply(plan, lang) {
+    const box = document.getElementById('rs-apply');
+    if (!box) {
+        // Page d'avant encore en cache : pas de bouton, le reste marche. La console le
+        // dit une fois, pour qu'un identifiant mal écrit ne passe pas pour ce cas-là.
+        if (!rsApplyWarned) {
+            console.warn('bloc #rs-apply absent de la page : bouton « Appliquer » ignoré');
+            rsApplyWarned = true;
+        }
+        return;
+    }
+    const show = !!plan && plan.planned.length > 0;
+    rsLastPlan = show ? plan : null;
+    box.style.display = show ? '' : 'none';
+    const hint = document.getElementById('rs-apply-hint');
+    if (show && hint) {
+        hint.textContent = i18n[lang]['applyHint']
+            .replace('{n}', plan.planned.length)
+            .replace('{t}', formatTime(plan.plannedTime));
+    }
+}
+
+function rsApplyPlan() {
+    const plan = rsLastPlan;
+    if (!plan) return;
+    const lang = GlobalLang.get();
+    const t = i18n[lang];
+    const stock = rsStockAfter(plan.planned);
+    let recap = `<div class="apply-diff"><div class="apply-diff-h">${t['applyResearches'].replace('{n}', plan.planned.length)}</div>`;
+    plan.planned.forEach(it => {
+        recap += `<div class="apply-diff-r"><span>${itemName(it, lang)} <em>${t['stepTxt']} ${it.Level}</em></span><b>${formatTime(rsSpeedupCost(it))}</b></div>`;
+    });
+    recap += `<div class="apply-diff-h">${t['applySpeedups']}</div>`;
+    recap += `<div class="apply-diff-r"><span>${t['applyStock']}</span><b>${formatTime(stock.before)} → ${formatTime(stock.after)}</b></div>`;
+    recap += `</div><div class="apply-warn">${t['applyWarn']}</div>`;
+    showAppConfirm(`<strong>${t['applyAsk']}</strong>${recap}`, () => {
+        // Relu à la validation : une recherche cochée entre-temps n'est ni recochée
+        // ni payée une seconde fois.
+        const todo = plan.planned.filter(it => !it.Researched);
+        const done = rsStockAfter(todo);
+        rsWriteStock(done.after);
+        todo.forEach(it => { it.Researched = true; });
+        saveData();
+        updateUI();
+        const next = document.querySelector('#optimal-table .sugg-done-btn') || document.getElementById('tab-optimal');
+        if (next) next.focus();
+        showAppToast(t['applyDone']
+            .replace('{n}', todo.length)
+            .replace('{b}', formatTime(done.before))
+            .replace('{r}', formatTime(done.after)));
+    });
 }
 
 function renderOptimal() {
@@ -881,6 +1003,7 @@ function renderOptimal() {
         budgetSeconds: totalAccSeconds,
         maxRows: 8
     });
+    rsRenderApply(isKvkMode ? plan : null, lang);
 
     // Sans cette ligne, un joueur qui baisse le niveau d'Académie verrait des
     // recherches disparaître sans raison.
@@ -1011,6 +1134,9 @@ Object.values(inputs).forEach(input => {
     }
 });
 
+const rsApplyBtn = document.getElementById('rs-apply-btn');
+if (rsApplyBtn) rsApplyBtn.addEventListener('click', rsApplyPlan);
+
 document.getElementById('reset-button').addEventListener('click', () => {
     const lang = GlobalLang.get();
     const confirmMsg = lang === 'FR' ? "Êtes-vous sûr de vouloir réinitialiser toutes vos cases cochées et paramètres ?" : "Are you sure you want to reset all checkboxes and settings to defaults?";
@@ -1045,6 +1171,7 @@ function rsInitHelp() {
                 "Deux branches passent en tête : « Amélioration des Outils » (éclair) raccourcit toutes tes recherches à venir, « Obtentions d'Outils » (marteau) toutes tes constructions. Le bloc « Recherches prioritaires » du panneau latéral permet d'en désactiver une, ou les deux, quand tu as un autre objectif. L'outil les propose dès qu'elles sont débloquées, il ne force pas la suite de prérequis qui y mène.",
                 "Active le « Mode KVK » et renseigne tes accélérateurs (jours / heures / minutes) pour ne voir que ce que tu peux réellement terminer avec ton stock : l'outil indique aussi combien de recherches supplémentaires seraient possibles au-delà. La priorité à la vitesse y est levée, l'objectif étant d'en finir un maximum.",
                 "En mode KVK, la dernière ligne dépasse volontairement ton stock : c'est la plus longue recherche à ta portée, à lancer une fois les courtes finies. Les bonus de vitesse du KVK lui retirent bien plus de temps qu'à une courte.",
+                "En mode KVK, « Fait » retire aussi de ton stock le temps de la recherche, et celui des prérequis cochés avec elle, arrondi à la minute du dessus. « Appliquer les modifications », sous le tableau, coche d'un coup tout ce que ton stock finance et retire le total, après un récapitulatif à confirmer.",
                 "Active « Masquer terminées » pour ne garder que ce qu'il te reste à faire."
             ],
             EN: [
@@ -1056,6 +1183,7 @@ function rsInitHelp() {
                 "Two branches come first: \"Tool Enhancement\" (lightning bolt) shortens every research to come, \"Tooling Up\" (hammer) every build. The \"Priority Researches\" block in the side panel lets you switch one off, or both, when you are after something else. The tool offers them as soon as they unlock, it does not force the chain of prerequisites leading to them.",
                 "Turn on \"KVK Mode\" and enter your speedups (days / hours / minutes) to see only what you can actually finish within your stock: it also tells you how many more researches would be possible beyond that. Speed priority is lifted there, the goal being to finish as many as you can.",
                 "In KVK mode the last row goes past your stock on purpose: it is the longest research you can reach, to launch once the short ones are done. KVK speed bonuses take far more off it than off a short one.",
+                "In KVK mode, \"Done\" also takes the research's time off your stock, plus the time of any prerequisites ticked with it, rounded up to the minute. \"Apply these changes\", under the table, ticks off everything your stock pays for at once and takes the total off, after a summary you confirm.",
                 "Turn on \"Hide completed\" to keep only what's left to do."
             ]
         }

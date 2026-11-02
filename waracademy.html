@@ -108,6 +108,16 @@
                 <input type="checkbox" id="filter-cavalry" checked onchange="WA.triggerUpdate()">
             </div>
         </div>
+        <!-- Sélection rapide de l'onglet avancé (MAP §12) : affichée sur cet onglet
+             seulement, masquée en ligne car .control-group est en display:flex. -->
+        <div class="control-group" id="wa-quick-group" style="display:none">
+            <h3 data-i18n="quickSelect">Quick Select</h3>
+            <div class="control-row">
+                <label for="advAutoReqs" data-i18n="advAutoReqs">Auto-set prerequisites</label>
+                <input type="checkbox" id="advAutoReqs" checked aria-describedby="advAutoReqsHint">
+            </div>
+            <p class="group-hint" id="advAutoReqsHint" data-i18n="advAutoReqsHint">Setting an advanced research level also raises everything it requires. Lowering one also lowers what depends on it.</p>
+        </div>
     </div>
 
     <div class="main-content flow">
@@ -182,6 +192,15 @@
                             <th scope="row" id="tradeWhatTg5" data-i18n="tradeWhatTg5">5 TrueGold → 13 dust</th>
                             <td class="wa-trades-done"><input type="number" id="tradeUsedTg5" value="0" min="0" max="20" aria-labelledby="tradeWhatTg5 tradeColDone" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()"><small>/ 20</small></td>
                             <td id="tradePlanTg5" class="wa-trades-plan">—</td>
+                        </tr>
+                        <!-- Ouvert par la recherche avancée Provisions limitées : 2 échanges par
+                             semaine et par niveau. Plafond, note et compteur suivent le niveau
+                             de l'arbre avancé (renderLimitedRow, MAP §12). -->
+                        <tr>
+                            <td><input type="checkbox" id="tradeUseTgLimited" checked aria-labelledby="tradeWhatTgLimited" aria-describedby="tradeNoteTgLimited" onchange="WA.triggerUpdate()"></td>
+                            <th scope="row"><span id="tradeWhatTgLimited" data-i18n="tradeWhatTgLimited">5 TrueGold → 13 dust (Limited Supply)</span><small class="wa-trade-note" id="tradeNoteTgLimited"></small></th>
+                            <td class="wa-trades-done"><input type="number" id="tradeUsedTgLimited" value="0" min="0" max="0" aria-labelledby="tradeWhatTgLimited tradeColDone" oninput="WA.triggerUpdate()" onchange="WA.triggerUpdate()"><small id="tradeCapTgLimited">/ 0</small></td>
+                            <td id="tradePlanTgLimited" class="wa-trades-plan">—</td>
                         </tr>
                         <tr>
                             <td><input type="checkbox" id="tradeUseTg10" aria-labelledby="tradeWhatTg10" onchange="WA.triggerUpdate()"></td>

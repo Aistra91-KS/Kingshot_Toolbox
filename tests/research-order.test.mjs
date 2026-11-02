@@ -6,9 +6,10 @@
      vient, en comptant les lignes qui la précèdent ;
    - hors KVK, Tool Enhancement puis Tooling Up passent devant dès qu'ils sont
      débloqués, et une case décochée les rend au tri par temps ;
-   - en KVK, le plan tient dans le stock d'accélérateurs, s'arrête seulement quand
-     la recherche suivante ne tient plus, et plus de stock ne donne jamais moins de
-     recherches.
+   - en KVK, le plan tient dans le stock d'accélérateurs, compté en minutes entières
+     par recherche, s'arrête seulement quand la recherche suivante ne tient plus, et
+     plus de stock ne donne jamais moins de recherches ;
+   - « Fait » et « Appliquer » retirent du stock ce que le plan annonçait.
 
    Le script branche ses écouteurs dès son chargement : on lui donne des éléments
    de page factices, et son démarrage reste en attente de la base (un `fetch` qui ne
@@ -66,6 +67,8 @@ function jouable(it, n) {
   return it.reqs.every(r => (n[r.name] || 0) >= r.level);
 }
 const cle = it => it.Name + '|' + it.Level;
+// Un accélérateur se compte en minutes entières et ne sert qu'une recherche.
+const minutes = sec => Math.ceil(sec / 60 - 1e-9) * 60;
 const rang = it => it.Name.startsWith('Tool Enhancement') ? 0 : it.Name.startsWith('Tooling Up') ? 1 : 2;
 
 // Rejoue le plan ligne à ligne et rend, pour chaque ligne, ce qui était jouable juste avant.
@@ -125,8 +128,9 @@ test('en KVK, le plan tient dans le stock et ne s\'arrête que quand la suivante
     compteAvance(ctx, 11, 150);
     const base = etat(ctx), budget = Math.round(jours * 86400);
     const p = plan(ctx, { kvk: true, budgetSeconds: budget, maxRows: 10000 });
-    const somme = p.rows.reduce((t, r) => t + r.s, 0);
+    const somme = p.rows.reduce((t, r) => t + minutes(r.s), 0);
     assert.ok(Math.abs(somme - p.plannedTime) < 1e-6);
+    assert.equal(p.plannedTime % 60, 0, 'le plan se paie en minutes entières');
     assert.ok(p.plannedTime <= budget, `plan de ${p.plannedTime} s pour ${budget} s de stock`);
     assert.ok(Math.abs(p.leftover - (budget - p.plannedTime)) < 1e-6);
     // En KVK le tri est au plus court, sans priorité : chaque ligne est la plus courte jouable.
@@ -137,7 +141,7 @@ test('en KVK, le plan tient dans le stock et ne s\'arrête que quand la suivante
     for (const r of p.rows) { fait.add(cle(r)); if (r.Level > (n[r.Name] || 0)) n[r.Name] = r.Level; }
     const reste = base.filter(x => !fait.has(cle(x)) && ARBRES.includes(x.Tree) && jouable(x, n));
     if (reste.length) {
-      assert.ok(Math.min(...reste.map(x => x.s)) > p.leftover, 'une recherche tenait encore dans le stock');
+      assert.ok(Math.min(...reste.map(x => minutes(x.s))) > p.leftover, 'une recherche tenait encore dans le stock');
       // La ligne au-delà du stock est la plus longue à portée.
       assert.equal(p.longItem.s, Math.max(...reste.map(x => x.s)));
     }
@@ -201,4 +205,81 @@ test('l\'Académie 30 par défaut ne change rien au plan', () => {
   const a = plan(ctx, { kvk: true, budgetSeconds: 7 * 86400, maxRows: 10000 });
   const b = plan(ctx, { kvk: true, budgetSeconds: 7 * 86400, maxRows: 10000, academy: 30 });
   assert.deepEqual(a, b);
+});
+
+// Stock d'accélérateurs en mode KVK : « Fait » et « Appliquer » le réécrivent. Les
+// fonctions d'affichage sont remplacées par des relevés : le test ne regarde que
+// les cases cochées et les trois champs du stock.
+function pageKvk(graine, n, { kvk = true, jours = 1 } = {}) {
+  const ctx = moteur();
+  if (n) compteAvance(ctx, graine, n);
+  run(ctx, `
+    globalThis.GlobalLang = { get: () => 'EN' };
+    globalThis.toasts = [];
+    globalThis.showAppToast = m => toasts.push(m);
+    globalThis.showAppConfirm = (m, ok) => { globalThis.dernierConfirm = m; ok(); };
+    document.getElementById = () => ({ value: '', checked: true, hidden: true, addEventListener(){}, setAttribute(){}, focus(){} });
+    inputs.baseBonus.setAttribute = () => {};   // champ capturé au chargement, sans cette méthode
+    updateUI = () => calculateState();
+    inputs.modeKvk.checked = ${kvk};
+    inputs.days.value = '${jours}'; inputs.hours.value = '0'; inputs.minutes.value = '0';
+    calculateState();`);
+  return ctx;
+}
+const stock = ctx => Number(run(ctx, `(+inputs.days.value) * 86400 + (+inputs.hours.value) * 3600 + (+inputs.minutes.value) * 60`));
+const coche = (ctx, it) => run(ctx, `db.find(x => x.Name === ${JSON.stringify(it.Name)} && x.Level === ${it.Level}).Researched`);
+const indexDe = (ctx, it) => run(ctx, `db.findIndex(x => x.Name === ${JSON.stringify(it.Name)} && x.Level === ${it.Level})`);
+
+test('KVK : « Fait » retire du stock le temps de la recherche, en minutes entières', () => {
+  const ctx = pageKvk(11, 150);
+  const p = plan(ctx, { kvk: true, budgetSeconds: 86400 });
+  const it = p.rows[0];
+  run(ctx, `markSuggestionDone(${indexDe(ctx, it)})`);
+  assert.equal(coche(ctx, it), true);
+  assert.equal(stock(ctx), 86400 - minutes(it.s));
+  assert.equal(stock(ctx) % 60, 0);
+});
+
+test('KVK : les prérequis cochés avec la recherche sont payés aussi', () => {
+  const ctx = pageKvk(0, 0, { jours: 30 });
+  // Une recherche dont la chaîne n'est pas faite : Fait coche la chaîne entière.
+  const reqs = JSON.parse(run(ctx, `JSON.stringify((() => {
+    const it = db.find(x => !x.Researched && pendingReqsOf(x).length >= 2);
+    return { it: { Name: it.Name, Level: it.Level, s: it.discountedSeconds },
+             chaine: pendingReqsOf(it).map(e => e.discountedSeconds) };
+  })())`));
+  run(ctx, `markSuggestionDone(${indexDe(ctx, reqs.it)})`);
+  const cout = minutes(reqs.it.s) + reqs.chaine.reduce((t, s) => t + minutes(s), 0);
+  assert.equal(stock(ctx), Math.max(0, 30 * 86400 - cout));
+  assert.match(run(ctx, 'dernierConfirm'), /Your speedups go down by/);
+});
+
+test('KVK : le stock ne passe pas sous zéro (ligne longue au-delà du stock)', () => {
+  const ctx = pageKvk(11, 150, { jours: 0 });
+  run(ctx, `inputs.hours.value = '1'; calculateState();`);
+  const p = plan(ctx, { kvk: true, budgetSeconds: 3600 });
+  assert.ok(p.longItem && minutes(p.longItem.s) > p.leftover);
+  run(ctx, `markSuggestionDone(${indexDe(ctx, p.longItem)})`);
+  assert.equal(stock(ctx), 0);
+});
+
+test('hors KVK, « Fait » ne touche pas au stock', () => {
+  const ctx = pageKvk(11, 150, { kvk: false });
+  const p = plan(ctx, { maxRows: 8 });
+  run(ctx, `markSuggestionDone(${indexDe(ctx, p.rows[0])})`);
+  assert.equal(coche(ctx, p.rows[0]), true);
+  assert.equal(stock(ctx), 86400);
+});
+
+test('KVK : « Appliquer » coche tout le plan financé et laisse le reste annoncé', () => {
+  for (const jours of [1, 7]) {
+    const ctx = pageKvk(11, 150, { jours });
+    const p = plan(ctx, { kvk: true, budgetSeconds: jours * 86400 });
+    assert.ok(p.extraCount > 0, 'le plan doit dépasser les lignes affichées');
+    run(ctx, `rsLastPlan = rsPlanOptimal({ kvk: true, allowedTrees: ${JSON.stringify(ARBRES)}, budgetSeconds: ${jours * 86400}, maxRows: 8 }); rsApplyPlan();`);
+    const nb = Number(run(ctx, 'rsLastPlan.planned.filter(it => it.Researched).length'));
+    assert.equal(nb, p.rows.length + p.extraCount, 'lignes non affichées comprises');
+    assert.equal(stock(ctx), p.leftover);
+    if (p.longItem) assert.equal(coche(ctx, p.longItem), false, 'la ligne longue reste à faire');
+  }
 });

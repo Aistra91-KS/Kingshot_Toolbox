@@ -1,13 +1,14 @@
 /* ==========================================================================
    Échanges de poussière (Académie de Guerre) — wa_optimizer.planTrades
 
-   Trois échanges hebdomadaires alimentent le budget de poussière :
+   Quatre échanges hebdomadaires alimentent le budget de poussière :
      5 000 pièces ->  1 poussière  (200 / semaine)
      5 TrueGold   -> 13 poussières ( 20 / semaine)
+     5 TrueGold   -> 13 poussières (2 par niveau de Provisions limitées)
     10 TrueGold   -> 13 poussières (sans limite)
 
    Ce qui est vérifié ici : l'ordre de priorité (le TrueGold le moins dépensé
-   possible), les deux plafonds, l'indivisibilité d'un échange, et le fait que
+   possible), les plafonds, l'indivisibilité d'un échange, et le fait que
    `needDist = null` rende bien la capacité maximale.
    ========================================================================== */
 import test from 'node:test';
@@ -142,4 +143,46 @@ test('une ligne décochée est sautée — le TrueGold peut rester intact', () =
 test('sans `use`, tout reste autorisé — les appels d’avant gardent leur sens', () => {
   const stock = { coins: 0, truegold: 150 };
   assert.deepEqual(planTrades(null, stock), planTrades(null, { ...stock, use: { coins: true, tg5: true, tg10: true } }));
+});
+
+// Provisions limitées (recherche avancée) : une deuxième ligne à 5 TG, 2 échanges par
+// semaine et par niveau déjà atteint (relevé confirmé par Aistra).
+test('Provisions limitées : 2 échanges à 5 TG de plus par niveau, avant celui à 10 TG', () => {
+  for (const niveau of [1, 4, 10]) {
+    const p = planTrades(null, { coins: 0, truegold: 1000, limitedLevel: niveau });
+    assert.equal(n(p, 'tg5'), 20);
+    assert.equal(n(p, 'tgLimited'), 2 * niveau);
+    // Le reste part à 10 TG, une fois les deux lignes à 5 TG remplies.
+    assert.equal(n(p, 'tg10'), Math.floor((1000 - 5 * (20 + 2 * niveau)) / 10));
+  }
+});
+
+test('Provisions limitées au niveau 0, ou absent : rien ne change', () => {
+  const stock = { coins: 1_000_000, truegold: 1000 };
+  const avant = planTrades(null, stock);
+  assert.equal(n(avant, 'tgLimited'), 0);
+  assert.deepEqual(planTrades(null, { ...stock, limitedLevel: 0, usedTgLimited: 0 }), avant);
+  assert.deepEqual(planTrades(500, { ...stock, limitedLevel: 0 }), planTrades(500, stock));
+});
+
+test('Provisions limitées : les échanges faits entament son plafond, la case la saute', () => {
+  const p = planTrades(null, { coins: 0, truegold: 1000, limitedLevel: 5, usedTgLimited: 7 });
+  assert.equal(n(p, 'tgLimited'), 3);
+  const plein = planTrades(null, { coins: 0, truegold: 1000, limitedLevel: 5, usedTgLimited: 12 });
+  assert.equal(n(plein, 'tgLimited'), 0);
+  const decoche = planTrades(null, { coins: 0, truegold: 1000, limitedLevel: 5,
+    use: { coins: true, tg5: true, tgLimited: false, tg10: true } });
+  assert.equal(n(decoche, 'tgLimited'), 0);
+});
+
+test('Provisions limitées : un besoin couvert sans elle ne la touche pas, et jamais plus cher', () => {
+  // 260 poussières : les 20 échanges à 5 TG suffisent, la ligne en plus reste intacte.
+  const p = planTrades(260, { coins: 0, truegold: 1000, limitedLevel: 10 });
+  assert.equal(n(p, 'tgLimited'), 0);
+  assert.equal(p.truegold, 100);
+  // 520 poussières : 40 échanges à 5 TG (200 TG) au lieu de 20 à 10 TG en plus.
+  const q = planTrades(520, { coins: 0, truegold: 1000, limitedLevel: 10 });
+  assert.equal(n(q, 'tgLimited'), 20);
+  assert.equal(n(q, 'tg10'), 0);
+  assert.equal(q.truegold, 200);
 });

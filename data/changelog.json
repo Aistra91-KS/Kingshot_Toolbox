@@ -8,6 +8,60 @@
   },
   "releases": [
     {
+      "version": "1.15.8",
+      "date": "2026-11-02",
+      "changes": [
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Research: KVK mode takes the time off your speedups",
+            "FR": "Recherches : le mode KVK retire le temps de tes accélérateurs"
+          },
+          "text": {
+            "EN": "In KVK mode, \"Done\" now takes the research's time off the speedup stock in the side panel, along with any prerequisites ticked with it. Each research costs its time rounded up to the minute, since one speedup only serves one research, and the plan counts the same way. A new \"Apply these changes\" button under the suggestions ticks off everything your stock pays for in one go, rows past the eight shown included, after a summary of each research and of your stock before and after.",
+            "FR": "En mode KVK, « Fait » retire maintenant le temps de la recherche du stock d'accélérateurs du panneau latéral, avec celui des prérequis cochés en même temps. Chaque recherche coûte son temps arrondi à la minute du dessus, puisqu'un accélérateur ne sert qu'une recherche, et le plan compte de la même façon. Un nouveau bouton « Appliquer les modifications » sous les suggestions coche d'un coup tout ce que ton stock finance, lignes au-delà des huit affichées comprises, après un récapitulatif de chaque recherche et de ton stock avant et après."
+          },
+          "href": "research_calc",
+          "linkLabel": {
+            "EN": "Research",
+            "FR": "Recherches"
+          }
+        },
+        {
+          "type": "new",
+          "title": {
+            "EN": "War Academy: the Limited Supply exchanges",
+            "FR": "Académie de Guerre : les échanges de Provisions limitées"
+          },
+          "text": {
+            "EN": "The advanced research Limited Supply opens a second half-price row in the TrueGold Dust Exchange: 5 TrueGold for 13 dust, 2 exchanges a week per level, 20 at level 10. The exchange panel now has that row, with its weekly cap read from the level you set in the Advanced research tab. The plan fills it right after the normal 5-TrueGold row and before the 10-TrueGold one, and \"Apply these changes\" adds the exchanges made to its weekly counter.",
+            "FR": "La recherche avancée Provisions limitées ouvre une deuxième ligne à moitié prix dans l'Échange de Poussière d'Or Véritable : 5 TrueGold pour 13 poussières, 2 échanges par semaine et par niveau, 20 au niveau 10. Le panneau des échanges a maintenant cette ligne, avec un plafond qui suit le niveau réglé dans l'onglet Recherches avancées. Le plan la remplit juste après la ligne normale à 5 TrueGold et avant celle à 10, et « Appliquer les modifications » ajoute les échanges faits à son compteur de la semaine."
+          },
+          "href": "waracademy",
+          "linkLabel": {
+            "EN": "War Academy",
+            "FR": "Académie de Guerre"
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "War Academy: prerequisites set themselves on the advanced tab",
+            "FR": "Académie de Guerre : les prérequis se règlent seuls dans l'onglet avancé"
+          },
+          "text": {
+            "EN": "On the Advanced research tab, setting a research to a level now raises everything it requires: Limited Supply at level 3 puts Truegold Infirmaries, Quick Bandage and the four researches behind them at level 3. Lowering a research lowers what depends on it. The \"Auto-set prerequisites\" box in the side panel turns this off.",
+            "FR": "Dans l'onglet Recherches avancées, régler une recherche à un niveau monte maintenant tout ce qu'elle exige : Provisions limitées au niveau 3 met Infirmeries d'or véritable, Bandage rapide et les quatre recherches qu'ils demandent au niveau 3. Baisser une recherche baisse ce qui en dépend. La case « Prérequis automatiques » du panneau latéral coupe ce réglage."
+          },
+          "href": "waracademy",
+          "linkLabel": {
+            "EN": "War Academy",
+            "FR": "Académie de Guerre"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.15.7",
       "date": "2026-10-26",
       "changes": [
