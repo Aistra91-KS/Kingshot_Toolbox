@@ -186,3 +186,12 @@ test('Provisions limitées : un besoin couvert sans elle ne la touche pas, et ja
   assert.equal(n(q, 'tg10'), 0);
   assert.equal(q.truegold, 200);
 });
+
+test('Provisions limitées : un compteur au-dessus du plafond ne rend rien, et rien de plus une fois le niveau remonté', () => {
+  // Scénario de la revue Codex (PR #109) : 12 faits au niveau 6, niveau ramené à 3
+  // puis remonté à 6. Le compteur saisi reste 12 : aucun échange à proposer.
+  for (const niveau of [3, 6]) {
+    const p = planTrades(null, { coins: 0, truegold: 1000, limitedLevel: niveau, usedTgLimited: 12 });
+    assert.equal(n(p, 'tgLimited'), 0);
+  }
+});

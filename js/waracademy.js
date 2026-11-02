@@ -23,6 +23,7 @@
       tradeWhatTgLimited: '5 TrueGold → 13 dust (Limited Supply)',
       tradeLimitedLocked: 'Research Limited Supply (advanced tab) to unlock it: 2 exchanges a week per level.',
       tradeLimitedCap: 'Limited Supply Lv. {n}: {m} a week',
+      tradeLimitedOver: 'Limited Supply Lv. {n}: {m} a week. The {u} you entered as done this week are already past it, so none are left.',
       tradeLimitedShort: 'Limited Supply',
       tradeNoCap: 'no weekly cap', tradeOff: 'not used', tradeTotal: 'Dust this plan buys',
       tradeCoinsRow: 'coins', tradeTgRow: 'TrueGold',
@@ -101,6 +102,7 @@
       tradeWhatTgLimited: '5 TrueGold → 13 poussières (Provisions limitées)',
       tradeLimitedLocked: "Recherche Provisions limitées (onglet avancé) pour l'ouvrir : 2 échanges par semaine et par niveau.",
       tradeLimitedCap: 'Provisions limitées niv. {n} : {m} par semaine',
+      tradeLimitedOver: "Provisions limitées niv. {n} : {m} par semaine. Les {u} saisis comme faits cette semaine le dépassent déjà, il n'en reste aucun.",
       tradeLimitedShort: 'Provisions limitées',
       tradeNoCap: 'sans plafond', tradeOff: 'non utilisé', tradeTotal: 'Poussières achetées par ce plan',
       tradeCoinsRow: 'pièces', tradeTgRow: 'TrueGold',
@@ -479,7 +481,10 @@
     if (g('tradeUsedCoins')) state.tradeUsedCoins = clampInt(g('tradeUsedCoins').value, 0, COIN_TRADE_MAX);
     if (g('tradeTruegold'))  state.tradeTruegold  = parseNum(g('tradeTruegold').value);
     if (g('tradeUsedTg5'))   state.tradeUsedTg5   = clampInt(g('tradeUsedTg5').value, 0, TG5_TRADE_MAX);
-    if (g('tradeUsedTgLimited')) state.tradeUsedTgLimited = clampInt(g('tradeUsedTgLimited').value, 0, limitedCap());
+    // Borné au plafond du niveau 10, jamais à celui du niveau saisi : un niveau baissé
+    // puis remonté (correction, ou prérequis automatiques) ne doit pas effacer les
+    // échanges déjà faits. `planTrades` ne prend que ce qui reste sous le plafond.
+    if (g('tradeUsedTgLimited')) state.tradeUsedTgLimited = clampInt(g('tradeUsedTgLimited').value, 0, LIMITED_MAX);
     TRADE_IDS.forEach(id => {
       const c = g(TRADE_USE_EL[id]);
       if (c) state.tradeUse[id] = c.checked;
@@ -1120,11 +1125,7 @@
     const res = ADV && ADV.researches.find(r => r.id === LIMITED_RES);
     return res ? curOf(ADV_ID, res) : 0;
   }
-  // Plafond de la semaine. Sans l'arbre avancé (fichier non chargé), le niveau est
-  // inconnu : on garde le plafond maximal plutôt que d'effacer le compteur saisi.
-  function limitedCap() {
-    return ADV ? limitedLevel() * LIMITED_PER_LEVEL : LIMITED_MAX;
-  }
+
 
   // Compteur « faits cette semaine » de la ligne Provisions limitées : son plafond suit
   // le niveau de la recherche, il se redessine donc à chaque saisie. À 0, la ligne
@@ -1132,19 +1133,17 @@
   function renderLimitedRow() {
     const lv = limitedLevel(), cap = lv * LIMITED_PER_LEVEL;
     const inp = document.getElementById('tradeUsedTgLimited');
-    // Un niveau baissé dans l'arbre baisse le plafond : le compteur suit, sinon la
-    // ligne affichait « 12 / 6 ».
-    if (ADV && state.tradeUsedTgLimited > cap) {
-      state.tradeUsedTgLimited = cap;
-      save();
-    }
-    if (inp && inp !== document.activeElement) inp.value = state.tradeUsedTgLimited;
+    // Le compteur n'est jamais réécrit ici. Le ramener au plafond d'un niveau baissé
+    // perdait les échanges faits : le niveau remonté, le plan en proposait que le jeu
+    // refuse (revue Codex de la PR #109). Un compteur au-dessus du plafond est dit
+    // dans la note, au lieu d'un « 12 / 6 » muet.
+    const used = state.tradeUsedTgLimited || 0;
     const capEl = document.getElementById('tradeCapTgLimited');
     const note = document.getElementById('tradeNoteTgLimited');
     if (inp) { inp.max = String(cap); inp.disabled = cap === 0; }
     if (capEl) capEl.textContent = '/ ' + cap;
     if (note) note.textContent = cap === 0 ? t('tradeLimitedLocked')
-      : t('tradeLimitedCap').replace('{n}', lv).replace('{m}', cap);
+      : t(used > cap ? 'tradeLimitedOver' : 'tradeLimitedCap').replace('{n}', lv).replace('{m}', cap).replace('{u}', used);
   }
 
   // Remplit la colonne « dans ce plan » de chaque ligne, et le total sous la table.
@@ -1808,7 +1807,7 @@
         const fait = (id) => (tp.trades.find(x => x.id === id) || { n: 0 }).n;
         state.tradeUsedCoins = clampInt(state.tradeUsedCoins + fait('coins'), 0, COIN_TRADE_MAX);
         state.tradeUsedTg5   = clampInt(state.tradeUsedTg5   + fait('tg5'),   0, TG5_TRADE_MAX);
-        state.tradeUsedTgLimited = clampInt(state.tradeUsedTgLimited + fait('tgLimited'), 0, limitedCap());
+        state.tradeUsedTgLimited = clampInt(state.tradeUsedTgLimited + fait('tgLimited'), 0, LIMITED_MAX);
       }
       state.accDays = Math.floor(timeLeft / 1440);
       state.accHours = Math.floor((timeLeft % 1440) / 60);
