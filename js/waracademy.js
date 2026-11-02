@@ -204,6 +204,7 @@
       "Lis la stratégie : les recherches à monter, les poussières, les pièces et le temps nécessaires, et les points KvK.",
       "Si le plan a besoin d'échanges, ils sont listés en tête du résultat, avant les recherches : c'est l'ordre à suivre en jeu, il faut la poussière en main avant de lancer la première recherche. Les trois nombres qui suivent (« Tes stocks une fois les échanges faits ») sont ceux à recopier dans tes saisies pour démarrer.",
       "Clique sur « Calculer la suggestion » au-dessus du résultat : le plan ne se calcule qu'à ta demande, et l'arbre suit tes saisies en attendant. Si tu modifies une valeur ensuite, le plan reste affiché en grisé jusqu'au prochain calcul.",
+      "En mode KvK, le plan s'affiche tout de suite, puis l'outil cherche encore mieux pendant quelques secondes au plus : chaque plan meilleur remplace celui affiché, et un bandeau sous le bouton donne le gain obtenu. « Garder ce plan » arrête la recherche ; « Appliquer les modifications » attend qu'elle soit finie.",
       "Une fois le plan réalisé en jeu, clique sur « Appliquer les modifications » en bas du résultat : après confirmation, tes niveaux de recherche passent à ceux du plan, et tes poussières, accélérateurs, pièces et TrueGold sont réduits d'autant, compteurs d'échanges hebdomadaires compris. Relance ensuite le calcul pour la suggestion suivante.",
     ],
     EN: [
@@ -223,6 +224,7 @@
       'Read the strategy: which researches to level, the dust, coins and time needed, and the KvK points.',
       'If the plan needs exchanges, they are listed at the top of the result, before the researches: that is the order to follow in game, since you need the dust in hand before starting the first research. The three figures that follow ("your stocks once exchanged") are the ones to copy back into your inputs to get going.',
       'Click "Calculate the suggestion" above the result: the plan is only worked out when you ask, and the tree follows what you enter in the meantime. If you change a value afterwards, the plan stays on screen, greyed out, until you run it again.',
+      'In KvK mode, the plan shows right away, then the tool keeps looking for a better one for a few seconds at most: each better plan replaces the one on screen, and a line under the button shows the gain. "Keep this plan" stops the search; "Apply these changes" waits until it is over.',
       'Once you\'ve carried the plan out in game, click "Apply these changes" at the bottom of the result: after confirming, your research levels jump to the plan\'s, and your dust, speedups, coins and TrueGold go down accordingly, weekly exchange counters included. Run the calculation again for the next suggestion.',
     ],
   };
