@@ -511,9 +511,13 @@
       "EN": "Blizzard Shop",
       "FR": "Magasin du Blizzard"
     },
-    "startsAt": "2026-10-08T00:00:00Z",
-    "endsAt": "2026-10-10T00:00:00Z",
+    "startsAt": "2026-11-05T00:00:00Z",
+    "endsAt": "2026-11-08T00:00:00Z",
     "previousEditions": [
+      {
+        "startsAt": "2026-10-08T00:00:00Z",
+        "endsAt": "2026-10-11T00:00:00Z"
+      },
       {
         "endsAt": "2026-09-01T00:00:00Z"
       }
