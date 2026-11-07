@@ -1047,7 +1047,13 @@
       "EN": "Summit Contest Champion Shop",
       "FR": "Magasin Champion de la Ligue Suprême"
     },
-    "endsAt": "2026-08-25T00:00:00Z",
+    "startsAt": "2026-11-07T00:00:00Z",
+    "endsAt": "2026-12-15T00:00:00Z",
+    "previousEditions": [
+      {
+        "endsAt": "2026-08-25T00:00:00Z"
+      }
+    ],
     "resourceName": {
       "FR": "Jeton de Champion",
       "EN": "Champion token"
@@ -1171,7 +1177,13 @@
       "EN": "Summit Contest Ordinary Shop",
       "FR": "Magasin Ordinaire de la Ligue Suprême"
     },
-    "endsAt": "2026-08-25T00:00:00Z",
+    "startsAt": "2026-11-07T00:00:00Z",
+    "endsAt": "2026-12-15T00:00:00Z",
+    "previousEditions": [
+      {
+        "endsAt": "2026-08-25T00:00:00Z"
+      }
+    ],
     "resourceName": {
       "FR": "Jeton de Ligue",
       "EN": "League token"
