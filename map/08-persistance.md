@@ -30,6 +30,8 @@ Proxy transparent sur `localStorage` : chaque clé de `STORAGE_KEYS` est rangée
 | `petsPlanOff` | `pets_plan_off` | Les familiers **exclus** du plan (un nouveau y entre seul) |
 | `petsPlan` | `pets_plan_stock` | Stock de l'onglet Plan, séparé des niveaux à dessein |
 | `theaterOptimizer` | `theater_optimizer_data` | `{floor, pity, tokens{1..8}, toksOpen}` seulement ; le reste vit dans `shopcalcEventPlans` |
+| `islandPlanner` | `island_planner_v1` | Niveaux, stocks et objets du Planificateur de l'île ; module `module-island` de la Sauvegarde globale |
+| `islandFolds` | `island_folds` | Tiroirs repliés de la même page, simple confort d'affichage, hors Sauvegarde globale |
 
 ### Lire, écrire, avertir
 - Lecture : `safeParse(key, fallback)`. Stockage refusé : repli silencieux. Valeur illisible : copie de l'original sous `kt::<profil>::<clé>__corrompu` **avant** tout écrasement, puis bandeau `ktWarnCorrupt()`. `safeParse` rend tel quel tout JSON valide : vérifier la forme (un `null` importé a déjà vidé la Caserne).

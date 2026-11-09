@@ -16,6 +16,7 @@ const i18nBackup = {
         modPets: "Familiers (Niveaux)",
         modTheater: "Théâtre Fantastique (barème de jetons et progression)",
         modTrueGold: "TrueGold (Niveaux, Stocks & Paramètres)",
+        modIslandPlanner: "Planificateur de l'île (Fontaine, Réservoirs & Bâtiments)",
         btnExport: "Exporter (.json)",
         btnImport: "Importer",
         errSelectExport: "Veuillez sélectionner au moins un module à exporter.",
@@ -43,6 +44,7 @@ const i18nBackup = {
         modPets: "Pets (Levels)",
         modTheater: "Fantasy Theater (token table and progress)",
         modTrueGold: "TrueGold (Levels, Stocks & Settings)",
+        modIslandPlanner: "Island Planner (Fountain, Reservoirs & Buildings)",
         btnExport: "Export (.json)",
         btnImport: "Import",
         errSelectExport: "Please select at least one module to export.",
@@ -77,6 +79,7 @@ const BACKUP_MODULES = [
     // sauvegarde « TrueGold », pas « TrueGold sauf l'onglet de gauche ». Ajouter
     // l'onglet sans l'inscrire ici le laissait tomber en silence à l'export.
     { id: 'module-truegold', labelKey: 'modTrueGold', keys: [STORAGE_KEYS.truegold, STORAGE_KEYS.truegoldPre] },
+    { id: 'module-island',   labelKey: 'modIslandPlanner', keys: [STORAGE_KEYS.islandPlanner || 'island_planner_v1'] },   // repli : storage-keys.js peut venir d'un cache d'avant cet outil
     { id: 'module-vikings',  labelKey: 'modVikings',  keys: [STORAGE_KEYS.vikings] },
     { id: 'module-waracademy', labelKey: 'modWaracademy', keys: [STORAGE_KEYS.waracademy] },
     { id: 'module-shopcalc', labelKey: 'modShopcalc', keys: [STORAGE_KEYS.shopcalcItems, STORAGE_KEYS.shopcalcEvents, STORAGE_KEYS.shopcalcEventPlans] },
@@ -130,6 +133,7 @@ const BACKUP_SHAPES = {
     // cochées — mais c'est toujours un TABLEAU, et un export d'avant en est un aussi.
     [STORAGE_KEYS.researchDb]:     (v) => bkArrOf(v, bkObj),
     [STORAGE_KEYS.researchInputs]: bkObj,
+    [STORAGE_KEYS.islandPlanner || 'island_planner_v1']: bkObj,
     [STORAGE_KEYS.beartrap]:       (v) => bkObj(v) && bkOptArr(v['custom-marches']),
     [STORAGE_KEYS.beartrapJoiners]: bkObj,
     [STORAGE_KEYS.truegold]:       (v) => bkObj(v) && bkOptArr(v.buildings),

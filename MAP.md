@@ -40,7 +40,7 @@
 | 10 | `map/10-tests.md` | Tests `node --test` : harnais, fichiers, ce que chacun vérifie | on touche un moteur de calcul |
 | 11 | `map/11-pages-generees.md` | `tools/build_pages.py`, gabarits, partials, drawer figé, jumeau français | on touche une page de `shop/` ou `database/buildings|heroes/` |
 | 12 | `map/12a-outils-recherches-batiments.md` | Recherches et Planificateur de bâtiments (deux onglets, « Appliquer les modifications ») | on touche `research_script.js`, `truegold_*.js` |
-| 12 | `map/12b-outils-autres.md` | Piège à Ours, Académie de guerre (modes, échanges, pièces), images des Experts | on touche `beartrap.js`, `waracademy.js`, `wa_optimizer.js`, `masters.js` |
+| 12 | `map/12b-outils-autres.md` | Piège à Ours, Académie de guerre (modes, échanges, pièces), images des Experts, Planificateur de l'île | on touche `beartrap.js`, `waracademy.js`, `wa_optimizer.js`, `masters.js`, `island_*.js` |
 | 13 | `map/13-boutiques.md` | Sommaires, page boutique, panier, compte à rebours, valorisation d'événement | on touche une boutique ou un événement |
 | 14 | `map/14-revues-miroir.md` | Revues de code archivées dans le miroir privé | on reprend une revue passée |
 | 15 | `map/15-prochain-audit.md` | Points laissés en suspens, à reposer au prochain audit | on lance un audit |

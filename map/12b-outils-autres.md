@@ -1,4 +1,4 @@
-# MAP §12 · Outils (2/2) : Piège à Ours, Académie de guerre, Experts
+# MAP §12 · Outils (2/2) : Piège à Ours, Académie de guerre, Experts, Île
 
 > Fiche de la cartographie du projet. Sommaire et règles de lecture : `MAP.md` à la racine. Le Planificateur de bâtiments et le bouton « Appliquer les modifications » sont dans `12a`.
 
@@ -84,8 +84,20 @@
 
 ### Experts (`masters.html`, `js/masters.js`)
 
-**Portraits, deux jeux** : `img/Master/<Nom>.webp` (96 à 124 px) pour les pages `database/masters/*`, à ne pas remplacer ; `img/Master/hd/<Nom>.webp` (600×800) pour `masters.html` seul, via `masterPortrait()`, les 8 Experts équipés depuis le 21/09/2026. Les vignettes agrandies ×3 pixellisaient.
+**Portraits, deux jeux** : `img/Master/<Nom>.webp` (96 à 124 px) pour les pages `database/masters/*`, à ne pas remplacer ; `img/Master/hd/<Nom>.webp` (600×800) pour `masters.html` seul, via `masterPortrait()`, les 8 Experts équipés depuis le 21/09/2026. Les vignettes agrandies ×3 pixellisaient. Olander et Catherine n'ont encore en `hd/` qu'un provisoire (vignette 112 px agrandie sur fond transparent), à remplacer par une capture du jeu au même nom de fichier.
 - **Ratio 3:4** (`.master-portrait` 240×320) : rogner la capture, ne jamais fabriquer de bande de fond. Des salissures collées au cadre se rebouchent par extrapolation **locale** du dégradé (un modèle global se trompait de 31 niveaux à cause du vignettage).
 - Le bandeau du tiroir (`#modal-header-bg`, `cover` + `center 20%`) ne montre que 16 à 36 % de la hauteur : cadrer pour qu'il montre les yeux. Aena : cadrage `(10, 40, 402, 563)` puis Lanczos vers 600×800, WebP qualité 84 méthode 6 (31 Ko). Isnor : mise à l'échelle sur la hauteur, 25 px rognés de chaque côté.
 
 **Icônes de compétence (`img/MasterSkill/`)** : la capture se détoure, elle ne se recadre pas. Cadre doré, ornements et badge « Lv. N » restent ; seul le fond crème (`#FFF9F2`) devient transparent, en remontant depuis le bord (jamais un seuil de couleur) et en retirant la part de fond des pixels de bord (sinon halo). Exception connue : les 8 icônes de compétence d'Isnor et d'Aena sont des découpes propres en 48 px sans cadre. Mélange assumé tant qu'on n'a pas les sources.
+
+### Planificateur de l'île (`island_calc.html`, `js/island_planner.js`, `js/island_script.js`)
+
+Porté du site jumeau LordRush le 08/11/2026 : même île, autres noms (Fontaine Vitale, Réservoirs, Essence d'Eau). **Le moteur `island_planner.js` reste identique à celui de LordRush**, seuls son en-tête, `mustPay` et `copiesFor` changent : garder `tree`, `lumberCamp` et `seeds` dans le code permet d'y reporter une correction en copiant le fichier. `mustPay` porte une règle de Kingshot : un bâtiment d'événement au niveau 0 doit avoir été obtenu, ni essence ni composants ne le posent. `copiesFor` lit `copiesAfter`, barème propre à Court of Knowledge à partir du niv. 10. Les textes vivent dans `IS_I18N` de `island_script.js`.
+
+**Ordre du plan**, fixé par Aistra : (1) la Fontaine dès que sa prospérité est atteinte ; (2) les Réservoirs que la Fontaine permet, la pose du Réservoir 2 d'abord, puis le moins cher ; (3) les bâtiments qui apportent au moindre coût la prospérité manquante (sac à dos « au moins ») ; (4) une fois la Fontaine au maximum, le meilleur rendement. L'essence ne bloque jamais le plan : chaque étape affiche l'attente de production. Le bouton ✓ d'une suggestion (`IslandPlanner.applyStep`) fait avancer l'état comme le plan l'a simulé, et emmène les étapes antérieures du même objet.
+
+**Écarts avec la page LordRush** : conventions de ce site (`<head>` SEO, consentement, `fetch` revalidé, `safeParse`, clés avec repli pour un `storage-keys.js` en cache), pas d'émoji, or en texte par `--accent-text`, réserves de hauteur et cibles de 44 px sur téléphone, récompenses en bâtiment lues dans `freeCopies`.
+
+**Saisies et sauvegardes** (dans `island_script.js`, pour laisser le moteur identique au jumeau) : `isParseAmount` renvoie `null` pour ce qui n'est pas un montant (`1.5`, `-500`) ; le dernier montant valable reste en vigueur, parce qu'en retirer les signes donnait un chiffre plausible et faux. `isStateLosses` compare la sauvegarde à ce que `normalizeState` en a gardé : un bâtiment renommé dans `island.json` perdrait sinon son niveau sans bruit, donc copie `__corrompu` et bandeau. Toute correction de bornes dans `normalizeState` doit rester idempotente, sinon ce bandeau s'affiche à chaque ouverture.
+
+**Pour ajouter les noms et images des bâtiments** : remplacer `name` dans `data/island.json`, ajouter `image` (ou `images`, par palier `from`) et déposer `img/island/<nom>.webp`. Les images sortent de `tools/process_island_capture.py` du dépôt LordRush : détourage pour une carte. Golden Sunset et les bâtiments d'événement, vues en situation, passent par `tools/hd_island_capture.py` du même dépôt (agrandissement ×4, mer et plage effacées, WebP transparent de 480 px, `--main-only`) et portent `cutout: true` pour la vitrine en tête de carte ; le modèle Real-ESRGAN se télécharge à l'adresse donnée en tête de cet outil. Les vignettes de la colonne de gauche (Réservoir, deux objets) sont écrites en dur dans `island_calc.html`.
