@@ -26,7 +26,7 @@ const SITE = {
 
   // Version affichée dans le pied de page. À incrémenter EN MÊME TEMPS
   // qu'on ajoute une entrée en tête de data/changelog.json (même numéro).
-  version: "1.15.8",
+  version: "1.16.0",
 
   // Invitation Discord. Tant que la chaîne est vide, le pied de page
   // n'affiche pas le lien du tout (rien d'inachevé à l'écran).
@@ -63,7 +63,7 @@ const SITE = {
       name: { EN: "KVK Tools & Calculators", FR: "Outils et calculateurs KVK" },
       icon: "book-open",
       status: "active",
-      tools: ["research", "truegold", "waracademy"]
+      tools: ["research", "truegold", "waracademy", "island"]
     },
     {
       id: "event-optimizer",
@@ -110,6 +110,16 @@ const SITE = {
       },
       icon: "building-2",
       href: "truegold_calc"
+    },
+    island: {
+      name: { EN: "Island Planner", FR: "Planificateur de l'île" },
+      desc: {
+        EN: "Grow your island's prosperity: Fountain of Life and Reservoirs first, then the buildings that give the most prosperity for your Water Essence.",
+        FR: "Faites monter la prospérité de votre île : la Fontaine Vitale et les Réservoirs d'abord, puis les bâtiments qui rapportent le plus de prospérité pour votre Essence d'Eau."
+      },
+      icon: "tree-palm",
+      href: "island_calc",
+      badge: "beta"
     },
     waracademy: {
       name: { EN: "War Academy", FR: "Académie de Guerre" },
@@ -274,6 +284,7 @@ const SITE_ICONS = {
   "users": '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   "crown": '<path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/>',
   "wheat": '<path d="M2 22 16 8"/><path d="M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z"/><path d="M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z"/><path d="M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/><path d="M15.47 13.47 17 15l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/><path d="M19.47 9.47 21 11l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L13 11l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z"/>',
+  "tree-palm": '<path d="M13 8c0-2.76-2.46-5-5.5-5S2 5.24 2 8h2l1-1 1 1h4"/><path d="M13 7.14A5.82 5.82 0 0 1 16.5 6c3.04 0 5.5 2.24 5.5 5h-3l-1-1-1 1h-3"/><path d="M5.89 9.71c-2.15 2.15-2.3 5.47-.35 7.43l4.24-4.25.7-.7.71-.71 2.12-2.12c-1.95-1.96-5.27-1.8-7.42.35"/><path d="M11 15.5c.5 2.5-.17 4.5-1 6.5h4c2-5.5-.5-12-1-14"/>',
   "tree-pine": '<path d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14h-.3a1 1 0 0 1-.7-1.7L9 9h-.2A1 1 0 0 1 8 7.3L12 3l4 4.3a1 1 0 0 1-.8 1.7H15l3 3.3a1 1 0 0 1-.7 1.7Z"/><path d="M12 22v-3"/>',
   "brick-wall": '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M8 3v6"/><path d="M16 3v6"/><path d="M8 15v6"/><path d="M16 15v6"/>',
   "pickaxe": '<path d="M14.531 12.469 6.619 20.38a1 1 0 1 1-3-3l7.912-7.912"/><path d="M15.686 4.314A12.5 12.5 0 0 0 5.461 2.958 1 1 0 0 0 5.58 4.71a22 22 0 0 1 6.318 3.393"/><path d="M17.7 3.7a1 1 0 0 0-1.4 0l-4.6 4.6a1 1 0 0 0 0 1.4l2.6 2.6a1 1 0 0 0 1.4 0l4.6-4.6a1 1 0 0 0 0-1.4z"/><path d="M19.686 8.314a12.501 12.501 0 0 1 1.356 10.225 1 1 0 0 1-1.751-.119 22 22 0 0 0-3.393-6.319"/>',

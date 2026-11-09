@@ -4,7 +4,7 @@
 
 ## 10. Tests
 
-**`node --test`** à la racine : rien à installer ni à construire. 160 tests en 15 fichiers (novembre 2026), environ 38 s (presque tout pour `wa-advanced`, qui rejoue le parcours exact du TTG ; le mode KvK joue chaque ordre avec et sans la fin de plan corrigée, d'où le double d'avant). La CI les lance à chaque push (§7).
+**`node --test`** à la racine : rien à installer ni à construire. 203 tests en 16 fichiers (novembre 2026), environ 38 s (presque tout pour `wa-advanced`, qui rejoue le parcours exact du TTG ; le mode KvK joue chaque ordre avec et sans la fin de plan corrigée, d'où le double d'avant). La CI les lance à chaque push (§7).
 
 **Le harnais** (`tests/harness.mjs`) charge les `js/*.js` **sans les modifier**, dans l'ordre du HTML, dans un contexte `vm` : `fetch` lit `data/` sur le disque, `localStorage` est en mémoire (chaque test part des défauts), `document.getElementById` rend `null` (les IIFE de fin de fichier sortent avant tout rendu). On teste donc le code servi, sans `export`. Les `let` de premier niveau vivent dans la portée lexicale du contexte : les lire et les écrire via `run(ctx, '…')`. `Date` suit l'horloge réelle, ou une date figée passée en `{ now }` à `createContext` et `loadEventShop`.
 
@@ -26,6 +26,7 @@
 | `wa-exchange` | échanges contre TrueGold | pièces d'abord, échanges à 5 TG avant celui à 10 TG, plafonds (20 ; 200 par semaine ; 2 par niveau de Provisions limitées), échange indivisible, jamais plus que le stock, ligne décochée sautée, Provisions limitées au niveau 0 sans effet, compteur au-dessus du plafond sans échange proposé |
 | `wa-improve` | affinage KvK (`improver`), sur la vraie base | 8 comptes grainés (`grain(2026)`) dont l'optimum exact a été calculé à part (HiGHS) : moins de 0,5 % d'écart moyen avec 4 départs, moins de 2 % sur chacun, jamais au-dessus de la borne du solveur, et la phase 1 doit rester à plus de 1 % (sinon le banc ne prouve rien) ; plan jouable (palier, prérequis, budgets, « en cours » en dernier), jamais sous son départ, arbres décochés exclus, même plan pour la même graine, réservé au KvK. Trois sabotages (départ rendu tel quel, temps du niveau en cours plein, palier ignoré) le font échouer |
 | `wa-autoreqs` | `raiseReqs`, `lowerDeps`, sur la vraie base avancée | Provisions limitées au niveau 3 monte ses prérequis au niveau 3, monter ne baisse jamais rien, baisser ramène les dépendants au plus haut niveau tenu, 300 montées et 300 baisses tirées au sort laissent un compte sans prérequis manquant, une incohérence hors de la chaîne n'est pas touchée |
+| `island-planner` | `IslandPlanner`, sur `island.json` | règles reprises de LordRush (prospérité, coût N+1 exemplaires, ordre Fontaine puis Réservoirs, stock, validation d'une étape, composants, Merveille) ; chaque niveau capturé dans Kingshot transcrit (Fontaine 1 à 6, Réservoir 2 à 9) ; liste exacte des valeurs marquées `unverified` ; Peu communs répartis entre Fontaine niv. 2 et 3 ; cadeaux d'Oasis Prelude ; montants saisis et écarts d'une sauvegarde relue (`island_script.js`) |
 
 Non couverts à ce jour : les calculs du Planificateur de bâtiments (§15). Ils vivent dans des fonctions qui lisent la page (`SUGGERER_KINGSHOT`, `updateAllRowCosts`, l'IIFE de `truegold_pre.js`) : les tester demande d'abord d'en sortir un moteur pur, comme `rsPlanOptimal`.
 

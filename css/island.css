@@ -1,0 +1,377 @@
+/* ============================================================================
+   PLANIFICATEUR DE L'ÎLE (island_calc.html)
+   Styles propres à la page, sur les variables de style.css.
+   ============================================================================ */
+
+.is-page {
+    --r-common:   #6b6250;
+    --r-uncommon: #3f6b2f;
+    --r-rare:     #2f5fae;
+    --r-epic:     #7a3fb5;
+    --r-mythic:   #a4561a;
+    --rar: var(--border);
+    --on-accent: #0a0a0a;   /* comme les autres boutons or du site : le blanc n'y tient pas */
+    --ok-text: var(--success);
+    --warn-text: var(--warning);
+}
+/* Thème clair : --success et --warning restent sous 4,5:1 en texte de 13 à 14 px. */
+[data-theme="light"] .is-page {
+    --ok-text: #00695c;
+    --warn-text: #b53d00;
+}
+[data-theme="dark"] .is-page {
+    --r-common:   #b8ab92;
+    --r-uncommon: #7ab369;
+    --r-rare:     #7fa8ea;
+    --r-epic:     #b88ae6;
+    --r-mythic:   #e39a4f;
+}
+.is-r-common   { --rar: var(--r-common); }
+.is-r-uncommon { --rar: var(--r-uncommon); }
+.is-r-rare     { --rar: var(--r-rare); }
+.is-r-epic     { --rar: var(--r-epic); }
+.is-r-mythic   { --rar: var(--r-mythic); }
+.is-r-none     { --rar: var(--text-muted); }
+
+.is-page .panel h2 { margin-top: 0; }
+.is-page .panel h3 { margin: 18px 0 8px; font-size: 20px; }
+
+.is-lead { margin: 0 0 14px; color: var(--text-muted); font-size: 14px; line-height: 1.5; }
+.is-note { color: var(--text-muted); font-size: 12.5px; line-height: 1.45; margin: 4px 0 8px; }
+.is-ok   { color: var(--ok-text); }
+.is-warn { color: var(--warn-text); }
+.is-muted { color: var(--text-muted); }
+
+.is-empty {
+    padding: 14px 16px;
+    border: 1px dashed var(--border);
+    border-radius: 7px;
+    background: var(--bg-dark);
+    line-height: 1.5;
+}
+
+/* Montants saisis en texte (« 4 500 000 », « 1,5M ») */
+.num-input {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--text-light);
+    padding: 6px;
+    border-radius: 4px;
+    text-align: right;
+    font: inherit;
+    font-variant-numeric: tabular-nums;
+}
+.num-input:focus { border-color: var(--accent); }
+.num-input[aria-invalid="true"] { border-color: var(--warn-text); }
+
+/* Place réservée à ce qui arrive après les données (MAP §9 09d). */
+#isGoalLine:empty { min-height: 46px; }
+#isSuggest:empty { min-height: 460px; }
+#isBuildings:empty { min-height: 640px; }
+
+/* Sidebar */
+.is-intro { margin: -6px 0 0; }
+.is-kv { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; }
+.is-kv b { font-variant-numeric: tabular-nums; }
+.group-hint.is-warn { color: var(--warn-text); }
+.is-page .group-hint[hidden] { display: none; }
+/* Colonne de saisie unique : sélecteurs et montants ont la même largeur, quelle que soit la
+   longueur du libellé à gauche ; « Non construit » (Camp 2) tient dans cette largeur. */
+.is-page .sidebar .control-row { gap: 10px; }
+.is-page .sidebar .control-row > select,
+.is-page .sidebar .control-row > .num-input { box-sizing: border-box; width: 118px; flex: 0 0 118px; }
+/* Bâtiments offerts par l'Arbre monté à la main : région live toujours présente (une région
+   masquée par display:none ne serait pas annoncée) ; vide, elle annule l'écart du groupe. */
+.is-gift-live:empty { margin-top: -10px; }
+.is-gift {
+    padding: 10px 12px;
+    border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--border));
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg-dark));
+    font-size: 13.5px;
+    line-height: 1.45;
+}
+.is-gift p { margin: 0 0 8px; }
+.is-gift-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.is-gift-actions button {
+    min-height: 36px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--input-bg);
+    color: var(--text-light);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.is-gift-actions button:hover { border-color: var(--accent); color: var(--accent-text, var(--accent)); }
+.is-gift-actions .is-gift-add { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.is-gift-actions .is-gift-add:hover { background: var(--accent-hover, var(--accent)); color: var(--on-accent); }
+
+/* Objectif de l'Arbre */
+.is-goal-line { margin-bottom: 16px; }
+.is-goal-text { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 8px; font-size: 14px; }
+.is-goal-text span { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.is-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--control-bg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+.is-bar span { display: block; height: 100%; background: var(--accent); border-radius: inherit; }
+
+/* Les 5 prochaines actions */
+.is-suggest { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.is-sug {
+    --sug: var(--text-muted);
+    display: flex;
+    gap: 14px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--sug);
+    border-radius: 8px;
+    background: var(--bg-dark);
+}
+.is-sug-tree    { --sug: var(--accent); }
+.is-sug-camp    { --sug: var(--warning); }
+.is-sug-forTree { --sug: var(--success); }
+/* Étape de bâtiment : couleur de sa rareté, comme les cartes « Mes bâtiments d'île ». */
+.is-sug-rar     { --sug: var(--rar); }
+.is-sug-n {
+    flex: 0 0 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--sug);
+    color: var(--on-accent);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+/* Raretés du thème clair : foncées, le noir y plafonne à 3,7:1 et le blanc dépasse 5:1. */
+[data-theme="light"] .is-sug-rar .is-sug-n { color: #fff; }
+.is-sug-body { min-width: 0; flex: 1 1 auto; }
+/* ✓ de validation d'une suggestion. */
+.is-sug-validate {
+    flex: 0 0 auto;
+    align-self: center;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 2px 8px;
+    border: 1px solid var(--accent-text, var(--accent));
+    border-radius: 6px;
+    background: transparent;
+    color: var(--accent-text, var(--accent));
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.is-sug-validate:hover,
+.is-sug-validate:focus-visible { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.is-sug-action { font-weight: 700; font-size: 16px; }
+.is-sug-first { padding: 16px; }
+.is-sug-first .is-sug-action { font-size: 19px; }
+.is-sug-why { margin-top: 3px; font-size: 13.5px; line-height: 1.45; color: var(--text-muted); }
+.is-sug-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 7px; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.is-when { font-weight: 600; }
+
+/* Cartes des bâtiments */
+/* Tiroirs repliables par rareté / catégorie */
+.is-group { margin-top: 22px; }
+.is-group:first-child { margin-top: 4px; }
+.is-group > summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--rar);
+    color: var(--rar);
+    cursor: pointer;
+    list-style: none;
+}
+.is-group:not([open]) > summary { margin-bottom: 0; }
+.is-group > summary::-webkit-details-marker { display: none; }
+.is-group > summary::before { content: '▸'; font-size: 18px; transition: transform .2s; }
+.is-group[open] > summary::before { transform: rotate(90deg); }
+.is-group > summary:hover .is-group-title { text-decoration: underline; text-underline-offset: 4px; }
+.is-group > summary:focus-visible { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: 3px; }
+.is-page .panel .is-group-title { margin: 0; color: inherit; }
+.is-group-count { margin-left: auto; font-size: 13px; font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.is-group > summary + .is-note { margin-top: -4px; }
+.is-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.is-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--rar);
+    border-radius: 8px;
+    background: var(--bg-dark);
+}
+.is-card.is-owned { background: color-mix(in srgb, var(--rar) 7%, var(--bg-dark)); }
+.is-card-head { display: flex; align-items: center; gap: 10px; }
+.is-card-name { font-weight: 700; line-height: 1.25; }
+.is-card-rar { color: var(--rar); font-size: 12px; font-weight: 700; }
+.is-thumb { flex: 0 0 56px; width: 56px; height: 41px; object-fit: contain; }
+/* Vitrine des visuels HD détourés (`cutout`) : halo de rareté, socle d'ombre, léger relief. */
+.is-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 150px;
+    box-sizing: border-box;
+    margin: -12px -12px 0;
+    padding: 12px 12px 10px;
+    border-radius: 6px 6px 0 0;
+    background:
+        radial-gradient(ellipse 60% 70% at 50% 58%, color-mix(in srgb, var(--rar) 34%, transparent), transparent 72%),
+        linear-gradient(180deg, color-mix(in srgb, var(--rar) 10%, var(--bg-dark)), var(--bg-dark));
+    overflow: hidden;
+}
+.is-hero::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    width: 58%;
+    height: 16px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(0, 0, 0, .38), transparent);
+}
+.is-hero img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 128px;
+    object-fit: contain;
+    object-position: 50% 100%;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .3)) drop-shadow(0 0 14px color-mix(in srgb, var(--rar) 35%, transparent));
+    transition: transform .25s ease;
+}
+.is-card-hero:hover .is-hero img { transform: translateY(-3px) scale(1.03); }
+@media (prefers-reduced-motion: reduce) { .is-hero img { transition: none; } .is-card-hero:hover .is-hero img { transform: none; } }
+.is-thumb-empty {
+    display: grid;
+    place-items: center;
+    border-radius: 7px;
+    border: 1px solid color-mix(in srgb, var(--rar) 45%, var(--border));
+    background: color-mix(in srgb, var(--rar) 12%, var(--bg-panel));
+    color: var(--rar);
+    font-size: 22px;
+    font-weight: 700;
+}
+.is-stepper { display: flex; align-items: center; gap: 8px; }
+.is-stepper button {
+    flex: 0 0 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--input-bg);
+    color: var(--text-light);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+.is-stepper button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent-text, var(--accent)); }
+.is-stepper button:disabled { opacity: .4; cursor: not-allowed; }
+.is-stepper output { flex: 1; text-align: center; font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; }
+.is-stepper output small { color: var(--text-muted); font-weight: 400; font-size: 13px; }
+.is-stepper-stock { gap: 6px; }
+.is-stepper-stock button { flex-basis: 28px; height: 28px; font-size: 16px; }
+.is-stepper-stock output { flex: 0 0 2.5em; font-size: 15px; }
+.is-stock-label { flex: 1; color: var(--text-muted); font-size: 13px; }
+.is-card-lines { display: flex; flex-direction: column; gap: 3px; font-size: 13px; line-height: 1.4; }
+.is-card-lines small { color: var(--text-muted); }
+.is-card-lines .is-note { margin: 2px 0 0; }
+.is-check { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+/* Bâtiments pas encore débloqués */
+.is-locked { margin-top: 20px; }
+.is-locked summary { cursor: pointer; font-weight: 700; color: var(--text-muted); }
+.is-locked ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 6px 14px; }
+.is-locked li { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0 5px 10px; border-left: 3px solid var(--rar); font-size: 13.5px; }
+.is-locked li small { color: var(--text-muted); white-space: nowrap; }
+
+/* Panneaux repliables */
+.is-more summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 10px; }
+.is-more summary::-webkit-details-marker { display: none; }
+.is-more summary::after { content: '▸'; color: var(--accent-text, var(--accent)); font-size: 18px; transition: transform .2s; }
+.is-more[open] summary::after { transform: rotate(90deg); }
+.is-page .panel.is-more summary h2 { margin: 0; }
+.is-more[open] summary { margin-bottom: 14px; }
+
+/* Tableaux de référence */
+.is-table { margin-bottom: 0; }
+.is-table th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
+.is-table th.num, .is-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.is-table td { vertical-align: middle; padding: 8px 10px; }
+.is-table tr.is-current td { background: color-mix(in srgb, var(--accent) 9%, transparent); font-weight: 600; }
+.is-table tr.is-current td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+.is-page .panel .table-container + h3 { margin-top: 22px; }
+.is-page .panel .table-container + .is-note { margin: 8px 0 0; }
+
+/* Bonus actifs */
+.is-bonus-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 8px;
+}
+.is-bonus-list li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 10px;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--bg-dark);
+    font-size: 13.5px;
+}
+.is-bonus-list b { color: var(--ok-text); font-variant-numeric: tabular-nums; }
+.is-bonus-list small { grid-column: 1 / -1; color: var(--text-muted); font-size: 12px; }
+
+/* Petits écrans : le tableau défile en largeur plutôt que d'écraser les libellés. */
+@media (max-width: 820px) {
+    .is-table { min-width: 620px; }
+}
+@media (max-width: 600px) {
+    .is-sug-first .is-sug-action { font-size: 17px; }
+    .is-sug { gap: 10px; padding: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .is-more summary::after,
+    .is-group > summary::before { transition: none; }
+}
+
+/* Vignettes des suggestions et du groupe Camps */
+.is-sug-body { flex: 1; }
+.is-sug-img { flex: 0 0 64px; width: 64px; height: 47px; object-fit: contain; align-self: center; }
+.is-sug-img.is-cut {
+    border-radius: 8px;
+    background: radial-gradient(ellipse 65% 70% at 50% 60%, color-mix(in srgb, var(--rar, var(--accent)) 30%, transparent), transparent 75%);
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .3));
+}
+/* Objets de l'île (composants, plans de Merveille) : icône devant le libellé. */
+.is-item-label { display: flex; align-items: center; gap: 8px; }
+.is-item-label img { flex: 0 0 28px; width: 28px; height: 28px; object-fit: contain; border-radius: 5px; }
+.is-camp-title { display: flex; align-items: center; gap: 8px; }
+.is-camp-title img { width: 44px; height: 32px; object-fit: contain; }
+@media (max-width: 600px) {
+    .is-sug-img { display: none; }
+}
+
+/* Téléphone : pas de zoom Safari au focus, cibles de 44 px (MAP §9 09d). */
+@media (max-width: 820px) {
+    .is-page .sidebar select,
+    .is-page .sidebar .num-input { font-size: 16px; min-height: 44px; }
+    .is-stepper button { flex-basis: 44px; height: 44px; }
+    .is-stepper-stock button { flex-basis: 44px; height: 44px; }
+    .is-sug-validate { min-width: 44px; min-height: 44px; }
+}

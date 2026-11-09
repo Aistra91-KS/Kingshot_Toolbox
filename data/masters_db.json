@@ -171,56 +171,56 @@
           {
             "level": 3,
             "effect": "+90,000",
-            "xpCost": 10800,
+            "xpCost": 7200,
             "manuscripts": 140,
             "power": 9000
           },
           {
             "level": 4,
             "effect": "+120,000",
-            "xpCost": 21600,
+            "xpCost": 10800,
             "manuscripts": 210,
             "power": 12000
           },
           {
             "level": 5,
             "effect": "+150,000",
-            "xpCost": 36000,
+            "xpCost": 14400,
             "manuscripts": 280,
             "power": 15000
           },
           {
             "level": 6,
             "effect": "+180,000",
-            "xpCost": 54000,
+            "xpCost": 18000,
             "manuscripts": 350,
             "power": 18000
           },
           {
             "level": 7,
             "effect": "+210,000",
-            "xpCost": 75600,
+            "xpCost": 21600,
             "manuscripts": 420,
             "power": 21000
           },
           {
             "level": 8,
             "effect": "+240,000",
-            "xpCost": 100800,
+            "xpCost": 25200,
             "manuscripts": 490,
             "power": 24000
           },
           {
             "level": 9,
             "effect": "+270,000",
-            "xpCost": 129600,
+            "xpCost": 28800,
             "manuscripts": 560,
             "power": 27000
           },
           {
             "level": 10,
             "effect": "+300,000",
-            "xpCost": 162000,
+            "xpCost": 32400,
             "manuscripts": 630,
             "power": 30000
           }
@@ -255,21 +255,21 @@
           {
             "level": 3,
             "effect": "+3",
-            "xpCost": 82800,
+            "xpCost": 55200,
             "manuscripts": 800,
             "power": 39000
           },
           {
             "level": 4,
             "effect": "+4",
-            "xpCost": 193200,
+            "xpCost": 110400,
             "manuscripts": 1600,
             "power": 52000
           },
           {
             "level": 5,
             "effect": "+5",
-            "xpCost": 414000,
+            "xpCost": 220800,
             "manuscripts": 3200,
             "power": 65000
           }
@@ -304,21 +304,21 @@
           {
             "level": 3,
             "effect": "+3",
-            "xpCost": 129600,
+            "xpCost": 86400,
             "manuscripts": 1000,
             "power": 60000
           },
           {
             "level": 4,
             "effect": "+4",
-            "xpCost": 302400,
+            "xpCost": 172800,
             "manuscripts": 2000,
             "power": 80000
           },
           {
             "level": 5,
             "effect": "+5",
-            "xpCost": 648000,
+            "xpCost": 345600,
             "manuscripts": 4000,
             "power": 100000
           }
@@ -353,56 +353,56 @@
           {
             "level": 3,
             "effect": "+9,000",
-            "xpCost": 30600,
+            "xpCost": 20400,
             "manuscripts": 200,
             "power": 21000
           },
           {
             "level": 4,
             "effect": "+12,000",
-            "xpCost": 61200,
+            "xpCost": 30600,
             "manuscripts": 300,
             "power": 28000
           },
           {
             "level": 5,
             "effect": "+15,000",
-            "xpCost": 102600,
+            "xpCost": 41400,
             "manuscripts": 400,
             "power": 35000
           },
           {
             "level": 6,
             "effect": "+18,000",
-            "xpCost": 154200,
+            "xpCost": 51600,
             "manuscripts": 500,
             "power": 42000
           },
           {
             "level": 7,
             "effect": "+21,000",
-            "xpCost": 216000,
+            "xpCost": 61800,
             "manuscripts": 600,
             "power": 49000
           },
           {
             "level": 8,
             "effect": "+24,000",
-            "xpCost": 288600,
+            "xpCost": 72600,
             "manuscripts": 700,
             "power": 56000
           },
           {
             "level": 9,
             "effect": "+27,000",
-            "xpCost": 371400,
+            "xpCost": 82800,
             "manuscripts": 800,
             "power": 63000
           },
           {
             "level": 10,
             "effect": "+30,000",
-            "xpCost": 464400,
+            "xpCost": 93000,
             "manuscripts": 900,
             "power": 70000
           }
@@ -795,21 +795,21 @@
           {
             "level": 3,
             "effect": "+4",
-            "xpCost": 129600,
+            "xpCost": 86400,
             "manuscripts": 1000,
             "power": 60000
           },
           {
             "level": 4,
             "effect": "+6",
-            "xpCost": 302400,
+            "xpCost": 172800,
             "manuscripts": 2000,
             "power": 80000
           },
           {
             "level": 5,
             "effect": "+8",
-            "xpCost": 648000,
+            "xpCost": 345600,
             "manuscripts": 4000,
             "power": 100000
           }
@@ -844,21 +844,21 @@
           {
             "level": 3,
             "effect": "+20",
-            "xpCost": 103200,
+            "xpCost": 69000,
             "manuscripts": 800,
             "power": 48000
           },
           {
             "level": 4,
             "effect": "+30",
-            "xpCost": 241200,
+            "xpCost": 138000,
             "manuscripts": 1600,
             "power": 64000
           },
           {
             "level": 5,
             "effect": "+40",
-            "xpCost": 517200,
+            "xpCost": 276000,
             "manuscripts": 3200,
             "power": 80000
           }
@@ -893,21 +893,21 @@
           {
             "level": 3,
             "effect": "4",
-            "xpCost": 41400,
+            "xpCost": 27600,
             "manuscripts": 400,
             "power": 21000
           },
           {
             "level": 4,
             "effect": "6",
-            "xpCost": 96600,
+            "xpCost": 55200,
             "manuscripts": 800,
             "power": 28000
           },
           {
             "level": 5,
             "effect": "8",
-            "xpCost": 207000,
+            "xpCost": 110400,
             "manuscripts": 1600,
             "power": 35000
           }
@@ -942,56 +942,56 @@
           {
             "level": 3,
             "effect": "(40;1)",
-            "xpCost": 30600,
+            "xpCost": 20400,
             "manuscripts": 200,
             "power": 21000
           },
           {
             "level": 4,
             "effect": "(50;2)",
-            "xpCost": 61200,
+            "xpCost": 30600,
             "manuscripts": 300,
             "power": 28000
           },
           {
             "level": 5,
             "effect": "(60;2)",
-            "xpCost": 102600,
+            "xpCost": 41400,
             "manuscripts": 400,
             "power": 35000
           },
           {
             "level": 6,
             "effect": "(70;2)",
-            "xpCost": 154200,
+            "xpCost": 51600,
             "manuscripts": 500,
             "power": 42000
           },
           {
             "level": 7,
             "effect": "(80;3)",
-            "xpCost": 216000,
+            "xpCost": 61800,
             "manuscripts": 600,
             "power": 49000
           },
           {
             "level": 8,
             "effect": "(90;3)",
-            "xpCost": 288600,
+            "xpCost": 72600,
             "manuscripts": 700,
             "power": 56000
           },
           {
             "level": 9,
             "effect": "(100;4)",
-            "xpCost": 371400,
+            "xpCost": 82800,
             "manuscripts": 800,
             "power": 63000
           },
           {
             "level": 10,
             "effect": "(120;4)",
-            "xpCost": 464400,
+            "xpCost": 93000,
             "manuscripts": 900,
             "power": 70000
           }
@@ -1395,56 +1395,56 @@
           {
             "level": 3,
             "effect": "+6%",
-            "xpCost": 248400,
+            "xpCost": 165600,
             "manuscripts": 1200,
             "power": 126000
           },
           {
             "level": 4,
             "effect": "+8%",
-            "xpCost": 496800,
+            "xpCost": 248400,
             "manuscripts": 1800,
             "power": 168000
           },
           {
             "level": 5,
             "effect": "+10%",
-            "xpCost": 828600,
+            "xpCost": 331800,
             "manuscripts": 2400,
             "power": 210000
           },
           {
             "level": 6,
             "effect": "+12%",
-            "xpCost": 1243200,
+            "xpCost": 414600,
             "manuscripts": 3000,
             "power": 252000
           },
           {
             "level": 7,
             "effect": "+14%",
-            "xpCost": 1740600,
+            "xpCost": 497400,
             "manuscripts": 3600,
             "power": 294000
           },
           {
             "level": 8,
             "effect": "+16%",
-            "xpCost": 2320800,
+            "xpCost": 580200,
             "manuscripts": 4200,
             "power": 336000
           },
           {
             "level": 9,
             "effect": "+18%",
-            "xpCost": 2984400,
+            "xpCost": 663600,
             "manuscripts": 4800,
             "power": 378000
           },
           {
             "level": 10,
             "effect": "+20%",
-            "xpCost": 3730800,
+            "xpCost": 746400,
             "manuscripts": 5400,
             "power": 420000
           }
@@ -1479,56 +1479,56 @@
           {
             "level": 3,
             "effect": "+15%",
-            "xpCost": 92400,
+            "xpCost": 61800,
             "manuscripts": 600,
             "power": 54000
           },
           {
             "level": 4,
             "effect": "+20%",
-            "xpCost": 185400,
+            "xpCost": 93000,
             "manuscripts": 900,
             "power": 72000
           },
           {
             "level": 5,
             "effect": "+25%",
-            "xpCost": 309600,
+            "xpCost": 124200,
             "manuscripts": 1200,
             "power": 90000
           },
           {
             "level": 6,
             "effect": "+30%",
-            "xpCost": 465000,
+            "xpCost": 155400,
             "manuscripts": 1500,
             "power": 108000
           },
           {
             "level": 7,
             "effect": "+35%",
-            "xpCost": 651600,
+            "xpCost": 186600,
             "manuscripts": 1800,
             "power": 126000
           },
           {
             "level": 8,
             "effect": "+40%",
-            "xpCost": 868800,
+            "xpCost": 217200,
             "manuscripts": 2100,
             "power": 144000
           },
           {
             "level": 9,
             "effect": "+45%",
-            "xpCost": 1117200,
+            "xpCost": 248400,
             "manuscripts": 2400,
             "power": 162000
           },
           {
             "level": 10,
             "effect": "+50%",
-            "xpCost": 1396800,
+            "xpCost": 279600,
             "manuscripts": 2700,
             "power": 180000
           }
@@ -1563,56 +1563,56 @@
           {
             "level": 3,
             "effect": "(1;15%)",
-            "xpCost": 92400,
+            "xpCost": 61800,
             "manuscripts": 600,
             "power": 54000
           },
           {
             "level": 4,
             "effect": "(2;20%)",
-            "xpCost": 185400,
+            "xpCost": 93000,
             "manuscripts": 900,
             "power": 72000
           },
           {
             "level": 5,
             "effect": "(2;25%)",
-            "xpCost": 309600,
+            "xpCost": 124200,
             "manuscripts": 1200,
             "power": 90000
           },
           {
             "level": 6,
             "effect": "(2;30%)",
-            "xpCost": 465000,
+            "xpCost": 155400,
             "manuscripts": 1500,
             "power": 108000
           },
           {
             "level": 7,
             "effect": "(3;35%)",
-            "xpCost": 651600,
+            "xpCost": 186600,
             "manuscripts": 1800,
             "power": 126000
           },
           {
             "level": 8,
             "effect": "(3;40%)",
-            "xpCost": 868800,
+            "xpCost": 217200,
             "manuscripts": 2100,
             "power": 144000
           },
           {
             "level": 9,
             "effect": "(3;45%)",
-            "xpCost": 1117200,
+            "xpCost": 248400,
             "manuscripts": 2400,
             "power": 162000
           },
           {
             "level": 10,
             "effect": "(3;50%)",
-            "xpCost": 1396800,
+            "xpCost": 279600,
             "manuscripts": 2700,
             "power": 180000
           }
@@ -1647,56 +1647,56 @@
           {
             "level": 3,
             "effect": "+6%",
-            "xpCost": 248400,
+            "xpCost": 165600,
             "manuscripts": 1200,
             "power": 126000
           },
           {
             "level": 4,
             "effect": "+8%",
-            "xpCost": 496800,
+            "xpCost": 248400,
             "manuscripts": 1800,
             "power": 168000
           },
           {
             "level": 5,
             "effect": "+10%",
-            "xpCost": 828600,
+            "xpCost": 331800,
             "manuscripts": 2400,
             "power": 210000
           },
           {
             "level": 6,
             "effect": "+12%",
-            "xpCost": 1243200,
+            "xpCost": 414600,
             "manuscripts": 3000,
             "power": 252000
           },
           {
             "level": 7,
             "effect": "+14%",
-            "xpCost": 1740600,
+            "xpCost": 497400,
             "manuscripts": 3600,
             "power": 294000
           },
           {
             "level": 8,
             "effect": "+16%",
-            "xpCost": 2320800,
+            "xpCost": 580200,
             "manuscripts": 4200,
             "power": 336000
           },
           {
             "level": 9,
             "effect": "+18%",
-            "xpCost": 2984400,
+            "xpCost": 663600,
             "manuscripts": 4800,
             "power": 378000
           },
           {
             "level": 10,
             "effect": "+20%",
-            "xpCost": 3730800,
+            "xpCost": 746400,
             "manuscripts": 5400,
             "power": 420000
           }
@@ -2089,56 +2089,56 @@
           {
             "level": 3,
             "effect": "(3;250)",
-            "xpCost": 92400,
+            "xpCost": 61800,
             "manuscripts": 600,
             "power": 54000
           },
           {
             "level": 4,
             "effect": "(4;300)",
-            "xpCost": 185400,
+            "xpCost": 93000,
             "manuscripts": 900,
             "power": 72000
           },
           {
             "level": 5,
             "effect": "(5;350)",
-            "xpCost": 309600,
+            "xpCost": 124200,
             "manuscripts": 1200,
             "power": 90000
           },
           {
             "level": 6,
             "effect": "(6;400)",
-            "xpCost": 465000,
+            "xpCost": 155400,
             "manuscripts": 1500,
             "power": 108000
           },
           {
             "level": 7,
             "effect": "(7;450)",
-            "xpCost": 651600,
+            "xpCost": 186600,
             "manuscripts": 1800,
             "power": 126000
           },
           {
             "level": 8,
             "effect": "(8;500)",
-            "xpCost": 868800,
+            "xpCost": 217200,
             "manuscripts": 2100,
             "power": 144000
           },
           {
             "level": 9,
             "effect": "(9;550)",
-            "xpCost": 1117200,
+            "xpCost": 248400,
             "manuscripts": 2400,
             "power": 162000
           },
           {
             "level": 10,
             "effect": "(10;600)",
-            "xpCost": 1396800,
+            "xpCost": 279600,
             "manuscripts": 2700,
             "power": 180000
           }
@@ -2173,126 +2173,126 @@
           {
             "level": 3,
             "effect": "+1.5%",
-            "xpCost": 259200,
+            "xpCost": 172800,
             "manuscripts": 1000,
             "power": 324000
           },
           {
             "level": 4,
             "effect": "+2%",
-            "xpCost": 518400,
+            "xpCost": 259200,
             "manuscripts": 1500,
             "power": 432000
           },
           {
             "level": 5,
             "effect": "+2.5%",
-            "xpCost": 864000,
+            "xpCost": 345600,
             "manuscripts": 2000,
             "power": 540000
           },
           {
             "level": 6,
             "effect": "+3%",
-            "xpCost": 1296000,
+            "xpCost": 432000,
             "manuscripts": 2500,
             "power": 648000
           },
           {
             "level": 7,
             "effect": "+3.5%",
-            "xpCost": 1814400,
+            "xpCost": 518400,
             "manuscripts": 3000,
             "power": 756000
           },
           {
             "level": 8,
             "effect": "+4%",
-            "xpCost": 2419200,
+            "xpCost": 604800,
             "manuscripts": 3500,
             "power": 864000
           },
           {
             "level": 9,
             "effect": "+4.5%",
-            "xpCost": 3110400,
+            "xpCost": 691200,
             "manuscripts": 4000,
             "power": 972000
           },
           {
             "level": 10,
             "effect": "+5%",
-            "xpCost": 3888000,
+            "xpCost": 777600,
             "manuscripts": 4500,
             "power": 1080000
           },
           {
             "level": 11,
             "effect": "+5.5%",
-            "xpCost": 4752000,
+            "xpCost": 864000,
             "manuscripts": 5000,
             "power": 1188000
           },
           {
             "level": 12,
             "effect": "+6%",
-            "xpCost": 5702400,
+            "xpCost": 950400,
             "manuscripts": 5500,
             "power": 1296000
           },
           {
             "level": 13,
             "effect": "+6.5%",
-            "xpCost": 6739200,
+            "xpCost": 1036800,
             "manuscripts": 6000,
             "power": 1404000
           },
           {
             "level": 14,
             "effect": "+7%",
-            "xpCost": 7948800,
+            "xpCost": 1209600,
             "manuscripts": 7000,
             "power": 1512000
           },
           {
             "level": 15,
             "effect": "+7.5%",
-            "xpCost": 9331200,
+            "xpCost": 1382400,
             "manuscripts": 8000,
             "power": 1620000
           },
           {
             "level": 16,
             "effect": "+8%",
-            "xpCost": 10713600,
+            "xpCost": 1382400,
             "manuscripts": 8000,
             "power": 1728000
           },
           {
             "level": 17,
             "effect": "+8.5%",
-            "xpCost": 12268800,
+            "xpCost": 1555200,
             "manuscripts": 9000,
             "power": 1836000
           },
           {
             "level": 18,
             "effect": "+9%",
-            "xpCost": 13824000,
+            "xpCost": 1555200,
             "manuscripts": 9000,
             "power": 1944000
           },
           {
             "level": 19,
             "effect": "+9.5%",
-            "xpCost": 15552000,
+            "xpCost": 1728000,
             "manuscripts": 10000,
             "power": 2052000
           },
           {
             "level": 20,
             "effect": "+10%",
-            "xpCost": 17280000,
+            "xpCost": 1728000,
             "manuscripts": 10000,
             "power": 2160000
           }
@@ -2327,126 +2327,126 @@
           {
             "level": 3,
             "effect": "+1.5%",
-            "xpCost": 456600,
+            "xpCost": 297600,
             "manuscripts": 1500,
             "power": 405000
           },
           {
             "level": 4,
             "effect": "+2%",
-            "xpCost": 893400,
+            "xpCost": 436800,
             "manuscripts": 2200,
             "power": 540000
           },
           {
             "level": 5,
             "effect": "+2.5%",
-            "xpCost": 1489200,
+            "xpCost": 595800,
             "manuscripts": 3000,
             "power": 675000
           },
           {
             "level": 6,
             "effect": "+3%",
-            "xpCost": 2244000,
+            "xpCost": 754800,
             "manuscripts": 3800,
             "power": 810000
           },
           {
             "level": 7,
             "effect": "+3.5%",
-            "xpCost": 3138000,
+            "xpCost": 894000,
             "manuscripts": 4500,
             "power": 945000
           },
           {
             "level": 8,
             "effect": "+4%",
-            "xpCost": 4171200,
+            "xpCost": 1033200,
             "manuscripts": 5200,
             "power": 1080000
           },
           {
             "level": 9,
             "effect": "+4.5%",
-            "xpCost": 5363400,
+            "xpCost": 1192200,
             "manuscripts": 6000,
             "power": 1215000
           },
           {
             "level": 10,
             "effect": "+5%",
-            "xpCost": 6714600,
+            "xpCost": 1351200,
             "manuscripts": 6800,
             "power": 1350000
           },
           {
             "level": 11,
             "effect": "+5.5%",
-            "xpCost": 8205000,
+            "xpCost": 1490400,
             "manuscripts": 7500,
             "power": 1485000
           },
           {
             "level": 12,
             "effect": "+6%",
-            "xpCost": 9834000,
+            "xpCost": 1629000,
             "manuscripts": 8200,
             "power": 1620000
           },
           {
             "level": 13,
             "effect": "+6.5%",
-            "xpCost": 11622000,
+            "xpCost": 1788000,
             "manuscripts": 9000,
             "power": 1755000
           },
           {
             "level": 14,
             "effect": "+7%",
-            "xpCost": 13708200,
+            "xpCost": 2086200,
             "manuscripts": 10500,
             "power": 1890000
           },
           {
             "level": 15,
             "effect": "+7.5%",
-            "xpCost": 16092600,
+            "xpCost": 2384400,
             "manuscripts": 12000,
             "power": 2025000
           },
           {
             "level": 16,
             "effect": "+8%",
-            "xpCost": 18477000,
+            "xpCost": 2384400,
             "manuscripts": 12000,
             "power": 2160000
           },
           {
             "level": 17,
             "effect": "+8.5%",
-            "xpCost": 21159600,
+            "xpCost": 2682600,
             "manuscripts": 13500,
             "power": 2295000
           },
           {
             "level": 18,
             "effect": "+9%",
-            "xpCost": 23842200,
+            "xpCost": 2682600,
             "manuscripts": 13500,
             "power": 2430000
           },
           {
             "level": 19,
             "effect": "+9.5%",
-            "xpCost": 26823000,
+            "xpCost": 2980800,
             "manuscripts": 15000,
             "power": 2565000
           },
           {
             "level": 20,
             "effect": "+10%",
-            "xpCost": 29803800,
+            "xpCost": 2980800,
             "manuscripts": 15000,
             "power": 2700000
           }
@@ -2481,126 +2481,126 @@
           {
             "level": 3,
             "effect": "+15,000",
-            "xpCost": 516000,
+            "xpCost": 336600,
             "manuscripts": 1500,
             "power": 450000
           },
           {
             "level": 4,
             "effect": "+20,000",
-            "xpCost": 1009800,
+            "xpCost": 493800,
             "manuscripts": 2200,
             "power": 600000
           },
           {
             "level": 5,
             "effect": "+25,000",
-            "xpCost": 1683600,
+            "xpCost": 673800,
             "manuscripts": 3000,
             "power": 750000
           },
           {
             "level": 6,
             "effect": "+30,000",
-            "xpCost": 2536800,
+            "xpCost": 853200,
             "manuscripts": 3800,
             "power": 900000
           },
           {
             "level": 7,
             "effect": "+35,000",
-            "xpCost": 3547200,
+            "xpCost": 1010400,
             "manuscripts": 4500,
             "power": 1050000
           },
           {
             "level": 8,
             "effect": "+40,000",
-            "xpCost": 4714800,
+            "xpCost": 1167600,
             "manuscripts": 5200,
             "power": 1200000
           },
           {
             "level": 9,
             "effect": "+45,000",
-            "xpCost": 6062400,
+            "xpCost": 1347600,
             "manuscripts": 6000,
             "power": 1350000
           },
           {
             "level": 10,
             "effect": "+50,000",
-            "xpCost": 7590000,
+            "xpCost": 1527600,
             "manuscripts": 6800,
             "power": 1500000
           },
           {
             "level": 11,
             "effect": "+55,000",
-            "xpCost": 9274800,
+            "xpCost": 1684800,
             "manuscripts": 7500,
             "power": 1650000
           },
           {
             "level": 12,
             "effect": "+60,000",
-            "xpCost": 11116800,
+            "xpCost": 1842000,
             "manuscripts": 8200,
             "power": 1800000
           },
           {
             "level": 13,
             "effect": "+65,000",
-            "xpCost": 13138200,
+            "xpCost": 2021400,
             "manuscripts": 9000,
             "power": 1950000
           },
           {
             "level": 14,
             "effect": "+70,000",
-            "xpCost": 15496800,
+            "xpCost": 2358600,
             "manuscripts": 10500,
             "power": 2100000
           },
           {
             "level": 15,
             "effect": "+75,000",
-            "xpCost": 18192000,
+            "xpCost": 2695200,
             "manuscripts": 12000,
             "power": 2250000
           },
           {
             "level": 16,
             "effect": "+80,000",
-            "xpCost": 20887200,
+            "xpCost": 2695200,
             "manuscripts": 12000,
             "power": 2400000
           },
           {
             "level": 17,
             "effect": "+85,000",
-            "xpCost": 23919600,
+            "xpCost": 3032400,
             "manuscripts": 13500,
             "power": 2550000
           },
           {
             "level": 18,
             "effect": "+90,000",
-            "xpCost": 26952000,
+            "xpCost": 3032400,
             "manuscripts": 13500,
             "power": 2700000
           },
           {
             "level": 19,
             "effect": "+95,000",
-            "xpCost": 30321600,
+            "xpCost": 3369600,
             "manuscripts": 15000,
             "power": 2850000
           },
           {
             "level": 20,
             "effect": "+100,000",
-            "xpCost": 33691200,
+            "xpCost": 3369600,
             "manuscripts": 15000,
             "power": 3000000
           }
@@ -2842,67 +2842,67 @@
     "affinityMilestones": [
       {
         "level": 1,
-        "affinity": 0,
+        "affinity": 1000,
         "emblems": 0,
         "bonus": 1.58
       },
       {
         "level": 10,
-        "affinity": 0,
+        "affinity": 1600,
         "emblems": 12,
         "bonus": 2.85
       },
       {
         "level": 20,
-        "affinity": 0,
+        "affinity": 2600,
         "emblems": 24,
         "bonus": 4.2
       },
       {
         "level": 30,
-        "affinity": 0,
+        "affinity": 3650,
         "emblems": 36,
         "bonus": 5.55
       },
       {
         "level": 40,
-        "affinity": 0,
+        "affinity": 5200,
         "emblems": 48,
         "bonus": 6.9
       },
       {
         "level": 50,
-        "affinity": 0,
+        "affinity": 7250,
         "emblems": 60,
         "bonus": 8.25
       },
       {
         "level": 60,
-        "affinity": 0,
+        "affinity": 9750,
         "emblems": 72,
         "bonus": 9.6
       },
       {
         "level": 70,
-        "affinity": 0,
+        "affinity": 12250,
         "emblems": 84,
         "bonus": 10.95
       },
       {
         "level": 80,
-        "affinity": 0,
+        "affinity": 14750,
         "emblems": 96,
         "bonus": 12.3
       },
       {
         "level": 90,
-        "affinity": 0,
+        "affinity": 17250,
         "emblems": 108,
         "bonus": 13.65
       },
       {
         "level": 100,
-        "affinity": 0,
+        "affinity": 19750,
         "emblems": 120,
         "bonus": 15
       }
@@ -3676,67 +3676,67 @@
     "affinityMilestones": [
       {
         "level": 1,
-        "affinity": 0,
+        "affinity": 1000,
         "emblems": 0,
         "bonus": 1.05
       },
       {
         "level": 10,
-        "affinity": 0,
+        "affinity": 640,
         "emblems": 6,
         "bonus": 1.9
       },
       {
         "level": 20,
-        "affinity": 0,
+        "affinity": 1040,
         "emblems": 12,
         "bonus": 2.8
       },
       {
         "level": 30,
-        "affinity": 0,
+        "affinity": 1460,
         "emblems": 18,
         "bonus": 3.7
       },
       {
         "level": 40,
-        "affinity": 0,
+        "affinity": 2080,
         "emblems": 24,
         "bonus": 4.6
       },
       {
         "level": 50,
-        "affinity": 0,
+        "affinity": 2900,
         "emblems": 30,
         "bonus": 5.5
       },
       {
         "level": 60,
-        "affinity": 0,
+        "affinity": 3900,
         "emblems": 36,
         "bonus": 6.4
       },
       {
         "level": 70,
-        "affinity": 0,
+        "affinity": 4900,
         "emblems": 42,
         "bonus": 7.3
       },
       {
         "level": 80,
-        "affinity": 0,
+        "affinity": 5900,
         "emblems": 48,
         "bonus": 8.2
       },
       {
         "level": 90,
-        "affinity": 0,
+        "affinity": 6900,
         "emblems": 54,
         "bonus": 9.1
       },
       {
         "level": 100,
-        "affinity": 0,
+        "affinity": 7900,
         "emblems": 60,
         "bonus": 10
       }
@@ -5541,6 +5541,1451 @@
             "xpCost": 1679400,
             "manuscripts": 10800,
             "power": 980000
+          }
+        ]
+      }
+    ],
+    "affinity": {
+      "levelBonus": [
+        1.58,
+        1.65,
+        1.73,
+        1.8,
+        1.88,
+        1.95,
+        2.03,
+        2.1,
+        2.18,
+        2.85,
+        2.93,
+        3,
+        3.08,
+        3.15,
+        3.23,
+        3.3,
+        3.38,
+        3.45,
+        3.53,
+        4.2,
+        4.28,
+        4.35,
+        4.43,
+        4.5,
+        4.58,
+        4.65,
+        4.73,
+        4.8,
+        4.88,
+        5.55,
+        5.63,
+        5.7,
+        5.78,
+        5.85,
+        5.93,
+        6,
+        6.08,
+        6.15,
+        6.23,
+        6.9,
+        6.98,
+        7.05,
+        7.13,
+        7.2,
+        7.28,
+        7.35,
+        7.43,
+        7.5,
+        7.58,
+        8.25,
+        8.33,
+        8.4,
+        8.48,
+        8.55,
+        8.63,
+        8.7,
+        8.78,
+        8.85,
+        8.93,
+        9.6,
+        9.68,
+        9.75,
+        9.83,
+        9.9,
+        9.98,
+        10.05,
+        10.13,
+        10.2,
+        10.28,
+        10.95,
+        11.03,
+        11.1,
+        11.18,
+        11.25,
+        11.33,
+        11.4,
+        11.48,
+        11.55,
+        11.63,
+        12.3,
+        12.38,
+        12.45,
+        12.53,
+        12.6,
+        12.68,
+        12.75,
+        12.83,
+        12.9,
+        12.98,
+        13.65,
+        13.73,
+        13.8,
+        13.88,
+        13.95,
+        14.03,
+        14.1,
+        14.18,
+        14.25,
+        14.33,
+        15
+      ],
+      "gates": [
+        {
+          "level": 10,
+          "emblems": 8,
+          "lockedBonus": 2.25
+        },
+        {
+          "level": 20,
+          "emblems": 16,
+          "lockedBonus": 3.6
+        },
+        {
+          "level": 30,
+          "emblems": 24,
+          "lockedBonus": 4.95
+        },
+        {
+          "level": 40,
+          "emblems": 32,
+          "lockedBonus": 6.3
+        },
+        {
+          "level": 50,
+          "emblems": 40,
+          "lockedBonus": 7.65
+        },
+        {
+          "level": 60,
+          "emblems": 48,
+          "lockedBonus": 9
+        },
+        {
+          "level": 70,
+          "emblems": 56,
+          "lockedBonus": 10.35
+        },
+        {
+          "level": 80,
+          "emblems": 64,
+          "lockedBonus": 11.7
+        },
+        {
+          "level": 90,
+          "emblems": 72,
+          "lockedBonus": 13.05
+        },
+        {
+          "level": 100,
+          "emblems": 80,
+          "lockedBonus": 14.4
+        }
+      ],
+      "stages": [
+        {
+          "min": 1,
+          "FR": "Étranger",
+          "EN": "Stranger"
+        },
+        {
+          "min": 10,
+          "FR": "Relation 1",
+          "EN": "Acquaintance 1"
+        },
+        {
+          "min": 20,
+          "FR": "Relation 2",
+          "EN": "Acquaintance 2"
+        },
+        {
+          "min": 30,
+          "FR": "Relation 3",
+          "EN": "Acquaintance 3"
+        },
+        {
+          "min": 40,
+          "FR": "Connaissance 1",
+          "EN": "Casual 1"
+        },
+        {
+          "min": 50,
+          "FR": "Connaissance 2",
+          "EN": "Casual 2"
+        },
+        {
+          "min": 60,
+          "FR": "Connaissance 3",
+          "EN": "Casual 3"
+        },
+        {
+          "min": 70,
+          "FR": "Proche 1",
+          "EN": "Close 1"
+        },
+        {
+          "min": 80,
+          "FR": "Proche 2",
+          "EN": "Close 2"
+        },
+        {
+          "min": 90,
+          "FR": "Proche 3",
+          "EN": "Close 3"
+        },
+        {
+          "min": 100,
+          "FR": "Alter ego",
+          "EN": "Kindred Soul"
+        }
+      ]
+    }
+  },
+  {
+    "id": "olander",
+    "name": {
+      "EN": "Olander",
+      "FR": "Olander"
+    },
+    "title": {
+      "EN": "Calculating Strategist",
+      "FR": "Stratège Avisé"
+    },
+    "affinityBonus": {
+      "EN": "Squad Lethality and Health",
+      "FR": "Létalité et Santé des escouades"
+    },
+    "TextToInclude": {
+      "FR": "Bonus de Létalité et de Santé des escouades : +X%",
+      "EN": "Squad Lethality and Health: +X%"
+    },
+    "affinityMilestones": [
+      {
+        "level": 1,
+        "affinity": 1000,
+        "emblems": 0,
+        "bonus": 2.1
+      },
+      {
+        "level": 10,
+        "affinity": 2950,
+        "emblems": 20,
+        "bonus": 3.8
+      },
+      {
+        "level": 20,
+        "affinity": 4790,
+        "emblems": 40,
+        "bonus": 5.6
+      },
+      {
+        "level": 30,
+        "affinity": 6720,
+        "emblems": 60,
+        "bonus": 7.4
+      },
+      {
+        "level": 40,
+        "affinity": 9570,
+        "emblems": 80,
+        "bonus": 9.2
+      },
+      {
+        "level": 50,
+        "affinity": 13340,
+        "emblems": 100,
+        "bonus": 11
+      },
+      {
+        "level": 60,
+        "affinity": 17940,
+        "emblems": 120,
+        "bonus": 12.8
+      },
+      {
+        "level": 70,
+        "affinity": 22540,
+        "emblems": 140,
+        "bonus": 14.6
+      },
+      {
+        "level": 80,
+        "affinity": 27140,
+        "emblems": 160,
+        "bonus": 16.4
+      },
+      {
+        "level": 90,
+        "affinity": 31740,
+        "emblems": 180,
+        "bonus": 18.2
+      },
+      {
+        "level": 100,
+        "affinity": 36340,
+        "emblems": 200,
+        "bonus": 20
+      }
+    ],
+    "passive": {
+      "name": {
+        "EN": "Battlefield Insight",
+        "FR": "Connaissance du terrain"
+      },
+      "TextToInclude": {
+        "FR": "Olander a un sens de l'opportunité stratégique sans égal. Augmente de X l'Attaque et la Défense de l'Escouade lors de la Phase de Combat de Royaume au Pouvoir.",
+        "EN": "Olander's eye for strategic advantage is second to none, increasing Squad's Attack and Defense by X in the Kingdom of Power Battle Phase."
+      },
+      "levels": [
+        {
+          "level": 1,
+          "effect": "+2%",
+          "power": 143000
+        },
+        {
+          "level": 2,
+          "effect": "+4%",
+          "power": 286000
+        },
+        {
+          "level": 3,
+          "effect": "+6%",
+          "power": 429000
+        },
+        {
+          "level": 4,
+          "effect": "+9%",
+          "power": 572000
+        },
+        {
+          "level": 5,
+          "effect": "+12%",
+          "power": 715000
+        },
+        {
+          "level": 6,
+          "effect": "+15%",
+          "power": 858000
+        },
+        {
+          "level": 7,
+          "effect": "+18%",
+          "power": 1001000
+        },
+        {
+          "level": 8,
+          "effect": "+21%",
+          "power": 1144000
+        },
+        {
+          "level": 9,
+          "effect": "+24%",
+          "power": 1287000
+        },
+        {
+          "level": 10,
+          "effect": "+27%",
+          "power": 1430000
+        },
+        {
+          "level": 11,
+          "effect": "+30%",
+          "power": 1573000
+        }
+      ]
+    },
+    "skills": [
+      {
+        "id": "oration",
+        "name": {
+          "EN": "Oration",
+          "FR": "Allocution"
+        },
+        "TextToInclude": {
+          "FR": "Olander motive tout le monde avec ses discours d'avant-bataille. Augmente de X les Points de Phase de Préparation obtenus dans Royaume au Pouvoir et ajoute X palier(s) bonus aux récompenses quotidiennes de Points Individuels.",
+          "EN": "Olander's pre-battle speeches inspire everyone, increasing Kingdom of Power Preparation Phase Point gains by X and adding X extra tier(s) to daily Personal Point rewards."
+        },
+        "unlockRelLevel": 10,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "(2%;1)",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 30000
+          },
+          {
+            "level": 2,
+            "effect": "(4%;1)",
+            "xpCost": 43200,
+            "manuscripts": 500,
+            "power": 60000
+          },
+          {
+            "level": 3,
+            "effect": "(6%;1)",
+            "xpCost": 86400,
+            "manuscripts": 1000,
+            "power": 90000
+          },
+          {
+            "level": 4,
+            "effect": "(8%;1)",
+            "xpCost": 129600,
+            "manuscripts": 1500,
+            "power": 120000
+          },
+          {
+            "level": 5,
+            "effect": "(10%;1)",
+            "xpCost": 172800,
+            "manuscripts": 2000,
+            "power": 150000
+          },
+          {
+            "level": 6,
+            "effect": "(12%;2)",
+            "xpCost": 216000,
+            "manuscripts": 2500,
+            "power": 180000
+          },
+          {
+            "level": 7,
+            "effect": "(14%;2)",
+            "xpCost": 259200,
+            "manuscripts": 3000,
+            "power": 210000
+          },
+          {
+            "level": 8,
+            "effect": "(16%;2)",
+            "xpCost": 302400,
+            "manuscripts": 3500,
+            "power": 240000
+          },
+          {
+            "level": 9,
+            "effect": "(18%;2)",
+            "xpCost": 345600,
+            "manuscripts": 4000,
+            "power": 270000
+          },
+          {
+            "level": 10,
+            "effect": "(20%;3)",
+            "xpCost": 388800,
+            "manuscripts": 4500,
+            "power": 300000
+          }
+        ]
+      },
+      {
+        "id": "meritocracy",
+        "name": {
+          "EN": "Meritocracy",
+          "FR": "Méritocratie"
+        },
+        "TextToInclude": {
+          "FR": "Olander ne lésine jamais sur les récompenses pour ses guerriers. Octroie X Pièces du Royaume bonus en récupérant les Récompenses de Médaille et ajoute X objet(s) bonus dans le Magasin de Royaume au Pouvoir.",
+          "EN": "Olander never holds back when rewarding his warriors, granting an extra X Kingdom Coins when claiming Medal Rewards and adding X extra item(s) to the Kingdom of Power Shop."
+        },
+        "unlockRelLevel": 20,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "(5;1)",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 30000
+          },
+          {
+            "level": 2,
+            "effect": "(10;1)",
+            "xpCost": 60000,
+            "manuscripts": 500,
+            "power": 60000
+          },
+          {
+            "level": 3,
+            "effect": "(15;1)",
+            "xpCost": 120600,
+            "manuscripts": 1000,
+            "power": 90000
+          },
+          {
+            "level": 4,
+            "effect": "(20;1)",
+            "xpCost": 181200,
+            "manuscripts": 1500,
+            "power": 120000
+          },
+          {
+            "level": 5,
+            "effect": "(25;1)",
+            "xpCost": 241800,
+            "manuscripts": 2000,
+            "power": 150000
+          },
+          {
+            "level": 6,
+            "effect": "(30;2)",
+            "xpCost": 302400,
+            "manuscripts": 2500,
+            "power": 180000
+          },
+          {
+            "level": 7,
+            "effect": "(35;2)",
+            "xpCost": 362400,
+            "manuscripts": 3000,
+            "power": 210000
+          },
+          {
+            "level": 8,
+            "effect": "(40;2)",
+            "xpCost": 423000,
+            "manuscripts": 3500,
+            "power": 240000
+          },
+          {
+            "level": 9,
+            "effect": "(45;2)",
+            "xpCost": 483600,
+            "manuscripts": 4000,
+            "power": 270000
+          },
+          {
+            "level": 10,
+            "effect": "(50;3)",
+            "xpCost": 544200,
+            "manuscripts": 4500,
+            "power": 300000
+          }
+        ]
+      },
+      {
+        "id": "combat_fervor",
+        "name": {
+          "EN": "Combat Fervor",
+          "FR": "Ferveur de la guerre"
+        },
+        "TextToInclude": {
+          "FR": "Sous la direction tactique d'Olander, son armée est une machine bien huilée. Augmente de X la Létalité et la Santé de ton Escouade lors de la Phase de Combat de Royaume au Pouvoir.",
+          "EN": "Olander's army is a well-oiled machine under his tactical grip, increasing your Squad's Lethality and Health by X during the Kingdom of Power Battle Phase."
+        },
+        "unlockRelLevel": 30,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "+1.5%",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 156000
+          },
+          {
+            "level": 2,
+            "effect": "+3%",
+            "xpCost": 110400,
+            "manuscripts": 800,
+            "power": 312000
+          },
+          {
+            "level": 3,
+            "effect": "+4.5%",
+            "xpCost": 207000,
+            "manuscripts": 1500,
+            "power": 468000
+          },
+          {
+            "level": 4,
+            "effect": "+6%",
+            "xpCost": 303600,
+            "manuscripts": 2200,
+            "power": 624000
+          },
+          {
+            "level": 5,
+            "effect": "+7.5%",
+            "xpCost": 414600,
+            "manuscripts": 3000,
+            "power": 780000
+          },
+          {
+            "level": 6,
+            "effect": "+9%",
+            "xpCost": 525000,
+            "manuscripts": 3800,
+            "power": 936000
+          },
+          {
+            "level": 7,
+            "effect": "+10.5%",
+            "xpCost": 621600,
+            "manuscripts": 4500,
+            "power": 1092000
+          },
+          {
+            "level": 8,
+            "effect": "+12%",
+            "xpCost": 718800,
+            "manuscripts": 5200,
+            "power": 1248000
+          },
+          {
+            "level": 9,
+            "effect": "+13.5%",
+            "xpCost": 829200,
+            "manuscripts": 6000,
+            "power": 1404000
+          },
+          {
+            "level": 10,
+            "effect": "+15%",
+            "xpCost": 939600,
+            "manuscripts": 6800,
+            "power": 1560000
+          },
+          {
+            "level": 11,
+            "effect": "+16.5%",
+            "xpCost": 1036800,
+            "manuscripts": 7500,
+            "power": 1716000
+          },
+          {
+            "level": 12,
+            "effect": "+18%",
+            "xpCost": 1133400,
+            "manuscripts": 8200,
+            "power": 1872000
+          },
+          {
+            "level": 13,
+            "effect": "+19.5%",
+            "xpCost": 1243800,
+            "manuscripts": 9000,
+            "power": 2028000
+          },
+          {
+            "level": 14,
+            "effect": "+21%",
+            "xpCost": 1451400,
+            "manuscripts": 10500,
+            "power": 2184000
+          },
+          {
+            "level": 15,
+            "effect": "+22.5%",
+            "xpCost": 1658400,
+            "manuscripts": 12000,
+            "power": 2340000
+          },
+          {
+            "level": 16,
+            "effect": "+24%",
+            "xpCost": 1658400,
+            "manuscripts": 12000,
+            "power": 2496000
+          },
+          {
+            "level": 17,
+            "effect": "+25.5%",
+            "xpCost": 1866000,
+            "manuscripts": 13500,
+            "power": 2652000
+          },
+          {
+            "level": 18,
+            "effect": "+27%",
+            "xpCost": 1866000,
+            "manuscripts": 13500,
+            "power": 2808000
+          },
+          {
+            "level": 19,
+            "effect": "+28.5%",
+            "xpCost": 2073600,
+            "manuscripts": 15000,
+            "power": 2964000
+          },
+          {
+            "level": 20,
+            "effect": "+30%",
+            "xpCost": 2073600,
+            "manuscripts": 15000,
+            "power": 3120000
+          }
+        ]
+      },
+      {
+        "id": "combined_arms",
+        "name": {
+          "EN": "Combined Arms",
+          "FR": "Armes Combinées"
+        },
+        "TextToInclude": {
+          "FR": "Olander peut coordonner des équipes d'assaut issues de différentes escouades. Augmente de X le Ralliement Max lors de la Phase de Combat de Royaume au Pouvoir.",
+          "EN": "Olander's ability to coordinate strike teams across different squads increases Rally Capacity by X in the Kingdom of Power Battle Phase."
+        },
+        "unlockRelLevel": 40,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "7,500",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 156000
+          },
+          {
+            "level": 2,
+            "effect": "15,000",
+            "xpCost": 124200,
+            "manuscripts": 800,
+            "power": 312000
+          },
+          {
+            "level": 3,
+            "effect": "22,500",
+            "xpCost": 232800,
+            "manuscripts": 1500,
+            "power": 468000
+          },
+          {
+            "level": 4,
+            "effect": "30,000",
+            "xpCost": 342000,
+            "manuscripts": 2200,
+            "power": 624000
+          },
+          {
+            "level": 5,
+            "effect": "37,500",
+            "xpCost": 466200,
+            "manuscripts": 3000,
+            "power": 780000
+          },
+          {
+            "level": 6,
+            "effect": "45,000",
+            "xpCost": 591000,
+            "manuscripts": 3800,
+            "power": 936000
+          },
+          {
+            "level": 7,
+            "effect": "52,500",
+            "xpCost": 699600,
+            "manuscripts": 4500,
+            "power": 1092000
+          },
+          {
+            "level": 8,
+            "effect": "60,000",
+            "xpCost": 808200,
+            "manuscripts": 5200,
+            "power": 1248000
+          },
+          {
+            "level": 9,
+            "effect": "67,500",
+            "xpCost": 933000,
+            "manuscripts": 6000,
+            "power": 1404000
+          },
+          {
+            "level": 10,
+            "effect": "75,000",
+            "xpCost": 1057200,
+            "manuscripts": 6800,
+            "power": 1560000
+          },
+          {
+            "level": 11,
+            "effect": "82,500",
+            "xpCost": 1166400,
+            "manuscripts": 7500,
+            "power": 1716000
+          },
+          {
+            "level": 12,
+            "effect": "90,000",
+            "xpCost": 1275000,
+            "manuscripts": 8200,
+            "power": 1872000
+          },
+          {
+            "level": 13,
+            "effect": "97,500",
+            "xpCost": 1399200,
+            "manuscripts": 9000,
+            "power": 2028000
+          },
+          {
+            "level": 14,
+            "effect": "105,000",
+            "xpCost": 1632600,
+            "manuscripts": 10500,
+            "power": 2184000
+          },
+          {
+            "level": 15,
+            "effect": "112,500",
+            "xpCost": 1866000,
+            "manuscripts": 12000,
+            "power": 2340000
+          },
+          {
+            "level": 16,
+            "effect": "120,000",
+            "xpCost": 1866000,
+            "manuscripts": 12000,
+            "power": 2496000
+          },
+          {
+            "level": 17,
+            "effect": "127,500",
+            "xpCost": 2099400,
+            "manuscripts": 13500,
+            "power": 2652000
+          },
+          {
+            "level": 18,
+            "effect": "135,000",
+            "xpCost": 2099400,
+            "manuscripts": 13500,
+            "power": 2808000
+          },
+          {
+            "level": 19,
+            "effect": "142,500",
+            "xpCost": 2332800,
+            "manuscripts": 15000,
+            "power": 2964000
+          },
+          {
+            "level": 20,
+            "effect": "150,000",
+            "xpCost": 2332800,
+            "manuscripts": 15000,
+            "power": 3120000
+          }
+        ]
+      }
+    ],
+    "affinity": {
+      "levelBonus": [
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5,
+        2.6,
+        2.7,
+        2.8,
+        2.9,
+        3.8,
+        3.9,
+        4,
+        4.1,
+        4.2,
+        4.3,
+        4.4,
+        4.5,
+        4.6,
+        4.7,
+        5.6,
+        5.7,
+        5.8,
+        5.9,
+        6,
+        6.1,
+        6.2,
+        6.3,
+        6.4,
+        6.5,
+        7.4,
+        7.5,
+        7.6,
+        7.7,
+        7.8,
+        7.9,
+        8,
+        8.1,
+        8.2,
+        8.3,
+        9.2,
+        9.3,
+        9.4,
+        9.5,
+        9.6,
+        9.7,
+        9.8,
+        9.9,
+        10,
+        10.1,
+        11,
+        11.1,
+        11.2,
+        11.3,
+        11.4,
+        11.5,
+        11.6,
+        11.7,
+        11.8,
+        11.9,
+        12.8,
+        12.9,
+        13,
+        13.1,
+        13.2,
+        13.3,
+        13.4,
+        13.5,
+        13.6,
+        13.7,
+        14.6,
+        14.7,
+        14.8,
+        14.9,
+        15,
+        15.1,
+        15.2,
+        15.3,
+        15.4,
+        15.5,
+        16.4,
+        16.5,
+        16.6,
+        16.7,
+        16.8,
+        16.9,
+        17,
+        17.1,
+        17.2,
+        17.3,
+        18.2,
+        18.3,
+        18.4,
+        18.5,
+        18.6,
+        18.7,
+        18.8,
+        18.9,
+        19,
+        19.1,
+        20
+      ],
+      "gates": [
+        {
+          "level": 10,
+          "emblems": 20,
+          "lockedBonus": 3
+        },
+        {
+          "level": 20,
+          "emblems": 40,
+          "lockedBonus": 4.8
+        },
+        {
+          "level": 30,
+          "emblems": 60,
+          "lockedBonus": 6.6
+        },
+        {
+          "level": 40,
+          "emblems": 80,
+          "lockedBonus": 8.4
+        },
+        {
+          "level": 50,
+          "emblems": 100,
+          "lockedBonus": 10.2
+        },
+        {
+          "level": 60,
+          "emblems": 120,
+          "lockedBonus": 12
+        },
+        {
+          "level": 70,
+          "emblems": 140,
+          "lockedBonus": 13.8
+        },
+        {
+          "level": 80,
+          "emblems": 160,
+          "lockedBonus": 15.6
+        },
+        {
+          "level": 90,
+          "emblems": 180,
+          "lockedBonus": 17.4
+        },
+        {
+          "level": 100,
+          "emblems": 200,
+          "lockedBonus": 19.2
+        }
+      ],
+      "stages": [
+        {
+          "min": 1,
+          "FR": "Étranger",
+          "EN": "Stranger"
+        },
+        {
+          "min": 10,
+          "FR": "Relation 1",
+          "EN": "Acquaintance 1"
+        },
+        {
+          "min": 20,
+          "FR": "Relation 2",
+          "EN": "Acquaintance 2"
+        },
+        {
+          "min": 30,
+          "FR": "Relation 3",
+          "EN": "Acquaintance 3"
+        },
+        {
+          "min": 40,
+          "FR": "Connaissance 1",
+          "EN": "Casual 1"
+        },
+        {
+          "min": 50,
+          "FR": "Connaissance 2",
+          "EN": "Casual 2"
+        },
+        {
+          "min": 60,
+          "FR": "Connaissance 3",
+          "EN": "Casual 3"
+        },
+        {
+          "min": 70,
+          "FR": "Proche 1",
+          "EN": "Close 1"
+        },
+        {
+          "min": 80,
+          "FR": "Proche 2",
+          "EN": "Close 2"
+        },
+        {
+          "min": 90,
+          "FR": "Proche 3",
+          "EN": "Close 3"
+        },
+        {
+          "min": 100,
+          "FR": "Alter ego",
+          "EN": "Kindred Soul"
+        }
+      ]
+    }
+  },
+  {
+    "id": "catherine",
+    "name": {
+      "EN": "Catherine",
+      "FR": "Catherine"
+    },
+    "title": {
+      "EN": "The Countess",
+      "FR": "La Comtesse"
+    },
+    "affinityBonus": {
+      "EN": "Squad Attack and Defense",
+      "FR": "Attaque et Défense des escouades"
+    },
+    "TextToInclude": {
+      "FR": "Bonus d'Attaque et de Défense des escouades : +X%",
+      "EN": "Squad Attack and Defense: +X%"
+    },
+    "affinityMilestones": [
+      {
+        "level": 1,
+        "affinity": 1000,
+        "emblems": 0,
+        "bonus": 1.58
+      },
+      {
+        "level": 10,
+        "affinity": 960,
+        "emblems": 8,
+        "bonus": 2.85
+      },
+      {
+        "level": 20,
+        "affinity": 1560,
+        "emblems": 16,
+        "bonus": 4.2
+      },
+      {
+        "level": 30,
+        "affinity": 2190,
+        "emblems": 24,
+        "bonus": 5.55
+      },
+      {
+        "level": 40,
+        "affinity": 3120,
+        "emblems": 32,
+        "bonus": 6.9
+      },
+      {
+        "level": 50,
+        "affinity": 4350,
+        "emblems": 40,
+        "bonus": 8.25
+      },
+      {
+        "level": 60,
+        "affinity": 5850,
+        "emblems": 48,
+        "bonus": 9.6
+      },
+      {
+        "level": 70,
+        "affinity": 7350,
+        "emblems": 56,
+        "bonus": 10.95
+      },
+      {
+        "level": 80,
+        "affinity": 8850,
+        "emblems": 64,
+        "bonus": 12.3
+      },
+      {
+        "level": 90,
+        "affinity": 10350,
+        "emblems": 72,
+        "bonus": 13.65
+      },
+      {
+        "level": 100,
+        "affinity": 11850,
+        "emblems": 80,
+        "bonus": 15
+      }
+    ],
+    "passive": {
+      "name": {
+        "EN": "Conquest Boons",
+        "FR": "Bienfaits de conquête"
+      },
+      "TextToInclude": {
+        "FR": "Catherine est toujours prête à offrir une récompense intéressante aux gouverneurs qui font leurs preuves lors des conquêtes. Chaque X minutes tu peux gagner X des Caisses de la Comtesse en récompenses de conquête, jusqu'à X caisses par jour.",
+        "EN": "Catherine is always ready to give a helpful reward to governors that prove themselves at conquest. Every X minutes you can earn X Countess Chests as your Conquest Rewards, up to X chests per day."
+      },
+      "levels": [
+        {
+          "level": 1,
+          "effect": "(180;1;3)",
+          "power": 58000
+        },
+        {
+          "level": 2,
+          "effect": "(160;1;4)",
+          "power": 116000
+        },
+        {
+          "level": 3,
+          "effect": "(150;1;4)",
+          "power": 174000
+        },
+        {
+          "level": 4,
+          "effect": "(140;1;5)",
+          "power": 232000
+        },
+        {
+          "level": 5,
+          "effect": "(140;2;5)",
+          "power": 290000
+        },
+        {
+          "level": 6,
+          "effect": "(130;2;6)",
+          "power": 348000
+        },
+        {
+          "level": 7,
+          "effect": "(120;2;6)",
+          "power": 406000
+        },
+        {
+          "level": 8,
+          "effect": "(100;2;7)",
+          "power": 464000
+        },
+        {
+          "level": 9,
+          "effect": "(100;3;8)",
+          "power": 522000
+        },
+        {
+          "level": 10,
+          "effect": "(80;3;9)",
+          "power": 580000
+        },
+        {
+          "level": 11,
+          "effect": "(60;3;10)",
+          "power": 638000
+        }
+      ]
+    },
+    "skills": [
+      {
+        "id": "mystic_privileges",
+        "name": {
+          "EN": "Mystic Privileges",
+          "FR": "Privilèges mystiques"
+        },
+        "TextToInclude": {
+          "FR": "Aux nobles, le tribut doit revenir. Catherine obtient X Cristaux du défi lors des raids de l'Épreuve Mystique.",
+          "EN": "To the highborn, tribute must flow. Catherine obtains +X Trial Crystals in Mystic Trial raids."
+        },
+        "unlockRelLevel": 10,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "6%",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 36000
+          },
+          {
+            "level": 2,
+            "effect": "12%",
+            "xpCost": 172800,
+            "manuscripts": 1000,
+            "power": 72000
+          },
+          {
+            "level": 3,
+            "effect": "18%",
+            "xpCost": 345600,
+            "manuscripts": 2000,
+            "power": 108000
+          },
+          {
+            "level": 4,
+            "effect": "24%",
+            "xpCost": 518400,
+            "manuscripts": 3000,
+            "power": 144000
+          },
+          {
+            "level": 5,
+            "effect": "30%",
+            "xpCost": 691200,
+            "manuscripts": 4000,
+            "power": 180000
+          }
+        ]
+      },
+      {
+        "id": "pet_master",
+        "name": {
+          "EN": "Pet Master",
+          "FR": "Expert des Animaux"
+        },
+        "TextToInclude": {
+          "FR": "Grâce à sa formation unique aux arts d'expert des bêtes, Catherine chasse plus efficacement avec ses Animaux. Tentatives quotidiennes d'Aventure Animalière +X, avec X de chances de doubler les récompenses.",
+          "EN": "Catherine's unique training in the beast-master arts allows her to hunt with pets more effectively. Daily Pet Adventure attempts +X, with a X chance of granting double rewards."
+        },
+        "unlockRelLevel": 20,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "(1;15%)",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 36000
+          },
+          {
+            "level": 2,
+            "effect": "(1;20%)",
+            "xpCost": 172800,
+            "manuscripts": 1000,
+            "power": 72000
+          },
+          {
+            "level": 3,
+            "effect": "(1;25%)",
+            "xpCost": 345600,
+            "manuscripts": 2000,
+            "power": 108000
+          },
+          {
+            "level": 4,
+            "effect": "(1;30%)",
+            "xpCost": 518400,
+            "manuscripts": 3000,
+            "power": 144000
+          },
+          {
+            "level": 5,
+            "effect": "(2;35%)",
+            "xpCost": 691200,
+            "manuscripts": 4000,
+            "power": 180000
+          }
+        ]
+      },
+      {
+        "id": "beastly_bounty",
+        "name": {
+          "EN": "Beastly Bounty",
+          "FR": "Prime bestiale"
+        },
+        "TextToInclude": {
+          "FR": "Catherine s'intéresse personnellement à la publication de primes des terrifiantes bêtes qui rôdent dans le royaume. Tu peux gagner X Caisses de Comtesse pour chaque ralliement victorieux contre une Terreur, jusqu'à X caisses par jour.",
+          "EN": "Catherine herself takes an active interest in posting bounties for the terrifying beasts that roam the land. You can earn X Countess Chests from each winning Terror rally, up to X chests per day."
+        },
+        "unlockRelLevel": 30,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "(1;3)",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 36000
+          },
+          {
+            "level": 2,
+            "effect": "(2;4)",
+            "xpCost": 172800,
+            "manuscripts": 1000,
+            "power": 72000
+          },
+          {
+            "level": 3,
+            "effect": "(3;6)",
+            "xpCost": 345600,
+            "manuscripts": 2000,
+            "power": 108000
+          },
+          {
+            "level": 4,
+            "effect": "(4;8)",
+            "xpCost": 518400,
+            "manuscripts": 3000,
+            "power": 144000
+          },
+          {
+            "level": 5,
+            "effect": "(5;10)",
+            "xpCost": 691200,
+            "manuscripts": 4000,
+            "power": 180000
+          }
+        ]
+      },
+      {
+        "id": "traveler_honors",
+        "name": {
+          "EN": "Traveler Honors",
+          "FR": "Distinctions du Voyageur"
+        },
+        "TextToInclude": {
+          "FR": "Catherine récompensera volontiers les aventuriers qui partageront des récits intéressants de leurs voyages dans le royaume. Termine X Activités du Voyage pour gagner X Caisses de la Comtesse, jusqu'à X caisses par jour.",
+          "EN": "Catherine will gladly reward adventurers for sharing interesting tales from their Realm Journeys. Complete X Journey Activities to earn X Countess Chests, up to X chests per day."
+        },
+        "unlockRelLevel": 40,
+        "levels": [
+          {
+            "level": 1,
+            "effect": "(12;1;3)",
+            "xpCost": 0,
+            "manuscripts": 0,
+            "power": 36000
+          },
+          {
+            "level": 2,
+            "effect": "(10;1;4)",
+            "xpCost": 129600,
+            "manuscripts": 600,
+            "power": 72000
+          },
+          {
+            "level": 3,
+            "effect": "(8;1;5)",
+            "xpCost": 259200,
+            "manuscripts": 1200,
+            "power": 108000
+          },
+          {
+            "level": 4,
+            "effect": "(8;2;6)",
+            "xpCost": 388800,
+            "manuscripts": 1800,
+            "power": 144000
+          },
+          {
+            "level": 5,
+            "effect": "(6;2;8)",
+            "xpCost": 518400,
+            "manuscripts": 2400,
+            "power": 180000
+          },
+          {
+            "level": 6,
+            "effect": "(5;2;10)",
+            "xpCost": 648000,
+            "manuscripts": 3000,
+            "power": 216000
+          },
+          {
+            "level": 7,
+            "effect": "(5;3;12)",
+            "xpCost": 777600,
+            "manuscripts": 3600,
+            "power": 252000
+          },
+          {
+            "level": 8,
+            "effect": "(5;3;15)",
+            "xpCost": 907200,
+            "manuscripts": 4200,
+            "power": 288000
+          },
+          {
+            "level": 9,
+            "effect": "(4;3;18)",
+            "xpCost": 1036800,
+            "manuscripts": 4800,
+            "power": 324000
+          },
+          {
+            "level": 10,
+            "effect": "(4;4;20)",
+            "xpCost": 1166400,
+            "manuscripts": 5400,
+            "power": 360000
           }
         ]
       }

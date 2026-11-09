@@ -21,6 +21,8 @@ const STORAGE_KEYS = {
     petsPlan:          'pets_plan_stock',
     petsPlanOff:       'pets_plan_off',
     theaterOptimizer:  'theater_optimizer_data',
+    islandPlanner:     'island_planner_v1',
+    islandFolds:       'island_folds',   // tiroirs repliés de la page, simple confort d'affichage
 };
 
 // ============================================================

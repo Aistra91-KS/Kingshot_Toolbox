@@ -11,6 +11,7 @@ Kingshot_Toolbox/
 ├── index.html              Hub : grille de cartes écrite en dur (maillage sans JS, §9 09b), re-rendue par hub.js depuis SITE
 ├── research_calc.html      Outil Recherches (3 arbres, ordre optimal) · §12 12a
 ├── truegold_calc.html      Planificateur de bâtiments, 2 onglets : avant l'Or Véritable / ère Or Véritable. Adresse indexée, ne pas renommer · §12 12a
+├── island_calc.html        Planificateur de l'île · §12 12b
 ├── waracademy.html         Académie de guerre : recherches de base et avancées · §12 12b
 ├── beartrap_calc.html      Piège à Ours : répartition des marches · §12 12b
 ├── vikings.html            Vikings : répartition troupes/défense
@@ -38,7 +39,7 @@ Kingshot_Toolbox/
 │   ├── heroes/             Sommaire + 37 fiches héros, générés · §11
 │   ├── research/           Sommaire + 3 arbres (db-research.js)
 │   ├── waracademy/         Sommaire + 3 arbres + recherches avancées (script en ligne recopié sur 4 pages)
-│   ├── masters/            Sommaire + 8 experts (db-masters.js)
+│   ├── masters/            Sommaire + 10 experts (db-masters.js)
 │   └── pets/               Sommaire + 14 familiers (db-pets.js)
 │
 ├── css/
@@ -48,7 +49,8 @@ Kingshot_Toolbox/
 │   ├── db-heroes.css       Fiches héros (.hb-)
 │   ├── waracademy.css      Académie de guerre (.wa-)
 │   ├── pets.css            Page Familiers, DA nature
-│   └── pets-plan.css       Onglet Plan d'avancement (.pp-)
+│   ├── pets-plan.css       Onglet Plan d'avancement (.pp-)
+│   └── island.css          Planificateur de l'île (.is-)
 │
 ├── js/
 │   ├── site-config.js      ★ Manifeste unique : identité, catégories, outils, icônes
@@ -64,6 +66,7 @@ Kingshot_Toolbox/
 │   ├── modal-tabs.js       Onglets mobiles des modales Caserne/Experts
 │   ├── hub.js, changelog.js
 │   ├── research_script.js, truegold_script.js, truegold_pre.js (onglet avant l'Or Véritable, autonome)
+│   ├── island_planner.js (moteur pur, repris de LordRush) + island_script.js (interface)
 │   ├── wa_optimizer.js (logique pure) + waracademy.js (interface) + wa_worker.js (affinage KvK en Web Worker)
 │   ├── beartrap.js, vikings.js, caserne.js, masters.js, pets.js, pets-plan.js
 │   ├── shop-core.js        ★ Socle boutiques : chargement des shopcalc_*.json, i18n, calcul des lignes · §13
@@ -77,6 +80,7 @@ Kingshot_Toolbox/
 ├── data/                   JSON édités à la main · schémas au §6
 │   ├── research_db.json (720 paliers), buildings_db.json (19 bâtiments, 14 planifiés), truegold_db.json
 │   ├── truegold_war_db.json, truegold_war_advanced_db.json (92 techs, 1 010 niveaux)
+│   ├── island.json         Fontaine Vitale, Réservoirs et bâtiments d'île · §6
 │   ├── heroes_db.json (37 héros), beartrap_joiners_db.json, masters_db.json (8), pets_db.json (14), pets_event.json
 │   ├── shopcalc_items.json (95 objets, gemmes), shopcalc_classic/events/chests.json (6 / 11 / 3)
 │   ├── shopcalc_euro.json  Relevé argent réel : 59 objets, 75 packs · §6 06b
