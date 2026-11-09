@@ -1,11 +1,11 @@
 <!-- kshub-news
-version: 1.15.8
-covers-until: 18fb34636457386ec1e439b23bfd4c27b3c178f1
-generated: 2026-11-02
+version: 1.16.0
+covers-until: dac7861615887b8504e2fecdb0e3dcdc8a6c95a3
+generated: 2026-11-09
 ping-fr: <@&1458880135208894721>
 ping-en: <@&1458880409764102267>
-title-fr: Le mode KVK des Recherches et une Académie de Guerre plus efficace
-title-en: KVK mode in Research and a sharper War Academy
+title-fr: Le Planificateur de l'île et deux nouveaux Experts
+title-en: The Island Planner and two new Masters
 -->
 
 <!--
@@ -68,44 +68,70 @@ message tant que les deux textes cumulés restent sous 5 200 caractères.
 
 ## FR
 
-### Recherches : le mode KVK retire le temps de tes accélérateurs
+### Nouveau : le Planificateur de l'île (bêta)
 
-En mode KVK, « Fait » retire maintenant le temps de la recherche du stock d'accélérateurs du panneau latéral, avec celui des prérequis cochés en même temps. Chaque recherche compte son temps arrondi à la minute du dessus, puisqu'un accélérateur ne sert qu'une recherche. Un nouveau bouton « Appliquer les modifications » coche d'un coup tout ce que ton stock finance, après un récapitulatif de ton stock avant et après.
+Indique les niveaux de ta Fontaine Vitale, de tes Réservoirs et de tes bâtiments, et l'outil te dit quoi faire ensuite : monter la Fontaine dès que sa prospérité est atteinte, puis les Réservoirs, puis les bâtiments qui apportent la prospérité manquante pour le moins d'Essence d'Eau. Chaque étape donne son coût et le temps que met ta production à la payer, et le bouton coché met ton île à jour une fois l'étape faite en jeu. Les 76 bâtiments ont leur nom et leur image du jeu, en français comme en anglais.
 
-👉 https://kingshottoolbox.com/research_calc
+👉 https://kingshottoolbox.com/island_calc
 
-### Académie de Guerre : une suggestion KvK qui rapporte plus
+### Deux nouveaux Experts : Olander et Catherine
 
-La suggestion KvK vidait souvent un budget avant l'autre et proposait tout en base ou tout en avancé. Elle choisit maintenant la recherche lancée en dernier, dont la poussière compte en entier même si elle reste en cours, puis cherche encore mieux pendant quelques secondes après le clic. Le plan s'affiche tout de suite et se remplace à chaque amélioration ; « Garder ce plan » arrête la recherche. Sur 120 comptes tirés au sort, l'ancienne suggestion restait en moyenne 12 % sous le meilleur plan possible quand les accélérateurs manquaient. La nouvelle s'en approche à moins de 0,2 %, en mélangeant recherches de base et avancées quand ça rapporte plus.
+Ils ont leur fiche dans la base de données, avec paliers d'affinité, expertise passive et chaque compétence niveau par niveau, et ils apparaissent dans l'outil Experts. Leurs textes français sont ceux du jeu. Au passage, la colonne du coût en EXP donne maintenant le coût de chaque niveau pour Valora, Pan, Roman et Cassia (elle affichait un cumul), et l'affinité de Guinevere et Wilson est remplie.
 
-### Académie de Guerre : Provisions limitées, prérequis et sauvegarde
+👉 https://kingshottoolbox.com/database/masters/olander
+👉 https://kingshottoolbox.com/database/masters/catherine
+👉 https://kingshottoolbox.com/masters
 
-La recherche avancée Provisions limitées a sa ligne dans les échanges de poussière : 5 TrueGold pour 13 poussières, 2 échanges par semaine et par niveau, 20 au niveau 10. Le plan la remplit juste après la ligne normale à 5 TrueGold, avant celle à 10.
+### Traductions et corrections
 
-Dans l'onglet Recherches avancées, régler une recherche monte tout ce qu'elle exige : Provisions limitées au niveau 3 met Infirmeries d'or véritable, Bandage rapide et les quatre recherches qu'ils demandent au niveau 3. Baisser une recherche baisse ce qui en dépend, et la case « Prérequis automatiques » coupe ce réglage.
+Les 18 compétences de Diego, Liz et Luna reprennent le texte français du jeu, et 13 d'entre elles prennent leur nom du jeu. Aucun chiffre ne change.
 
-Le bouton « Sauvegarde Globale » est maintenant en bas du panneau latéral de la page, comme sur les autres outils.
+👉 https://kingshottoolbox.com/database/heroes/diego
+👉 https://kingshottoolbox.com/database/heroes/liz
+👉 https://kingshottoolbox.com/database/heroes/luna
 
-👉 https://kingshottoolbox.com/waracademy
+Santé de Fer de Diana réduit le coût en endurance de 10 à 20 %, et Noble Voie de Hilde donne 3 à 15 % d'Attaque et 2 à 10 % de Défense (les deux étaient inversées).
+
+👉 https://kingshottoolbox.com/database/heroes/diana
+👉 https://kingshottoolbox.com/database/heroes/hilde
+
+Le pack quotidien à 20 $ du Magasin du Clair de Lune et de la Boutique d'Aventure coûte 23,99 €, pas 24,99 €. À l'Arène, le Fragment Universel de Héros Rare coûte 250 jetons, pas 150.
+
+👉 https://kingshottoolbox.com/shop/moonlight-shop
+👉 https://kingshottoolbox.com/shop/adventure-shop
+👉 https://kingshottoolbox.com/shop/arena
 
 ## EN
 
-### Research: KVK mode takes the time off your speedups
+### New: the Island Planner (beta)
 
-In KVK mode, "Done" now takes the research's time off the speedup stock in the side panel, along with any prerequisites ticked with it. Each research counts its time rounded up to the minute, since one speedup only serves one research. A new "Apply these changes" button ticks off everything your stock pays for in one go, after a summary of your stock before and after.
+Enter the levels of your Fountain of Life, your Reservoirs and your buildings, and the tool tells you what to do next: raise the Fountain as soon as its prosperity is reached, then the Reservoirs, then the buildings that bring the missing prosperity for the least Water Essence. Each step gives its cost and how long your production takes to pay for it, and the tick button updates your island once the step is done in game. The 76 buildings have their in-game name and picture, in English and in French.
 
-👉 https://kingshottoolbox.com/research_calc
+👉 https://kingshottoolbox.com/island_calc
 
-### War Academy: a KvK suggestion that scores more
+### Two new Masters: Olander and Catherine
 
-The KvK suggestion often used up one budget before the other and came out all basic or all advanced. It now chooses the research it starts last, whose dust counts in full even if it stays in progress, then keeps looking for a better plan for a few seconds after the click. The plan shows right away and is replaced with each improvement; "Keep this plan" stops the search. On 120 random accounts, the old suggestion was on average 12% short of the best possible plan when speedups were scarce. The new one comes within 0.2%, mixing basic and advanced research when that scores more.
+They have their database page, with affinity milestones, passive expertise and every skill level by level, and they appear in the Masters tool. On the way, the EXP cost column now gives the cost of each level for Valora, Pan, Roman and Cassia (it showed a running total), and the affinity of Guinevere and Wilson is filled in.
 
-### War Academy: Limited Supply, prerequisites and backup
+👉 https://kingshottoolbox.com/database/masters/olander
+👉 https://kingshottoolbox.com/database/masters/catherine
+👉 https://kingshottoolbox.com/masters
 
-The advanced research Limited Supply has its row in the dust exchanges: 5 TrueGold for 13 dust, 2 exchanges a week per level, 20 at level 10. The plan fills it right after the normal 5-TrueGold row, before the 10-TrueGold one.
+### Translations and fixes
 
-On the Advanced research tab, setting a research to a level raises everything it requires: Limited Supply at level 3 puts Truegold Infirmaries, Quick Bandage and the four researches behind them at level 3. Lowering a research lowers what depends on it, and the "Auto-set prerequisites" box turns this off.
+The 18 skills of Diego, Liz and Luna now use the French wording of the game, and 13 of them take their in-game French name. No number changes.
 
-The "Global Backup" button now sits at the bottom of the page's side panel, like on the other tools.
+👉 https://kingshottoolbox.com/database/heroes/diego
+👉 https://kingshottoolbox.com/database/heroes/liz
+👉 https://kingshottoolbox.com/database/heroes/luna
 
-👉 https://kingshottoolbox.com/waracademy
+Diana's Iron Constitution reduces stamina cost by 10 to 20%, and Hilde's Noble Path gives 3 to 15% Attack and 2 to 10% Defense (the two were swapped).
+
+👉 https://kingshottoolbox.com/database/heroes/diana
+👉 https://kingshottoolbox.com/database/heroes/hilde
+
+The $20 daily pack of the Moonlight Shop and the Adventure Shop costs €23.99, not €24.99. In the Arena, the Rare General Hero Shard costs 250 tokens, not 150.
+
+👉 https://kingshottoolbox.com/shop/moonlight-shop
+👉 https://kingshottoolbox.com/shop/adventure-shop
+👉 https://kingshottoolbox.com/shop/arena
