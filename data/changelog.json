@@ -8,6 +8,124 @@
   },
   "releases": [
     {
+      "version": "1.16.0",
+      "date": "2026-11-09",
+      "changes": [
+        {
+          "type": "new",
+          "title": {
+            "EN": "Island Planner: what to do next on your island",
+            "FR": "Planificateur de l'île : quoi faire ensuite sur ton île"
+          },
+          "text": {
+            "EN": "A new beta tool for your island. Enter the levels of your Fountain of Life, your Reservoirs and your buildings, and it lists the next steps: raise the Fountain as soon as its prosperity is reached, then the Reservoirs, then the buildings that bring the missing prosperity for the least Water Essence. Each step gives its reason, its cost and how long your production takes to pay for it, and its tick button updates your island once the step is done in game. The 76 buildings have their Kingshot name and picture, in English and in French. An event building has to be won before it can be placed: Water Essence alone doesn't buy it, and the plan knows it.",
+            "FR": "Un nouvel outil en bêta pour ton île. Indique les niveaux de ta Fontaine Vitale, de tes Réservoirs et de tes bâtiments, et il liste les prochaines étapes : monter la Fontaine dès que sa prospérité est atteinte, puis les Réservoirs, puis les bâtiments qui apportent la prospérité manquante pour le moins d'Essence d'Eau. Chaque étape donne sa raison, son coût et le temps que met ta production à la payer, et son bouton coché met ton île à jour une fois l'étape faite en jeu. Les 76 bâtiments ont leur nom et leur image de Kingshot, en français comme en anglais. Un bâtiment d'événement doit avoir été gagné pour être posé : l'Essence d'Eau seule ne l'achète pas, et le plan en tient compte."
+          },
+          "href": "island_calc",
+          "linkLabel": {
+            "EN": "Island Planner",
+            "FR": "Planificateur de l'île"
+          }
+        },
+        {
+          "type": "new",
+          "title": {
+            "EN": "Masters: Olander and Catherine",
+            "FR": "Experts : Olander et Catherine"
+          },
+          "text": {
+            "EN": "The two new Masters have their database page, with affinity milestones, passive expertise and every skill level by level, and they appear in the Masters tool. Their French names and texts are the ones from the game. Skill tables can now show three values per level, which Catherine needs.",
+            "FR": "Les deux nouveaux Experts ont leur fiche dans la base de données, avec paliers d'affinité, expertise passive et chaque compétence niveau par niveau, et ils apparaissent dans l'outil Experts. Leurs noms et textes français sont ceux du jeu : Olander y est le « Stratège Avisé ». Les tableaux de compétences peuvent maintenant afficher trois valeurs par niveau, ce dont Catherine a besoin."
+          },
+          "href": "database/masters/",
+          "linkLabel": {
+            "EN": "Masters database",
+            "FR": "Base de données Experts"
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Masters DB: EXP cost and affinity columns",
+            "FR": "Base Experts : colonnes coût en EXP et affinité"
+          },
+          "text": {
+            "EN": "The EXP cost column now gives the cost of each level for Valora, Pan, Roman and Cassia, where it showed a running total. The affinity column is filled in for Guinevere and Wilson, where it showed 0.",
+            "FR": "La colonne du coût en EXP donne maintenant le coût de chaque niveau pour Valora, Pan, Roman et Cassia, là où elle affichait un cumul. La colonne d'affinité est remplie pour Guinevere et Wilson, là où elle affichait 0."
+          },
+          "href": "database/masters/",
+          "linkLabel": {
+            "EN": "Masters database",
+            "FR": "Base de données Experts"
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Heroes: French skill texts for Diego, Liz and Luna",
+            "FR": "Héros : les textes français de Diego, Liz et Luna"
+          },
+          "text": {
+            "EN": "The 18 skills of the generation 8 heroes now use the French wording seen in game, and 13 skills take their in-game French name, quoted the same way in the exclusive weapon texts of Diego and Liz. No number changes.",
+            "FR": "Les 18 compétences des héros de génération 8 reprennent maintenant le texte du jeu, et 13 d'entre elles prennent leur nom français du jeu, cité de la même façon dans les textes des armes exclusives de Diego et Liz. Aucun chiffre ne change."
+          },
+          "href": "database/heroes/",
+          "linkLabel": {
+            "EN": "Heroes database",
+            "FR": "Base de données Héros"
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Heroes: Diana and Hilde values",
+            "FR": "Héros : les valeurs de Diana et Hilde"
+          },
+          "text": {
+            "EN": "Checked in game. Diana's Iron Constitution reduces stamina cost by 10, 12, 15, 18 and 20%, where it read 4 to 20%. Hilde's Noble Path gives 3 to 15% Attack and 2 to 10% Defense: the two were swapped.",
+            "FR": "Vérifié en jeu. Santé de Fer de Diana réduit le coût en endurance de 10, 12, 15, 18 et 20 %, là où on lisait 4 à 20 %. Noble Voie de Hilde donne 3 à 15 % d'Attaque et 2 à 10 % de Défense : les deux étaient inversées."
+          },
+          "href": "database/heroes/",
+          "linkLabel": {
+            "EN": "Heroes database",
+            "FR": "Base de données Héros"
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Moonlight Shop and Adventure Shop: the $20 pack costs €23.99",
+            "FR": "Clair de Lune et Boutique d'Aventure : le pack à 20 $ coûte 23,99 €"
+          },
+          "text": {
+            "EN": "Both shops listed the $20 daily pack at €24.99. The game asks €23.99, as on every other pack at that price, so the return shown for that pack was a little low.",
+            "FR": "Les deux boutiques affichaient le pack quotidien à 20 $ à 24,99 €. Le jeu demande 23,99 €, comme sur tous les autres packs à ce prix : le rendement affiché pour ce pack était un peu trop bas."
+          },
+          "href": "shop/moonlight-shop",
+          "linkLabel": {
+            "EN": "Moonlight Shop",
+            "FR": "Magasin du Clair de Lune"
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Arena: the Rare General Hero Shard costs 250 tokens",
+            "FR": "Arène : le Fragment Universel de Héros Rare coûte 250 jetons"
+          },
+          "text": {
+            "EN": "The Arena listed it at 150 tokens. The game asks 250, on a Gen 7 server as on a Gen 1 one.",
+            "FR": "L'Arène l'affichait à 150 jetons. Le jeu en demande 250, sur un serveur de génération 7 comme sur un serveur de génération 1."
+          },
+          "href": "shop/arena",
+          "linkLabel": {
+            "EN": "Arena",
+            "FR": "Arène"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.15.8",
       "date": "2026-11-02",
       "changes": [
