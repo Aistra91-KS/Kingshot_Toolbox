@@ -331,8 +331,8 @@
       "factor": 1500,
       "ceiling": true,
       "how": {
-        "FR": "La Cl\u00e9 en Or co\u00fbte 1 500 gemmes en jeu : c'est ce que vaut sa monnaie d'achat, donc son prix r\u00e9el. Le relev\u00e9 seul la sortait d'un coffre personnalis\u00e9 \u00e0 6 \u20ac dont elle n'est qu'une ligne parmi d'autres, et lui collait le prix entier du pack, soit 5,7 fois trop. La r\u00e8gle est un plafond : si un pack la descend un jour sous les 1 500 gemmes, c'est ce pack qui fera le prix.",
-        "EN": "The Gold Key costs 1,500 gems in game: that is what its purchase currency is worth, so that is its real price. The survey alone had it coming out of a 6 euro custom chest where it is only one line among several, which handed it the whole pack price, 5.7 times too much. The rule is a ceiling: the day a pack sells it for less than 1,500 gems, that pack sets the price."
+        "FR": "La Cl\u00e9 en Or co\u00fbte 1 500 gemmes en jeu : c'est ce que vaut sa monnaie d'achat, donc son prix r\u00e9el. Le relev\u00e9 seul la sortait d'un coffre personnalis\u00e9 \u00e0 6 \u20ac dont elle n'est qu'une ligne parmi d'autres, et lui collait le prix entier du pack, soit 23 fois trop une fois la gemme compt\u00e9e pour un quart. La r\u00e8gle est un plafond : si un pack la descend un jour sous les 1 500 gemmes, c'est ce pack qui fera le prix.",
+        "EN": "The Gold Key costs 1,500 gems in game: that is what its purchase currency is worth, so that is its real price. The survey alone had it coming out of a 6 euro custom chest where it is only one line among several, which handed it the whole pack price, 23 times too much once gems count for a quarter. The rule is a ceiling: the day a pack sells it for less than 1,500 gems, that pack sets the price."
       }
     },
     "10_exp_vip": {
@@ -340,8 +340,8 @@
       "factor": 20,
       "ceiling": true,
       "how": {
-        "FR": "Un point d'EXP VIP vaut 2 gemmes, ce lot de 10 en vaut donc 20 : c'est d\u00e9j\u00e0 le rapport du r\u00e9f\u00e9rentiel gemmes. Le relev\u00e9 le chiffrait 0,020 \u20ac contre 0,014 \u20ac par la gemme. La r\u00e8gle est un plafond : un pack qui ferait moins cher reprendrait la main.",
-        "EN": "One VIP EXP point is worth 2 gems, so this bundle of 10 is worth 20: that is already the gem reference ratio. The survey priced it at 0.020 euro against 0.014 by the gem. The rule is a ceiling: a pack selling it for less would take over."
+        "FR": "Un point d'EXP VIP vaut 2 gemmes, ce lot de 10 en vaut donc 20 : c'est d\u00e9j\u00e0 le rapport du r\u00e9f\u00e9rentiel gemmes. Le relev\u00e9 le chiffrait 0,020 \u20ac contre 0,0035 \u20ac par la gemme compt\u00e9e pour un quart. La r\u00e8gle est un plafond : un pack qui ferait moins cher reprendrait la main.",
+        "EN": "One VIP EXP point is worth 2 gems, so this bundle of 10 is worth 20: that is already the gem reference ratio. The survey priced it at 0.020 euro against 0.0035 by the gem counted at a quarter. The rule is a ceiling: a pack selling it for less would take over."
       }
     },
     "100_exp_vip": {
@@ -349,8 +349,8 @@
       "factor": 200,
       "ceiling": true,
       "how": {
-        "FR": "Un point d'EXP VIP vaut 2 gemmes, ce lot de 100 en vaut donc 200, comme dans le r\u00e9f\u00e9rentiel gemmes. Le relev\u00e9 le chiffrait 0,200 \u20ac contre 0,141 \u20ac par la gemme. Les lots de 1 000 et de 10 000 se d\u00e9duisant de celui-ci, ils suivent le m\u00eame prix sans r\u00e8gle de plus. Plafond l\u00e0 aussi : un pack moins cher reprendrait la main.",
-        "EN": "One VIP EXP point is worth 2 gems, so this bundle of 100 is worth 200, as in the gem reference. The survey priced it at 0.200 euro against 0.141 by the gem. The 1,000 and 10,000 bundles follow from this one, so they take the same price with no further rule. A ceiling here too: a cheaper pack would take over."
+        "FR": "Un point d'EXP VIP vaut 2 gemmes, ce lot de 100 en vaut donc 200, comme dans le r\u00e9f\u00e9rentiel gemmes. Le relev\u00e9 le chiffrait 0,200 \u20ac contre 0,035 \u20ac par la gemme compt\u00e9e pour un quart. Les lots de 1 000 et de 10 000 se d\u00e9duisant de celui-ci, ils suivent le m\u00eame prix sans r\u00e8gle de plus. Plafond l\u00e0 aussi : un pack moins cher reprendrait la main.",
+        "EN": "One VIP EXP point is worth 2 gems, so this bundle of 100 is worth 200, as in the gem reference. The survey priced it at 0.200 euro against 0.035 by the gem counted at a quarter. The 1,000 and 10,000 bundles follow from this one, so they take the same price with no further rule. A ceiling here too: a cheaper pack would take over."
       }
     },
     "custom_mythic_hero_gear_chest": {
@@ -611,6 +611,16 @@
       "how": {
         "FR": "Bois, pain, pierre et fer ne comptent que pour un quart de leur prix relevé : ils s'accumulent tout seuls en jouant, et un pack rempli de ressources n'est pas un bon achat pour autant. C'est une pondération assumée, pas une mesure.",
         "EN": "Wood, bread, stone and iron only count for a quarter of their surveyed price: they pile up on their own just by playing, and a pack full of resources is not a good buy for all that. This is a deliberate weighting, not a measurement."
+      }
+    },
+    {
+      "factor": 0.25,
+      "ids": [
+        "gem"
+      ],
+      "how": {
+        "FR": "Les gemmes comptent elles aussi pour un quart de leur prix relevé, comme les ressources de base : un pack ne devient pas un bon achat parce qu'il est garni de gemmes. La Clé en Or et l'EXP VIP, chiffrées en gemmes, suivent le même quart. C'est une pondération assumée, pas une mesure.",
+        "EN": "Gems also count for a quarter of their surveyed price, like basic resources: a pack is not a good buy because it is padded with gems. The Gold Key and VIP EXP, which are priced in gems, take the same quarter. This is a deliberate weighting, not a measurement."
       }
     }
   ],
