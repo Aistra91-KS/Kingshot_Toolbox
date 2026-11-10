@@ -2038,6 +2038,9 @@ body.drawer-locked { overflow: hidden; }
   cursor:help; position:relative; vertical-align:middle; user-select:none;
 }
 .help-i:hover, .help-i:focus{ color:var(--accent-text, var(--accent)); border-color:var(--accent); outline:none; }
+/* Au doigt, 15 px se ratent : le tap tombait à côté, sur l'en-tête de colonne qui trie.
+   Zone invisible de 35 px autour du rond, sans changer son dessin. */
+@media (pointer:coarse){ .help-i::before{ content:''; position:absolute; inset:-10px; } }
 
 /* Bulle unique positionnée en JS (js/help.js) et contrainte dans la fenêtre :
    remplace l'ancien tooltip ::after centré qui débordait hors écran dans la sidebar. */

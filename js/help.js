@@ -86,6 +86,16 @@
   document.addEventListener('mouseout',  (e) => { const el = e.target.closest && e.target.closest('.help-i'); if (el) hideTip(); });
   document.addEventListener('focusin',   (e) => { const el = e.target.closest && e.target.closest('.help-i'); if (el) showTip(el); });
   document.addEventListener('focusout',  (e) => { const el = e.target.closest && e.target.closest('.help-i'); if (el) hideTip(); });
+  // Un "i" posé dans un en-tête triable (tableaux des boutiques) ou dans un <label> : le
+  // clic ne doit rien faire d'autre qu'ouvrir la bulle. Sans cet arrêt en phase de
+  // capture, le tap remontait jusqu'au <th onclick> et retriait le tableau. Le focus
+  // explicite sert Safari, qui ne donne pas le focus au toucher d'un tabindex.
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest && e.target.closest('.help-i');
+    if (!el) return;
+    e.stopPropagation(); e.preventDefault();
+    el.focus(); showTip(el);
+  }, true);
   window.addEventListener('scroll', hideTip, true);
   window.addEventListener('resize', hideTip);
 

@@ -30,6 +30,8 @@
 
 **Ruban de puces en tête de fiche.** Sous 560 px, `nav.db-switch:not(.footer)` tient sur une ligne qui défile, et `hdrScrollHints()` y amène la puce active une fois à l'ouverture. Empilées, les 14 puces des bâtiments prenaient 250 px avant le tableau. La liste du pied de fiche (`.footer`) reste entière.
 
+**Info-bulle « i » (`HelpSystem.tip`)** : un clic dessus est arrêté en phase de capture (`help.js`) et n'ouvre que la bulle. Il ne remonte plus au `<th onclick>` qui trie le tableau, ni au `<label>` qui le contient. Au doigt (`pointer:coarse`), un `::before` invisible porte la zone de tap à 35 px autour du rond de 15 px.
+
 **Intro de boutique coupée à trois lignes** sous 560 px (`shop.css`), dépliée puis repliée par le bouton `.sx-more` du gabarit (`hidden` dans le HTML, affiché par la seule feuille de style : une feuille en cache le laisse invisible). Ses deux libellés, « Lire la suite » et « Réduire », basculent par l'attribut `hidden` et non par une règle CSS, pour la même raison. Le texte reste entier dans la page. À reporter à la main sur le jumeau français.
 
 **Référentiels d'objets sous 560 px** : la colonne Catégorie s'efface et le nom passe à la ligne, pour que la valeur soit dans l'écran (`shop.css`, `:has(> #ie-tbody)` et `:has(> #item-tbody)` côté en-tête comme côté cellules).
