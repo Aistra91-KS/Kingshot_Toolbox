@@ -605,7 +605,7 @@ function seKpisHtml(c){
 
 function seGridHtml(c){
   const days = c.days;
-  let head = `<tr><th class="c-pack">${seT('evPack')}</th><th class="rgt">${seT('evPrice')}</th>`;
+  let head = `<tr><th class="c-pack">${seT('evPack')}</th><th class="rgt sxe-price">${seT('evPrice')}</th>`;
   for(let d=1; d<=days; d++) head += `<th class="ctr c-day">${seT('evDay')}${d}</th>`;
   head += `<th class="rgt c-tot">${seT('evSpent')}</th></tr>`;
 
@@ -667,15 +667,19 @@ function seGridHtml(c){
              onclick="seToggle('${p.id}',${d})">${n===0?'':(max>1?'×'+n:'✓')}</button></td>`;
     }
     const rowSpend = p.once ? (rowCount>0 ? price : 0) : rowCount*price;
+    // Sur téléphone (shop.css), le nom court et le prix passent dans la cellule du pack et
+    // les colonnes Prix et Total s'effacent : les six jours tiennent dans l'écran. Les deux
+    // ajouts partent `hidden` : avec un shop.css en cache qui ne les connaît pas, la grille
+    // reste celle d'avant au lieu d'afficher le nom deux fois.
     return `<tr>
-      <td class="c-pack"><b>${scEscAttr(seName(p))}</b>${note}${limit?`<span class="sx-sub">${limit}</span>`:''}</td>
+      <td class="c-pack"><b class="sxe-pk-name">${scEscAttr(seName(p))}</b><b class="sxe-pk-short" hidden>${scEscAttr(seShort(p))}</b>${note}<span class="sxe-pk-price" hidden>${seFmtMoney(price)}</span>${limit?`<span class="sx-sub">${limit}</span>`:''}</td>
       <td class="rgt sxe-price">${seFmtMoney(price)}</td>
       ${cells}
       <td class="rgt c-tot ${rowSpend>0?'':'dash'}">${rowSpend>0?seFmtMoney(rowSpend):'—'}</td>
     </tr>`;
   }).join('');
 
-  let foot = `<tr><td class="c-pack sxe-foot">${seT('evDailyTot')}</td><td></td>`;
+  let foot = `<tr><td class="c-pack sxe-foot">${seT('evDailyTot')}</td><td class="sxe-price"></td>`;
   let grand = 0;
   for(let d=1; d<=days; d++){
     let dSpend = 0;
@@ -821,8 +825,7 @@ function seRender(){
         <summary>${seT('evMyBuys')}</summary>
         <div class="sxe-toolbar">
           <span class="sx-fact">${seT('evPlayed')} :
-            <span class="sx-take on"><button type="button" data-se="pl:-" onclick="sePlayedStep(-1)" ${c.played<=0?'disabled':''} aria-label="−">−</button><input type="text" inputmode="numeric" value="${c.played}" data-se="pl:i" onchange="seSetPlayed(this.value)" aria-label="${scEscAttr(seT('evPlayed'))}"><button type="button" data-se="pl:+" onclick="sePlayedStep(1)" ${c.played>=days?'disabled':''} aria-label="+">+</button></span>
-            / ${days}</span>
+            <span class="sx-take on"><button type="button" data-se="pl:-" onclick="sePlayedStep(-1)" ${c.played<=0?'disabled':''} aria-label="−">−</button><input type="text" inputmode="numeric" value="${c.played}" data-se="pl:i" onchange="seSetPlayed(this.value)" aria-label="${scEscAttr(seT('evPlayed'))}"><button type="button" data-se="pl:+" onclick="sePlayedStep(1)" ${c.played>=days?'disabled':''} aria-label="+">+</button></span>&nbsp;/&nbsp;${days}</span>
           ${(()=>{ if(!c.expTotal) return '';
             // Saisie libre (pas de compteur +/- : on parle de milliers d'amulettes).
             // Le compte des paliers atteints est affiché à côté, sinon le joueur ne
@@ -848,8 +851,7 @@ function seRender(){
           ${(()=>{ const pm = sePurchaseMission(); if(!pm) return '';
             // Quotidienne : un compteur de jours. Saisonnière : une case.
             if(c.dailyBuy) return `<span class="sx-fact">${seT('evOutside')}${seTip('evOutsideTip')} :
-              <span class="sx-take${c.outsideBuys>0?' on':''}"><button type="button" data-se="ob:-" onclick="seOutsideStep(-1)" ${c.outsideBuys<=0?'disabled':''} aria-label="−">−</button><input type="text" inputmode="numeric" value="${c.outsideBuys}" data-se="ob:i" onchange="seSetOutside(this.value)" aria-label="${scEscAttr(seT('evOutside'))}"><button type="button" data-se="ob:+" onclick="seOutsideStep(1)" ${c.outsideBuys>=days?'disabled':''} aria-label="+">+</button></span>
-              / ${days}</span>`;
+              <span class="sx-take${c.outsideBuys>0?' on':''}"><button type="button" data-se="ob:-" onclick="seOutsideStep(-1)" ${c.outsideBuys<=0?'disabled':''} aria-label="−">−</button><input type="text" inputmode="numeric" value="${c.outsideBuys}" data-se="ob:i" onchange="seSetOutside(this.value)" aria-label="${scEscAttr(seT('evOutside'))}"><button type="button" data-se="ob:+" onclick="seOutsideStep(1)" ${c.outsideBuys>=days?'disabled':''} aria-label="+">+</button></span>&nbsp;/&nbsp;${days}</span>`;
             return `<label class="sx-fact sxe-chk-fact"><input type="checkbox" class="sxe-chk"
               data-se="pok" ${c.purchaseOk?'checked':''} onchange="seSetPurchaseOk(this.checked)">
               ${seTf('evPurchaseChk',{m: scEscAttr(seName(pm))})}${seTip('evPurchaseChkTip')}</label>`; })()}

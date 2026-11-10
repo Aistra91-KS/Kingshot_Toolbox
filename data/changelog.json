@@ -42,6 +42,22 @@
             "EN": "Theater Shop",
             "FR": "Magasin du Théâtre"
           }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Shops on a phone: the ratio in view, bigger buttons",
+            "FR": "Boutiques sur téléphone : le ratio à l'écran, des boutons plus grands"
+          },
+          "text": {
+            "EN": "On a phone, every shop table now shows value and ratio straight away: tier, quantity and cost move under the item name, where you used to scroll sideways across three screens to read the ratio. Buttons and fields are 44 px high, and tapping a field no longer zooms the page on an iPhone. On event pages, the summary tiles sit two by two, and the purchase grid shows each pack's short name with its price, so the six days of the Theater fit on screen. The three Theater tables fit the screen too, percentages and best cash-in included. Nothing changes on a computer.",
+            "FR": "Sur téléphone, le tableau de chaque boutique affiche d'emblée la valeur et le ratio : palier, quantité et coût passent sous le nom de l'objet, là où il fallait défiler sur trois écrans pour lire le ratio. Boutons et champs font 44 px de haut, et toucher un champ ne zoome plus la page sur iPhone. Sur les pages d'événement, les tuiles se rangent deux par deux et la grille des achats affiche le nom court de chaque pack avec son prix : les six jours du Théâtre tiennent dans l'écran. Les trois tableaux du Théâtre aussi, pourcentages et meilleur encaissement compris. Rien ne change sur ordinateur."
+          },
+          "href": "shop/theater-shop",
+          "linkLabel": {
+            "EN": "Theater Shop",
+            "FR": "Magasin du Théâtre"
+          }
         }
       ]
     },

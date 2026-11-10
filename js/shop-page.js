@@ -221,10 +221,13 @@ function spRenderPodium(){
 // Pastille de palier. Le NUMÉRO est écrit DANS la pastille : la couleur seule ne doit
 // jamais porter l'information (un joueur daltonien doit lire le palier aussi vite que
 // les autres). L'en-tête de colonne dit « Palier », donc le chiffre nu suffit à la lecture.
-function spTierHtml(t){
+// `named` : la pastille porte son nom (« Palier 2 ») pour un lecteur d'écran. Utile hors
+// de la colonne Palier, où aucun en-tête ne dit ce que veut dire le « 2 » (ligne mobile).
+function spTierHtml(t, named){
   if(!t) return '';
   const lbl=scT('tierOf').replace('{n}',t);
-  return `<span class="sx-tier t${t}" title="${scEscAttr(lbl)}"><i aria-hidden="true"></i>${t}</span>`;
+  const a11y = named ? ` role="img" aria-label="${scEscAttr(lbl)}"` : '';
+  return `<span class="sx-tier t${t}" title="${scEscAttr(lbl)}"${a11y}><i aria-hidden="true"></i>${t}</span>`;
 }
 
 // ---------- tableau ----------
@@ -325,9 +328,9 @@ function spRenderTable(){
   const heads = `<tr>
       <th class="c-img"></th>
       ${spTh('name',scT('hItem'),'','srt')}
-      ${tiered ? spTh('tier',scT('hTier')+scTip('tipTier'),'ctr','srt') : ''}
-      ${spTh('qty',scT('hQty'),'ctr','srt')}
-      ${spTh('cost',scT('hCost'),'rgt','srt')}
+      ${tiered ? spTh('tier',scT('hTier')+scTip('tipTier'),'ctr','srt c-tier') : ''}
+      ${spTh('qty',scT('hQty'),'ctr','srt c-qty')}
+      ${spTh('cost',scT('hCost'),'rgt','srt c-cost')}
       ${eurV ? spTh('eur',scTc('hEur')+scTip('tipEur'),'rgt','srt')
              : spTh('gem',scT('hGem')+scTip('tipGem'),'rgt','srt')}
       ${eurV ? spTh('ratioEur',scT('hRatio')+scTip('tipRatioEur'),'','srt')
@@ -347,10 +350,10 @@ function spRenderTable(){
   const body = rows.map(r=>{
     const qtyCell = edit
       ? `<td class="ctr"><input type="number" min="1" step="1" inputmode="numeric" aria-label="${spFieldLabel(scT('hQty'),r)}" value="${r.qty}" onchange="spEditQty(${r.i},this.value)"></td>`
-      : `<td class="ctr">${spNum(r.qty)}</td>`;
+      : `<td class="ctr c-qty">${spNum(r.qty)}</td>`;
     const costCell = edit
       ? `<td class="rgt"><input type="number" min="0" step="1" inputmode="numeric" aria-label="${spFieldLabel(scT('hCost'),r)}" value="${r.cost}" onchange="spEditCost(${r.i},this.value)"></td>`
-      : `<td class="rgt">${spNum(r.cost)}</td>`;
+      : `<td class="rgt c-cost">${spNum(r.cost)}</td>`;
 
     // Stock : en lecture on montre le plafond atteignable et d'où il sort ; en édition
     // c'est le stock restant qui redevient saisissable.
@@ -412,10 +415,16 @@ function spRenderTable(){
       // en mode édition) : ne mettre l'info-bulle « valeur inconnue » que dans le premier cas.
       : `<td class="c-ratio"><span class="dash"${(eurV&&r.eur==null)?` title="${scEscAttr(scTc('noEur'))}"`:''}>—</span></td>`;
     const isTopV = eurV ? r.isTopEur : r.isTop;
+    // Sur téléphone (shop.css), palier, quantité et coût passent sous le nom et leurs trois
+    // colonnes s'effacent : le ratio et la valeur, qui classent le tableau, arrivent dans
+    // l'écran au lieu du troisième écran de défilement. Pas en mode édition, où quantité et
+    // coût sont des champs. `hidden` : un shop.css en cache ne l'affiche pas, et ne masque
+    // pas non plus les colonnes, puisqu'il ne connaît pas `.sx-mob`.
+    const mobLine = edit ? '' : `<span class="sx-mob" hidden>${tiered?spTierHtml(r.tier,true)+' ':''}${scT('hQty')}\u00a0${spNum(r.qty)} · ${scT('hCost')}\u00a0${spNum(r.cost)}</span>`;
 
     return `<tr class="${isTopV?'is-top':''}${(r.take+r.have)>0?' in-cart':''}" style="--cat:${scCatColor(r.cat)};">
       <td class="c-img"><span class="sx-ico" style="background-image:url('img/Item/${r.img}.webp');"></span></td>
-      <td class="c-name">${scEscAttr(r.nameTxt)}${isTopV?`<span class="sx-tag">${scT('best')}</span>`:''}</td>
+      <td class="c-name">${scEscAttr(r.nameTxt)}${isTopV?`<span class="sx-tag">${scT('best')}</span>`:''}${mobLine}</td>
       ${tiered?`<td class="ctr c-tier">${spTierHtml(r.tier)}</td>`:''}
       ${qtyCell}
       ${costCell}
