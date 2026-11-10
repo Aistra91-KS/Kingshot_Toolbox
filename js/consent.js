@@ -34,6 +34,7 @@
     EN: {
       title: 'Cookies',
       text: 'With your consent, Google Analytics sets cookies to count visits and see which pages and tools get used, along with general audience data from Google (age range, interests). What you type into the tools is never sent. Your choice is kept for 6 months.',
+      short: 'With your consent, Google Analytics sets cookies to count visits and learn about the audience (age range, interests). Your choice is kept for 6 months.',
       more: 'Details',
       refuse: 'Refuse',
       accept: 'Accept',
@@ -44,6 +45,7 @@
     FR: {
       title: 'Cookies',
       text: "Avec ton accord, Google Analytics dépose des cookies pour compter les visites et voir quelles pages et quels outils servent, avec des données d'audience générales fournies par Google (tranche d'âge, centres d'intérêt). Ce que tu saisis dans les outils n'est jamais envoyé. Ton choix est gardé 6 mois.",
+      short: "Avec ton accord, Google Analytics dépose des cookies pour compter les visites et connaître l'audience (tranche d'âge, centres d'intérêt). Ton choix est gardé 6 mois.",
       more: 'En savoir plus',
       refuse: 'Refuser',
       accept: 'Accepter',
@@ -156,6 +158,8 @@
     '@keyframes ksc-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}' +
     '@media (prefers-reduced-motion:reduce){#ks-consent{animation:none}}' +
     '@media (max-width:600px){#ks-consent{left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:calc(100% - 24px);max-width:none;max-height:calc(100vh - 24px - env(safe-area-inset-bottom,0px))}#ks-consent.ksc-right{right:12px}}' +
+    '#ks-consent .ksc-short{display:none}' +
+    '@media (max-width:600px){#ks-consent{padding:12px 14px;font-size:13px;line-height:1.4}#ks-consent .ksc-long{display:none}#ks-consent .ksc-short{display:inline}#ks-consent .ksc-actions{margin-top:10px}}' +
     // Lien « Cookies » du pied de page (footer.js) : un bouton qui a l'air d'un lien.
     '.sf-cookies{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer}';
 
@@ -201,7 +205,10 @@
     var now = c === true ? t('nowOn') : c === false ? t('nowOff') : '';
     box.innerHTML =
       '<p class="ksc-title" id="ksc-title">' + esc(t('title')) + '</p>' +
-      '<p class="ksc-text">' + esc(t('text')) + ' <a href="' + ROOT + 'about#privacy">' + esc(t('more')) + '</a></p>' +
+      // Deux longueurs du même texte : sur un téléphone, le texte complet prenait un tiers
+      // de l'écran à 390 px et plus de la moitié à 320. La version courte garde les deux
+      // finalités et la durée ; le détail est derrière « En savoir plus ».
+      '<p class="ksc-text"><span class="ksc-long">' + esc(t('text')) + '</span><span class="ksc-short">' + esc(t('short')) + '</span> <a href="' + ROOT + 'about#privacy">' + esc(t('more')) + '</a></p>' +
       (now ? '<p class="ksc-now">' + esc(now) + '</p>' : '') +
       '<div class="ksc-actions">' +
         '<button type="button" class="ksc-btn" data-ksc="0">' + esc(t('refuse')) + '</button>' +

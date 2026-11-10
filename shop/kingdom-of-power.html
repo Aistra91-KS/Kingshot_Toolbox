@@ -58,6 +58,9 @@
           </div>
         </div>
         <p class="db-intro" data-en="The Kingdom of Power shop, paid in Kingdom Coins. Every item is weighed against its gem value, turning a plain price list into a ranking of what is actually worth buying. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way." data-fr="La boutique du Royaume du Pouvoir, payée en Pièces du Royaume. Chaque objet est pesé face à sa valeur en gemmes, ce qui transforme une simple liste de prix en classement de ce qui vaut réellement l'achat. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens.">The Kingdom of Power shop, paid in Kingdom Coins. Every item is weighed against its gem value, turning a plain price list into a ranking of what is actually worth buying. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.</p>
+        <!-- Sur téléphone l'intro est coupée à trois lignes (shop.css) et ce bouton la déplie.
+             `hidden` : sans la règle de shop.css (feuille en cache), il ne s'affiche pas. -->
+        <button type="button" class="sx-more" hidden onclick="var p=this.previousElementSibling;p.classList.add('is-open');p.tabIndex=-1;p.focus();this.remove()" data-en="Read more" data-fr="Lire la suite">Read more</button>
         <div id="sp-archive" data-nosnippet></div>
         <div class="sx-actions" id="sp-actions"></div>
         <div id="sp-cart"></div>

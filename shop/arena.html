@@ -58,6 +58,9 @@
           </div>
         </div>
         <p class="db-intro" data-en="Everything the Arena shop sells in Kingshot, with the Arena Token price of each item set against its reference value in gems. The ratio tells you how much value a token actually buys. The higher it is, the better the purchase. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way." data-fr="Tout ce que vend la boutique de l'Arène dans Kingshot, avec le prix en Jetons d'Arène de chaque objet face à sa valeur de référence en gemmes. Le ratio indique ce qu'un jeton rapporte vraiment. Plus il est élevé, meilleur est l'achat. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens.">Everything the Arena shop sells in Kingshot, with the Arena Token price of each item set against its reference value in gems. The ratio tells you how much value a token actually buys. The higher it is, the better the purchase. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.</p>
+        <!-- Sur téléphone l'intro est coupée à trois lignes (shop.css) et ce bouton la déplie.
+             `hidden` : sans la règle de shop.css (feuille en cache), il ne s'affiche pas. -->
+        <button type="button" class="sx-more" hidden onclick="var p=this.previousElementSibling;p.classList.add('is-open');p.tabIndex=-1;p.focus();this.remove()" data-en="Read more" data-fr="Lire la suite">Read more</button>
         <div id="sp-archive" data-nosnippet></div>
         <div class="sx-actions" id="sp-actions"></div>
         <div id="sp-cart"></div>
