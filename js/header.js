@@ -350,6 +350,7 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
           <img class="logo-icon" src="img/logo/favicon.svg" alt="" width="24" height="24">
           <span class="logo-text">${S.name}</span>
         </a>
+        <span class="hdr-page" id="hdr-page" hidden></span>
       </div>
 
       <nav class="hdr-zone hdr-center">
@@ -406,9 +407,25 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
 
   if (window.GlobalLang) {
     hdrInitLangToggle();
+    hdrRenderPageName();
     document.documentElement.lang = hdrLang().toLowerCase();
   }
 })();
+
+// ---------- Nom de l'outil dans l'en-tête (téléphone) ----------
+// Sous 820 px l'en-tête ne montrait que le logo et le menu, et plusieurs outils s'ouvrent
+// sur le même intitulé (« Paramètres », « Panneau de Contrôle ») : on ne savait pas où
+// l'on était. Le nom vient du manifeste, comme le reste de la navigation. Le <span> est
+// `hidden` et seule la règle de style.css l'affiche : avec une feuille en cache, il ne
+// s'ajoute pas au logo sur ordinateur. Une fiche affiche le nom de sa section (celle que
+// désigne son `HDR_ACTIVE_HREF`) ; une page hors manifeste (À propos, Nouveautés) n'affiche
+// rien, elle a son fil d'Ariane et son titre.
+function hdrRenderPageName() {
+  const el = document.getElementById('hdr-page');
+  if (!el) return;
+  const tool = HDR_CTX.toolId && window.SITE && window.SITE.tools ? window.SITE.tools[HDR_CTX.toolId] : null;
+  el.textContent = tool ? hdrT(tool.name) : '';
+}
 
 // ---------- Bouton langue (bascule FR ⇄ EN, desktop) ----------
 function hdrUpdateLangCode() {
@@ -431,6 +448,7 @@ function hdrInitLangToggle() {
 // trois re-rendus ci-dessous : le header ne se retraduisait jamais.)
 window.addEventListener('langChanged', (e) => {
   hdrUpdateLangCode();
+  hdrRenderPageName();
   if (e.detail) document.documentElement.lang = (e.detail.lang || 'en').toLowerCase();
   hdrRenderCategories();
   hdrRenderTools();
@@ -1120,4 +1138,47 @@ function hdrTrack(name, params) {
   }
   document.addEventListener('input', onField, true);
   document.addEventListener('change', onField, true);
+})();
+
+// ============================================================
+//  INDICE DE DÉFILEMENT HORIZONTAL (téléphone)
+//  Un tableau plus large que l'écran défile dans sa boîte, mais rien ne le disait : sur
+//  « Prix réel des objets », on ne voyait que la colonne des noms. Tant qu'il reste du
+//  contenu à droite, la boîte reçoit `.kt-more-right` et style.css estompe son bord.
+//  Ici et non dans chaque page : les tableaux sont rendus par une douzaine de scripts.
+//  Le ruban de puces des fiches (`nav.db-switch`, style.css) amène en plus sa puce
+//  active dans l'écran, une fois, à l'ouverture.
+// ============================================================
+(function hdrScrollHints() {
+  if (!window.requestAnimationFrame || !window.MutationObserver) return;
+  const BOXES = '.table-container, .table-wrap, .tbl-scroll, .wa-tree-wrap, .sxe-gridbox, #p-adv, #m-milestones, nav.db-switch';
+  const centred = new WeakSet();
+  let raf = null;
+
+  function check() {
+    raf = null;
+    // Au-dessus de 820 px la règle de style.css ne s'applique pas : inutile de mesurer.
+    if (window.innerWidth > 820) return;
+    document.querySelectorAll(BOXES).forEach((box) => {
+      const room = box.scrollWidth - box.clientWidth;
+      if (room > 4 && box.matches('nav.db-switch') && !centred.has(box)) {
+        centred.add(box);
+        const on = box.querySelector('.db-switch-item.active');
+        if (on) box.scrollLeft = Math.max(0, on.offsetLeft - box.offsetLeft - (box.clientWidth - on.offsetWidth) / 2);
+      }
+      box.classList.toggle('kt-more-right', room - box.scrollLeft > 4);
+    });
+  }
+  function ask() { if (raf === null) raf = requestAnimationFrame(check); }
+
+  function start() {
+    ask();
+    // `scroll` ne remonte pas : on l'écoute en capture, pour toutes les boîtes d'un coup.
+    document.addEventListener('scroll', ask, true);
+    window.addEventListener('resize', ask);
+    window.addEventListener('load', ask);
+    // Les tableaux arrivent après les données, et changent avec un tri ou un filtre.
+    new MutationObserver(ask).observe(document.body, { childList: true, subtree: true });
+  }
+  if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
 })();

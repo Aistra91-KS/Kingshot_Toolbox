@@ -97,7 +97,7 @@
     --border:        #d4dce8;      /* Gris très pâle */
     
     /* Couleurs sémantiques */
-    --success:       #00897b;      /* Turquoise foncé */
+    --success:       #00695c;      /* Turquoise foncé : 6:1 sur les fonds clairs (#00897b n'en tenait que 3,8 à 4,3) */
     --warning:       #e65100;      /* Orange foncé */
     
     /* Tableaux */
@@ -105,7 +105,7 @@
     --table-row-alt: #f5f8fc;
     
     /* Couleurs d'arbres (Research) */
-    --growth-color:  #00897b;
+    --growth-color:  #00695c;
     --eco-color:     #c89020;
     --battle-color:  #c62828;
     
@@ -2038,6 +2038,9 @@ body.drawer-locked { overflow: hidden; }
   cursor:help; position:relative; vertical-align:middle; user-select:none;
 }
 .help-i:hover, .help-i:focus{ color:var(--accent-text, var(--accent)); border-color:var(--accent); outline:none; }
+/* Au doigt, 15 px se ratent : le tap tombait à côté, sur l'en-tête de colonne qui trie.
+   Zone invisible de 35 px autour du rond, sans changer son dessin. */
+@media (pointer:coarse){ .help-i::before{ content:''; position:absolute; inset:-10px; } }
 
 /* Bulle unique positionnée en JS (js/help.js) et contrainte dans la fenêtre :
    remplace l'ancien tooltip ::after centré qui débordait hors écran dans la sidebar. */
@@ -3252,4 +3255,108 @@ h2.cl-head { font-size: 14px; font-weight: 400; margin: 0 0 10px; }
 
 @media (max-width: 820px) {
     .pre-gaps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ============================================================
+   TÉLÉPHONE : suites de l'audit du rendu mobile (10/11/2026, cf. MAP.md §9, 09d).
+   En fin de fichier à dessein : à spécificité égale, ces règles passent après celles
+   qu'elles ajustent. Les boutiques ont leur propre bloc, plus précis, en fin de shop.css.
+   ============================================================ */
+@media (max-width: 560px) {
+  /* Champs : 16 px de texte (en dessous, Safari sur iPhone zoome toute la page au toucher)
+     et 44 px de haut. `border-box` : 44 px bordures comprises. */
+  body.has-app-header input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]),
+  body.has-app-header select,
+  body.has-app-header textarea {
+    font-size: 16px; min-height: 44px; box-sizing: border-box;
+  }
+  /* Une liste dans une cellule de tableau : la flèche du navigateur mange 20 px, et
+     « TG6-0 » à 16 px n'y tenait plus dans les 80 px d'origine. */
+  body.has-app-header .table-select { min-width: 96px; padding-top: 0; padding-bottom: 0; }
+
+  /* Cases à cocher : 22 px, et leur libellé fait 44 px de haut. C'est le libellé qu'on
+     touche, la case seule (16 px) se ratait une fois sur deux. */
+  body.has-app-header input[type="checkbox"] { width: 22px; height: 22px; flex: 0 0 auto; }
+  body.has-app-header label:has(> input[type="checkbox"]) { min-height: 44px; }
+
+  /* Puces de navigation entre fiches : 36 px de haut (27 avant), libellé centré. */
+  body.has-app-header .db-switch-item { min-height: 36px; display: inline-flex; align-items: center; box-sizing: border-box; }
+
+  /* Bouton d'aide, bascule de langue du hub, « En savoir plus » du bandeau d'aide. */
+  .help-btn { min-height: 44px; }
+  .help-banner-more { min-height: 40px; }
+  .lang-btn { min-height: 40px; padding-left: 22px; padding-right: 22px; }
+
+  /* Pied de page : la pastille de version et le lien Cookies gardent leur dessin, leur
+     zone de toucher gagne 12 px en haut et en bas par des marges négatives. */
+  .sf-version, .sf-cookies { position: relative; }
+  .sf-version::after, .sf-cookies::after { content: ""; position: absolute; left: -6px; right: -6px; top: -12px; bottom: -12px; }
+  .sf-legal-line { line-height: 2.1; }
+}
+
+/* Un tableau, un arbre ou un ruban de puces qui continue à droite s'estompe sur son bord :
+   sans cela rien ne disait que le prix ou le coût était un glissement plus loin. La classe
+   est posée par header.js (`hdrScrollHints`) tant qu'il reste du contenu à droite, et
+   retirée en bout de course. Un masque et non une ombre : les lignes ont un fond opaque,
+   une ombre posée dessous ne se verrait pas. */
+@media (max-width: 820px) {
+  .kt-more-right {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent);
+            mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent);
+  }
+}
+
+@media (max-width: 560px) {
+  /* Ruban de puces : en tête de fiche, les puces tiennent sur UNE ligne qui défile, puce
+     active amenée dans l'écran par header.js. Empilées, les 14 puces des bâtiments
+     prenaient 250 px avant le tableau. La même liste reste entière en pied de fiche
+     (`.footer`), où elle sert à passer à la fiche suivante. La marge interne laisse la
+     place au liseré de focus, que `overflow` rognerait. */
+  body.has-app-header nav.db-switch:not(.footer) {
+    flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; padding: 4px 2px; margin-left: -2px; margin-right: -2px;
+  }
+  body.has-app-header nav.db-switch:not(.footer)::-webkit-scrollbar { display: none; }
+  body.has-app-header nav.db-switch:not(.footer) > * { flex: 0 0 auto; white-space: nowrap; }
+  body.has-app-header nav.db-switch:not(.footer) > .db-switch-label { flex-basis: auto; align-self: center; margin: 0 0 0 6px; }
+  body.has-app-header nav.db-switch:not(.footer) > .db-switch-label:first-child { margin-left: 0; }
+
+  /* Caserne : deux héros par ligne. `minmax(180px)` n'en laissait tenir qu'un sur un
+     téléphone, soit une carte de 330 px de haut par héros et 21 écrans pour les 37. */
+  .heroes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .hero-card { padding: 8px; }
+  .hero-name { font-size: 14px; }
+  .hero-name-row { margin-bottom: 6px; gap: 4px; }
+  .hero-card .hero-gen-badge { font-size: 11px; letter-spacing: 0; top: 6px; right: 6px; }
+  .hero-card .hero-type-badge { top: 6px; left: 6px; }
+
+  /* Accueil : cartes en ligne (icône à gauche, titre, deux lignes de texte). En colonne,
+     chacune des 22 cartes mesurait 250 px et la page 9,5 écrans. La carte entière est le
+     lien : « Ouvrir » devient un simple chevron. */
+  .hub-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .hub-section { margin-bottom: 24px; }
+  .hub-card {
+    display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center;
+    column-gap: 14px; row-gap: 2px; padding: 12px 14px; min-height: 72px;
+  }
+  .hub-card-icon { grid-row: 1 / span 2; margin: 0; font-size: 28px; }
+  .hub-card-icon svg { width: 28px; height: 28px; }
+  .hub-card h2 { grid-column: 2; margin: 0; font-size: 16px; line-height: 1.25; align-self: end; }
+  .hub-card p {
+    grid-column: 2; margin: 0; font-size: 13px; line-height: 1.35; align-self: start;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+  }
+  .hub-card-cta { grid-column: 3; grid-row: 1 / span 2; font-size: 0; align-self: center; }
+  .hub-card-cta::after { content: "\203A"; font-size: 22px; line-height: 1; color: var(--text-muted); }
+}
+
+/* Nom de l'outil dans l'en-tête, sur téléphone (header.js, `hdrRenderPageName`). L'élément
+   est `hidden` dans le HTML : c'est cette règle qui l'affiche, et elle seule. */
+@media (max-width: 820px) {
+  .app-header .hdr-left { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; }
+  .hdr-page[hidden]:not(:empty) {
+    display: block; flex: 1 1 auto; min-width: 0; margin: 0 10px 0 4px;
+    font-size: 16px; font-weight: 700; color: var(--text-light);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
 }

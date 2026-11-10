@@ -1336,3 +1336,50 @@ button.ie-pack.is-multi:hover, button.ie-pack.is-multi:focus-visible { color: va
   .sx-table:has(.sx-mob) td.c-ratio { min-width: 0; }
   .sx-table:has(.sx-mob) td { padding-left: 6px; padding-right: 6px; }
 }
+
+@media (max-width: 560px) {
+  /* Les deux référentiels d'objets : sur « Prix réel », on ne voyait que la colonne des
+     noms, coupée, et aucun prix (tableau de 1 081 px pour 328 visibles). La catégorie
+     s'efface (la couleur de la ligne et le filtre la disent déjà) et le nom passe à la
+     ligne : la valeur arrive dans l'écran. `:has()` des deux côtés, en-tête et cellules,
+     pour qu'un navigateur qui l'ignore garde un tableau entier plutôt que décalé. */
+  table:has(> #ie-tbody) :is(th, td):nth-child(3),
+  table:has(> #item-tbody) :is(th, td):nth-child(3) { display: none; }
+  body.has-app-header table.db-table:has(> #ie-tbody) :is(th, td),
+  body.has-app-header table.db-table:has(> #item-tbody) :is(th, td) { padding-left: 8px; padding-right: 8px; }
+  table:has(> #ie-tbody) td:nth-child(2),
+  table:has(> #item-tbody) td:nth-child(2) { white-space: normal; min-width: 120px; max-width: 150px; overflow-wrap: anywhere; line-height: 1.3; }
+  table:has(> #item-tbody) td .table-input { width: 104px !important; }
+}
+
+/* Thème clair, contrastes relevés à l'audit du 10/11/2026.
+   Ligne « Top » : sur son fond bleu à 14 %, le prix en or et le texte gris tombaient à
+   4,3:1 ; à 7 % ils tiennent 4,8. Son ratio en #3B82F6 ne tenait que 2,9 : #1D4ED8, 6:1. */
+[data-theme="light"] .sx-table tbody tr.is-top { background: rgba(59,130,246,.07); }
+[data-theme="light"] .sx-table tbody tr.is-top:hover { background: rgba(59,130,246,.11); }
+[data-theme="light"] .sx-table tbody tr.is-top td.c-act,
+[data-theme="light"] .sx-table tbody tr.is-top td.c-name { background: color-mix(in srgb, #3B82F6 8%, var(--bg-panel)); }
+[data-theme="light"] .sx-table tr.is-top td.c-ratio b { color: #1D4ED8; }
+/* Catégorie des référentiels d'objets : la teinte de la catégorie sert de couleur de texte
+   (posée en ligne par shop-items*.js), pensée pour le fond sombre. Sur fond clair, le
+   jaune et le vert ne tenaient que 1,5 à 2:1 : on assombrit le texte, pas la teinte de la
+   ligne. */
+[data-theme="light"] #ie-tbody td:nth-child(3) span,
+[data-theme="light"] #item-tbody td:nth-child(3) span { filter: brightness(.5) saturate(1.5); }
+
+@media (max-width: 560px) {
+  /* Intro d'une boutique : trois lignes, puis « Lire la suite ». Entière (6 à 17 lignes),
+     elle repoussait le choix de lecture en bas du premier écran et le tableau au
+     troisième. Le texte reste dans la page, pour qui la lit sans l'afficher. Conditionné
+     à la présence du bouton : une page en cache, sans lui, garde son intro entière. */
+  .db-page > .db-intro:has(+ .sx-more):not(.is-open) {
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+  }
+  .db-page > .db-intro:focus { outline: none; }
+  .sx-more[hidden] {
+    display: inline-flex; align-items: center; min-height: 44px; margin: -6px 0 2px; padding: 0;
+    background: none; border: 0; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    color: var(--accent-text, var(--accent)); text-decoration: underline; text-underline-offset: 3px;
+  }
+  .sx-more:focus-visible { outline: 2px solid var(--accent-text, var(--accent)); outline-offset: 2px; border-radius: 3px; }
+}

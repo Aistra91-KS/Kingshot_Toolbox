@@ -58,6 +58,12 @@
           </div>
         </div>
         <p class="db-intro" data-en="{{INTRO_EN}}" data-fr="{{INTRO_FR}}">{{INTRO_EN}}</p>
+        <!-- Sur téléphone l'intro est coupée à trois lignes (shop.css) et ce bouton la déplie,
+             puis la replie. `hidden` : sans la règle de shop.css (feuille en cache), il ne
+             s'affiche pas. Les deux libellés basculent par `hidden`, pas par une règle CSS :
+             une feuille en cache ne les affiche pas l'un à côté de l'autre. Replier une intro
+             longue remonte la page sur elle si son début est sorti de l'écran. -->
+        <button type="button" class="sx-more" hidden aria-expanded="false" onclick="var p=this.previousElementSibling,o=p.classList.toggle('is-open');this.setAttribute('aria-expanded',o);this.children[0].hidden=o;this.children[1].hidden=!o;if(!o&amp;&amp;p.getBoundingClientRect().top<0)p.scrollIntoView()"><span data-en="Read more" data-fr="Lire la suite">Read more</span><span hidden data-en="Show less" data-fr="Réduire">Show less</span></button>
 {{LANG_ALT}}        <div id="sp-archive" data-nosnippet></div>
         <div class="sx-actions" id="sp-actions"></div>
         <div id="sp-cart"></div>
