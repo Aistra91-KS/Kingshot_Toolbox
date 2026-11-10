@@ -46,7 +46,7 @@ Police système `'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`, aucune webfon
 Palette nature en `oklch`, carte blanche translucide, webfonts Cormorant Garamond + Karla, pastilles colorées par génération (`--gen-1…7`). Le header reste standard. Tout est isolé dans `pets.css`, `pets-plan.css`, `pets.js`, `pets-plan.js` ; la barre d'onglets et le volet du plan sont construits par `pets-plan.js`. Sous 880 px, la promenade devient une colonne qui défile et le sentier une frise de pastilles en bas. Page en attente de refonte (septembre 2026).
 
 ### Header : pastille profil et mode condensé
-Pastille profil à droite. Sur ordinateur, quand la rangée d'outils est rognée (`hdrEvaluateAdaptive`, avec hystérésis), le header passe en `.hdr-condensed` : langue et thème vont dans le panneau profil. Sous 820 px, toute la navigation est dans le drawer, précédée du bloc profil. Tout est dans `header.js`.
+Pastille profil à droite. Sur ordinateur, quand la rangée d'outils est rognée (`hdrEvaluateAdaptive`, avec hystérésis), le header passe en `.hdr-condensed` : langue et thème vont dans le panneau profil. Sous 820 px, toute la navigation est dans le drawer, précédée du bloc profil. L'en-tête affiche alors le nom de l'outil courant à droite du logo (`#hdr-page`, `hdrRenderPageName()`, tiré du manifeste ; une fiche montre le nom de sa section, une page hors manifeste rien). L'élément est `hidden` et seule `style.css` l'affiche. Tout est dans `header.js`.
 
 ### Pied de page (`js/footer.js`, `.site-footer`)
 - Sur toutes les pages sauf `pets.html`. Le lien Discord n'apparaît que si `SITE.discord` est renseigné (même règle pour le bloc « Une erreur, une idée ? » d'`about.html`).

@@ -3346,3 +3346,14 @@ h2.cl-head { font-size: 14px; font-weight: 400; margin: 0 0 10px; }
   .hub-card-cta { grid-column: 3; grid-row: 1 / span 2; font-size: 0; align-self: center; }
   .hub-card-cta::after { content: "\203A"; font-size: 22px; line-height: 1; color: var(--text-muted); }
 }
+
+/* Nom de l'outil dans l'en-tête, sur téléphone (header.js, `hdrRenderPageName`). L'élément
+   est `hidden` dans le HTML : c'est cette règle qui l'affiche, et elle seule. */
+@media (max-width: 820px) {
+  .app-header .hdr-left { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; }
+  .hdr-page[hidden]:not(:empty) {
+    display: block; flex: 1 1 auto; min-width: 0; margin: 0 10px 0 4px;
+    font-size: 16px; font-weight: 700; color: var(--text-light);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+}

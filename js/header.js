@@ -350,6 +350,7 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
           <img class="logo-icon" src="img/logo/favicon.svg" alt="" width="24" height="24">
           <span class="logo-text">${S.name}</span>
         </a>
+        <span class="hdr-page" id="hdr-page" hidden></span>
       </div>
 
       <nav class="hdr-zone hdr-center">
@@ -406,9 +407,25 @@ let hdrReclaim = 0; // largeur (px) rendue aux outils quand on condense langue+t
 
   if (window.GlobalLang) {
     hdrInitLangToggle();
+    hdrRenderPageName();
     document.documentElement.lang = hdrLang().toLowerCase();
   }
 })();
+
+// ---------- Nom de l'outil dans l'en-tête (téléphone) ----------
+// Sous 820 px l'en-tête ne montrait que le logo et le menu, et plusieurs outils s'ouvrent
+// sur le même intitulé (« Paramètres », « Panneau de Contrôle ») : on ne savait pas où
+// l'on était. Le nom vient du manifeste, comme le reste de la navigation. Le <span> est
+// `hidden` et seule la règle de style.css l'affiche : avec une feuille en cache, il ne
+// s'ajoute pas au logo sur ordinateur. Une fiche affiche le nom de sa section (celle que
+// désigne son `HDR_ACTIVE_HREF`) ; une page hors manifeste (À propos, Nouveautés) n'affiche
+// rien, elle a son fil d'Ariane et son titre.
+function hdrRenderPageName() {
+  const el = document.getElementById('hdr-page');
+  if (!el) return;
+  const tool = HDR_CTX.toolId && window.SITE && window.SITE.tools ? window.SITE.tools[HDR_CTX.toolId] : null;
+  el.textContent = tool ? hdrT(tool.name) : '';
+}
 
 // ---------- Bouton langue (bascule FR ⇄ EN, desktop) ----------
 function hdrUpdateLangCode() {
@@ -431,6 +448,7 @@ function hdrInitLangToggle() {
 // trois re-rendus ci-dessous : le header ne se retraduisait jamais.)
 window.addEventListener('langChanged', (e) => {
   hdrUpdateLangCode();
+  hdrRenderPageName();
   if (e.detail) document.documentElement.lang = (e.detail.lang || 'en').toLowerCase();
   hdrRenderCategories();
   hdrRenderTools();
