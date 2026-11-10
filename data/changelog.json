@@ -8,6 +8,78 @@
   },
   "releases": [
     {
+      "version": "1.16.2",
+      "date": "2026-11-11",
+      "changes": [
+        {
+          "type": "improved",
+          "title": {
+            "EN": "On a phone: fields and buttons sized for a finger",
+            "FR": "Sur téléphone : des champs et des boutons à la taille du doigt"
+          },
+          "text": {
+            "EN": "On every tool, fields and lists are now 44 px high with 16 px text, so tapping one no longer zooms the page on an iPhone. Checkboxes grow to 22 px and their whole label can be tapped. The chips that switch between building or hero sheets, the help button and the footer links are easier to hit too.",
+            "FR": "Sur tous les outils, les champs et les listes font maintenant 44 px de haut avec un texte de 16 px : en toucher un ne zoome plus la page sur iPhone. Les cases à cocher passent à 22 px et tout leur libellé se touche. Les puces qui passent d'une fiche de bâtiment ou de héros à l'autre, le bouton d'aide et les liens du pied de page se visent mieux aussi."
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "On a phone: shorter pages",
+            "FR": "Sur téléphone : des pages plus courtes"
+          },
+          "text": {
+            "EN": "The home page lists its tools as compact rows and drops from 9.5 screens to about 4. The Barracks shows two heroes per row: 7 screens for the 37 heroes, where it took 21. A shop intro now shows three lines with a \"Read more\" button that unfolds it and folds it back. The cookie banner uses a shorter text and no longer covers a third of the screen.",
+            "FR": "L'accueil présente ses outils en lignes compactes et passe de 9,5 écrans à 4 environ. La Caserne affiche deux héros par ligne : 7 écrans pour les 37 héros, contre 21 avant. L'intro d'une boutique tient en trois lignes, avec un bouton \"Lire la suite\" qui la déplie puis la replie. Le bandeau cookies a un texte plus court et ne couvre plus un tiers de l'écran."
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "On a phone: tables that show their numbers",
+            "FR": "Sur téléphone : des tableaux qui montrent leurs chiffres"
+          },
+          "text": {
+            "EN": "The two item price lists (gems and real money) now show the value next to the name: the category column is hidden and long names wrap. A table, a tree or a row of chips that continues to the right fades out on its edge, so you know there is more to swipe to. On a building or hero sheet, the chips sit on one line you can swipe, opened on the current sheet.",
+            "FR": "Les deux listes de prix des objets (gemmes et argent réel) affichent maintenant la valeur à côté du nom : la colonne catégorie est masquée et les noms longs passent à la ligne. Un tableau, un arbre ou une rangée de puces qui continue à droite s'estompe sur son bord, pour signaler qu'il reste à faire glisser. Sur une fiche de bâtiment ou de héros, les puces tiennent sur une ligne qui défile, ouverte sur la fiche en cours."
+          }
+        },
+        {
+          "type": "improved",
+          "title": {
+            "EN": "On a phone: the header names the tool",
+            "FR": "Sur téléphone : l'en-tête nomme l'outil"
+          },
+          "text": {
+            "EN": "On a phone the header only showed the logo and the menu, and several tools open on the same heading. The name of the tool you are on now sits next to the logo, in your language.",
+            "FR": "Sur téléphone, l'en-tête ne montrait que le logo et le menu, et plusieurs outils s'ouvrent sur le même intitulé. Le nom de l'outil ouvert s'affiche maintenant à côté du logo, dans ta langue."
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Shops: the \"i\" in a table header",
+            "FR": "Boutiques : le \"i\" d'un en-tête de tableau"
+          },
+          "text": {
+            "EN": "On a phone, tapping the small \"i\" next to a column title sorted the table and never opened the help bubble. A tap on an \"i\" now only opens its bubble, and the area around it is wider on a touch screen.",
+            "FR": "Sur téléphone, toucher le petit \"i\" à côté d'un titre de colonne triait le tableau sans jamais ouvrir la bulle d'aide. Un tap sur un \"i\" n'ouvre plus que sa bulle, et la zone autour est plus large sur un écran tactile."
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Light theme: text that was too pale",
+            "FR": "Thème clair : des textes trop pâles"
+          },
+          "text": {
+            "EN": "In the light theme, the green used for gains and success messages, the ratio of a \"Top\" row in the shops and the category names in the item price lists were hard to read. They are darker now.",
+            "FR": "En thème clair, le vert des gains et des messages de réussite, le ratio d'une ligne \"Top\" dans les boutiques et les noms de catégorie des listes de prix se lisaient mal. Ils sont plus foncés."
+          }
+        }
+      ]
+    },
+    {
       "version": "1.16.1",
       "date": "2026-11-10",
       "changes": [
