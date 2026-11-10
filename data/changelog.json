@@ -8,6 +8,44 @@
   },
   "releases": [
     {
+      "version": "1.16.1",
+      "date": "2026-11-10",
+      "changes": [
+        {
+          "type": "improved",
+          "title": {
+            "EN": "Theater Shop: the November line-up",
+            "FR": "Magasin du Théâtre : le contenu de novembre"
+          },
+          "text": {
+            "EN": "The Fantasy Theater is back until 16 November, and its shop stays open until the 17th. The shop was checked in game and has changed since September: the pet chest, the two Taming Marks and the Enhancement XP lots are gone, replaced by 12 Forgehammers, 4 General Master Emblems, 250 Masters Manuscripts and 4 Elite Spices. Stocks are higher in the first two tiers, and TrueGold drops from 60 to 50 in the third. Two newcomers come first: Forgehammers in gems, Masters Manuscripts in real money.",
+            "FR": "Le Théâtre Fantastique est de retour jusqu'au 16 novembre, et sa boutique reste ouverte jusqu'au 17. La boutique a été vérifiée en jeu et a changé depuis septembre : le coffre de familier, les deux Marques de Dressage et les lots d'EXP d'Amélioration disparaissent, remplacés par 12 Marteaux de Forge, 4 Emblèmes d'expert général, 250 Manuscrits d'expert et 4 Épices d'élite. Les stocks augmentent aux deux premiers paliers, et l'Or Véritable passe de 60 à 50 au troisième. Deux nouveaux venus arrivent en tête : les Marteaux de Forge en gemmes, les Manuscrits d'expert en argent réel."
+          },
+          "href": "shop/theater-shop",
+          "linkLabel": {
+            "EN": "Theater Shop",
+            "FR": "Magasin du Théâtre"
+          }
+        },
+        {
+          "type": "fixed",
+          "title": {
+            "EN": "Fantasy Theater: exploration track",
+            "FR": "Théâtre Fantastique : la piste d'exploration"
+          },
+          "text": {
+            "EN": "Checked in game. The Random Governor Charm Material Chest pays 35 at each of its seven milestones, where the event value check counted 30 from the second one on: 30 more chests over a full track. The 10 Fantasy Amulets given when the event opens are confirmed as well.",
+            "FR": "Vérifié en jeu. La Caisse de Matériaux de Talisman du Chef Aléatoire paie 35 à chacun de ses sept paliers, là où la valorisation de l'événement en comptait 30 à partir du deuxième : 30 caisses de plus sur une piste complète. Les 10 Amulettes Fantaisie offertes à l'ouverture de l'événement sont confirmées aussi."
+          },
+          "href": "shop/theater-shop",
+          "linkLabel": {
+            "EN": "Theater Shop",
+            "FR": "Magasin du Théâtre"
+          }
+        }
+      ]
+    },
+    {
       "version": "1.16.0",
       "date": "2026-11-09",
       "changes": [
