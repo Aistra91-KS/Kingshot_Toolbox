@@ -300,7 +300,14 @@
       "EN": "Theater Shop",
       "FR": "Magasin du Théâtre"
     },
-    "endsAt": "2026-09-08T00:00:00Z",
+    "startsAt": "2026-11-10T00:00:00Z",
+    "endsAt": "2026-11-17T00:00:00Z",
+    "previousEditions": [
+      {
+        "startsAt": "2026-09-01T00:00:00Z",
+        "endsAt": "2026-09-08T00:00:00Z"
+      }
+    ],
     "resourceName": {
       "EN": "Fantasy Token",
       "FR": "Jeton Fantaisie"
@@ -310,133 +317,133 @@
         "itemId": "truegold",
         "qty": 36,
         "cost": 200,
-        "qtyMax": 10,
+        "qtyMax": 15,
         "tier": 1
       },
       {
         "itemId": "mithril",
         "qty": 1,
         "cost": 500,
-        "qtyMax": 4,
+        "qtyMax": 6,
         "tier": 1
       },
       {
         "itemId": "custom_mythic_hero_gear_chest",
         "qty": 1,
         "cost": 1000,
-        "qtyMax": 2,
+        "qtyMax": 3,
         "tier": 1
       },
       {
-        "itemId": "pet_advancement_materials_custom_chest",
-        "qty": 7,
-        "cost": 200,
-        "qtyMax": 10,
+        "itemId": "forgehammers",
+        "qty": 12,
+        "cost": 160,
+        "qtyMax": 19,
         "tier": 1
       },
       {
-        "itemId": "advanced_taming_mark",
-        "qty": 1,
-        "cost": 80,
+        "itemId": "general_master_emblem",
+        "qty": 4,
+        "cost": 120,
         "qtyMax": 25,
         "tier": 1
       },
       {
-        "itemId": "common_taming_mark",
-        "qty": 1,
-        "cost": 10,
-        "qtyMax": 200,
+        "itemId": "masters_manuscript",
+        "qty": 250,
+        "cost": 120,
+        "qtyMax": 25,
         "tier": 1
       },
       {
-        "itemId": "100_enhancement_xp_component",
-        "qty": 26,
-        "cost": 200,
-        "qtyMax": 10,
+        "itemId": "elite_spices",
+        "qty": 4,
+        "cost": 120,
+        "qtyMax": 25,
         "tier": 1
       },
       {
         "itemId": "1h_general_speedup",
         "qty": 30,
         "cost": 200,
-        "qtyMax": 10,
+        "qtyMax": 15,
         "tier": 1
       },
       {
         "itemId": "1h_general_speedup",
         "qty": 36,
         "cost": 200,
-        "qtyMax": 10,
+        "qtyMax": 15,
         "tier": 1
       },
       {
         "itemId": "truegold",
         "qty": 36,
         "cost": 300,
-        "qtyMax": 25,
+        "qtyMax": 38,
         "tier": 2
       },
       {
         "itemId": "mithril",
         "qty": 1,
         "cost": 750,
-        "qtyMax": 10,
+        "qtyMax": 15,
         "tier": 2
       },
       {
         "itemId": "custom_mythic_hero_gear_chest",
         "qty": 1,
         "cost": 1500,
-        "qtyMax": 5,
+        "qtyMax": 8,
         "tier": 2
       },
       {
-        "itemId": "pet_advancement_materials_custom_chest",
-        "qty": 7,
-        "cost": 300,
-        "qtyMax": 25,
+        "itemId": "forgehammers",
+        "qty": 12,
+        "cost": 250,
+        "qtyMax": 45,
         "tier": 2
       },
       {
-        "itemId": "advanced_taming_mark",
-        "qty": 1,
-        "cost": 120,
-        "qtyMax": 60,
+        "itemId": "general_master_emblem",
+        "qty": 4,
+        "cost": 180,
+        "qtyMax": 62,
         "tier": 2
       },
       {
-        "itemId": "common_taming_mark",
-        "qty": 1,
-        "cost": 15,
-        "qtyMax": 500,
+        "itemId": "masters_manuscript",
+        "qty": 250,
+        "cost": 180,
+        "qtyMax": 62,
         "tier": 2
       },
       {
-        "itemId": "100_enhancement_xp_component",
-        "qty": 26,
-        "cost": 300,
-        "qtyMax": 25,
+        "itemId": "elite_spices",
+        "qty": 4,
+        "cost": 180,
+        "qtyMax": 62,
         "tier": 2
       },
       {
         "itemId": "1h_general_speedup",
         "qty": 30,
         "cost": 300,
-        "qtyMax": 25,
+        "qtyMax": 38,
         "tier": 2
       },
       {
         "itemId": "1h_general_speedup",
         "qty": 36,
         "cost": 300,
-        "qtyMax": 25,
+        "qtyMax": 38,
         "tier": 2
       },
       {
         "itemId": "truegold",
         "qty": 36,
         "cost": 360,
-        "qtyMax": 60,
+        "qtyMax": 50,
         "tier": 3
       },
       {
@@ -454,31 +461,31 @@
         "tier": 3
       },
       {
-        "itemId": "pet_advancement_materials_custom_chest",
-        "qty": 7,
-        "cost": 360,
+        "itemId": "forgehammers",
+        "qty": 12,
+        "cost": 300,
         "qtyMax": 60,
         "tier": 3
       },
       {
-        "itemId": "advanced_taming_mark",
-        "qty": 1,
-        "cost": 150,
-        "qtyMax": 140,
+        "itemId": "general_master_emblem",
+        "qty": 4,
+        "cost": 220,
+        "qtyMax": 82,
         "tier": 3
       },
       {
-        "itemId": "common_taming_mark",
-        "qty": 1,
-        "cost": 18,
-        "qtyMax": 1100,
+        "itemId": "masters_manuscript",
+        "qty": 250,
+        "cost": 220,
+        "qtyMax": 82,
         "tier": 3
       },
       {
-        "itemId": "100_enhancement_xp_component",
-        "qty": 26,
-        "cost": 360,
-        "qtyMax": 60,
+        "itemId": "elite_spices",
+        "qty": 4,
+        "cost": 220,
+        "qtyMax": 82,
         "tier": 3
       },
       {
