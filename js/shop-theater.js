@@ -523,7 +523,7 @@ function stControlsHtml() {
             ${val <= min ? 'disabled' : ''} aria-label="−">−</button><input type="text" inputmode="numeric"
             value="${val}" data-se="th:${key}" data-st-set="${key}" aria-label="${scEscAttr(label)}"><button
             type="button" data-se="th:${key}+" data-st-step="${key}:1" ${val >= max ? 'disabled' : ''}
-            aria-label="+">+</button></span> / ${max}</span>`;
+            aria-label="+">+</button></span>&nbsp;/&nbsp;${max}</span>`;
 
     // Boutons d'action plutôt que steppers auto-facturés : une montée peut valoir
     // +1, +2 ou +3 étages pour UNE seule exploration payée. Facturer chaque clic
