@@ -58,9 +58,12 @@
           </div>
         </div>
         <p class="db-intro" data-en="The full Blizzard Shop line-up for Kingshot, the store of the Blizzard Brawl event, priced in Brawl Emblems. Each item is set against its reference value in gems, so you can see at a glance where your emblems go furthest. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way." data-fr="Le contenu complet du Magasin du Blizzard de Kingshot, la boutique de l'événement Duel du Blizzard, payé en Emblèmes de Duel. Chaque objet est confronté à sa valeur de référence en gemmes pour voir d'un coup d'oeil où tes emblèmes rapportent le plus. La page s'ouvre sur la lecture €/$ et bascule en gemmes d'un clic. Les mêmes objets, chiffrés dans les deux sens.">The full Blizzard Shop line-up for Kingshot, the store of the Blizzard Brawl event, priced in Brawl Emblems. Each item is set against its reference value in gems, so you can see at a glance where your emblems go furthest. The page opens on the €/$ reading and switches to gems in one click. Same items, priced either way.</p>
-        <!-- Sur téléphone l'intro est coupée à trois lignes (shop.css) et ce bouton la déplie.
-             `hidden` : sans la règle de shop.css (feuille en cache), il ne s'affiche pas. -->
-        <button type="button" class="sx-more" hidden onclick="var p=this.previousElementSibling;p.classList.add('is-open');p.tabIndex=-1;p.focus();this.remove()" data-en="Read more" data-fr="Lire la suite">Read more</button>
+        <!-- Sur téléphone l'intro est coupée à trois lignes (shop.css) et ce bouton la déplie,
+             puis la replie. `hidden` : sans la règle de shop.css (feuille en cache), il ne
+             s'affiche pas. Les deux libellés basculent par `hidden`, pas par une règle CSS :
+             une feuille en cache ne les affiche pas l'un à côté de l'autre. Replier une intro
+             longue remonte la page sur elle si son début est sorti de l'écran. -->
+        <button type="button" class="sx-more" hidden aria-expanded="false" onclick="var p=this.previousElementSibling,o=p.classList.toggle('is-open');this.setAttribute('aria-expanded',o);this.children[0].hidden=o;this.children[1].hidden=!o;if(!o&amp;&amp;p.getBoundingClientRect().top<0)p.scrollIntoView()"><span data-en="Read more" data-fr="Lire la suite">Read more</span><span hidden data-en="Show less" data-fr="Réduire">Show less</span></button>
         <div id="sp-archive" data-nosnippet></div>
         <div class="sx-actions" id="sp-actions"></div>
         <div id="sp-cart"></div>
