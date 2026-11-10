@@ -86,7 +86,7 @@ Relevé en argent réel des packs payants : `map/06b-releve-euro.md`.
 Même schéma, plus :
 - **Deux échéances** : `_meta.endsAt` (fin de l'événement, explorations et packs) et `endsAt` de la boutique dans `shopcalc_events.json`, 24 h plus tard pour dépenser les Jetons. Ne jamais borner un plan sur la fermeture de la boutique. Entre les deux, l'optimiseur affiche « L'événement est terminé ».
 - `_meta.startsAt` + `_meta.days` numérotent les jours. **Ces dates valent pour une édition** : les reprendre à la suivante, sinon zéro jour restant.
-- `missions[]` : 5 + 5 + 10 amulettes gratuites, + 20 pour un achat. `seasonalMissions[]` : cadeau d'ouverture de 10, **déduit** d'un écart en jeu, à confirmer.
+- `missions[]` : 5 + 5 + 10 amulettes gratuites, + 20 pour un achat. `seasonalMissions[]` : cadeau d'ouverture de 10, déduit d'un écart en jeu en septembre, confirmé en jeu le 10/11/2026 (15 amulettes reçues pour une seule mission à 5).
 - `explorationMilestones[] {points, reward}` : piste d'objets **cumulative** ; le joueur saisit lui-même les Amulettes dépensées (`SE_PLAN.explore`), `_meta.exploreName` nomme le champ.
 - Pas de monnaie versée : la tuile « Monnaie attendue » est masquée (`seHasCoins()`) et `_meta.currencyNote` explique pourquoi. Les Amulettes sont des `label` (listées, jamais chiffrées). Le petit coffre cadeau d'alliance des packs est volontairement absent.
 
