@@ -34,7 +34,7 @@ const FTR_I18N = {
     aboutSub: 'Qui est derrière l\'outil',
     changelogSub: 'Ce qui a changé récemment',
     version: 'version',
-    madeBy: 'Créé par Aistra91 · serveur 286',
+    madeBy: 'Créé par Aistra91 · serveur 178',
     cookies: 'Cookies',
     cookiesTitle: 'Changer ton choix sur les cookies de mesure',
     disclaimer: 'Site de fan non officiel, sans lien avec Century Games. Tous les noms et images du jeu appartiennent à leurs propriétaires respectifs.'
@@ -46,7 +46,7 @@ const FTR_I18N = {
     aboutSub: 'Who is behind the toolbox',
     changelogSub: 'What changed recently',
     version: 'version',
-    madeBy: 'Made by Aistra91 · server 286',
+    madeBy: 'Made by Aistra91 · server 178',
     cookies: 'Cookies',
     cookiesTitle: 'Change your choice on measurement cookies',
     disclaimer: 'Unofficial fan site, not affiliated with Century Games. All game names and images belong to their respective owners.'
