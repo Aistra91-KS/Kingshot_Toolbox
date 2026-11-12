@@ -399,17 +399,21 @@ function resyncBonus(field) {
 // ========================================
 
 // Tier-list des meneurs de rally du Piège à Ours, une entrée par génération de serveur.
-// Seuls les héros classés S, A et B y figurent, dans cet ordre : la position dans le
-// tableau EST le rang (index 0 = meilleur), un héros absent compte comme 999.
+// Les héros classés S, A, B puis C y figurent, dans cet ordre : la position dans le
+// tableau EST le rang (index 0 = meilleur), un héros absent (rang D) compte comme 999.
+// Le rang C sert au joueur qui n'a aucun héros de tête : sans lui, ses héros étaient
+// tous notés 999 et départagés au seul niveau.
+// Zoe passe devant Alcar par défaut ; l'ordre s'inverse quand Petra mène la cavalerie
+// (cf. organizerRank).
 const organizerTierList = {
     1: { inf: ["Amadeus", "Helga", "Howard"], cav: ["Jabel", "Gordon", "Chenko"], arc: ["Saul", "Quinn", "Yeonwoo", "Amane"] },
-    2: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Jabel", "Hilde"], arc: ["Marlin", "Saul", "Quinn"] },
-    3: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Petra", "Jabel", "Hilde"], arc: ["Marlin", "Jaeger", "Saul", "Quinn"] },
-    4: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Petra", "Margot", "Jabel", "Hilde"], arc: ["Rosa", "Marlin", "Jaeger"] },
-    5: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Petra", "Thrud", "Margot"], arc: ["Rosa", "Marlin", "Vivian", "Jaeger"] },
-    6: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Petra", "Thrud", "Margot"], arc: ["Yang", "Rosa", "Marlin", "Vivian"] },
-    7: { inf: ["Amadeus", "Helga", "Alcar", "Zoe"], cav: ["Ava", "Petra", "Thrud"], arc: ["Yang", "Wee & Woo", "Rosa", "Vivian"] },
-    8: { inf: ["Amadeus", "Helga", "Diego"], cav: ["Ava", "Petra", "Liz"], arc: ["Luna", "Wee & Woo", "Yang"] }
+    2: { inf: ["Amadeus", "Helga", "Zoe", "Howard"], cav: ["Jabel", "Hilde", "Gordon", "Chenko"], arc: ["Marlin", "Saul", "Quinn", "Yeonwoo", "Amane"] },
+    3: { inf: ["Amadeus", "Helga", "Zoe"], cav: ["Petra", "Jabel", "Hilde", "Gordon", "Chenko"], arc: ["Marlin", "Jaeger", "Saul", "Quinn", "Yeonwoo", "Amane"] },
+    4: { inf: ["Amadeus", "Helga", "Zoe", "Alcar"], cav: ["Petra", "Margot", "Jabel", "Hilde"], arc: ["Rosa", "Marlin", "Jaeger", "Saul"] },
+    5: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Long Fei"], cav: ["Petra", "Thrud", "Margot", "Jabel", "Hilde"], arc: ["Rosa", "Marlin", "Vivian", "Jaeger", "Saul"] },
+    6: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Long Fei", "Triton"], cav: ["Petra", "Thrud", "Margot", "Jabel", "Hilde", "Sophia"], arc: ["Yang", "Rosa", "Marlin", "Vivian", "Jaeger"] },
+    7: { inf: ["Amadeus", "Helga", "Zoe", "Alcar", "Long Fei", "Triton"], cav: ["Ava", "Petra", "Thrud", "Margot", "Sophia"], arc: ["Yang", "Wee & Woo", "Rosa", "Vivian", "Marlin", "Jaeger"] },
+    8: { inf: ["Amadeus", "Helga", "Diego", "Zoe", "Alcar", "Triton"], cav: ["Ava", "Petra", "Liz", "Margot", "Thrud"], arc: ["Luna", "Wee & Woo", "Yang", "Rosa", "Vivian"] }
 };
 
 // Génération sans entrée : on retombe sur la plus récente connue EN DESSOUS d'elle,
@@ -427,6 +431,25 @@ function tierListFor(generation) {
     // récente, pas la plus ancienne. Un classement trop récent départage mal, un
     // classement de gen 1 ignore la moitié des héros du jeu.
     return organizerTierList[below.length ? below[below.length - 1] : known[known.length - 1]];
+}
+
+// Rang d'un héros comme meneur de rally (0 = meilleur, 999 = non classé).
+// `cavLeader` est le nom du héros de cavalerie retenu pour la marche : avec Petra,
+// Alcar passe devant Zoe. Dans tous les autres cas (Ava, Thrud, Jabel...), Zoe reste
+// devant. Amadeus et Helga gardent leur place : la règle ne joue donc que pour le
+// joueur qui n'a ni l'un ni l'autre.
+function organizerRank(generation, typeShort, heroName, cavLeader) {
+    const list = tierListFor(generation)[typeShort];
+    if (!list) return 999;
+    if (typeShort === 'inf' && cavLeader === 'Petra') {
+        const zoe = list.indexOf('Zoe'), alcar = list.indexOf('Alcar');
+        if (zoe !== -1 && alcar !== -1) {
+            if (heroName === 'Alcar') return Math.min(zoe, alcar);
+            if (heroName === 'Zoe') return Math.max(zoe, alcar);
+        }
+    }
+    const idx = list.indexOf(heroName);
+    return idx === -1 ? 999 : idx;
 }
 
 const heroCapacityByLevel = {
@@ -1019,18 +1042,18 @@ function suggestHeroesForModal() {
         arc: pool.filter(h => h.troopType.toLowerCase() === 'archer').sort((a, b) => b.level - a.level)
     };
 
-    const getTierScore = (heroName, typeStr) => {
-        let typeShort = typeStr.substring(0, 3).toLowerCase();
-        let list = tierListFor(generation)[typeShort];
-        let idx = list ? list.indexOf(heroName) : -1;
-        return idx === -1 ? 999 : idx;
-    };
+    // La cavalerie est choisie en premier : le rang de l'infanterie en dépend
+    // (Alcar devant Zoe quand Petra mène, cf. organizerRank).
+    let cavLeader = null;
+    const getTierScore = (heroName, typeStr) =>
+        organizerRank(generation, typeStr.substring(0, 3).toLowerCase(), heroName, cavLeader);
 
     let team = [];
 
     // CORRECTION : La suggestion obéit UNIQUEMENT à la case à cocher de la modale
     if (isHost) {
-        ['inf', 'cav', 'arc'].forEach(cls => {
+        const picked = {};
+        ['cav', 'inf', 'arc'].forEach(cls => {
             classes[cls].sort((a, b) => {
                 // 1. PRIORITÉ ABSOLUE : Somme des compétences
                 let sumSkillsA = (a.skills[0] || 0) + (a.skills[1] || 0) + (a.skills[2] || 0);
@@ -1050,8 +1073,12 @@ function suggestHeroesForModal() {
                 return (marchHolding(a.id, editingMarchId) ? 1 : 0)
                      - (marchHolding(b.id, editingMarchId) ? 1 : 0);
             });
-            if (classes[cls].length > 0) team.push(classes[cls].shift());
+            if (classes[cls].length > 0) {
+                picked[cls] = classes[cls].shift();
+                if (cls === 'cav') cavLeader = picked.cav.name;
+            }
         });
+        ['inf', 'cav', 'arc'].forEach(cls => { if (picked[cls]) team.push(picked[cls]); });
         
         // Tri final pour le capitaine
         team.sort((a, b) => {
@@ -1612,14 +1639,11 @@ function selectHeroesForMarches(marchesCount, role, generation) {
         arc: pool.filter(h => h.troopType.toLowerCase() === 'archer').sort((a, b) => b.level - a.level)
     };
 
-    const getTierScore = (heroName, typeStr) => {
-        let typeShort = typeStr.substring(0, 3).toLowerCase(); 
-        let tierList = tierListFor(generation);
-        let list = tierList[typeShort];
-        if (!list) return 999;
-        let idx = list.indexOf(heroName);
-        return idx === -1 ? 999 : idx;
-    };
+    // La cavalerie est choisie en premier : le rang de l'infanterie en dépend
+    // (Alcar devant Zoe quand Petra mène, cf. organizerRank).
+    let cavLeader = null;
+    const getTierScore = (heroName, typeStr) =>
+        organizerRank(generation, typeStr.substring(0, 3).toLowerCase(), heroName, cavLeader);
 
     let hostMarchAlreadyExists = customMarchesList.some(m => m.isHost);
     let needsOrganizerMarch = (role === 'organizer') && !hostMarchAlreadyExists;
@@ -1629,7 +1653,8 @@ function selectHeroesForMarches(marchesCount, role, generation) {
         let isThisOrganizerMarch = needsOrganizerMarch && (i === 0);
 
         if (isThisOrganizerMarch) {
-            ['inf', 'cav', 'arc'].forEach(cls => {
+            const picked = {};
+            ['cav', 'inf', 'arc'].forEach(cls => {
                 classes[cls].sort((a, b) => {
                     // 1. PRIORITÉ ABSOLUE : Somme des 3 compétences (plus grand = meilleur)
                     let sumSkillsA = (a.skills[0] || 0) + (a.skills[1] || 0) + (a.skills[2] || 0);
@@ -1647,9 +1672,11 @@ function selectHeroesForMarches(marchesCount, role, generation) {
                 if (classes[cls].length > 0) {
                     let hero = classes[cls].shift();
                     hero.isCaptain = false;
-                    team.push(hero);
+                    picked[cls] = hero;
+                    if (cls === 'cav') cavLeader = hero.name;
                 }
             });
+            ['inf', 'cav', 'arc'].forEach(cls => { if (picked[cls]) team.push(picked[cls]); });
             
             // Le choix du Capitaine final de l'équipe (Slot 1) suit la même logique forte
             if (team.length > 0) {

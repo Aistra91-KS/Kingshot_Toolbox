@@ -14,6 +14,11 @@
 - Vérifié sur 40 000 tirages : capacités et stocks jamais dépassés, jamais moins de troupes envoyées qu'avant, écart entre marches de même capacité ramené de 34 768 à 2, cas à une marche identique. Le test embarque l'ancienne boucle comme témoin (§10).
 - Vikings n'est pas concerné : `vikings.js` calcule une composition unique pour toutes les marches.
 
+**Classement des meneurs de rally** (`organizerTierList`, `organizerRank`). Une liste ordonnée par génération et par type de troupe, rangs S, A, B puis C ; un héros absent (rang D) vaut 999. Le rang ne départage qu'à somme de compétences égale.
+- **Rang C inclus** (12/11/2026, comparaison avec la tier list de kingshotoptimizer.com, identique à la nôtre pour les joiners) : sans lui, un joueur sans héros de tête voyait tous ses héros à 999 et le niveau seul tranchait. L'ordre à l'intérieur d'un même rang est le nôtre, leur liste ne le donne pas.
+- **Zoe devant Alcar, sauf avec Petra** (règle d'Aistra) : pour qui n'a ni Amadeus ni Helga, Zoe est la meilleure infanterie, mais Alcar passe devant quand Petra mène la cavalerie. La règle suit le héros de cavalerie retenu, pas la génération : la cavalerie est donc choisie avant l'infanterie dans `suggestHeroesForModal()` et `selectHeroesForMarches()`.
+- Howard reste 4e infanterie en gen 2 alors que la tier list externe le met en D : non tranché.
+
 **La marche Hôte reprend les héros des autres marches** (`marchHolding`, `planHeroMoves`, `bestFreeHero`). Règles arrêtées par Aistra, ne pas les assouplir sans lui :
 - **Seule l'Hôte reprend** (sinon le dernier qui édite gagne). `suggestHeroesForModal()` ne remplit `usedHeroIds` que hors Hôte ; à valeur égale, un héros libre est préféré.
 - **La marche dépouillée est recomplétée** par le meilleur héros libre du même type ; pour un capitaine de joiner, `bestFreeHero()` préfère un héros autorisé par l'alliance. Sans remplaçant, le créneau reste vide et le récapitulatif le dit.
